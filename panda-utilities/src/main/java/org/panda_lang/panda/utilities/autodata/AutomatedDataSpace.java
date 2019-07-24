@@ -25,10 +25,10 @@ import java.util.Map;
 
 public final class AutomatedDataSpace implements DataSpace {
 
-    private final DataController<?> controller;
+    private final DataController controller;
     private final Map<String, DataCollection> collections = new HashMap<>();
 
-    AutomatedDataSpace(DataController<?> controller) {
+    AutomatedDataSpace(DataController controller) {
         this.controller = controller;
     }
 
@@ -41,11 +41,11 @@ public final class AutomatedDataSpace implements DataSpace {
         return this.collections.get(collectionName);
     }
 
-    protected DataController<?> getController() {
+    protected DataController getController() {
         return controller;
     }
 
-    public static AutomatedDataSpaceCreator initialize(Class<? extends DataController> controller) {
+    public static AutomatedDataSpaceCreator initialize(DataController controller) {
         return new AutomatedDataSpaceCreator(controller);
     }
 

@@ -33,7 +33,7 @@ final class ProxyMethodGenerator {
 
     private static final DataQueryFactory QUERY_FACTORY = new DataQueryFactory();
 
-    protected ProxyMethod generateMethod(DataController<?> controller, DataCollection collection, RepositoryModel repositoryModel, Method method) {
+    protected ProxyMethod generateMethod(DataController controller, DataCollection collection, RepositoryModel repositoryModel, Method method) {
         List<String> elements = CamelCaseUtils.split(method.getName(), String::toLowerCase);
         RepositoryOperation operation = RepositoryOperation.of(elements.get(0));
 
@@ -44,7 +44,7 @@ final class ProxyMethodGenerator {
         return new ProxyMethod(operation, generate(controller, collection, repositoryModel, method, operation));
     }
 
-    private MethodFunction generate(DataController<?> controller, DataCollection collection, RepositoryModel repositoryModel, Method method, RepositoryOperation operation) {
+    private MethodFunction generate(DataController controller, DataCollection collection, RepositoryModel repositoryModel, Method method, RepositoryOperation operation) {
         DataHandler handler = controller.getHandler(collection.getName());
         EntityModel entityModel = repositoryModel.getCollectionScheme().getEntityModel();
 

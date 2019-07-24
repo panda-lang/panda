@@ -14,22 +14,35 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data.repository;
+package org.panda_lang.panda.utilities.autodata.defaults.sql;
 
 import org.panda_lang.panda.utilities.autodata.data.collection.CollectionModel;
 import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
-import org.panda_lang.panda.utilities.inject.Injector;
+import org.panda_lang.panda.utilities.autodata.data.repository.DataController;
+import org.panda_lang.panda.utilities.autodata.data.repository.DataHandler;
 
-public final class RepositoryFactory {
+import java.util.Collection;
 
-    private static final RepositoryModelLoader REPOSITORY_SCHEME_LOADER = new RepositoryModelLoader();
+public final class SQLDataController<T> implements DataController {
 
-    public RepositoryModel createRepositoryScheme(Injector injector, CollectionModel collectionModel) {
-        return REPOSITORY_SCHEME_LOADER.load(injector, collectionModel);
+    @Override
+    public void initializeSchemes(Collection<? extends CollectionModel> schemes) {
+
     }
 
-    public void createRepositoryImplementation(DataController controller, DataCollection collection, RepositoryModel repositoryModel) {
-        REPOSITORY_SCHEME_LOADER.generateMethods(controller, collection, repositoryModel);
+    @Override
+    public void initializeCollections(Collection<? extends DataCollection> dataCollections) {
+
+    }
+
+    @Override
+    public <ENTITY> DataHandler<ENTITY> getHandler(String collection) {
+        return new SQLDataHandler<>();
+    }
+
+    @Override
+    public String getIdentifier() {
+        return null;
     }
 
 }

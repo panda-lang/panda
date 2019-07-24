@@ -26,10 +26,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class InMemoryDataController<T> implements DataController<T> {
+public final class InMemoryDataController implements DataController {
 
-    private final Collection<T> values = new ArrayList<>();
-    private final Map<String, InMemoryDataHandler<T>> handlers = new HashMap<>();
+    private final Collection<Object> values = new ArrayList<>();
+    private final Map<String, InMemoryDataHandler<?>> handlers = new HashMap<>();
 
     @Override
     public void initializeSchemes(Collection<? extends CollectionModel> schemes) {
@@ -42,11 +42,12 @@ public final class InMemoryDataController<T> implements DataController<T> {
     }
 
     @Override
-    public DataHandler<T> getHandler(String collection) {
-        return handlers.get(collection);
+    @SuppressWarnings("unchecked")
+    public <ENTITY> DataHandler<ENTITY> getHandler(String collection) {
+        return (DataHandler<ENTITY>) handlers.get(collection);
     }
 
-    protected Collection<T> getValues() {
+    protected Collection<Object> getValues() {
         return values;
     }
 

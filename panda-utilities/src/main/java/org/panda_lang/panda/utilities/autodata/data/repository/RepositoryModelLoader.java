@@ -34,7 +34,7 @@ final class RepositoryModelLoader {
         return repositoryModel;
     }
 
-    protected void generateMethods(DataController<?> controller, DataCollection collection, RepositoryModel repositoryModel) {
+    protected void generateMethods(DataController controller, DataCollection collection, RepositoryModel repositoryModel) {
         REPOSITORY_GENERATOR.generateMethods(controller, collection, repositoryModel);
     }
 

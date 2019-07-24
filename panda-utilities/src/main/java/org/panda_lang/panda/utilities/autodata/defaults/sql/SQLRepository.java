@@ -14,21 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data.repository;
+package org.panda_lang.panda.utilities.autodata.defaults.sql;
 
-import org.panda_lang.panda.utilities.autodata.data.collection.CollectionModel;
-import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
+import org.panda_lang.panda.utilities.autodata.data.repository.DataRepository;
 
-import java.util.Collection;
-
-public interface DataController {
-
-    void initializeSchemes(Collection<? extends CollectionModel> schemes);
-
-    void initializeCollections(Collection<? extends DataCollection> dataCollections);
-
-    <ENTITY> DataHandler<ENTITY> getHandler(String collection);
-
-    String getIdentifier();
+public interface SQLRepository<T> extends DataRepository<T> {
 
 }

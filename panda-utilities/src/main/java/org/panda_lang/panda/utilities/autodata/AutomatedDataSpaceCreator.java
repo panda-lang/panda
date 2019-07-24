@@ -27,10 +27,10 @@ import java.util.List;
 public final class AutomatedDataSpaceCreator {
 
     protected final Injector injector;
-    protected final Class<? extends DataController> controller;
+    protected final DataController controller;
     protected final List<DataCollectionStereotype> stereotypes = new ArrayList<>();
 
-    AutomatedDataSpaceCreator(Class<? extends DataController> controller) {
+    AutomatedDataSpaceCreator(DataController controller) {
         this.controller = controller;
         this.injector = DependencyInjection.createInjector();
     }
@@ -49,16 +49,12 @@ public final class AutomatedDataSpaceCreator {
             throw new AutomatedDataException("Missing data controller");
         }
 
-        try {
-            AutomatedDataSpace automatedDataSpace = new AutomatedDataSpace(controller.newInstance());
+        AutomatedDataSpace automatedDataSpace = new AutomatedDataSpace(controller);
 
-            AutomatedDataSpaceInitializer dataSpaceInitializer = new AutomatedDataSpaceInitializer(automatedDataSpace, injector);
-            dataSpaceInitializer.initialize(stereotypes).forEach(automatedDataSpace::addCollection);
+        AutomatedDataSpaceInitializer dataSpaceInitializer = new AutomatedDataSpaceInitializer(automatedDataSpace, injector);
+        dataSpaceInitializer.initialize(stereotypes).forEach(automatedDataSpace::addCollection);
 
-            return automatedDataSpace;
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new AutomatedDataException("Cannot initialize data space: " + e.getMessage());
-        }
+        return automatedDataSpace;
     }
 
 }

@@ -45,10 +45,10 @@ final class InMemoryDataHandler<T> implements DataHandler<T> {
     private static final AtomicInteger ID = new AtomicInteger();
 
     private final int id;
-    private final InMemoryDataController<T> controller;
+    private final InMemoryDataController controller;
     private DataCollection collection;
 
-    InMemoryDataHandler(InMemoryDataController<T> controller) {
+    InMemoryDataHandler(InMemoryDataController controller) {
         this.id = ID.incrementAndGet();
         this.controller = controller;
     }
@@ -78,7 +78,7 @@ final class InMemoryDataHandler<T> implements DataHandler<T> {
     @Override
     @SuppressWarnings("unchecked")
     public Object find(DataQuery query, Object[] values) throws Exception {
-        List<T> data = null;
+        List<Object> data = null;
 
         for (DataQueryRuleScheme scheme : query.getCategory(DataQueryCategoryType.BY).getElements()) {
             DataQueryRule rule = scheme.toRule(values);
