@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata;
+package org.panda_lang.panda.utilities.autodata.virtual;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.panda_lang.panda.utilities.autodata.AutomatedDataSpace;
+import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
 import org.panda_lang.panda.utilities.autodata.data.entity.DataEntity;
-import org.panda_lang.panda.utilities.autodata.defaults.sql.SQLDataController;
-import org.panda_lang.panda.utilities.autodata.defaults.sql.SQLRepository;
+import org.panda_lang.panda.utilities.autodata.data.transaction.DataTransaction;
+import org.panda_lang.panda.utilities.autodata.defaults.virtual.InMemoryDataController;
+import org.panda_lang.panda.utilities.autodata.defaults.virtual.InMemoryDataRepository;
 import org.panda_lang.panda.utilities.autodata.orm.As;
 import org.panda_lang.panda.utilities.autodata.orm.Berry;
 import org.panda_lang.panda.utilities.autodata.orm.Generated;
@@ -32,14 +35,13 @@ import org.panda_lang.panda.utilities.inject.annotations.Autowired;
 
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-final class SQLAutomatedDataSpaceTest {
+class InMemoryAutomatedDataSpaceTest {
 
     @Test
-    void testSQL() {
-        SQLDataController sqlController = new SQLDataController();
-
-        AutomatedDataSpace space = AutomatedDataSpace.initialize(sqlController)
+    public void test() {
+        AutomatedDataSpace space = AutomatedDataSpace.initialize(new InMemoryDataController())
                 .createCollection()
                     .name("users")
                     .entity(User.class)
@@ -53,6 +55,38 @@ final class SQLAutomatedDataSpaceTest {
                     .repository(UserRepository.class)
                     .append()
                 .collect();
+
+        DataCollection collection = space.getCollection("users");
+        UserService service = collection.getService(UserService.class);
+
+        User user = service.createUser("onlypanda");
+        Assertions.assertNotNull(user.getId());
+        Assertions.assertEquals("onlypanda", user.getName());
+
+        user.setName("updated panda");
+        Assertions.assertEquals("updated panda", user.getName());
+
+        Optional<User> foundByUser = service.findUserByName("updated panda");
+        Assertions.assertTrue(foundByUser.isPresent());
+        Assertions.assertEquals("updated panda", foundByUser.get().getName());
+        Assertions.assertEquals(user.getId(), foundByUser.get().getId());
+
+        User foundById = service.findUserByNameOrId("fake username", user.getId());
+        Assertions.assertEquals(user.getId(), foundById.getId());
+
+        AtomicBoolean succeed = new AtomicBoolean(false);
+        DataTransaction transaction = user.transaction(() -> {
+                    user.setName("variant panda");
+                    user.setName("transactional panda");
+                })
+                .success((attempt, time) -> {
+                    succeed.set(true);
+                });
+        Assertions.assertEquals("updated panda", user.getName());
+
+        transaction.commit();
+        Assertions.assertEquals("transactional panda", user.getName());
+        Assertions.assertTrue(succeed.get());
     }
 
     @Service
@@ -90,7 +124,7 @@ final class SQLAutomatedDataSpaceTest {
     }
 
     @Repository
-    interface UserRepository extends SQLRepository<User> {
+    interface UserRepository extends InMemoryDataRepository<User> {
 
         User createUser(@As("name") String name);
 

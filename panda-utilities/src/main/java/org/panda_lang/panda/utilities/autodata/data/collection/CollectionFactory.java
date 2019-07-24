@@ -22,7 +22,6 @@ import org.panda_lang.panda.utilities.autodata.AutomatedDataException;
 import org.panda_lang.panda.utilities.autodata.data.entity.DataEntity;
 import org.panda_lang.panda.utilities.autodata.data.entity.EntityFactory;
 import org.panda_lang.panda.utilities.autodata.data.repository.DataController;
-import org.panda_lang.panda.utilities.autodata.data.repository.DataHandler;
 import org.panda_lang.panda.utilities.autodata.data.repository.RepositoryFactory;
 import org.panda_lang.panda.utilities.autodata.data.repository.RepositoryModel;
 import org.panda_lang.panda.utilities.inject.Injector;
@@ -37,14 +36,12 @@ public final class CollectionFactory {
 
     public DataCollection createCollection(DataController controller, Injector injector, RepositoryModel repositoryModel) {
         try {
-            CollectionModel collectionModel = repositoryModel.getCollectionScheme();
-            DataHandler<?> dataHandler = controller.getHandler(collectionModel.getName());
+            Class<? extends DataEntity> entityClass = ENTITY_FACTORY.generateEntityClass(repositoryModel);
 
-            Class<? extends DataEntity> entityClass = ENTITY_FACTORY.generateEntityClass(repositoryModel, dataHandler);
             Object service = injector.newInstance(repositoryModel.getCollectionScheme().getServiceClass());
             injector.getResources().on(service.getClass()).assignInstance(service);
 
-            DataCollection collection = createCollection(collectionModel, entityClass, service);
+            DataCollection collection = createCollection(repositoryModel.getCollectionScheme(), entityClass, service);
             REPOSITORY_FACTORY.createRepositoryImplementation(controller, collection, repositoryModel);
 
             return collection;
