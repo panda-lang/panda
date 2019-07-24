@@ -50,7 +50,7 @@ final class ProxyGenerator {
         return new RepositoryModel(collectionModel, repository, methods, handler);
     }
 
-    protected void generateMethods(DataController<?> controller, DataCollection collection, RepositoryModel repositoryModel) {
+    protected void generateMethods(DataController controller, DataCollection collection, RepositoryModel repositoryModel) {
         Class<? extends DataRepository> repositoryClass = repositoryModel.getCollectionScheme().getRepositoryClass();
         Map<String, ProxyMethod> generatedFunctions = new HashMap<>();
 

@@ -35,7 +35,7 @@ public final class CollectionFactory {
     private static final EntityFactory ENTITY_FACTORY = new EntityFactory();
     private static final RepositoryFactory REPOSITORY_FACTORY = new RepositoryFactory();
 
-    public DataCollection createCollection(DataController<?> controller, Injector injector, RepositoryModel repositoryModel) {
+    public DataCollection createCollection(DataController controller, Injector injector, RepositoryModel repositoryModel) {
         try {
             CollectionModel collectionModel = repositoryModel.getCollectionScheme();
             DataHandler<?> dataHandler = controller.getHandler(collectionModel.getName());

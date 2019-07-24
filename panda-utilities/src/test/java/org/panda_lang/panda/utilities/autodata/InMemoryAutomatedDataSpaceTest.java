@@ -36,11 +36,11 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-class AutomatedDataSpaceTest {
+class InMemoryAutomatedDataSpaceTest {
 
     @Test
     public void test() {
-        AutomatedDataSpace space = AutomatedDataSpace.initialize(InMemoryDataController.class)
+        AutomatedDataSpace space = AutomatedDataSpace.initialize(new InMemoryDataController())
                 .createCollection()
                     .name("users")
                     .entity(User.class)
