@@ -17,7 +17,6 @@
 package org.panda_lang.panda.utilities.autodata.data.repository;
 
 import org.panda_lang.panda.utilities.autodata.data.collection.CollectionModel;
-import org.panda_lang.panda.utilities.autodata.data.entity.MethodModel;
 
 import java.util.Collection;
 import java.util.Map;
@@ -26,10 +25,10 @@ public final class RepositoryModel {
 
     private final CollectionModel scheme;
     private final DataRepository<?> repository;
-    private final Map<RepositoryOperation, Collection<MethodModel>> methods;
+    private final Map<RepositoryOperation, Collection<RepositoryMethod>> methods;
     private final ProxyInvocationHandler handler;
 
-    RepositoryModel(CollectionModel scheme, DataRepository<?> repository, Map<RepositoryOperation, Collection<MethodModel>> methods, ProxyInvocationHandler handler) {
+    RepositoryModel(CollectionModel scheme, DataRepository<?> repository, Map<RepositoryOperation, Collection<RepositoryMethod>> methods, ProxyInvocationHandler handler) {
         this.repository = repository;
         this.methods = methods;
         this.scheme = scheme;
@@ -44,7 +43,7 @@ public final class RepositoryModel {
         return scheme;
     }
 
-    public Map<RepositoryOperation, Collection<MethodModel>> getMethods() {
+    public Map<RepositoryOperation, Collection<RepositoryMethod>> getMethods() {
         return methods;
     }
 

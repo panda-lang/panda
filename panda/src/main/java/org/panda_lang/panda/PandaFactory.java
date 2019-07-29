@@ -32,8 +32,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines
 import org.panda_lang.panda.framework.language.resource.PandaParsers;
 import org.panda_lang.panda.framework.language.resource.parsers.container.assignation.AssignationParsers;
 import org.panda_lang.panda.framework.language.resource.syntax.PandaSyntax;
-import org.panda_lang.panda.utilities.annotations.AnnotationsScannerConfiguration;
-import org.panda_lang.panda.utilities.annotations.monads.filters.URLFilter;
 
 public class PandaFactory {
 
@@ -41,16 +39,6 @@ public class PandaFactory {
         return PandaBootstrap.initializeBootstrap()
                 // load syntax
                 .withSyntax(new PandaSyntax())
-
-                // initialize scanner
-                .initializeScanner()
-                    .configureScanner(AnnotationsScannerConfiguration::includeJavaClassPath)
-                    .prepareProcess(builder -> {
-                        builder.addURLFilters(new URLFilter("panda"));
-                        builder.addDefaultFilters();
-                        builder.addDefaultProjectFilters("org.panda_lang.panda.framework.language.resource.prototypes");
-                    })
-                    .collect()
 
                 // initialize messenger
                 .initializeMessenger()

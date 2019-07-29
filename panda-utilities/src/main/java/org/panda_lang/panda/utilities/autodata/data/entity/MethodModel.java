@@ -21,21 +21,21 @@ import java.lang.reflect.Method;
 public final class MethodModel {
 
     private final Method method;
-    private final Property property;
     private final MethodType type;
+    private final Property property;
 
-    MethodModel(Method method, Property property, MethodType type) {
+    MethodModel(Method method, MethodType type, Property property) {
         this.method = method;
         this.property = property;
         this.type = type;
     }
 
-    public MethodType getType() {
-        return type;
-    }
-
     public Property getProperty() {
         return property;
+    }
+
+    public MethodType getType() {
+        return type;
     }
 
     public Method getMethod() {

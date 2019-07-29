@@ -14,28 +14,26 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.orm;
+package org.panda_lang.panda.utilities.autodata.data.repository;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.reflect.Method;
 
-@Target({ ElementType.METHOD })
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Association {
+public final class RepositoryMethod {
 
-    String name();
+    private final Method method;
+    private final RepositoryOperation operation;
 
-    Class<?> type();
+    RepositoryMethod(Method method, RepositoryOperation operation) {
+        this.method = method;
+        this.operation = operation;
+    }
 
-    Type relation();
+    public RepositoryOperation getOperation() {
+        return operation;
+    }
 
-    enum Type {
-
-        DIRECT,
-        MANY
-
+    public Method getMethod() {
+        return method;
     }
 
 }

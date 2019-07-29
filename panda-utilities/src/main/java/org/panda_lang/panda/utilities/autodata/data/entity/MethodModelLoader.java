@@ -16,18 +16,21 @@
 
 package org.panda_lang.panda.utilities.autodata.data.entity;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.autodata.AutomatedDataException;
+import org.panda_lang.panda.utilities.autodata.orm.Association;
 import org.panda_lang.panda.utilities.commons.CamelCaseUtils;
 import org.panda_lang.panda.utilities.commons.annotations.Annotations;
 import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
 
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 final class MethodModelLoader {
 
-    protected MethodModel load(Method method) {
+    protected MethodModel load(Map<String, Property> properties, Method method) {
         List<String> elements = CamelCaseUtils.split(method.getName(), String::toLowerCase);
 
         String propertyName = ContentJoiner.on("_").join(elements.subList(1, elements.size())).toString();
@@ -37,11 +40,49 @@ final class MethodModelLoader {
             throw new AutomatedDataException("Unknown operation '" + elements.get(0) + "'");
         }
 
-        Property property = new Property(propertyName, getType(operationType, method), new Annotations(method.getAnnotations()), method);
-        return new MethodModel(method, property, operationType);
+        Class<?> propertyType = getType(operationType, method);
+        boolean collection = false;
+
+        if (Collection.class.isAssignableFrom(propertyType)) {
+            propertyName = propertyName.substring(0, propertyName.length() - 1);
+            collection = true;
+        }
+
+        if (!properties.containsKey(propertyName)) {
+            Annotations annotations = new Annotations(method.getAnnotations());
+
+            if (collection) {
+                Optional<Association> associationValue = annotations.getAnnotation(Association.class);
+
+                if (!associationValue.isPresent()) {
+                    throw new AutomatedDataException("Collection based method requires @Association annotation");
+                }
+
+                Association association = associationValue.get();
+
+                Property property = new Property(propertyName, association.type(), annotations);
+                properties.put(propertyName, property);
+
+                return new MethodModel(method, operationType, property);
+            }
+
+            Property property = new Property(propertyName, propertyType, annotations);
+            properties.put(propertyName, property);
+
+            return new MethodModel(method, operationType, property);
+        }
+
+        Property cachedProperty = properties.get(propertyName);
+        cachedProperty.getAnnotations().addAnnotations(method.getAnnotations());
+
+        if (!collection && !cachedProperty.getType().equals(propertyType)) {
+            throw new AutomatedDataException("Methods associated with the same property cannot have different return type (" + method + " != type " + cachedProperty.getType() + ")");
+        }
+
+        return new MethodModel(method, operationType, cachedProperty);
     }
 
-    private @Nullable Class<?> getType(MethodType operationType, Method method) {
+    private Class<?> getType(MethodType operationType, Method method) {
         switch (operationType) {
             case GET:
             case CREATE:

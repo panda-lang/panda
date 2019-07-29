@@ -18,24 +18,16 @@ package org.panda_lang.panda.utilities.autodata.data.entity;
 
 import org.panda_lang.panda.utilities.commons.annotations.Annotations;
 
-import java.lang.reflect.Method;
-
 public final class Property {
 
     private final String name;
     private final Class<?> type;
     private final Annotations annotations;
-    private final Method associatedMethod;
 
-    Property(String name, Class<?> type, Annotations annotations, Method associatedMethod) {
+    Property(String name, Class<?> type, Annotations annotations) {
         this.name = name;
         this.type = type;
         this.annotations = annotations;
-        this.associatedMethod = associatedMethod;
-    }
-
-    Method getAssociatedMethod() {
-        return associatedMethod;
     }
 
     public Annotations getAnnotations() {

@@ -20,7 +20,6 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParserSettings;
-import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorWorker;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.wildcard.reader.WildcardReader;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
@@ -35,7 +34,6 @@ import java.util.Collection;
 
 public class ExpressionWildcardReader implements WildcardReader<Expression> {
 
-    public static long time;
     private final ExpressionParser expressionParser;
 
     public ExpressionWildcardReader(ExpressionParser expressionParser) {
@@ -61,17 +59,9 @@ public class ExpressionWildcardReader implements WildcardReader<Expression> {
 
         String condition = datum[1];
         Collection<String> names = convert(StringUtils.splitFirst(condition, " ")[1]);
-        long uptime = System.nanoTime();
+        ExpressionParserSettings settings = ExpressionParserSettings.create().withSelectedSubparsers(names);
 
-        ExpressionParserSettings settings = ExpressionParserSettings.create()
-                .withSelectedSubparsers(names);
-        Expression expression = parse(expressionParser, condition.startsWith("exclude") ? settings.excludeSelected() : settings.includeSelected(), context, distributor, distributor.currentSubSource());
-
-        uptime = System.nanoTime() - uptime;
-        ExtractorWorker.fullTime -= uptime;
-        time += uptime;
-
-        return expression;
+        return parse(expressionParser, condition.startsWith("exclude") ? settings.excludeSelected() : settings.includeSelected(), context, distributor, distributor.currentSubSource());
     }
 
     private @Nullable Expression parse(ExpressionParser expressionParser, @Nullable ExpressionParserSettings settings, Context context, TokenDistributor distributor, Snippet content) {
