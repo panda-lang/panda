@@ -14,28 +14,24 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.orm;
+package org.panda_lang.panda.utilities.autodata.sql;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.panda_lang.panda.utilities.autodata.data.entity.DataEntity;
+import org.panda_lang.panda.utilities.autodata.orm.Generated;
+import org.panda_lang.panda.utilities.autodata.orm.Id;
+import org.panda_lang.panda.utilities.autodata.stereotype.Entity;
 
-@Target({ ElementType.METHOD })
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Association {
+import java.util.UUID;
 
-    String name();
+@Entity
+public interface User extends DataEntity {
 
-    Class<?> type();
+    void setName(String name);
 
-    Type relation();
+    String getName();
 
-    enum Type {
-
-        DIRECT,
-        MANY
-
-    }
+    @Id
+    @Generated
+    UUID getId();
 
 }

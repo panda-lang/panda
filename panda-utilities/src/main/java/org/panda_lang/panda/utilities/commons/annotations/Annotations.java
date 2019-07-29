@@ -27,7 +27,10 @@ public final class Annotations {
 
     public Annotations(Annotation[] annotations) {
         this.annotationMap = new HashMap<>(annotations.length);
+        this.addAnnotations(annotations);
+    }
 
+    public void addAnnotations(Annotation[] annotations) {
         for (Annotation annotation : annotations) {
             annotationMap.put(annotation.annotationType(), annotation);
         }

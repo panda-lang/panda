@@ -20,20 +20,13 @@ import javassist.CannotCompileException;
 import javassist.NotFoundException;
 import org.panda_lang.panda.utilities.autodata.data.repository.RepositoryModel;
 
-import java.lang.reflect.Method;
-
 public final class EntityFactory {
 
     private static final EntityModelLoader ENTITY_SCHEME_LOADER = new EntityModelLoader();
-    private static final MethodModelLoader ENTITY_SCHEME_METHOD_LOADER = new MethodModelLoader();
     private static final EntityGenerator ENTITY_GENERATOR = new EntityGenerator();
 
     public EntityModel createEntityScheme(Class<?> entityClass) {
         return ENTITY_SCHEME_LOADER.load(entityClass);
-    }
-
-    public MethodModel createEntitySchemeMethod(Method method) {
-        return ENTITY_SCHEME_METHOD_LOADER.load(method);
     }
 
     public Class<? extends DataEntity> generateEntityClass(RepositoryModel scheme) throws CannotCompileException, NotFoundException {

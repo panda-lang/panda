@@ -22,7 +22,6 @@ import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.PandaApplication;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorWorker;
-import org.panda_lang.panda.framework.design.interpreter.pattern.utils.ExpressionWildcardReader;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.resource.Language;
 import org.panda_lang.panda.framework.language.interpreter.PandaInterpretation;
@@ -58,7 +57,6 @@ public class PandaInterpreter implements Interpreter {
         PandaFramework.getLogger().debug("");
         PandaFramework.getLogger().debug("--- Parse details ");
         PandaFramework.getLogger().debug("• Token Pattern Time: " + TimeUtils.toMilliseconds(ExtractorWorker.fullTime));
-        PandaFramework.getLogger().debug("• Token Expr Reader Time: " + TimeUtils.toMilliseconds(ExpressionWildcardReader.time));
         PandaFramework.getLogger().debug("• Token Expr Time: " + TimeUtils.toMilliseconds(PandaExpressionParser.time));
         PandaFramework.getLogger().debug("• Token Expr Amount: " + PandaExpressionParser.amount);
         PandaFramework.getLogger().debug("• Total Handle Time: " + TimeUtils.toMilliseconds(environment.getResources().getPipelinePath().getTotalHandleTime()));

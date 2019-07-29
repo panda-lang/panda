@@ -25,6 +25,7 @@ import javassist.CtMethod;
 import javassist.Modifier;
 import javassist.NotFoundException;
 import org.panda_lang.panda.utilities.autodata.AutomatedDataException;
+import org.panda_lang.panda.utilities.autodata.data.repository.RepositoryMethod;
 import org.panda_lang.panda.utilities.autodata.data.repository.RepositoryModel;
 import org.panda_lang.panda.utilities.autodata.data.repository.RepositoryOperation;
 import org.panda_lang.panda.utilities.autodata.data.transaction.DefaultTransaction;
@@ -40,6 +41,7 @@ import org.panda_lang.panda.utilities.commons.FunctionUtils;
 import org.panda_lang.panda.utilities.commons.collection.Maps;
 import org.panda_lang.panda.utilities.commons.javassist.implementer.FunctionalInterfaceImplementer;
 
+import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -126,15 +128,15 @@ final class EntityGenerator {
     }
 
     private void generateConstructors(RepositoryModel repositoryModel, CtClass entityClass) throws CannotCompileException, NotFoundException {
-        for (MethodModel method : repositoryModel.getMethods().getOrDefault(RepositoryOperation.CREATE, Collections.emptyList())) {
-            CtConstructor constructor = generateConstructor(entityClass, method);
+        for (RepositoryMethod method : repositoryModel.getMethods().getOrDefault(RepositoryOperation.CREATE, Collections.emptyList())) {
+            CtConstructor constructor = generateConstructor(entityClass, method.getMethod());
             entityClass.addConstructor(constructor);
         }
     }
 
-    private CtConstructor generateConstructor(CtClass entityClass, MethodModel method) throws CannotCompileException, NotFoundException {
-        Parameter[] parameters = method.getMethod().getParameters();
-        Class<?>[] types = method.getMethod().getParameterTypes();
+    private CtConstructor generateConstructor(CtClass entityClass, Method method) throws CannotCompileException, NotFoundException {
+        Parameter[] parameters = method.getParameters();
+        Class<?>[] types = method.getParameterTypes();
         CtClass[] ctTypes = new CtClass[types.length];
 
         for (int index = 0; index < types.length; index++) {
@@ -164,7 +166,7 @@ final class EntityGenerator {
 
     private CtMethod generateMethod(CtClass entityClass, MethodModel method) throws CannotCompileException, NotFoundException {
         CtClass type = ClassPoolUtils.get(method.getProperty().getType());
-        String name = method.getProperty().getAssociatedMethod().getName();
+        String name = method.getMethod().getName();
 
         switch (method.getType()) {
             case GET:

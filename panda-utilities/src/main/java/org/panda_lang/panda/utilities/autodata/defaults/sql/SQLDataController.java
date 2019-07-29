@@ -20,14 +20,38 @@ import org.panda_lang.panda.utilities.autodata.data.collection.CollectionModel;
 import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
 import org.panda_lang.panda.utilities.autodata.data.repository.DataController;
 import org.panda_lang.panda.utilities.autodata.data.repository.DataHandler;
+import org.panda_lang.panda.utilities.autodata.orm.Association;
+import org.panda_lang.panda.utilities.commons.collection.Pair;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
-public final class SQLDataController<T> implements DataController {
+public final class SQLDataController implements DataController {
+
+    private final Map<String, SQLDataHandler> tablesHandlers = new HashMap<>();
 
     @Override
     public void initializeSchemes(Collection<? extends CollectionModel> schemes) {
+        Map<String, Pair<String, String>> junctions = new HashMap<>();
 
+        for (CollectionModel scheme : schemes) {
+            tablesHandlers.put(scheme.getName(), new SQLDataHandler());
+
+            scheme.getEntityModel().getProperties().forEach((name, property) -> {
+                property.getAnnotations().getAnnotation(Association.class).ifPresent(association -> {
+                    Pair<String, String> content = new Pair<>(scheme.getEntityModel().getRootClass().getSimpleName(), association.type().getSimpleName());
+                    junctions.put(association.name(), content);
+                });
+            });
+        }
+
+        junctions.forEach((name, scheme) -> {
+            tablesHandlers.put(name, new SQLDataHandler());
+        });
+
+        System.out.println("Generated handlers for tables: ");
+        tablesHandlers.keySet().forEach(System.out::println);
     }
 
     @Override

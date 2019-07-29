@@ -14,28 +14,19 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.orm;
+package org.panda_lang.panda.utilities.autodata.sql;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.panda_lang.panda.utilities.autodata.stereotype.Service;
+import org.panda_lang.panda.utilities.inject.annotations.Autowired;
 
-@Target({ ElementType.METHOD })
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Association {
+@Service
+final class GroupService {
 
-    String name();
+    private final GroupRepository repository;
 
-    Class<?> type();
-
-    Type relation();
-
-    enum Type {
-
-        DIRECT,
-        MANY
-
+    @Autowired
+    public GroupService(GroupRepository repository) {
+        this.repository = repository;
     }
 
 }

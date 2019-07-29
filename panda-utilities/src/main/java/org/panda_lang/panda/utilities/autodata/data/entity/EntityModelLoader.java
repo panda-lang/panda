@@ -43,33 +43,14 @@ final class EntityModelLoader {
         Collection<MethodModel> methods = new ArrayList<>();
 
         for (Method method : entityClass.getDeclaredMethods()) {
-            load(properties, methods, method);
+            MethodModel schemeMethod = METHOD_LOADER.load(properties, method);
+            methods.add(schemeMethod);
         }
 
         EntityModel scheme = new EntityModel(entityClass, properties, methods);
         cached.put(entityClass, scheme);
 
         return scheme;
-    }
-
-    private void load(Map<String, Property> properties, Collection<MethodModel> methods, Method method) {
-        MethodModel schemeMethod = METHOD_LOADER.load(method);
-        methods.add(schemeMethod);
-
-        Property property = schemeMethod.getProperty();
-
-        if (!properties.containsKey(property.getName())) {
-            properties.put(property.getName(), property);
-            return;
-        }
-
-        Property cachedProperty = properties.get(property.getName());
-
-        if (cachedProperty.getType().equals(property.getType())) {
-            return;
-        }
-
-        throw new AutomatedDataException("Methods associated with the same property cannot have different return type (" + method + " != " + cachedProperty.getAssociatedMethod() + ")");
     }
 
 }

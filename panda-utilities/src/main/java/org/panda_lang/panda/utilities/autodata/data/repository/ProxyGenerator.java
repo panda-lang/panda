@@ -19,7 +19,6 @@ package org.panda_lang.panda.utilities.autodata.data.repository;
 import org.panda_lang.panda.utilities.autodata.data.collection.CollectionModel;
 import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
 import org.panda_lang.panda.utilities.autodata.data.entity.EntityFactory;
-import org.panda_lang.panda.utilities.autodata.data.entity.MethodModel;
 import org.panda_lang.panda.utilities.commons.CamelCaseUtils;
 
 import java.lang.reflect.Method;
@@ -37,11 +36,11 @@ final class ProxyGenerator {
     protected RepositoryModel generate(CollectionModel collectionModel) {
         Class<? extends DataRepository> repositoryClass = collectionModel.getRepositoryClass();
 
-        Map<RepositoryOperation, Collection<MethodModel>> methods = new HashMap<>();
+        Map<RepositoryOperation, Collection<RepositoryMethod>> methods = new HashMap<>();
 
         for (Method method : repositoryClass.getDeclaredMethods()) {
             RepositoryOperation operation = RepositoryOperation.of(CamelCaseUtils.split(method.getName()).get(0));
-            methods.computeIfAbsent(operation, (key) -> new ArrayList<>()).add(ENTITY_FACTORY.createEntitySchemeMethod(method));
+            methods.computeIfAbsent(operation, (key) -> new ArrayList<>()).add(new RepositoryMethod(method, operation));
         }
 
         ProxyInvocationHandler handler = new ProxyInvocationHandler(collectionModel);

@@ -34,4 +34,9 @@ public final class Pair<K, V> {
         return key;
     }
 
+    @Override
+    public String toString() {
+        return "['" + key + "': '" + value + "']";
+    }
+
 }

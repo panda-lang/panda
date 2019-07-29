@@ -45,7 +45,7 @@ public class AnnotationsScannerProcess implements AnnotationsDisposable {
         long uptime = System.nanoTime();
 
         AnnotationsScannerProcessWorker worker = new AnnotationsScannerProcessWorker(this);
-        worker.fetch(scanner.getConfiguration().resources);
+        worker.fetch(resources);
 
         long time = System.nanoTime() - uptime;
 
