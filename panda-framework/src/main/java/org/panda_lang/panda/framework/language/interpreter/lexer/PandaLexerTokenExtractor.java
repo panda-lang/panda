@@ -35,7 +35,7 @@ class PandaLexerTokenExtractor {
 
     protected boolean extract(StringBuilder tokenBuilder) {
         String tokenPreview = tokenBuilder.toString();
-        Syntax syntax= worker.getConfiguration().syntax;
+        Syntax syntax = worker.getConfiguration().syntax;
 
         while (tokenPreview.length() != 0) {
             tokenPreview = tokenPreview.trim();

@@ -16,21 +16,36 @@
 
 package org.panda_lang.panda.utilities.inject;
 
-import java.lang.reflect.InvocationTargetException;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Method;
 
 final class MethodInjector {
 
-    private final InjectorProcessor processor;
+    private static final MethodHandles.Lookup LOOKUP = MethodHandles.lookup();
 
-    MethodInjector(Injector injector) {
+    private final InjectorProcessor processor;
+    private final Method method;
+    private final MethodHandle methodHandle;
+
+    MethodInjector(Injector injector, Method method) throws IllegalAccessException {
         this.processor = new InjectorProcessor(injector);
+
+        this.method = method;
+        method.setAccessible(true);
+
+        this.methodHandle = LOOKUP.unreflect(method);
     }
 
     @SuppressWarnings("unchecked")
-    protected <T> T invoke(Method method, Object instance) throws InjectorException, IllegalAccessException, InvocationTargetException {
-        method.setAccessible(true);
-        return (T) method.invoke(instance, processor.fetchValues(method));
+    protected <T> T invoke(Object instance) throws Throwable {
+        Object[] values = processor.fetchValues(method);
+
+        Object[] arguments = new Object[values.length + 1];
+        arguments[0] = instance;
+        System.arraycopy(values, 0, arguments, 1, values.length);
+
+        return (T) methodHandle.invokeWithArguments(arguments);
     }
 
 }

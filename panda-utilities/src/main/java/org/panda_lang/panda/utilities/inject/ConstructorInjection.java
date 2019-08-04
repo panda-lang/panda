@@ -23,13 +23,15 @@ import java.security.InvalidParameterException;
 final class ConstructorInjection {
 
     private final InjectorProcessor processor;
+    private final Class<?> type;
 
-    ConstructorInjection(Injector injector) {
+    ConstructorInjection(Injector injector, Class<?> type) {
         this.processor = new InjectorProcessor(injector);
+        this.type = type;
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T invoke(Class<T> type) throws InstantiationException, IllegalAccessException, InvocationTargetException, InjectorException {
+    public <T> T invoke() throws InstantiationException, IllegalAccessException, InvocationTargetException, InjectorException {
         if (type.getDeclaredConstructors().length != 1) {
             throw new InvalidParameterException("Class has to contain one and only constructor");
         }

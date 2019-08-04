@@ -81,6 +81,12 @@ final class BootstrapTaskScheduler<T> {
 
                 throw new BootstrapException("Error occurred: " + e.getMessage(), e.getTargetException());
             }
+            catch (Exception e) {
+                throw e;
+            }
+            catch (Throwable throwable) {
+                throw new BootstrapException("Internal error: " + throwable.getMessage(), throwable);
+            }
 
             if (last && !methods.isEmpty()) {
                 schedule(delegatedContext.fork(), controller);

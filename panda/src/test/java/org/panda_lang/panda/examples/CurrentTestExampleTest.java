@@ -22,7 +22,9 @@ class CurrentTestExampleTest extends ExamplesLauncher {
 
     @Test
     void testCurrentTest() {
-        launch("current_test.panda");
+        for (int i = 0; i < 1; i++) {
+            launch("current_test.panda");
+        }
     }
 
 }

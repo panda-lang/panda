@@ -29,12 +29,12 @@ final class DefaultInjector implements Injector {
 
     @Override
     public <T> T newInstance(Class<T> type) throws InstantiationException, IllegalAccessException, InvocationTargetException, InjectorException {
-        return new ConstructorInjection(this).invoke(type);
+        return new ConstructorInjection(this, type).invoke();
     }
 
     @Override
-    public <T> T invokeMethod(Method method, Object instance) throws InjectorException, InvocationTargetException, IllegalAccessException {
-        return new MethodInjector(this).invoke(method, instance);
+    public <T> T invokeMethod(Method method, Object instance) throws Throwable {
+        return new MethodInjector(this, method).invoke(instance);
     }
 
     public InjectorResources getResources() {
