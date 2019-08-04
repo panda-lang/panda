@@ -41,7 +41,7 @@ class PandaLexerWorker {
     private final PandaLexerSequencer sequencer  = new PandaLexerSequencer(this);
     private final PandaLexerCollector collector = new PandaLexerCollector(this);
 
-    private String linePreview = StringUtils.EMPTY;
+    private StringBuilder linePreview = new StringBuilder();
     private boolean previousSpecial;
     private int line;
 
@@ -71,7 +71,7 @@ class PandaLexerWorker {
     }
 
     private void next(char character) {
-        linePreview += character;
+        linePreview.append(character);
         String tokenPreview = builder.toString();
 
         if (sequencer.checkBefore(builder, character)) {
@@ -85,7 +85,7 @@ class PandaLexerWorker {
                 throw PandaLexerException.builder("Unknown token")
                         .withLocation(new PandaSourceLocation(source, line, lineTokens.size()))
                         .withToken(tokenPreview)
-                        .withLine(linePreview)
+                        .withLine(linePreview.toString())
                         .build();
             }
 
@@ -111,12 +111,12 @@ class PandaLexerWorker {
     }
 
     private void checkLine() {
-        if (!linePreview.endsWith(System.lineSeparator())) {
+        if (!linePreview.toString().endsWith(System.lineSeparator())) {
             return;
         }
 
         if (getConfiguration().includingIndentation) {
-            String paragraph = StringUtils.extractParagraph(linePreview);
+            String paragraph = StringUtils.extractParagraph(linePreview.toString());
             Indentation indentation = Indentation.valueOf(paragraph);
             TokenRepresentation representation = new PandaTokenRepresentation(indentation, new PandaSourceLocation(source, line, 0));
             collector.add(representation);
@@ -130,7 +130,7 @@ class PandaLexerWorker {
         }
 
         lineTokens.clear();
-        linePreview = StringUtils.EMPTY;
+        linePreview.setLength(0);
         line++;
     }
 

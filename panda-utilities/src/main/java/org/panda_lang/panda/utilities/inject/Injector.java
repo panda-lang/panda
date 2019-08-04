@@ -40,7 +40,7 @@ public interface Injector {
      * @param <T> the return type
      * @return the return value
      */
-    @Nullable <T> T invokeMethod(Method method, @Nullable Object instance) throws IllegalAccessException, InvocationTargetException, InjectorException;
+    @Nullable <T> T invokeMethod(Method method, @Nullable Object instance) throws Throwable;
 
     /**
      * Get resources of injector
