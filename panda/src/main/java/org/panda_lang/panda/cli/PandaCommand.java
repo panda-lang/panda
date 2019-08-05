@@ -56,7 +56,7 @@ public class PandaCommand implements Runnable {
             return;
         }
 
-        Optional<Application> application = cli.getPanda().getPandaLoader().load(script, script.getParentFile());
+        Optional<Application> application = cli.getPanda().getLoader().load(script, script.getParentFile());
 
         if (!application.isPresent()) {
             PandaFramework.getLogger().error("Cannot load application");

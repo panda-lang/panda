@@ -24,6 +24,8 @@ public class PandaBuilder {
     protected PandaLanguage language;
     protected PandaResources resources;
 
+    private PandaBuilder() { }
+
     public PandaBuilder withLanguage(PandaLanguage language) {
         this.language = language;
         return this;

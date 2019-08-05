@@ -45,7 +45,7 @@ public class PandaEnvironment implements Environment {
 
         this.interpreter = PandaInterpreter.builder()
                 .environment(this)
-                .elements(panda.getPandaLanguage())
+                .elements(panda.getLanguage())
                 .build();
     }
 

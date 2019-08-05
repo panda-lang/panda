@@ -47,7 +47,7 @@ public class PandaApplicationBootstrap {
     }
 
     public Optional<Application> createApplication() {
-        return panda.getPandaLoader().load(main, workingDirectory);
+        return panda.getLoader().load(main, workingDirectory);
     }
 
 }

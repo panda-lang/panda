@@ -17,17 +17,24 @@
 package org.panda_lang.panda;
 
 import org.panda_lang.panda.cli.PandaCLI;
+import org.panda_lang.panda.framework.design.resource.FrameworkController;
 import org.panda_lang.panda.framework.design.resource.Language;
 import org.panda_lang.panda.framework.design.resource.Resources;
 import org.panda_lang.panda.util.embed.PandaEngineFactoryConstants;
 
-public final class Panda {
+/**
+ * The framework controller of Panda language.
+ *
+ * @see org.panda_lang.panda.PandaBuilder
+ *
+ */
+public final class Panda implements FrameworkController {
 
     private final Language language;
     private final Resources resources;
 
-    private final PandaCLI pandaCLI;
-    private final PandaLoader pandaLoader;
+    private final PandaCLI cli;
+    private final PandaLoader loader;
 
     protected Panda(PandaBuilder builder) {
         if (builder.language == null) {
@@ -41,28 +48,56 @@ public final class Panda {
         this.language = builder.language;
         this.resources = builder.resources;
 
-        this.pandaCLI = new PandaCLI(this);
-        this.pandaLoader = new PandaLoader(this);
+        this.cli = new PandaCLI(this);
+        this.loader = new PandaLoader(this);
     }
 
-    public String getVersion() {
-        return PandaEngineFactoryConstants.VERSION;
+    /**
+     * Get CLI used to command-line communication
+     *
+     * @return the panda cli
+     */
+    public PandaCLI getCli() {
+        return cli;
     }
 
-    public PandaCLI getPandaCLI() {
-        return pandaCLI;
+    /**
+     * Get loader used to load applications
+     *
+     * @return the panda loader
+     */
+    public PandaLoader getLoader() {
+        return loader;
     }
 
-    public PandaLoader getPandaLoader() {
-        return pandaLoader;
-    }
-
+    /**
+     * Get resources used by this Panda instance
+     *
+     * @return the panda resources
+     */
+    @Override
     public Resources getResources() {
         return resources;
     }
 
-    public Language getPandaLanguage() {
+    /**
+     * Get language used by this Panda instance
+     *
+     * @return the panda language
+     */
+    @Override
+    public Language getLanguage() {
         return language;
+    }
+
+    /**
+     * Get current version of Panda
+     *
+     * @return the current version
+     */
+    @Override
+    public String getVersion() {
+        return PandaEngineFactoryConstants.VERSION;
     }
 
 }

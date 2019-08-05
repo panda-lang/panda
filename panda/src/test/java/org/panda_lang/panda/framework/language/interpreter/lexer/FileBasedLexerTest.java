@@ -33,7 +33,7 @@ class FileBasedLexerTest {
         PandaFactory pandaFactory = new PandaFactory();
         Panda panda = pandaFactory.createPanda();
 
-        Snippet snippet = PandaLexer.of(panda.getPandaLanguage().getSyntax())
+        Snippet snippet = PandaLexer.of(panda.getLanguage().getSyntax())
                 .build()
                 .convert(SOURCE);
 
