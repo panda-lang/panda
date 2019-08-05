@@ -20,7 +20,6 @@ import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
-import org.panda_lang.panda.framework.design.runtime.flow.ControlFlowCallback;
 
 import java.util.Collection;
 
@@ -28,19 +27,19 @@ public class PandaControlFlow implements Executable, ControlFlow {
 
     private final Flow flow;
     private final Collection<? extends StatementCell> cells;
-    private final ControlFlowCallback caller;
+    private final PandaControlFlowCallback callback;
     private boolean skipped;
     private boolean escaped;
 
-    public PandaControlFlow(Flow flow, Collection<? extends StatementCell> cells, ControlFlowCallback caller) {
+    public PandaControlFlow(Flow flow, Collection<? extends StatementCell> cells, PandaControlFlowCallback callback) {
         this.flow = flow;
         this.cells = cells;
-        this.caller = caller;
+        this.callback = callback;
     }
 
     @Override
     public void execute(Flow flow) {
-        caller.call(flow, this);
+        callback.call(this, flow);
     }
 
     @Override

@@ -19,10 +19,10 @@ package org.panda_lang.panda.framework.language.architecture.dynamic.block.loopi
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
-import org.panda_lang.panda.framework.design.runtime.flow.ControlFlowCallback;
+import org.panda_lang.panda.framework.language.runtime.flow.PandaControlFlowCallback;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractBlock;
 
-public class WhileBlock extends AbstractBlock implements ControlFlowCallback {
+public class WhileBlock extends AbstractBlock implements PandaControlFlowCallback {
 
     private final Expression expression;
 
@@ -36,7 +36,7 @@ public class WhileBlock extends AbstractBlock implements ControlFlowCallback {
     }
 
     @Override
-    public void call(Flow frame, ControlFlow flow) {
+    public void call(ControlFlow flow, Flow frame) {
         while (expression.evaluate(frame).getValue()) {
             flow.reset();
             flow.call();
