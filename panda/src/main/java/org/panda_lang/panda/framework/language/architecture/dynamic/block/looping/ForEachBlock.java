@@ -22,11 +22,11 @@ import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
-import org.panda_lang.panda.framework.design.runtime.flow.ControlFlowCallback;
+import org.panda_lang.panda.framework.language.runtime.flow.PandaControlFlowCallback;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractBlock;
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 
-public class ForEachBlock extends AbstractBlock implements ControlFlowCallback {
+public class ForEachBlock extends AbstractBlock implements PandaControlFlowCallback {
 
     private final int variablePointer;
     private final ClassPrototype variableType;
@@ -44,7 +44,7 @@ public class ForEachBlock extends AbstractBlock implements ControlFlowCallback {
     }
 
     @Override
-    public void call(Flow frame, ControlFlow flow) {
+    public void call(ControlFlow flow, Flow frame) {
         ScopeFrame currentScope = frame.getCurrentScope();
         Value iterableValue = expression.evaluate(frame);
         Iterable iterable = iterableValue.getValue();

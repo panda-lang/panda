@@ -21,6 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.Process;
+import org.panda_lang.panda.framework.language.runtime.flow.PandaControlFlowCallback;
 
 import java.util.Collection;
 
@@ -44,7 +45,7 @@ public interface Flow {
      * @param cells  a collection of statement cells
      * @param caller a flow caller
      */
-    ControlFlow callFlow(Collection<? extends StatementCell> cells, ControlFlowCallback caller);
+    ControlFlow callFlow(Collection<? extends StatementCell> cells, PandaControlFlowCallback caller);
 
     /**
      * Call single executable by {@link org.panda_lang.panda.framework.design.runtime.Process}

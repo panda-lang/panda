@@ -14,10 +14,19 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.runtime.flow;
+package org.panda_lang.panda.framework.language.runtime.flow;
 
-public interface ControlFlowCallback {
+import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 
-    void call(Flow frame, ControlFlow flow);
+public interface PandaControlFlowCallback {
+
+    /**
+     * Custom call
+     * 
+     * @param flow the current flow
+     *  @param frame the frame to execute
+     */
+    void call(ControlFlow flow, Flow frame);
 
 }
