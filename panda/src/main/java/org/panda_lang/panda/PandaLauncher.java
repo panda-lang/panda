@@ -29,7 +29,7 @@ public final class PandaLauncher {
         Panda panda = pandaFactory.createPanda();
 
         if (!ArrayUtils.isEmpty(args)) {
-            panda.getPandaCLI().run(args);
+            panda.getCli().run(args);
             return;
         }
 
@@ -37,7 +37,7 @@ public final class PandaLauncher {
     }
 
     private static void loadDefault(Panda panda, String... args) {
-        PandaLoader pandaLoader = panda.getPandaLoader();
+        PandaLoader pandaLoader = panda.getLoader();
         Collection<File> files = FileUtils.findFilesByExtension(System.getProperty("user.dir"), ".panda");
 
         // TODO: find panda.json
