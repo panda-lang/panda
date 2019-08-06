@@ -18,6 +18,7 @@ package org.panda_lang.panda.util.embed;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.PandaFactory;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineFactory;
@@ -25,11 +26,8 @@ import java.util.List;
 
 public class PandaEngineFactory implements ScriptEngineFactory {
 
-    private final PandaEngine pandaEngine;
-
-    public PandaEngineFactory(Panda panda) {
-        this.pandaEngine = new PandaEngine(panda, this);
-    }
+    private static final Panda PANDA = new PandaFactory().createPanda();
+    private final PandaEngine pandaEngine = new PandaEngine(PANDA, this);
 
     @Override
     public @Nullable Object getParameter(String s) {

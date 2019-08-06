@@ -18,14 +18,14 @@ package org.panda_lang.panda.util.embed;
 
 import org.panda_lang.panda.Panda;
 
+import javax.script.AbstractScriptEngine;
 import javax.script.Bindings;
 import javax.script.ScriptContext;
-import javax.script.ScriptEngine;
 import javax.script.ScriptEngineFactory;
 import javax.script.ScriptException;
 import java.io.Reader;
 
-public class PandaEngine implements ScriptEngine {
+public class PandaEngine extends AbstractScriptEngine {
 
     private final Panda panda;
     private final PandaEngineFactory pandaEngineFactory;
@@ -66,37 +66,7 @@ public class PandaEngine implements ScriptEngine {
     }
 
     @Override
-    public void put(String s, Object o) {
-
-    }
-
-    @Override
     public Bindings createBindings() {
-        return null;
-    }
-
-    @Override
-    public void setBindings(Bindings bindings, int i) {
-
-    }
-
-    @Override
-    public void setContext(ScriptContext scriptContext) {
-
-    }
-
-    @Override
-    public Object get(String s) {
-        return null;
-    }
-
-    @Override
-    public Bindings getBindings(int i) {
-        return null;
-    }
-
-    @Override
-    public ScriptContext getContext() {
         return null;
     }
 

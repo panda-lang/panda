@@ -18,7 +18,8 @@ package org.panda_lang.panda.util.embed;
 
 import org.panda_lang.panda.PandaConstants;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class PandaEngineFactoryConstants {
@@ -46,28 +47,16 @@ public class PandaEngineFactoryConstants {
     /**
      * Extensions
      */
-    public static final List<String> EXTENSIONS = new ArrayList<>();
+    public static final List<String> EXTENSIONS = Collections.singletonList("panda");
 
     /**
      * Mime types
      */
-    public static final List<String> MIME_TYPES = new ArrayList<>();
-
+    public static final List<String> MIME_TYPES = Arrays.asList("application/panda", "text/panda");
 
     /**
      * Names for Panda Engine
      */
-    public static final List<String> NAMES = new ArrayList<>();
-
-
-    static {
-        EXTENSIONS.add(".panda");
-
-        MIME_TYPES.add("application/panda");
-        MIME_TYPES.add("text/panda");
-
-        NAMES.add(NAME);
-        NAMES.add(ENGINE_NAME);
-    }
+    public static final List<String> NAMES = Arrays.asList(NAME, ENGINE_NAME);
 
 }
