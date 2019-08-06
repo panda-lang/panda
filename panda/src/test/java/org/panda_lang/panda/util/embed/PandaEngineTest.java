@@ -16,15 +16,25 @@
 
 package org.panda_lang.panda.util.embed;
 
-import org.panda_lang.panda.Panda;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.panda_lang.panda.utilities.commons.ScriptEngineUtils;
 
-import javax.script.ScriptEngineManager;
+import javax.script.ScriptEngine;
+import javax.script.ScriptException;
 
-public class PandaEngineInitializer {
+class PandaEngineTest {
 
-    public void initialize(Panda panda) {
-        ScriptEngineManager m = new ScriptEngineManager();
-        m.registerEngineName("panda", new PandaEngineFactory(panda));
+    private static ScriptEngine engine;
+
+    @BeforeAll
+    static void prepare() {
+        engine = ScriptEngineUtils.getDefaultScriptEngineManager().getEngineByExtension("panda");
+    }
+
+    @Test
+    void eval() throws ScriptException {
+        engine.eval("10");
     }
 
 }
