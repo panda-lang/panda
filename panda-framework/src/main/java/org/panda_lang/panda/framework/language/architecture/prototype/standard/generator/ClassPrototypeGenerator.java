@@ -24,10 +24,12 @@ import org.panda_lang.panda.framework.design.architecture.prototype.field.Protot
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.PandaClassPrototype;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
+import org.panda_lang.panda.utilities.commons.ReflectionUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 final class ClassPrototypeGenerator {
 
@@ -47,19 +49,27 @@ final class ClassPrototypeGenerator {
                 .build();
 
         prototype.getReference().addInitializer(() -> {
+            if (!Modifier.isPublic(type.getModifiers())) {
+                return;
+            }
+
             for (Field field : type.getFields()) {
+                if (!Modifier.isPublic(field.getModifiers())) {
+                    continue;
+                }
+
                 ClassPrototypeFieldGenerator generator = new ClassPrototypeFieldGenerator(this, prototype, field);
                 PrototypeField prototypeField = generator.generate();
                 prototype.getFields().declare(prototypeField);
             }
 
-            for (Constructor<?> constructor : type.getConstructors()) {
+            for (Constructor<?> constructor : ReflectionUtils.getByModifier(type.getConstructors(), Modifier.PUBLIC)) {
                 ClassPrototypeConstructorGenerator generator = new ClassPrototypeConstructorGenerator(this, prototype, constructor);
                 PrototypeConstructor prototypeField = generator.generate();
                 prototype.getConstructors().declare(prototypeField);
             }
 
-            for (Method method : type.getMethods()) {
+            for (Method method : ReflectionUtils.getByModifier(type.getMethods(), Modifier.PUBLIC)) {
                 ClassPrototypeMethodGenerator generator = new ClassPrototypeMethodGenerator(this, prototype, method);
                 PrototypeMethod prototypeMethod = generator.generate();
                 prototype.getMethods().declare(prototypeMethod);
