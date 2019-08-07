@@ -19,6 +19,7 @@ package org.panda_lang.panda.utilities.commons;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -32,6 +33,20 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ReflectionUtils {
+
+    /**
+     * Get executables with the specified modifier
+     *
+     * @param executables array of executables to search in
+     * @param modifier the modifier to search for
+     * @param <E> type of executable
+     * @return collection of matched executables
+     */
+    public static <E extends Executable> Collection<E> getByModifier(E[] executables, int modifier) {
+        return Arrays.stream(executables)
+                .filter(executable -> (executable.getModifiers() & modifier) != 0)
+                .collect(Collectors.toList());
+    }
 
     /**
      * Get method wrapped into optional instead of exception if method does not exist.
@@ -109,7 +124,7 @@ public class ReflectionUtils {
     public static <R, T> Collection<R> getFieldValues(Class<T> clazz, Class<R> type, @Nullable T instance) {
         Collection<Field> fields = Arrays.stream(clazz.getDeclaredFields())
                 .filter(field -> field.getType() == type)
-                .filter(field ->  instance != null || Modifier.isStatic(field.getModifiers()))
+                .filter(field -> instance != null || Modifier.isStatic(field.getModifiers()))
                 .collect(Collectors.toList());
 
         Collection<R> values = new ArrayList<>(fields.size());
@@ -120,7 +135,7 @@ public class ReflectionUtils {
                 values.add((R) field.get(instance));
             }
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Cannot access field", e);
         }
 
         return values;
