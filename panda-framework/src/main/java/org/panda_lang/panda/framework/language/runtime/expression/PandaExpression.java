@@ -21,27 +21,26 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
-import org.panda_lang.panda.framework.design.runtime.expression.ExpressionType;
+import org.panda_lang.panda.framework.design.runtime.expression.ExpressionValueType;
 
 import java.security.InvalidParameterException;
 
 public class PandaExpression implements Expression {
 
-    private final ExpressionType type;
+    private final ExpressionValueType type;
     private final ClassPrototype returnType;
     private final ExpressionCallback callback;
     private final Value value;
 
     public PandaExpression(Value value) {
-        this(ExpressionType.KNOWN, value.getType(), null, value);
+        this(ExpressionValueType.KNOWN, value.getType(), null, value);
     }
 
     public PandaExpression(ExpressionCallback callback) {
-        this(ExpressionType.UNKNOWN, callback.getReturnType(), callback, null);
+        this(ExpressionValueType.UNKNOWN, callback.getReturnType(), callback, null);
     }
 
-    protected PandaExpression(ExpressionType type, ClassPrototype returnType, ExpressionCallback callback, Value value) {
+    protected PandaExpression(ExpressionValueType type, ClassPrototype returnType, ExpressionCallback callback, Value value) {
         if (type == null) {
             throw new InvalidParameterException("ExpressionType cannot be null");
         }
@@ -62,7 +61,7 @@ public class PandaExpression implements Expression {
 
     @Override
     public Value evaluate(Flow flow) {
-        if (type == ExpressionType.UNKNOWN || type == ExpressionType.BOTH) {
+        if (type == ExpressionValueType.UNKNOWN) {
             return callback.call(this, flow);
         }
 
@@ -75,14 +74,14 @@ public class PandaExpression implements Expression {
     }
 
     @Override
-    public ExpressionType getType() {
+    public ExpressionValueType getType() {
         return type;
     }
 
     @Override
     public String toString() {
         String s = type.name() + ":" + (returnType != null ? returnType.getName() : "any");
-        return ExpressionType.KNOWN == type ? s + ":" + value.getValue() : s;
+        return ExpressionValueType.KNOWN == type ? s + ":" + value.getValue() : s;
     }
 
 }

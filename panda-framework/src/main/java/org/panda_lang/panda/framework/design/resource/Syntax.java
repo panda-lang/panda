@@ -24,18 +24,63 @@ import org.panda_lang.panda.framework.language.resource.syntax.sequence.Sequence
 
 import java.util.List;
 
+/**
+ * Set of syntax rules to use by the language
+ */
 public interface Syntax {
 
+    /**
+     * TODO: replace special characters with allowed for names characters
+     *
+     * Characters that can't belong to unknown tokens
+     *
+     * @return array of characters
+     */
     char[] getSpecialCharacters();
 
-    List<Sequence> getSequences();
+    /**
+     * Get sequences that belongs to the syntax
+     *
+     * @return list of sequences
+     *
+     * @see org.panda_lang.panda.framework.language.resource.syntax.sequence.Sequence
+     */
+    List<? extends Sequence> getSequences();
 
-    List<Operator> getOperators();
+    /**
+     * Get operators that belongs to the syntax
+     *
+     * @return list of separators
+     *
+     * @see org.panda_lang.panda.framework.language.resource.syntax.separator.Separator
+     */
+    List<? extends Operator> getOperators();
 
-    List<Separator> getSeparators();
+    /**
+     * Get separators that belongs to the syntax
+     *
+     * @return list of separators
+     *
+     * @see org.panda_lang.panda.framework.language.resource.syntax.separator.Separator
+     */
+    List<? extends Separator> getSeparators();
 
-    List<Literal> getLiterals();
+    /**
+     * Get literals that belongs to the syntax
+     *
+     * @return list of literals
+     *
+     * @see org.panda_lang.panda.framework.language.resource.syntax.literal.Literal
+     */
+    List<? extends Literal> getLiterals();
 
-    List<Keyword> getKeywords();
+    /**
+     * Get keywords that belongs to the syntax
+     *
+     * @return list of keywords
+     *
+     * @see org.panda_lang.panda.framework.language.resource.syntax.keyword.Keyword
+     */
+    List<? extends Keyword> getKeywords();
 
 }

@@ -18,14 +18,12 @@ package org.panda_lang.panda.framework.language.interpreter.parser;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.panda.framework.design.resource.Autoload;
 import org.panda_lang.panda.framework.language.resource.parsers.container.assignation.AssignationSubparser;
 import org.panda_lang.panda.framework.language.resource.parsers.container.block.BlockSubparser;
 
 /**
  * Used by {@link org.panda_lang.panda.framework.design.resource.parsers.Registrable}
  */
-@Autoload
 public class PandaPipelines implements Pipelines {
 
     /**

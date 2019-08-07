@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.accessor;
 
-import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
+import org.panda_lang.panda.framework.language.runtime.expression.ExpressionCallback;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
 public class AccessorExpression extends PandaExpression {

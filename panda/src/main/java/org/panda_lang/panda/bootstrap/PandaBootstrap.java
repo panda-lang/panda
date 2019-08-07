@@ -47,10 +47,6 @@ public class PandaBootstrap {
         return new MessengerPandaBootstrap(this);
     }
 
-    public ScannerPandaBootstrap initializeScanner() {
-        return new ScannerPandaBootstrap(this);
-    }
-
     public Panda get() {
         return panda
                 .withLanguage(language.build())

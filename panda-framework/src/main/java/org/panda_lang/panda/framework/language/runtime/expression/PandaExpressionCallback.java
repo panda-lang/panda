@@ -17,7 +17,6 @@
 package org.panda_lang.panda.framework.language.runtime.expression;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 
 public abstract class PandaExpressionCallback implements ExpressionCallback {
 

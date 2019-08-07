@@ -24,7 +24,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Pa
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.expression.ExpressionType;
+import org.panda_lang.panda.framework.design.runtime.expression.ExpressionValueType;
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionUtils;
 import org.panda_lang.panda.framework.language.runtime.PandaFlow;
@@ -73,8 +73,8 @@ public final class ParametrizedExpression implements Expression {
     }
 
     @Override
-    public ExpressionType getType() {
-        return ExpressionType.UNKNOWN;
+    public ExpressionValueType getType() {
+        return ExpressionValueType.UNKNOWN;
     }
 
 }

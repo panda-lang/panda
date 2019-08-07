@@ -21,8 +21,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Pipelin
 import org.panda_lang.panda.framework.design.resource.Resources;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparsers;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.PandaPipelinePath;
-import org.panda_lang.panda.utilities.annotations.AnnotationsScanner;
-import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
 
 public class PandaResources implements Resources {
 
@@ -47,28 +45,17 @@ public class PandaResources implements Resources {
         return builder.messengerInitializer;
     }
 
-    @Override
-    public AnnotationsScannerProcess getScannerProcess() {
-        return builder.scannerProcess;
-    }
-
     public static PandaResourcesBuilder builder() {
         return new PandaResourcesBuilder();
     }
 
     public static final class PandaResourcesBuilder {
 
-        public AnnotationsScannerProcess scannerProcess;
         public MessengerInitializer messengerInitializer;
         public PipelinePath pipelinePath;
         public ExpressionSubparsers expressionSubparsers;
 
         private PandaResourcesBuilder() { }
-
-        public PandaResourcesBuilder withScannerProcess(AnnotationsScannerProcess scannerProcess) {
-            this.scannerProcess = scannerProcess;
-            return this;
-        }
 
         public PandaResourcesBuilder withMessengerInitializer(MessengerInitializer messengerInitializer) {
             this.messengerInitializer = messengerInitializer;
@@ -88,16 +75,6 @@ public class PandaResources implements Resources {
         public PandaResources build() {
             if (pipelinePath == null) {
                 this.pipelinePath = new PandaPipelinePath();
-            }
-
-            if (scannerProcess == null) {
-                this.scannerProcess = AnnotationsScanner.configuration()
-                        .muted()
-                        .build()
-                        .createProcess()
-                        .fetch();
-
-                this.scannerProcess.getAnnotationsScanner().getLogger().unmute();
             }
 
             return new PandaResources(this);

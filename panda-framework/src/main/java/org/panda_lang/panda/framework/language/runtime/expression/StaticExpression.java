@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.expression.ExpressionType;
+import org.panda_lang.panda.framework.design.runtime.expression.ExpressionValueType;
 
 public final class StaticExpression implements Expression {
 
@@ -42,8 +42,8 @@ public final class StaticExpression implements Expression {
     }
 
     @Override
-    public ExpressionType getType() {
-        return ExpressionType.KNOWN;
+    public ExpressionValueType getType() {
+        return ExpressionValueType.KNOWN;
     }
 
 }

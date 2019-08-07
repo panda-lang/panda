@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.runtime.expression;
+package org.panda_lang.panda.framework.language.runtime.expression;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
-import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
 public interface ExpressionCallback {
 
     Value call(Expression expression, Flow flow);
 
-    ClassPrototype getReturnType();
-
     default Expression toExpression() {
         return new PandaExpression(this);
     }
+
+    ClassPrototype getReturnType();
 
 }

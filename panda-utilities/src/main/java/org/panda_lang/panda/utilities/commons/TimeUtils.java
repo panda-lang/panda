@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.utilities.commons;
 
+import java.lang.management.ManagementFactory;
+
 public class TimeUtils {
 
     public static final double MILLISECOND = 1_000;
@@ -30,8 +32,11 @@ public class TimeUtils {
     }
 
     public static double getUptime(long uptime) {
-        long current = System.currentTimeMillis() - uptime;
-        return current / MILLISECOND;
+        return (System.currentTimeMillis() - uptime) / MILLISECOND;
+    }
+
+    public static long getJVMUptime() {
+        return System.currentTimeMillis() - ManagementFactory.getRuntimeMXBean().getStartTime();
     }
 
 }

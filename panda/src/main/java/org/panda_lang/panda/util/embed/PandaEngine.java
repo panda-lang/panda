@@ -27,12 +27,12 @@ import java.io.Reader;
 
 public class PandaEngine extends AbstractScriptEngine {
 
-    private final Panda panda;
-    private final PandaEngineFactory pandaEngineFactory;
+    private final PandaEngineCore core;
+    private final PandaEngineFactory factory;
 
-    public PandaEngine(Panda panda, PandaEngineFactory pandaEngineFactory) {
-        this.panda = panda;
-        this.pandaEngineFactory = pandaEngineFactory;
+    public PandaEngine(PandaEngineFactory factory) {
+        this.factory = factory;
+        this.core = new PandaEngineCore();
     }
 
     @Override
@@ -72,11 +72,11 @@ public class PandaEngine extends AbstractScriptEngine {
 
     @Override
     public ScriptEngineFactory getFactory() {
-        return pandaEngineFactory;
+        return factory;
     }
 
     public Panda getPanda() {
-        return panda;
+        return core.getPanda();
     }
 
 }
