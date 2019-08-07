@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Assertions;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.bootstrap.PandaApplicationBootstrap;
-import org.panda_lang.panda.framework.PandaFrameworkLogger;
+import org.panda_lang.panda.framework.PandaFrameworkLoggerUtils;
 import org.panda_lang.panda.framework.design.architecture.Application;
 
 import java.util.Optional;
@@ -28,7 +28,7 @@ import java.util.Optional;
 class ExamplesLauncher {
 
     void launch(String file) {
-        PandaFrameworkLogger.printJVMUptime();
+        PandaFrameworkLoggerUtils.printJVMUptime();
 
         PandaFactory factory = new PandaFactory();
         Panda panda = factory.createPanda();

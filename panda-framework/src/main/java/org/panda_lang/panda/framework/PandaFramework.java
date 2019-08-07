@@ -20,6 +20,12 @@ import org.slf4j.Logger;
 
 public class PandaFramework {
 
+    /**
+     * Get logger used by the framework.
+     * See {@link org.panda_lang.panda.framework.PandaFrameworkLogger} to change logger instance.
+     *
+     * @return the current logger
+     */
     public static Logger getLogger() {
         return PandaFrameworkLogger.PANDA_FRAMEWORK_LOGGER;
     }

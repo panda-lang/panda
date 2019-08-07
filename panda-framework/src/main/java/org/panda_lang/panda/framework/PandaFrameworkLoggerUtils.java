@@ -14,15 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.resource;
+package org.panda_lang.panda.framework;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.panda_lang.panda.utilities.commons.TimeUtils;
 
-@Target({ ElementType.TYPE })
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Autoload {
+public final class PandaFrameworkLoggerUtils {
+
+    /**
+     * Print current JVM startup time.
+     * The method should be called as fast as it is possible.
+     */
+    public static void printJVMUptime() {
+        PandaFramework.getLogger().debug("");
+        PandaFramework.getLogger().debug("JVM launch time: " + TimeUtils.getJVMUptime() + "ms (｡•́︿•̀｡)");
+        PandaFramework.getLogger().debug("");
+    }
 
 }

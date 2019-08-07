@@ -92,19 +92,6 @@ public class ParsersPandaBootstrap implements PandaBootstrapElement {
         return null;
     }
 
-    public ParsersPandaBootstrap loadParsers() {
-        if (bootstrap.resources.scannerProcess == null) {
-            throw new PandaBootstrapException("Cannot load parsers using scanner because it's not initialized");
-        }
-
-        if (bootstrap.resources.pipelinePath == null) {
-            throw new PandaBootstrapException("Cannot load parsers because pipeline was not initialized");
-        }
-
-        registrationLoader.load(bootstrap.resources.pipelinePath, bootstrap.resources.scannerProcess);
-        return this;
-    }
-
     @Override
     public PandaBootstrap collect() {
         bootstrap.resources.expressionSubparsers = new PandaExpressionSubparsers(expressionSubparsers);

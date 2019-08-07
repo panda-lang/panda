@@ -51,6 +51,6 @@ public interface Expression {
      *
      * @return the type
      */
-    ExpressionType getType();
+    ExpressionValueType getType();
 
 }

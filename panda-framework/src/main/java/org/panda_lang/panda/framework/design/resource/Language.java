@@ -16,8 +16,16 @@
 
 package org.panda_lang.panda.framework.design.resource;
 
+/**
+ * Set of elements that defines language
+ */
 public interface Language {
 
+    /**
+     * Get syntax of language
+     *
+     * @return the syntax
+     */
     Syntax getSyntax();
 
 }

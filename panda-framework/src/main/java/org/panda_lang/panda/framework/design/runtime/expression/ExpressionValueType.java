@@ -16,10 +16,9 @@
 
 package org.panda_lang.panda.framework.design.runtime.expression;
 
-public enum ExpressionType {
+public enum ExpressionValueType {
 
     KNOWN,
-    UNKNOWN,
-    BOTH
+    UNKNOWN
 
 }

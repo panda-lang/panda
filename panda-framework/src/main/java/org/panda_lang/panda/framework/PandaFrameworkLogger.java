@@ -19,20 +19,17 @@ package org.panda_lang.panda.framework;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.management.ManagementFactory;
-
 public class PandaFrameworkLogger {
 
     protected static Logger PANDA_FRAMEWORK_LOGGER = LoggerFactory.getLogger("Panda Framework");
 
+    /**
+     * Set logger used by the framework
+     *
+     * @param logger the logger to use
+     */
     public static void setLogger(Logger logger) {
         PANDA_FRAMEWORK_LOGGER = logger;
-    }
-
-    public static void printJVMUptime() {
-        PANDA_FRAMEWORK_LOGGER.debug("");
-        PANDA_FRAMEWORK_LOGGER.debug("JVM launch time: " + (System.currentTimeMillis() - ManagementFactory.getRuntimeMXBean().getStartTime()) + "ms (｡•́︿•̀｡)");
-        PANDA_FRAMEWORK_LOGGER.debug("");
     }
 
 }

@@ -14,13 +14,22 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework;
+package org.panda_lang.panda.util.embed;
 
-public class PandaFrameworkConstants {
+import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.PandaFactory;
 
-    /**
-     * Current version of the Panda Framework
-     */
-    public static final String VERSION = "indev-19.6.28";
+final class PandaEngineCore {
+
+    private Panda panda;
+
+    protected Panda getPanda() {
+        if (panda == null) {
+            PandaFactory pandaFactory = new PandaFactory();
+            this.panda = pandaFactory.createPanda();
+        }
+
+        return panda;
+    }
 
 }
