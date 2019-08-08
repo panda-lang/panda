@@ -50,6 +50,11 @@ public class PandaMethods implements PrototypeMethods {
     }
 
     @Override
+    public boolean hasMethodLike(String name) {
+        return methodsMap.containsKey(name);
+    }
+
+    @Override
     public Collection<PrototypeMethod> getMethodsLike(String name) {
         return methodsMap.getOrDefault(name, Collections.emptyList());
     }

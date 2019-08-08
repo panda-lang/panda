@@ -27,6 +27,14 @@ import java.util.Optional;
 public interface PrototypeMethods extends PrototypeProperties<PrototypeMethod> {
 
     /**
+     * Check if the prototype has method with the given name
+     *
+     * @param name the name to search for
+     * @return true if prototype contains method with the given name
+     */
+    boolean hasMethodLike(String name);
+
+    /**
      * Get all methods with the given name
      *
      * @param name the name to search for

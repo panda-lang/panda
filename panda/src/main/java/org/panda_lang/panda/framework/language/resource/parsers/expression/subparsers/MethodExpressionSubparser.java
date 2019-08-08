@@ -17,7 +17,6 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Arguments;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
@@ -33,11 +32,13 @@ import org.panda_lang.panda.framework.language.interpreter.parser.expression.Exp
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
+import org.panda_lang.panda.framework.language.interpreter.token.distributors.DiffusedSource;
 import org.panda_lang.panda.framework.language.resource.expressions.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.parsers.overall.prototype.parameter.ArgumentsParser;
 import org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.framework.language.runtime.expression.StaticExpression;
+import org.panda_lang.panda.utilities.commons.ObjectUtils;
 
 import java.util.Optional;
 
@@ -64,42 +65,50 @@ public class MethodExpressionSubparser implements ExpressionSubparser {
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext context) {
+            DiffusedSource source = context.getDiffusedSource();
+
+            // method name token
             TokenRepresentation nameToken = context.getCurrentRepresentation();
 
-            if (nameToken.getType() != TokenType.UNKNOWN) {
+            // name has to be declared by unknown type of token
+            if (nameToken.getType() != TokenType.UNKNOWN || !source.hasNext()) {
                 return null;
             }
 
-            String name = nameToken.getValue();
+            // section of arguments
+            @Nullable Section section = ObjectUtils.cast(Section.class, source.next().getToken());
 
-            if (!context.getDiffusedSource().hasNext() || context.getDiffusedSource().getNext().getType() != TokenType.SECTION) {
-                return null;
-            }
-            
-            if (!context.getDiffusedSource().getNext().toToken(Section.class).getSeparator().equals(Separators.PARENTHESIS_LEFT)) {
+            // section type required
+            if (section == null || !section.getSeparator().equals(Separators.PARENTHESIS_LEFT)) {
                 return null;
             }
 
+            // fetch method instance
             Expression instance = null;
 
-            if (context.hasResults() && TokenUtils.contentEquals(context.getDiffusedSource().getPrevious(), Separators.PERIOD)) {
+            // fetch instance from stack if token before name was period
+            if (context.hasResults() && TokenUtils.contentEquals(source.getPrevious(1), Separators.PERIOD)) {
                 instance = context.peekExpression();
             }
-            else if (context.getDiffusedSource().getIndex() == 1) {
+            // use current instance (this) if source contains only name and section
+            else if (source.getIndex() == 2) {
                 instance = ThisExpressionCallback.of(context.getContext());
             }
 
+            // instance required
             if (instance == null) {
                 return null;
             }
 
-            if (instance.getReturnType().getMethods().getMethodsLike(name).isEmpty()) {
-                return ExpressionResult.error("Cannot find method called '" + name + "'", context.getCurrentRepresentation());
+            // check if prototype of instance contains required method
+            if (!instance.getReturnType().getMethods().hasMethodLike(nameToken.getValue())) {
+                return ExpressionResult.error("Cannot find method called '" + nameToken.getValue() + "'", context.getCurrentRepresentation());
             }
 
-            Snippet arguments = context.getDiffusedSource().next().toToken(Section.class).getContent();
-            Expression expression = parse(context.getContext(), instance, nameToken, arguments);
+            // parse method
+            Expression expression = parseMethod(context.getContext(), instance, nameToken, section.getContent());
 
+            // drop used instance
             if (context.hasResults()) {
                 context.popExpression();
             }
@@ -107,14 +116,12 @@ public class MethodExpressionSubparser implements ExpressionSubparser {
             return ExpressionResult.of(expression);
         }
 
-        public Expression parse(Context context, Expression instance, TokenRepresentation methodName, Snippet argumentsSource) {
-            ClassPrototype prototype = instance.getReturnType();
-
+        private Expression parseMethod(Context context, Expression instance, TokenRepresentation methodName, Snippet argumentsSource) {
             Expression[] arguments = ARGUMENT_PARSER.parse(context, argumentsSource);
-            Optional<Arguments<PrototypeMethod>> adjustedArguments = prototype.getMethods().getAdjustedArguments(methodName.getValue(), arguments);
+            Optional<Arguments<PrototypeMethod>> adjustedArguments = instance.getReturnType().getMethods().getAdjustedArguments(methodName.getValue(), arguments);
 
             if (!adjustedArguments.isPresent()) {
-                throw PandaParserFailure.builder("Class " + prototype.getName() + " does not have method '" + methodName + "' with these parameters", context)
+                throw PandaParserFailure.builder("Class " + instance.getReturnType().getName() + " does not have method '" + methodName + "' with these parameters", context)
                         .withStreamOrigin(argumentsSource)
                         .withNote("Change arguments or add a new method with the provided types of parameters")
                         .build();

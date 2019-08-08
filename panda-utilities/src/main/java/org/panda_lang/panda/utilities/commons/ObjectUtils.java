@@ -33,7 +33,7 @@ public class ObjectUtils {
      * @return casted object or null if object is not a clazz type
      */
     public static @Nullable <T> T cast(Class<T> clazz, @Nullable Object object) {
-        if (object == null || !clazz.isAssignableFrom(object.getClass())) {
+        if (!clazz.isInstance(object)) {
             return null;
         }
 

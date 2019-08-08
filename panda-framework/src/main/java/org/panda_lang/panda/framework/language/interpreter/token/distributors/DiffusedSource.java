@@ -71,7 +71,12 @@ public class DiffusedSource implements Iterable<TokenRepresentation>, Iterator<T
     }
 
     public @Nullable TokenRepresentation getPrevious() {
-        return index < 2 ? null : source.get(index - 2);
+        return getPrevious(0);
+    }
+
+    public @Nullable TokenRepresentation getPrevious(int previous) {
+        int previousIndex = index - 2 - previous;
+        return previousIndex < 0 ? null : source.get(previousIndex);
     }
 
     public TokenRepresentation getCurrent() {
