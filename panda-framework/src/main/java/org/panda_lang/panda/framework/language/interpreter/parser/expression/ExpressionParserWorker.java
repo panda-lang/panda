@@ -19,16 +19,22 @@ package org.panda_lang.panda.framework.language.interpreter.parser.expression;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParserSettings;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.utilities.commons.collection.Maps;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 public class ExpressionParserWorker {
 
+    public static final Map<String, Long> TIMES = new HashMap<>();
+
     private static final int NONE = -1;
 
     private final ExpressionSubparserWorker[] subparsers;
-    private Stack<ExpressionSubparserWorker> workers = new Stack<>();
+    private final Stack<ExpressionSubparserWorker> workers = new Stack<>();
+
     private ExpressionResult error = null;
     private int previousSubparser = NONE;
     private int lastSucceededRead = 0;
@@ -111,10 +117,15 @@ public class ExpressionParserWorker {
             return false;
         }
 
+        int cachedIndex = context.getDiffusedSource().getIndex();
+
+        long time = System.nanoTime();
         ExpressionResult result = worker.next(context);
+        Maps.update(TIMES, worker.getSubparserRepresentation().getSubparser().getSubparserName(), () -> 0L, cachedTime -> cachedTime + (System.nanoTime() - time));
 
         // if something went wrong
         if (result == null || result.containsError()) {
+            context.getDiffusedSource().setIndex(cachedIndex);
 
             // do not override previous error
             if (result != null && error == null) {

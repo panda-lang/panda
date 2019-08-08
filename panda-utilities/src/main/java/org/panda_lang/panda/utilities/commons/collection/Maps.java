@@ -19,10 +19,41 @@ package org.panda_lang.panda.utilities.commons.collection;
 import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public final class Maps {
+
+    /**
+     * Update value of map
+     *
+     * @param map the map to use
+     * @param key key of entry to update
+     * @param defaultValue default value fetcher
+     * @param updateFunction function used to fetch updated value
+     * @param <K> type of key
+     * @param <V> type of value
+     */
+    public static <K, V> void update(Map<K, V> map, K key, Supplier<V> defaultValue, Function<V, V> updateFunction) {
+        V value = map.computeIfAbsent(key, currentKey -> defaultValue.get());
+        map.put(key, updateFunction.apply(value));
+    }
+
+    /**
+     * {@link java.util.Map#put(Object, Object)} but returns the used value
+     *
+     * @param map the map to put in
+     * @param key the key
+     * @param value the value
+     * @param <K> type of key
+     * @param <V> type of value
+     * @return the object used as value
+     */
+    public static <K, V> V put(Map<? super K, ? super V> map, K key, V value) {
+        map.put(key, value);
+        return value;
+    }
 
     /**
      * Swap keys with values
@@ -70,21 +101,6 @@ public final class Maps {
     }
 
     /**
-     * {@link java.util.Map#put(Object, Object)} but returns the used value
-     *
-     * @param map the map to put in
-     * @param key the key
-     * @param value the value
-     * @param <K> type of key
-     * @param <V> type of value
-     * @return the object used as value
-     */
-    public static <K, V> V put(Map<? super K, ? super V> map, K key, V value) {
-        map.put(key, value);
-        return value;
-    }
-
-    /**
      * Create map based on vararg parameter
      *
      * @param values values
@@ -106,6 +122,7 @@ public final class Maps {
      * @param <V> type of value
      * @return map based on the specified values
      */
+    @SuppressWarnings({ "unchecked", "unused" })
     public static <K, V> Map<K, V> of(Class<K> keyType, Class<V> valueType, Object... values) {
         if (values.length % 2 != 0) {
             throw new IllegalArgumentException("The number of given values is not even");
@@ -114,7 +131,6 @@ public final class Maps {
         Map<K, V> map = new HashMap<>();
 
         for (int i = 0; i < values.length; i += 2) {
-            //noinspection unchecked
             map.put((K) values[i], (V) values[i + 1]);
         }
 
