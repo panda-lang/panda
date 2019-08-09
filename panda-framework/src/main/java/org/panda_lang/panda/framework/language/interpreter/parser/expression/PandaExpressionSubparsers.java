@@ -16,6 +16,9 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.expression;
 
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparsers;
+
 import java.util.Collection;
 
 public class PandaExpressionSubparsers implements ExpressionSubparsers {

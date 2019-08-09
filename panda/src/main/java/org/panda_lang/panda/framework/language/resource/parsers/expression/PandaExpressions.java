@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parsers;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.ArrayValueExpressionSubparser;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.ConstructorExpressionSubparser;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.CreaseExpressionSubparser;

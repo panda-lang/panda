@@ -16,30 +16,31 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.expression;
 
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 
-public class ExpressionParserException extends PandaParserFailure {
+public class PandaExpressionParserException extends PandaParserFailure {
 
     private final String expressionMessage;
 
-    public ExpressionParserException(String prefix, String message, ExpressionContext context, Snippet source) {
+    public PandaExpressionParserException(String prefix, String message, ExpressionContext context, Snippet source) {
         super(builder(message, context.getContext()).withStreamOrigin(source));
         this.expressionMessage = message;
     }
 
-    public ExpressionParserException(String message, ExpressionContext context, Snippet source) {
+    public PandaExpressionParserException(String message, ExpressionContext context, Snippet source) {
         this("Cannot parse the expression: ", message, context, source);
     }
 
-    public ExpressionParserException(String message, ExpressionContext context, TokenRepresentation source) {
+    public PandaExpressionParserException(String message, ExpressionContext context, TokenRepresentation source) {
         this(message, context, new PandaSnippet(source));
     }
 
-    public ExpressionParserException(String message, ExpressionContext context, SourceStream source) {
+    public PandaExpressionParserException(String message, ExpressionContext context, SourceStream source) {
         this(message, context, source.toSnippet());
     }
 

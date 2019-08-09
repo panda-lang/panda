@@ -14,12 +14,23 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.parser.expression;
+package org.panda_lang.panda.framework.design.interpreter.parser.expression;
 
 public enum ExpressionSubparserType {
 
+    /**
+     * Requires only source
+     */
     INDIVIDUAL(0),
+
+    /**
+     * Requires source and may require previously parsed expression on stack
+     */
     MODERATE(1),
+
+    /**
+     * Requires expression on stack
+     */
     MUTUAL(2);
 
     private final int priority;
@@ -28,7 +39,12 @@ public enum ExpressionSubparserType {
         this.priority = priority;
     }
 
-    public int getPriority() {
+    /**
+     * Get priority of type
+     *
+     * @return the priority represented by int, the lowest is executed as first
+     */
+    protected int getPriority() {
         return priority;
     }
 

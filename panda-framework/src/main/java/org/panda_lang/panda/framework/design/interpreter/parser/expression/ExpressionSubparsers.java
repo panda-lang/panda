@@ -14,17 +14,30 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.parser.expression;
+package org.panda_lang.panda.framework.design.interpreter.parser.expression;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParser;
 
 import java.util.Collection;
 
+/**
+ * Collection of {@link org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser}
+ */
 public interface ExpressionSubparsers {
 
+    /**
+     * Get collection of subparsers
+     *
+     * @return the collection of subparsers
+     */
     Collection<? extends ExpressionSubparser> getSubparsers();
 
-    default ExpressionParser toExpressionParser() {
+    /**
+     * Create default {@link org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser} using the current subparsers
+     *
+     * @return a new instance of expression parser
+     */
+    default ExpressionParser toParser() {
         return new PandaExpressionParser(this);
     }
 

@@ -14,11 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.parser.expression;
+package org.panda_lang.panda.framework.design.interpreter.parser.expression;
 
-public enum ExpressionCategory {
+import org.jetbrains.annotations.Nullable;
 
-    DEFAULT,
-    STANDALONE
+public interface ExpressionSubparserWorker {
+
+    ExpressionSubparserWorker withSubparser(ExpressionSubparserRepresentation subparser);
+
+    @Nullable ExpressionResult next(ExpressionContext context);
+
+    default @Nullable ExpressionResult finish(ExpressionContext context) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    ExpressionSubparserRepresentation getSubparserRepresentation();
 
 }

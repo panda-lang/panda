@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.parser.expression;
+package org.panda_lang.panda.framework.design.interpreter.parser.expression;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
@@ -77,7 +77,7 @@ public class ExpressionResult {
         return source;
     }
 
-    public static <T> ExpressionResult error(String message, Snippet source) {
+    public static ExpressionResult error(String message, Snippet source) {
         if (source.isEmpty()) {
             throw new IllegalArgumentException("Source cannot be empty");
         }
@@ -89,11 +89,11 @@ public class ExpressionResult {
         return new ExpressionResult(message, source);
     }
 
-    public static <T> ExpressionResult of(Expression value) {
+    public static ExpressionResult of(Expression value) {
         return new ExpressionResult(value);
     }
 
-    public static <T> ExpressionResult empty() {
+    public static ExpressionResult empty() {
         return EMPTY;
     }
 

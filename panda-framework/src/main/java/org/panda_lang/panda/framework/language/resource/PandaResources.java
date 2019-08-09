@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.resource;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.panda.framework.design.resource.Resources;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparsers;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparsers;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.PandaPipelinePath;
 
 public class PandaResources implements Resources {

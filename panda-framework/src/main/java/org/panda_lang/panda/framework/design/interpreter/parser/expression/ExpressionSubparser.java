@@ -14,18 +14,22 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.parser.expression;
+package org.panda_lang.panda.framework.design.interpreter.parser.expression;
 
 import org.jetbrains.annotations.NotNull;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 
+/**
+ * Subparsers is extension parser used by the {@link org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser}
+ */
 public interface ExpressionSubparser extends Parser, Comparable<ExpressionSubparser> {
 
-    int DEFAULT_PRIORITY = 1;
-
+    /**
+     * Creates worker of the current subparser
+     *
+     * @return the worker instance
+     */
     ExpressionSubparserWorker createWorker();
-
-    String getSubparserName();
 
     @Override
     default int compareTo(@NotNull ExpressionSubparser to) {
@@ -38,24 +42,52 @@ public interface ExpressionSubparser extends Parser, Comparable<ExpressionSubpar
         return Double.compare(getPriority(), to.getPriority());
     }
 
+    /**
+     * Get minimal required length of source to use the subparser.
+     * Used by {@link org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser} to improve performance.
+     *
+     * @return the minimal required length of source
+     */
     default int getMinimalRequiredLengthOfSource() {
         return 1;
     }
 
-    default boolean hasStandaloneSupport() {
-        return false;
-    }
-
+    /**
+     * Get type of the subparser
+     *
+     * @return type of subparser
+     *
+     * @see ExpressionSubparserType
+     */
     default ExpressionSubparserType getSubparserType() {
         return ExpressionSubparserType.MODERATE;
     }
 
+    /**
+     * Get category of the subparser
+     *
+     * @return the category
+     *
+     * @see org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionCategory
+     */
     default ExpressionCategory getCategory() {
         return ExpressionCategory.DEFAULT;
     }
 
+    /**
+     * Get priority of the subparser. Subparsers are called ascending.
+     *
+     * @return the priority, by default 1.0
+     */
     default double getPriority() {
-        return DEFAULT_PRIORITY;
+        return 1.0;
     }
+
+    /**
+     * Get name of the subparser
+     *
+     * @return the name
+     */
+    String getSubparserName();
 
 }

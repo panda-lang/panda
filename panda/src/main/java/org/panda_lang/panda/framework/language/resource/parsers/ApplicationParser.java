@@ -72,7 +72,7 @@ public class ApplicationParser implements Parser {
                 .withComponent(UniversalComponents.MODULE_LOADER, loader)
                 .withComponent(UniversalComponents.PIPELINE, resources.getPipelinePath())
                 .withComponent(UniversalComponents.PARSER_DEBUG, new PandaParserDebug(true))
-                .withComponent(UniversalComponents.EXPRESSION, resources.getExpressionSubparsers().toExpressionParser())
+                .withComponent(UniversalComponents.EXPRESSION, resources.getExpressionSubparsers().toParser())
                 .withComponent(UniversalComponents.SOURCES, sources);
 
         Lexer lexer = PandaLexer.of(interpretation.getLanguage().getSyntax())
