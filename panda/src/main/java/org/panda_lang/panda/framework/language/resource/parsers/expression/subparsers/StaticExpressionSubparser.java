@@ -21,10 +21,10 @@ import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionContext;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionResult;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparserWorker;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.language.runtime.expression.StaticExpression;
 
 public class StaticExpressionSubparser implements ExpressionSubparser {

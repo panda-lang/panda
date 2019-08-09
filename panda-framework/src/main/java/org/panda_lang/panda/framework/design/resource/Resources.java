@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.design.resource;
 
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparsers;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparsers;
 
 /**
  * Set of resources used by the language

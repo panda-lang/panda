@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.expression;
 
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparsers;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparsers;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionSubparsers;
 
 import java.util.Arrays;

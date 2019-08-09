@@ -18,8 +18,12 @@ package org.panda_lang.panda.framework.language.interpreter.parser.expression;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParserSettings;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparsers;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
@@ -101,14 +105,14 @@ public class PandaExpressionParser implements ExpressionParser {
         return parse(context, source, settings, null);
     }
 
-    public Expression parse(Context context, SourceStream source, ExpressionParserSettings settings, @Nullable BiConsumer<ExpressionContext, ExpressionParserWorker> visitor) {
+    public Expression parse(Context context, SourceStream source, ExpressionParserSettings settings, @Nullable BiConsumer<ExpressionContext, PandaExpressionParserWorker> visitor) {
         long uptime = System.nanoTime();
 
-        ExpressionContext expressionContext = new ExpressionContext(this, context, source);
-        ExpressionParserWorker worker = new ExpressionParserWorker(this, expressionContext, source, subparsers, settings);
+        ExpressionContext expressionContext = new PandaExpressionContext(this, context, source);
+        PandaExpressionParserWorker worker = new PandaExpressionParserWorker(expressionContext, source, subparsers, settings);
 
         if (!source.hasUnreadSource()) {
-            throw new ExpressionParserException("Expression expected", expressionContext, source);
+            throw new PandaExpressionParserException("Expression expected", expressionContext, source);
         }
 
         for (TokenRepresentation representation : expressionContext.getDiffusedSource()) {
@@ -116,21 +120,22 @@ public class PandaExpressionParser implements ExpressionParser {
                 break;
             }
         }
+
         worker.finish(expressionContext);
 
         // if something went wrong
         if (worker.hasError()) {
-            throw new ExpressionParserException(worker.getError().getErrorMessage(), expressionContext, worker.getError().getSource());
+            throw new PandaExpressionParserException(worker.getError().getErrorMessage(), expressionContext, worker.getError().getSource());
         }
 
         // if context does not contain any results
         if (!expressionContext.hasResults()) {
-            throw new ExpressionParserException("Unknown expression", expressionContext, source.toSnippet());
+            throw new PandaExpressionParserException("Unknown expression", expressionContext, source.toSnippet());
         }
 
         // if worker couldn't prepare the final result
         if (expressionContext.getResults().size() > 1) {
-            throw new ExpressionParserException("Source contains " + expressionContext.getResults().size() + " expressions", expressionContext, source.toSnippet());
+            throw new PandaExpressionParserException("Source contains " + expressionContext.getResults().size() + " expressions", expressionContext, source.toSnippet());
         }
 
         source.read(worker.getLastSucceededRead());
@@ -149,7 +154,7 @@ public class PandaExpressionParser implements ExpressionParser {
         }
 
         if (settings.isStandaloneOnly() && worker.getLastCategory() != ExpressionCategory.STANDALONE) {
-            throw new ExpressionParserException("Invalid category of expression", expressionContext, source.toSnippet());
+            throw new PandaExpressionParserException("Invalid category of expression", expressionContext, source.toSnippet());
         }
 
         return expressionContext.getResults().pop();

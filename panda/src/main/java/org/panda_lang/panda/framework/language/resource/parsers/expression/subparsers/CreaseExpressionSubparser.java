@@ -19,11 +19,11 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.subp
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.AccessorExpression;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionCategory;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionContext;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionResult;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparserWorker;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionCategory;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.language.resource.expressions.CreaseExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.CreaseType;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;

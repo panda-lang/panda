@@ -16,8 +16,13 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.expression;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParserSettings;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserType;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.utilities.commons.collection.Maps;
 
@@ -26,7 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
-public class ExpressionParserWorker {
+public class PandaExpressionParserWorker {
 
     public static final Map<String, Long> TIMES = new HashMap<>();
 
@@ -39,14 +44,14 @@ public class ExpressionParserWorker {
     private int previousSubparser = NONE;
     private int lastSucceededRead = 0;
 
-    protected ExpressionParserWorker(ExpressionParser parser, ExpressionContext context, SourceStream source, Collection<ExpressionSubparserRepresentation> subparsers, ExpressionParserSettings settings) {
+    protected PandaExpressionParserWorker(ExpressionContext context, SourceStream source, Collection<ExpressionSubparserRepresentation> subparsers, ExpressionParserSettings settings) {
         this.subparsers = subparsers.stream()
                 //.filter(subparser -> settings.isCombined() || subparser.getSubparser().getSubparserType() != ExpressionSubparserType.INDIVIDUAL)
                 .map(subparser -> {
                     ExpressionSubparserWorker worker = subparser.getSubparser().createWorker();
 
                     if (worker == null) {
-                        throw new ExpressionParserException(subparser.getClass() + ": null worker", context, source);
+                        throw new PandaExpressionParserException(subparser.getClass() + ": null worker", context, source);
                     }
 
                     return worker.withSubparser(subparser);

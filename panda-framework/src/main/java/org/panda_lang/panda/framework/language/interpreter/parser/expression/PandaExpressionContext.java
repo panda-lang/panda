@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.expression;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
@@ -25,7 +26,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.distributors.Di
 
 import java.util.Stack;
 
-public class ExpressionContext {
+final public class PandaExpressionContext implements ExpressionContext {
 
     private final ExpressionParser parser;
     private final Context context;
@@ -35,52 +36,63 @@ public class ExpressionContext {
     private final Stack<Expression> results = new Stack<>();
     private TokenRepresentation current;
 
-    public ExpressionContext(ExpressionParser parser, Context context, SourceStream source) {
+    public PandaExpressionContext(ExpressionParser parser, Context context, SourceStream source) {
         this.parser = parser;
         this.context = context;
         this.source = source;
         this.diffusedSource = new DiffusedSource(source.toSnippet());
     }
 
-    protected ExpressionContext withUpdatedToken(TokenRepresentation current) {
+    @Override
+    public PandaExpressionContext withUpdatedToken(TokenRepresentation current) {
         this.current = current;
         return this;
     }
 
+    @Override
     public Expression popExpression() {
         return this.getResults().pop();
     }
 
+    @Override
     public Expression peekExpression() {
         return this.getResults().peek();
     }
 
+    @Override
     public boolean hasResults() {
         return !this.getResults().isEmpty();
     }
 
+    @Override
     public TokenRepresentation getCurrentRepresentation() {
         return current;
     }
 
+    @Override
     public DiffusedSource getDiffusedSource() {
         return diffusedSource;
     }
 
+    @Override
     public SourceStream getSource() {
         return source;
     }
 
+    @Override
     public Stack<Expression> getResults() {
         return results;
     }
 
+    @Override
     public Context getContext() {
         return context;
     }
 
+    @Override
     public ExpressionParser getParser() {
         return parser;
     }
 
 }
+
