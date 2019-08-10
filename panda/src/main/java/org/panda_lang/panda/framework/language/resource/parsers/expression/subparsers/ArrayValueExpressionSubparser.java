@@ -46,44 +46,50 @@ public class ArrayValueExpressionSubparser implements ExpressionSubparser {
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext context) {
+            // require instance
             if (!context.hasResults()) {
                 return null;
             }
 
-            Expression instance = context.getResults().peek();
-
-            if (instance.getReturnType() == null) {
-                return null;
-            }
-
+            // require section token
             if (context.getCurrentRepresentation().getType() != TokenType.SECTION) {
                 return null;
             }
 
             Section section = context.getCurrentRepresentation().toToken();
 
+            // require square bracket section
             if (!section.getSeparator().equals(Separators.SQUARE_BRACKET_LEFT)) {
                 return null;
             }
 
+            // require index
             if (section.getContent().isEmpty()) {
                 return ExpressionResult.error("Missing index expression", section.getOpeningSeparator());
             }
 
-            Expression instanceExpression = context.getResults().pop();
+            Expression instance = context.getResults().pop();
 
+            // expression cannot be null
+            if (instance.isNull()) {
+                return null;
+            }
+
+            // require array type
             if (!instance.getReturnType().isArray()) {
                 ExpressionResult.error("Cannot use array index on non-array return type", section.getContent());
             }
 
             Expression indexExpression = context.getParser().parse(context.getContext(), section.getContent());
 
+            // require int as index
             if (!PandaTypes.INT.isAssignableFrom(indexExpression.getReturnType())) {
                 return ExpressionResult.error("Index of array has to be Integer", section.getContent());
             }
 
+            // access the value
             ArrayValueAccessor.ArrayValueAccessorAction action = (branch, prototype, type, array, index) -> new PandaStaticValue(type, array[index]);
-            ArrayValueAccessor accessor = ArrayValueAccessorUtils.of(context.getContext(), section.getContent(), instanceExpression, indexExpression, action);
+            ArrayValueAccessor accessor = ArrayValueAccessorUtils.of(context.getContext(), section.getContent(), instance, indexExpression, action);
 
             return ExpressionResult.of(accessor.toCallback().toExpression());
         }

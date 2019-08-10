@@ -35,58 +35,128 @@ public class DiffusedSource implements Iterable<TokenRepresentation>, Iterator<T
         this.source = source;
     }
 
-    @Override
-    public Iterator<TokenRepresentation> iterator() {
-        return this;
-    }
-
-    @Override
-    public TokenRepresentation next() {
-        return source.get(index++);
-    }
-
+    /**
+     * Backup the current index
+     */
     public void backup() {
         this.backup = index;
     }
 
+    /**
+     * Restore the cached by backup index
+     */
     public void restore() {
         this.index = backup;
     }
 
     @Override
+    public Iterator<TokenRepresentation> iterator() {
+        return this;
+    }
+
+    /**
+     * Read the next token and move index
+     *
+     * @return the next token
+     *
+     * @see #hasNext()
+     */
+    @Override
+    public TokenRepresentation next() {
+        return source.get(index++);
+    }
+
+    /**
+     * Check if source has available next token
+     *
+     * @return true if there is token to read
+     */
+    @Override
     public boolean hasNext() {
         return source.hasElement(index);
     }
 
+    /**
+     * Set current index of source
+     *
+     * @param index the index to set
+     */
     public void setIndex(int index) {
         this.index = index;
     }
 
-    public Snippet getLastReadSource() {
-        return source.subSource(backup, index);
-    }
-
-    public Snippet getAvailableSource() {
-        return source.subSource(index, source.size());
-    }
-
+    /**
+     * Get previus token
+     *
+     * @return the previous token or null if index is 0
+     *
+     * @see #getPrevious(int)
+     */
     public @Nullable TokenRepresentation getPrevious() {
         return getPrevious(0);
     }
 
+    /**
+     * Get previous token
+     *
+     * @param previous amount of previous tokens to skip (by default 0 - returns previous token)
+     * @return requested token or if it's out of index - null
+     */
     public @Nullable TokenRepresentation getPrevious(int previous) {
         int previousIndex = index - 2 - previous;
         return previousIndex < 0 ? null : source.get(previousIndex);
     }
 
+    /**
+     * Get current token
+     *
+     * @return the current token
+     */
     public TokenRepresentation getCurrent() {
         return source.get(index - 1);
     }
 
+    /**
+     * Get next token without updating index
+     *
+     * @return the next token
+     */
     public TokenRepresentation getNext() {
         return source.get(index);
     }
 
+    /**
+     * Get source that has been read since the last backup
+     *
+     * @return the last read source
+     */
+    public Snippet getLastReadSource() {
+        return source.subSource(backup, index);
+    }
+
+    /**
+     * Get available source to read as snippet
+     *
+     * @return the snippet with available to read source
+     */
+    public Snippet getAvailableSource() {
+        return source.subSource(index, source.size());
+    }
+
+    /**
+     * Get amount of source that is available to read
+     *
+     * @return the amount of source
+     */
+    public int getAmountOfAvailableSource() {
+        return source.size() - index;
+    }
+
+    /**
+     * Get current index
+     *
+     * @return the current index
+     */
     public int getIndex() {
         return index;
     }

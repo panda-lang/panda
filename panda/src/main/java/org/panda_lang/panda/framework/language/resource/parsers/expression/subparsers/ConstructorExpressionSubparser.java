@@ -54,6 +54,11 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
+    public int getMinimalRequiredLengthOfSource() {
+        return 3;
+    }
+
+    @Override
     public ExpressionCategory getCategory() {
         return ExpressionCategory.STANDALONE;
     }
@@ -69,13 +74,16 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext context) {
+            // require 'new' keyword
             if (!context.getCurrentRepresentation().contentEquals(Keywords.NEW)) {
                 return null;
             }
 
+            // backup current index
             DiffusedSource source = context.getDiffusedSource();
             source.backup();
 
+            // TODO: search for section and then select type
             Snippet typeSource = new PandaSnippet(source.next());
             TokenRepresentation sectionRepresentation = source.next();
 
@@ -86,8 +94,8 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
 
             Section section = sectionRepresentation.toToken();
 
+            // require () or [] section
             if (!section.getSeparator().equals(Separators.PARENTHESIS_LEFT) && !section.getSeparator().equals(Separators.SQUARE_BRACKET_LEFT)) {
-                source.restore();
                 return null;
             }
 

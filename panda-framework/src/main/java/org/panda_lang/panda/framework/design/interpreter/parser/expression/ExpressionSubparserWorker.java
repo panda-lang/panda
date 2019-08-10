@@ -28,6 +28,10 @@ public interface ExpressionSubparserWorker {
         throw new RuntimeException("Not implemented");
     }
 
+    default ExpressionSubparser getSubparser() {
+        return getSubparserRepresentation().getSubparser();
+    }
+
     ExpressionSubparserRepresentation getSubparserRepresentation();
 
 }
