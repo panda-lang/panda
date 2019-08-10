@@ -19,6 +19,7 @@ package org.panda_lang.panda.framework.language.interpreter.parser.expression;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParserSettings;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserType;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
@@ -116,17 +117,24 @@ public class PandaExpressionParserWorker {
      */
     private boolean next(ExpressionContext context, int index) {
         ExpressionSubparserWorker worker = subparsers[index];
+        ExpressionSubparser subparser = worker.getSubparser();
 
-        // skip individual subparser if there's some content
-        if (worker.getSubparserRepresentation().getSubparser().getSubparserType() == ExpressionSubparserType.INDIVIDUAL && !context.getResults().isEmpty()) {
+        // skip subparser that does not meet assumptions
+        if (subparser.getMinimalRequiredLengthOfSource() > context.getDiffusedSource().getAmountOfAvailableSource() + 1) {
             return false;
         }
 
-        int cachedIndex = context.getDiffusedSource().getIndex();
+        // skip individual subparser if there's some content
+        if (subparser.getSubparserType() == ExpressionSubparserType.INDIVIDUAL && !context.getResults().isEmpty()) {
+            return false;
+        }
 
         long time = System.nanoTime();
+
+        int cachedIndex = context.getDiffusedSource().getIndex();
         ExpressionResult result = worker.next(context);
-        Maps.update(TIMES, worker.getSubparserRepresentation().getSubparser().getSubparserName(), () -> 0L, cachedTime -> cachedTime + (System.nanoTime() - time));
+
+        Maps.update(TIMES, subparser.getSubparserName(), () -> 0L, cachedTime -> cachedTime + (System.nanoTime() - time));
 
         // if something went wrong
         if (result == null || result.containsError()) {
@@ -140,6 +148,7 @@ public class PandaExpressionParserWorker {
             return false;
         }
 
+        // cache current subparser
         previousSubparser = index;
 
         // not yet
@@ -147,9 +156,14 @@ public class PandaExpressionParserWorker {
             return true;
         }
 
-        // save the result, cleanup cache, move the index
+        // save the result
         context.getResults().push(result.get());
+
+        // increase usage
+        worker.getSubparserRepresentation().increaseUsages();
         workers.push(worker);
+
+        // cleanup cache, move the index
         lastSucceededRead = context.getDiffusedSource().getIndex();
         error = null;
 

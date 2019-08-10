@@ -40,6 +40,11 @@ public class OperationExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
+    public int getMinimalRequiredLengthOfSource() {
+        return 2;
+    }
+
+    @Override
     public ExpressionSubparserType getSubparserType() {
         return ExpressionSubparserType.MUTUAL;
     }

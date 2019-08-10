@@ -21,6 +21,7 @@ import org.panda_lang.panda.framework.design.interpreter.messenger.FormatterFunc
 import org.panda_lang.panda.framework.design.interpreter.messenger.Messenger;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerFormatter;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerTypeFormatter;
+import org.panda_lang.panda.utilities.commons.ClassUtils;
 import org.panda_lang.panda.utilities.commons.StreamUtils;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 import org.panda_lang.panda.utilities.commons.collection.Maps;
@@ -57,7 +58,7 @@ final class PandaMessengerFormatter implements MessengerFormatter {
 
     private @Nullable Map.Entry<Map<String, FormatterFunction>, Object> toEntry(Map.Entry<Class<?>, Map<String, FormatterFunction>> entry, Collection<Object> values) {
         return values.stream()
-                .filter(value -> entry.getKey().isInstance(value) /*ClassUtils.isAssignableFrom(entry.getKey(), value) */)
+                .filter(value -> ClassUtils.isAssignableFrom(entry.getKey(), value))
                 .findFirst()
                 .map(value -> Maps.immutableEntryOf(entry.getValue(), value))
                 .orElse(null);

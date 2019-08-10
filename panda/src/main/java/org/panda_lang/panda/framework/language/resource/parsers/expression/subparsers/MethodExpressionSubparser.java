@@ -50,6 +50,11 @@ public class MethodExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
+    public int getMinimalRequiredLengthOfSource() {
+        return 2;
+    }
+
+    @Override
     public ExpressionCategory getCategory() {
         return ExpressionCategory.STANDALONE;
     }

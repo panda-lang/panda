@@ -33,6 +33,11 @@ public class NegateExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
+    public int getMinimalRequiredLengthOfSource() {
+        return 2;
+    }
+
+    @Override
     public String getSubparserName() {
         return "negate";
     }
