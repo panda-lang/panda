@@ -48,8 +48,6 @@ public class LiteralExpressionSubparser implements ExpressionSubparser {
 
     private static class SequenceWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
-        private boolean parsed;
-
         @Override
         public @Nullable ExpressionResult next(ExpressionContext context) {
             TokenRepresentation token = context.getCurrentRepresentation();
@@ -59,14 +57,14 @@ public class LiteralExpressionSubparser implements ExpressionSubparser {
             }
 
             switch (token.getValue()) {
-                case "null":
-                    return ExpressionUtils.toExpressionResult(null, null);
                 case "true":
                     return ExpressionUtils.toExpressionResult(PandaTypes.BOOLEAN, true);
                 case "false":
                     return ExpressionUtils.toExpressionResult(PandaTypes.BOOLEAN, false);
                 case "this":
                     return ExpressionResult.of(ThisExpressionCallback.of(context.getContext()));
+                case "null":
+                    return ExpressionUtils.toExpressionResult(null, null);
                 default:
                     throw new PandaParserException("Unknown literal: " + token);
             }

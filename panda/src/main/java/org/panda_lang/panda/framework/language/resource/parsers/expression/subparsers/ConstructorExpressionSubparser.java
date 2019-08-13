@@ -81,14 +81,12 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
 
             // backup current index
             DiffusedSource source = context.getDiffusedSource();
-            source.backup();
 
             // TODO: search for section and then select type
             Snippet typeSource = new PandaSnippet(source.next());
             TokenRepresentation sectionRepresentation = source.next();
 
             if (sectionRepresentation.getType() != TokenType.SECTION) {
-                source.restore();
                 return null;
             }
 
@@ -99,7 +97,6 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            source.backup();
             ClassPrototype type = ModuleLoaderUtils.getReferenceOrThrow(context.getContext(), typeSource.asString(), typeSource).fetch();
 
             if (section.getSeparator().equals(Separators.PARENTHESIS_LEFT)) {

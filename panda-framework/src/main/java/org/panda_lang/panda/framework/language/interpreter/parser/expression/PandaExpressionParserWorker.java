@@ -17,17 +17,13 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.expression;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionCategory;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParserSettings;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserType;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.utilities.commons.collection.Maps;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -35,37 +31,22 @@ import java.util.Stack;
 public class PandaExpressionParserWorker {
 
     public static final Map<String, Long> TIMES = new HashMap<>();
-
     private static final int NONE = -1;
 
-    private final ExpressionSubparserWorker[] subparsers;
-    private final Stack<ExpressionSubparserWorker> workers = new Stack<>();
-
+    private final ExpressionSubparserWorker[] workers;
+    private final Stack<ExpressionSubparserWorker> cachedWorkers = new Stack<>();
     private ExpressionResult error = null;
     private int previousSubparser = NONE;
     private int lastSucceededRead = 0;
 
-    protected PandaExpressionParserWorker(ExpressionContext context, SourceStream source, Collection<ExpressionSubparserRepresentation> subparsers, ExpressionParserSettings settings) {
-        this.subparsers = subparsers.stream()
-                //.filter(subparser -> settings.isCombined() || subparser.getSubparser().getSubparserType() != ExpressionSubparserType.INDIVIDUAL)
-                .map(subparser -> {
-                    ExpressionSubparserWorker worker = subparser.getSubparser().createWorker();
-
-                    if (worker == null) {
-                        throw new PandaExpressionParserException(subparser.getClass() + ": null worker", context, source);
-                    }
-
-                    return worker.withSubparser(subparser);
-                })
-                .toArray(ExpressionSubparserWorker[]::new);
-
-        // System.out.println(Arrays.toString(Arrays.stream(this.subparsers).map(subparser -> subparser.getSubparser().getSubparserName()).toArray()));
+    protected PandaExpressionParserWorker(ExpressionSubparserWorker[] cachedWorkers) {
+        this.workers = cachedWorkers;
     }
 
     protected void finish(ExpressionContext context) {
-        for (ExpressionSubparserWorker worker : subparsers) {
+        for (ExpressionSubparserWorker worker : workers) {
             // skip removed subparsers
-            if (worker == null || worker.getSubparserRepresentation().getSubparser().getSubparserType() != ExpressionSubparserType.MUTUAL) {
+            if (worker == null || worker.getSubparser().getSubparserType() != ExpressionSubparserType.MUTUAL) {
                 continue;
             }
 
@@ -73,7 +54,7 @@ public class PandaExpressionParserWorker {
 
             if (result != null && result.isPresent()) {
                 context.getResults().push(result.get());
-                workers.push(worker);
+                cachedWorkers.push(worker);
                 break;
             }
         }
@@ -93,7 +74,7 @@ public class PandaExpressionParserWorker {
             }
         }
 
-        for (int index = 0; index < subparsers.length; index++) {
+        for (int index = 0; index < workers.length; index++) {
             // skip cached subparser
             if (previousSubparser == index) {
                 continue;
@@ -116,7 +97,7 @@ public class PandaExpressionParserWorker {
      * @return true if the result was found using the specified subparser, otherwise false
      */
     private boolean next(ExpressionContext context, int index) {
-        ExpressionSubparserWorker worker = subparsers[index];
+        ExpressionSubparserWorker worker = workers[index];
         ExpressionSubparser subparser = worker.getSubparser();
 
         // skip subparser that does not meet assumptions
@@ -161,7 +142,7 @@ public class PandaExpressionParserWorker {
 
         // increase usage
         worker.getSubparserRepresentation().increaseUsages();
-        workers.push(worker);
+        cachedWorkers.push(worker);
 
         // cleanup cache, move the index
         lastSucceededRead = context.getDiffusedSource().getIndex();
@@ -179,7 +160,7 @@ public class PandaExpressionParserWorker {
     }
 
     public ExpressionCategory getLastCategory() {
-        return workers.peek().getSubparserRepresentation().getSubparser().getCategory();
+        return cachedWorkers.peek().getSubparserRepresentation().getSubparser().getCategory();
     }
 
     public int getLastSucceededRead() {

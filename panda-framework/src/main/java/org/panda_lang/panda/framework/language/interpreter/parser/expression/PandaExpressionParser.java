@@ -17,13 +17,15 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.expression;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.PandaFrameworkException;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionCategory;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParserSettings;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparsers;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
@@ -43,6 +45,7 @@ public class PandaExpressionParser implements ExpressionParser {
     public static int amount;
 
     private final List<ExpressionSubparserRepresentation> subparsers;
+    private ExpressionSubparserWorker[] workers;
     private int call;
 
     public PandaExpressionParser(ExpressionSubparsers subparsers) {
@@ -54,6 +57,23 @@ public class PandaExpressionParser implements ExpressionParser {
                 .map(ExpressionSubparserRepresentation::new)
                 .sorted()
                 .collect(Collectors.toList());
+
+        updateWorkers();
+    }
+
+    private void updateWorkers() {
+        this.workers = subparsers.stream()
+                //.filter(subparser -> settings.isCombined() || subparser.getSubparser().getSubparserType() != ExpressionSubparserType.INDIVIDUAL)
+                .map(subparser -> {
+                    ExpressionSubparserWorker worker = subparser.getSubparser().createWorker();
+
+                    if (worker == null) {
+                        throw new PandaFrameworkException(subparser.getClass() + ": null worker");
+                    }
+
+                    return worker.withSubparser(subparser);
+                })
+                .toArray(ExpressionSubparserWorker[]::new);
     }
 
     @Override
@@ -109,7 +129,7 @@ public class PandaExpressionParser implements ExpressionParser {
         long uptime = System.nanoTime();
 
         ExpressionContext expressionContext = new PandaExpressionContext(this, context, source);
-        PandaExpressionParserWorker worker = new PandaExpressionParserWorker(expressionContext, source, subparsers, settings);
+        PandaExpressionParserWorker worker = new PandaExpressionParserWorker(workers);
 
         if (!source.hasUnreadSource()) {
             throw new PandaExpressionParserException("Expression expected", expressionContext, source);
@@ -149,8 +169,10 @@ public class PandaExpressionParser implements ExpressionParser {
         amount++;
 
         if (call++ > 1000) {
-            Collections.sort(subparsers);
             call = 0;
+
+            Collections.sort(subparsers);
+            updateWorkers();
         }
 
         if (settings.isStandaloneOnly() && worker.getLastCategory() != ExpressionCategory.STANDALONE) {

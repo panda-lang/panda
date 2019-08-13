@@ -61,10 +61,10 @@ class LinearPatternMatcher {
                     return LinearPatternResult.NOT_MATCHED;
                 }
 
-                content.restore();
+                content.setIndex(content.getCachedIndex());
             }
 
-            content.backup();
+            content.cacheIndex();
         }
 
         return new LinearPatternResult(source.read(content.getIndex()), identifiers, wildcards);
