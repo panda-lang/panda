@@ -29,7 +29,7 @@ public class DiffusedSource implements Iterable<TokenRepresentation>, Iterator<T
 
     private final Snippet source;
     private int index;
-    private int backup;
+    private int cachedIndex;
 
     public DiffusedSource(Snippet source) {
         this.source = source;
@@ -38,15 +38,8 @@ public class DiffusedSource implements Iterable<TokenRepresentation>, Iterator<T
     /**
      * Backup the current index
      */
-    public void backup() {
-        this.backup = index;
-    }
-
-    /**
-     * Restore the cached by backup index
-     */
-    public void restore() {
-        this.index = backup;
+    public void cacheIndex() {
+        this.cachedIndex = index;
     }
 
     @Override
@@ -83,6 +76,7 @@ public class DiffusedSource implements Iterable<TokenRepresentation>, Iterator<T
      */
     public void setIndex(int index) {
         this.index = index;
+        this.cacheIndex();
     }
 
     /**
@@ -131,7 +125,7 @@ public class DiffusedSource implements Iterable<TokenRepresentation>, Iterator<T
      * @return the last read source
      */
     public Snippet getLastReadSource() {
-        return source.subSource(backup, index);
+        return source.subSource(cachedIndex, index);
     }
 
     /**
@@ -150,6 +144,15 @@ public class DiffusedSource implements Iterable<TokenRepresentation>, Iterator<T
      */
     public int getAmountOfAvailableSource() {
         return source.size() - index;
+    }
+
+    /**
+     * Get cached index
+     *
+     * @return the cached index
+     */
+    public int getCachedIndex() {
+        return cachedIndex;
     }
 
     /**

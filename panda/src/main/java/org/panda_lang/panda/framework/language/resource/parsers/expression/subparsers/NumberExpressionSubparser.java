@@ -61,11 +61,7 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
                 return ExpressionResult.empty();
             }
 
-            if (token.getType() != TokenType.UNKNOWN) {
-                return dispose();
-            }
-
-            if (!NumberUtils.isNumeric(token.getValue())) {
+            if (token.getType() != TokenType.UNKNOWN || !NumberUtils.isNumeric(token.getValue())) {
                 return dispose();
             }
 

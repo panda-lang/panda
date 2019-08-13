@@ -35,7 +35,6 @@ public class CreaseExpressionSubparser implements ExpressionSubparser {
         return new CreaseWorker();
     }
 
-
     @Override
     public ExpressionCategory getCategory() {
         return ExpressionCategory.STANDALONE;
