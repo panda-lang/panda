@@ -16,14 +16,45 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.block.looping;
 
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractBlock;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionUtils;
+import org.panda_lang.panda.framework.language.runtime.flow.PandaControlFlowCallback;
 
-public class ForBlock extends AbstractBlock {
+public class ForBlock extends AbstractBlock implements PandaControlFlowCallback {
+
+    private final Expression conditionExpression;
+    private final @Nullable Executable initializationStatement;
+    private final @Nullable Expression postExpression;
+
+    public ForBlock(@Nullable Executable initializationStatement, Expression conditionExpression, @Nullable Expression postExpression) {
+        this.initializationStatement = initializationStatement;
+        this.conditionExpression = conditionExpression;
+        this.postExpression = postExpression;
+    }
 
     @Override
     public void execute(Flow flow) {
+        flow.callFlow(super.getStatementCells(), this);
+    }
 
+    @Override
+    public void call(ControlFlow controlFlow, Flow flow) {
+        if (initializationStatement != null) {
+            initializationStatement.execute(flow);
+        }
+
+        for (; conditionExpression.evaluate(flow).getValue(); ExpressionUtils.evaluate(flow, postExpression)) {
+            controlFlow.call();
+
+            if (controlFlow.isEscaped() || flow.isInterrupted()) {
+                break;
+            }
+        }
     }
 
 }

@@ -48,13 +48,16 @@ public interface Snippet extends Snippetable, Iterable<TokenRepresentation>{
         for (int i = 0; i < size(); i++) {
             TokenRepresentation current = get(i);
 
-            if (current.contentEquals(token)) {
-                snippets.add(subSource(previousIndex, i - 1));
-                previousIndex = i;
+            if (token.equals(current.getToken())) {
+                snippets.add(subSource(previousIndex, i));
+                previousIndex = i + 1;
             }
         }
 
-        if (snippets.isEmpty()) {
+        if (previousIndex != 0) {
+            snippets.add(subSource(previousIndex, size()));
+        }
+        else if (snippets.isEmpty()) {
             snippets.add(this);
         }
 

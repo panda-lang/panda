@@ -24,9 +24,9 @@ public interface PandaControlFlowCallback {
     /**
      * Custom call
      * 
-     * @param flow the current flow
-     *  @param frame the frame to execute
+     * @param controlFlow the current control flow
+     *  @param flow the flow to execute
      */
-    void call(ControlFlow flow, Flow frame);
+    void call(ControlFlow controlFlow, Flow flow);
 
 }

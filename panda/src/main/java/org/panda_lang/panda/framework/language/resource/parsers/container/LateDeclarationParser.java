@@ -42,7 +42,7 @@ public class LateDeclarationParser extends ParserBootstrap {
     protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.LATE))
-                .pattern("late " + VariableParser.DECLARATION_PARSER);
+                .pattern("late " + VariableParser.DECLARATION);
     }
 
     @Autowired

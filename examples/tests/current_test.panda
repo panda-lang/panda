@@ -135,6 +135,10 @@ main {
     }
 
     Console.print(PandaConstants.VERSION)
+
+    for (Int index = 2; index != 0; index--) {
+        Console.print("ForI: " + index)
+    }
 }
 
 class TestArray {

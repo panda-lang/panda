@@ -43,7 +43,7 @@ public class VariableDeclarationSubparser extends AssignationSubparserBootstrap 
 
     @Override
     public BootstrapInitializer<@Nullable Statement> initialize(Context context, BootstrapInitializer<@Nullable Statement> initializer) {
-        return initializer.pattern(VariableParser.DECLARATION_PARSER);
+        return initializer.pattern(VariableParser.DECLARATION);
     }
 
     @Autowired
@@ -54,6 +54,7 @@ public class VariableDeclarationSubparser extends AssignationSubparserBootstrap 
 
         boolean mutable = result.hasIdentifier(Keywords.MUT.getValue());
         boolean nillable = result.hasIdentifier(Keywords.NIL.getValue());
+
         Variable variable = VARIABLE_PARSER.createVariable(context, scope, mutable, nillable, type, name);
 
         return VariableAssignerUtils.of(context, scope, variable, context.getComponent(AssignationComponents.EXPRESSION)).toExecutableStatement();
