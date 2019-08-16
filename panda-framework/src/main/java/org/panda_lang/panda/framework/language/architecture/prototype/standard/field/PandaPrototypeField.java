@@ -27,20 +27,19 @@ public class PandaPrototypeField extends PandaParameterizedExecutable implements
     private final boolean isStatic;
     private final boolean isNative;
     private final boolean mutable;
-    private final boolean nullable;
+    private final boolean nillable;
 
     private Expression defaultValue;
     private Value staticValue;
 
     protected PandaPrototypeField(PandaPrototypeFieldBuilder builder) {
-        // super(builder.type, builder.name, 0, builder.mutable, builder.nullable);
         super(builder);
 
         this.fieldIndex = builder.fieldIndex;
         this.isStatic = builder.isStatic;
         this.isNative = builder.isNative;
         this.mutable = builder.mutable;
-        this.nullable = builder.nullable;
+        this.nillable = builder.nillable;
     }
 
     @Override
@@ -54,8 +53,8 @@ public class PandaPrototypeField extends PandaParameterizedExecutable implements
     }
 
     @Override
-    public boolean isNullable() {
-        return nullable;
+    public boolean isNillable() {
+        return nillable;
     }
 
     @Override
@@ -103,7 +102,7 @@ public class PandaPrototypeField extends PandaParameterizedExecutable implements
         protected boolean isStatic;
         protected boolean isNative;
         protected boolean mutable;
-        protected boolean nullable;
+        protected boolean nillable;
 
         private PandaPrototypeFieldBuilder() { }
 
@@ -117,8 +116,8 @@ public class PandaPrototypeField extends PandaParameterizedExecutable implements
             return this;
         }
 
-        public PandaPrototypeFieldBuilder nullable(boolean nullable) {
-            this.nullable = nullable;
+        public PandaPrototypeFieldBuilder nillable(boolean nillable) {
+            this.nillable = nillable;
             return this;
         }
 

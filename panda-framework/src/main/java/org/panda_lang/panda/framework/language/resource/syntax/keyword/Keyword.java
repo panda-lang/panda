@@ -19,6 +19,8 @@ package org.panda_lang.panda.framework.language.resource.syntax.keyword;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.language.interpreter.token.EqualableToken;
 
+import java.util.Optional;
+
 public class Keyword extends EqualableToken {
 
     private final String keyword;
@@ -30,6 +32,11 @@ public class Keyword extends EqualableToken {
     @Override
     public String getValue() {
         return keyword;
+    }
+
+    @Override
+    public Optional<String> getName() {
+        return Optional.of(keyword);
     }
 
     @Override

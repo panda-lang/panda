@@ -42,8 +42,8 @@ public class VariableAssigner extends AbstractAssigner<Variable> {
             throw new PandaRuntimeException("Cannot assign not existing value to variable '" + variable.getName() + "'");
         }
 
-        if (value.isNull() && !variable.isNullable()) {
-            throw new PandaRuntimeException("Cannot assign null to variable '" + variable.getName() + "' without nullable modifier");
+        if (value.isNull() && !variable.isNillable()) {
+            throw new PandaRuntimeException("Cannot assign null to variable '" + variable.getName() + "' without nil modifier");
         }
 
         MemoryContainer memory = accessor.fetchMemoryContainer(flow);

@@ -24,8 +24,8 @@ public class PandaParameter extends PandaVariable implements PrototypeParameter 
 
     private final boolean varargs;
 
-    public PandaParameter(ClassPrototypeReference reference, String name, boolean varargs, boolean nullable) {
-        super(reference, name, false, nullable);
+    public PandaParameter(ClassPrototypeReference reference, String name, boolean varargs, boolean nillable) {
+        super(reference, name, false, nillable);
         this.varargs = varargs;
     }
 

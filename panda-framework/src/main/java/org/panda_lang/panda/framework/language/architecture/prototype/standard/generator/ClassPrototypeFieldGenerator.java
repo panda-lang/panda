@@ -54,7 +54,7 @@ final class ClassPrototypeFieldGenerator {
                 .name(field.getName())
                 .isStatic(Modifier.isStatic(field.getModifiers()))
                 .mutable(true)
-                .nullable(true)
+                .nillable(true)
                 .build();
 
         // TODO: Generate bytecode
