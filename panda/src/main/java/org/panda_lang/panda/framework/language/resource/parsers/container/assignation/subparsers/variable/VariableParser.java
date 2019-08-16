@@ -31,7 +31,7 @@ import java.util.Optional;
 
 public class VariableParser {
 
-    public static final String DECLARATION_PARSER = "mutable:[mutable] nil:[nil] <type:reader type> <name:condition token {type:unknown}>";
+    public static final String DECLARATION_PARSER = "mut:[mut] nil:[nil] <type:reader type> <name:condition token {type:unknown}>";
 
     public Variable parseVariable(Context context, Scope scope, boolean mutable, boolean nillable, Snippetable declaration) {
         Snippet declarationSource = declaration.toSnippet();

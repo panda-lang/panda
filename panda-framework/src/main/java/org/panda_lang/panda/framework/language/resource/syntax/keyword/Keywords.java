@@ -67,7 +67,7 @@ public class Keywords {
 
     public static final Keyword MODULE = new Keyword("module");
 
-    public static final Keyword MUTABLE = new Keyword("mutable");
+    public static final Keyword MUT = new Keyword("mut");
 
     public static final Keyword NATIVE = new Keyword("native");
 

@@ -51,7 +51,7 @@ public class FieldParser extends ParserBootstrap {
                 .pattern(DescriptiveContentBuilder.create()
                         .element("(p:public|l:local|h:hidden)")
                         .optional(Keywords.STATIC.getValue(), Keywords.STATIC.getValue())
-                        .optional(Keywords.MUTABLE.getValue(), Keywords.MUTABLE.getValue())
+                        .optional(Keywords.MUT.getValue(), Keywords.MUT.getValue())
                         .optional(Keywords.NIL.getValue(), Keywords.NIL.getValue())
                         .element("<type:reader type> <name:condition token {type:unknown}>")
                         .optional("= <assignation:reader expression>")
@@ -69,7 +69,7 @@ public class FieldParser extends ParserBootstrap {
         visibility = result.hasIdentifier("h") ? PrototypeVisibility.HIDDEN : visibility;
 
         boolean isStatic = result.hasIdentifier(Keywords.STATIC.getValue());
-        boolean mutable = result.hasIdentifier(Keywords.MUTABLE.getValue());
+        boolean mutable = result.hasIdentifier(Keywords.MUT.getValue());
         boolean nillable = result.hasIdentifier(Keywords.NIL.getValue());
 
         ClassPrototype prototype = context.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
