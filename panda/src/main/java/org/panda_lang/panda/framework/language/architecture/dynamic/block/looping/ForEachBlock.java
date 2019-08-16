@@ -44,18 +44,15 @@ public class ForEachBlock extends AbstractBlock implements PandaControlFlowCallb
     }
 
     @Override
-    public void call(ControlFlow flow, Flow frame) {
-        ScopeFrame currentScope = frame.getCurrentScope();
-        Value iterableValue = expression.evaluate(frame);
-        Iterable iterable = iterableValue.getValue();
+    public void call(ControlFlow controlFlow, Flow flow) {
+        ScopeFrame currentScope = flow.getCurrentScope();
+        Value iterableValue = expression.evaluate(flow);
 
-        for (Object value : iterable) {
+        for (Object value : (Iterable) iterableValue.getValue()) {
             currentScope.set(variablePointer, new PandaStaticValue(variableType, value));
+            controlFlow.call();
 
-            flow.reset();
-            flow.call();
-
-            if (flow.isEscaped() || frame.isInterrupted()) {
+            if (controlFlow.isEscaped() || flow.isInterrupted()) {
                 break;
             }
         }

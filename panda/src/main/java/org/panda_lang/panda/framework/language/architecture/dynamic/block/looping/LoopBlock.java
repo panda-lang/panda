@@ -37,15 +37,15 @@ public class LoopBlock extends AbstractBlock implements PandaControlFlowCallback
     }
 
     @Override
-    public void call(ControlFlow flow, Flow frame) {
-        Value value = expression.evaluate(frame);
+    public void call(ControlFlow controlFlow, Flow flow) {
+        Value value = expression.evaluate(flow);
         int times = value.getValue();
 
         for (int i = 0; i < times; i++) {
-            flow.reset();
-            flow.call();
+            controlFlow.reset();
+            controlFlow.call();
 
-            if (flow.isEscaped() || frame.isInterrupted()) {
+            if (controlFlow.isEscaped() || flow.isInterrupted()) {
                 break;
             }
         }

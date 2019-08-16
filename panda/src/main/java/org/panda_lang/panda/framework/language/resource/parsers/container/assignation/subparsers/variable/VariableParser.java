@@ -22,16 +22,42 @@ import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
+import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippetable;
 import org.panda_lang.panda.framework.language.architecture.value.PandaVariable;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 import java.util.Optional;
 
 public class VariableParser {
 
-    public static final String DECLARATION_PARSER = "mut:[mut] nil:[nil] <type:reader type> <name:condition token {type:unknown}>";
+    public static final String DECLARATION = "mut:[mut] nil:[nil] <type:reader type> <name:condition token {type:unknown}>";
+
+    private static final DescriptivePattern DECLARATION_PATTERN = DescriptivePattern.builder()
+            .compile(DECLARATION)
+            .build();
+
+    public Variable parseVariable(Context context, Scope scope, Snippetable source) {
+        return parseVariable(context, scope, DECLARATION_PATTERN.extract(context, source.toSnippet()));
+    }
+
+    public Variable parseVariable(Context context, Scope scope, ExtractorResult result) {
+        Snippet type = result.getWildcard("type")
+                .map(resultElement -> (Snippet) resultElement.getValue())
+                .orElse(null);
+
+        Snippet name = result.getWildcard("name")
+                .map(resultElement -> (Snippet) resultElement.getValue())
+                .orElseThrow(null);
+
+        boolean mutable = result.hasIdentifier(Keywords.MUT.getValue());
+        boolean nillable = result.hasIdentifier(Keywords.NIL.getValue());
+
+        return createVariable(context, scope, mutable, nillable, type, name);
+    }
 
     public Variable parseVariable(Context context, Scope scope, boolean mutable, boolean nillable, Snippetable declaration) {
         Snippet declarationSource = declaration.toSnippet();

@@ -36,12 +36,12 @@ public class WhileBlock extends AbstractBlock implements PandaControlFlowCallbac
     }
 
     @Override
-    public void call(ControlFlow flow, Flow frame) {
-        while (expression.evaluate(frame).getValue()) {
-            flow.reset();
-            flow.call();
+    public void call(ControlFlow controlFlow, Flow flow) {
+        while (expression.evaluate(flow).getValue()) {
+            controlFlow.reset();
+            controlFlow.call();
 
-            if (flow.isEscaped() || frame.isInterrupted()) {
+            if (controlFlow.isEscaped() || flow.isInterrupted()) {
                 break;
             }
         }

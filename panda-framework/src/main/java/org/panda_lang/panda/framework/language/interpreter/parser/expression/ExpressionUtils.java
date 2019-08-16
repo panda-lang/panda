@@ -16,15 +16,20 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.expression;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
 public class ExpressionUtils {
+
+    public static @Nullable Value evaluate(Flow flow, @Nullable Expression expression) {
+        return expression != null ? expression.evaluate(flow) : null;
+    }
 
     public static Value[] getValues(Flow flow, Expression... expressions) {
         Value[] values = new Value[expressions.length];
