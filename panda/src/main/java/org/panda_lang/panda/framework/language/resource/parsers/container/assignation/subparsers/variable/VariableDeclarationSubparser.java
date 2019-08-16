@@ -34,11 +34,12 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines
 import org.panda_lang.panda.framework.language.resource.parsers.container.assignation.AssignationComponents;
 import org.panda_lang.panda.framework.language.resource.parsers.container.assignation.AssignationPriorities;
 import org.panda_lang.panda.framework.language.resource.parsers.container.assignation.AssignationSubparserBootstrap;
+import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @Registrable(pipeline = PandaPipelines.ASSIGNER_LABEL, priority = AssignationPriorities.VARIABLE_DECLARATION)
 public class VariableDeclarationSubparser extends AssignationSubparserBootstrap {
 
-    private static final VariableParser INITIALIZER = new VariableParser();
+    private static final VariableParser VARIABLE_PARSER = new VariableParser();
 
     @Override
     public BootstrapInitializer<@Nullable Statement> initialize(Context context, BootstrapInitializer<@Nullable Statement> initializer) {
@@ -51,9 +52,9 @@ public class VariableDeclarationSubparser extends AssignationSubparserBootstrap 
             return null;
         }
 
-        boolean mutable = result.hasIdentifier("mutable");
-        boolean nullable = result.hasIdentifier("nullable");
-        Variable variable = INITIALIZER.createVariable(context, scope, mutable, nullable, type, name);
+        boolean mutable = result.hasIdentifier(Keywords.MUTABLE.getValue());
+        boolean nillable = result.hasIdentifier(Keywords.NIL.getValue());
+        Variable variable = VARIABLE_PARSER.createVariable(context, scope, mutable, nillable, type, name);
 
         return VariableAssignerUtils.of(context, scope, variable, context.getComponent(AssignationComponents.EXPRESSION)).toExecutableStatement();
     }

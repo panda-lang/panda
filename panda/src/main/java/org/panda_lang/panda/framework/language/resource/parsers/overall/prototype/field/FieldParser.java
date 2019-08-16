@@ -40,6 +40,7 @@ import org.panda_lang.panda.framework.language.architecture.prototype.standard.f
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.panda.framework.language.resource.parsers.overall.prototype.ClassPrototypeComponents;
+import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @Registrable(pipeline = UniversalPipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_FIELD)
 public class FieldParser extends ParserBootstrap {
@@ -49,9 +50,9 @@ public class FieldParser extends ParserBootstrap {
         return initializer
                 .pattern(DescriptiveContentBuilder.create()
                         .element("(p:public|l:local|h:hidden)")
-                        .optional("static", "static")
-                        .optional("mutable", "mutable")
-                        .optional("nullable", "nullable")
+                        .optional(Keywords.STATIC.getValue(), Keywords.STATIC.getValue())
+                        .optional(Keywords.MUTABLE.getValue(), Keywords.MUTABLE.getValue())
+                        .optional(Keywords.NIL.getValue(), Keywords.NIL.getValue())
                         .element("<type:reader type> <name:condition token {type:unknown}>")
                         .optional("= <assignation:reader expression>")
                         .optional(";")
@@ -67,9 +68,9 @@ public class FieldParser extends ParserBootstrap {
         visibility = result.hasIdentifier("p") ? PrototypeVisibility.PUBLIC : visibility;
         visibility = result.hasIdentifier("h") ? PrototypeVisibility.HIDDEN : visibility;
 
-        boolean isStatic = result.hasIdentifier("static");
-        boolean mutable = result.hasIdentifier("mutable");
-        boolean nullable = result.hasIdentifier("nullable");
+        boolean isStatic = result.hasIdentifier(Keywords.STATIC.getValue());
+        boolean mutable = result.hasIdentifier(Keywords.MUTABLE.getValue());
+        boolean nillable = result.hasIdentifier(Keywords.NIL.getValue());
 
         ClassPrototype prototype = context.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
         int fieldIndex = prototype.getFields().getProperties().size();
@@ -82,7 +83,7 @@ public class FieldParser extends ParserBootstrap {
                 .visibility(visibility)
                 .isStatic(isStatic)
                 .mutable(mutable)
-                .nullable(nullable)
+                .nillable(nillable)
                 .build();
 
         prototype.getFields().declare(field);
@@ -90,7 +91,7 @@ public class FieldParser extends ParserBootstrap {
     }
 
     @Autowired(order = 2)
-    void parseAssignation(Context context, @Local PrototypeField field, @Src("assignation") @Nullable Expression assignationValue) {
+    void parseAssignation(@Local PrototypeField field, @Src("assignation") @Nullable Expression assignationValue) {
         if (assignationValue == null) {
             //throw new PandaParserFailure("Cannot parse expression '" + assignationValue + "'", context, name);
             return;

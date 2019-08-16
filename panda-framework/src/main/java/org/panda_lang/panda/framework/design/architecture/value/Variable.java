@@ -21,11 +21,11 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 public interface Variable {
 
     /**
-     * Check if variable is nullable
+     * Check if variable is nillable (accepts null values)
      *
-     * @return true if variable is nullable
+     * @return true if variable is nillable
      */
-    boolean isNullable();
+    boolean isNillable();
 
     /**
      * Check if variable is mutable

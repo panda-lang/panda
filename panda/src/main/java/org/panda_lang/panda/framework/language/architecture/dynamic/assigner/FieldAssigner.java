@@ -40,8 +40,8 @@ public class FieldAssigner extends AbstractAssigner<PrototypeField> {
         if (field.isStatic()) {
             Value staticValue = valueExpression.evaluate(flow);
 
-            if (!field.isNullable() && (staticValue == null || staticValue.isNull())) {
-                throw new PandaRuntimeException("Cannot assign null to static field '" + field.getName() + "' without nullable modifier");
+            if (!field.isNillable() && (staticValue == null || staticValue.isNull())) {
+                throw new PandaRuntimeException("Cannot assign null to static field '" + field.getName() + "' without nil modifier");
             }
 
             if (!field.isMutable() && field.getStaticValue() != null) {
@@ -55,8 +55,8 @@ public class FieldAssigner extends AbstractAssigner<PrototypeField> {
         MemoryContainer memory = accessor.fetchMemoryContainer(flow);
         Value value = valueExpression.evaluate(flow);
 
-        if (value.isNull() && !field.isNullable()) {
-            throw new PandaRuntimeException("Cannot assign null to field  '" + field.getName() + "' without nullable modifier");
+        if (value.isNull() && !field.isNillable()) {
+            throw new PandaRuntimeException("Cannot assign null to field  '" + field.getName() + "' without nil modifier");
         }
 
         if (!field.isMutable() && memory.get(accessor.getMemoryPointer()) != null) {

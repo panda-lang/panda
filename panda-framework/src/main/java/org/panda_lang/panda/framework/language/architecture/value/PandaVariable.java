@@ -24,9 +24,9 @@ public class PandaVariable implements Variable {
     protected final ClassPrototypeReference type;
     protected final String name;
     protected final boolean mutable;
-    protected final boolean nullable;
+    protected final boolean nillable;
 
-    public PandaVariable(ClassPrototypeReference type, String name, boolean mutable, boolean nullable) {
+    public PandaVariable(ClassPrototypeReference type, String name, boolean mutable, boolean nillable) {
         if (type == null) {
             throw new IllegalArgumentException("Variable type cannot be null");
         }
@@ -38,7 +38,7 @@ public class PandaVariable implements Variable {
         this.type = type;
         this.name = name;
         this.mutable = mutable;
-        this.nullable = nullable;
+        this.nillable = nillable;
     }
 
     public PandaVariable(ClassPrototypeReference type, String name) {
@@ -46,8 +46,8 @@ public class PandaVariable implements Variable {
     }
 
     @Override
-    public boolean isNullable() {
-        return nullable;
+    public boolean isNillable() {
+        return nillable;
     }
 
     @Override

@@ -31,9 +31,9 @@ import java.util.Optional;
 
 public class VariableParser {
 
-    public static final String DECLARATION_PARSER = "mutable:[mutable] nullable:[nullable] <type:reader type> <name:condition token {type:unknown}>";
+    public static final String DECLARATION_PARSER = "mutable:[mutable] nil:[nil] <type:reader type> <name:condition token {type:unknown}>";
 
-    public Variable parseVariable(Context context, Scope scope, boolean mutable, boolean nullable, Snippetable declaration) {
+    public Variable parseVariable(Context context, Scope scope, boolean mutable, boolean nillable, Snippetable declaration) {
         Snippet declarationSource = declaration.toSnippet();
 
         if (declarationSource.size() < 2) {
@@ -45,10 +45,10 @@ public class VariableParser {
         Snippet type = declarationSource.subSource(0, declarationSource.size() - 1);
         Snippetable name = declarationSource.getLast();
 
-        return createVariable(context, scope, mutable, nullable, type, name);
+        return createVariable(context, scope, mutable, nillable, type, name);
     }
 
-    public Variable createVariable(Context context, Scope scope, boolean mutable, boolean nullable, Snippetable type, Snippetable name) {
+    public Variable createVariable(Context context, Scope scope, boolean mutable, boolean nillable, Snippetable type, Snippetable name) {
         Snippet nameSource = name.toSnippet();
 
         if (nameSource.size() > 1) {
@@ -74,7 +74,7 @@ public class VariableParser {
                     .build();
         }
 
-        Variable variable = new PandaVariable(prototype.get(), nameSource.asString(), mutable, nullable);
+        Variable variable = new PandaVariable(prototype.get(), nameSource.asString(), mutable, nillable);
         scope.addVariable(variable);
 
         return variable;

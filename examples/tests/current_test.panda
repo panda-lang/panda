@@ -58,13 +58,13 @@ class Test {
 
 main {
     late String init
-    nullable Object req = null
+    nil Object req = null
 
     Test test = new Test('"Constructor"')
     test.echo("Method")
     Console.print(test.getTestField().testField)
 
-    mutable nullable Foo varFoo = null
+    mutable nil Foo varFoo = null
     varFoo = new Foo()
 
     mutable String s = "Hello Panda v1"
