@@ -47,7 +47,10 @@ public class LateDeclarationParser extends ParserBootstrap {
 
     @Autowired
     void parse(Context context, @Inter ExtractorResult result, @Component ScopeLinker linker, @Src("type") Snippet type, @Src("name") Snippet name) {
-        INITIALIZER.createVariable(context, linker.getCurrentScope(), result.hasIdentifier("mutable"), result.hasIdentifier(Keywords.NIL.getValue()), type, name);
+        boolean mutable = result.hasIdentifier(Keywords.MUT.getValue());
+        boolean nillable = result.hasIdentifier(Keywords.NIL.getValue());
+
+        INITIALIZER.createVariable(context, linker.getCurrentScope(), mutable, nillable, type, name);
     }
 
 }

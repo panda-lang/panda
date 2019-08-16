@@ -25,7 +25,7 @@ class Foo extends Test {
 
 class Test {
 
-    hidden mutable Test testField
+    hidden mut Test testField
     hidden Double double = 1.5D
     hidden Int index = 1
 
@@ -64,10 +64,10 @@ main {
     test.echo("Method")
     Console.print(test.getTestField().testField)
 
-    mutable nil Foo varFoo = null
+    mut nil Foo varFoo = null
     varFoo = new Foo()
 
-    mutable String s = "Hello Panda v1"
+    mut String s = "Hello Panda v1"
     s = "Hello Panda v2"
 
     Int i = 0x000001
