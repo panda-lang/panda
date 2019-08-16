@@ -25,11 +25,7 @@ import java.util.Collection;
  */
 public class Keywords {
 
-    public static final Keyword ABSTRACT = new Keyword("abstract");
-
     public static final Keyword AS = new Keyword("as");
-
-    public static final Keyword BOOLEAN = new Keyword("boolean");
 
     public static final Keyword BREAK = new Keyword("break");
 
@@ -47,8 +43,6 @@ public class Keywords {
 
     public static final Keyword EXTENDS = new Keyword("extends");
 
-    public static final Keyword FINAL = new Keyword("final");
-
     public static final Keyword FOREACH = new Keyword("foreach");
 
     public static final Keyword FOR = new Keyword("for");
@@ -57,13 +51,7 @@ public class Keywords {
 
     public static final Keyword IF = new Keyword("if");
 
-    public static final Keyword IMPLEMENTS = new Keyword("implements");
-
     public static final Keyword IMPORT = new Keyword("import");
-
-    public static final Keyword INSTANCE_OF = new Keyword("instanceof");
-
-    public static final Keyword INTERFACE = new Keyword("interface");
 
     public static final Keyword LATE = new Keyword("late");
 
@@ -85,17 +73,13 @@ public class Keywords {
 
     public static final Keyword NEW = new Keyword("new");
 
-    public static final Keyword NULLABLE = new Keyword("nullable");
+    public static final Keyword NIL = new Keyword("nil");
 
     public static final Keyword RETURN = new Keyword("return");
 
     public static final Keyword REQUIRE = new Keyword("require");
 
     public static final Keyword STATIC = new Keyword("static");
-
-    public static final Keyword SUPER = new Keyword("super");
-
-    public static final Keyword SYNCHRONIZED = new Keyword("synchronized");
 
     public static final Keyword SWITCH = new Keyword("switch");
 
