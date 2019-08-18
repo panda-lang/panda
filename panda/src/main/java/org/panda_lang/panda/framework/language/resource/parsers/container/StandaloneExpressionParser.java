@@ -52,7 +52,7 @@ public class StandaloneExpressionParser extends ParserBootstrap {
     }
 
     @Override
-    public Object customHandle(ParserHandler handler, Context context, Snippet source) {
+    protected Object customHandle(ParserHandler handler, Context context, Snippet source) {
         SourceStream stream = new PandaSourceStream(source);
 
         try {
@@ -68,12 +68,8 @@ public class StandaloneExpressionParser extends ParserBootstrap {
     void parseExpression(@Component SourceStream source, @Component Container container) {
         ExpressionExecutable statement = new ExpressionExecutable(expression);
         statement.setLocation(source.toSnippet().getCurrentLocation());
-
-        expression = null;
-        source.read(read);
-        read = 0;
-
         container.addStatement(statement);
+        source.read(read);
     }
 
 }

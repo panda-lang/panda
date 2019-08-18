@@ -40,12 +40,12 @@ public class ArgumentsParser implements Parser {
             return EMPTY;
         }
 
-        ExpressionParser parser = context.getComponent(UniversalComponents.EXPRESSION);
+        ExpressionParser expressionParser = context.getComponent(UniversalComponents.EXPRESSION);
         List<Expression> expressions = new ArrayList<>((snippet.size() - 1) / 2);
         SourceStream source = new PandaSourceStream(snippet);
 
         while (source.hasUnreadSource()) {
-            Expression expression = parser.parse(context, source);
+            Expression expression = expressionParser.parse(context, source);
             expressions.add(expression);
 
             if (source.hasUnreadSource()) {

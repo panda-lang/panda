@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.AccessorExpression;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionCategory;
@@ -48,13 +49,13 @@ public class CreaseExpressionSubparser implements ExpressionSubparser {
     private static class CreaseWorker extends AbstractExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context) {
+        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
             CreaseType type = null;
 
-            if (context.getCurrentRepresentation().contentEquals(Operators.INCREMENT)) {
+            if (token.contentEquals(Operators.INCREMENT)) {
                 type = CreaseType.INCREASE;
             }
-            else if (context.getCurrentRepresentation().contentEquals(Operators.DECREMENT)) {
+            else if (token.contentEquals(Operators.DECREMENT)) {
                 type = CreaseType.DECREASE;
             }
 
@@ -73,7 +74,13 @@ public class CreaseExpressionSubparser implements ExpressionSubparser {
             }
 
             if (!(expression instanceof AccessorExpression)) {
-                return ExpressionResult.error("Expression is not associated with any variable", context.getCurrentRepresentation());
+                return ExpressionResult.error("Expression is not associated with any variable", token);
+            }
+
+            AccessorExpression accessorExpression = (AccessorExpression) expression;
+
+            if (!accessorExpression.getAccessor().getVariable().isMutable()) {
+                return ExpressionResult.error("Cannot modify immutable variable", token);
             }
 
             return ExpressionResult.of(new CreaseExpressionCallback(((AccessorExpression) expression).getAccessor(), type == CreaseType.INCREASE, post).toExpression());

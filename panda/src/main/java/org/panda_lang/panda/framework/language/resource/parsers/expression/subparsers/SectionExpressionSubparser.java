@@ -41,21 +41,19 @@ public class SectionExpressionSubparser implements ExpressionSubparser {
     private static class SentenceWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context) {
-            TokenRepresentation current = context.getCurrentRepresentation();
-
-            if (current.getType() != TokenType.SECTION) {
+        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
+            if (token.getType() != TokenType.SECTION) {
                 return null;
             }
 
-            Section section = current.toToken();
+            Section section = token.toToken();
 
             if (!section.getSeparator().equals(Separators.PARENTHESIS_LEFT)) {
                 return null;
             }
 
             if (section.getContent().isEmpty()) {
-                return ExpressionResult.error("Expression expected", current);
+                return ExpressionResult.error("Expression expected", token);
             }
 
             return ExpressionResult.of(context.getParser().parse(context.getContext(), section.getContent()));

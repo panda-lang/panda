@@ -25,6 +25,6 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 public interface AssignationSubparser extends Parser {
 
-    @Nullable Statement parseAssignment(Context context, Snippet source, Expression expression) throws Exception;
+    @Nullable Statement parseAssignment(Context context, Snippet declaration, Expression expression) throws Exception;
 
 }

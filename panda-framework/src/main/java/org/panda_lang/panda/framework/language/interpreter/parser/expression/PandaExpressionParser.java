@@ -136,7 +136,7 @@ public class PandaExpressionParser implements ExpressionParser {
         }
 
         for (TokenRepresentation representation : expressionContext.getDiffusedSource()) {
-            if (!worker.next(expressionContext.withUpdatedToken(representation))) {
+            if (!worker.next(expressionContext, representation)) {
                 break;
             }
         }

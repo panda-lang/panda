@@ -30,6 +30,9 @@ public class VariableAssignerUtils {
             String message = "Cannot assign " + expression.getReturnType().getName() + " to " + variable.getType().getName() + " variable";
 
             throw PandaParserFailure.builder(message, context)
+                    .withSourceFragment()
+                        .ofOriginals(context)
+                        .create()
                     .withNote("Change variable type or ensure the expression has compatible return type")
                     .build();
         }

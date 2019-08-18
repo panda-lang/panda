@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
@@ -64,12 +65,12 @@ public class OperationExpressionSubparser implements ExpressionSubparser {
         private List<Operation.OperationElement> elements;
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context) {
+        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
             if (!context.hasResults()) {
                 return null;
             }
 
-            if (context.getCurrentRepresentation().getType() != TokenType.OPERATOR) {/*
+            if (token.getType() != TokenType.OPERATOR) {/*
                 if (elements != null) {
                     elements.add(new Operation.OperationElement(context.popExpression()));
                     return finish(context);
@@ -83,7 +84,7 @@ public class OperationExpressionSubparser implements ExpressionSubparser {
             }
 
             elements.add(new Operation.OperationElement(context.popExpression()));
-            elements.add(new Operation.OperationElement(context.getCurrentRepresentation()));
+            elements.add(new Operation.OperationElement(token));
 
             return ExpressionResult.empty();
         }
@@ -96,6 +97,11 @@ public class OperationExpressionSubparser implements ExpressionSubparser {
 
             if (context.hasResults()) {
                 elements.add(new Operation.OperationElement(context.popExpression()));
+            }
+
+            if (elements.size() < 3 || (elements.size() % 2) == 0) {
+                context.getResults().clear();
+                return ExpressionResult.error("Cannot parse operation: " + null, context.getDiffusedSource().getCurrent());
             }
 
             Operation operation = new Operation(elements);

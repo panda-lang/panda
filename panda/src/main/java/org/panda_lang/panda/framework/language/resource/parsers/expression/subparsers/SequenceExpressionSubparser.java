@@ -41,9 +41,7 @@ public class SequenceExpressionSubparser implements ExpressionSubparser {
     private static class LiteralWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context) {
-            TokenRepresentation token = context.getCurrentRepresentation();
-
+        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
             if (!TokenUtils.hasName(token, "String")) {
                 return null;
             }

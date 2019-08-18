@@ -73,9 +73,9 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
         private static final ArgumentsParser ARGUMENT_PARSER = new ArgumentsParser();
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context) {
+        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
             // require 'new' keyword
-            if (!context.getCurrentRepresentation().contentEquals(Keywords.NEW)) {
+            if (!token.contentEquals(Keywords.NEW)) {
                 return null;
             }
 

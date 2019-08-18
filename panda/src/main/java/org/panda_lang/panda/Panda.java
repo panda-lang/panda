@@ -17,7 +17,7 @@
 package org.panda_lang.panda;
 
 import org.panda_lang.panda.cli.PandaCLI;
-import org.panda_lang.panda.framework.design.resource.FrameworkController;
+import org.panda_lang.panda.framework.design.FrameworkController;
 import org.panda_lang.panda.framework.design.resource.Language;
 import org.panda_lang.panda.framework.design.resource.Resources;
 import org.panda_lang.panda.util.embed.PandaEngineFactoryConstants;

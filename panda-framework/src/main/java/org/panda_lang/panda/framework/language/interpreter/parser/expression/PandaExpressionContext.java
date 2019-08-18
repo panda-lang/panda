@@ -19,7 +19,6 @@ package org.panda_lang.panda.framework.language.interpreter.parser.expression;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.DiffusedSource;
@@ -34,19 +33,12 @@ final public class PandaExpressionContext implements ExpressionContext {
 
     private final DiffusedSource diffusedSource;
     private final Stack<Expression> results = new Stack<>();
-    private TokenRepresentation current;
 
     public PandaExpressionContext(ExpressionParser parser, Context context, SourceStream source) {
         this.parser = parser;
         this.context = context;
         this.source = source;
         this.diffusedSource = new DiffusedSource(source.toSnippet());
-    }
-
-    @Override
-    public PandaExpressionContext withUpdatedToken(TokenRepresentation current) {
-        this.current = current;
-        return this;
     }
 
     @Override
@@ -62,11 +54,6 @@ final public class PandaExpressionContext implements ExpressionContext {
     @Override
     public boolean hasResults() {
         return !this.getResults().isEmpty();
-    }
-
-    @Override
-    public TokenRepresentation getCurrentRepresentation() {
-        return current;
     }
 
     @Override

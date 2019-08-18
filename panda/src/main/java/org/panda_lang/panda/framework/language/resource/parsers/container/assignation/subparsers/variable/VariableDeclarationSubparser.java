@@ -26,6 +26,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Inter;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.Registrable;
@@ -42,13 +43,13 @@ public class VariableDeclarationSubparser extends AssignationSubparserBootstrap 
     private static final VariableParser VARIABLE_PARSER = new VariableParser();
 
     @Override
-    public BootstrapInitializer<@Nullable Statement> initialize(Context context, BootstrapInitializer<@Nullable Statement> initializer) {
+    protected BootstrapInitializer<@Nullable Statement> initialize(Context context, BootstrapInitializer<@Nullable Statement> initializer) {
         return initializer.pattern(VariableParser.DECLARATION);
     }
 
     @Autowired
     public @Nullable Statement parse(Context context, @Component Scope scope, @Inter ExtractorResult result, @Src("type") Snippet type, @Src("name") Snippet name) {
-        if (!result.isMatched()) {
+        if (!result.isMatched() || context.getComponent(UniversalComponents.STREAM).hasUnreadSource()) {
             return null;
         }
 
