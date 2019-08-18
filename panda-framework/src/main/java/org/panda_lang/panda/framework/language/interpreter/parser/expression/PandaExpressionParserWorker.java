@@ -22,6 +22,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.expression.Expre
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserType;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.utilities.commons.collection.Maps;
 
 import java.util.HashMap;
@@ -60,7 +61,7 @@ public class PandaExpressionParserWorker {
         }
     }
 
-    protected boolean next(ExpressionContext context) {
+    protected boolean next(ExpressionContext context, TokenRepresentation token) {
         int cachedSubparser = previousSubparser;
 
         // try to use cached subparser
@@ -69,7 +70,7 @@ public class PandaExpressionParserWorker {
             previousSubparser = NONE;
 
             // return result from cached subparser
-            if (this.next(context, cachedSubparser) && previousSubparser != NONE) {
+            if (this.next(cachedSubparser, context, token) && previousSubparser != NONE) {
                 return true;
             }
         }
@@ -81,7 +82,7 @@ public class PandaExpressionParserWorker {
             }
 
             // return result from subparser
-            if (this.next(context, index)) {
+            if (this.next(index, context, token)) {
                 return true;
             }
         }
@@ -96,7 +97,7 @@ public class PandaExpressionParserWorker {
      * @param index   the index of subparser in the array
      * @return true if the result was found using the specified subparser, otherwise false
      */
-    private boolean next(ExpressionContext context, int index) {
+    private boolean next(int index, ExpressionContext context, TokenRepresentation token) {
         ExpressionSubparserWorker worker = workers[index];
         ExpressionSubparser subparser = worker.getSubparser();
 
@@ -113,7 +114,7 @@ public class PandaExpressionParserWorker {
         long time = System.nanoTime();
 
         int cachedIndex = context.getDiffusedSource().getIndex();
-        ExpressionResult result = worker.next(context);
+        ExpressionResult result = worker.next(context, token);
 
         Maps.update(TIMES, subparser.getSubparserName(), () -> 0L, cachedTime -> cachedTime + (System.nanoTime() - time));
 

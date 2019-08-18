@@ -51,7 +51,7 @@ public class BlockParser extends ParserBootstrap {
     }
 
     @Override
-    public Boolean customHandle(ParserHandler handler, Context context, Snippet source) {
+    protected Boolean customHandle(ParserHandler handler, Context context, Snippet source) {
         HandleResult<BlockSubparser> result = context.getComponent(UniversalComponents.PIPELINE)
                 .getPipeline(PandaPipelines.BLOCK)
                 .handle(context, source);

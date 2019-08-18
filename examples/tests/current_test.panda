@@ -114,7 +114,7 @@ main {
     Console.print("OR v AND: " + (false || false) + ", " + false || true, true && false, true && true)
     Console.print("Compare: " + 1 > 2, 1 > 2, 1 < 2, 2 < 1)
 
-    Int creaseValue = 10
+    mut Int creaseValue = 10
     Console.print("Increase: " + creaseValue++, creaseValue++, ++creaseValue, ++creaseValue)
     Console.print("Decrease: " + creaseValue--, creaseValue--, --creaseValue, --creaseValue)
 
@@ -136,7 +136,11 @@ main {
 
     Console.print(PandaConstants.VERSION)
 
-    for (Int index = 2; index != 0; index--) {
+    for (mut Int index = 3; index != 0; index--) {
+        if (index == 2) {
+            continue
+        }
+
         Console.print("ForI: " + index)
     }
 }

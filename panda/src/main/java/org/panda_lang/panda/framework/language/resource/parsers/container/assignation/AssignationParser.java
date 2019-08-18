@@ -50,7 +50,7 @@ public class AssignationParser extends ParserBootstrap {
     private AssignationSubparser subparser;
 
     @Override
-    public BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
+    protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
         this.pattern = PandaDescriptivePattern.builder()
                 .compile(PATTERN)
                 .build(context);
@@ -59,7 +59,7 @@ public class AssignationParser extends ParserBootstrap {
     }
 
     @Override
-    public Boolean customHandle(@Nullable ParserHandler handler, Context context, Snippet source) {
+    protected Boolean customHandle(@Nullable ParserHandler handler, Context context, Snippet source) {
         ExtractorResult result = pattern.extract(context, source);
 
         if (!result.isMatched()) {

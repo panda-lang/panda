@@ -69,11 +69,8 @@ public class MethodExpressionSubparser implements ExpressionSubparser {
         private static final ArgumentsParser ARGUMENT_PARSER = new ArgumentsParser();
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context) {
+        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation nameToken) {
             DiffusedSource source = context.getDiffusedSource();
-
-            // method name token
-            TokenRepresentation nameToken = context.getCurrentRepresentation();
 
             // name has to be declared by unknown type of token
             if (nameToken.getType() != TokenType.UNKNOWN || !source.hasNext()) {
@@ -107,7 +104,7 @@ public class MethodExpressionSubparser implements ExpressionSubparser {
 
             // check if prototype of instance contains required method
             if (!instance.getReturnType().getMethods().hasMethodLike(nameToken.getValue())) {
-                return ExpressionResult.error("Cannot find method called '" + nameToken.getValue() + "'", context.getCurrentRepresentation());
+                return ExpressionResult.error("Cannot find method called '" + nameToken.getValue() + "'", nameToken);
             }
 
             // parse method

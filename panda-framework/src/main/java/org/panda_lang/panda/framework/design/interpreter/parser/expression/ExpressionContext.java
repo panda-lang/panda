@@ -17,7 +17,6 @@
 package org.panda_lang.panda.framework.design.interpreter.parser.expression;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.DiffusedSource;
@@ -26,15 +25,11 @@ import java.util.Stack;
 
 public interface ExpressionContext {
 
-    ExpressionContext withUpdatedToken(TokenRepresentation current);
-
     Expression popExpression();
 
     Expression peekExpression();
 
     boolean hasResults();
-
-    TokenRepresentation getCurrentRepresentation();
 
     DiffusedSource getDiffusedSource();
 

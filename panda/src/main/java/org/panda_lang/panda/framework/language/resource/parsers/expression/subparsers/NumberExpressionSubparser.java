@@ -18,15 +18,14 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.subp
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.number.NumberParser;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.number.NumberUtils;
@@ -53,11 +52,9 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
         private TokenRepresentation period;
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context) {
-            Token token = context.getCurrentRepresentation().getToken();
-
+        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
             if (Separators.PERIOD.equals(token)) {
-                this.period = context.getCurrentRepresentation();
+                this.period = token;
                 return ExpressionResult.empty();
             }
 
@@ -73,7 +70,7 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
                 content.addToken(period);
             }
 
-            content.addToken(context.getCurrentRepresentation());
+            content.addToken(token);
             Value numericValue = PARSER.parse(context.getContext(), content);
 
             if (numericValue == null) {

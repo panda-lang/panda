@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
@@ -45,18 +46,18 @@ public class ArrayValueExpressionSubparser implements ExpressionSubparser {
     private static class ArrayValueWorker extends AbstractExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context) {
+        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
             // require instance
             if (!context.hasResults()) {
                 return null;
             }
 
             // require section token
-            if (context.getCurrentRepresentation().getType() != TokenType.SECTION) {
+            if (token.getType() != TokenType.SECTION) {
                 return null;
             }
 
-            Section section = context.getCurrentRepresentation().toToken();
+            Section section = token.toToken();
 
             // require square bracket section
             if (!section.getSeparator().equals(Separators.SQUARE_BRACKET_LEFT)) {

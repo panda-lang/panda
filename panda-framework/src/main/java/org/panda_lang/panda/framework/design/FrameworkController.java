@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.resource;
+package org.panda_lang.panda.framework.design;
+
+import org.panda_lang.panda.framework.design.resource.Language;
+import org.panda_lang.panda.framework.design.resource.Resources;
 
 /**
  * Panda Framework controller

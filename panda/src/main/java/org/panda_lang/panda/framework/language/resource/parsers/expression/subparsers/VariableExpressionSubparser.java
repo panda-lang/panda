@@ -55,8 +55,7 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
     private static class VariableWorker extends AbstractExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context) {
-            TokenRepresentation token = context.getCurrentRepresentation();
+        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
             boolean period = TokenUtils.contentEquals(context.getDiffusedSource().getPrevious(), Separators.PERIOD);
 
             if (token.getType() != TokenType.UNKNOWN) {

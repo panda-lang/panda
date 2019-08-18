@@ -56,7 +56,7 @@ public class ArrayValueAssignationSubparser extends AssignationSubparserBootstra
     }
 
     @Override
-    public Boolean customHandle(ParserHandler handler, Context context, Snippet source) {
+    protected Boolean customHandle(ParserHandler handler, Context context, Snippet source) {
         TokenRepresentation sectionRepresentation = source.getLast();
 
         if (sectionRepresentation.getType() != TokenType.SECTION) {
