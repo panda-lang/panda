@@ -16,37 +16,37 @@
 
 package org.panda_lang.panda.framework.language.resource;
 
+import org.panda_lang.panda.framework.design.interpreter.parser.ApplicationParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parsers;
-import org.panda_lang.panda.framework.language.resource.parsers.ApplicationParser;
 import org.panda_lang.panda.framework.language.resource.parsers.ContainerParser;
 import org.panda_lang.panda.framework.language.resource.parsers.ScopeParser;
-import org.panda_lang.panda.framework.language.resource.parsers.container.LateDeclarationParser;
-import org.panda_lang.panda.framework.language.resource.parsers.container.StandaloneExpressionParser;
-import org.panda_lang.panda.framework.language.resource.parsers.container.TryCatchParser;
-import org.panda_lang.panda.framework.language.resource.parsers.container.assignation.AssignationParser;
-import org.panda_lang.panda.framework.language.resource.parsers.container.block.BlockParser;
-import org.panda_lang.panda.framework.language.resource.parsers.container.block.conditional.ConditionalBlockParser;
-import org.panda_lang.panda.framework.language.resource.parsers.container.block.looping.ForEachParser;
-import org.panda_lang.panda.framework.language.resource.parsers.container.block.looping.ForParser;
-import org.panda_lang.panda.framework.language.resource.parsers.container.block.looping.LoopParser;
-import org.panda_lang.panda.framework.language.resource.parsers.container.block.looping.WhileParser;
-import org.panda_lang.panda.framework.language.resource.parsers.container.branching.BreakParser;
-import org.panda_lang.panda.framework.language.resource.parsers.container.branching.ContinueParser;
-import org.panda_lang.panda.framework.language.resource.parsers.container.branching.ReturnParser;
-import org.panda_lang.panda.framework.language.resource.parsers.container.branching.ThrowParser;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.number.NumberParser;
-import org.panda_lang.panda.framework.language.resource.parsers.overall.CommentParser;
-import org.panda_lang.panda.framework.language.resource.parsers.overall.ImportParser;
-import org.panda_lang.panda.framework.language.resource.parsers.overall.MainParser;
-import org.panda_lang.panda.framework.language.resource.parsers.overall.ModuleParser;
-import org.panda_lang.panda.framework.language.resource.parsers.overall.RequireParser;
-import org.panda_lang.panda.framework.language.resource.parsers.overall.prototype.ClassPrototypeParser;
-import org.panda_lang.panda.framework.language.resource.parsers.overall.prototype.constructor.ConstructorParser;
-import org.panda_lang.panda.framework.language.resource.parsers.overall.prototype.field.FieldParser;
-import org.panda_lang.panda.framework.language.resource.parsers.overall.prototype.method.MethodParser;
-import org.panda_lang.panda.framework.language.resource.parsers.overall.prototype.parameter.ArgumentsParser;
-import org.panda_lang.panda.framework.language.resource.parsers.overall.prototype.parameter.ParameterParser;
+import org.panda_lang.panda.framework.language.resource.container.LateDeclarationParser;
+import org.panda_lang.panda.framework.language.resource.container.StandaloneExpressionParser;
+import org.panda_lang.panda.framework.language.resource.container.TryCatchParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.assignation.AssignationParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.block.BlockParser;
+import org.panda_lang.panda.framework.language.resource.container.block.conditional.ConditionalBlockParser;
+import org.panda_lang.panda.framework.language.resource.container.block.looping.ForEachParser;
+import org.panda_lang.panda.framework.language.resource.container.block.looping.ForParser;
+import org.panda_lang.panda.framework.language.resource.container.block.looping.LoopParser;
+import org.panda_lang.panda.framework.language.resource.container.block.looping.WhileParser;
+import org.panda_lang.panda.framework.language.resource.container.branching.BreakParser;
+import org.panda_lang.panda.framework.language.resource.container.branching.ContinueParser;
+import org.panda_lang.panda.framework.language.resource.container.branching.ReturnParser;
+import org.panda_lang.panda.framework.language.resource.container.branching.ThrowParser;
+import org.panda_lang.panda.framework.language.resource.expression.subparsers.number.NumberParser;
+import org.panda_lang.panda.framework.language.resource.head.CommentParser;
+import org.panda_lang.panda.framework.language.resource.head.ImportParser;
+import org.panda_lang.panda.framework.language.resource.head.MainParser;
+import org.panda_lang.panda.framework.language.resource.head.ModuleParser;
+import org.panda_lang.panda.framework.language.resource.head.RequireParser;
+import org.panda_lang.panda.framework.language.resource.prototype.ClassPrototypeParser;
+import org.panda_lang.panda.framework.language.resource.prototype.constructor.ConstructorParser;
+import org.panda_lang.panda.framework.language.resource.prototype.field.FieldParser;
+import org.panda_lang.panda.framework.language.resource.prototype.method.MethodParser;
+import org.panda_lang.panda.framework.language.resource.prototype.parameter.ArgumentsParser;
+import org.panda_lang.panda.framework.language.resource.prototype.parameter.ParameterParser;
 
 public final class PandaParsers extends Parsers {
 

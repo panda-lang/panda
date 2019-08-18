@@ -17,9 +17,9 @@
 package org.panda_lang.panda.bootstrap;
 
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerOutputListener;
-import org.panda_lang.panda.framework.design.interpreter.messenger.formatters.MessengerDataFormatter;
-import org.panda_lang.panda.framework.design.interpreter.messenger.formatters.MessengerDataFormatterManager;
-import org.panda_lang.panda.framework.design.interpreter.messenger.formatters.MessengerDataMapper;
+import org.panda_lang.panda.framework.design.interpreter.messenger.formatter.MessengerDataFormatter;
+import org.panda_lang.panda.framework.design.interpreter.messenger.formatter.MessengerDataFormatterManager;
+import org.panda_lang.panda.framework.design.interpreter.messenger.formatter.MessengerDataMapper;
 import org.panda_lang.panda.framework.design.interpreter.messenger.translator.PandaTranslatorLayout;
 import org.panda_lang.panda.framework.design.interpreter.messenger.translator.PandaTranslatorLayoutManager;
 

@@ -26,7 +26,7 @@ import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.resource.Language;
 import org.panda_lang.panda.framework.language.interpreter.PandaInterpretation;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParser;
-import org.panda_lang.panda.framework.language.resource.parsers.ApplicationParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.ApplicationParser;
 import org.panda_lang.panda.utilities.commons.TimeUtils;
 
 import java.util.Optional;

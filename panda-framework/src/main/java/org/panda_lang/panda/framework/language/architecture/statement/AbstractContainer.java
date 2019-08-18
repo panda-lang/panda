@@ -38,7 +38,7 @@ public abstract class AbstractContainer extends AbstractStatement implements Con
 
     @Override
     public StatementCell addStatement(Statement executable) {
-        StatementCell executableCell = new PandaStatementCell(executable);
+        StatementCell executableCell = new DefaultStatementCell(executable);
         executableCells.add(executableCell);
         return executableCell;
     }

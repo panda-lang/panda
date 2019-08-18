@@ -29,18 +29,18 @@ public class PandaExpression implements Expression {
 
     private final ExpressionValueType type;
     private final ClassPrototype returnType;
-    private final ExpressionCallback callback;
+    private final DynamicExpression callback;
     private final Value value;
 
     public PandaExpression(Value value) {
         this(ExpressionValueType.KNOWN, value.getType(), null, value);
     }
 
-    public PandaExpression(ExpressionCallback callback) {
+    public PandaExpression(DynamicExpression callback) {
         this(ExpressionValueType.UNKNOWN, callback.getReturnType(), callback, null);
     }
 
-    protected PandaExpression(ExpressionValueType type, ClassPrototype returnType, ExpressionCallback callback, Value value) {
+    protected PandaExpression(ExpressionValueType type, ClassPrototype returnType, DynamicExpression callback, Value value) {
         if (type == null) {
             throw new InvalidParameterException("ExpressionType cannot be null");
         }

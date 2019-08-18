@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapContent;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.design.interpreter.pattern.PandaDescriptivePattern;
+import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.PandaDescriptivePattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 

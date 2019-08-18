@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.messenger.Messenger;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerFormatter;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerMessage;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerMessageTranslator;
-import org.panda_lang.panda.framework.design.interpreter.messenger.formatters.MessengerDataMapper;
+import org.panda_lang.panda.framework.design.interpreter.messenger.formatter.MessengerDataMapper;
 import org.panda_lang.panda.framework.design.interpreter.messenger.translator.template.MicroTemplate;
 import org.panda_lang.panda.framework.design.interpreter.messenger.translator.template.MicroTemplateEngine;
 import org.panda_lang.panda.framework.design.interpreter.messenger.translator.template.MicroTemplateRequest;

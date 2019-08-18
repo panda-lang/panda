@@ -30,7 +30,6 @@ final public class PandaExpressionContext implements ExpressionContext {
     private final ExpressionParser parser;
     private final Context context;
     private final SourceStream source;
-
     private final DiffusedSource diffusedSource;
     private final Stack<Expression> results = new Stack<>();
 

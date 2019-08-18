@@ -27,7 +27,7 @@ import org.panda_lang.panda.framework.language.architecture.value.PandaDynamicVa
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
-import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressionCallback;
+import org.panda_lang.panda.framework.language.runtime.expression.PandaDynamicExpression;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -60,7 +60,7 @@ final class ClassPrototypeFieldGenerator {
         // TODO: Generate bytecode
         field.setAccessible(true);
 
-        Expression fieldExpression = new PandaExpression(new PandaExpressionCallback(returnType.fetch()) {
+        Expression fieldExpression = new PandaExpression(new PandaDynamicExpression(returnType.fetch()) {
             @Override
             public Value call(Expression expression, Flow frame) {
                 Object instance = frame != null ? frame.getInstance().getValue() : null;

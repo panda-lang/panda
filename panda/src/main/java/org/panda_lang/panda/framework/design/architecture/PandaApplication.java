@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.design.architecture;
 import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.PandaFrameworkException;
 import org.panda_lang.panda.framework.design.runtime.Process;
-import org.panda_lang.panda.framework.language.architecture.dynamic.MainScope;
+import org.panda_lang.panda.framework.language.resource.head.MainScope;
 import org.panda_lang.panda.framework.language.runtime.PandaProcess;
 import org.panda_lang.panda.utilities.commons.TimeUtils;
 

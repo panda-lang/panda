@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.assigner;
 
+import org.panda_lang.panda.framework.design.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
