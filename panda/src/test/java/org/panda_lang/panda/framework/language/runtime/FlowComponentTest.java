@@ -18,8 +18,8 @@ package org.panda_lang.panda.framework.language.runtime;
 
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
-import org.panda_lang.panda.framework.design.architecture.dynamic.PandaBlock;
-import org.panda_lang.panda.framework.language.architecture.dynamic.MainScope;
+import org.panda_lang.panda.framework.language.architecture.dynamic.DefaultBlock;
+import org.panda_lang.panda.framework.language.resource.head.MainScope;
 
 class FlowComponentTest {
 
@@ -27,12 +27,12 @@ class FlowComponentTest {
     void testStackLimit() {
         MainScope main = new MainScope();
 
-        Block block = new PandaBlock();
+        Block block = new DefaultBlock();
         main.addStatement(block);
 
         // ~StackOverflowError
         for (int i = 0; i < 1024; i++) {
-            Block subBlock = new PandaBlock();
+            Block subBlock = new DefaultBlock();
             block.addStatement(subBlock);
             block = subBlock;
         }

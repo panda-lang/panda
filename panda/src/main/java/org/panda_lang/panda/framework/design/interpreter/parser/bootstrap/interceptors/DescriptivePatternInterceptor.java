@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.Bootst
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.InterceptorData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.pattern.PandaDescriptivePattern;
+import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.PandaDescriptivePattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptivePatternMapping;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;

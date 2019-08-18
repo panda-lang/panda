@@ -17,6 +17,8 @@
 package org.panda_lang.panda.framework.language.architecture.dynamic.accessor;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.dynamic.accessor.Accessor;
+import org.panda_lang.panda.framework.design.architecture.dynamic.accessor.AccessorVisitor;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
@@ -42,7 +44,7 @@ abstract class DefaultAccessor<T extends Variable> implements Accessor<T> {
     }
 
     @Override
-    public Value perform(Flow flow, AccessorCallback callback) {
+    public Value perform(Flow flow, AccessorVisitor callback) {
         MemoryContainer memory = fetchMemoryContainer(flow);
         return memory.set(pointer, callback.visit(this, flow, memory.get(pointer)));
     }

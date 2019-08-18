@@ -24,7 +24,7 @@ import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.Process;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
-import org.panda_lang.panda.framework.language.runtime.flow.PandaControlFlowCallback;
+import org.panda_lang.panda.framework.language.runtime.flow.PandaControlFlowController;
 import org.panda_lang.panda.framework.language.runtime.flow.PandaControlFlow;
 
 import java.util.Collection;
@@ -73,7 +73,7 @@ public class PandaFlow implements Flow {
     }
 
     @Override
-    public ControlFlow callFlow(Collection<? extends StatementCell> cells, PandaControlFlowCallback caller) {
+    public ControlFlow callFlow(Collection<? extends StatementCell> cells, PandaControlFlowController caller) {
         if (isInterrupted()) {
             return currentFlow;
         }

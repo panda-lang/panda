@@ -27,19 +27,19 @@ public class PandaControlFlow implements Executable, ControlFlow {
 
     private final Flow flow;
     private final Collection<? extends StatementCell> cells;
-    private final PandaControlFlowCallback callback;
+    private final PandaControlFlowController controller;
     private boolean skipped;
     private boolean escaped;
 
-    public PandaControlFlow(Flow flow, Collection<? extends StatementCell> cells, PandaControlFlowCallback callback) {
+    public PandaControlFlow(Flow flow, Collection<? extends StatementCell> cells, PandaControlFlowController controller) {
         this.flow = flow;
         this.cells = cells;
-        this.callback = callback;
+        this.controller = controller;
     }
 
     @Override
     public void execute(Flow flow) {
-        callback.call(this, flow);
+        controller.call(this, flow);
     }
 
     @Override
