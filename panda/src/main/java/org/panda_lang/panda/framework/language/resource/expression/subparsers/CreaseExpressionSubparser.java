@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.architecture.dynamic.accessor.AccessorExpression;
@@ -32,7 +33,7 @@ public class CreaseExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker() {
-        return new CreaseWorker();
+        return new CreaseWorker().withSubparser(this);
     }
 
     @Override
@@ -82,7 +83,7 @@ public class CreaseExpressionSubparser implements ExpressionSubparser {
                 return ExpressionResult.error("Cannot modify immutable variable", token);
             }
 
-            return ExpressionResult.of(new CreaseExpressionCallback(((AccessorExpression) expression).getAccessor(), type == CreaseType.INCREASE, post).toExpression());
+            return ExpressionResult.of(new CreaseExpression(((AccessorExpression) expression).getAccessor(), type == CreaseType.INCREASE, post).toExpression());
         }
 
     }

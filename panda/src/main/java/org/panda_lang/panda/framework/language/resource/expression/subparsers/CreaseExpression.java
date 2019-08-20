@@ -27,13 +27,13 @@ import org.panda_lang.panda.framework.language.architecture.value.PandaStaticVal
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.resource.expression.subparsers.number.NumberPriorities;
 
-public class CreaseExpressionCallback extends NumberPriorities implements DynamicExpression {
+public class CreaseExpression extends NumberPriorities implements DynamicExpression {
 
     private final Accessor<?> accessor;
     private final boolean grow;
     private final boolean post;
 
-    public CreaseExpressionCallback(Accessor<?> accessor, boolean grow, boolean post) {
+    public CreaseExpression(Accessor<?> accessor, boolean grow, boolean post) {
         this.accessor = accessor;
         this.grow = grow;
         this.post = post;
