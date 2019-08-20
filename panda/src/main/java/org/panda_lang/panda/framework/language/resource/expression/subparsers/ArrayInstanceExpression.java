@@ -16,34 +16,37 @@
 
 package org.panda_lang.panda.framework.language.resource.expression.subparsers;
 
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
-import org.panda_lang.panda.framework.language.runtime.expression.DynamicExpression;
+import org.panda_lang.panda.framework.language.runtime.expression.PandaDynamicExpression;
 
 import java.lang.reflect.Array;
 
-public class ArrayInstanceExpression implements DynamicExpression {
+public class ArrayInstanceExpression extends PandaDynamicExpression {
 
-    private final ArrayClassPrototype prototype;
-    private final Expression capacity;
+    private final ClassPrototype prototype;
+    private final Expression[] capacities;
 
-    public ArrayInstanceExpression(ArrayClassPrototype prototype, Expression capacity) {
-        this.prototype = prototype;
-        this.capacity = capacity;
+    public ArrayInstanceExpression(ArrayClassPrototype instancePrototype, ClassPrototype basePrototype, Expression[] capacities) {
+        super(instancePrototype);
+
+        this.prototype = basePrototype;
+        this.capacities = capacities;
     }
 
     @Override
     public Value call(Expression expression, Flow flow) {
-        int capacityValue = capacity.evaluate(flow).getValue();
-        return new PandaStaticValue(prototype, Array.newInstance(prototype.getType().getAssociatedClass(), capacityValue));
-    }
+        int[] capacitiesValues = new int[capacities.length];
 
-    @Override
-    public ArrayClassPrototype getReturnType() {
-        return prototype;
+        for (int index = 0; index < capacitiesValues.length; index++) {
+            capacitiesValues[index] = capacities[index].evaluate(flow).getValue();
+        }
+
+        return new PandaStaticValue(prototype, Array.newInstance(prototype.getAssociatedClass(), capacitiesValues));
     }
 
 }

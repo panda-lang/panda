@@ -18,32 +18,33 @@ package org.panda_lang.panda.framework.language.resource.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Arguments;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionCategory;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
-import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototypeUtils;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParametrizedExpression;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionCategory;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.DiffusedSource;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
+import org.panda_lang.panda.framework.language.resource.expression.subparsers.assignation.variable.DeclarationUtils;
 import org.panda_lang.panda.framework.language.resource.prototype.parameter.ArgumentsParser;
 import org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 public class ConstructorExpressionSubparser implements ExpressionSubparser {
@@ -82,28 +83,46 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
             // backup current index
             DiffusedSource source = context.getDiffusedSource();
 
-            // TODO: search for section and then select type
-            Snippet typeSource = new PandaSnippet(source.next());
-            TokenRepresentation sectionRepresentation = source.next();
-
-            if (sectionRepresentation.getType() != TokenType.SECTION) {
+            if (!source.hasNext()) {
                 return null;
             }
 
-            Section section = sectionRepresentation.toToken();
+            // read type
+            Optional<Snippet> typeValue = DeclarationUtils.readType(source.getAvailableSource());
 
-            // require () or [] section
-            if (!section.getSeparator().equals(Separators.PARENTHESIS_LEFT) && !section.getSeparator().equals(Separators.SQUARE_BRACKET_LEFT)) {
+            if (!typeValue.isPresent()) {
                 return null;
             }
 
+            // fetch type reference and update source index
+            Snippet typeSource = typeValue.get();
+            source.setIndex(source.getIndex() + typeSource.size());
+
+            // parse if type is array
+            if (DeclarationUtils.isArray(typeSource)) {
+                return parseArray(context, typeSource);
+            }
+
+            if (!source.hasNext()) {
+                return null;
+            }
+
+            // look for () section
+            TokenRepresentation next = source.next();
+
+            if (next.getType() != TokenType.SECTION) {
+                return null;
+            }
+
+            Section section = next.toToken();
+
+            if (!section.getSeparator().equals(Separators.PARENTHESIS_LEFT)) {
+                return null;
+            }
+
+            // parse constructor call
             ClassPrototype type = ModuleLoaderUtils.getReferenceOrThrow(context.getContext(), typeSource.asSource(), typeSource).fetch();
-
-            if (section.getSeparator().equals(Separators.PARENTHESIS_LEFT)) {
-                return parseDefault(context, type, section.getContent());
-            }
-
-            return parseArray(context, source, type, section);
+            return parseDefault(context, type, section.getContent());
         }
 
         private ExpressionResult parseDefault(ExpressionContext context, ClassPrototype type, Snippet argsSource) {
@@ -115,26 +134,43 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
                     .orElseGet(() -> ExpressionResult.error(type.getName() + " does not have constructor with the required parameters: " + Arrays.toString(arguments), argsSource));
         }
 
-        private ExpressionResult parseArray(ExpressionContext context, DiffusedSource source, ClassPrototype type, Section capacitySourceSection) {
-            Optional<ClassPrototypeReference> reference = ArrayClassPrototypeUtils.fetch(context.getContext(), type.getName() + "[]");
+        private ExpressionResult parseArray(ExpressionContext context, Snippet typeSource) {
+            List<Section> sections = DeclarationUtils.getArraySections(typeSource);
+            List<Expression> capacities = new ArrayList<>();
 
-            if (!reference.isPresent()) {
-                return ExpressionResult.error("Cannot fetch type: " + type.getName() + "[]", source.getLastReadSource());
+            for (Section section : sections) {
+                Snippet content = section.getContent();
+
+                if (content.isEmpty()) {
+                    break;
+                }
+
+                Expression capacity = context.getParser().parse(context.getContext(), content);
+
+                if (!PandaTypes.INT.isAssignableFrom(capacity.getReturnType())) {
+                    return ExpressionResult.error("Capacity has to be Int", content);
+                }
+
+                capacities.add(capacity);
             }
 
-            Snippet capacitySource = capacitySourceSection.getContent();
+            String baseClassName = typeSource.subSource(0, typeSource.size() - sections.size()).asSource();
+            String endTypeName = baseClassName + StringUtils.repeated(sections.size(), "[]");
 
-            if (capacitySource.isEmpty()) {
-                return ExpressionResult.error("Array requires specified capacity", capacitySourceSection.getOpeningSeparator());
+            ArrayClassPrototype instanceType = (ArrayClassPrototype) ModuleLoaderUtils.getReferenceOrThrow(context.getContext(), endTypeName, typeSource).fetch();
+            ArrayClassPrototype baseType = instanceType;
+
+            for (int declaredCapacities = 0; declaredCapacities < capacities.size() - 1; declaredCapacities++) {
+                ClassPrototype componentType = baseType.getType().fetch();
+
+                if (!(componentType instanceof ArrayClassPrototype)) {
+                    throw new RuntimeException("Should not happen");
+                }
+
+                baseType = (ArrayClassPrototype) componentType;
             }
 
-            Expression capacity = context.getParser().parse(context.getContext(), capacitySource);
-
-            if (!PandaTypes.INT.isAssignableFrom(capacity.getReturnType())) {
-                return ExpressionResult.error("Capacity has to be Int", capacitySource);
-            }
-
-            return ExpressionResult.of(new ArrayInstanceExpression((ArrayClassPrototype) reference.get().fetch(), capacity).toExpression());
+            return ExpressionResult.of(new ArrayInstanceExpression(instanceType, baseType.getType().fetch(), capacities.toArray(new Expression[0])).toExpression());
         }
 
     }

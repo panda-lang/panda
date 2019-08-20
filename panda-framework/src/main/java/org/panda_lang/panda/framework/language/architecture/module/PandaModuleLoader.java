@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototypeUtils;
+import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototypeFetcher;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.PandaArray;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.utilities.commons.StreamUtils;
@@ -81,7 +81,7 @@ public class PandaModuleLoader implements ModuleLoader {
     @Override
     public Optional<ClassPrototypeReference> forName(String name) {
         if (name.endsWith(PandaArray.IDENTIFIER)) {
-            return ArrayClassPrototypeUtils.fetch(this, name);
+            return ArrayClassPrototypeFetcher.fetch(this, name);
         }
 
         return forPredicate(module -> module.get(name));
@@ -90,7 +90,7 @@ public class PandaModuleLoader implements ModuleLoader {
     @Override
     public Optional<ClassPrototypeReference> forAssociated(Class<?> associated) {
         if (associated.isArray()) {
-            return ArrayClassPrototypeUtils.fetch(this, associated);
+            return ArrayClassPrototypeFetcher.fetch(this, associated);
         }
 
         return forPredicate(module -> module.getAssociatedWith(associated));

@@ -75,6 +75,7 @@ public class ScopeParser implements Parser {
             return temp;
         });
 
+        context.withComponent(UniversalComponents.SCOPE, scope);
         containerParser.parse(context, scope, source);
 
         context.withComponent(UniversalComponents.LINKER, parentLinker);

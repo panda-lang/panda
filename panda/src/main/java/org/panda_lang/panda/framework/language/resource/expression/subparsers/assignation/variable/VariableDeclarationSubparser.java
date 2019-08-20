@@ -32,14 +32,14 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.VariableAssignerUtils;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
-import org.panda_lang.panda.framework.language.resource.expression.subparsers.assignation.AssignationComponents;
 import org.panda_lang.panda.framework.language.resource.expression.subparsers.assignation.AssignationPriorities;
 import org.panda_lang.panda.framework.language.resource.expression.subparsers.assignation.AssignationSubparserBootstrap;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Registrable(pipeline = PandaPipelines.ASSIGNER_LABEL, priority = AssignationPriorities.VARIABLE_DECLARATION)
 public class VariableDeclarationSubparser extends AssignationSubparserBootstrap {
@@ -63,26 +63,13 @@ public class VariableDeclarationSubparser extends AssignationSubparserBootstrap 
             return false;
         }
 
-        Snippet type = new PandaSnippet();
-        TokenRepresentation typeCandidate = Objects.requireNonNull(source.getLast(1));
+        Optional<Snippet> typeValue = DeclarationUtils.readTypeBackwards(source.subSource(0, source.size() - 1));
 
-        // read dimensions
-        if (typeCandidate.getType() == TokenType.SECTION) {
-            int lastIndex = 1;
-
-            do {
-                type.addToken(typeCandidate);
-                typeCandidate = source.getLast(++lastIndex);
-            } while (typeCandidate != null && typeCandidate.getType() == TokenType.SECTION);
-        }
-
-        type.addToken(typeCandidate);
-
-        if (typeCandidate == null || typeCandidate.getType() != TokenType.UNKNOWN) {
+        if (!typeValue.isPresent()) {
             return false;
         }
 
-        type = type.reversed();
+        Snippet type = typeValue.get();
         Snippet modifiers = source.subSource(0, source.size() - 1 - type.size());
 
         // max amount of modifiers: mut, nil
@@ -111,11 +98,11 @@ public class VariableDeclarationSubparser extends AssignationSubparserBootstrap 
     }
 
     @Autowired
-    public @Nullable Assigner<?> parse(Context context, @Component Scope scope, @Component SourceStream source, @Component Channel channel) {
+    Assigner<?> parse(Context context, @Component Scope scope, @Component SourceStream source, @Component Channel channel, @Component Expression expression) {
         Elements elements = channel.get("elements", Elements.class);
 
         Variable variable = VARIABLE_PARSER.createVariable(context, scope, elements.mutable, elements.nillable, elements.type, elements.name);
-        return VariableAssignerUtils.of(context, scope, variable, context.getComponent(AssignationComponents.EXPRESSION));
+        return VariableAssignerUtils.of(context, scope, variable, expression);
     }
 
     static class Elements {
