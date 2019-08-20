@@ -38,12 +38,18 @@ class TypeReader implements WildcardReader<Snippet> {
 
     @Override
     public @Nullable Snippet read(Context context, String content, TokenDistributor distributor) {
-        TokenRepresentation type = distributor.next();
-
-        if (type.getToken().getType() != TokenType.UNKNOWN) {
+        if (!distributor.hasNext()) {
             return null;
         }
 
+        TokenRepresentation type = distributor.getNext();
+
+        //noinspection ConstantConditions
+        if (type.getType() != TokenType.UNKNOWN && type.getType() != TokenType.SECTION) {
+            return null;
+        }
+
+        distributor.next();
         PandaSnippet tokens = new PandaSnippet(type);
 
         while (distributor.hasNext()) {

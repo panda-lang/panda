@@ -31,12 +31,13 @@ import org.panda_lang.panda.framework.language.resource.expression.subparsers.Se
 import org.panda_lang.panda.framework.language.resource.expression.subparsers.SequenceExpressionSubparser;
 import org.panda_lang.panda.framework.language.resource.expression.subparsers.StaticExpressionSubparser;
 import org.panda_lang.panda.framework.language.resource.expression.subparsers.VariableExpressionSubparser;
+import org.panda_lang.panda.framework.language.resource.expression.subparsers.assignation.AssignationExpressionSubparser;
 
 public final class PandaExpressions extends Parsers {
 
     public static final Class<? extends ExpressionSubparser>[] SUBPARSERS = of(
             ArrayValueExpressionSubparser.class,
-            // AssignationExpressionSubparser.class, off
+            AssignationExpressionSubparser.class,
             ConstructorExpressionSubparser.class,
             CreaseExpressionSubparser.class,
             LiteralExpressionSubparser.class,

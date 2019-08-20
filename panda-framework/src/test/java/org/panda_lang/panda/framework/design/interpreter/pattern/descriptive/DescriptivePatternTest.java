@@ -79,4 +79,16 @@ class DescriptivePatternTest {
         );
     }
 
+    @Test
+    public void testField() {
+        DescriptivePatternTester.test(
+                "(p:public|l:local|h:hidden) s:[static] m:[mut] n:[nil] <type:reader type> <name:condition token {type:unknown}> [= <assignation:reader expression>][;]",
+
+                "hidden mut Test testField",
+
+                DescriptivePatternTester.Wildcard.of("type", "Test"),
+                DescriptivePatternTester.Wildcard.of("name", "testField")
+        );
+    }
+
 }

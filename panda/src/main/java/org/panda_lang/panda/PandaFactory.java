@@ -30,7 +30,7 @@ import org.panda_lang.panda.framework.language.interpreter.messenger.layouts.Par
 import org.panda_lang.panda.framework.language.interpreter.messenger.mappers.StacktraceMapper;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.resource.PandaParsers;
-import org.panda_lang.panda.framework.design.interpreter.parser.assignation.AssignationParsers;
+import org.panda_lang.panda.framework.language.resource.expression.subparsers.assignation.AssignationParsers;
 import org.panda_lang.panda.framework.language.resource.syntax.PandaSyntax;
 
 public class PandaFactory {

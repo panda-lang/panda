@@ -16,13 +16,21 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser;
 
+/**
+ * Container of parsers classes
+ */
 public abstract class Parsers {
-
-    public abstract Class<? extends Parser>[] getParsers();
 
     @SafeVarargs
     protected static <T extends Parser> Class<? extends T>[] of(Class<? extends T>... classes) {
         return classes;
     }
+
+    /**
+     * Get array of associated parsers classes
+     *
+     * @return the array of parsers classes
+     */
+    public abstract Class<? extends Parser>[] getParsers();
 
 }

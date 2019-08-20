@@ -27,13 +27,6 @@ public interface ExpressionSubparserWorker {
         throw new RuntimeException("Not implemented");
     }
 
-    // TODO: remove this method
-    ExpressionSubparserWorker withSubparser(ExpressionSubparserRepresentation subparser);
-
-    default ExpressionSubparser getSubparser() {
-        return getSubparserRepresentation().getSubparser();
-    }
-
-    ExpressionSubparserRepresentation getSubparserRepresentation();
+    ExpressionSubparser getSubparser();
 
 }

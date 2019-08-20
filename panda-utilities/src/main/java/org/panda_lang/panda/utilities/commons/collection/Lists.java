@@ -39,6 +39,19 @@ public class Lists {
     }
 
     /**
+     * Returns a new array list as sublist
+     *
+     * @param list the list to use as source list
+     * @param startIndex the start index
+     * @param endIndex the end index
+     * @param <T> type of list
+     * @return a new list
+     */
+    public static <T> ArrayList<T> subList(List<T> list, int startIndex, int endIndex) {
+        return new ArrayList<>(list.subList(startIndex, endIndex));
+    }
+
+    /**
      * Sort similar lists using the same comparator
      *
      * @param comparator the comparator to use

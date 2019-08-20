@@ -36,8 +36,8 @@ public class FieldAccessor extends DefaultAccessor<PrototypeField> {
     }
 
     @Override
-    public Assigner<PrototypeField> toAssigner(Expression expression) {
-        return new FieldAssigner(this, expression);
+    public Assigner<PrototypeField> toAssigner(Expression value) {
+        return new FieldAssigner(this, value);
     }
 
 }

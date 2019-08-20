@@ -44,7 +44,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.ScopeParser;
-import org.panda_lang.panda.framework.language.resource.prototype.ClassPrototypeComponents;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.resource.prototype.parameter.ParameterParser;
 
 import java.util.List;

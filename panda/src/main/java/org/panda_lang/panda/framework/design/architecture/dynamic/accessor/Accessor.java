@@ -31,7 +31,7 @@ public interface Accessor<T extends Variable> {
 
     MemoryContainer fetchMemoryContainer(Flow flow);
 
-    Assigner<T> toAssigner(Expression expression);
+    Assigner<T> toAssigner(Expression value);
 
     default ClassPrototypeReference getTypeReference() {
         return getVariable().getType();

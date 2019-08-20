@@ -16,7 +16,9 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype;
 
-public class ClassPrototypeUtils {
+public final class ClassPrototypeUtils {
+
+    private ClassPrototypeUtils() { }
 
     public static boolean isAssignableFrom(ClassPrototype to, ClassPrototype from) {
         return to != null ? to.isAssignableFrom(from) : from == null;

@@ -32,7 +32,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStre
 import org.panda_lang.panda.framework.design.interpreter.parser.loader.Registrable;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParserException;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
 @Registrable(pipeline = UniversalPipelines.CONTAINER_LABEL, priority = PandaPriorities.CONTAINER_EXPRESSION)
@@ -58,7 +58,7 @@ public class StandaloneExpressionParser extends ParserBootstrap {
             this.expression = expressionParser.parse(context, stream, SETTINGS);
             this.read = stream.getReadLength();
             return true;
-        } catch (PandaExpressionParserException e) {
+        } catch (PandaExpressionParserFailure e) {
             return e;
         }
     }

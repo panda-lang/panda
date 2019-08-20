@@ -17,25 +17,29 @@
 package org.panda_lang.panda.framework.language.resource.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
+import org.panda_lang.panda.framework.design.architecture.dynamic.accessor.Accessor;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
-import org.panda_lang.panda.framework.language.resource.container.assignation.array.ArrayValueAccessor;
-import org.panda_lang.panda.framework.language.resource.container.assignation.array.ArrayValueAccessorUtils;
+import org.panda_lang.panda.framework.language.resource.expression.subparsers.assignation.array.ArrayValueAccessorUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.panda.framework.language.runtime.expression.PandaDynamicExpression;
 
 public class ArrayValueExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker() {
-        return new ArrayValueWorker();
+        return new ArrayValueWorker().withSubparser(this);
     }
 
     @Override
@@ -81,6 +85,7 @@ public class ArrayValueExpressionSubparser implements ExpressionSubparser {
                 ExpressionResult.error("Cannot use array index on non-array return type", section.getContent());
             }
 
+            ArrayClassPrototype arrayClassPrototype = (ArrayClassPrototype) instance.getReturnType();
             Expression indexExpression = context.getParser().parse(context.getContext(), section.getContent());
 
             // require int as index
@@ -89,10 +94,14 @@ public class ArrayValueExpressionSubparser implements ExpressionSubparser {
             }
 
             // access the value
-            ArrayValueAccessor.ArrayValueAccessorAction action = (branch, prototype, type, array, index) -> new PandaStaticValue(type, array[index]);
-            ArrayValueAccessor accessor = ArrayValueAccessorUtils.of(context.getContext(), section.getContent(), instance, indexExpression, action);
+            Accessor<?> accessor = ArrayValueAccessorUtils.of(context.getContext(), section.getContent(), instance, indexExpression);
 
-            return ExpressionResult.of(accessor.toCallback().toExpression());
+            return ExpressionResult.of(new PandaDynamicExpression(arrayClassPrototype.getType().fetch()) {
+                @Override
+                public Value call(Expression expression, Flow flow) {
+                    return accessor.getValue(flow);
+                }
+            }.toExpression());
         }
 
     }

@@ -62,8 +62,8 @@ final class ClassPrototypeFieldGenerator {
 
         Expression fieldExpression = new PandaExpression(new PandaDynamicExpression(returnType.fetch()) {
             @Override
-            public Value call(Expression expression, Flow frame) {
-                Object instance = frame != null ? frame.getInstance().getValue() : null;
+            public Value call(Expression expression, Flow flow) {
+                Object instance = flow != null ? flow.getInstance().getValue() : null;
 
                 try {
                     Object value = field.get(instance);

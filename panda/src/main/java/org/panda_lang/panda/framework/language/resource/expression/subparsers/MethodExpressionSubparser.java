@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Arguments;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
@@ -37,6 +38,7 @@ import org.panda_lang.panda.framework.language.resource.prototype.parameter.Argu
 import org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.framework.language.runtime.expression.StaticExpression;
+import org.panda_lang.panda.framework.language.runtime.expression.ThisExpression;
 import org.panda_lang.panda.utilities.commons.ObjectUtils;
 
 import java.util.Optional;
@@ -45,7 +47,7 @@ public class MethodExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker() {
-        return new MethodWorker();
+        return new MethodWorker().withSubparser(this);
     }
 
     @Override
@@ -93,7 +95,7 @@ public class MethodExpressionSubparser implements ExpressionSubparser {
             }
             // use current instance (this) if source contains only name and section
             else if (source.getIndex() == 2) {
-                instance = ThisExpressionCallback.of(context.getContext());
+                instance = ThisExpression.of(context.getContext());
             }
 
             // instance required

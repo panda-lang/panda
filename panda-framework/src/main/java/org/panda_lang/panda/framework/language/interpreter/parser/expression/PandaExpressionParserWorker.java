@@ -20,12 +20,14 @@ import org.panda_lang.panda.framework.design.interpreter.parser.expression.Expre
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserType;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.utilities.commons.collection.Maps;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
@@ -34,14 +36,20 @@ public class PandaExpressionParserWorker {
     public static final Map<String, Long> TIMES = new HashMap<>();
     private static final int NONE = -1;
 
+    private final List<ExpressionSubparserRepresentation> subparsers;
     private final ExpressionSubparserWorker[] workers;
     private final Stack<ExpressionSubparserWorker> cachedWorkers = new Stack<>();
     private ExpressionResult error = null;
     private int previousSubparser = NONE;
     private int lastSucceededRead = 0;
 
-    protected PandaExpressionParserWorker(ExpressionSubparserWorker[] cachedWorkers) {
-        this.workers = cachedWorkers;
+    protected PandaExpressionParserWorker(List<ExpressionSubparserRepresentation> subparsers) {
+        this.subparsers = subparsers;
+        this.workers = new ExpressionSubparserWorker[subparsers.size()];
+
+        for (int index = 0; index < subparsers.size(); index++) {
+            this.workers[index] = subparsers.get(index).getSubparser().createWorker();
+        }
     }
 
     protected void finish(ExpressionContext context) {
@@ -142,7 +150,7 @@ public class PandaExpressionParserWorker {
         context.getResults().push(result.get());
 
         // increase usage
-        worker.getSubparserRepresentation().increaseUsages();
+        subparsers.get(index).increaseUsages();
         cachedWorkers.push(worker);
 
         // cleanup cache, move the index
@@ -161,7 +169,7 @@ public class PandaExpressionParserWorker {
     }
 
     public ExpressionCategory getLastCategory() {
-        return cachedWorkers.peek().getSubparserRepresentation().getSubparser().getCategory();
+        return cachedWorkers.peek().getSubparser().getCategory();
     }
 
     public int getLastSucceededRead() {
