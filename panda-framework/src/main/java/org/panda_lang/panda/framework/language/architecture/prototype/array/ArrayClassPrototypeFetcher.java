@@ -20,36 +20,19 @@ import org.panda_lang.panda.framework.PandaFrameworkException;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeMetadata;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.method.PandaMethod;
-import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
-import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class ArrayClassPrototypeUtils {
+public class ArrayClassPrototypeFetcher {
 
     private static final Map<String, ClassPrototypeReference> ARRAY_PROTOTYPES = new HashMap<>();
-
-    private static final PrototypeMethod TO_STRING = PandaMethod.builder()
-            .name("toString")
-            .returnType(PandaTypes.STRING.getReference())
-            .methodBody((branch, instance, arguments) -> {
-                if (!instance.getClass().isArray()) {
-                    throw new RuntimeException();
-                }
-
-                return branch.setReturnValue(new PandaStaticValue(PandaTypes.STRING, Arrays.toString((Object[]) instance)));
-            })
-            .build();
 
     public static Optional<ClassPrototypeReference> fetch(ModuleLoader loader, Class<?> type) {
         return fetch(loader, type.getSimpleName());
@@ -100,7 +83,9 @@ public class ArrayClassPrototypeUtils {
         ArrayClassPrototype arrayPrototype = new ArrayClassPrototype(prototype.getModule(), arrayClass, type);
         ARRAY_PROTOTYPES.put(prototype.getName() + dimensions, arrayPrototype.getReference());
 
-        arrayPrototype.getMethods().declare(TO_STRING);
+        arrayPrototype.getMethods().declare(ArrayClassPrototypeConstants.SIZE);
+        arrayPrototype.getMethods().declare(ArrayClassPrototypeConstants.TO_STRING);
+
         return arrayPrototype.getReference();
     }
 
