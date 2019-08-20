@@ -18,13 +18,28 @@ package org.panda_lang.panda.utilities.commons;
 
 import org.jetbrains.annotations.Nullable;
 
-public class PackageUtils {
+public final class PackageUtils {
 
+    private PackageUtils() { }
+
+    /**
+     * Display package using only first letters
+     *
+     * @param clazz the class to use
+     * @return the formatted package
+     *
+     * @see #getShortenPackage(String)
+     */
     public static String getShortenPackage(Class<?> clazz) {
         return getShortenPackage(clazz.getName());
     }
 
-
+    /**
+     * Display package using only first letters
+     *
+     * @param pack the package represented by string (with class name at the end)
+     * @return the formatted package
+     */
     public static String getShortenPackage(String pack) {
         int separator = StringUtils.lastIndexOfBefore(pack, ".", 1);
 

@@ -23,7 +23,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
-public class StackUtils {
+public final class StackUtils {
+
+    private StackUtils() { }
 
     /**
      * Push multiple values at once

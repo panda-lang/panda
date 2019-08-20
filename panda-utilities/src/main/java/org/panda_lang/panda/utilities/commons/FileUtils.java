@@ -33,7 +33,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-public class FileUtils {
+public final class FileUtils {
+
+    private FileUtils() { }
 
     /**
      * Efficient way to collect all paths (with subdirectories) in the specified directory

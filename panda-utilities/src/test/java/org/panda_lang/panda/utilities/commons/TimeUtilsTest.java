@@ -19,20 +19,20 @@ package org.panda_lang.panda.utilities.commons;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class TimeUtilsTest {
+final class TimeUtilsTest {
 
     @Test
-    public void toMilliseconds() {
+    void toMilliseconds() {
         Assertions.assertEquals("1.0ms", TimeUtils.toMilliseconds(1_000_000));
     }
 
     @Test
-    public void toSeconds() {
+    void toSeconds() {
         Assertions.assertEquals("1.0s", TimeUtils.toSeconds(1_000));
     }
 
     @Test
-    public void getUptime() {
+    void getUptime() {
         Assertions.assertTrue(TimeUtils.getUptime(System.currentTimeMillis() - 1L) > 0);
     }
 

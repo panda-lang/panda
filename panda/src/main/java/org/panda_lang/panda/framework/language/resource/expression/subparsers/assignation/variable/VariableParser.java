@@ -83,7 +83,7 @@ public class VariableParser {
                     .build();
         }
 
-        String variableName = nameSource.asString();
+        String variableName = nameSource.asSource();
 
         if (scope.getVariables().stream().anyMatch(variable -> variable.getName().equals(variableName))) {
             throw PandaParserFailure.builder("Variable name is already used in the scope", context)
@@ -92,7 +92,7 @@ public class VariableParser {
         }
 
         ModuleLoader loader = context.getComponent(UniversalComponents.MODULE_LOADER);
-        Optional<ClassPrototypeReference> prototype = loader.forName(type.toSnippet().asString());
+        Optional<ClassPrototypeReference> prototype = loader.forName(type.toSnippet().asSource());
 
         if (!prototype.isPresent()) {
             throw PandaParserFailure.builder("Cannot recognize variable type: " + type, context)
@@ -100,7 +100,7 @@ public class VariableParser {
                     .build();
         }
 
-        Variable variable = new PandaVariable(prototype.get(), nameSource.asString(), mutable, nillable);
+        Variable variable = new PandaVariable(prototype.get(), nameSource.asSource(), mutable, nillable);
         scope.addVariable(variable);
 
         return variable;

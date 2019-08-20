@@ -16,7 +16,9 @@
 
 package org.panda_lang.panda.utilities.commons;
 
-public class BitwiseUtils {
+public final class BitwiseUtils {
+
+    private BitwiseUtils() { }
 
     /**
      * Convert 2 ints to 1 long

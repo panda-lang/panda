@@ -24,18 +24,25 @@ public final class UnsafeUtils {
 
     private static Unsafe unsafe;
 
-    static {
-        try {
-            Field theUnsafeField = Unsafe.class.getDeclaredField("theUnsafe");
-            theUnsafeField.setAccessible(true);
-            unsafe = (Unsafe) theUnsafeField.get(null);
-        }
-        catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    private UnsafeUtils() { }
 
+    /**
+     * Get access to the Unsafe instance
+     *
+     * @return the unsafe
+     */
     public static Unsafe getUnsafe() {
+        if (unsafe == null) {
+            try {
+                Field theUnsafeField = Unsafe.class.getDeclaredField("theUnsafe");
+                theUnsafeField.setAccessible(true);
+                unsafe = (Unsafe) theUnsafeField.get(null);
+            }
+            catch (NoSuchFieldException | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         return unsafe;
     }
 

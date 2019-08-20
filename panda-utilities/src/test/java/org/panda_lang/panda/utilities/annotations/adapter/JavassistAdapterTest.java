@@ -20,12 +20,12 @@ import javassist.bytecode.ClassFile;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class JavassistAdapterTest {
+final class JavassistAdapterTest {
 
     private static final JavassistAdapter ADAPTER = new JavassistAdapter();
     private static final ClassFile CLASS_FILE = new ClassFile(false, "Test", null);
 
-    public class Foo {}
+    public static class Foo { }
 
     @Test
     void acceptsInput() {

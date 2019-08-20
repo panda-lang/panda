@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.Collection;
 
-class StreamUtilsTest {
+final class StreamUtilsTest {
 
     private static final Collection<Integer> COLLECTION = Arrays.asList(5, 2, 5);
 

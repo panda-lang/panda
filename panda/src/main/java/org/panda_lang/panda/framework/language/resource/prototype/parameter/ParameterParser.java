@@ -26,6 +26,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.SnippetUtils;
 import org.panda_lang.panda.framework.language.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.PandaParameter;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 
@@ -47,15 +48,23 @@ public class ParameterParser implements Parser {
             return parameters;
         }
 
-        for (Snippet source : parametersSource) {
+        for (int index = 0; index < parametersSource.length; index++) {
+            Snippet source = parametersSource[index];
             Token name = source.getLast();
+
+            if (name == null) {
+                throw PandaParserFailure.builder("Missing parameter at " + index + " position", context)
+                        .withStreamOrigin(snippet)
+                        .build();
+            }
+
             int end = source.size() - 1;
 
             if (source.contains(Separators.PERIOD)) {
                 end -= 3;
             }
 
-            ClassPrototypeReference reference = ModuleLoaderUtils.getReferenceOrThrow(context, source.subSource(0, end).asString(), source);
+            ClassPrototypeReference reference = ModuleLoaderUtils.getReferenceOrThrow(context, source.subSource(0, end).asSource(), source);
             boolean varargs = end + 1 < source.size();
 
             if (varargs) {

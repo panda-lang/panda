@@ -62,7 +62,7 @@ public class FieldParser extends ParserBootstrap {
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
     void parse(Context context, LocalData local, @Inter ExtractorResult result, @Src("type") Snippet type, @Src("name") Snippet name) {
-        ClassPrototypeReference returnType = ModuleLoaderUtils.getReferenceOrThrow(context, type.asString(), type);
+        ClassPrototypeReference returnType = ModuleLoaderUtils.getReferenceOrThrow(context, type.asSource(), type);
 
         PrototypeVisibility visibility = PrototypeVisibility.LOCAL;
         visibility = result.hasIdentifier("p") ? PrototypeVisibility.PUBLIC : visibility;
@@ -79,7 +79,7 @@ public class FieldParser extends ParserBootstrap {
                 .prototype(prototype.getReference())
                 .returnType(returnType)
                 .fieldIndex(fieldIndex)
-                .name(name.asString())
+                .name(name.asSource())
                 .visibility(visibility)
                 .isStatic(isStatic)
                 .mutable(mutable)

@@ -38,12 +38,23 @@ public class PandaSnippet implements Snippet {
         this(Lists.mutableOf(representations));
     }
 
-    public PandaSnippet(List<TokenRepresentation> representations) {
+    public PandaSnippet(List<? extends TokenRepresentation> representations) {
         this(representations, true);
     }
 
-    public PandaSnippet(List<TokenRepresentation> representations, boolean clone) {
-        this.tokens = clone ? new ArrayList<>(representations) : representations;
+    @SuppressWarnings("unchecked")
+    public PandaSnippet(List<? extends TokenRepresentation> representations, boolean clone) {
+        this.tokens = clone ? new ArrayList<>(representations) : (List<TokenRepresentation>) representations;
+    }
+
+    @Override
+    public void addTokens(Snippet snippet) {
+        tokens.addAll(snippet.getTokensRepresentations());
+    }
+
+    @Override
+    public void addToken(TokenRepresentation tokenRepresentation) {
+        tokens.add(tokenRepresentation);
     }
 
     @Override
@@ -51,6 +62,7 @@ public class PandaSnippet implements Snippet {
         return Objects.hash(tokens);
     }
 
+    @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
     @Override
     public boolean equals(Object to) {
         return ObjectUtils.equals(this, tokens, to, tokenRepresentations -> tokenRepresentations.tokens);
@@ -69,7 +81,7 @@ public class PandaSnippet implements Snippet {
     }
 
     @Override
-    public List<TokenRepresentation> getTokensRepresentations() {
+    public List<? extends TokenRepresentation> getTokensRepresentations() {
         return tokens;
     }
 

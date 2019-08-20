@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-class MapsTest {
+final class MapsTest {
 
     @Test
     void swapped() {

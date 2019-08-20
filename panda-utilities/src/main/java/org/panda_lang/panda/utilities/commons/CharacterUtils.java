@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.utilities.commons;
 
-public class CharacterUtils {
+public final class CharacterUtils {
 
     private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 
@@ -27,6 +27,8 @@ public class CharacterUtils {
     public static final char TAB = '\t';
     public static final char BACKSPACE = '\b';
     public static final char NO_BREAK_SPACE = '\u00A0';
+
+    private CharacterUtils() { }
 
     /**
      * @param c a character to check

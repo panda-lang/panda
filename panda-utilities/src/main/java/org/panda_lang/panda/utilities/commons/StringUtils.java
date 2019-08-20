@@ -22,7 +22,7 @@ import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class StringUtils {
+public final class StringUtils {
 
     /**
      * Instance of the empty string
@@ -33,6 +33,8 @@ public class StringUtils {
      * Instance of the empty array of string
      */
     public static final String[] EMPTY_ARRAY = new String[0];
+
+    private StringUtils() { }
 
     /**
      * Split text by the specified delimiter, but only once (to the first occurrence of the specified delimiter)

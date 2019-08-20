@@ -19,16 +19,16 @@ package org.panda_lang.panda.utilities.commons;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class StringUtilsTest {
+final class StringUtilsTest {
 
     @Test
-    public void consts() {
+    void consts() {
         Assertions.assertEquals(0, StringUtils.EMPTY.length());
         Assertions.assertEquals(0, StringUtils.EMPTY_ARRAY.length);
     }
 
     @Test
-    public void isEmpty() {
+    void isEmpty() {
         Assertions.assertAll(
                 () -> Assertions.assertTrue(StringUtils.isEmpty(null)),
                 () -> Assertions.assertTrue(StringUtils.isEmpty(StringUtils.EMPTY)),
@@ -43,7 +43,7 @@ class StringUtilsTest {
     }
 
     @Test
-    public void replace() {
+    void replace() {
         Assertions.assertAll(
                 () -> Assertions.assertEquals("Test", StringUtils.replace("Tests x", "s x", StringUtils.EMPTY)),
                 () -> Assertions.assertEquals("b b b", StringUtils.replace("a a a", "a", "b")),
@@ -52,7 +52,7 @@ class StringUtilsTest {
     }
 
     @Test
-    public void replaceFirst() {
+    void replaceFirst() {
         Assertions.assertEquals("a b c", StringUtils.replaceFirst("b b c", "b", "a"));
         Assertions.assertEquals("a b c", StringUtils.replaceFirst("a b c", "d", "e"));
 
@@ -61,7 +61,7 @@ class StringUtilsTest {
     }
 
     @Test
-    public void replaceRespectively() {
+    void replaceRespectively() {
         Assertions.assertAll(
                 () -> Assertions.assertEquals("a b c", StringUtils.replaceRespectively("? ? ?", "?", "a", "b", "c")),
                 () -> Assertions.assertThrows(IllegalArgumentException.class, () -> StringUtils.replaceRespectively("? ?", "?", "a")),
@@ -76,7 +76,7 @@ class StringUtilsTest {
     }
 
     @Test
-    public void replaceRespectivelyAndSoftly() {
+    void replaceRespectivelyAndSoftly() {
         Assertions.assertAll(
                 () -> Assertions.assertEquals("a b c", StringUtils.replaceRespectivelyAndSoftly("? ? ?", "?", "a", "b", "c")),
                 () -> Assertions.assertEquals("a b ?", StringUtils.replaceRespectivelyAndSoftly("? ? ?", "?", "a", "b"))
@@ -84,14 +84,14 @@ class StringUtilsTest {
     }
 
     @Test
-    public void capitalize() {
+    void capitalize() {
         Assertions.assertEquals(".", StringUtils.capitalize("."));
         Assertions.assertEquals("Test", StringUtils.capitalize("test"));
         Assertions.assertEquals(StringUtils.EMPTY, StringUtils.capitalize(StringUtils.EMPTY));
     }
 
     @Test
-    public void trimStart() {
+    void trimStart() {
         Assertions.assertAll(
                 // Without changes
                 () -> Assertions.assertEquals("test", StringUtils.trimStart("test")),
@@ -105,7 +105,7 @@ class StringUtilsTest {
     }
 
     @Test
-    public void trimEnd() {
+    void trimEnd() {
         Assertions.assertAll(
                 // Without changes
                 () -> Assertions.assertEquals("test", StringUtils.trimEnd("test")),
@@ -119,27 +119,27 @@ class StringUtilsTest {
     }
 
     @Test
-    public void extractParagraph() {
+    void extractParagraph() {
         Assertions.assertEquals("  ", StringUtils.extractParagraph("  test"));
     }
 
     @Test
-    public void countOccurrences() {
+    void countOccurrences() {
         Assertions.assertEquals(2, StringUtils.countOccurrences(" test test ", "test"));
     }
 
     @Test
-    public void containsCharacter() {
+    void containsCharacter() {
         Assertions.assertTrue(StringUtils.containsCharacter("abcd", 'a', 'c'));
     }
 
     @Test
-    public void containsSpecialCharacters() {
+    void containsSpecialCharacters() {
         Assertions.assertTrue(StringUtils.containsSpecialCharacters("abc!@#"));
     }
 
     @Test
-    public void containsOtherCharacters() {
+    void containsOtherCharacters() {
         Assertions.assertAll(
                 () -> Assertions.assertTrue(StringUtils.containsOtherCharacters("abc", new char[] { 'a', 'b' })),
                 () -> Assertions.assertFalse(StringUtils.containsOtherCharacters("abc", new char[] { 'a', 'b', 'c' }))
@@ -147,7 +147,7 @@ class StringUtilsTest {
     }
 
     @Test
-    public void isNumber() {
+    void isNumber() {
         Assertions.assertAll(
                 () -> Assertions.assertFalse(StringUtils.isNumber("test")),
 
@@ -160,12 +160,12 @@ class StringUtilsTest {
     }
 
     @Test
-    public void buildSpace() {
+    void buildSpace() {
         Assertions.assertEquals("  test", StringUtils.buildSpace(2) + "test");
     }
 
     @Test
-    public void lastIndexOf() {
+    void lastIndexOf() {
         Assertions.assertAll(
                 () -> Assertions.assertEquals(2, StringUtils.lastIndexOf("abc", "c", 3)),
                 () -> Assertions.assertEquals(-1, StringUtils.lastIndexOf("abc", "c", 1)),
@@ -174,7 +174,7 @@ class StringUtilsTest {
     }
 
     @Test
-    public void splitFirst() {
+    void splitFirst() {
         String[] split = StringUtils.splitFirst("aa,bb,cc", ",");
         String[] splitEmpty = StringUtils.splitFirst("aaa", ",");
 
@@ -188,14 +188,14 @@ class StringUtilsTest {
     }
 
     @Test
-    public void startsWith() {
+    void startsWith() {
         Assertions.assertTrue(StringUtils.startsWith("abc", chars -> chars[0] == 'a'));
         Assertions.assertFalse(StringUtils.startsWith("abc", chars -> chars[2] == 'a'));
         Assertions.assertFalse(StringUtils.startsWith(StringUtils.EMPTY, chars -> true));
     }
 
     @Test
-    public void split() {
+    void split() {
         String[] elements = StringUtils.split("aa,bb,cc", ",");
         String[] emptyElements = StringUtils.split("aa", ",");
         String[] emptyContent = StringUtils.split(",", ",");
@@ -212,7 +212,7 @@ class StringUtilsTest {
     }
 
     @Test
-    public void lastIndexOfBefore() {
+    void lastIndexOfBefore() {
         Assertions.assertEquals(1, StringUtils.lastIndexOfBefore("...", ".", 1));
         Assertions.assertEquals(-1, StringUtils.lastIndexOfBefore("...", ".", 3));
     }

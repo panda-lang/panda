@@ -28,7 +28,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-class ReflectionUtilsTest {
+final class ReflectionUtilsTest {
 
     @Test
     void getMethod() {
@@ -70,26 +70,26 @@ class ReflectionUtilsTest {
         Assertions.assertEquals("value", values.iterator().next());
     }
 
-}
+    @Target(ElementType.METHOD)
+    @Retention(RetentionPolicy.RUNTIME)
+    @interface AnnotationTest {}
 
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-@interface AnnotationTest {}
+    static class Foo {
 
-class Foo {
+        private static final String STATIC_FIELD = "static-value";
 
-    private static final String STATIC_FIELD = "static-value";
+        @AnnotationTest
+        private void test() { }
 
-    @AnnotationTest
-    private void test() { }
+    }
 
-}
+    static class Bar extends Foo {
 
-class Bar extends Foo {
+        private final String FIELD = "value";
 
-    private final String FIELD = "value";
+        @AnnotationTest
+        private void test() { }
 
-    @AnnotationTest
-    private void test() { }
+    }
 
 }

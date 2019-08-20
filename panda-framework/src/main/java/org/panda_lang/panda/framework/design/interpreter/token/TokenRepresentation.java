@@ -23,6 +23,9 @@ import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 
 import java.util.Optional;
 
+/**
+ * Wrapper for {@link org.panda_lang.panda.framework.design.interpreter.token.Token} that contains details about location of token in source
+ */
 public interface TokenRepresentation extends Token, Snippetable {
 
     /**
@@ -49,11 +52,23 @@ public interface TokenRepresentation extends Token, Snippetable {
      */
     SourceLocation getLocation();
 
+    /**
+     * Get token using {@link #getToken()} method and cast it to the requested type
+     *
+     * @param type the class type
+     * @param <T> the type to cast
+     * @return casted value, otherwise {@link java.lang.ClassCastException}
+     */
     @SuppressWarnings("unchecked")
     default <T extends Token> T toToken(Class<T> type) {
         return (T) getToken();
     }
-
+    /**
+     * Get token using {@link #getToken()} method and cast it to the requested type
+     *
+     * @param <T> the type to cast
+     * @return casted value, otherwise {@link java.lang.ClassCastException}
+     */
     @SuppressWarnings("unchecked")
     default <T extends Token> T toToken() {
         return (T) getToken();

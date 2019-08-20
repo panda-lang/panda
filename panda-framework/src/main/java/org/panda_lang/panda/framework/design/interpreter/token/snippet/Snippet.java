@@ -29,21 +29,46 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public interface Snippet extends Snippetable, Iterable<TokenRepresentation>{
+/**
+ * Snippet is one of the most basic elements used by Panda Framework and represents a portion of tokens.
+ * It may be compared to {@link String} and {@link org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation} to characters.
+ */
+public interface Snippet extends Snippetable, Iterable<TokenRepresentation> {
 
+    /**
+     * Constant for not found result
+     */
     int NOT_FOUND = -1;
 
+    /**
+     * Snippet supports iterations
+     *
+     * @return the iterator
+     */
     @Override
     default Iterator<TokenRepresentation> iterator() {
         return new SnippetIterator(this);
     }
 
+    /**
+     * Reverse tokens and get'em as a new snippet
+     *
+     * @return a reversed snippet
+     */
     default Snippet reversed() {
         Snippet snippet = new PandaSnippet(getTokensRepresentations());
         Collections.reverse(snippet.getTokensRepresentations());
         return snippet;
     }
 
+    /**
+     * Returns a view of the portion of this snippet between the specified fromIndex, inclusive, and toIndex exclusive.
+     * Returned snipped is an independent element and changes in sub snippet does not affect the original snippet.
+     *
+     * @param fromIndex the start index
+     * @param toIndex the end index
+     * @return a new snippet
+     */
     default Snippet subSource(int fromIndex, int toIndex) {
         if (toIndex < 0) {
             return new PandaSnippet(Lists.subList(getTokensRepresentations(), fromIndex, size() + toIndex), false);
@@ -52,14 +77,21 @@ public interface Snippet extends Snippetable, Iterable<TokenRepresentation>{
         return new PandaSnippet(Lists.subList(getTokensRepresentations(), fromIndex, toIndex), false);
     }
 
-    default Snippet[] split(Token token) {
+    /**
+     * Split snippet using the given delimiter.
+     * If snippet does not contain delimiter, the method will return one item array containing copy of the current source
+     *
+     * @param delimiter the delimiting token
+     * @return array of items
+     */
+    default Snippet[] split(Token delimiter) {
         List<Snippet> snippets = new ArrayList<>();
         int previousIndex = 0;
 
         for (int i = 0; i < size(); i++) {
             TokenRepresentation current = get(i);
 
-            if (token.equals(current.getToken())) {
+            if (delimiter.equals(current.getToken())) {
                 snippets.add(subSource(previousIndex, i));
                 previousIndex = i + 1;
             }
@@ -69,24 +101,18 @@ public interface Snippet extends Snippetable, Iterable<TokenRepresentation>{
             snippets.add(subSource(previousIndex, size()));
         }
         else if (snippets.isEmpty()) {
-            snippets.add(this);
+            snippets.add(new PandaSnippet(getTokensRepresentations()));
         }
 
         return snippets.toArray(new Snippet[0]);
     }
 
-    default int indexOf(Token token) {
-        List<TokenRepresentation> tokens = getTokensRepresentations();
-
-        for (int i = 0; i < getTokensRepresentations().size(); i++) {
-            if (tokens.get(i).contentEquals(token)) {
-                return i;
-            }
-        }
-
-        return NOT_FOUND;
-    }
-
+    /**
+     * Check if snippet starts with the given tokens
+     *
+     * @param tokens the tokens to compare with
+     * @return true if snippet starts with the given tokens, otherwise false
+     */
     default boolean startsWith(Token... tokens) {
         if (tokens.length > size()) {
             return false;
@@ -101,9 +127,15 @@ public interface Snippet extends Snippetable, Iterable<TokenRepresentation>{
         return true;
     }
 
-    default boolean contains(Token token) {
-        for (TokenRepresentation representation : getTokensRepresentations()) {
-            if (representation.contentEquals(token)) {
+    /**
+     * Check if snippet contains at least one of the given token
+     *
+     * @param tokens the tokens to search for
+     * @return true if snippet contains the given token, otherwise false
+     */
+    default boolean contains(Token... tokens) {
+        for (Token token : tokens) {
+            if (indexOf(token) != NOT_FOUND) {
                 return true;
             }
         }
@@ -111,38 +143,92 @@ public interface Snippet extends Snippetable, Iterable<TokenRepresentation>{
         return false;
     }
 
-    default Snippet addToken(TokenRepresentation tokenRepresentation) {
-        getTokensRepresentations().add(tokenRepresentation);
-        return this;
+    /**
+     * Get index of the given token in snippet
+     *
+     * @param token the token to search for
+     * @return index of token, if snippet does not contain token, the method returns {@link #NOT_FOUND} value
+     */
+    default int indexOf(Token token) {
+        List<? extends TokenRepresentation> tokens = getTokensRepresentations();
+
+        for (int index = 0; index < tokens.size(); index++) {
+            if (tokens.get(index).contentEquals(token)) {
+                return index;
+            }
+        }
+
+        return NOT_FOUND;
     }
 
-    default Snippet addTokens(Snippet snippet) {
-        getTokensRepresentations().addAll(snippet.getTokensRepresentations());
-        return this;
-    }
+    /**
+     * Add tokens to the current snippet
+     *
+     * @param snippet the snippet (collection of tokens) to add
+     */
+    void addTokens(Snippet snippet);
 
-    default Snippet removeToken(TokenRepresentation tokenRepresentation) {
+    /**
+     * Add token to the snippet
+     *
+     * @param tokenRepresentation the token to add
+     */
+    void addToken(TokenRepresentation tokenRepresentation);
+
+    /**
+     * Remove token from snippet
+     *
+     * @param tokenRepresentation the token to remove
+     */
+    default void removeToken(TokenRepresentation tokenRepresentation) {
         getTokensRepresentations().remove(tokenRepresentation);
-        return this;
     }
 
+    /**
+     * Remove token at the given index
+     *
+     * @param index the index to use
+     * @return removed token
+     */
     default TokenRepresentation remove(int index) {
         return getTokensRepresentations().remove(index);
     }
 
+    /**
+     * Get size of snippet
+     *
+     * @return amount of tokens in the snippet
+     */
     default int size() {
         return getTokensRepresentations().size();
     }
 
+    /**
+     * Check if snippet is empty
+     *
+     * @return true if snippet does not contain any token
+     */
     default boolean isEmpty() {
         return getTokensRepresentations().isEmpty();
     }
 
+    /**
+     * Check if snippet contains token at the given index
+     *
+     * @param index the index to check
+     * @return true if there is token at the given index
+     */
     default boolean hasElement(int index) {
         return index > NOT_FOUND && index < size();
     }
 
-
+    /**
+     * Get token at the given position
+     *
+     * @param index the index to use
+     * @return a token at the given position
+     * @throws SnippetIndexOutOfBoundsException when index is out of bounds
+     */
     default TokenRepresentation get(int index) {
         if (!hasElement(index)) {
             throw new SnippetIndexOutOfBoundsException(index);
@@ -151,23 +237,41 @@ public interface Snippet extends Snippetable, Iterable<TokenRepresentation>{
         return getTokensRepresentations().get(index);
     }
 
+    /**
+     * Get the first token
+     *
+     * @return the first token
+     */
+    default TokenRepresentation getFirst() {
+        return get(0);
+    }
+
+    /**
+     * Get token at the given index counting backwards of snippet
+     *
+     * @param lastIndex the index to use
+     * @return token at the given position, otherwise null
+     */
     default @Nullable TokenRepresentation getLast(int lastIndex) {
         int index = size() - lastIndex - 1;
         return hasElement(index) ? get(index) : null;
     }
 
-    default Token getToken(int index) {
-        return get(index).getToken();
-    }
-
-    default TokenRepresentation getFirst() {
-        return get(0);
-    }
-
-    default TokenRepresentation getLast() {
+    /**
+     * Get the last token
+     *
+     * @return the last token or null if the snippet is empty
+     */
+    default @Nullable TokenRepresentation getLast() {
         return getLast(0);
     }
 
+    /**
+     * Get tokens at the given line as a snippet
+     *
+     * @param line the line to search for
+     * @return tokens at the requested line
+     */
     default Snippet getLine(int line) {
         List<TokenRepresentation> selected = new ArrayList<>();
 
@@ -186,11 +290,23 @@ public interface Snippet extends Snippetable, Iterable<TokenRepresentation>{
         return new PandaSnippet(selected, false);
     }
 
-    default SourceLocation getCurrentLocation() {
-        return hasElement(0) ? get(0).getLocation() : null;
+    /**
+     * Get {@link org.panda_lang.panda.framework.design.interpreter.source.SourceLocation} of first token in snippet
+     *
+     * @return the current location
+     */
+    default SourceLocation getLocation() {
+        return getFirst().getLocation();
     }
 
-    default String asString() {
+    /**
+     * Get snippet as source.
+     * Method {@link #toString()} returns an easy to read formatted representation of snippet,
+     * but the current method returns the source represented by snippet that may be still parsed.
+     *
+     * @return the source represented by the snippet
+     */
+    default String asSource() {
         StringBuilder node = new StringBuilder();
 
         for (TokenRepresentation representation : getTokensRepresentations()) {
@@ -200,7 +316,7 @@ public interface Snippet extends Snippetable, Iterable<TokenRepresentation>{
                 Section section = representation.toToken();
 
                 node.append(section.getSeparator())
-                        .append(section.getContent().asString())
+                        .append(section.getContent().asSource())
                         .append(section.getSeparator().getOpposite());
 
                 continue;
@@ -212,8 +328,18 @@ public interface Snippet extends Snippetable, Iterable<TokenRepresentation>{
         return node.toString();
     }
 
-    List<TokenRepresentation> getTokensRepresentations();
+    /**
+     * Get tokens as list
+     *
+     * @return the list of tokens used by snippet
+     */
+    List<? extends TokenRepresentation> getTokensRepresentations();
 
+    /**
+     * Convert snippet into the array of tokens
+     *
+     * @return a new array containing content of snippet
+     */
     TokenRepresentation[] toArray();
 
     @Override

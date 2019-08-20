@@ -27,7 +27,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-public class StreamUtils {
+public final class StreamUtils {
+
+    private StreamUtils() { }
 
     public static <T> int sum(Iterable<T> iterable, ToIntFunction<? super T> function) {
         return stream(iterable).mapToInt(function).sum();

@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
-class DependencyInjectionTest {
+final class DependencyInjectionTest {
 
     private static final String HELLO = "Hello";
     private static final String HELLO_WIRED = HELLO + " Wired";

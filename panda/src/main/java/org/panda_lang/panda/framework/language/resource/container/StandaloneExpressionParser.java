@@ -66,7 +66,7 @@ public class StandaloneExpressionParser extends ParserBootstrap {
     @Autowired
     void parseExpression(@Component SourceStream source, @Component Container container) {
         StandaloneExpression statement = new StandaloneExpression(expression);
-        statement.setLocation(source.toSnippet().getCurrentLocation());
+        statement.setLocation(source.toSnippet().getLocation());
         container.addStatement(statement);
         source.read(read);
     }

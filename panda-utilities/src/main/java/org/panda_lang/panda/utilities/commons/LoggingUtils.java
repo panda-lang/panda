@@ -16,7 +16,9 @@
 
 package org.panda_lang.panda.utilities.commons;
 
-public class LoggingUtils {
+public final class LoggingUtils {
+
+    private LoggingUtils() { }
 
     public static void skipJansi() {
         System.setProperty("log4j.skipJansi", "true");

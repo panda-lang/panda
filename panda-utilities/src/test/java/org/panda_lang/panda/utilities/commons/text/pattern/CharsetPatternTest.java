@@ -20,12 +20,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.utilities.commons.text.pattern.charset.CharsetPattern;
 
-class CharsetPatternTest {
+final class CharsetPatternTest {
 
     private static final String EXPRESSION = "instance.extractToken().method(parameter.extractToken())";
 
     @Test
-    public void testCharsetPattern() {
+    void testCharsetPattern() {
         CharsetPattern charsetPattern = new CharsetPattern("*.*(*)");
         charsetPattern.setCharset(new char[] { '.', '(', ')' });
 

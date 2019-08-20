@@ -31,7 +31,7 @@ public final class SourceFragmentFormatter implements MessengerDataFormatter<Sou
         typeFormatter
                 .register("{{location}}", (formatter, fragment) -> fragment.getLocation())
                 .register("{{line}}", (formatter, fragment) -> fragment.getLine() < 0 ? "?" : fragment.getLine() + 1)
-                .register("{{index}}", (formatter, fragment) -> fragment.getIndicatedFragment().getCurrentLocation().getIndex())
+                .register("{{index}}", (formatter, fragment) -> fragment.getIndicatedFragment().getLocation().getIndex())
                 .register("{{source}}", (formatter, fragment) -> {
                     String source = getCurrentLine(fragment).toString();
                     String element = fragment.getIndicatedFragment().toString();
@@ -58,7 +58,7 @@ public final class SourceFragmentFormatter implements MessengerDataFormatter<Sou
     }
 
     private Snippet getCurrentLine(SourceFragment fragment) {
-        return fragment.getFragment().getLine(fragment.getIndicatedFragment().getCurrentLocation().getLine());
+        return fragment.getFragment().getLine(fragment.getIndicatedFragment().getLocation().getLine());
     }
 
     @Override

@@ -19,16 +19,16 @@ package org.panda_lang.panda.utilities.commons;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class CharacterUtilsTest {
+final class CharacterUtilsTest {
 
     @Test
-    public void testBelongsTo() {
+    void testBelongsTo() {
         Assertions.assertTrue(CharacterUtils.belongsTo('b', "abc".toCharArray()));
         Assertions.assertFalse(CharacterUtils.belongsTo('d', "abc".toCharArray()));
     }
 
     @Test
-    public void testIsWhitespace() {
+    void testIsWhitespace() {
         Assertions.assertAll(
                 () -> Assertions.assertTrue(CharacterUtils.isWhitespace(' ')),
                 () -> Assertions.assertFalse(CharacterUtils.isWhitespace('a')),
@@ -40,19 +40,19 @@ class CharacterUtilsTest {
     }
 
     @Test
-    public void testGetIndex() {
+    void testGetIndex() {
         Assertions.assertEquals(-1, CharacterUtils.getIndex(new char[] { 'a', 'b', 'c' }, 'd'));
         Assertions.assertEquals(1, CharacterUtils.getIndex(new char[] { 'a', 'b', 'c' }, 'b'));
     }
 
     @Test
-    public void testLetters() {
+    void testLetters() {
         Assertions.assertEquals('a', CharacterUtils.LETTERS[0]);
         Assertions.assertEquals('Z', CharacterUtils.LETTERS[CharacterUtils.LETTERS.length - 1]);
     }
 
     @Test
-    public void testDigits() {
+    void testDigits() {
         Assertions.assertEquals('0', CharacterUtils.DIGITS[0]);
         Assertions.assertEquals('9', CharacterUtils.DIGITS[CharacterUtils.DIGITS.length - 1]);
     }

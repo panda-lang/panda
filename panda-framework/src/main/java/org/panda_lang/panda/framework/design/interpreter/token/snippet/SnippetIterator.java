@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 
 import java.util.Iterator;
 
-public class SnippetIterator implements Iterator<TokenRepresentation> {
+final class SnippetIterator implements Iterator<TokenRepresentation> {
 
     private final Snippet snippet;
     private int index;

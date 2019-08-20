@@ -47,10 +47,10 @@ public final class ImportParser extends ParserBootstrap {
 
     @Autowired
     void parseImport(Context context, @Component PandaScript script, @Component ModuleLoader loader, @Src("class") Snippet clazzSource) {
-        Optional<Class<?>> importedClass = ClassUtils.forName(clazzSource.asString());
+        Optional<Class<?>> importedClass = ClassUtils.forName(clazzSource.asSource());
 
         if (!importedClass.isPresent()) {
-            throw PandaParserFailure.builder("Class " + clazzSource.asString() + " does not exist", context)
+            throw PandaParserFailure.builder("Class " + clazzSource.asSource() + " does not exist", context)
                     .withStreamOrigin(clazzSource)
                     .build();
         }

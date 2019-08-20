@@ -19,12 +19,12 @@ package org.panda_lang.panda.utilities.commons.iterable;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class ArrayDistributorTest {
+final class ArrayDistributorTest {
 
     private static final String[] array = { "a", "b", "c", "d", "e" };
 
     @Test
-    public void testArrayDistributor() {
+    void testArrayDistributor() {
         ArrayDistributor<String> distributor = new ArrayDistributor<>(array);
         distributor.setIndex(2);
 

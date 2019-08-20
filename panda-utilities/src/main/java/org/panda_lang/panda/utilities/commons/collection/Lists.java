@@ -39,7 +39,8 @@ public class Lists {
     }
 
     /**
-     * Returns a new array list as sublist
+     * Returns a view of the portion of this list between the specified fromIndex, inclusive, and toIndex exclusive.
+     * The returned array list is independent collection and changes does not affect the original list.
      *
      * @param list the list to use as source list
      * @param startIndex the start index

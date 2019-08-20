@@ -19,7 +19,7 @@ package org.panda_lang.panda.utilities.commons;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class ArrayUtilsTest {
+final class ArrayUtilsTest {
 
     private static final String[] EMPTY_ARRAY = new String[] {};
 
