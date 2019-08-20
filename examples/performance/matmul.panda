@@ -31,15 +31,15 @@ class Matmul {
 			}
 		}
 
-		for (mut Int i = 0; i < m; ++i) {
-			for (mut Int j = 0; j < p; ++j) {
+		for (mut Int i2 = 0; i2 < m; ++i2) {
+			for (mut Int j2 = 0; j2 < p; ++j2) {
 				mut Double s = 0.0
 
 				for (mut Int k = 0; k < n; ++k) {
-					s += a[i][k] * c[j][k]
+					s += a[i2][k] * c[j2][k]
 				}
 
-				x[i][j] = s
+				x[i2][j2] = s
 		    }
 		}
 
@@ -51,7 +51,8 @@ class Matmul {
 main {
     mut Int n = 100
     n = n / 2 * 2
-    
+    System.out.println(n)
+
     Matmul m = new Matmul()
     Double[][] a = m.matgen(n)
     Double[][] b = m.matgen(n)

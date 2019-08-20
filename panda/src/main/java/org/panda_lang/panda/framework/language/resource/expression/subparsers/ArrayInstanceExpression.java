@@ -46,7 +46,8 @@ public class ArrayInstanceExpression extends PandaDynamicExpression {
             capacitiesValues[index] = capacities[index].evaluate(flow).getValue();
         }
 
-        return new PandaStaticValue(prototype, Array.newInstance(prototype.getAssociatedClass(), capacitiesValues));
+        Object array = Array.newInstance(prototype.getAssociatedClass(), capacitiesValues);
+        return new PandaStaticValue(prototype, array);
     }
 
 }

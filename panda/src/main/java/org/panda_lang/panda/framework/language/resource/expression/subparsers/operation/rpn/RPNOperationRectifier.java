@@ -50,8 +50,9 @@ class RPNOperationRectifier {
                 throw new PandaFrameworkException("Unexpected or unsupported operator " + operator);
             }
 
-            Expression a = values.pop();
+            // inversed on stack
             Expression b = values.pop();
+            Expression a = values.pop();
             RPNOperationAction action = supplier.of(a, b);
 
             Expression expression = new PandaExpression(new PandaDynamicExpression(action.returnType()) {

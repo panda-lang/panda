@@ -24,7 +24,7 @@ class CurrentTestExampleTest {
     @Test
     void testCurrentTest() {
         for (int i = 0; i < 1; i++) {
-            Launcher.launch("performance", "matmul.panda");
+            Launcher.launch("tests", "current_test.panda");
         }
     }
 
