@@ -176,7 +176,7 @@ public final class StringUtils {
 
         int replaceLength = pattern.length();
         int increase = replacement.length() - replaceLength;
-        increase = (increase < 0 ? 0 : increase);
+        increase = (Math.max(increase, 0));
         increase *= 16;
         StringBuilder builder = new StringBuilder(text.length() + increase);
 
@@ -376,10 +376,10 @@ public final class StringUtils {
      * @return generated indentation
      */
     public static String buildSpace(int spaces) {
-        return build(spaces, " ");
+        return repeated(spaces, " ");
     }
 
-    private static String build(int repetitions, String... elements) {
+    public static String repeated(int repetitions, String... elements) {
         StringBuilder content = new StringBuilder();
 
         for (int i = 0; i < repetitions; i++) {

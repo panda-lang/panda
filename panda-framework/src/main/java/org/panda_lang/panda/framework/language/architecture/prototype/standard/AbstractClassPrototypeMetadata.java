@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeMetadata;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototypeUtils;
+import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototypeFetcher;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -67,7 +67,7 @@ public class AbstractClassPrototypeMetadata implements ClassPrototypeMetadata {
 
     @Override
     public ClassPrototypeReference toArray(ModuleLoader loader) {
-        return ArrayClassPrototypeUtils.getArrayOf(loader, this, 1);
+        return ArrayClassPrototypeFetcher.getArrayOf(loader, this, 1);
     }
 
     @Override
