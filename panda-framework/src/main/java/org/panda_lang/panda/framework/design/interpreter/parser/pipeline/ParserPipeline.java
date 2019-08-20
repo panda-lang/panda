@@ -27,10 +27,12 @@ public interface ParserPipeline<P extends Parser> {
     /**
      * Search for the parser through the pipeline with untouched source
      *
+     * @param context the current context
+     * @param channel the channel between handler and parser
      * @param source the source
      * @return parser which fits to the source
      */
-    HandleResult<P> handle(Context context, Snippet source);
+    HandleResult<P> handle(Context context, Channel channel, Snippet source);
 
     /**
      * Register the specified parser to

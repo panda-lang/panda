@@ -19,6 +19,8 @@ package org.panda_lang.panda.framework.language.interpreter.parser.block;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
@@ -26,15 +28,16 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.LocalData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.loader.Registrable;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.HandleResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.interpreter.parser.loader.Registrable;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities;
+import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.PandaChannel;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.parsers.ContainerParser;
 
@@ -43,7 +46,7 @@ import java.util.function.Supplier;
 @Registrable(pipeline = UniversalPipelines.CONTAINER_LABEL, priority = PandaPriorities.CONTAINER_BLOCK)
 public class BlockParser extends ParserBootstrap {
 
-    private final ContainerParser containerParser = new ContainerParser();
+    private static final ContainerParser CONTAINER_PARSER = new ContainerParser();
 
     @Override
     protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
@@ -51,10 +54,10 @@ public class BlockParser extends ParserBootstrap {
     }
 
     @Override
-    protected Boolean customHandle(ParserHandler handler, Context context, Snippet source) {
+    protected Boolean customHandle(ParserHandler handler, Context context, Channel channel, Snippet source) {
         HandleResult<BlockSubparser> result = context.getComponent(UniversalComponents.PIPELINE)
                 .getPipeline(PandaPipelines.BLOCK)
-                .handle(context, source);
+                .handle(context, channel, source);
 
         return result.isFound();
     }
@@ -62,11 +65,12 @@ public class BlockParser extends ParserBootstrap {
     @Autowired(order = 1)
     void parse(Context context, LocalData local, @Src("*declaration") Snippet declaration) throws Exception {
         SourceStream declarationStream = new PandaSourceStream(declaration);
+        Channel channel = new PandaChannel();
 
         HandleResult<BlockSubparser> handleResult = context
                 .getComponent(UniversalComponents.PIPELINE)
                 .getPipeline(PandaPipelines.BLOCK)
-                .handle(context, declarationStream.toSnippet());
+                .handle(context, channel, declarationStream.toSnippet());
 
         BlockSubparser blockParser = handleResult.getParser().orElseThrow((Supplier<? extends Exception>) () -> {
             if (handleResult.getFailure().isPresent()) {
@@ -78,7 +82,9 @@ public class BlockParser extends ParserBootstrap {
                     .build();
         });
 
-        Context delegatedContext = local.allocated(context.fork());
+        Context delegatedContext = local.allocated(context.fork())
+                .withComponent(PipelineComponents.CHANNEL, channel);
+
         BlockData blockData = blockParser.parse(delegatedContext, declaration);
 
         if (blockData == null || blockData.getBlock() == null) {
@@ -100,7 +106,7 @@ public class BlockParser extends ParserBootstrap {
     @Autowired(order = 2)
     void parseContent(@Local Context blockContext, @Local Block block, @Nullable @Src("body") Snippet body) throws Exception {
         if (body != null) {
-            containerParser.parse(blockContext, block, body);
+            CONTAINER_PARSER.parse(blockContext, block, body);
         }
     }
 

@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.prototype;
+package org.panda_lang.panda.framework.design.interpreter.parser.pipeline;
 
-public interface ClassPrototypeReference extends ClassPrototypeMetadata {
+/**
+ * The
+ */
+public interface Channel {
 
-    ClassPrototypeReference addInitializer(Runnable runnable);
+    Channel put(String key, Object value);
 
-    ClassPrototype fetch();
-
-    boolean isInitialized();
+    <T> T get(String key, Class<T> type);
 
 }

@@ -86,7 +86,7 @@ public class VariableParser {
         String variableName = nameSource.asSource();
 
         if (scope.getVariables().stream().anyMatch(variable -> variable.getName().equals(variableName))) {
-            throw PandaParserFailure.builder("Variable name is already used in the scope", context)
+            throw PandaParserFailure.builder("Variable name is already used in the scope '" + variableName + "'", context)
                     .withStreamOrigin(name)
                     .build();
         }

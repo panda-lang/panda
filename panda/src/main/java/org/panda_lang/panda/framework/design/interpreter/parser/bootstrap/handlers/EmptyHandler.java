@@ -17,13 +17,14 @@
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 
 public class EmptyHandler implements ParserHandler {
 
     @Override
-    public Boolean handle(Context context, Snippet source) {
+    public Boolean handle(Context context, Channel channel, Snippet source) {
         return false;
     }
 

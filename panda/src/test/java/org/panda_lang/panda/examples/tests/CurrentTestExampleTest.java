@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.examples;
+package org.panda_lang.panda.examples.tests;
 
 import org.junit.jupiter.api.Test;
+import org.panda_lang.panda.examples.Launcher;
 
-class CurrentTestExampleTest extends ExamplesLauncher {
+class CurrentTestExampleTest {
 
     @Test
     void testCurrentTest() {
         for (int i = 0; i < 1; i++) {
-            launch("current_test.panda");
+            Launcher.launch("performance", "matmul.panda");
         }
     }
 
