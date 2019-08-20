@@ -32,7 +32,10 @@ final class MatmulJava {
     }
 
     public double[][] matmul(double[][] a, double[][] b) {
-        int m = a.length, n = a[0].length, p = b[0].length;
+        int m = a.length,
+                n = a[0].length,
+                p = b[0].length;
+
         double[][] x = new double[m][p];
         double[][] c = new double[p][n];
 
@@ -59,7 +62,6 @@ final class MatmulJava {
 
     public static void main(String... args) {
         int n = 100;
-        n = n / 2 * 2;
 
         MatmulJava m = new MatmulJava();
         double[][] a, b, x;

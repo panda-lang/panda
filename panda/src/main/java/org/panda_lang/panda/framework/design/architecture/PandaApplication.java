@@ -16,12 +16,10 @@
 
 package org.panda_lang.panda.framework.design.architecture;
 
-import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.PandaFrameworkException;
 import org.panda_lang.panda.framework.design.runtime.Process;
 import org.panda_lang.panda.framework.language.resource.head.MainScope;
 import org.panda_lang.panda.framework.language.runtime.PandaProcess;
-import org.panda_lang.panda.utilities.commons.TimeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +29,7 @@ public class PandaApplication implements Application {
 
     private final Environment environment;
     private final List<Script> scripts = new ArrayList<>();
+    private MainScope main;
 
     public PandaApplication(Environment environment) {
         this.environment = environment;
@@ -38,8 +37,17 @@ public class PandaApplication implements Application {
 
     @Override
     public void launch(String... args) {
+        if (main == null) {
+            selectMain();
+        }
+
+        Process process = new PandaProcess(this, main, args);
+        process.execute();
+    }
+
+    private void selectMain() {
         List<MainScope> mains = scripts.stream()
-                .map(script -> script.select(MainScope.class))
+                .map(applicationScript -> applicationScript.select(MainScope.class))
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
 
@@ -51,14 +59,7 @@ public class PandaApplication implements Application {
             throw new PandaFrameworkException("Duplicated main statement");
         }
 
-        PandaFramework.getLogger().debug("[PandaApp] Launching application...");
-        Process process = new PandaProcess(this, mains.get(0), args);
-
-        long initTime = System.nanoTime();
-        process.execute();
-
-        long uptime = System.nanoTime() - initTime;
-        PandaFramework.getLogger().debug("[PandaApp] Done (" + TimeUtils.toMilliseconds(uptime) + ")");
+        this.main = mains.get(0);
     }
 
     public void addScript(Script script) {
