@@ -20,15 +20,27 @@ import org.junit.jupiter.api.Assertions;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.bootstrap.PandaApplicationBootstrap;
+import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.PandaFrameworkLoggerUtils;
 import org.panda_lang.panda.framework.design.architecture.Application;
+import org.panda_lang.panda.utilities.commons.TimeUtils;
 
 import java.util.Optional;
 
 public final class Launcher {
 
     public static void launch(String directory, String file) {
-        Assertions.assertDoesNotThrow(() -> interpret(directory, file).launch());
+        Assertions.assertDoesNotThrow(() -> {
+            Application application = interpret(directory, file);
+
+            PandaFramework.getLogger().debug("[TestLauncher] Launching application...");
+            long initTime = System.nanoTime();
+
+            application.launch();
+
+            long uptime = System.nanoTime() - initTime;
+            PandaFramework.getLogger().debug("[PandaApp] Done (" + TimeUtils.toMilliseconds(uptime) + ")");
+        });
     }
 
     public static Application interpret(String directory, String file) {
