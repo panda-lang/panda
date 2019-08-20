@@ -55,7 +55,7 @@ class ExpressionParserTestBootstrap {
         return PandaParserDataUtils.createFakeData(new HashMap<Variable, Object>() {{
             put(new PandaVariable(PandaTypes.STRING.getReference(), "variable"), null);
             put(new PandaVariable(PandaTypes.STRING.toArray(), "array"), null);
-            put(new PandaVariable(PandaTypes.INT.getReference(), "i"), null);
+            put(new PandaVariable(PandaTypes.INT.getReference(), "i", true, false), null);
         }});
     }
 
