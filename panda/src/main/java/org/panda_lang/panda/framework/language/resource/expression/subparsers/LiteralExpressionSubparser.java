@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
@@ -27,12 +28,13 @@ import org.panda_lang.panda.framework.design.interpreter.parser.expression.Expre
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionUtils;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
+import org.panda_lang.panda.framework.language.runtime.expression.ThisExpression;
 
 public class LiteralExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker() {
-        return new SequenceWorker();
+        return new SequenceWorker().withSubparser(this);
     }
 
     @Override
@@ -59,7 +61,7 @@ public class LiteralExpressionSubparser implements ExpressionSubparser {
                 case "false":
                     return ExpressionUtils.toExpressionResult(PandaTypes.BOOLEAN, false);
                 case "this":
-                    return ExpressionResult.of(ThisExpressionCallback.of(context.getContext()));
+                    return ExpressionResult.of(ThisExpression.of(context.getContext()));
                 case "null":
                     return ExpressionUtils.toExpressionResult(null, null);
                 default:

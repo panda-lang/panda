@@ -32,7 +32,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Univers
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.parser.loader.Registrable;
 import org.panda_lang.panda.framework.language.resource.parsers.ContainerParser;
-import org.panda_lang.panda.framework.language.resource.container.assignation.variable.VariableParser;
+import org.panda_lang.panda.framework.language.resource.expression.subparsers.assignation.variable.VariableParser;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @Registrable(pipeline = UniversalPipelines.CONTAINER_LABEL)

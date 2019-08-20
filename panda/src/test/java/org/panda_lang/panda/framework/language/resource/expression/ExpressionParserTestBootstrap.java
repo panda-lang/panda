@@ -27,7 +27,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStre
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.value.PandaVariable;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerUtils;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParserException;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
@@ -60,7 +60,7 @@ class ExpressionParserTestBootstrap {
     }
 
     protected static void parse(String source, String message) {
-        parse(source, PandaExpressionParserException.class, message);
+        parse(source, PandaExpressionParserFailure.class, message);
     }
 
     protected static void parse(String source, Class<? extends Throwable> clazz, String message) {

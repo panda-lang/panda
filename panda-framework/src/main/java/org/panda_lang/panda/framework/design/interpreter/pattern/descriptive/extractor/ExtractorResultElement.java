@@ -31,14 +31,6 @@ public class ExtractorResultElement {
         this.value = value;
     }
 
-    public boolean isExpression() {
-        return value instanceof Expression;
-    }
-
-    public boolean isSnippet() {
-        return value instanceof Snippet;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -59,6 +51,14 @@ public class ExtractorResultElement {
         return Objects.hash(getName(), getValue());
     }
 
+    public boolean isExpression() {
+        return value instanceof Expression;
+    }
+
+    public boolean isSnippet() {
+        return value instanceof Snippet;
+    }
+
     @SuppressWarnings("unchecked")
     public <T> T getValue() {
         return (T) value;
@@ -66,6 +66,11 @@ public class ExtractorResultElement {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        return getName() + ": " + getValue();
     }
 
 }

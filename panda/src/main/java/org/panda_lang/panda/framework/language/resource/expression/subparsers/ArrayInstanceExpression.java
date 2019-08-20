@@ -16,13 +16,12 @@
 
 package org.panda_lang.panda.framework.language.resource.expression.subparsers;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.runtime.expression.DynamicExpression;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
+import org.panda_lang.panda.framework.language.runtime.expression.DynamicExpression;
 
 import java.lang.reflect.Array;
 
@@ -43,7 +42,7 @@ public class ArrayInstanceExpression implements DynamicExpression {
     }
 
     @Override
-    public ClassPrototype getReturnType() {
+    public ArrayClassPrototype getReturnType() {
         return prototype;
     }
 

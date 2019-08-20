@@ -18,14 +18,34 @@ package org.panda_lang.panda.framework.language.resource.syntax.operator;
 
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
+/**
+ * Families used by {@link org.panda_lang.panda.framework.language.resource.syntax.operator.Operators}
+ */
 public class OperatorFamilies {
 
+    /**
+     * Family used by math operators
+     */
     public static final String MATH = "math";
 
+    /**
+     * Family used by logical operators
+     */
     public static final String LOGICAL = "logical";
 
-    public static final String INCREMENT_AND_DECREMENT = "increment & decrement";
+    /**
+     * Family used by crease operators
+     */
+    public static final String CREASE = "crease";
 
+    /**
+     * Family used by assignation operators
+     */
+    public static final String ASSIGNATION = "assignation";
+
+    /**
+     * Family used by other operators
+     */
     public static final String UNDEFINED = StringUtils.EMPTY;
 
 }

@@ -29,8 +29,8 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
-import org.panda_lang.panda.framework.design.interpreter.parser.block.BlockData;
-import org.panda_lang.panda.framework.design.interpreter.parser.block.BlockSubparserBootstrap;
+import org.panda_lang.panda.framework.language.interpreter.parser.block.BlockData;
+import org.panda_lang.panda.framework.language.interpreter.parser.block.BlockSubparserBootstrap;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @Registrable(pipeline = PandaPipelines.BLOCK_LABEL)

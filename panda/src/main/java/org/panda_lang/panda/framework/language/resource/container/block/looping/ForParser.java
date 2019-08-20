@@ -35,9 +35,9 @@ import org.panda_lang.panda.framework.language.architecture.value.PandaStaticVal
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
-import org.panda_lang.panda.framework.language.resource.container.assignation.variable.VariableParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.block.BlockData;
-import org.panda_lang.panda.framework.design.interpreter.parser.block.BlockSubparserBootstrap;
+import org.panda_lang.panda.framework.language.resource.expression.subparsers.assignation.variable.VariableParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.block.BlockData;
+import org.panda_lang.panda.framework.language.interpreter.parser.block.BlockSubparserBootstrap;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;

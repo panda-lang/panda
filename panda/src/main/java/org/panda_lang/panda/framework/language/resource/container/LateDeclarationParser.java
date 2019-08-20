@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.container;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
@@ -25,12 +26,11 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
+import org.panda_lang.panda.framework.design.interpreter.parser.loader.Registrable;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.parser.loader.Registrable;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities;
-import org.panda_lang.panda.framework.language.resource.container.assignation.variable.VariableParser;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippetable;
+import org.panda_lang.panda.framework.language.resource.expression.subparsers.assignation.variable.VariableParser;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @Registrable(pipeline = UniversalPipelines.CONTAINER_LABEL, priority = PandaPriorities.CONTAINER_LATE_DECLARATION)
@@ -46,7 +46,7 @@ public class LateDeclarationParser extends ParserBootstrap {
     }
 
     @Autowired
-    void parse(Context context, @Inter ExtractorResult result, @Component ScopeLinker linker, @Src("type") Snippet type, @Src("name") Snippet name) {
+    void parse(Context context, @Inter ExtractorResult result, @Component ScopeLinker linker, @Src("type") Snippetable type, @Src("name") Snippetable name) {
         boolean mutable = result.hasIdentifier(Keywords.MUT.getValue());
         boolean nillable = result.hasIdentifier(Keywords.NIL.getValue());
 

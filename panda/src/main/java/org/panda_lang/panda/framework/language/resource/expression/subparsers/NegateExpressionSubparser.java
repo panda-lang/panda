@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
@@ -29,7 +30,7 @@ public class NegateExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker() {
-        return new NegateWorker();
+        return new NegateWorker().withSubparser(this);
     }
 
     @Override
@@ -51,7 +52,7 @@ public class NegateExpressionSubparser implements ExpressionSubparser {
             }
 
             Expression expression = context.getParser().parse(context.getContext(), context.getDiffusedSource());
-            return ExpressionResult.of(new NegateLogicalExpressionCallback(expression).toExpression());
+            return ExpressionResult.of(new NegateLogicalExpression(expression).toExpression());
         }
 
     }

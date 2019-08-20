@@ -30,7 +30,7 @@ public class PandaPriorities {
 
 
     /**
-     * Used by {@link org.panda_lang.panda.framework.design.interpreter.parser.block.BlockParser}
+     * Used by {@link org.panda_lang.panda.framework.language.interpreter.parser.block.BlockParser}
      */
     public static final int CONTAINER_BLOCK = 1;
 
@@ -45,7 +45,7 @@ public class PandaPriorities {
     public static final int CONTAINER_EXPRESSION = 5;
 
     /**
-     * Used by {@link org.panda_lang.panda.framework.design.interpreter.parser.assignation.AssignationParser}
+     * Used by {@link org.panda_lang.panda.framework.language.resource.expression.subparsers.assignation.AssignationExpressionSubparser}
      */
     public static final int CONTAINER_ASSIGNATION = 6;
 

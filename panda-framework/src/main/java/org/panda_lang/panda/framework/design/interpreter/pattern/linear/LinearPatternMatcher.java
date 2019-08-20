@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.design.interpreter.pattern.linear;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParserException;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.DiffusedSource;
 import org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Section;
 
@@ -50,7 +50,7 @@ class LinearPatternMatcher {
 
             try {
                 matched = match(expressionMatcher, content, identifiers, wildcards, element);
-            } catch (PandaExpressionParserException e) {
+            } catch (PandaExpressionParserFailure e) {
                 continue;
             } catch (Exception e) {
                 e.printStackTrace();

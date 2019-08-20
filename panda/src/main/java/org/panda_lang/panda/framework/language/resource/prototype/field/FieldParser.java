@@ -39,7 +39,7 @@ import org.panda_lang.panda.framework.language.architecture.module.ModuleLoaderU
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.field.PandaPrototypeField;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationCycles;
-import org.panda_lang.panda.framework.language.resource.prototype.ClassPrototypeComponents;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @Registrable(pipeline = UniversalPipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_FIELD)

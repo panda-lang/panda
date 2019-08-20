@@ -164,4 +164,13 @@ public class DiffusedSource implements Iterable<TokenRepresentation>, Iterator<T
         return index;
     }
 
+    /**
+     * The original source used to create {@link org.panda_lang.panda.framework.language.interpreter.token.distributors.DiffusedSource}
+     *
+     * @return the original source
+     */
+    public Snippet getSource() {
+        return source;
+    }
+
 }

@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.InterceptorData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.LocalData;
@@ -49,7 +50,7 @@ final class BootstrapTaskScheduler<T> {
         return schedule(context, new BootstrapInjectorController(context, interceptorData, localData));
     }
 
-    private T schedule(Context context, InjectorController controller) throws Exception {
+    private @Nullable T schedule(Context context, InjectorController controller) throws Exception {
         Injector injector = DependencyInjection.createInjector(controller);
         int currentOrder = methods.peek().getOrder();
 
@@ -98,7 +99,7 @@ final class BootstrapTaskScheduler<T> {
         return delegateMethod(context, callback, method);
     }
 
-    private T delegateMethod(Context context, GenerationTask<T> callback, BootstrapMethod method) throws Exception {
+    private @Nullable T delegateMethod(Context context, GenerationTask<T> callback, BootstrapMethod method) throws Exception {
         Generation generation = context.getComponent(UniversalComponents.GENERATION);
 
         GenerationCycle cycle = generation.getCycle(method.getCycle());

@@ -45,7 +45,6 @@ public class FieldAccessorFunction implements Function<Flow, MemoryContainer> {
             throw new PandaRuntimeException("Cannot get field value of external object");
         }
 
-        //branch.instance(pandaInstance.toValue()); \/
         return (ClassPrototypeScopeFrame) instance.getObject();
     }
 

@@ -19,13 +19,10 @@ package org.panda_lang.panda.framework.language.resource;
 import org.panda_lang.panda.framework.design.interpreter.parser.ApplicationParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parsers;
-import org.panda_lang.panda.framework.language.resource.parsers.ContainerParser;
-import org.panda_lang.panda.framework.language.resource.parsers.ScopeParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.block.BlockParser;
 import org.panda_lang.panda.framework.language.resource.container.LateDeclarationParser;
 import org.panda_lang.panda.framework.language.resource.container.StandaloneExpressionParser;
 import org.panda_lang.panda.framework.language.resource.container.TryCatchParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.assignation.AssignationParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.block.BlockParser;
 import org.panda_lang.panda.framework.language.resource.container.block.conditional.ConditionalBlockParser;
 import org.panda_lang.panda.framework.language.resource.container.block.looping.ForEachParser;
 import org.panda_lang.panda.framework.language.resource.container.block.looping.ForParser;
@@ -41,6 +38,8 @@ import org.panda_lang.panda.framework.language.resource.head.ImportParser;
 import org.panda_lang.panda.framework.language.resource.head.MainParser;
 import org.panda_lang.panda.framework.language.resource.head.ModuleParser;
 import org.panda_lang.panda.framework.language.resource.head.RequireParser;
+import org.panda_lang.panda.framework.language.resource.parsers.ContainerParser;
+import org.panda_lang.panda.framework.language.resource.parsers.ScopeParser;
 import org.panda_lang.panda.framework.language.resource.prototype.ClassPrototypeParser;
 import org.panda_lang.panda.framework.language.resource.prototype.constructor.ConstructorParser;
 import org.panda_lang.panda.framework.language.resource.prototype.field.FieldParser;
@@ -75,7 +74,7 @@ public final class PandaParsers extends Parsers {
             ParameterParser.class,
 
             // scope
-            AssignationParser.class,
+            // AssignationParser.class, off
             LateDeclarationParser.class,
             StandaloneExpressionParser.class,
             TryCatchParser.class,

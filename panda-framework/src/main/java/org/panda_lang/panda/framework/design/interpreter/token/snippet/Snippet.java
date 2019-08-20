@@ -22,6 +22,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Section;
+import org.panda_lang.panda.utilities.commons.collection.Lists;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,6 +30,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public interface Snippet extends Snippetable, Iterable<TokenRepresentation>{
+
+    int NOT_FOUND = -1;
 
     @Override
     default Iterator<TokenRepresentation> iterator() {
@@ -39,6 +42,14 @@ public interface Snippet extends Snippetable, Iterable<TokenRepresentation>{
         Snippet snippet = new PandaSnippet(getTokensRepresentations());
         Collections.reverse(snippet.getTokensRepresentations());
         return snippet;
+    }
+
+    default Snippet subSource(int fromIndex, int toIndex) {
+        if (toIndex < 0) {
+            return new PandaSnippet(Lists.subList(getTokensRepresentations(), fromIndex, size() + toIndex), false);
+        }
+
+        return new PandaSnippet(Lists.subList(getTokensRepresentations(), fromIndex, toIndex), false);
     }
 
     default Snippet[] split(Token token) {
@@ -64,32 +75,6 @@ public interface Snippet extends Snippetable, Iterable<TokenRepresentation>{
         return snippets.toArray(new Snippet[0]);
     }
 
-    default Snippet subSource(int fromIndex, int toIndex) {
-        if (toIndex < 0) {
-            return new PandaSnippet(getTokensRepresentations().subList(fromIndex, size() + toIndex), false);
-        }
-
-        return new PandaSnippet(getTokensRepresentations().subList(fromIndex, toIndex), false);
-    }
-
-    default Snippet getLine(int line) {
-        List<TokenRepresentation> selected = new ArrayList<>();
-
-        for (TokenRepresentation tokenRepresentation : getTokensRepresentations()) {
-            if (tokenRepresentation.getLocation().getLine() < line) {
-                continue;
-            }
-
-            if (tokenRepresentation.getLocation().getLine() > line) {
-                break;
-            }
-
-            selected.add(tokenRepresentation);
-        }
-
-        return new PandaSnippet(selected, false);
-    }
-
     default int indexOf(Token token) {
         List<TokenRepresentation> tokens = getTokensRepresentations();
 
@@ -99,17 +84,7 @@ public interface Snippet extends Snippetable, Iterable<TokenRepresentation>{
             }
         }
 
-        return -1;
-    }
-
-    default Snippet addToken(TokenRepresentation tokenRepresentation) {
-        getTokensRepresentations().add(tokenRepresentation);
-        return this;
-    }
-
-    default Snippet addTokens(Snippet snippet) {
-        getTokensRepresentations().addAll(snippet.getTokensRepresentations());
-        return this;
+        return NOT_FOUND;
     }
 
     default boolean startsWith(Token... tokens) {
@@ -136,6 +111,25 @@ public interface Snippet extends Snippetable, Iterable<TokenRepresentation>{
         return false;
     }
 
+    default Snippet addToken(TokenRepresentation tokenRepresentation) {
+        getTokensRepresentations().add(tokenRepresentation);
+        return this;
+    }
+
+    default Snippet addTokens(Snippet snippet) {
+        getTokensRepresentations().addAll(snippet.getTokensRepresentations());
+        return this;
+    }
+
+    default Snippet removeToken(TokenRepresentation tokenRepresentation) {
+        getTokensRepresentations().remove(tokenRepresentation);
+        return this;
+    }
+
+    default TokenRepresentation remove(int index) {
+        return getTokensRepresentations().remove(index);
+    }
+
     default int size() {
         return getTokensRepresentations().size();
     }
@@ -145,8 +139,9 @@ public interface Snippet extends Snippetable, Iterable<TokenRepresentation>{
     }
 
     default boolean hasElement(int index) {
-        return index > -1 && index < size();
+        return index > NOT_FOUND && index < size();
     }
+
 
     default TokenRepresentation get(int index) {
         if (!hasElement(index)) {
@@ -171,6 +166,24 @@ public interface Snippet extends Snippetable, Iterable<TokenRepresentation>{
 
     default TokenRepresentation getLast() {
         return getLast(0);
+    }
+
+    default Snippet getLine(int line) {
+        List<TokenRepresentation> selected = new ArrayList<>();
+
+        for (TokenRepresentation tokenRepresentation : getTokensRepresentations()) {
+            if (tokenRepresentation.getLocation().getLine() < line) {
+                continue;
+            }
+
+            if (tokenRepresentation.getLocation().getLine() > line) {
+                break;
+            }
+
+            selected.add(tokenRepresentation);
+        }
+
+        return new PandaSnippet(selected, false);
     }
 
     default SourceLocation getCurrentLocation() {

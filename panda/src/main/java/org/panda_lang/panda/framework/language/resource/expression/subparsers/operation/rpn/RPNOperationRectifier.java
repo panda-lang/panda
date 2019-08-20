@@ -56,8 +56,8 @@ class RPNOperationRectifier {
 
             Expression expression = new PandaExpression(new PandaDynamicExpression(action.returnType()) {
                 @Override
-                public Value call(Expression expression, Flow frame) {
-                    return new PandaStaticValue(getReturnType(), action.get(frame, a.evaluate(frame), b.evaluate(frame)));
+                public Value call(Expression expression, Flow flow) {
+                    return new PandaStaticValue(getReturnType(), action.get(flow, a.evaluate(flow), b.evaluate(flow)));
                 }
             });
 

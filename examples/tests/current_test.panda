@@ -143,6 +143,8 @@ main {
 
         Console.print("ForI: " + index)
     }
+
+    Console.print("Assignation: " + (Int assignation = 2))
 }
 
 class TestArray {

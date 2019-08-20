@@ -22,6 +22,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.field.Protot
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
@@ -32,8 +33,9 @@ import org.panda_lang.panda.framework.design.interpreter.parser.expression.Expre
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.resource.expression.subparsers.number.NumberUtils;
-import org.panda_lang.panda.framework.language.resource.prototype.ClassPrototypeComponents;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.panda.framework.language.runtime.expression.ThisExpression;
 
 import java.util.Optional;
 
@@ -41,7 +43,7 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker() {
-        return new VariableWorker();
+        return new VariableWorker().withSubparser(this);
     }
 
     @Override
@@ -74,7 +76,7 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
             Variable variable = scope.getVariable(name);
 
             if (variable != null) {
-                return ExpressionResult.of(new VariableExpressionCallback(variable, scope.indexOf(variable)).toExpression());
+                return ExpressionResult.of(new VariableExpression(variable, scope.indexOf(variable)).toExpression());
             }
 
             if (context.hasResults()) {
@@ -91,7 +93,7 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
             ClassPrototype prototype = context.getContext().getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
 
             if (prototype != null) {
-                return fromInstance(ThisExpressionCallback.asExpression(prototype), name).orElseGet(() -> ExpressionResult.error("Cannot find class/variable '" + name + "'", token));
+                return fromInstance(ThisExpression.of(prototype), name).orElseGet(() -> ExpressionResult.error("Cannot find class/variable '" + name + "'", token));
             }
 
             // return ExpressionResult.error("Cannot find variable or field called '" + name + "'", token);
@@ -103,8 +105,7 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
             PrototypeField field = prototype.getFields().getField(name);
 
             if (field != null) {
-                int memoryIndex = prototype.getFields().getIndexOfField(field);
-                return Optional.of(ExpressionResult.of(new FieldExpressionCallback(instance, field, memoryIndex).toExpression()));
+                return Optional.of(ExpressionResult.of(new FieldExpression(instance, field).toExpression()));
             }
 
             return Optional.empty();
