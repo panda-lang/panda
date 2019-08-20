@@ -20,6 +20,7 @@ import org.panda_lang.panda.framework.PandaFrameworkException;
 import org.panda_lang.panda.framework.design.interpreter.InterpreterFailure;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.HandleResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
@@ -52,30 +53,30 @@ public class PandaParserPipeline<P extends Parser> implements ParserPipeline<P> 
     }
 
     @Override
-    public HandleResult<P> handle(Context context, Snippet source) {
+    public HandleResult<P> handle(Context context, Channel channel, Snippet source) {
         if (count > 1000) {
             count = 0;
             sort();
         }
 
         if (parentPipeline != null) {
-            HandleResult<P> result = handle(context, source, parentPipeline.getRepresentations());
+            HandleResult<P> result = handle(context, channel, source, parentPipeline.getRepresentations());
 
             if (result.isFound()) {
                 return result;
             }
         }
 
-        return handle(context, source, representations);
+        return handle(context, channel, source, representations);
     }
 
-    private HandleResult<P> handle(Context context, Snippet source, Collection<? extends ParserRepresentation<P>> representations) {
+    private HandleResult<P> handle(Context context, Channel channel, Snippet source, Collection<? extends ParserRepresentation<P>> representations) {
         long currentTime = System.nanoTime();
         InterpreterFailure failure = null;
 
         for (ParserRepresentation<P> representation : representations) {
             ParserHandler handler = representation.getHandler();
-            Object value = handler.handle(context, source);
+            Object value = handler.handle(context, channel, source);
 
             if (value instanceof InterpreterFailure) {
                 failure = (InterpreterFailure) value;

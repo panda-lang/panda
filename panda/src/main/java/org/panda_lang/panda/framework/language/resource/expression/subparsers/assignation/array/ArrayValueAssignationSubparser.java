@@ -25,6 +25,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.loader.Registrable;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
@@ -45,15 +46,13 @@ public class ArrayValueAssignationSubparser extends AssignationSubparserBootstra
 
     private static final ArrayValueAccessorParser PARSER = new ArrayValueAccessorParser();
 
-    private Expression accessorExpression;
-
     @Override
     protected BootstrapInitializer<@Nullable Assigner<?>> initialize(Context context, BootstrapInitializer<@Nullable Assigner<?>> initializer) {
         return initializer;
     }
 
     @Override
-    protected Boolean customHandle(ParserHandler handler, Context context, Snippet source) {
+    protected Boolean customHandle(ParserHandler handler, Context context, Channel channel, Snippet source) {
         TokenRepresentation sectionRepresentation = source.getLast();
 
         if (sectionRepresentation.getType() != TokenType.SECTION) {
@@ -73,14 +72,14 @@ public class ArrayValueAssignationSubparser extends AssignationSubparserBootstra
             return false;
         }
 
-        this.accessorExpression = expression.get();
+        channel.put("array-instance", expression.get());
         return true;
     }
 
     @Autowired
-    Assigner<?> parse(Context context, @Component SourceStream source, @Component(AssignationComponents.EXPRESSION_LABEL) Expression value) {
+    Assigner<?> parse(Context context, @Component SourceStream source, @Component Channel channel, @Component(AssignationComponents.EXPRESSION_LABEL) Expression value) {
         Snippet snippet = source.toSnippet();
-        return PARSER.parse(context, snippet, accessorExpression, snippet.getLast().toToken(), value);
+        return PARSER.parse(context, snippet, channel.get("array-instance", Expression.class), snippet.getLast().toToken(), value);
     }
 
 }

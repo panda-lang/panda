@@ -16,17 +16,21 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.Interpretation;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.HandleResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponent;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.PandaChannel;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 import java.util.function.Supplier;
@@ -57,12 +61,13 @@ public final class PipelineParser<T extends ContextParser> implements Parser {
      * @return returns always null
      * @throws Exception if something happen in subparser
      */
-    public T parse(Context context, boolean fork) throws Exception {
+    public @Nullable T parse(Context context, boolean fork) throws Exception {
         Interpretation interpretation = context.getComponent(UniversalComponents.INTERPRETATION);
 
         while (stream.hasUnreadSource() && interpretation.isHealthy()) {
+            Channel channel = new PandaChannel();
             Snippet source = stream.toSnippet();
-            HandleResult<T> result = pipeline.handle(context, source);
+            HandleResult<T> result = pipeline.handle(context, channel, source);
 
             ContextParser parser = result.getParser().orElseThrow((Supplier<? extends Exception>) () -> {
                 if (result.getFailure().isPresent()) {
@@ -74,8 +79,11 @@ public final class PipelineParser<T extends ContextParser> implements Parser {
                         .build();
             });
 
+            Context delegatedContext = (fork ? context.fork() : context)
+                    .withComponent(PipelineComponents.CHANNEL, channel);
+
             int sourceLength = stream.getUnreadLength();
-            parser.parse(fork ? context.fork() : context);
+            parser.parse(delegatedContext);
 
             if (sourceLength == stream.getUnreadLength()) {
                 throw PandaParserFailure.builder(parser.getClass().getSimpleName() + " did nothing with the current source", context)

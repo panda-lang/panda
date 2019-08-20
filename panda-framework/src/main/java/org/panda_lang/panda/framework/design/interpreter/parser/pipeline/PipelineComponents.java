@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.prototype;
+package org.panda_lang.panda.framework.design.interpreter.parser.pipeline;
 
-public interface ClassPrototypeReference extends ClassPrototypeMetadata {
+import org.panda_lang.panda.framework.design.interpreter.parser.component.Component;
 
-    ClassPrototypeReference addInitializer(Runnable runnable);
+public final class PipelineComponents {
 
-    ClassPrototype fetch();
-
-    boolean isInitialized();
+    public static final Component<Channel> CHANNEL = Component.of("channel", Channel.class);
 
 }

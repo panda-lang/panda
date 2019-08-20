@@ -28,6 +28,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.loader.Registrable;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
@@ -40,15 +41,13 @@ import org.panda_lang.panda.framework.language.resource.expression.subparsers.as
 @Registrable(pipeline = PandaPipelines.ASSIGNER_LABEL, priority = AssignationPriorities.VARIABLE_ASSIGNATION)
 public class VariableAssignationSubparser extends AssignationSubparserBootstrap {
 
-    private AccessorExpression accessorExpression;
-
     @Override
     protected BootstrapInitializer<@Nullable Assigner<?>> initialize(Context context, BootstrapInitializer<@Nullable Assigner<?>> initializer) {
         return initializer;
     }
 
     @Override
-    protected Object customHandle(ParserHandler handler, Context context, Snippet source) {
+    protected Object customHandle(ParserHandler handler, Context context, Channel channel, Snippet source) {
         ExpressionParser parser = context.getComponent(UniversalComponents.EXPRESSION);
 
         try {
@@ -65,7 +64,7 @@ public class VariableAssignationSubparser extends AssignationSubparserBootstrap 
                         .build();
             }
 
-            accessorExpression = (AccessorExpression) expression;
+            channel.put("accessor", expression);
             return true;
         } catch (Exception e) {
             return e;
@@ -73,8 +72,8 @@ public class VariableAssignationSubparser extends AssignationSubparserBootstrap 
     }
 
     @Autowired
-    protected Assigner<?> parse(@Component Expression expression) {
-        Accessor<?> accessor = accessorExpression.getAccessor();
+    protected Assigner<?> parse(@Component Channel channel, @Component Expression expression) {
+        Accessor<?> accessor = channel.get("accessor", AccessorExpression.class).getAccessor();
         return accessor.toAssigner(expression);
     }
 

@@ -17,12 +17,13 @@
 package org.panda_lang.panda.framework.design.architecture.prototype;
 
 import org.panda_lang.panda.framework.design.architecture.module.Module;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 
 import java.util.Collection;
 
 public interface ClassPrototypeMetadata {
 
-    ClassPrototypeReference toArray();
+    ClassPrototypeReference toArray(ModuleLoader moduleLoader);
 
     ClassPrototypeMetadata addExtended(ClassPrototypeReference reference);
 

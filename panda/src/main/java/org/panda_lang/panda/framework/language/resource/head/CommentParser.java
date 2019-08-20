@@ -19,13 +19,14 @@ package org.panda_lang.panda.framework.language.resource.head;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.loader.Registrable;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.parser.loader.Registrable;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ import java.util.List;
 public class CommentParser implements ContextParser<CommentStatement>, ParserHandler {
 
     @Override
-    public Boolean handle(Context context, Snippet source) {
+    public Boolean handle(Context context, Channel channel, Snippet source) {
         return isComment(source.getFirst().getToken());
     }
 

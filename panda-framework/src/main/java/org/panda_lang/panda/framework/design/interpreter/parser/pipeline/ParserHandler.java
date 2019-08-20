@@ -27,6 +27,6 @@ public interface ParserHandler {
      * @param source source
      * @return returns true if parsers fits to source
      */
-    Object handle(Context context, Snippet source);
+    Object handle(Context context, Channel channel, Snippet source);
 
 }

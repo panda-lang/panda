@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.language.resource.container;
 
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
@@ -25,13 +26,13 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParserSettings;
+import org.panda_lang.panda.framework.design.interpreter.parser.loader.Registrable;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.interpreter.parser.loader.Registrable;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
@@ -41,8 +42,6 @@ public class StandaloneExpressionParser extends ParserBootstrap {
     private static final ExpressionParserSettings SETTINGS = ExpressionParserSettings.create().onlyStandalone();
 
     private ExpressionParser expressionParser;
-    private Expression expression;
-    private int read;
 
     @Override
     protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
@@ -51,12 +50,12 @@ public class StandaloneExpressionParser extends ParserBootstrap {
     }
 
     @Override
-    protected Object customHandle(ParserHandler handler, Context context, Snippet source) {
+    protected Object customHandle(ParserHandler handler, Context context, Channel channel, Snippet source) {
         SourceStream stream = new PandaSourceStream(source);
 
         try {
-            this.expression = expressionParser.parse(context, stream, SETTINGS);
-            this.read = stream.getReadLength();
+            channel.put("expression", expressionParser.parse(context, stream, SETTINGS));
+            channel.put("read", stream.getReadLength());
             return true;
         } catch (PandaExpressionParserFailure e) {
             return e;
@@ -64,11 +63,11 @@ public class StandaloneExpressionParser extends ParserBootstrap {
     }
 
     @Autowired
-    void parseExpression(@Component SourceStream source, @Component Container container) {
-        StandaloneExpression statement = new StandaloneExpression(expression);
+    void parseExpression(@Component SourceStream source, @Component Container container, @Component Channel channel) {
+        StandaloneExpression statement = new StandaloneExpression(channel.get("expression", Expression.class));
         statement.setLocation(source.toSnippet().getLocation());
         container.addStatement(statement);
-        source.read(read);
+        source.read(channel.get("read", int.class));
     }
 
 }

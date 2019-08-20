@@ -29,6 +29,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.expression.Expre
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserType;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.HandleResult;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
@@ -36,6 +37,7 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParserFailure;
+import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.PandaChannel;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.OperatorFamilies;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.OperatorUtils;
@@ -83,11 +85,12 @@ public class AssignationExpressionSubparser implements ExpressionSubparser {
             SourceStream expressionSource = new PandaSourceStream(source.subSource(index + 1, source.size()));
 
             Context assignationContext = context.getContext().fork()
+                    .withComponent(PipelineComponents.CHANNEL, new PandaChannel())
                     .withComponent(AssignationComponents.SCOPE, context.getContext().getComponent(UniversalComponents.LINKER).getCurrentScope());
 
             HandleResult<AssignationSubparser> handleResult = context.getContext().getComponent(UniversalComponents.PIPELINE)
                     .getPipeline(PandaPipelines.ASSIGNER)
-                    .handle(assignationContext, declaration);
+                    .handle(assignationContext, assignationContext.getComponent(PipelineComponents.CHANNEL), declaration);
 
             if (!handleResult.isFound()) {
                 return null;

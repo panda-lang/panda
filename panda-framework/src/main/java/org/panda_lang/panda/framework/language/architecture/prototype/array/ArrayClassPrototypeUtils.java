@@ -73,19 +73,29 @@ public class ArrayClassPrototypeUtils {
         }
 
         int dimensions = StringUtils.countOccurrences(type, PandaArray.IDENTIFIER);
-        ClassPrototypeReference array = getArrayOf(baseReference.get(), dimensions);
+        ClassPrototypeReference array = getArrayOf(loader, baseReference.get(), dimensions);
 
         return Optional.ofNullable(loader.getLocalModule().add(array));
     }
 
-    public static ClassPrototypeReference getArrayOf(ClassPrototypeMetadata prototype, int dimensions) {
+    public static ClassPrototypeReference getArrayOf(ModuleLoader loader, ClassPrototypeMetadata prototype, int dimensions) {
         Class<?> arrayType = ArrayUtils.getDimensionalArrayType(prototype.getAssociatedClass(), dimensions);
         Class<?> arrayClass = ArrayUtils.getArrayClass(arrayType);
 
-        ClassPrototypeReference type = prototype.getModule().getAssociatedWith(arrayType)
-                .orElseThrow((Supplier<PandaFrameworkException>) () -> {
-                    throw new PandaFrameworkException("Cannot fetch array class for " + arrayType);
-                });
+        ClassPrototypeReference type;
+
+        if (arrayType.isArray()) {
+            type = fetch(loader, arrayType)
+                    .orElseThrow((Supplier<PandaFrameworkException>) () -> {
+                        throw new PandaFrameworkException("Cannot fetch array class for array type " + arrayType);
+                    });
+        }
+        else {
+            type = prototype.getModule().getAssociatedWith(arrayType)
+                    .orElseThrow((Supplier<PandaFrameworkException>) () -> {
+                        throw new PandaFrameworkException("Cannot fetch array class for " + arrayType);
+                    });
+        }
 
         ArrayClassPrototype arrayPrototype = new ArrayClassPrototype(prototype.getModule(), arrayClass, type);
         ARRAY_PROTOTYPES.put(prototype.getName() + dimensions, arrayPrototype.getReference());

@@ -32,6 +32,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaSc
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 
 import java.util.Map;
+import java.util.function.Function;
 
 public class PandaParserDataUtils {
 
@@ -48,7 +49,7 @@ public class PandaParserDataUtils {
      *
      * @return the fake data
      */
-    public static Context createFakeData(Map<Variable, Object> variables) {
+    public static Context createFakeData(Function<Context, Map<Variable, Object>> variablesSupplier) {
         Context context = new PandaContext();
         context.withComponent(UniversalComponents.EXPRESSION, new PandaExpressionParser(PandaExpressionUtils.collectSubparsers()));
 
@@ -57,7 +58,7 @@ public class PandaParserDataUtils {
         loader.load(path.getDefaultModule());
         context.withComponent(UniversalComponents.MODULE_LOADER, loader);
 
-        Scope scope = new StaticScope(variables);
+        Scope scope = new StaticScope(variablesSupplier.apply(context));
         ScopeLinker linker = new PandaScopeLinker(scope);
         context.withComponent(UniversalComponents.LINKER, linker);
 

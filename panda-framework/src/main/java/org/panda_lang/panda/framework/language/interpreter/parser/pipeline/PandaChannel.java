@@ -14,14 +14,27 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.prototype;
+package org.panda_lang.panda.framework.language.interpreter.parser.pipeline;
 
-public interface ClassPrototypeReference extends ClassPrototypeMetadata {
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Channel;
 
-    ClassPrototypeReference addInitializer(Runnable runnable);
+import java.util.HashMap;
+import java.util.Map;
 
-    ClassPrototype fetch();
+public final class PandaChannel implements Channel {
 
-    boolean isInitialized();
+    private final Map<String, Object> map = new HashMap<>(1);
+
+    @Override
+    public Channel put(String key, Object value) {
+        map.put(key, value);
+        return this;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> T get(String key, Class<T> type) {
+        return (T) map.get(key);
+    }
 
 }

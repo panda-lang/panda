@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.ContextParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
@@ -28,13 +29,13 @@ public abstract class ParserBootstrap<T> implements ContextParser<T>, ParserHand
 
     protected abstract BootstrapInitializer<T> initialize(Context context, BootstrapInitializer<T> initializer);
 
-    protected Object customHandle(ParserHandler handler, Context context, Snippet source) {
-        return handler.handle(context, source);
+    protected Object customHandle(ParserHandler handler, Context context, Channel channel, Snippet source) {
+        return handler.handle(context, channel, source);
     }
 
     @Override
-    public final Object handle(Context context, Snippet source) {
-        return customHandle(get(context).getHandler(), context, source);
+    public final Object handle(Context context, Channel channel, Snippet source) {
+        return customHandle(get(context).getHandler(), context, channel, source);
     }
 
     @Override

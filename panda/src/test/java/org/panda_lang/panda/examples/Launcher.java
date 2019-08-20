@@ -25,21 +25,25 @@ import org.panda_lang.panda.framework.design.architecture.Application;
 
 import java.util.Optional;
 
-class ExamplesLauncher {
+public final class Launcher {
 
-    void launch(String file) {
+    public static void launch(String directory, String file) {
+        Assertions.assertDoesNotThrow(() -> interpret(directory, file).launch());
+    }
+
+    public static Application interpret(String directory, String file) {
         PandaFrameworkLoggerUtils.printJVMUptime();
 
         PandaFactory factory = new PandaFactory();
         Panda panda = factory.createPanda();
 
         Optional<Application> application = new PandaApplicationBootstrap(panda)
-                .workingDirectory("../examples/tests/")
+                .workingDirectory("../examples/" + directory)
                 .main(file)
                 .createApplication();
 
         Assertions.assertTrue(application.isPresent());
-        Assertions.assertDoesNotThrow(() -> application.get().launch());
+        return application.get();
     }
 
 }

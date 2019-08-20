@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.language.architecture.prototype.standard;
 
 import org.panda_lang.panda.framework.design.architecture.module.Module;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeMetadata;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototypeUtils;
@@ -51,7 +52,6 @@ public class AbstractClassPrototypeMetadata implements ClassPrototypeMetadata {
         }
 
         return this.associated != null && this.associated.getSimpleName().equals(className);
-
     }
 
     @Override
@@ -66,8 +66,8 @@ public class AbstractClassPrototypeMetadata implements ClassPrototypeMetadata {
     }
 
     @Override
-    public ClassPrototypeReference toArray() {
-        return ArrayClassPrototypeUtils.getArrayOf(this, 1);
+    public ClassPrototypeReference toArray(ModuleLoader loader) {
+        return ArrayClassPrototypeUtils.getArrayOf(loader, this, 1);
     }
 
     @Override
