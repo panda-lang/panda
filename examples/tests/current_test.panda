@@ -71,7 +71,7 @@ main {
     s = "Hello Panda v2"
 
     Int i = 0x000001
-    Number math = 10.1 + (3 + 4.2 + i) * 2 /*+ "test" */
+    Number math = (10.1 + (3 + 4.2 + i) * 2) - (2 / 1) /* expected: 24.5 */
     Boolean flag = i == 1
 
     Console.print("Hello Panda", flag, varFoo, s, test, i)

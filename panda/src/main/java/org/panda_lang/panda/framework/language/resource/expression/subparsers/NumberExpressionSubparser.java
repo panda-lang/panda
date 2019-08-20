@@ -72,7 +72,13 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
             }
 
             content.addToken(token);
-            Value numericValue = PARSER.parse(context.getContext(), content);
+            Value numericValue;
+
+            try {
+                numericValue = PARSER.parse(context.getContext(), content);
+            } catch (NumberFormatException e) {
+                return null;
+            }
 
             if (numericValue == null) {
                 return dispose();
