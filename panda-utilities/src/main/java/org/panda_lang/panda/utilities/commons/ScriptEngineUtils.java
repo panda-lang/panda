@@ -22,6 +22,8 @@ public final class ScriptEngineUtils {
 
     private static ScriptEngineManager scriptEngineManager;
 
+    private ScriptEngineUtils() { }
+
     public static ScriptEngineManager getDefaultScriptEngineManager() {
         if (scriptEngineManager == null) {
             scriptEngineManager = new ScriptEngineManager();

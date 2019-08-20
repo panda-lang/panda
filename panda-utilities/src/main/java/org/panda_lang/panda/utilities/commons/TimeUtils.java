@@ -18,10 +18,12 @@ package org.panda_lang.panda.utilities.commons;
 
 import java.lang.management.ManagementFactory;
 
-public class TimeUtils {
+public final class TimeUtils {
 
     public static final double MILLISECOND = 1_000;
     public static final double NANOSECOND = 1_000_000;
+
+    private TimeUtils() { }
 
     public static String toSeconds(long ms) {
         return (ms / MILLISECOND) + "s";

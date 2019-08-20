@@ -21,6 +21,8 @@ import java.util.Stack;
 
 public final class StackTraceUtils {
 
+    private StackTraceUtils() { }
+
     public static StackTraceElement[] filter(StackTraceElement[] stackTrace, Class<?>... ignored) {
         String[] ignoredClasses = Arrays.stream(ignored)
                 .map(Class::getName)

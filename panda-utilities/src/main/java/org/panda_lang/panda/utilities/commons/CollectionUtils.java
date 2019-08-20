@@ -20,7 +20,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class CollectionUtils {
+public final class CollectionUtils {
+
+    private CollectionUtils() { }
 
     /**
      * Join collections into the list

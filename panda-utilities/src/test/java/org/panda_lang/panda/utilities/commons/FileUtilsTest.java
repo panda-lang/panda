@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Path;
 
-class FileUtilsTest {
+final class FileUtilsTest {
 
     private static final String CONTENT = "line1" + System.lineSeparator() + "line2";
 

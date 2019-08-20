@@ -24,6 +24,8 @@ public final class ClassPoolUtils {
 
     private static final ClassPool CLASS_POOL = ClassPool.getDefault();
 
+    private ClassPoolUtils() { }
+
     public static CtClass[] toCtClasses(Class<?>[] classes) throws NotFoundException {
         CtClass[] ctClasses = new CtClass[classes.length];
 

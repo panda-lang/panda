@@ -18,6 +18,8 @@ package org.panda_lang.panda.utilities.commons;
 
 public final class ThrowableUtils {
 
+    private ThrowableUtils() { }
+
     /**
      * Throw any throwable without required signatures
      *

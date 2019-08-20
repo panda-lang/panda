@@ -66,7 +66,7 @@ public final class RequireParser extends ParserBootstrap {
     private void parseModule(Context context, Snippet require) {
         Environment environment = context.getComponent(UniversalComponents.ENVIRONMENT);
 
-        String moduleName = require.asString();
+        String moduleName = require.asSource();
         Optional<Module> module = environment.getModulePath().get(moduleName);
 
         if (!module.isPresent()) {

@@ -44,10 +44,10 @@ public class CommentParser implements ContextParser<CommentStatement>, ParserHan
         return new CommentStatement(context.getComponent(UniversalComponents.STREAM).read().getValue());
     }
 
-    public static Snippet uncomment(Snippet source) {
+    public static Snippet uncommented(Snippet source) {
         List<TokenRepresentation> uncommentedSource = new ArrayList<>(source.size());
 
-        for (TokenRepresentation tokenRepresentation : source.getTokensRepresentations()) {
+        for (TokenRepresentation tokenRepresentation : source) {
             Token token = tokenRepresentation.getToken();
 
             if (isComment(token)) {

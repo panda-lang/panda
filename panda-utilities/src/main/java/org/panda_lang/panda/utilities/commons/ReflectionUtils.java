@@ -32,7 +32,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ReflectionUtils {
+public final class ReflectionUtils {
+
+    private ReflectionUtils() { }
 
     /**
      * Get executables with the specified modifier

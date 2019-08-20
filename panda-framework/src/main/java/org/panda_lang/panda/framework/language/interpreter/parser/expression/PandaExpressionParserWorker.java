@@ -107,6 +107,12 @@ public class PandaExpressionParserWorker {
      */
     private boolean next(int index, ExpressionContext context, TokenRepresentation token) {
         ExpressionSubparserWorker worker = workers[index];
+
+        // skip removed subparsers
+        if (worker == null) {
+            return false;
+        }
+
         ExpressionSubparser subparser = worker.getSubparser();
 
         // skip subparser that does not meet assumptions
@@ -120,10 +126,8 @@ public class PandaExpressionParserWorker {
         }
 
         long time = System.nanoTime();
-
         int cachedIndex = context.getDiffusedSource().getIndex();
         ExpressionResult result = worker.next(context, token);
-
         Maps.update(TIMES, subparser.getSubparserName(), () -> 0L, cachedTime -> cachedTime + (System.nanoTime() - time));
 
         // if something went wrong

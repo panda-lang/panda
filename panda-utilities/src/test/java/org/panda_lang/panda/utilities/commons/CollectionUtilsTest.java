@@ -22,10 +22,10 @@ import org.panda_lang.panda.utilities.commons.collection.Sets;
 
 import java.util.List;
 
-class CollectionUtilsTest {
+final class CollectionUtilsTest {
 
     @Test
-    public void testListOf() {
+    void testListOf() {
         List<String> list = CollectionUtils.listOf(Sets.newHashSet("a"), Sets.newHashSet("b"));
 
         Assertions.assertAll(

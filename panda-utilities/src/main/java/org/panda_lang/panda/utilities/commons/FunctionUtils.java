@@ -20,6 +20,15 @@ import java.util.function.Supplier;
 
 public final class FunctionUtils {
 
+    private FunctionUtils() { }
+
+    /**
+     * Convert value into supplier
+     *
+     * @param value the value to return
+     * @param <T> type of value
+     * @return supplier returning the value
+     */
     public static <T> Supplier<T> toSupplier(T value) {
         return () -> value;
     }

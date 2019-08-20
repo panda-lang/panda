@@ -35,7 +35,7 @@ public class ClassPrototypeParserUtils {
 
     public static void readDeclaration(Context context, Snippet classDeclaration) {
         ClassPrototype classPrototype = context.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
-        Token next = classDeclaration.getToken(1);
+        Token next = classDeclaration.get(1);
 
         if (next == null || next.getType() != TokenType.KEYWORD) {
             throw new PandaParserException("Unknown element " + next);

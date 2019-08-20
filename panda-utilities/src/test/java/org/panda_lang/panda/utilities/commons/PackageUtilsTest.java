@@ -19,7 +19,7 @@ package org.panda_lang.panda.utilities.commons;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class PackageUtilsTest {
+final class PackageUtilsTest {
 
     @Test
     void getPackageName() {

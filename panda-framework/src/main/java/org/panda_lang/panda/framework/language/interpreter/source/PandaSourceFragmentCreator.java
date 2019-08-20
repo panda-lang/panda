@@ -59,7 +59,7 @@ public final class PandaSourceFragmentCreator<T> {
     }
 
     public PandaSourceFragmentCreator<T> of(Snippetable fragment, Snippet indicatedFragment) {
-        this.sourceFragment = new PandaSourceFragment(indicatedFragment.getCurrentLocation(), fragment, indicatedFragment);
+        this.sourceFragment = new PandaSourceFragment(indicatedFragment.getLocation(), fragment, indicatedFragment);
         return this;
     }
 

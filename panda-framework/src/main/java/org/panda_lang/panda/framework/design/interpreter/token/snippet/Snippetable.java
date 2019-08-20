@@ -18,6 +18,11 @@ package org.panda_lang.panda.framework.design.interpreter.token.snippet;
 
 public interface Snippetable {
 
+    /**
+     * Converts current object into the {@link org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet}
+     *
+     * @return a new snippet containing content of the current object
+     */
     Snippet toSnippet();
 
 }

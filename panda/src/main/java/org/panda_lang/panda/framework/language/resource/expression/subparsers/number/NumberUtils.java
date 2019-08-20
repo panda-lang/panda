@@ -41,7 +41,7 @@ public final class NumberUtils {
     }
 
     public static boolean isNumeric(Snippet source) {
-        return isNumeric(source.asString());
+        return isNumeric(source.asSource());
     }
 
     public static boolean isNumeric(String content) {

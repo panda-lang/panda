@@ -17,7 +17,6 @@
 package org.panda_lang.panda.framework.language.resource.container.block.looping;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
@@ -26,10 +25,10 @@ import org.panda_lang.panda.framework.language.interpreter.parser.expression.Exp
 class ForBlock extends ControllerBlock {
 
     private final Expression conditionExpression;
-    private final @Nullable Executable initializationStatement;
+    private final @Nullable Expression initializationStatement;
     private final @Nullable Expression postExpression;
 
-    ForBlock(@Nullable Executable initializationStatement, Expression conditionExpression, @Nullable Expression postExpression) {
+    ForBlock(@Nullable Expression initializationStatement, Expression conditionExpression, @Nullable Expression postExpression) {
         this.initializationStatement = initializationStatement;
         this.conditionExpression = conditionExpression;
         this.postExpression = postExpression;
@@ -38,7 +37,7 @@ class ForBlock extends ControllerBlock {
     @Override
     public void call(ControlFlow controlFlow, Flow flow) {
         if (initializationStatement != null) {
-            initializationStatement.execute(flow);
+            initializationStatement.evaluate(flow);
         }
 
         for (; conditionExpression.evaluate(flow).getValue(); ExpressionUtils.evaluate(flow, postExpression)) {

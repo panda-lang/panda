@@ -24,10 +24,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 
-public class ResourcesIterableTest {
+final class ResourcesIterableTest {
 
     @Test
-    public void testIterable() {
+    void testIterable() {
         Collection<String> mutable = Lists.mutableOf("a");
         Collection<String> immutable = Collections.singletonList("c");
         ResourcesIterable<String> iterable = new ResourcesIterable<>(mutable, immutable);

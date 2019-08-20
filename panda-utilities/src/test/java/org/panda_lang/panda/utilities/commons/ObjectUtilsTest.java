@@ -19,19 +19,19 @@ package org.panda_lang.panda.utilities.commons;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class ObjectUtilsTest {
+final class ObjectUtilsTest {
 
     private static final Object OBJECT = new Object();
 
     @Test
     @SuppressWarnings("ConstantConditions")
-    public void testIsNotNull() {
+    void isNotNull() {
         Assertions.assertTrue(ObjectUtils.isNotNull(OBJECT));
         Assertions.assertFalse(ObjectUtils.isNotNull(null));
     }
 
     @Test
-    public void testAreNull() {
+    void areNull() {
         Assertions.assertFalse(ObjectUtils.areNull());
         Assertions.assertFalse(ObjectUtils.areNull(OBJECT, OBJECT, OBJECT));
         Assertions.assertFalse(ObjectUtils.areNull(OBJECT, null, OBJECT));
@@ -40,7 +40,7 @@ class ObjectUtilsTest {
     }
 
     @Test
-    public void testEqualsOneOf() {
+    void equalsOneOf() {
         Assertions.assertTrue(ObjectUtils.equalsOneOf("value", OBJECT, "value", OBJECT));
         Assertions.assertFalse(ObjectUtils.equalsOneOf("value", OBJECT, OBJECT, OBJECT));
     }

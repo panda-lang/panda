@@ -20,6 +20,10 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.PandaFrameworkException;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceFragment;
 
+/**
+ * InterpreterFailures are dedicated exceptions thrown by the Panda Framework.
+ * It contains extra data about the error and may be used to enhance logging/tooling.
+ */
 public abstract class InterpreterFailure extends PandaFrameworkException {
 
     protected InterpreterFailure(String message) {

@@ -28,7 +28,9 @@ import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-public class IOUtils {
+public final class IOUtils {
+
+    private IOUtils() { }
 
     public static @Nullable String getURLContent(String s) {
         String body = null;

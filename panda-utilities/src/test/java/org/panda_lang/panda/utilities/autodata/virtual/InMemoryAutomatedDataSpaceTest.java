@@ -37,10 +37,10 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-class InMemoryAutomatedDataSpaceTest {
+final class InMemoryAutomatedDataSpaceTest {
 
     @Test
-    public void test() {
+    void test() {
         AutomatedDataSpace space = AutomatedDataSpace.initialize(new InMemoryDataController())
                 .createCollection()
                     .name("users")

@@ -53,7 +53,7 @@ class DescriptivePatternTester {
 
         for (Wildcard wildcard : expected) {
             //noinspection OptionalGetWithoutIsPresent
-            Assertions.assertEquals(wildcard.expected, ((Snippet) result.getWildcard(wildcard.name).get().getValue()).asString());
+            Assertions.assertEquals(wildcard.expected, ((Snippet) result.getWildcard(wildcard.name).get().getValue()).asSource());
         }
     }
 

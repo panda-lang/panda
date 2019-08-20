@@ -19,12 +19,12 @@ package org.panda_lang.panda.utilities.commons.text;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class BracketContentReaderTest {
+final class BracketContentReaderTest {
 
     private static final String CONTENT = "(Test (A[B{C\"D\"E}F]G) Test) EoT";
 
     @Test
-    public void testBracketContentReader() {
+    void testBracketContentReader() {
         BracketContentReader bracketContentReader = new BracketContentReader(CONTENT);
         String content = bracketContentReader.read();
 

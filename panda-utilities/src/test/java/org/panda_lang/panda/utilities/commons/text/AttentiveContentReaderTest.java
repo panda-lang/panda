@@ -21,13 +21,13 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-class AttentiveContentReaderTest {
+final class AttentiveContentReaderTest {
 
     private static final String CONTENT = "Test|Bracket(|)|String\"|\"|Test";
     private static final char SEPARATOR = '|';
 
     @Test
-    public void testAttentiveContentReader() {
+    void testAttentiveContentReader() {
         AttentiveContentReader attentiveContentReader = new AttentiveContentReader(CONTENT);
         List<String> selected = attentiveContentReader.select(SEPARATOR);
 

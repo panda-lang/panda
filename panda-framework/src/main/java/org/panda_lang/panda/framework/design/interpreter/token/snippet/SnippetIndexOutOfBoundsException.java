@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.framework.design.interpreter.token.snippet;
 
-public class SnippetIndexOutOfBoundsException extends ArrayIndexOutOfBoundsException {
+public final class SnippetIndexOutOfBoundsException extends ArrayIndexOutOfBoundsException {
 
-    public SnippetIndexOutOfBoundsException(int index) {
+    SnippetIndexOutOfBoundsException(int index) {
         super(index);
     }
 

@@ -51,7 +51,7 @@ public final class ModuleParser extends ParserBootstrap {
             throw new PandaParserException("Script contains more than one declaration of the group");
         }
 
-        String moduleName = moduleSource.asString();
+        String moduleName = moduleSource.asSource();
 
         Module module = environment.getModulePath().get(moduleName).orElseGet(() -> {
             return environment.getModulePath().include(new PandaModule(moduleName));

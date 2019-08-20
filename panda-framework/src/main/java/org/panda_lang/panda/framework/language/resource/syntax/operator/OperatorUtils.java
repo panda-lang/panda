@@ -22,7 +22,6 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippetable;
 
-import java.util.List;
 import java.util.Objects;
 
 public class OperatorUtils {
@@ -51,10 +50,9 @@ public class OperatorUtils {
      */
     public static int indexOf(Snippetable snippetable, @Nullable String family) {
         Snippet snippet = snippetable.toSnippet();
-        List<TokenRepresentation> representations = snippet.getTokensRepresentations();
 
-        for (int index = 0; index < representations.size(); index++) {
-            TokenRepresentation representation = representations.get(index);
+        for (int index = 0; index < snippet.size(); index++) {
+            TokenRepresentation representation = snippet.get(index);
 
             if (representation.getType() != TokenType.OPERATOR) {
                 continue;

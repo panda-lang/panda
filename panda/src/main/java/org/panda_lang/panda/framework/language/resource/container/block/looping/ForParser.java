@@ -16,30 +16,24 @@
 
 package org.panda_lang.panda.framework.language.resource.container.block.looping;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.parser.loader.Registrable;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.architecture.dynamic.assigner.Assigner;
-import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.VariableAssignerUtils;
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.framework.language.resource.PandaTypes;
-import org.panda_lang.panda.framework.language.resource.expression.subparsers.assignation.variable.VariableParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.block.BlockData;
 import org.panda_lang.panda.framework.language.interpreter.parser.block.BlockSubparserBootstrap;
+import org.panda_lang.panda.framework.language.resource.PandaTypes;
+import org.panda_lang.panda.framework.language.resource.expression.subparsers.assignation.variable.VariableParser;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
@@ -57,7 +51,7 @@ public final class ForParser extends BlockSubparserBootstrap {
     }
 
     @Autowired
-    BlockData parseBlock(Context context, @Src("content") Snippet content) {
+    BlockData parseBlock(Context context, @Src("content") Snippet content, @Component ExpressionParser expressionParser) {
         Snippet[] forEachElements = content.split(Separators.SEMICOLON);
 
         if (forEachElements.length != 3) {
@@ -67,18 +61,11 @@ public final class ForParser extends BlockSubparserBootstrap {
                     .build();
         }
 
-        ExpressionParser expressionParser = context.getComponent(UniversalComponents.EXPRESSION);
         Snippet initializationSource = forEachElements[0];
-        Executable initialization = null;
+        Expression initialization = null;
 
         if (!initializationSource.isEmpty()) {
-            Snippet[] initializationElements = initializationSource.split(Operators.ASSIGNMENT);
-
-            Scope scope = context.getComponent(UniversalComponents.LINKER).getCurrentScope();
-            Variable variable = VARIABLE_PARSER.parseVariable(context, scope, initializationElements[0]);
-
-            Assigner<Variable> assigner = VariableAssignerUtils.of(context, scope, variable, expressionParser.parse(context, initializationElements[1]));
-            initialization = assigner.toExecutableStatement();
+            initialization = expressionParser.parse(context, initializationSource);
         }
 
         Snippet terminationSource = forEachElements[1];

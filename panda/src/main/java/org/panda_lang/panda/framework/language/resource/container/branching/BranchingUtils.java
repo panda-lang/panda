@@ -26,7 +26,7 @@ class BranchingUtils {
 
     static void parseBranchingStatement(Snippet source, Container container, Supplier<AbstractStatement> supplier) {
         AbstractStatement statement = supplier.get();
-        statement.setLocation(source.getCurrentLocation());
+        statement.setLocation(source.getLocation());
         container.addStatement(statement);
     }
 

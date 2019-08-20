@@ -97,7 +97,7 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            ClassPrototype type = ModuleLoaderUtils.getReferenceOrThrow(context.getContext(), typeSource.asString(), typeSource).fetch();
+            ClassPrototype type = ModuleLoaderUtils.getReferenceOrThrow(context.getContext(), typeSource.asSource(), typeSource).fetch();
 
             if (section.getSeparator().equals(Separators.PARENTHESIS_LEFT)) {
                 return parseDefault(context, type, section.getContent());

@@ -21,6 +21,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * The smallest piece of data used by Panda Framework.
+ * Tokens represent elements of {@link org.panda_lang.panda.framework.design.resource.Syntax} with identified meaning.
+ */
 public interface Token {
 
     /**

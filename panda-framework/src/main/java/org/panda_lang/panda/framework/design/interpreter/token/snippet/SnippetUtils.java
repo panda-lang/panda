@@ -17,31 +17,17 @@
 package org.panda_lang.panda.framework.design.interpreter.token.snippet;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.source.SourceLocation;
-import org.panda_lang.panda.framework.design.interpreter.token.Token;
 
 public class SnippetUtils {
 
-    public static boolean contains(Snippet source, Token... tokens) {
-        for (Token token : tokens) {
-            if (source.contains(token)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
+    /**
+     * {@link Snippet#isEmpty()} with null support
+     *
+     * @param snippet nullable snippet to check
+     * @return returns true if the given snippet is null or content of snippet is empty
+     */
     public static boolean isEmpty(@Nullable Snippet snippet) {
         return snippet == null || snippet.isEmpty();
-    }
-
-    public static String asString(@Nullable Snippet snippet) {
-        return snippet != null ? snippet.asString() : null;
-    }
-
-    public static int getLine(@Nullable Snippet snippet) {
-        return snippet != null ? snippet.getCurrentLocation().getLine() : SourceLocation.UNKNOWN_LOCATION;
     }
 
 }

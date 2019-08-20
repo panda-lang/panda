@@ -22,7 +22,9 @@ import java.util.Objects;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 
-public class ObjectUtils {
+public final class ObjectUtils {
+
+    private ObjectUtils() { }
 
     /**
      * Try to cast or get null

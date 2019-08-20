@@ -20,12 +20,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.utilities.commons.text.pattern.text.TextHollowPattern;
 
-class HollowPatternTest {
+final class HollowPatternTest {
 
     private static final String EXPRESSION = "instance.extractToken().method(parameter.extractToken())";
 
     @Test
-    public void testHollowPatternWithCompiler() {
+    void testHollowPatternWithCompiler() {
         TextHollowPattern hollowPattern = TextHollowPattern.builder()
                 .compile("*.*(*)*")
                 .build();
@@ -34,7 +34,7 @@ class HollowPatternTest {
     }
 
     @Test
-    public void testHollowPatternWithBuilder() {
+    void testHollowPatternWithBuilder() {
         TextHollowPattern hollowPattern = TextHollowPattern.builder()
                 .basis("set")
                 .hollow()

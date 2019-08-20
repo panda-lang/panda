@@ -21,9 +21,11 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public  final class CamelCaseUtils {
+public final class CamelCaseUtils {
 
     public static final String CAMEL_CASE_PATTERN = "(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])";
+
+    private CamelCaseUtils() { }
 
     public static List<String> split(String camelCaseText) {
         return split(camelCaseText, element -> element);

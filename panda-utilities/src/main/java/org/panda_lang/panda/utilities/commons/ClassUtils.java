@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class ClassUtils {
+public final class ClassUtils {
 
     private static final Map<Class<?>, Class<?>> PRIMITIVE_EQUIVALENT = new HashMap<Class<?>, Class<?>>() {{
         put(byte.class, Byte.class);
@@ -39,7 +39,16 @@ public class ClassUtils {
         put(char.class, Character.class);
     }};
 
+    private ClassUtils() { }
+
+    /**
+     * Get classes of the given values
+     *
+     * @param values the values to check
+     * @return array of classes
+     */
     public static Class<?>[] getClasses(Object... values) {
+        //noinspection ReturnOfNull
         return Arrays.stream(values)
                 .map(object -> object != null ? object.getClass() : null)
                 .toArray(Class[]::new);
