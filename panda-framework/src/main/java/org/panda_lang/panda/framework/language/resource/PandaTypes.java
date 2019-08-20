@@ -33,14 +33,14 @@ public class PandaTypes {
     private static final Module MODULE = new PandaModule(null);
 
     public static final ClassPrototype VOID = PandaClassPrototype.of(MODULE, void.class, "void").fetch();
-    public static final ClassPrototype BOOLEAN = PandaClassPrototype.of(MODULE, boolean.class, "Boolean").fetch();
-    public static final ClassPrototype CHAR = PandaClassPrototype.of(MODULE, char.class, "Char").fetch();
-    public static final ClassPrototype BYTE = PandaClassPrototype.of(MODULE, byte.class, "Byte").fetch();
-    public static final ClassPrototype SHORT = PandaClassPrototype.of(MODULE, short.class, "Short").fetch();
-    public static final ClassPrototype INT = PandaClassPrototype.of(MODULE, int.class, "Int").fetch();
-    public static final ClassPrototype LONG = PandaClassPrototype.of(MODULE, int.class, "Long").fetch();
-    public static final ClassPrototype FLOAT = PandaClassPrototype.of(MODULE, float.class, "Float").fetch();
-    public static final ClassPrototype DOUBLE = PandaClassPrototype.of(MODULE, double.class, "Double").fetch();
+    public static final ClassPrototype BOOLEAN = PandaClassPrototype.of(MODULE, Boolean.class, "Boolean").fetch();
+    public static final ClassPrototype CHAR = PandaClassPrototype.of(MODULE, Character.class, "Char").fetch();
+    public static final ClassPrototype BYTE = PandaClassPrototype.of(MODULE, Byte.class, "Byte").fetch();
+    public static final ClassPrototype SHORT = PandaClassPrototype.of(MODULE, Short.class, "Short").fetch();
+    public static final ClassPrototype INT = PandaClassPrototype.of(MODULE, Integer.class, "Int").fetch();
+    public static final ClassPrototype LONG = PandaClassPrototype.of(MODULE, Long.class, "Long").fetch();
+    public static final ClassPrototype FLOAT = PandaClassPrototype.of(MODULE, Float.class, "Float").fetch();
+    public static final ClassPrototype DOUBLE = PandaClassPrototype.of(MODULE, Double.class, "Double").fetch();
 
     public static final ClassPrototype OBJECT = PandaClassPrototype.of(MODULE, Object.class, "Object").fetch();
     public static final ClassPrototype ARRAY = PandaClassPrototype.of(MODULE, PandaArray.class, "Array").fetch();
