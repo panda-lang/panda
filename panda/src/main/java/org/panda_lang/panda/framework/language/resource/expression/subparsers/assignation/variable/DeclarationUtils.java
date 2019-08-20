@@ -53,7 +53,7 @@ public final class DeclarationUtils {
 
             do {
                 type.addToken(candidate);
-                candidate = source.get(++firstIndex);
+                candidate = source.hasElement(++firstIndex) ? source.get(firstIndex) : null;
             } while (isArraySeparator(candidate));
         }
 

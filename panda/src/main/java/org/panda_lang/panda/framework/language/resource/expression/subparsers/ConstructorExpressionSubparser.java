@@ -154,6 +154,10 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
                 capacities.add(capacity);
             }
 
+            if (capacities.isEmpty()) {
+                return ExpressionResult.error("Array requires specified capacity", typeSource);
+            }
+
             String baseClassName = typeSource.subSource(0, typeSource.size() - sections.size()).asSource();
             String endTypeName = baseClassName + StringUtils.repeated(sections.size(), "[]");
 
