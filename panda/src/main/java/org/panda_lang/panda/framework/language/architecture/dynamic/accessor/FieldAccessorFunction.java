@@ -16,9 +16,8 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.accessor;
 
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.structure.ClassPrototypeScopeFrame;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
@@ -35,17 +34,17 @@ public class FieldAccessorFunction implements Function<Flow, MemoryContainer> {
 
     @Override
     public MemoryContainer apply(Flow flow) {
-        Value instance = instanceExpression.evaluate(flow);
+        Object instance = instanceExpression.evaluate(flow);
 
         if (instance == null) {
             throw new PandaRuntimeException("Instance is not defined");
         }
 
-        if (!(instance.getObject() instanceof ClassPrototypeScopeFrame)) {
+        if (!(instance instanceof ClassPrototypeScopeFrame)) {
             throw new PandaRuntimeException("Cannot get field value of external object");
         }
 
-        return (ClassPrototypeScopeFrame) instance.getObject();
+        return (MemoryContainer) instance;
     }
 
 }

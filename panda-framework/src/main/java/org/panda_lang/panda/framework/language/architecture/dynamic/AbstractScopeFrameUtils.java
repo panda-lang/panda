@@ -16,11 +16,9 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic;
 
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-
 public class AbstractScopeFrameUtils {
 
-    public static Value[] extractMemory(AbstractScopeFrame<?> scopeInstance) {
+    public static Object[] extractMemory(AbstractScopeFrame<?> scopeInstance) {
         return scopeInstance.localMemory;
     }
 

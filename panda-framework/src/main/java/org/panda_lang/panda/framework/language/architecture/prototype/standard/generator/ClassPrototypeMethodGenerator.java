@@ -20,10 +20,8 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.method.PandaMethod;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParametrizedExecutableCallback;
-import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
 import java.lang.reflect.Array;
@@ -50,18 +48,13 @@ final class ClassPrototypeMethodGenerator {
     protected PrototypeMethod generate() {
         ClassPrototypeReference returnType = generator.computeIfAbsent(prototype.getModule(), method.getReturnType());
         PrototypeParameter[] mappedParameters = ClassPrototypeGeneratorUtils.toParameters(prototype.getModule(), method.getParameters());
-
-        if (returnType == null) {
-            throw new PandaRuntimeException("Cannot generate method for 'null' return type");
-        }
-
         boolean isVoid = returnType.getName().equals("void");
 
         // TODO: Generate bytecode
         method.setAccessible(true);
 
-        ParametrizedExecutableCallback<Object> methodBody = (branch, instance, parameters) -> {
-            int amountOfArgs = parameters.length;
+        ParametrizedExecutableCallback<Object> methodBody = (branch, instance, arguments) -> {
+            int amountOfArgs = arguments.length;
             int parameterCount = method.getParameterCount();
             Object varargs = null;
 
@@ -82,32 +75,18 @@ final class ClassPrototypeMethodGenerator {
                 amountOfArgs++;
             }
 
-            Object[] args = new Object[amountOfArgs];
-
-            for (int i = 0; i < parameters.length; i++) {
-                Value parameter = parameters[i];
-
-                if (parameter == null) {
-                    continue;
-                }
-
-                args[i] = parameter.getValue();
-            }
-
             if (varargs != null) {
-                args[amountOfArgs - 1] = varargs;
+                arguments[amountOfArgs - 1] = varargs;
             }
 
-            Object returnValue = method.invoke(instance, args);
+            Object returnValue = method.invoke(instance, arguments);
 
             if (isVoid) {
                 return null;
             }
 
-            Value value = new PandaStaticValue(returnType.fetch(), returnValue);
-            branch.setReturnValue(value);
-
-            return value;
+            branch.setReturnValue(returnValue);
+            return returnValue;
         };
 
         return PandaMethod.builder()

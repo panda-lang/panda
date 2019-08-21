@@ -63,7 +63,7 @@ class RPNOperationTransformer {
             values.push(operators.pop());
         }
 
-        return new RPNOperation(context, suppliers, values);
+        return new RPNOperation(suppliers, values);
     }
 
     private boolean compare(Operator a, Operator b) {

@@ -20,7 +20,6 @@ import org.panda_lang.panda.framework.design.architecture.dynamic.ExecutableStat
 import org.panda_lang.panda.framework.design.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.panda.framework.design.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
@@ -43,7 +42,8 @@ final class Assignation extends AbstractExecutableStatement implements DynamicEx
     }
 
     @Override
-    public Value call(Expression expression, Flow flow) {
+    @SuppressWarnings("unchecked")
+    public Object call(Expression expression, Flow flow) {
         return accessor.getValue(flow);
     }
 

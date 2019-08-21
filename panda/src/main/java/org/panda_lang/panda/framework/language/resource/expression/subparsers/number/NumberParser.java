@@ -16,19 +16,19 @@
 
 package org.panda_lang.panda.framework.language.resource.expression.subparsers.number;
 
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.SourceParser;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
+import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
-public class NumberParser implements SourceParser<Value> {
+public class NumberParser implements SourceParser<Expression> {
 
     @Override
-    public Value parse(Context context, Snippet source) {
+    public Expression parse(Context context, Snippet source) {
         String unknownNumber = StringUtils.replace(source.asSource(), "_", StringUtils.EMPTY);
         char numberTypeDefinitionCharacter = unknownNumber.charAt(unknownNumber.length() - 1);
 
@@ -56,17 +56,17 @@ public class NumberParser implements SourceParser<Value> {
 
         switch (numberType) {
             case BYTE:
-                return new PandaStaticValue(PandaTypes.BYTE, Byte.parseByte(number, radix));
+                return new PandaExpression(PandaTypes.BYTE, Byte.parseByte(number, radix));
             case SHORT:
-                return new PandaStaticValue(PandaTypes.SHORT, Short.parseShort(number, radix));
+                return new PandaExpression(PandaTypes.SHORT, Short.parseShort(number, radix));
             case INT:
-                return new PandaStaticValue(PandaTypes.INT, Integer.parseInt(number, radix));
+                return new PandaExpression(PandaTypes.INT, Integer.parseInt(number, radix));
             case LONG:
-                return new PandaStaticValue(PandaTypes.LONG, Long.parseLong(number, radix));
+                return new PandaExpression(PandaTypes.LONG, Long.parseLong(number, radix));
             case FLOAT:
-                return new PandaStaticValue(PandaTypes.FLOAT, Float.parseFloat(number));
+                return new PandaExpression(PandaTypes.FLOAT, Float.parseFloat(number));
             case DOUBLE:
-                return new PandaStaticValue(PandaTypes.DOUBLE, Double.parseDouble(number));
+                return new PandaExpression(PandaTypes.DOUBLE, Double.parseDouble(number));
             default:
                 throw new PandaParserException("Unknown number type: " + numberType);
         }

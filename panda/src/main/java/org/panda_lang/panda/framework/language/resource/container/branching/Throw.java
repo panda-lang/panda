@@ -31,7 +31,7 @@ final class Throw extends AbstractExecutableStatement {
 
     @Override
     public void execute(Flow flow) {
-        UnsafeUtils.getUnsafe().throwException(value.evaluate(flow).getValue());
+        UnsafeUtils.getUnsafe().throwException(value.evaluate(flow));
     }
 
 }

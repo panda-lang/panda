@@ -40,7 +40,7 @@ class ForBlock extends ControllerBlock {
             initializationStatement.evaluate(flow);
         }
 
-        for (; conditionExpression.evaluate(flow).getValue(); ExpressionUtils.evaluate(flow, postExpression)) {
+        for (; conditionExpression.evaluate(flow); ExpressionUtils.evaluate(flow, postExpression)) {
             controlFlow.call();
 
             if (controlFlow.isEscaped() || flow.isInterrupted()) {

@@ -32,8 +32,13 @@ public final class Launcher {
     public static void launch(String directory, String file) {
         Assertions.assertDoesNotThrow(() -> {
             Application application = interpret(directory, file);
+            launch(application);
+        });
+    }
 
-            PandaFramework.getLogger().debug("[TestLauncher] Launching application...");
+    public static void launch(Application application) {
+        Assertions.assertDoesNotThrow(() -> {
+            PandaFramework.getLogger().debug("[PandaApp] Launching application...");
             long initTime = System.nanoTime();
 
             application.launch();

@@ -22,20 +22,16 @@ import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 
 public final class ArrayAssigner extends AbstractAssigner {
 
-    private final Expression index;
     private final Expression value;
 
-    public ArrayAssigner(Accessor<?> accessor, Expression index, Expression value) {
+    public ArrayAssigner(Accessor<?> accessor, Expression value) {
         super(accessor);
-
-        this.index = index;
         this.value = value;
     }
 
     @Override
     public void execute(Flow flow) {
-        Integer i = index.evaluate(flow).getValue();
-        accessor.fetchMemoryContainer(flow).set(i, value.evaluate(flow));
+        accessor.fetchMemoryContainer(flow).set(-1, value.evaluate(flow)); // array accessor has cached index
     }
 
 }

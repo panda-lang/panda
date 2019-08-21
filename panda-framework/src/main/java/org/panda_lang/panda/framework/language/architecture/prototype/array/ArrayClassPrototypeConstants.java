@@ -18,7 +18,6 @@ package org.panda_lang.panda.framework.language.architecture.prototype.array;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.method.PandaMethod;
-import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 
 import java.util.Arrays;
@@ -33,7 +32,7 @@ final class ArrayClassPrototypeConstants {
                     throw new RuntimeException();
                 }
 
-                return branch.setReturnValue(new PandaStaticValue(PandaTypes.INT, ((Object[]) instance).length));
+                return branch.setReturnValue(((Object[]) instance).length);
             })
             .build();
 
@@ -45,7 +44,7 @@ final class ArrayClassPrototypeConstants {
                     throw new RuntimeException();
                 }
 
-                return branch.setReturnValue(new PandaStaticValue(PandaTypes.STRING, Arrays.toString((Object[]) instance)));
+                return branch.setReturnValue(Arrays.toString((Object[]) instance));
             })
             .build();
 

@@ -17,7 +17,6 @@
 package org.panda_lang.panda.framework.design.runtime.memory;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 
 public interface MemoryContainer {
 
@@ -27,13 +26,13 @@ public interface MemoryContainer {
      * @param pointer index of the variable in current scope
      * @param value new value
      */
-    @Nullable Value set(int pointer, @Nullable Value value);
+    @Nullable <T> T set(int pointer, @Nullable T value);
 
     /**
      * @param pointer index of variable in current scope
      * @return value
      */
-    @Nullable Value get(int pointer);
+    @Nullable <T> T get(int pointer);
 
     /**
      * @return array length

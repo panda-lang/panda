@@ -19,9 +19,8 @@ package org.panda_lang.panda.framework.language.runtime;
 import org.panda_lang.panda.framework.design.architecture.Application;
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.Process;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 
 public class PandaProcess implements Process {
 
@@ -36,7 +35,7 @@ public class PandaProcess implements Process {
     }
 
     @Override
-    public Value execute() {
+    public <T> T execute() {
         ScopeFrame instance = mainScope.createFrame(null); // TODO: check behaviour of branch after applying the 'null' value
 
         Flow flow = new PandaFlow(this, null, instance);

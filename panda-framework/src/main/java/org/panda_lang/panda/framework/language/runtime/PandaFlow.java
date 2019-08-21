@@ -20,30 +20,29 @@ import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
 import org.panda_lang.panda.framework.design.architecture.dynamic.StandaloneExecutable;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.Process;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
-import org.panda_lang.panda.framework.language.runtime.flow.PandaControlFlowController;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.runtime.flow.PandaControlFlow;
+import org.panda_lang.panda.framework.language.runtime.flow.PandaControlFlowController;
 
 import java.util.Collection;
 
 public class PandaFlow implements Flow {
 
     private final Process process;
-    private final Value instance;
+    private final Object instance;
     private final ScopeFrame currentScope;
 
     private PandaControlFlow currentFlow;
-    private Value returnedValue;
+    private Object returnedValue;
     private boolean interrupted;
 
-    public PandaFlow(Flow flow, Value instance) {
+    public PandaFlow(Flow flow, Object instance) {
         this(flow.getProcess(), instance, flow.getCurrentScope());
     }
 
-    public PandaFlow(Process process, Value instance, ScopeFrame currentScope) {
+    public PandaFlow(Process process, Object instance, ScopeFrame currentScope) {
         this.process = process;
         this.instance = instance;
         this.currentScope = currentScope;
@@ -136,14 +135,15 @@ public class PandaFlow implements Flow {
     }
 
     @Override
-    public void returnValue(Value value) {
+    public void returnValue(Object value) {
         this.returnedValue = value;
         interrupt();
     }
 
     @Override
-    public Value setReturnValue(Value value) {
-        return (this.returnedValue = value);
+    public <T> T setReturnValue(T value) {
+        this.returnedValue = value;
+        return value;
     }
 
     @Override
@@ -152,7 +152,8 @@ public class PandaFlow implements Flow {
     }
 
     @Override
-    public Value getReturnedValue() {
+    @SuppressWarnings("unchecked")
+    public Object getReturnedValue() {
         return returnedValue;
     }
 
@@ -167,7 +168,8 @@ public class PandaFlow implements Flow {
     }
 
     @Override
-    public Value getInstance() {
+    @SuppressWarnings("unchecked")
+    public Object getInstance() {
         return instance;
     }
 

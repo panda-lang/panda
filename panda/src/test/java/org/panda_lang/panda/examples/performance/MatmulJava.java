@@ -16,44 +16,47 @@
 
 package org.panda_lang.panda.examples.performance;
 
+import org.panda_lang.panda.utilities.commons.TimeUtils;
+
+@SuppressWarnings("WrapperTypeMayBePrimitive")
 final class MatmulJava {
 
-    public double[][] matgen(int n) {
-        double[][] a = new double[n][n];
-        double tmp = 1. / n / n;
+    public Number[][] matgen(Number n) {
+        Number[][] a = new Number[n.intValue()][n.intValue()];
+        Double tmp = 1.0 / n.intValue() / n.intValue();
 
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < n; ++j) {
-                a[i][j] = tmp * (i - j) * (i + j);
+        for (Number i = 0; i.intValue() < n.intValue(); i = i.intValue() + 1) {
+            for (Number j = 0; j.intValue() < n.intValue(); j = j.intValue() + 1) {
+                a[i.intValue()][j.intValue()] = tmp * (i.intValue() - j.intValue()) * (i.intValue() + j.intValue());
             }
         }
 
         return a;
     }
 
-    public double[][] matmul(double[][] a, double[][] b) {
-        int m = a.length,
+    public Number[][] matmul(Number[][] a, Number[][] b) {
+        Number m = a.length,
                 n = a[0].length,
                 p = b[0].length;
 
-        double[][] x = new double[m][p];
-        double[][] c = new double[p][n];
+        Number[][] x = new Double[m.intValue()][p.intValue()];
+        Number[][] c = new Double[p.intValue()][n.intValue()];
 
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < p; ++j) {
-                c[j][i] = b[i][j];
+        for (Number i = 0; i.intValue() < n.intValue(); i = i.intValue() + 1) {
+            for (Number j = 0; j.intValue() < p.intValue(); j = j.intValue() + 1) {
+                c[j.intValue()][i.intValue()] = b[i.intValue()][j.intValue()];
             }
         }
 
-        for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < p; ++j) {
-                double s = 0.0;
+        for (Number i = 0; i.intValue() < m.intValue(); i = i.intValue() + 1) {
+            for (Number j = 0; j.intValue() < p.intValue(); j = j.intValue() + 1) {
+                Number s = 0.0;
 
-                for (int k = 0; k < n; ++k) {
-                    s += a[i][k] * c[j][k];
+                for (Number k = 0; k.intValue() < n.intValue(); k = k.intValue() + 1) {
+                    s = s.doubleValue() + a[i.intValue()][k.intValue()].doubleValue() * c[j.intValue()][k.intValue()].doubleValue();
                 }
 
-                x[i][j] = s;
+                x[i.intValue()][j.intValue()] = s.doubleValue();
             }
         }
 
@@ -61,15 +64,17 @@ final class MatmulJava {
     }
 
     public static void main(String... args) {
-        int n = 100;
+        Integer n = 100;
+        Long time = System.nanoTime();
 
         MatmulJava m = new MatmulJava();
-        double[][] a, b, x;
+        Number[][] a, b, x;
         a = m.matgen(n);
         b = m.matgen(n);
         x = m.matmul(a, b);
 
         System.out.println(x[n / 2][n / 2]);
+        System.out.println(TimeUtils.toMilliseconds(System.nanoTime() - time));
     }
 
 }
