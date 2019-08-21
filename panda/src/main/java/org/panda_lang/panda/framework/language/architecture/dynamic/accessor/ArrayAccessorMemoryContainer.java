@@ -16,46 +16,36 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.accessor;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
-import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 
 final class ArrayAccessorMemoryContainer implements MemoryContainer {
 
-    private final ArrayAccessor accessor;
-    private final Flow flow;
+    private final Object[] array;
+    private final int index;
 
-    public ArrayAccessorMemoryContainer(ArrayAccessor accessor, Flow flow) {
-        this.accessor = accessor;
-        this.flow = flow;
+    public ArrayAccessorMemoryContainer(Flow flow, ArrayAccessor accessor, int index) {
+        this.array = accessor.instance.evaluate(flow);
+        this.index = index;
     }
 
     @Override
-    public @Nullable Value set(int pointer, @Nullable Value value) {
-        getArray()[pointer] = value != null ? value.getObject() : null;
+    @SuppressWarnings("unchecked")
+    public @Nullable Object set(int pointer, @Nullable Object value) {
+        array[index] = value;
         return value;
     }
 
-    @NotNull
     @Override
-    public Value get(int pointer) {
-        Object[] array = getArray();
-        Integer i = accessor.index.evaluate(flow).getValue();
-
-        Object value = array[i];
-        return new PandaStaticValue(accessor.type, value);
-    }
-
-    private Object[] getArray() {
-        return accessor.instance.evaluate(flow).getValue();
+    @SuppressWarnings("unchecked")
+    public Object get(int pointer) {
+        return array[index];
     }
 
     @Override
     public int getAmountOfVariables() {
-        return 0;
+        return -1;
     }
     
 }

@@ -16,12 +16,11 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.assigner;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
 import org.panda_lang.panda.framework.design.architecture.dynamic.accessor.Accessor;
+import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
 public class FieldAssigner extends AbstractAssigner<PrototypeField> {
@@ -38,9 +37,9 @@ public class FieldAssigner extends AbstractAssigner<PrototypeField> {
         PrototypeField field = accessor.getVariable();
 
         if (field.isStatic()) {
-            Value staticValue = valueExpression.evaluate(flow);
+            Object staticValue = valueExpression.evaluate(flow);
 
-            if (!field.isNillable() && (staticValue == null || staticValue.isNull())) {
+            if (!field.isNillable() && staticValue == null) {
                 throw new PandaRuntimeException("Cannot assign null to static field '" + field.getName() + "' without nil modifier");
             }
 
@@ -53,9 +52,9 @@ public class FieldAssigner extends AbstractAssigner<PrototypeField> {
         }
 
         MemoryContainer memory = accessor.fetchMemoryContainer(flow);
-        Value value = valueExpression.evaluate(flow);
+        Object value = valueExpression.evaluate(flow);
 
-        if (value.isNull() && !field.isNillable()) {
+        if (value == null && !field.isNillable()) {
             throw new PandaRuntimeException("Cannot assign null to field  '" + field.getName() + "' without nil modifier");
         }
 

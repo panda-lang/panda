@@ -16,57 +16,64 @@
 
 package org.panda_lang.panda.framework.language.resource.expression.subparsers;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.runtime.expression.DynamicExpression;
 import org.panda_lang.panda.framework.design.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.panda.framework.design.architecture.dynamic.accessor.AccessorExpression;
-import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
+import org.panda_lang.panda.framework.design.architecture.dynamic.accessor.AccessorVisitor;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.resource.expression.subparsers.number.NumberPriorities;
+import org.panda_lang.panda.framework.language.runtime.expression.DynamicExpression;
 
-public class CreaseExpression extends NumberPriorities implements DynamicExpression {
+public class CreaseExpression extends NumberPriorities implements DynamicExpression, AccessorVisitor {
 
     private final Accessor<?> accessor;
     private final boolean grow;
     private final boolean post;
+    private final int priority;
 
     public CreaseExpression(Accessor<?> accessor, boolean grow, boolean post) {
         this.accessor = accessor;
         this.grow = grow;
         this.post = post;
+        this.priority = getPriority(accessor.getTypeReference().fetch());
     }
 
     @Override
-    public Value call(Expression expression, Flow flow) {
-        Value before = accessor.fetchMemoryContainer(flow).get(accessor.getMemoryPointer());
-        Value after = accessor.perform(flow, (accessor, currentBranch, currentValue) -> new PandaStaticValue(currentValue.getType(), of(currentValue)));
+    @SuppressWarnings("unchecked")
+    public Object call(Expression expression, Flow flow) {
+        Object before = accessor.fetchMemoryContainer(flow).get(accessor.getMemoryPointer());
+        Object after = accessor.perform(flow, this);
         return post ? after : before;
     }
 
-    @SuppressWarnings("DuplicateBranchesInSwitch")
-    private Object of(Value value) {
-        switch (getPriority(value.getType())) {
-            case BYTE:
-                Byte byteValue = value.getValue();
-                return grow ? ++byteValue : --byteValue;
-            case SHORT:
-                Short shortValue = value.getValue();
-                return grow ? ++shortValue : --shortValue;
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> T visit(Accessor<?> accessor, Flow flow, T currentValue) {
+        return (T) of(priority, currentValue);
+    }
+
+    private Object of(int priority, Object value) {
+        switch (priority) {
             case INT:
-                Integer intValue = value.getValue();
+                int intValue = (int) value;
                 return grow ? ++intValue : --intValue;
             case LONG:
-                Long longValue = value.getValue();
+                long longValue = (long) value;
                 return grow ? ++longValue : --longValue;
-            case FLOAT:
-                Float floatValue = value.getValue();
-                return grow ? ++floatValue : --floatValue;
             case DOUBLE:
-                Double doubleValue = value.getValue();
+                double doubleValue = (double) value;
                 return grow ? ++doubleValue : --doubleValue;
+            case FLOAT:
+                float floatValue = (float) value;
+                return grow ? ++floatValue : --floatValue;
+            case BYTE:
+                byte byteValue = (byte) value;
+                return grow ? ++byteValue : --byteValue;
+            case SHORT:
+                short shortValue = (short) value;
+                return grow ? ++shortValue : --shortValue;
             default:
                 throw new PandaParserException("Unknown number type: " + value);
         }

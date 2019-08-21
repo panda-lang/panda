@@ -83,6 +83,10 @@ public class PandaParserPipeline<P extends Parser> implements ParserPipeline<P> 
                 continue;
             }
 
+            if (value instanceof Exception) {
+                throw new PandaFrameworkException("Handler exception", (Exception) value);
+            }
+
             if (!(value instanceof Boolean)) {
                 throw new PandaFrameworkException("Illegal result type from handler " + handler.getClass() + ": returned " + value.getClass());
             }

@@ -17,17 +17,16 @@
 package org.panda_lang.panda.framework.design.architecture.dynamic.accessor;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
 import org.panda_lang.panda.framework.design.architecture.dynamic.assigner.Assigner;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
+import org.panda_lang.panda.framework.design.architecture.value.Variable;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
 
 public interface Accessor<T extends Variable> {
 
-    @Nullable Value perform(Flow flow, AccessorVisitor callback);
+    @Nullable <R> R perform(Flow flow, AccessorVisitor callback);
 
     MemoryContainer fetchMemoryContainer(Flow flow);
 
@@ -37,7 +36,7 @@ public interface Accessor<T extends Variable> {
         return getVariable().getType();
     }
 
-    @Nullable Value getValue(Flow flow);
+    @Nullable <R> R getValue(Flow flow);
 
     int getMemoryPointer();
 

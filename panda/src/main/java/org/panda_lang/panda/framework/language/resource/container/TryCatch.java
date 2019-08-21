@@ -20,7 +20,6 @@ import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractExecutableStatement;
-import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,7 +54,7 @@ final class TryCatch extends AbstractExecutableStatement {
                 throw throwable;
             }
 
-            flow.getCurrentScope().set(catchData.pointer, new PandaStaticValue(catchData.variable.getType().fetch(), throwable));
+            flow.getCurrentScope().set(catchData.pointer, throwable);
             flow.call(catchData.container.getStatementCells());
         } finally {
             flow.call(finallyContainer.getStatementCells());

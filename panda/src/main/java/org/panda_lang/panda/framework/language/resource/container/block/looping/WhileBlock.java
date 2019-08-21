@@ -30,7 +30,7 @@ class WhileBlock extends ControllerBlock {
 
     @Override
     public void call(ControlFlow controlFlow, Flow flow) {
-        while (expression.evaluate(flow).getValue()) {
+        while (expression.evaluate(flow)) {
             controlFlow.reset();
             controlFlow.call();
 

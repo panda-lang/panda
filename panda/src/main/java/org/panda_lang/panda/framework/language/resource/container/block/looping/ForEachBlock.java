@@ -17,32 +17,27 @@
 package org.panda_lang.panda.framework.language.resource.container.block.looping;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
-import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 
 class ForEachBlock extends ControllerBlock {
 
     private final int variablePointer;
-    private final ClassPrototype variableType;
     private final Expression expression;
 
-    ForEachBlock(int variablePointer, ClassPrototype variableType, Expression expression) {
+    ForEachBlock(int variablePointer, Expression expression) {
         this.variablePointer = variablePointer;
-        this.variableType = variableType;
         this.expression = expression;
     }
 
     @Override
     public void call(ControlFlow controlFlow, Flow flow) {
         ScopeFrame currentScope = flow.getCurrentScope();
-        Value iterableValue = expression.evaluate(flow);
+        Iterable iterableValue = expression.evaluate(flow);
 
-        for (Object value : (Iterable) iterableValue.getValue()) {
-            currentScope.set(variablePointer, new PandaStaticValue(variableType, value));
+        for (Object value : iterableValue) {
+            currentScope.set(variablePointer, value);
             controlFlow.call();
 
             if (controlFlow.isEscaped() || flow.isInterrupted()) {

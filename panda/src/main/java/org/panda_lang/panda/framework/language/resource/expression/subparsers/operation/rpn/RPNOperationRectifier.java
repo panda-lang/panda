@@ -17,14 +17,11 @@
 package org.panda_lang.panda.framework.language.resource.expression.subparsers.operation.rpn;
 
 import org.panda_lang.panda.framework.PandaFrameworkException;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operator;
-import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaDynamicExpression;
+import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 import org.panda_lang.panda.utilities.commons.ObjectUtils;
 
 import java.util.Map;
@@ -34,7 +31,7 @@ class RPNOperationRectifier {
 
     private static final RPNOperationRectifier RECTIFIER = new RPNOperationRectifier();
 
-    public Expression rectify(Context context, Map<Operator, RPNOperationSupplier> suppliers, Stack<Object> elements) {
+    public Expression rectify(Map<Operator, RPNOperationSupplier> suppliers, Stack<Object> elements) {
         Stack<Expression> values = new Stack<>();
 
         for (Object element : elements) {
@@ -53,12 +50,13 @@ class RPNOperationRectifier {
             // inversed on stack
             Expression b = values.pop();
             Expression a = values.pop();
-            RPNOperationAction action = supplier.of(a, b);
+            RPNOperationAction<?, ?, ?> action = supplier.of(a, b);
 
             Expression expression = new PandaExpression(new PandaDynamicExpression(action.returnType()) {
                 @Override
-                public Value call(Expression expression, Flow flow) {
-                    return new PandaStaticValue(getReturnType(), action.get(flow, a.evaluate(flow), b.evaluate(flow)));
+                @SuppressWarnings("unchecked")
+                public Object call(Expression expression, Flow flow) {
+                    return action.get(flow, a.evaluate(flow), b.evaluate(flow));
                 }
             });
 
