@@ -18,7 +18,6 @@ package org.panda_lang.panda.framework.language.resource.expression.subparsers.a
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.dynamic.assigner.Assigner;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
@@ -113,7 +112,7 @@ public class AssignationExpressionSubparser implements ExpressionSubparser {
 
                 return ExpressionResult.of(new PandaDynamicExpression(expression.getReturnType()) {
                     @Override
-                    public Value call(Expression expression, Flow flow) {
+                    public Object call(Expression expression, Flow flow) {
                         assignation.execute(flow);
                         return assignationResult.evaluate(flow);
                     }

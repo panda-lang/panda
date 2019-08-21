@@ -17,7 +17,6 @@
 package org.panda_lang.panda.framework.design.runtime.expression;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 
 public interface Expression {
@@ -28,7 +27,7 @@ public interface Expression {
      * @param flow the frame to use
      * @return nullable value
      */
-    Value evaluate(Flow flow);
+    <T> T evaluate(Flow flow);
 
     /**
      * Check if the expression returns null value

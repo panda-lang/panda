@@ -16,12 +16,12 @@
 
 package org.panda_lang.panda.framework.language.runtime.expression;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionValueType;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 
 public final class StaticExpression implements Expression {
 
@@ -32,7 +32,8 @@ public final class StaticExpression implements Expression {
     }
 
     @Override
-    public Value evaluate(Flow flow) {
+    @SuppressWarnings("unchecked")
+    public @Nullable Object evaluate(Flow flow) {
         return null;
     }
 

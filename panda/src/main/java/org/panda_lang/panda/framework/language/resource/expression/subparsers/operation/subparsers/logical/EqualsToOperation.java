@@ -17,20 +17,19 @@
 package org.panda_lang.panda.framework.language.resource.expression.subparsers.operation.subparsers.logical;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.expression.subparsers.operation.rpn.RPNOperationAction;
 import org.panda_lang.panda.framework.language.resource.expression.subparsers.operation.rpn.RPNOperationSupplier;
 
 import java.util.Objects;
 
-public class EqualsToOperation implements RPNOperationSupplier, RPNOperationAction {
+public class EqualsToOperation implements RPNOperationSupplier, RPNOperationAction<Object, Object, Boolean> {
 
     @Override
-    public Boolean get(Flow flow, Value a, Value b) {
-        return Objects.equals(a.getObject(), b.getObject());
+    public Boolean get(Flow flow, Object a, Object b) {
+        return Objects.equals(a, b);
     }
 
     @Override

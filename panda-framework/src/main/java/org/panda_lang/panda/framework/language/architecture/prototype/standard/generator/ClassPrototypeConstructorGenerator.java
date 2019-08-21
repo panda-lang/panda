@@ -22,7 +22,6 @@ import org.panda_lang.panda.framework.design.architecture.prototype.constructor.
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.constructor.PandaConstructor;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.PandaParameter;
-import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Parameter;
@@ -58,15 +57,7 @@ final class ClassPrototypeConstructorGenerator {
                 .parameters(prototypeParameters)
                 .prototype(prototype.getReference())
                 .returnType(prototype.getReference())
-                .callback((frame, instance, arguments) -> {
-                    Object[] args = new Object[arguments.length];
-
-                    for (int i = 0; i < arguments.length; i++) {
-                        args[i] = arguments[i].getValue();
-                    }
-
-                    return new PandaStaticValue(prototype, constructor.newInstance(args));
-                })
+                .callback((frame, instance, arguments) -> constructor.newInstance(arguments))
                 .build();
     }
 

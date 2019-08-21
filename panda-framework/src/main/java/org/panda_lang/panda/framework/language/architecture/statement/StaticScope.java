@@ -20,7 +20,6 @@ import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeFrame;
-import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 
 import java.util.Map;
 
@@ -44,7 +43,7 @@ public final class StaticScope extends AbstractScope {
                 continue;
             }
 
-            frame.set(pointer, new PandaStaticValue(variable.getType().fetch(), variables.get(variable)));
+            frame.set(pointer, variables.get(variable));
         }
 
         return frame;

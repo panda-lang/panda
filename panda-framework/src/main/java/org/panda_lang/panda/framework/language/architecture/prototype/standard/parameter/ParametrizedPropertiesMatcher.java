@@ -22,11 +22,9 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Arguments;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.ParameterizedExecutable;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
-import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaDynamicExpression;
 
 import java.util.ArrayList;
@@ -132,12 +130,11 @@ public final class ParametrizedPropertiesMatcher<T extends ParameterizedExecutab
             // generate varargs array expression
             fixedArguments[argumentIndex] = new PandaDynamicExpression(((ArrayClassPrototype) parameters[argumentIndex].getType().fetch()).getType().fetch()) {
                 @Override
-                public Value call(Expression expression, Flow flow) {
-                    Object[] array = expressions.stream()
-                            .map(expr -> expr.evaluate(flow).getValue())
+                @SuppressWarnings("unchecked")
+                public Object call(Expression expression, Flow flow) {
+                    return expressions.stream()
+                            .map(expr -> expr.evaluate(flow))
                             .toArray(Object[]::new);
-
-                    return new PandaStaticValue(getReturnType(), array);
                 }
             }.toExpression();
         }

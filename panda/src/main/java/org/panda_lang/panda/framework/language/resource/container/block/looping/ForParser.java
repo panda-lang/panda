@@ -27,7 +27,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.expression.Expre
 import org.panda_lang.panda.framework.design.interpreter.parser.loader.Registrable;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.block.BlockData;
 import org.panda_lang.panda.framework.language.interpreter.parser.block.BlockSubparserBootstrap;
@@ -41,7 +40,7 @@ import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressio
 public final class ForParser extends BlockSubparserBootstrap {
 
     private static final VariableParser VARIABLE_PARSER = new VariableParser();
-    private static final Expression DEFAULT_CONDITION = new PandaExpression(new PandaStaticValue(PandaTypes.BOOLEAN, true));
+    private static final Expression DEFAULT_CONDITION = new PandaExpression(PandaTypes.BOOLEAN, true);
 
     @Override
     protected BootstrapInitializer<BlockData> initialize(Context context, BootstrapInitializer<BlockData> initializer) {

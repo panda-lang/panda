@@ -17,7 +17,6 @@
 package org.panda_lang.panda.framework.language.architecture.prototype.standard.field;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.PandaParameterizedExecutable;
 
@@ -30,7 +29,7 @@ public class PandaPrototypeField extends PandaParameterizedExecutable implements
     private final boolean nillable;
 
     private Expression defaultValue;
-    private Value staticValue;
+    private Object staticValue;
 
     protected PandaPrototypeField(PandaPrototypeFieldBuilder builder) {
         super(builder);
@@ -48,7 +47,7 @@ public class PandaPrototypeField extends PandaParameterizedExecutable implements
     }
 
     @Override
-    public void setStaticValue(Value staticValue) {
+    public void setStaticValue(Object staticValue) {
         this.staticValue = staticValue;
     }
 
@@ -78,7 +77,8 @@ public class PandaPrototypeField extends PandaParameterizedExecutable implements
     }
 
     @Override
-    public Value getStaticValue() {
+    @SuppressWarnings("unchecked")
+    public Object getStaticValue() {
         return staticValue;
     }
 
