@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.framework.language.resource.container.block.looping;
 
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
@@ -31,8 +30,7 @@ class LoopBlock extends ControllerBlock {
 
     @Override
     public void call(ControlFlow controlFlow, Flow flow) {
-        Value value = expression.evaluate(flow);
-        int times = value.getValue();
+        int times  = expression.evaluate(flow);
 
         for (int i = 0; i < times; i++) {
             controlFlow.reset();

@@ -17,11 +17,9 @@
 package org.panda_lang.panda.framework.language.runtime.expression;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeUtils;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionValueType;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 
 import java.security.InvalidParameterException;
 
@@ -30,28 +28,26 @@ public class PandaExpression implements Expression {
     private final ExpressionValueType type;
     private final ClassPrototype returnType;
     private final DynamicExpression callback;
-    private final Value value;
+    private final Object value;
 
-    public PandaExpression(Value value) {
-        this(ExpressionValueType.KNOWN, value.getType(), null, value);
+    public PandaExpression(ClassPrototype returnType, Object value) {
+        this(ExpressionValueType.KNOWN, returnType, null, value);
     }
 
     public PandaExpression(DynamicExpression callback) {
         this(ExpressionValueType.UNKNOWN, callback.getReturnType(), callback, null);
     }
 
-    protected PandaExpression(ExpressionValueType type, ClassPrototype returnType, DynamicExpression callback, Value value) {
+    protected PandaExpression(ExpressionValueType type, ClassPrototype returnType, DynamicExpression callback, Object value) {
         if (type == null) {
             throw new InvalidParameterException("ExpressionType cannot be null");
         }
 
-        if (callback == null && value == null) {
+        /*
+        if (callback == null && returnType == null) {
             throw new InvalidParameterException("Callback and Value cannot be null at the same time");
         }
-
-        if (value != null && !ClassPrototypeUtils.isAssignableFrom(returnType, value.getType())) {
-            throw new InvalidParameterException("Incompatible expression types " + returnType + " != " + value.getType());
-        }
+         */
 
         this.type = type;
         this.returnType = returnType;
@@ -60,7 +56,8 @@ public class PandaExpression implements Expression {
     }
 
     @Override
-    public Value evaluate(Flow flow) {
+    @SuppressWarnings("unchecked")
+    public Object evaluate(Flow flow) {
         if (type == ExpressionValueType.UNKNOWN) {
             return callback.call(this, flow);
         }
@@ -81,7 +78,7 @@ public class PandaExpression implements Expression {
     @Override
     public String toString() {
         String s = type.name() + ":" + (returnType != null ? returnType.getName() : "any");
-        return ExpressionValueType.KNOWN == type ? s + ":" + value.getValue() : s;
+        return ExpressionValueType.KNOWN == type ? s + ":" + value : s;
     }
 
 }

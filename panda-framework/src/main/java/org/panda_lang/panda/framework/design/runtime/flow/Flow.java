@@ -19,7 +19,6 @@ package org.panda_lang.panda.framework.design.runtime.flow;
 import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.Process;
 import org.panda_lang.panda.framework.language.runtime.flow.PandaControlFlowController;
 
@@ -78,7 +77,7 @@ public interface Flow {
      *
      * @param value result
      */
-    void returnValue(Value value);
+    void returnValue(Object value);
 
     /**
      * Return value without breaking a flow
@@ -86,7 +85,7 @@ public interface Flow {
      * @param value result
      * @return the passed value
      */
-    Value setReturnValue(Value value);
+    <T> T setReturnValue(T value);
 
     /**
      * @return true if branch has been interrupted
@@ -96,7 +95,7 @@ public interface Flow {
     /**
      * @return a returned value
      */
-    Value getReturnedValue();
+    <T> T getReturnedValue();
 
     /**
      * Returns null if executed code is not wrapped in ControlFlow
@@ -113,7 +112,7 @@ public interface Flow {
     /**
      * @return current object
      */
-    Value getInstance();
+    <T> T getInstance();
 
     /**
      * Get associated process

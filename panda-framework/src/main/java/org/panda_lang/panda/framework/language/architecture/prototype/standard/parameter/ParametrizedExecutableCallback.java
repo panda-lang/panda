@@ -17,11 +17,10 @@
 package org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 
 public interface ParametrizedExecutableCallback<T> {
 
-    Value invoke(Flow flow, @Nullable T instance, Value[] arguments) throws Exception;
+    Object invoke(Flow flow, @Nullable T instance, Object[] arguments) throws Exception;
 
 }

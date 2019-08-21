@@ -17,7 +17,6 @@
 package org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeFrame;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeFrameUtils;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
@@ -26,7 +25,7 @@ public class ParameterUtils {
 
     public static final PrototypeParameter[] PARAMETERLESS = new PrototypeParameter[0];
 
-    public static void assignValues(AbstractScopeFrame<?> instance, Value[] parameterValues) {
+    public static void assignValues(AbstractScopeFrame<?> instance, Object[] parameterValues) {
         if (instance.getAmountOfVariables() < parameterValues.length) {
             throw new PandaRuntimeException("Incompatible number of parameters");
         }

@@ -16,15 +16,14 @@
 
 package org.panda_lang.panda.framework.language.resource.expression.subparsers;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.runtime.expression.DynamicExpression;
 import org.panda_lang.panda.framework.design.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.panda.framework.design.architecture.dynamic.accessor.AccessorExpression;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.value.Variable;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.VariableAccessor;
+import org.panda_lang.panda.framework.language.runtime.expression.DynamicExpression;
 
 public class VariableExpression implements DynamicExpression {
 
@@ -39,7 +38,8 @@ public class VariableExpression implements DynamicExpression {
     }
 
     @Override
-    public Value call(Expression expression, Flow flow) {
+    @SuppressWarnings("unchecked")
+    public Object call(Expression expression, Flow flow) {
         return accessor.getValue(flow);
     }
 

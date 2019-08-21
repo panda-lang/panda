@@ -18,13 +18,16 @@ package org.panda_lang.panda.examples.performance;
 
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.examples.Launcher;
+import org.panda_lang.panda.framework.design.architecture.Application;
 
 class MatmulTest {
 
     @Test
     void testMatmul() {
-        for (int i = 0; i < 1; i++) {
-            Launcher.launch("performance", "matmul.panda");
+        Application application = Launcher.interpret("performance", "matmul.panda");
+
+        for (int i = 0; i < 100; i++) {
+            Launcher.launch(application);
         }
     }
 

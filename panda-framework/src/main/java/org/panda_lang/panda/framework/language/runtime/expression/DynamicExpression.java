@@ -17,13 +17,12 @@
 package org.panda_lang.panda.framework.language.runtime.expression;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 
 public interface DynamicExpression {
 
-    Value call(Expression expression, Flow flow);
+    <T> T call(Expression expression, Flow flow);
 
     ClassPrototype getReturnType();
 

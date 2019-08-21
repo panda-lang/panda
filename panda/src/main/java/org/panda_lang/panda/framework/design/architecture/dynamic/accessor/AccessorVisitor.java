@@ -16,11 +16,10 @@
 
 package org.panda_lang.panda.framework.design.architecture.dynamic.accessor;
 
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 
 public interface AccessorVisitor {
 
-    Value visit(Accessor<?> accessor, Flow flow, Value currentValue);
+    <T> T visit(Accessor<?> accessor, Flow flow, T currentValue);
 
 }

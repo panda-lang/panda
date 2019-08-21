@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 public interface RPNOperationSupplier {
 
-    RPNOperationAction of(Expression a, Expression b);
+    RPNOperationAction<?, ?, ?> of(Expression a, Expression b);
 
     ClassPrototype returnType(ClassPrototype a, ClassPrototype b);
 

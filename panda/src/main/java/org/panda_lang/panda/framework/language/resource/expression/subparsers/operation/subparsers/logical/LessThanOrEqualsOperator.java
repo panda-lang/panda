@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.resource.expression.subparsers.operation.subparsers.logical;
 
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.resource.expression.subparsers.operation.rpn.RPNOperationAction;
 
@@ -25,20 +26,20 @@ public class LessThanOrEqualsOperator extends ComparisonOperator {
     public RPNOperationAction of(int compared) {
         return new ComparisonOperatorAction() {
             @Override
-            protected Object get(Number a, Number b) {
+            public Object get(Flow flow, Number a, Number b) {
                 switch (compared) {
+                    case INT:
+                        return a.intValue() <= b.intValue();
+                    case LONG:
+                        return a.longValue() <= b.longValue();
+                    case DOUBLE:
+                        return a.doubleValue() <= b.doubleValue();
+                    case FLOAT:
+                        return a.floatValue() <= b.floatValue();
                     case BYTE:
                         return a.byteValue() <= b.byteValue();
                     case SHORT:
                         return a.shortValue() <= b.shortValue();
-                    case INT:
-                        return a.intValue() <= b.intValue();
-                    case LONG:
-                        return a.longValue() < b.longValue();
-                    case FLOAT:
-                        return a.floatValue() <= b.floatValue();
-                    case DOUBLE:
-                        return a.doubleValue() <= b.doubleValue();
                     default:
                         throw new PandaParserException("Unknown type " + compared);
                 }

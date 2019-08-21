@@ -21,7 +21,6 @@ import org.panda_lang.panda.framework.design.architecture.dynamic.accessor.Acces
 import org.panda_lang.panda.framework.design.architecture.dynamic.accessor.AccessorVisitor;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
@@ -46,21 +45,18 @@ public final class ArrayAccessor implements Accessor {
     }
 
     @Override
-    public @Nullable Value perform(Flow flow, AccessorVisitor callback) {
-        Value wrappedValue = new ArrayAccessorMemoryContainer(this, flow).get(index.evaluate(flow).getValue());
-
-        callback.visit(this, flow, wrappedValue);
-        return wrappedValue;
+    public Object perform(Flow flow, AccessorVisitor callback) {
+        return callback.visit(this, flow, getValue(flow));
     }
 
     @Override
     public MemoryContainer fetchMemoryContainer(Flow flow) {
-        return new ArrayAccessorMemoryContainer(this, flow);
+        return new ArrayAccessorMemoryContainer(flow, this, index.evaluate(flow));
     }
 
     @Override
-    public @Nullable Value getValue(Flow flow) {
-        return new ArrayAccessorMemoryContainer(this, flow).get(index.evaluate(flow).getValue());
+    public Object getValue(Flow flow) {
+        return fetchMemoryContainer(flow).get(-1);
     }
 
     @Override
@@ -80,7 +76,7 @@ public final class ArrayAccessor implements Accessor {
 
     @Override
     public ArrayAssigner toAssigner(Expression value) {
-        return new ArrayAssigner(this, index, value);
+        return new ArrayAssigner(this, value);
     }
 
 }

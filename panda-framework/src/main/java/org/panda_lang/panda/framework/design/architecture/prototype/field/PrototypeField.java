@@ -18,7 +18,6 @@ package org.panda_lang.panda.framework.design.architecture.prototype.field;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.ParameterizedExecutable;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
@@ -26,7 +25,7 @@ public interface PrototypeField extends ParameterizedExecutable, Variable {
 
     void setDefaultValue(Expression defaultValue);
 
-    void setStaticValue(Value staticValue);
+    void setStaticValue(Object staticValue);
 
     boolean isStatic();
 
@@ -34,7 +33,7 @@ public interface PrototypeField extends ParameterizedExecutable, Variable {
 
     boolean hasDefaultValue();
 
-    Value getStaticValue();
+    <T> T getStaticValue();
 
     Expression getDefaultValue();
 

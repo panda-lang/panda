@@ -16,14 +16,13 @@
 
 package org.panda_lang.panda.framework.language.resource.expression.subparsers.operation.subparsers.logical;
 
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 
 public class AndOperator extends OrOperation {
 
     @Override
-    public Object get(Flow flow, Value aValue, Value bValue) {
-        return (boolean) aValue.getValue() && (boolean) bValue.getValue();
+    public Boolean get(Flow flow, Boolean aValue, Boolean bValue) {
+        return aValue && bValue;
     }
 
 }

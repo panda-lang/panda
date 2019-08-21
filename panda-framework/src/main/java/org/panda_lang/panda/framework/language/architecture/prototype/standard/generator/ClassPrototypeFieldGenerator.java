@@ -19,15 +19,12 @@ package org.panda_lang.panda.framework.language.architecture.prototype.standard.
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.field.PandaPrototypeField;
-import org.panda_lang.panda.framework.language.architecture.value.PandaDynamicValue;
-import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
-import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaDynamicExpression;
+import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -62,12 +59,12 @@ final class ClassPrototypeFieldGenerator {
 
         Expression fieldExpression = new PandaExpression(new PandaDynamicExpression(returnType.fetch()) {
             @Override
-            public Value call(Expression expression, Flow flow) {
-                Object instance = flow != null ? flow.getInstance().getValue() : null;
+            @SuppressWarnings("unchecked")
+            public Object call(Expression expression, Flow flow) {
+                Object instance = flow != null ? flow.getInstance() : null;
 
                 try {
-                    Object value = field.get(instance);
-                    return new PandaStaticValue(returnType.fetch(), value);
+                    return field.get(instance);
                 } catch (IllegalAccessException e) {
                     throw new PandaRuntimeException(e);
                 }
@@ -75,7 +72,8 @@ final class ClassPrototypeFieldGenerator {
         });
 
         prototypeField.setDefaultValue(fieldExpression);
-        prototypeField.setStaticValue(PandaDynamicValue.of(fieldExpression, null));
+        prototypeField.setStaticValue(prototypeField.isStatic() ? fieldExpression.evaluate(null) : null);
+
         return prototypeField;
     }
 

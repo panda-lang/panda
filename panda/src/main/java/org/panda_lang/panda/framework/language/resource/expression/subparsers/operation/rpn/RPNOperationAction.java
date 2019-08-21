@@ -17,12 +17,11 @@
 package org.panda_lang.panda.framework.language.resource.expression.subparsers.operation.rpn;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 
-public interface RPNOperationAction {
+public interface RPNOperationAction<A, B, R> {
 
-    Object get(Flow flow, Value aValue, Value bValue);
+    R get(Flow flow, A aValue, B bValue);
 
     ClassPrototype returnType();
 

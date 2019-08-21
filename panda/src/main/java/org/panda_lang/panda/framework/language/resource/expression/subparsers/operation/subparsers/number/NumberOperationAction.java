@@ -16,17 +16,8 @@
 
 package org.panda_lang.panda.framework.language.resource.expression.subparsers.operation.subparsers.number;
 
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.resource.expression.subparsers.operation.rpn.RPNOperationAction;
 
-public abstract class NumberOperationAction implements RPNOperationAction {
-
-    protected abstract Object get(Number a, Number b);
-
-    @Override
-    public Object get(Flow flow, Value aValue, Value bValue) {
-        return get(aValue.getValue(), bValue.getValue());
-    }
+public abstract class NumberOperationAction implements RPNOperationAction<Number, Number, Object> {
 
 }

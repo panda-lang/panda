@@ -16,8 +16,6 @@
 
 package org.panda_lang.panda.framework.design.runtime;
 
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-
 public interface Process {
 
     /**
@@ -25,6 +23,6 @@ public interface Process {
      *
      * @return a result of the execution process
      */
-    Value execute();
+    <T> T execute();
 
 }

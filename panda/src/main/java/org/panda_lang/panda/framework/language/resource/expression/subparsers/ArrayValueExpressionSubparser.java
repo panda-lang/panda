@@ -18,7 +18,6 @@ package org.panda_lang.panda.framework.language.resource.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.dynamic.accessor.Accessor;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
@@ -98,7 +97,8 @@ public class ArrayValueExpressionSubparser implements ExpressionSubparser {
 
             return ExpressionResult.of(new PandaDynamicExpression(arrayClassPrototype.getType().fetch()) {
                 @Override
-                public Value call(Expression expression, Flow flow) {
+                @SuppressWarnings("unchecked")
+                public Object call(Expression expression, Flow flow) {
                     return accessor.getValue(flow);
                 }
             }.toExpression());
