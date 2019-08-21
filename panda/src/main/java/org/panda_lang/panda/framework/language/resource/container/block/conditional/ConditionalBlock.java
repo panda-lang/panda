@@ -17,9 +17,8 @@
 package org.panda_lang.panda.framework.language.resource.container.block.conditional;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractBlock;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 
@@ -38,8 +37,7 @@ class ConditionalBlock extends AbstractBlock {
 
     @Override
     public void execute(Flow flow) {
-        Value value = condition.evaluate(flow);
-        boolean flag = value.getValue();
+        Boolean flag = condition.evaluate(flow);
 
         if (flag) {
             flow.call(super.getStatementCells());

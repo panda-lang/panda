@@ -17,8 +17,6 @@
 package org.panda_lang.panda.framework.language.resource.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
@@ -27,11 +25,11 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.panda.framework.language.resource.expression.subparsers.number.NumberParser;
 import org.panda_lang.panda.framework.language.resource.expression.subparsers.number.NumberUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
-import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
 public class NumberExpressionSubparser implements ExpressionSubparser {
 
@@ -72,19 +70,17 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
             }
 
             content.addToken(token);
-            Value numericValue;
+            Expression expression;
 
             try {
-                numericValue = PARSER.parse(context.getContext(), content);
+                expression = PARSER.parse(context.getContext(), content);
             } catch (NumberFormatException e) {
                 return null;
             }
 
-            if (numericValue == null) {
+            if (expression == null) {
                 return dispose();
             }
-
-            Expression expression = new PandaExpression(numericValue);
 
             // remove previous result from stack
             if (period != null) {
@@ -95,7 +91,7 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
             return ExpressionResult.of(expression);
         }
 
-        private ExpressionResult dispose() {
+        private @Nullable ExpressionResult dispose() {
             this.content = null;
             this.period = null;
             return null;

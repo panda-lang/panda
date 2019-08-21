@@ -17,10 +17,9 @@
 package org.panda_lang.panda.framework.language.architecture.prototype.standard.method;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParametrizedExecutableCallback;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParameterUtils;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParametrizedExecutableCallback;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.structure.ClassPrototypeScopeFrame;
 import org.panda_lang.panda.framework.language.runtime.PandaFlow;
 
@@ -33,8 +32,8 @@ public class PandaMethodCallback implements ParametrizedExecutableCallback<Class
     }
 
     @Override
-    public Value invoke(Flow flow, @Nullable ClassPrototypeScopeFrame instance, Value[] arguments) {
-        Flow subFlow = new PandaFlow(flow, instance != null ? instance.toValue() : null);
+    public Object invoke(Flow flow, @Nullable ClassPrototypeScopeFrame instance, Object[] arguments) {
+        Flow subFlow = new PandaFlow(flow, instance);
 
         MethodScopeFrame scopeInstance = scope.createFrame(subFlow);
         ParameterUtils.assignValues(scopeInstance, arguments);

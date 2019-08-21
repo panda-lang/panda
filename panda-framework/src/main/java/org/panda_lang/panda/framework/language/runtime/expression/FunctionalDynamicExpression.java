@@ -17,23 +17,23 @@
 package org.panda_lang.panda.framework.language.runtime.expression;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 
 import java.util.function.Function;
 
 public class FunctionalDynamicExpression extends PandaDynamicExpression {
 
-    private final Function<Flow, Value> function;
+    private final Function<Flow, Object> function;
 
-    public FunctionalDynamicExpression(ClassPrototype returnType, Function<Flow, Value> function) {
+    public FunctionalDynamicExpression(ClassPrototype returnType, Function<Flow, Object> function) {
         super(returnType);
         this.function = function;
     }
 
     @Override
-    public Value call(Expression expression, Flow flow) {
+    @SuppressWarnings("unchecked")
+    public Object call(Expression expression, Flow flow) {
         return function.apply(flow);
     }
 

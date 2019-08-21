@@ -20,7 +20,6 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.prototype.PrototypeVisibility;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.ParameterizedExecutable;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 
 import java.util.Arrays;
@@ -46,7 +45,7 @@ public abstract class PandaParameterizedExecutable implements ParameterizedExecu
 
     @Override
     @SuppressWarnings("unchecked")
-    public Value invoke(Flow flow, Object instance, Value... arguments) throws Exception {
+    public Object invoke(Flow flow, Object instance, Object... arguments) throws Exception {
         return callback.invoke(flow, instance, arguments);
     }
 
@@ -126,7 +125,7 @@ public abstract class PandaParameterizedExecutable implements ParameterizedExecu
             return returnThis();
         }
 
-        public T callback(ParametrizedExecutableCallback<?> callback) {
+        public T callback(ParametrizedExecutableCallback callback) {
             this.callback = callback;
             return returnThis();
         }

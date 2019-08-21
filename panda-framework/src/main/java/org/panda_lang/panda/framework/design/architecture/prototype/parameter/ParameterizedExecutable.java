@@ -18,12 +18,11 @@ package org.panda_lang.panda.framework.design.architecture.prototype.parameter;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.PrototypeVisibility;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 
 public interface ParameterizedExecutable {
 
-    Value invoke(Flow flow, Object instance, Value... arguments) throws Exception;
+    <T> T invoke(Flow flow, Object instance, Object... arguments) throws Exception;
 
     /**
      * Get associated prototype

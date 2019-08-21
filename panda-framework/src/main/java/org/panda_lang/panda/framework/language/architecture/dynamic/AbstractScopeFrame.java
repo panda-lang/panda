@@ -19,17 +19,16 @@ package org.panda_lang.panda.framework.language.architecture.dynamic;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
 public abstract class AbstractScopeFrame<T extends Scope> implements ScopeFrame {
 
     protected final T scope;
-    protected final Value[] localMemory;
+    protected final Object[] localMemory;
 
     protected AbstractScopeFrame(T scope, int localMemory) {
         this.scope = scope;
-        this.localMemory = new Value[localMemory];
+        this.localMemory = new Object[localMemory];
     }
 
     protected AbstractScopeFrame(T scope) {
@@ -43,16 +42,17 @@ public abstract class AbstractScopeFrame<T extends Scope> implements ScopeFrame 
     }
 
     @Override
-    public synchronized Value set(int pointer, @Nullable Value value) {
+    public synchronized <R> R set(int pointer, @Nullable R value) {
         checkIndex(pointer);
         localMemory[pointer] = value;
         return value;
     }
 
     @Override
-    public synchronized @Nullable Value get(int pointer) {
+    @SuppressWarnings("unchecked")
+    public synchronized @Nullable <R> R get(int pointer) {
         checkIndex(pointer);
-        return localMemory[pointer];
+        return (R) localMemory[pointer];
     }
 
     @Override

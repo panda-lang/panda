@@ -17,11 +17,9 @@
 package org.panda_lang.panda.framework.language.resource.expression.subparsers;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.runtime.expression.DynamicExpression;
-import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 
 import java.security.InvalidParameterException;
 
@@ -38,11 +36,10 @@ public class NegateLogicalExpression implements DynamicExpression {
     }
 
     @Override
-    public Value call(Expression expression, Flow flow) {
-        Value value = logicalExpression.evaluate(flow);
-        boolean val = value.getValue(); // TODO: Handle null?
-
-        return new PandaStaticValue(expression.getReturnType(), !val);
+    @SuppressWarnings("unchecked")
+    public Object call(Expression expression, Flow flow) {
+        Boolean value = logicalExpression.evaluate(flow);
+        return !value; // handle npe?
     }
 
     @Override

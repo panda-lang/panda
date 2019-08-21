@@ -16,13 +16,12 @@
 
 package org.panda_lang.panda.framework.language.resource.expression.subparsers.operation.subparsers.logical;
 
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 
 public class NotEqualsToOperation extends EqualsToOperation {
 
     @Override
-    public Boolean get(Flow flow, Value a, Value b) {
+    public Boolean get(Flow flow, Object a, Object b) {
         return !super.get(flow, a, b);
     }
 

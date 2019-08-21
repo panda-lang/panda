@@ -17,11 +17,9 @@
 package org.panda_lang.panda.framework.language.resource.expression.subparsers;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
-import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaDynamicExpression;
 
 import java.lang.reflect.Array;
@@ -39,15 +37,15 @@ public class ArrayInstanceExpression extends PandaDynamicExpression {
     }
 
     @Override
-    public Value call(Expression expression, Flow flow) {
+    @SuppressWarnings("unchecked")
+    public Object call(Expression expression, Flow flow) {
         int[] capacitiesValues = new int[capacities.length];
 
         for (int index = 0; index < capacitiesValues.length; index++) {
-            capacitiesValues[index] = capacities[index].evaluate(flow).getValue();
+            capacitiesValues[index] = capacities[index].evaluate(flow);
         }
 
-        Object array = Array.newInstance(prototype.getAssociatedClass(), capacitiesValues);
-        return new PandaStaticValue(prototype, array);
+        return Array.newInstance(prototype.getAssociatedClass(), capacitiesValues);
     }
 
 }

@@ -16,12 +16,11 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.assigner;
 
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
 import org.panda_lang.panda.framework.design.architecture.dynamic.accessor.Accessor;
+import org.panda_lang.panda.framework.design.architecture.value.Variable;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
 public class VariableAssigner extends AbstractAssigner<Variable> {
@@ -36,13 +35,9 @@ public class VariableAssigner extends AbstractAssigner<Variable> {
     @Override
     public void execute(Flow flow) {
         Variable variable = accessor.getVariable();
-        Value value = expression.evaluate(flow);
+        Object value = expression.evaluate(flow);
 
-        if (value == null) {
-            throw new PandaRuntimeException("Cannot assign not existing value to variable '" + variable.getName() + "'");
-        }
-
-        if (value.isNull() && !variable.isNillable()) {
+        if (value == null && !variable.isNillable()) {
             throw new PandaRuntimeException("Cannot assign null to variable '" + variable.getName() + "' without nil modifier");
         }
 
