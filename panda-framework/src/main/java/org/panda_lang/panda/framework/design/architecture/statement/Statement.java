@@ -24,9 +24,9 @@ import org.panda_lang.panda.framework.design.interpreter.source.SourceLocation;
 public interface Statement {
 
     /**
-     * Get location of statement
+     * Get location of statement in source
      *
-     * @return
+     * @return the location of statement
      */
     SourceLocation getSourceLocation();
 

@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.interpreter.messenger.layouts;
 import org.panda_lang.panda.framework.design.interpreter.InterpreterFailure;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerFormatter;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
-import org.panda_lang.panda.framework.design.interpreter.messenger.translator.PandaTranslatorLayout;
+import org.panda_lang.panda.framework.language.interpreter.messenger.PandaTranslatorLayout;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaURLSource;

@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.framework.language.interpreter.messenger.mappers;
 
-import org.panda_lang.panda.framework.design.interpreter.messenger.formatter.MessengerDataMapper;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrapUtils;
+import org.panda_lang.panda.framework.language.interpreter.messenger.MessengerDataMapper;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.ParserBootstrap;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.ParserBootstrapUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.StackTraceUtils;

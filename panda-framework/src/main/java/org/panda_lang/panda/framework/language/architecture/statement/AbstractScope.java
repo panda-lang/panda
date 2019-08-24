@@ -16,23 +16,84 @@
 
 package org.panda_lang.panda.framework.language.architecture.statement;
 
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.statement.Frame;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
+import org.panda_lang.panda.framework.design.architecture.statement.Statement;
+import org.panda_lang.panda.framework.design.architecture.statement.Cell;
+import org.panda_lang.panda.framework.design.architecture.statement.Variable;
+import org.panda_lang.panda.framework.design.architecture.statement.VariableData;
+import org.panda_lang.panda.utilities.commons.collection.Lists;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-public abstract class AbstractScope extends AbstractContainer implements Scope {
+public abstract class AbstractScope extends AbstractStatement implements Scope {
 
-    protected final List<Variable> variables;
+    protected final Frame frame;
+    protected final Scope parent;
+    protected final List<Variable> variables = new ArrayList<>();
+    protected final List<Cell> executableCells = new ArrayList<>();
 
-    public AbstractScope() {
-        this.variables = new ArrayList<>();
+    protected AbstractScope(Frame frame, @Nullable Scope parent) {
+        this.frame = frame;
+        this.parent = parent;
+    }
+
+    protected AbstractScope(Scope parent) {
+        this(parent.getFrame(), parent);
     }
 
     @Override
-    public List<Variable> getVariables() {
+    public Cell reserveCell() {
+        return addStatement(null);
+    }
+
+    @Override
+    public Cell addStatement(Statement executable) {
+        return Lists.add(executableCells, new PandaCell(executable));
+    }
+
+    @Override
+    public Variable createVariable(VariableData variableData) {
+        return Lists.add(variables, new PandaVariable(getFrame().allocate(), variableData));
+    }
+
+    @Override
+    public void addVariable(Variable variable) {
+        variables.add(variable);
+    }
+
+    @Override
+    public Optional<Variable> getVariable(String name) {
+        for (Variable variable : variables) {
+            if (variable.getName().equals(name)) {
+                return Optional.of(variable);
+            }
+        }
+
+        return getParent().flatMap(scope -> scope.getVariable(name));
+    }
+
+    @Override
+    public List<? extends Variable> getVariables() {
         return variables;
+    }
+
+    @Override
+    public List<? extends Cell> getCells() {
+        return executableCells;
+    }
+
+    @Override
+    public Optional<Scope> getParent() {
+        return Optional.ofNullable(parent);
+    }
+
+    @Override
+    public Frame getFrame() {
+        return frame;
     }
 
 }

@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.expression.subparsers.assignation.array;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.dynamic.assigner.Assigner;
+import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
@@ -37,7 +37,7 @@ public class ArrayValueAccessorParser implements Parser {
     public @Nullable Assigner<?> parse(Context context, Snippet source, Expression value) {
         TokenRepresentation sectionRepresentation = source.getLast();
 
-        if (sectionRepresentation.getType() != TokenType.SECTION) {
+        if (sectionRepresentation == null || sectionRepresentation.getType() != TokenType.SECTION) {
             return null;
         }
 

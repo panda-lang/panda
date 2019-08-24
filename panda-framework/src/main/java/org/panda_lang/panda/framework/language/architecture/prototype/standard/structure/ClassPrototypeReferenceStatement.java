@@ -22,14 +22,14 @@ import org.panda_lang.panda.framework.language.architecture.statement.AbstractSt
 public class ClassPrototypeReferenceStatement extends AbstractStatement {
 
     private final ClassPrototype classPrototype;
-    private final ClassPrototypeScope classScope;
+    private final ClassPrototypeFrame classScope;
 
-    public ClassPrototypeReferenceStatement(ClassPrototype classPrototype, ClassPrototypeScope classScope) {
+    public ClassPrototypeReferenceStatement(ClassPrototype classPrototype, ClassPrototypeFrame classScope) {
         this.classPrototype = classPrototype;
         this.classScope = classScope;
     }
 
-    public ClassPrototypeScope getClassScope() {
+    public ClassPrototypeFrame getClassScope() {
         return classScope;
     }
 

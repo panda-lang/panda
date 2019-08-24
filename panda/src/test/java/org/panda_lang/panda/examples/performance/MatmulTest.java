@@ -26,7 +26,7 @@ class MatmulTest {
     void testMatmul() {
         Application application = Launcher.interpret("performance", "matmul.panda");
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 1; i++) {
             Launcher.launch(application);
         }
     }

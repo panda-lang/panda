@@ -18,17 +18,15 @@ package org.panda_lang.panda.framework.language.resource.expression;
 
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
+import org.panda_lang.panda.framework.design.architecture.statement.Frame;
+import org.panda_lang.panda.framework.design.architecture.statement.VariableData;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.language.architecture.module.PandaModuleLoader;
 import org.panda_lang.panda.framework.language.architecture.module.PandaModulePath;
-import org.panda_lang.panda.framework.language.architecture.statement.StaticScope;
+import org.panda_lang.panda.framework.language.architecture.statement.StaticFrame;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaContext;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaScopeLinker;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 
 import java.util.Map;
@@ -49,7 +47,7 @@ public class PandaParserDataUtils {
      *
      * @return the fake data
      */
-    public static Context createFakeData(Function<Context, Map<Variable, Object>> variablesSupplier) {
+    public static Context createFakeData(Function<Context, Map<VariableData, Object>> variablesSupplier) {
         Context context = new PandaContext();
         context.withComponent(UniversalComponents.EXPRESSION, new PandaExpressionParser(PandaExpressionUtils.collectSubparsers()));
 
@@ -58,9 +56,8 @@ public class PandaParserDataUtils {
         loader.load(path.getDefaultModule());
         context.withComponent(UniversalComponents.MODULE_LOADER, loader);
 
-        Scope scope = new StaticScope(variablesSupplier.apply(context));
-        ScopeLinker linker = new PandaScopeLinker(scope);
-        context.withComponent(UniversalComponents.LINKER, linker);
+        Frame frame = new StaticFrame(variablesSupplier.apply(context));
+        context.withComponent(UniversalComponents.SCOPE, frame);
 
         return context;
     }

@@ -16,23 +16,23 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.accessor;
 
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
+import org.panda_lang.panda.framework.design.architecture.statement.Variable;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
-import org.panda_lang.panda.framework.design.architecture.dynamic.assigner.Assigner;
+import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.VariableAssigner;
 
 import java.util.function.Function;
 
 public class VariableAccessor extends DefaultAccessor<Variable> {
 
-    public VariableAccessor(Function<Flow, MemoryContainer> memory, Variable variable, int internalPointer) {
-        super(memory, variable, internalPointer);
+    public VariableAccessor(Function<Flow, MemoryContainer> memory, Variable variable) {
+        super(memory, variable, variable.getPointer());
     }
 
-    public VariableAccessor(Variable variable, int internalPointer) {
-        this(Flow::getCurrentScope, variable, internalPointer);
+    public VariableAccessor(Variable variable) {
+        this(Flow::getCurrentScope, variable);
     }
 
     @Override

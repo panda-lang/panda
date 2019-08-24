@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.design.architecture.prototype.field;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.ParameterizedExecutable;
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
+import org.panda_lang.panda.framework.design.architecture.statement.Variable;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 public interface PrototypeField extends ParameterizedExecutable, Variable {

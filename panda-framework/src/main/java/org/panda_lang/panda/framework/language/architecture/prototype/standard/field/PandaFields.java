@@ -64,4 +64,9 @@ public class PandaFields implements PrototypeFields {
         return fields;
     }
 
+    @Override
+    public int size() {
+        return fields.size();
+    }
+
 }

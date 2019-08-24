@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.framework.language.resource.expression.subparsers;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.accessor.Accessor;
-import org.panda_lang.panda.framework.design.architecture.dynamic.accessor.AccessorExpression;
+import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Accessor;
+import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.AccessorExpression;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
+import org.panda_lang.panda.framework.design.architecture.statement.Variable;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.VariableAccessor;
@@ -29,8 +29,8 @@ public class VariableExpression implements DynamicExpression {
 
     private final Accessor<?> accessor;
 
-    public VariableExpression(Variable variable, int internalPointer) {
-        this(new VariableAccessor(variable, internalPointer));
+    public VariableExpression(Variable variable) {
+        this(new VariableAccessor(variable));
     }
 
     public VariableExpression(Accessor<?> accessor) {

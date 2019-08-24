@@ -20,22 +20,22 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParameterUtils;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParametrizedExecutableCallback;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.structure.ClassPrototypeScopeFrame;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.structure.ClassPrototypeLivingFrame;
 import org.panda_lang.panda.framework.language.runtime.PandaFlow;
 
-public class PandaMethodCallback implements ParametrizedExecutableCallback<ClassPrototypeScopeFrame> {
+public class PandaMethodCallback implements ParametrizedExecutableCallback<ClassPrototypeLivingFrame> {
 
-    private final MethodScope scope;
+    private final MethodFrame scope;
 
-    public PandaMethodCallback(MethodScope scope) {
+    public PandaMethodCallback(MethodFrame scope) {
         this.scope = scope;
     }
 
     @Override
-    public Object invoke(Flow flow, @Nullable ClassPrototypeScopeFrame instance, Object[] arguments) {
+    public Object invoke(Flow flow, @Nullable ClassPrototypeLivingFrame instance, Object[] arguments) {
         Flow subFlow = new PandaFlow(flow, instance);
 
-        MethodScopeFrame scopeInstance = scope.createFrame(subFlow);
+        MethodLivingFrame scopeInstance = scope.revive(subFlow);
         ParameterUtils.assignValues(scopeInstance, arguments);
 
         Flow methodBranch = subFlow.call(scopeInstance);

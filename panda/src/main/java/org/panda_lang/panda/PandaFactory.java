@@ -28,7 +28,7 @@ import org.panda_lang.panda.framework.language.interpreter.messenger.layouts.Int
 import org.panda_lang.panda.framework.language.interpreter.messenger.layouts.PandaLexerFailureTranslatorLayout;
 import org.panda_lang.panda.framework.language.interpreter.messenger.layouts.ParserFailureTranslatorLayout;
 import org.panda_lang.panda.framework.language.interpreter.messenger.mappers.StacktraceMapper;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.resource.PandaParsers;
 import org.panda_lang.panda.framework.language.resource.expression.subparsers.assignation.AssignationParsers;
 import org.panda_lang.panda.framework.language.resource.syntax.PandaSyntax;

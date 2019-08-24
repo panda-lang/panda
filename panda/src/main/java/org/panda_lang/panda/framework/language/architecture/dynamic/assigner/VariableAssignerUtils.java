@@ -16,9 +16,7 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.assigner;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.assigner.Assigner;
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
+import org.panda_lang.panda.framework.design.architecture.statement.Variable;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.VariableAccessor;
@@ -26,7 +24,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFai
 
 public class VariableAssignerUtils {
 
-    public static Assigner<Variable> of(Context context, Scope scope, Variable variable, Expression expression) {
+    public static Assigner<Variable> of(Context context, Variable variable, Expression expression) {
         if (!variable.getType().isAssignableFrom(expression.getReturnType())) {
             String message = "Cannot assign " + expression.getReturnType().getName() + " to " + variable.getType().getName() + " variable";
 
@@ -38,7 +36,7 @@ public class VariableAssignerUtils {
                     .build();
         }
 
-        return new VariableAccessor(variable, scope.indexOf(variable)).toAssigner(expression);
+        return new VariableAccessor(variable).toAssigner(expression);
     }
 
 }

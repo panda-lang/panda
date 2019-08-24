@@ -20,14 +20,12 @@ import org.panda_lang.panda.framework.design.architecture.Application;
 import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.Script;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.interpreter.Interpretation;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserDebug;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.Generation;
-import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
@@ -58,12 +56,7 @@ public final class UniversalComponents {
 
     public static final Component<SourceStream> STREAM = Component.of("source-stream", SourceStream.class);
 
-
-    public static final Component<ScopeLinker> LINKER = Component.of("scope-linker", ScopeLinker.class);
-
     public static final Component<Scope> SCOPE = Component.of("scope", Scope.class);
-
-    public static final Component<Container> CONTAINER = Component.of("container", Container.class);
 
 
     public static final Component<ParserDebug> PARSER_DEBUG = Component.of("parser-debug", ParserDebug.class);

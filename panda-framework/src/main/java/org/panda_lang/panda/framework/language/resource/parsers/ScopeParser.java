@@ -16,70 +16,28 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.SnippetUtils;
-import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaScopeLinker;
-
-import java.util.Optional;
+import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
 public class ScopeParser implements Parser {
 
-    private final ContainerParser containerParser = new ContainerParser();
+    public Scope parse(Context context, Scope scope, Snippet body) throws Exception {
+        Scope previous = context.getComponent(UniversalComponents.SCOPE);
 
-    /**
-     * Parse the specified source as scope
-     *
-     * @param context the context to use
-     * @param scope the scope to use
-     * @param source the source to parse
-     * @throws Exception if something happen
-     */
-    public void parse(Context context, Scope scope, Snippet source) throws Exception {
-        parse(context, null, scope, source);
-    }
+        Context delegatedContext = context.fork()
+                .withComponent(UniversalComponents.STREAM, new PandaSourceStream(body))
+                .withComponent(UniversalComponents.SCOPE, scope);
 
-    /**
-     * Parse the specified source as scope
-     *
-     * @param scope the current scope
-     * @param parent the parent scope
-     * @param context the context to use
-     * @param source the source to parse
-     * @throws Exception if something happen
-     */
-    public void parse(Context context, @Nullable Scope parent, Scope scope, Snippet source) throws Exception {
-        if (SnippetUtils.isEmpty(source)) {
-            return;
-        }
+        PipelineParser<?> pipelineParser = new PipelineParser<>(UniversalPipelines.SCOPE, delegatedContext);
+        pipelineParser.parse(delegatedContext, false);
 
-        ScopeLinker parentLinker = context.getComponent(UniversalComponents.LINKER);
-
-        if (parentLinker != null) {
-            parentLinker.pushScope(scope);
-        }
-
-        ScopeLinker linker = Optional.ofNullable(parentLinker).orElseGet(() -> {
-            ScopeLinker temp = new PandaScopeLinker(parent != null ? parent : scope);
-
-            if (parent != null) {
-                temp.pushScope(scope);
-            }
-
-            context.withComponent(UniversalComponents.LINKER, temp);
-            return temp;
-        });
-
-        context.withComponent(UniversalComponents.SCOPE, scope);
-        containerParser.parse(context, scope, source);
-
-        context.withComponent(UniversalComponents.LINKER, parentLinker);
-        linker.popScope();
+        delegatedContext.withComponent(UniversalComponents.SCOPE, previous);
+        return scope;
     }
 
 }

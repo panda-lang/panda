@@ -19,26 +19,26 @@ package org.panda_lang.panda.framework.language.resource.head;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.Script;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Local;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.Delegation;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.LocalData;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptors.LinearPatternInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.parser.loader.Registrable;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.ParserBootstrap;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.annotations.Autowired;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.annotations.Component;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.annotations.Local;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.annotations.Src;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.data.Delegation;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.data.LocalData;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.handlers.TokenHandler;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.interceptors.LinearPatternInterceptor;
+import org.panda_lang.panda.framework.language.interpreter.parser.loader.Registrable;
 import org.panda_lang.panda.framework.language.resource.parsers.ScopeParser;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @Registrable(pipeline = UniversalPipelines.HEAD_LABEL)
 public final class MainParser extends ParserBootstrap {
 
-    private final ScopeParser scopeParser = new ScopeParser();
+    private static final ScopeParser SCOPE_PARSER = new ScopeParser();
 
     @Override
     protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
@@ -50,12 +50,12 @@ public final class MainParser extends ParserBootstrap {
 
     @Autowired(order = 1, delegation = Delegation.NEXT_DEFAULT)
     void createScope(LocalData localData, @Component Script script) {
-        script.addStatement(localData.allocated(new MainScope()));
+        script.addStatement(localData.allocated(new MainFrame()));
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_AFTER)
-    void parseScope(Context context, @Local MainScope main, @Src("body") @Nullable Snippet body) throws Exception {
-        scopeParser.parse(context.fork(), main, body);
+    void parseScope(Context context, @Local MainFrame main, @Src("body") @Nullable Snippet body) throws Exception {
+        SCOPE_PARSER.parse(context.fork(), main, body);
     }
 
 }

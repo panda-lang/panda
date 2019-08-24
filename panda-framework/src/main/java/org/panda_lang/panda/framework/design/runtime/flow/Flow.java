@@ -17,8 +17,8 @@
 package org.panda_lang.panda.framework.design.runtime.flow;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
-import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
-import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
+import org.panda_lang.panda.framework.design.architecture.dynamic.LivingFrame;
+import org.panda_lang.panda.framework.design.architecture.statement.Cell;
 import org.panda_lang.panda.framework.design.runtime.Process;
 import org.panda_lang.panda.framework.language.runtime.flow.PandaControlFlowController;
 
@@ -36,7 +36,7 @@ public interface Flow {
      *
      * @param cells a collection of statement cells
      */
-    void call(Collection<? extends StatementCell> cells);
+    void call(Collection<? extends Cell> cells);
 
     /**
      * Call a collection of statements by ControlFlow
@@ -44,7 +44,7 @@ public interface Flow {
      * @param cells  a collection of statement cells
      * @param caller a flow caller
      */
-    ControlFlow callFlow(Collection<? extends StatementCell> cells, PandaControlFlowController caller);
+    ControlFlow callFlow(Collection<? extends Cell> cells, PandaControlFlowController caller);
 
     /**
      * Call single executable by {@link org.panda_lang.panda.framework.design.runtime.Process}
@@ -107,7 +107,7 @@ public interface Flow {
     /**
      * @return instance of the current scope
      */
-    ScopeFrame getCurrentScope();
+    LivingFrame getCurrentScope();
 
     /**
      * @return current object

@@ -17,15 +17,10 @@
 package org.panda_lang.panda.framework.language.resource.expression.subparsers.assignation.variable;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
+import org.panda_lang.panda.framework.design.architecture.statement.Variable;
+import org.panda_lang.panda.framework.design.architecture.statement.VariableData;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
-import org.panda_lang.panda.framework.design.interpreter.parser.loader.Registrable;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
@@ -33,7 +28,14 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.VariableAssignerUtils;
+import org.panda_lang.panda.framework.language.architecture.statement.VariableDataInitializer;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.annotations.Autowired;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.annotations.Component;
+import org.panda_lang.panda.framework.language.interpreter.parser.loader.Registrable;
 import org.panda_lang.panda.framework.language.resource.expression.subparsers.assignation.AssignationPriorities;
 import org.panda_lang.panda.framework.language.resource.expression.subparsers.assignation.AssignationSubparserBootstrap;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
@@ -43,8 +45,6 @@ import java.util.Optional;
 
 @Registrable(pipeline = PandaPipelines.ASSIGNER_LABEL, priority = AssignationPriorities.VARIABLE_DECLARATION)
 public class VariableDeclarationSubparser extends AssignationSubparserBootstrap {
-
-    private static final VariableParser VARIABLE_PARSER = new VariableParser();
 
     @Override
     protected BootstrapInitializer<@Nullable Assigner<?>> initialize(Context context, BootstrapInitializer<@Nullable Assigner<?>> initializer) {
@@ -63,7 +63,7 @@ public class VariableDeclarationSubparser extends AssignationSubparserBootstrap 
             return false;
         }
 
-        Optional<Snippet> typeValue = DeclarationUtils.readTypeBackwards(source.subSource(0, source.size() - 1));
+        Optional<Snippet> typeValue = VariableDeclarationUtils.readTypeBackwards(source.subSource(0, source.size() - 1));
 
         if (!typeValue.isPresent()) {
             return false;
@@ -101,8 +101,11 @@ public class VariableDeclarationSubparser extends AssignationSubparserBootstrap 
     Assigner<?> parse(Context context, @Component Scope scope, @Component SourceStream source, @Component Channel channel, @Component Expression expression) {
         Elements elements = channel.get("elements", Elements.class);
 
-        Variable variable = VARIABLE_PARSER.createVariable(context, scope, elements.mutable, elements.nillable, elements.type, elements.name);
-        return VariableAssignerUtils.of(context, scope, variable, expression);
+        VariableDataInitializer dataInitializer = new VariableDataInitializer(context, scope);
+        VariableData variableData = dataInitializer.createVariableData(elements.type, elements.name, elements.mutable, elements.nillable);
+        Variable variable = scope.createVariable(variableData);
+
+        return VariableAssignerUtils.of(context, variable, expression);
     }
 
     static class Elements {

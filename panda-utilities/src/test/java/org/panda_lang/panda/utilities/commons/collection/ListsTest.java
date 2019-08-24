@@ -89,5 +89,9 @@ final class ListsTest {
         Assertions.assertEquals(Arrays.asList("a", "b", "c"), list);
     }
 
+    @Test
+    void add() {
+        Assertions.assertEquals("a", Lists.add(Lists.mutableOf(), "a"));
+    }
+
 }
-;

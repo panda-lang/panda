@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.architecture.dynamic;
 
 public class AbstractScopeFrameUtils {
 
-    public static Object[] extractMemory(AbstractScopeFrame<?> scopeInstance) {
+    public static Object[] extractMemory(AbstractLivingFrame<?> scopeInstance) {
         return scopeInstance.localMemory;
     }
 

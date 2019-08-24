@@ -18,47 +18,48 @@ package org.panda_lang.panda.framework.language.resource.prototype.method;
 
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.PrototypeVisibility;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Inter;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Local;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.Delegation;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.LocalData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.parser.loader.Registrable;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.method.MethodScope;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.method.MethodFrame;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.method.PandaMethod;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.method.PandaMethodCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.ParserBootstrap;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.annotations.Autowired;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.annotations.Inter;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.annotations.Local;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.annotations.Src;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.data.Delegation;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.data.LocalData;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationCycles;
+import org.panda_lang.panda.framework.language.interpreter.parser.loader.Registrable;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.ScopeParser;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.resource.prototype.parameter.ParameterParser;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Registrable(pipeline = UniversalPipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_METHOD)
 public class MethodParser extends ParserBootstrap {
 
+    private static final ParameterParser PARAMETER_PARSER = new ParameterParser();
+    private static final ScopeParser SCOPE_PARSER = new ScopeParser();
+
     private static final String VISIBILITY = "v";
     private static final String LOCAL = "l";
     private static final String STATIC = "s";
-
-    private final ParameterParser parameterParser = new ParameterParser();
-    private final ScopeParser scopeParser = new ScopeParser();
 
     @Override
     protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
@@ -89,12 +90,10 @@ public class MethodParser extends ParserBootstrap {
             returnType = reference.get();
         }
 
-        String method = signature.getLast().getValue();
-        List<PrototypeParameter> parameters = parameterParser.parse(context, parametersSource);
+        String method = Objects.requireNonNull(signature.getLast()).getValue();
+        List<PrototypeParameter> parameters = PARAMETER_PARSER.parse(context, parametersSource);
 
-        MethodScope methodScope = local.allocated(new MethodScope(method, parameters));
-        methodScope.getVariables().addAll(parameters);
-
+        MethodFrame methodScope = local.allocated(new MethodFrame(method, parameters));
         context.withComponent(UniversalComponents.SCOPE, methodScope);
         ClassPrototype prototype = context.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
 
@@ -113,8 +112,8 @@ public class MethodParser extends ParserBootstrap {
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
-    void parse(Context delegatedContext, @Local MethodScope methodScope, @Src("body") Snippet body) throws Exception {
-        scopeParser.parse(delegatedContext, delegatedContext.getComponent(ClassPrototypeComponents.CLASS_SCOPE), methodScope, body);
+    void parse(Context delegatedContext, @Local MethodFrame methodScope, @Src("body") Snippet body) throws Exception {
+        SCOPE_PARSER.parse(delegatedContext, methodScope, body);
     }
 
 }

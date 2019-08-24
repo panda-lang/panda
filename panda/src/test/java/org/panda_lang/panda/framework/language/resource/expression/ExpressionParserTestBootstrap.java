@@ -19,16 +19,16 @@ package org.panda_lang.panda.framework.language.resource.expression;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
+import org.panda_lang.panda.framework.design.architecture.statement.VariableData;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.architecture.value.PandaVariable;
+import org.panda_lang.panda.framework.language.architecture.statement.PandaVariableData;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerUtils;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.utilities.commons.StringUtils;
@@ -52,10 +52,10 @@ class ExpressionParserTestBootstrap {
     }
 
     protected static Context prepareData() {
-        return PandaParserDataUtils.createFakeData(context -> new HashMap<Variable, Object>() {{
-            put(new PandaVariable(PandaTypes.STRING.getReference(), "variable"), null);
-            put(new PandaVariable(PandaTypes.STRING.toArray(context.getComponent(UniversalComponents.MODULE_LOADER)), "array"), null);
-            put(new PandaVariable(PandaTypes.INT.getReference(), "i", true, false), null);
+        return PandaParserDataUtils.createFakeData(context -> new HashMap<VariableData, Object>() {{
+            put(new PandaVariableData(PandaTypes.STRING.getReference(), "variable"), null);
+            put(new PandaVariableData(PandaTypes.STRING.toArray(context.getComponent(UniversalComponents.MODULE_LOADER)), "array"), null);
+            put(new PandaVariableData(PandaTypes.INT.getReference(), "i", true, false), null);
         }});
     }
 

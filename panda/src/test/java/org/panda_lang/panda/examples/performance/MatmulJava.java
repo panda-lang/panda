@@ -64,7 +64,7 @@ final class MatmulJava {
     }
 
     public static void main(String... args) {
-        Integer n = 100;
+        Integer n = 1000;
         Long time = System.nanoTime();
 
         MatmulJava m = new MatmulJava();
