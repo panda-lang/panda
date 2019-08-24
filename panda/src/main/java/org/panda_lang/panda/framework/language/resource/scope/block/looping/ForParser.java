@@ -18,9 +18,11 @@ package org.panda_lang.panda.framework.language.resource.scope.block.looping;
 
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.architecture.statement.PandaScope;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.block.BlockData;
@@ -59,28 +61,31 @@ public final class ForParser extends BlockSubparserBootstrap {
                     .build();
         }
 
+        Scope forScope = new PandaScope(parent);
+        Context delegatedContext = context.fork().withComponent(UniversalComponents.SCOPE, forScope);
+
         Snippet initializationSource = forEachElements[0];
         Expression initialization = null;
 
         if (!initializationSource.isEmpty()) {
-            initialization = expressionParser.parse(context, initializationSource);
+            initialization = expressionParser.parse(delegatedContext, initializationSource);
         }
 
         Snippet terminationSource = forEachElements[1];
         Expression termination = DEFAULT_CONDITION;
 
         if (!terminationSource.isEmpty()) {
-            termination = expressionParser.parse(context, terminationSource);
+            termination = expressionParser.parse(delegatedContext, terminationSource);
         }
 
         Snippet incrementSource = forEachElements[2];
         Expression increment = null;
 
         if (!incrementSource.isEmpty()) {
-            increment = expressionParser.parse(context, incrementSource);
+            increment = expressionParser.parse(delegatedContext, incrementSource);
         }
 
-        return new BlockData(new ForBlock(parent, initialization, termination, increment));
+        return new BlockData(new ForBlock(forScope, initialization, termination, increment));
     }
 
 }
