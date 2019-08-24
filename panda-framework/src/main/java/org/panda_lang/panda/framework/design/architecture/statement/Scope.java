@@ -16,53 +16,75 @@
 
 package org.panda_lang.panda.framework.design.architecture.statement;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
-
 import java.util.List;
+import java.util.Optional;
 
-/**
- * Specific type of scope which contains own memory, independence, etc.
- */
-public interface Scope extends Container {
+public interface Scope extends Statement {
 
     /**
-     * Creates new instance of the current wrapper for individual values for fields, etc.
+     * Reserve empty cell in the scope
      *
-     * @return instance of the current wrapper
+     * @return an empty cell
      */
-    ScopeFrame createFrame(Flow flow);
-
-    default int indexOf(Variable variable) {
-        return getVariables().indexOf(variable);
-    }
+    Cell reserveCell();
 
     /**
-     * Adds variable to the scope
+     * Add given statement to the current scope
      *
-     * @param variable variable to add
-     * @return position of the variable in the scope
+     * @param statement the statement to add
+     * @return a cell where the statement was placed
      */
-    default int addVariable(Variable variable) {
-        int variableId = getVariables().size();
-        this.getVariables().add(variable);
-        return variableId;
-    }
-
-    default Variable getVariable(String name) {
-        for (Variable var : getVariables()) {
-            if (var.getName().equals(name)) {
-                return var;
-            }
-        }
-
-        return null;
-    }
+    Cell addStatement(Statement statement);
 
     /**
-     * @return list of localMemory in the proper order
+     * Create variable with given properties in the current scope
+     *
+     * @param variableData the data about variable
+     * @return created variable
      */
-    List<Variable> getVariables();
+    Variable createVariable(VariableData variableData);
+
+    /**
+     * Add variable to the scope
+     *
+     * @param variable the variable to add
+     */
+    void addVariable(Variable variable);
+
+    /**
+     * Get variable with the given name
+     *
+     * @param name the name to search for
+     * @return the variable
+     */
+    Optional<Variable> getVariable(String name);
+
+    /**
+     * Get variables
+     *
+     * @return the list of variables
+     */
+    List<? extends Variable> getVariables();
+
+    /**
+     * Get all statements wrapped into cells
+     *
+     * @return list of all cells
+     */
+    List<? extends Cell> getCells();
+
+    /**
+     * Get parent scope
+     *
+     * @return the parent scope
+     */
+    Optional<Scope> getParent();
+
+    /**
+     * Get parent frame
+     *
+     * @return the parent frame
+     */
+    Frame getFrame();
 
 }

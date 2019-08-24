@@ -89,6 +89,13 @@ public class PandaMethods implements PrototypeMethods {
     }
 
     @Override
+    public int size() {
+        return methodsMap.values().stream()
+                .mapToInt(Collection::size)
+                .sum();
+    }
+
+    @Override
     public String toString() {
         return "PrototypeMethods[" + methodsMap.size() + "]";
     }

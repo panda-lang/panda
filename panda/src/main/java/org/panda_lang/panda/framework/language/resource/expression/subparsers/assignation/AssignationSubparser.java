@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.expression.subparsers.assignation;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.dynamic.assigner.Assigner;
+import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;

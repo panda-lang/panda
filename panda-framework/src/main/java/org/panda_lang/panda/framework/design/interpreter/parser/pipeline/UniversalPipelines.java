@@ -48,12 +48,12 @@ public final class UniversalPipelines implements Pipelines {
     public static final PipelineComponent<ContextParser> PROTOTYPE = PipelineComponent.of(UniversalPipelines.class, PROTOTYPE_LABEL, ContextParser.class);
 
     /**
-     * Text representation of {@link org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines#CONTAINER}
+     * Text representation of {@link org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines#SCOPE}
      */
-    public static final String CONTAINER_LABEL = "container";
+    public static final String SCOPE_LABEL = "scope";
     /**
-     * Container parsers, used by {@link org.panda_lang.panda.framework.language.resource.parsers.ContainerParser}
+     * Container parsers, used by {@link org.panda_lang.panda.framework.language.resource.parsers.ScopeParser}
      */
-    public static final PipelineComponent<ContextParser> CONTAINER = PipelineComponent.of(UniversalPipelines.class, CONTAINER_LABEL, ContextParser.class);
+    public static final PipelineComponent<ContextParser> SCOPE = PipelineComponent.of(UniversalPipelines.class, SCOPE_LABEL, ContextParser.class);
 
 }

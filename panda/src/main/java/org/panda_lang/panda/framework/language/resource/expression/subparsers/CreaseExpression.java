@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.framework.language.resource.expression.subparsers;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.accessor.Accessor;
-import org.panda_lang.panda.framework.design.architecture.dynamic.accessor.AccessorExpression;
-import org.panda_lang.panda.framework.design.architecture.dynamic.accessor.AccessorVisitor;
+import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Accessor;
+import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.AccessorExpression;
+import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.AccessorVisitor;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;

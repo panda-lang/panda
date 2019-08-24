@@ -17,9 +17,9 @@
 package org.panda_lang.panda.framework.language.resource.expression.subparsers.assignation;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.dynamic.assigner.Assigner;
+import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
@@ -85,7 +85,7 @@ public class AssignationExpressionSubparser implements ExpressionSubparser {
 
             Context assignationContext = context.getContext().fork()
                     .withComponent(PipelineComponents.CHANNEL, new PandaChannel())
-                    .withComponent(AssignationComponents.SCOPE, context.getContext().getComponent(UniversalComponents.LINKER).getCurrentScope());
+                    .withComponent(AssignationComponents.SCOPE, context.getContext().getComponent(UniversalComponents.SCOPE));
 
             HandleResult<AssignationSubparser> handleResult = context.getContext().getComponent(UniversalComponents.PIPELINE)
                     .getPipeline(PandaPipelines.ASSIGNER)
@@ -112,6 +112,7 @@ public class AssignationExpressionSubparser implements ExpressionSubparser {
 
                 return ExpressionResult.of(new PandaDynamicExpression(expression.getReturnType()) {
                     @Override
+                    @SuppressWarnings("unchecked")
                     public Object call(Expression expression, Flow flow) {
                         assignation.execute(flow);
                         return assignationResult.evaluate(flow);

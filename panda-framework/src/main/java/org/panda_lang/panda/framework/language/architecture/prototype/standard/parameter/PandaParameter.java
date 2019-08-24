@@ -18,14 +18,14 @@ package org.panda_lang.panda.framework.language.architecture.prototype.standard.
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
-import org.panda_lang.panda.framework.language.architecture.value.PandaVariable;
+import org.panda_lang.panda.framework.language.architecture.statement.PandaVariable;
 
 public class PandaParameter extends PandaVariable implements PrototypeParameter {
 
     private final boolean varargs;
 
-    public PandaParameter(ClassPrototypeReference reference, String name, boolean varargs, boolean nillable) {
-        super(reference, name, false, nillable);
+    public PandaParameter(int parameterIndex, ClassPrototypeReference reference, String name, boolean varargs, boolean nillable) {
+        super(parameterIndex, reference, name, false, nillable);
         this.varargs = varargs;
     }
 

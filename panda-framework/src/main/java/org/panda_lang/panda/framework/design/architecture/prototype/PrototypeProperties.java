@@ -36,4 +36,11 @@ public interface PrototypeProperties<T extends ParameterizedExecutable> {
      */
     List<? extends T> getProperties();
 
+    /**
+     * Get amount of properties
+     *
+     * @return the amount of properties
+     */
+    int size();
+
 }

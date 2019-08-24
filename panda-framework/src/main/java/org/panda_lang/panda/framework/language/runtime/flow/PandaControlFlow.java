@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.runtime.flow;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
-import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
+import org.panda_lang.panda.framework.design.architecture.statement.Cell;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
 
@@ -26,12 +26,12 @@ import java.util.Collection;
 public class PandaControlFlow implements Executable, ControlFlow {
 
     private final Flow flow;
-    private final Collection<? extends StatementCell> cells;
+    private final Collection<? extends Cell> cells;
     private final PandaControlFlowController controller;
     private boolean skipped;
     private boolean escaped;
 
-    public PandaControlFlow(Flow flow, Collection<? extends StatementCell> cells, PandaControlFlowController controller) {
+    public PandaControlFlow(Flow flow, Collection<? extends Cell> cells, PandaControlFlowController controller) {
         this.flow = flow;
         this.cells = cells;
         this.controller = controller;
@@ -46,7 +46,7 @@ public class PandaControlFlow implements Executable, ControlFlow {
     public void call() {
         reset();
 
-        for (StatementCell cell : cells) {
+        for (Cell cell : cells) {
             if (flow.isInterrupted() || isEscaped() || isSkipped()) {
                 break;
             }

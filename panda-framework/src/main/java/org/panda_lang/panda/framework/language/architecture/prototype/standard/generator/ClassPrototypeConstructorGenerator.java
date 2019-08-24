@@ -46,7 +46,7 @@ final class ClassPrototypeConstructorGenerator {
             ClassPrototypeReference reference = generator.computeIfAbsent(prototype.getModule(), constructor.getParameterTypes()[index]);
             Parameter parameter = parameters[index];
 
-            prototypeParameters[index] = new PandaParameter(reference, parameter.getName(), parameter.isVarArgs(), false);
+            prototypeParameters[index] = new PandaParameter(index, reference, parameter.getName(), parameter.isVarArgs(), false);
         }
 
         // TODO: Generate bytecode

@@ -17,9 +17,9 @@
 package org.panda_lang.panda.framework.language.runtime;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
-import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
+import org.panda_lang.panda.framework.design.architecture.dynamic.LivingFrame;
 import org.panda_lang.panda.framework.design.architecture.dynamic.StandaloneExecutable;
-import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
+import org.panda_lang.panda.framework.design.architecture.statement.Cell;
 import org.panda_lang.panda.framework.design.runtime.Process;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
@@ -32,7 +32,7 @@ public class PandaFlow implements Flow {
 
     private final Process process;
     private final Object instance;
-    private final ScopeFrame currentScope;
+    private final LivingFrame currentScope;
 
     private PandaControlFlow currentFlow;
     private Object returnedValue;
@@ -42,7 +42,7 @@ public class PandaFlow implements Flow {
         this(flow.getProcess(), instance, flow.getCurrentScope());
     }
 
-    public PandaFlow(Process process, Object instance, ScopeFrame currentScope) {
+    public PandaFlow(Process process, Object instance, LivingFrame currentScope) {
         this.process = process;
         this.instance = instance;
         this.currentScope = currentScope;
@@ -58,21 +58,21 @@ public class PandaFlow implements Flow {
     }
 
     @Override
-    public void call(Collection<? extends StatementCell> cells) {
-        for (StatementCell statementCell : cells) {
+    public void call(Collection<? extends Cell> cells) {
+        for (Cell cell : cells) {
             if (isInterrupted()) {
                 return;
             }
 
-            if (statementCell.isExecutable()) {
-                Executable executable = (Executable) statementCell.getStatement();
+            if (cell.isExecutable()) {
+                Executable executable = cell.toStatement();
                 call(executable);
             }
         }
     }
 
     @Override
-    public ControlFlow callFlow(Collection<? extends StatementCell> cells, PandaControlFlowController caller) {
+    public ControlFlow callFlow(Collection<? extends Cell> cells, PandaControlFlowController caller) {
         if (isInterrupted()) {
             return currentFlow;
         }
@@ -101,8 +101,8 @@ public class PandaFlow implements Flow {
 
     @Override
     public Flow callStandalone(Executable executable) {
-        boolean standaloneScope = executable instanceof ScopeFrame;
-        ScopeFrame scope = standaloneScope ? (ScopeFrame) executable : currentScope;
+        boolean standaloneScope = executable instanceof LivingFrame;
+        LivingFrame scope = standaloneScope ? (LivingFrame) executable : currentScope;
 
         Flow flow = new PandaFlow(process, instance, scope);
 
@@ -163,7 +163,7 @@ public class PandaFlow implements Flow {
     }
 
     @Override
-    public ScopeFrame getCurrentScope() {
+    public LivingFrame getCurrentScope() {
         return currentScope;
     }
 

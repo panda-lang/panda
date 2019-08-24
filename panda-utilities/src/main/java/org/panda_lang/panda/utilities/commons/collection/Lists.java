@@ -27,6 +27,19 @@ import java.util.List;
 public class Lists {
 
     /**
+     * Add element to the given list and get added value as result
+     *
+     * @param list the list to use
+     * @param element the element to add
+     * @param <T> type of element
+     * @return the element to add
+     */
+    public static <T> T add(List<T> list, T element) {
+        list.add(element);
+        return element;
+    }
+
+    /**
      * Returns a view of the portion of the given list
      *
      * @param list the list to use

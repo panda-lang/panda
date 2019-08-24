@@ -74,7 +74,7 @@ class Matmul {
 }
 
 main {
-    mut Int n = 100
+    mut Int n = 2
 
     Matmul m = new Matmul()
     Double[][] a = m.matgen(n)

@@ -17,29 +17,29 @@
 package org.panda_lang.panda.framework.language.resource.prototype.constructor;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
+import org.panda_lang.panda.framework.design.architecture.dynamic.LivingFrame;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Local;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.Delegation;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.LocalData;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
-import org.panda_lang.panda.framework.design.interpreter.parser.loader.Registrable;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
-import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeFrame;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.constructor.ConstructorScope;
+import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractLivingFrame;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.constructor.ConstructorFrame;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.constructor.PandaConstructor;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParameterUtils;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.structure.ClassPrototypeScope;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.structure.ClassPrototypeFrame;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.ParserBootstrap;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.annotations.Autowired;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.annotations.Component;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.annotations.Local;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.annotations.Src;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.data.Delegation;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.data.LocalData;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.context.handlers.TokenHandler;
+import org.panda_lang.panda.framework.language.interpreter.parser.loader.Registrable;
 import org.panda_lang.panda.framework.language.resource.parsers.ScopeParser;
 import org.panda_lang.panda.framework.language.resource.prototype.parameter.ParameterParser;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
@@ -50,8 +50,8 @@ import java.util.List;
 @Registrable(pipeline = UniversalPipelines.PROTOTYPE_LABEL)
 public class ConstructorParser extends ParserBootstrap {
 
-    private final ParameterParser parameterParser = new ParameterParser();
-    private final ScopeParser scopeParser = new ScopeParser();
+    private static final ParameterParser PARAMETER_PARSER = new ParameterParser();
+    private static final ScopeParser SCOPE_PARSER = new ScopeParser();
 
     @Override
     protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
@@ -61,20 +61,20 @@ public class ConstructorParser extends ParserBootstrap {
     }
 
     @Autowired(order = 1)
-    void parse(Context context, LocalData local, @Component ClassPrototypeScope classScope, @Src("parameters") @Nullable Snippet parametersSource) {
+    void parse(Context context, LocalData local, @Component ClassPrototypeFrame classScope, @Src("parameters") @Nullable Snippet parametersSource) {
         ClassPrototype prototype = classScope.getPrototype();
-        List<PrototypeParameter> parameters = parameterParser.parse(context, parametersSource);
+        List<PrototypeParameter> parameters = PARAMETER_PARSER.parse(context, parametersSource);
 
-        ConstructorScope constructorScope = local.allocated(new ConstructorScope(parameters));
-        constructorScope.getVariables().addAll(parameters);
+        ConstructorFrame constructorScope = local.allocated(new ConstructorFrame(parameters));
+        constructorScope.addParameters(parameters);
 
         PrototypeConstructor constructor = PandaConstructor.builder()
                 .type(prototype.getReference())
                 .parameters(parameters)
                 .callback((frame, instance, arguments) -> {
-                    ScopeFrame classInstance = classScope.createFrame(frame);
+                    LivingFrame classInstance = classScope.revive(frame);
 
-                    AbstractScopeFrame constructorInstance = constructorScope.createFrame(frame);
+                    AbstractLivingFrame constructorInstance = constructorScope.revive(frame);
                     ParameterUtils.assignValues(constructorInstance, arguments);
 
                     Flow subFlow = new PandaFlow(frame, classInstance);
@@ -88,8 +88,8 @@ public class ConstructorParser extends ParserBootstrap {
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
-    void parseBody(Context context, @Local ConstructorScope constructorScope, @Component ClassPrototypeScope classScope, @Src("body") @Nullable Snippet body) throws Exception {
-        scopeParser.parse(context, classScope, constructorScope, body);
+    void parseBody(Context context, @Local ConstructorFrame constructorFrame, @Src("body") @Nullable Snippet body) throws Exception {
+        SCOPE_PARSER.parse(context, constructorFrame, body);
     }
 
 }

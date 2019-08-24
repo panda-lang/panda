@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.framework.design.architecture.dynamic;
 
-import org.panda_lang.panda.framework.design.architecture.statement.Container;
+import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 
-public interface Block extends Container, Executable {
+public interface Block extends Scope, Executable {
 
 }

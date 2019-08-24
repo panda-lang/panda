@@ -16,29 +16,16 @@
 
 package org.panda_lang.panda.framework.language.resource;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ApplicationParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parsers;
-import org.panda_lang.panda.framework.language.interpreter.parser.block.BlockParser;
-import org.panda_lang.panda.framework.language.resource.container.LateDeclarationParser;
-import org.panda_lang.panda.framework.language.resource.container.StandaloneExpressionParser;
-import org.panda_lang.panda.framework.language.resource.container.TryCatchParser;
-import org.panda_lang.panda.framework.language.resource.container.block.conditional.ConditionalBlockParser;
-import org.panda_lang.panda.framework.language.resource.container.block.looping.ForEachParser;
-import org.panda_lang.panda.framework.language.resource.container.block.looping.ForParser;
-import org.panda_lang.panda.framework.language.resource.container.block.looping.LoopParser;
-import org.panda_lang.panda.framework.language.resource.container.block.looping.WhileParser;
-import org.panda_lang.panda.framework.language.resource.container.branching.BreakParser;
-import org.panda_lang.panda.framework.language.resource.container.branching.ContinueParser;
-import org.panda_lang.panda.framework.language.resource.container.branching.ReturnParser;
-import org.panda_lang.panda.framework.language.resource.container.branching.ThrowParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.ApplicationParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstraps.block.BlockParser;
 import org.panda_lang.panda.framework.language.resource.expression.subparsers.number.NumberParser;
 import org.panda_lang.panda.framework.language.resource.head.CommentParser;
 import org.panda_lang.panda.framework.language.resource.head.ImportParser;
 import org.panda_lang.panda.framework.language.resource.head.MainParser;
 import org.panda_lang.panda.framework.language.resource.head.ModuleParser;
 import org.panda_lang.panda.framework.language.resource.head.RequireParser;
-import org.panda_lang.panda.framework.language.resource.parsers.ContainerParser;
 import org.panda_lang.panda.framework.language.resource.parsers.ScopeParser;
 import org.panda_lang.panda.framework.language.resource.prototype.ClassPrototypeParser;
 import org.panda_lang.panda.framework.language.resource.prototype.constructor.ConstructorParser;
@@ -46,13 +33,24 @@ import org.panda_lang.panda.framework.language.resource.prototype.field.FieldPar
 import org.panda_lang.panda.framework.language.resource.prototype.method.MethodParser;
 import org.panda_lang.panda.framework.language.resource.prototype.parameter.ArgumentsParser;
 import org.panda_lang.panda.framework.language.resource.prototype.parameter.ParameterParser;
+import org.panda_lang.panda.framework.language.resource.scope.LateDeclarationParser;
+import org.panda_lang.panda.framework.language.resource.scope.StandaloneExpressionParser;
+import org.panda_lang.panda.framework.language.resource.scope.TryCatchParser;
+import org.panda_lang.panda.framework.language.resource.scope.block.conditional.ConditionalBlockParser;
+import org.panda_lang.panda.framework.language.resource.scope.block.looping.ForEachParser;
+import org.panda_lang.panda.framework.language.resource.scope.block.looping.ForParser;
+import org.panda_lang.panda.framework.language.resource.scope.block.looping.LoopParser;
+import org.panda_lang.panda.framework.language.resource.scope.block.looping.WhileParser;
+import org.panda_lang.panda.framework.language.resource.scope.branching.BreakParser;
+import org.panda_lang.panda.framework.language.resource.scope.branching.ContinueParser;
+import org.panda_lang.panda.framework.language.resource.scope.branching.ReturnParser;
+import org.panda_lang.panda.framework.language.resource.scope.branching.ThrowParser;
 
 public final class PandaParsers extends Parsers {
 
     public static final Class<? extends Parser>[] PARSERS = of(
             // lead
             ApplicationParser.class,
-            ContainerParser.class,
             ScopeParser.class,
 
             // common

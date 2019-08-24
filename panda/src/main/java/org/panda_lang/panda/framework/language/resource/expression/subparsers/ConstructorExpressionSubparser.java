@@ -35,7 +35,7 @@ import org.panda_lang.panda.framework.language.architecture.prototype.standard.p
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.DiffusedSource;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
-import org.panda_lang.panda.framework.language.resource.expression.subparsers.assignation.variable.DeclarationUtils;
+import org.panda_lang.panda.framework.language.resource.expression.subparsers.assignation.variable.VariableDeclarationUtils;
 import org.panda_lang.panda.framework.language.resource.prototype.parameter.ArgumentsParser;
 import org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
@@ -88,7 +88,7 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
             }
 
             // read type
-            Optional<Snippet> typeValue = DeclarationUtils.readType(source.getAvailableSource());
+            Optional<Snippet> typeValue = VariableDeclarationUtils.readType(source.getAvailableSource());
 
             if (!typeValue.isPresent()) {
                 return null;
@@ -99,7 +99,7 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
             source.setIndex(source.getIndex() + typeSource.size());
 
             // parse if type is array
-            if (DeclarationUtils.isArray(typeSource)) {
+            if (VariableDeclarationUtils.isArray(typeSource)) {
                 return parseArray(context, typeSource);
             }
 
@@ -135,7 +135,7 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
         }
 
         private ExpressionResult parseArray(ExpressionContext context, Snippet typeSource) {
-            List<Section> sections = DeclarationUtils.getArraySections(typeSource);
+            List<Section> sections = VariableDeclarationUtils.getArraySections(typeSource);
             List<Expression> capacities = new ArrayList<>();
 
             for (Section section : sections) {

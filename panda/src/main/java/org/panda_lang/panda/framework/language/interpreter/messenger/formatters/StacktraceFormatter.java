@@ -17,8 +17,8 @@
 package org.panda_lang.panda.framework.language.interpreter.messenger.formatters;
 
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerTypeFormatter;
-import org.panda_lang.panda.framework.design.interpreter.messenger.formatter.MessengerDataFormatter;
-import org.panda_lang.panda.framework.design.interpreter.parser.ApplicationParser;
+import org.panda_lang.panda.framework.language.interpreter.messenger.MessengerDataFormatter;
+import org.panda_lang.panda.framework.language.interpreter.parser.ApplicationParser;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.ClassUtils;
 import org.panda_lang.panda.utilities.commons.PackageUtils;

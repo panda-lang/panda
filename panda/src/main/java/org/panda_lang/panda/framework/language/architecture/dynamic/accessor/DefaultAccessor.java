@@ -17,9 +17,7 @@
 package org.panda_lang.panda.framework.language.architecture.dynamic.accessor;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.dynamic.accessor.Accessor;
-import org.panda_lang.panda.framework.design.architecture.dynamic.accessor.AccessorVisitor;
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
+import org.panda_lang.panda.framework.design.architecture.statement.Variable;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;

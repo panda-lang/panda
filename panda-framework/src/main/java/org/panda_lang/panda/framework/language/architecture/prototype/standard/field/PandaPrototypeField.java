@@ -92,6 +92,11 @@ public class PandaPrototypeField extends PandaParameterizedExecutable implements
         return fieldIndex;
     }
 
+    @Override
+    public int getPointer() {
+        return getFieldIndex();
+    }
+
     public static PandaPrototypeFieldBuilder builder() {
         return new PandaPrototypeFieldBuilder();
     }

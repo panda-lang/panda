@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.architecture.dynamic.accessor;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.structure.ClassPrototypeScopeFrame;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.structure.ClassPrototypeLivingFrame;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
 import java.util.function.Function;
@@ -40,7 +40,7 @@ public class FieldAccessorFunction implements Function<Flow, MemoryContainer> {
             throw new PandaRuntimeException("Instance is not defined");
         }
 
-        if (!(instance instanceof ClassPrototypeScopeFrame)) {
+        if (!(instance instanceof ClassPrototypeLivingFrame)) {
             throw new PandaRuntimeException("Cannot get field value of external object");
         }
 

@@ -28,7 +28,7 @@ public class PandaCLI {
     }
 
     public void run(String... args) {
-        CommandLine.run(new PandaCommand(this), args);
+        CommandLine.populateCommand(new PandaCommand(this), args);
     }
 
     public Panda getPanda() {

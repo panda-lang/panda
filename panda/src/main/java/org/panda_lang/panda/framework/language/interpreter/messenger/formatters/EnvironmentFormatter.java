@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.interpreter.messenger.formatters
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.PandaFrameworkConstants;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerTypeFormatter;
-import org.panda_lang.panda.framework.design.interpreter.messenger.formatter.MessengerDataFormatter;
+import org.panda_lang.panda.framework.language.interpreter.messenger.MessengerDataFormatter;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

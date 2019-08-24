@@ -58,11 +58,7 @@ public class PandaExpression implements Expression {
     @Override
     @SuppressWarnings("unchecked")
     public Object evaluate(Flow flow) {
-        if (type == ExpressionValueType.UNKNOWN) {
-            return callback.call(this, flow);
-        }
-
-        return value;
+        return type == ExpressionValueType.UNKNOWN ? callback.call(this, flow) : value;
     }
 
     @Override

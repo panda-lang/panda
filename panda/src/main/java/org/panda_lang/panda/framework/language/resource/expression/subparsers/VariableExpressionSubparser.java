@@ -18,22 +18,20 @@ package org.panda_lang.panda.framework.language.resource.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
+import org.panda_lang.panda.framework.design.architecture.statement.Variable;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
-import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.resource.expression.subparsers.number.NumberUtils;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.framework.language.runtime.expression.ThisExpression;
 
@@ -69,14 +67,12 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            ScopeLinker scopeLinker = context.getContext().getComponent(UniversalComponents.LINKER);
-            Scope scope = scopeLinker.getCurrentScope();
-
             String name = token.getValue();
-            Variable variable = scope.getVariable(name);
+            Optional<Variable> variableValue = context.getContext().getComponent(UniversalComponents.SCOPE).getVariable(name);
 
-            if (variable != null) {
-                return ExpressionResult.of(new VariableExpression(variable, scope.indexOf(variable)).toExpression());
+            if (variableValue.isPresent()) {
+                Variable variable = variableValue.get();
+                return ExpressionResult.of(new VariableExpression(variable).toExpression());
             }
 
             if (context.hasResults()) {

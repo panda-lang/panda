@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.framework.language.resource.expression.subparsers.assignation.array;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.accessor.Accessor;
-import org.panda_lang.panda.framework.design.architecture.dynamic.assigner.Assigner;
+import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Accessor;
+import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippetable;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;

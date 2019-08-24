@@ -16,15 +16,16 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.assigner;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.accessor.Accessor;
+import org.panda_lang.panda.framework.design.architecture.statement.Variable;
+import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 
-public final class ArrayAssigner extends AbstractAssigner {
+public final class ArrayAssigner<T extends Variable> extends AbstractAssigner<T> {
 
     private final Expression value;
 
-    public ArrayAssigner(Accessor<?> accessor, Expression value) {
+    public ArrayAssigner(Accessor<T> accessor, Expression value) {
         super(accessor);
         this.value = value;
     }

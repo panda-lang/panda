@@ -54,4 +54,9 @@ public class PandaConstructors implements PrototypeConstructors {
         return constructors;
     }
 
+    @Override
+    public int size() {
+        return constructors.size();
+    }
+
 }
