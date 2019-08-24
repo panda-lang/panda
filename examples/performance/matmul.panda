@@ -56,15 +56,15 @@ class Matmul {
             }
         }
 
-        for (mut Int i2 = 0; i2 < m; ++i2) {
-            for (mut Int j2 = 0; j2 < p; ++j2) {
+        for (mut Int i = 0; i < m; ++i) {
+            for (mut Int j = 0; j < p; ++j) {
                 mut Double s = 0.0
 
                 for (mut Int k = 0; k < n; ++k) {
-                    s = s + (a[i2][k] * c[j2][k])
+                    s = s + (a[i][k] * c[j][k])
                 }
 
-                x[i2][j2] = s
+                x[i][j] = s
             }
         }
 
