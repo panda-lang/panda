@@ -31,72 +31,8 @@ import java.util.Map;
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 final class DependencyInjectionTest {
 
-    private static final String HELLO = "Hello";
-    private static final String HELLO_WIRED = HELLO + " Wired";
-    private static final String HELLO_AUTOWIRED = HELLO + " Autowired";
-
-    private static final Map<String, String> MAP = new HashMap<String, String>() {{
-        put("hello-autowired", HELLO_AUTOWIRED);
-        put("hello-wired", HELLO_WIRED);
-    }};
-
     @Test
     void testInjector() {
-        Injector injector = DependencyInjection.createInjector(resources -> {
-            resources.on(String.class).assignInstance(HELLO);
-
-            resources.annotatedWith(CustomAnnotation.class).assignHandler((expected, annotation) -> {
-                return MAP.get(annotation.value());
-            });
-
-            resources.annotatedWithMetadata(CustomAnnotation.class).assignHandler((expected, annotation) -> {
-                return MAP.get(annotation.getMetadata().getValue());
-            });
-        });
-
-        Assertions.assertDoesNotThrow(() -> {
-            TestClass instance = injector.newInstance(TestClass.class);
-            Assertions.assertEquals(HELLO, injector.invokeMethod(ReflectionUtils.getMethod(TestClass.class, "testTypeInvoke", String.class).get(), instance));
-            Assertions.assertEquals(HELLO_AUTOWIRED, injector.invokeMethod(ReflectionUtils.getMethod(TestClass.class, "testAnnotationInvoke", String.class).get(), instance));
-            Assertions.assertEquals(HELLO_WIRED, injector.invokeMethod(ReflectionUtils.getMethod(TestClass.class, "testWiredInvoke", String.class).get(), instance));
-        });
-    }
-
-    private static class TestClass {
-
-        @Autowired
-        TestClass(String value) {
-            Assertions.assertEquals(HELLO, value);
-        }
-
-        @Autowired
-        public String testTypeInvoke(String value) {
-            Assertions.assertEquals(HELLO, value);
-            return value;
-        }
-
-        @Autowired
-        private String testAnnotationInvoke(@CustomAnnotation("hello-autowired") String value) {
-            Assertions.assertEquals(HELLO_AUTOWIRED, value);
-            return value;
-        }
-
-        @Wired({
-             @Wired.Link(parameter = "value", with = CustomAnnotation.class, value = "hello-wired")
-        })
-        protected String testWiredInvoke(String value) {
-            Assertions.assertEquals(HELLO_WIRED, value);
-            return value;
-        }
-
-    }
-
-    @Injectable
-    @Retention(RetentionPolicy.RUNTIME)
-    private @interface CustomAnnotation {
-
-        String value();
-
     }
 
 }

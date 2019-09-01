@@ -24,34 +24,24 @@ import java.util.Collection;
 
 final class StreamUtilsTest {
 
-    private static final Collection<Integer> COLLECTION = Arrays.asList(5, 2, 5);
-
     @Test
     void sum() {
-        Assertions.assertEquals(12, StreamUtils.sum(COLLECTION, Integer::intValue));
     }
 
     @Test
     void count() {
-        Assertions.assertEquals(3, StreamUtils.count(COLLECTION, integer -> integer < 10));
     }
 
     @Test
     void findFirst() {
-        Assertions.assertEquals(2, StreamUtils.findFirst(COLLECTION, integer -> integer == 2).orElse(-1).intValue());
     }
 
     @Test
     void sumLongs() {
-        Assertions.assertEquals(10, StreamUtils.sumLongs(Arrays.asList(5L, 5L), Long::longValue));
     }
 
     @Test
     void map() {
-        Collection<String> mapped = StreamUtils.map(COLLECTION, Long::toString);
-
-        Assertions.assertEquals(COLLECTION.size(), mapped.size());
-        Assertions.assertTrue(mapped.contains("5"));
     }
 
 }

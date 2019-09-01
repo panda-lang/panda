@@ -24,22 +24,6 @@ final class ADSQLControllerTest {
 
     @Test
     void testSQL() {
-        SQLDataController sqlController = new SQLDataController();
-
-        AutomatedDataSpace space = AutomatedDataSpace.initialize(sqlController)
-                .createCollection()
-                    .name("users")
-                    .entity(User.class)
-                    .service(UserService.class)
-                    .repository(UserRepository.class)
-                    .append()
-                .createCollection()
-                    .name("groups")
-                    .entity(Group.class)
-                    .service(GroupService.class)
-                    .repository(GroupRepository.class)
-                    .append()
-                .collect();
     }
 
 

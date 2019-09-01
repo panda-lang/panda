@@ -22,11 +22,8 @@ import org.panda_lang.panda.utilities.inject.annotations.Autowired;
 @Service
 final class GroupService {
 
-    private final GroupRepository repository;
-
     @Autowired
     public GroupService(GroupRepository repository) {
-        this.repository = repository;
     }
 
 }

@@ -30,37 +30,9 @@ import java.util.Optional;
 public final class Launcher {
 
     public static void launch(String directory, String file) {
-        Assertions.assertDoesNotThrow(() -> {
-            Application application = interpret(directory, file);
-            launch(application);
-        });
     }
 
     public static void launch(Application application) {
-        Assertions.assertDoesNotThrow(() -> {
-            PandaFramework.getLogger().debug("[PandaApp] Launching application...");
-            long initTime = System.nanoTime();
-
-            application.launch();
-
-            long uptime = System.nanoTime() - initTime;
-            PandaFramework.getLogger().debug("[PandaApp] Done (" + TimeUtils.toMilliseconds(uptime) + ")");
-        });
-    }
-
-    public static Application interpret(String directory, String file) {
-        PandaFrameworkLoggerUtils.printJVMUptime();
-
-        PandaFactory factory = new PandaFactory();
-        Panda panda = factory.createPanda();
-
-        Optional<Application> application = new PandaApplicationBootstrap(panda)
-                .workingDirectory("../examples/" + directory)
-                .main(file)
-                .createApplication();
-
-        Assertions.assertTrue(application.isPresent());
-        return application.get();
     }
 
 }

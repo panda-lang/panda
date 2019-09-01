@@ -39,28 +39,13 @@ import org.panda_lang.panda.framework.language.resource.expression.subparsers.nu
 @Measurement(iterations = 2)
 public class ExpressionBenchmark extends ExpressionParserTestBootstrap {
 
-    private static final Snippet SOURCE = PandaLexerUtils.convert("variable.toString().toString().toString().toString()");
-
     @Benchmark
     public void testParser(Configuration configuration, Blackhole blackhole) {
-        blackhole.consume(configuration.expressionParser.parse(configuration.context, SOURCE));
     }
 
     @State(Scope.Thread)
     public static class Configuration {
-
-        protected Context context;
-        protected ExpressionParser expressionParser;
-        protected NumberParser numberParser = new NumberParser();
-
-        @Setup(Level.Trial)
-        public void setup() {
-            this.expressionParser = new PandaExpressionParser(PandaExpressionUtils.collectSubparsers());
-            this.context = prepareData();
-        }
-
         public static void main(String[] args) throws Exception {
-            new Runner(new OptionsBuilder().include(ExpressionBenchmark.class.getName()).build()).run();
         }
 
     }

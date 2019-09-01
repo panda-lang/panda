@@ -25,16 +25,12 @@ import javax.script.ScriptException;
 
 class PandaEngineTest {
 
-    private static ScriptEngine engine;
-
     @BeforeAll
     static void prepare() {
-        engine = ScriptEngineUtils.getDefaultScriptEngineManager().getEngineByExtension("panda");
     }
 
     @Test
     void eval() throws ScriptException {
-        engine.eval("10");
     }
 
 }

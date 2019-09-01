@@ -27,16 +27,4 @@ import java.util.UUID;
 
 @Entity
 public interface Group extends DataEntity {
-
-    @Association(name = "members", type = User.class, relation = Association.Type.MANY)
-    Collection<User> getMembers();
-    //void addMember(User member);
-
-    void setName(String name);
-    String getName();
-
-    @Id
-    @Generated
-    UUID getId();
-
 }

@@ -21,28 +21,17 @@ import org.junit.jupiter.api.Test;
 
 final class ObjectUtilsTest {
 
-    private static final Object OBJECT = new Object();
-
     @Test
     @SuppressWarnings("ConstantConditions")
     void isNotNull() {
-        Assertions.assertTrue(ObjectUtils.isNotNull(OBJECT));
-        Assertions.assertFalse(ObjectUtils.isNotNull(null));
     }
 
     @Test
     void areNull() {
-        Assertions.assertFalse(ObjectUtils.areNull());
-        Assertions.assertFalse(ObjectUtils.areNull(OBJECT, OBJECT, OBJECT));
-        Assertions.assertFalse(ObjectUtils.areNull(OBJECT, null, OBJECT));
-
-        Assertions.assertTrue(ObjectUtils.areNull(null, null, null));
     }
 
     @Test
     void equalsOneOf() {
-        Assertions.assertTrue(ObjectUtils.equalsOneOf("value", OBJECT, "value", OBJECT));
-        Assertions.assertFalse(ObjectUtils.equalsOneOf("value", OBJECT, OBJECT, OBJECT));
     }
 
 }

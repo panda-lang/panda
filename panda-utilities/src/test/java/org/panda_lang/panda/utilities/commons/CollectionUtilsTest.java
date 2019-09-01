@@ -26,13 +26,6 @@ final class CollectionUtilsTest {
 
     @Test
     void testListOf() {
-        List<String> list = CollectionUtils.listOf(Sets.newHashSet("a"), Sets.newHashSet("b"));
-
-        Assertions.assertAll(
-                () -> Assertions.assertEquals(2, list.size()),
-                () -> Assertions.assertTrue(list.contains("a")),
-                () -> Assertions.assertTrue(list.contains("b"))
-        );
     }
 
 }

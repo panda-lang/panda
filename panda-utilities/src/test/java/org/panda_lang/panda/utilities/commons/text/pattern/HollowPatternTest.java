@@ -22,27 +22,12 @@ import org.panda_lang.panda.utilities.commons.text.pattern.text.TextHollowPatter
 
 final class HollowPatternTest {
 
-    private static final String EXPRESSION = "instance.extractToken().method(parameter.extractToken())";
-
     @Test
     void testHollowPatternWithCompiler() {
-        TextHollowPattern hollowPattern = TextHollowPattern.builder()
-                .compile("*.*(*)*")
-                .build();
-
-        Assertions.assertTrue(hollowPattern.match(EXPRESSION));
     }
 
     @Test
     void testHollowPatternWithBuilder() {
-        TextHollowPattern hollowPattern = TextHollowPattern.builder()
-                .basis("set")
-                .hollow()
-                .basis("to")
-                .hollow()
-                .build();
-
-        Assertions.assertTrue(hollowPattern.match("set (variable1 to 14) to value of (set variable2 to 10)"));
     }
 
 }

@@ -33,23 +33,15 @@ import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerUtils
 @Measurement(iterations = 2)
 public class LinearPatternVsDescriptiveBenchmark {
 
-    private static final Snippet SOURCE = PandaLexerUtils.convert("if ( true )");
-
-    private static final LinearPattern LINEAR = LinearPattern.compile("if ( content:* )");
-    private static final DescriptivePattern DESCRIPTIVE = DescriptivePattern.builder().compile("if `( <*content> `)").build();
-
     @Benchmark
     public void testLinear(Blackhole blackhole) {
-        blackhole.consume(LINEAR.match(SOURCE));
     }
 
     @Benchmark
     public void testDescriptive(Blackhole blackhole) {
-        blackhole.consume(DESCRIPTIVE.extract(null, SOURCE));
     }
 
     public static void main(String[] args) throws Exception {
-        new Runner(new OptionsBuilder().include(LinearPatternVsDescriptiveBenchmark.class.getName()).build()).run();
     }
 
 }

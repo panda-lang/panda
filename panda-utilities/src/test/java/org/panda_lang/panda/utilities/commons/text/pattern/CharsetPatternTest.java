@@ -22,14 +22,8 @@ import org.panda_lang.panda.utilities.commons.text.pattern.charset.CharsetPatter
 
 final class CharsetPatternTest {
 
-    private static final String EXPRESSION = "instance.extractToken().method(parameter.extractToken())";
-
     @Test
     void testCharsetPattern() {
-        CharsetPattern charsetPattern = new CharsetPattern("*.*(*)");
-        charsetPattern.setCharset(new char[] { '.', '(', ')' });
-
-        Assertions.assertTrue(charsetPattern.match(EXPRESSION));
     }
 
 }

@@ -28,16 +28,6 @@ final class ResourcesIterableTest {
 
     @Test
     void testIterable() {
-        Collection<String> mutable = Lists.mutableOf("a");
-        Collection<String> immutable = Collections.singletonList("c");
-        ResourcesIterable<String> iterable = new ResourcesIterable<>(mutable, immutable);
-
-        mutable.add("b");
-        Iterator<String> iterator = iterable.iterator();
-
-        Assertions.assertEquals("a", iterator.next());
-        Assertions.assertEquals("b", iterator.next());
-        Assertions.assertEquals("c", iterator.next());
     }
 
 }

@@ -26,20 +26,8 @@ import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 
 class FileBasedLexerTest {
 
-    private static final Source SOURCE = new PandaSource(FileBasedLexerTest.class, "a('z').b.c('y').d('x');");
-
     @Test
     public void testLexer() {
-        PandaFactory pandaFactory = new PandaFactory();
-        Panda panda = pandaFactory.createPanda();
-
-        Snippet snippet = PandaLexer.of(panda.getLanguage().getSyntax())
-                .build()
-                .convert(SOURCE);
-
-        Assertions.assertEquals(17, snippet.size());
-        Assertions.assertEquals("a", snippet.getFirst().getValue());
-        Assertions.assertEquals(";", snippet.getLast().getValue());
     }
 
 }

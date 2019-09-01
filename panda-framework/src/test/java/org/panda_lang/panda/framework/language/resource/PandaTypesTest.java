@@ -23,23 +23,6 @@ class PandaTypesTest {
 
     @Test
     void testConstants() {
-        Assertions.assertEquals("void", PandaTypes.VOID.getName());
-        Assertions.assertEquals("Boolean", PandaTypes.BOOLEAN.getName());
-        Assertions.assertEquals("Char", PandaTypes.CHAR.getName());
-        Assertions.assertEquals("Byte", PandaTypes.BYTE.getName());
-        Assertions.assertEquals("Short", PandaTypes.SHORT.getName());
-        Assertions.assertEquals("Int", PandaTypes.INT.getName());
-        Assertions.assertEquals("Long", PandaTypes.LONG.getName());
-        Assertions.assertEquals("Float", PandaTypes.FLOAT.getName());
-        Assertions.assertEquals("Double", PandaTypes.DOUBLE.getName());
-
-        Assertions.assertEquals("Object", PandaTypes.OBJECT.getName());
-        Assertions.assertEquals("Array", PandaTypes.ARRAY.getName());
-
-        Assertions.assertEquals("String", PandaTypes.STRING.getName());
-        Assertions.assertEquals("Number", PandaTypes.NUMBER.getName());
-        Assertions.assertEquals("Iterable", PandaTypes.ITERABLE.getName());
-        Assertions.assertEquals("List", PandaTypes.LIST.getName());
     }
 
 }

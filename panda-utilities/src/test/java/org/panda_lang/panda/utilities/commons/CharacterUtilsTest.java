@@ -23,38 +23,22 @@ final class CharacterUtilsTest {
 
     @Test
     void testBelongsTo() {
-        Assertions.assertTrue(CharacterUtils.belongsTo('b', "abc".toCharArray()));
-        Assertions.assertFalse(CharacterUtils.belongsTo('d', "abc".toCharArray()));
     }
 
     @Test
     void testIsWhitespace() {
-        Assertions.assertAll(
-                () -> Assertions.assertTrue(CharacterUtils.isWhitespace(' ')),
-                () -> Assertions.assertFalse(CharacterUtils.isWhitespace('a')),
-
-                () -> Assertions.assertTrue(CharacterUtils.isWhitespace((char) 0)),
-                () -> Assertions.assertTrue(CharacterUtils.isWhitespace(CharacterUtils.TAB)),
-                () -> Assertions.assertTrue(CharacterUtils.isWhitespace(CharacterUtils.NO_BREAK_SPACE))
-        );
     }
 
     @Test
     void testGetIndex() {
-        Assertions.assertEquals(-1, CharacterUtils.getIndex(new char[] { 'a', 'b', 'c' }, 'd'));
-        Assertions.assertEquals(1, CharacterUtils.getIndex(new char[] { 'a', 'b', 'c' }, 'b'));
     }
 
     @Test
     void testLetters() {
-        Assertions.assertEquals('a', CharacterUtils.LETTERS[0]);
-        Assertions.assertEquals('Z', CharacterUtils.LETTERS[CharacterUtils.LETTERS.length - 1]);
     }
 
     @Test
     void testDigits() {
-        Assertions.assertEquals('0', CharacterUtils.DIGITS[0]);
-        Assertions.assertEquals('9', CharacterUtils.DIGITS[CharacterUtils.DIGITS.length - 1]);
     }
 
 }

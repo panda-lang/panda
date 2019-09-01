@@ -25,20 +25,6 @@ class FlowComponentTest {
 
     @Test
     void testStackLimit() {
-        MainFrame main = new MainFrame();
-
-        Block block = new DefaultBlock(main);
-        main.addStatement(block);
-
-        // ~StackOverflowError
-        for (int i = 0; i < 1024; i++) {
-            Block subBlock = new DefaultBlock(block);
-            block.addStatement(subBlock);
-            block = subBlock;
-        }
-
-        PandaProcess process = new PandaProcess(null, main);
-        process.execute();
     }
 
 }

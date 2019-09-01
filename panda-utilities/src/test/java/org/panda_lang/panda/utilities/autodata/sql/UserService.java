@@ -25,24 +25,4 @@ import java.util.UUID;
 
 @Service
 class UserService {
-
-    private final UserRepository repository;
-
-    @Autowired
-    public UserService(@Berry("users") UserRepository repository) {
-        this.repository = repository;
-    }
-
-    public User createUser(String name) {
-        return repository.createUser(name);
-    }
-
-    public Optional<User> findUserByName(String name) {
-        return repository.findUserByName(name);
-    }
-
-    public User findUserByNameOrId(String name, UUID id) {
-        return repository.findByNameOrId(name, id);
-    }
-
 }

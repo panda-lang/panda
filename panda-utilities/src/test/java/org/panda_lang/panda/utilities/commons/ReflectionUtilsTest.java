@@ -32,64 +32,21 @@ final class ReflectionUtilsTest {
 
     @Test
     void getMethod() {
-        Assertions.assertTrue(ReflectionUtils.getMethod(ReflectionUtilsTest.class, "getMethod").isPresent());
-        Assertions.assertFalse(ReflectionUtils.getMethod(ReflectionUtilsTest.class, "getMethodFake").isPresent());
     }
 
     @Test
     void getMethodsAnnotatedWith() {
-        Set<Method> methods = ReflectionUtils.getMethodsAnnotatedWith(Bar.class, AnnotationTest.class);
-
-        Assertions.assertEquals(2, methods.size());
-        methods.forEach(method -> Assertions.assertEquals("test", method.getName()));
     }
 
     @Test
     void getMethods() {
-        List<Method> methods = ReflectionUtils.getMethods(Bar.class, "test");
-
-        Assertions.assertAll(
-                () -> Assertions.assertEquals(1, methods.size()),
-                () -> Assertions.assertEquals(Bar.class.getDeclaredMethod("test"), methods.get(0))
-        );
     }
 
     @Test
     void getStaticFieldValues() {
-        Collection<String> values = ReflectionUtils.getStaticFieldValues(Foo.class, String.class);
-
-        Assertions.assertEquals(1, values.size());
-        Assertions.assertEquals("static-value", values.iterator().next());
     }
 
     @Test
     void getFieldValues() {
-        Collection<String> values = ReflectionUtils.getFieldValues(Bar.class, String.class, new Bar());
-
-        Assertions.assertEquals(1, values.size());
-        Assertions.assertEquals("value", values.iterator().next());
     }
-
-    @Target(ElementType.METHOD)
-    @Retention(RetentionPolicy.RUNTIME)
-    @interface AnnotationTest {}
-
-    static class Foo {
-
-        private static final String STATIC_FIELD = "static-value";
-
-        @AnnotationTest
-        private void test() { }
-
-    }
-
-    static class Bar extends Foo {
-
-        private final String FIELD = "value";
-
-        @AnnotationTest
-        private void test() { }
-
-    }
-
 }

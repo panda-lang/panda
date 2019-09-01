@@ -25,15 +25,8 @@ import org.panda_lang.panda.framework.language.resource.syntax.PandaSyntax;
 
 class SimpleLexerTest {
 
-    private static final Source SOURCE = new PandaSource(SimpleLexerTest.class, "this.intValue()");
-
     @Test
     public void testKeywordsInUnknown() {
-        Snippet snippet = PandaLexer.of(new PandaSyntax())
-                .build()
-                .convert(SOURCE);
-
-        Assertions.assertEquals("this . intValue ( )", snippet.toString());
     }
 
 }

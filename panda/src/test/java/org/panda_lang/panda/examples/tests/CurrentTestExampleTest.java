@@ -23,9 +23,6 @@ class CurrentTestExampleTest {
 
     @Test
     void testCurrentTest() {
-        for (int i = 0; i < 1; i++) {
-            Launcher.launch("tests", "current_test.panda");
-        }
     }
 
 }

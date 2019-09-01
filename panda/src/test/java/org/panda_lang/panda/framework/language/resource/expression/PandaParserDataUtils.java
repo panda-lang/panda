@@ -21,6 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.statement.Frame;
 import org.panda_lang.panda.framework.design.architecture.statement.VariableData;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.language.architecture.module.PandaModuleLoader;
 import org.panda_lang.panda.framework.language.architecture.module.PandaModulePath;
@@ -34,32 +35,28 @@ import java.util.function.Function;
 
 public class PandaParserDataUtils {
 
-    /**
-     * Create the fake parser context, which contains:
-     * - expression parser
-     * - variables:
-     * > string variable
-     * > string[] array
-     * > int i
-     * - scope linker
-     * - abstract scope
-     * - module path & loader
-     *
-     * @return the fake data
-     */
     public static Context createFakeData(Function<Context, Map<VariableData, Object>> variablesSupplier) {
-        Context context = new PandaContext();
-        context.withComponent(UniversalComponents.EXPRESSION, new PandaExpressionParser(PandaExpressionUtils.collectSubparsers()));
+        return new Context() {
+            @java.lang.Override
+            public Context fork() {
+                return null;
+            }
 
-        ModulePath path = new PandaModulePath();
-        ModuleLoader loader = new PandaModuleLoader(new PandaTypes().fill(path));
-        loader.load(path.getDefaultModule());
-        context.withComponent(UniversalComponents.MODULE_LOADER, loader);
+            @java.lang.Override
+            public <T> Context withComponent(Component<T> componentName, T component) {
+                return null;
+            }
 
-        Frame frame = new StaticFrame(variablesSupplier.apply(context));
-        context.withComponent(UniversalComponents.SCOPE, frame);
+            @java.lang.Override
+            public <T> T getComponent(Component<T> componentName) {
+                return null;
+            }
 
-        return context;
+            @java.lang.Override
+            public Map<? extends Component<?>, ? extends Object> getComponents() {
+                return null;
+            }
+        };
     }
 
 }

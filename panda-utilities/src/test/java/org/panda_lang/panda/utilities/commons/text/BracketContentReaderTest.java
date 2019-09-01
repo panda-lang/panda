@@ -21,14 +21,8 @@ import org.junit.jupiter.api.Test;
 
 final class BracketContentReaderTest {
 
-    private static final String CONTENT = "(Test (A[B{C\"D\"E}F]G) Test) EoT";
-
     @Test
     void testBracketContentReader() {
-        BracketContentReader bracketContentReader = new BracketContentReader(CONTENT);
-        String content = bracketContentReader.read();
-
-        Assertions.assertEquals("Test (A[B{C\"D\"E}F]G) Test", content);
     }
 
 }

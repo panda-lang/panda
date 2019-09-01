@@ -30,33 +30,8 @@ import org.panda_lang.panda.framework.language.resource.syntax.operator.Operator
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 class ProgressivePatternTest {
-
-    private static final Source SOURCE = new PandaSource(ProgressivePatternTest.class, "(new Integer(5).intValue() + 3) + 2");
-
-    private static final ProgressivePattern EXTRACTOR = new ProgressivePattern(Separators.getOpeningSeparators(), new Token[] {
-            Operators.ADDITION,
-            Operators.SUBTRACTION,
-            Operators.DIVISION,
-            Operators.MULTIPLICATION
-    });
-
     @Test
     public void testVagueExtractor() {
-        Snippet snippet = PandaLexer.of(new PandaSyntax())
-                .build()
-                .convert(SOURCE);
-
-        ProgressivePatternResult result = EXTRACTOR.extract(snippet);
-
-        Assertions.assertNotNull(result);
-        Assertions.assertTrue(result.isMatched());
-        Assertions.assertEquals(3, result.size());
-
-        Assertions.assertAll(
-                () -> Assertions.assertEquals("( new Integer ( 5 ) . intValue ( ) + 3 )", result.get(0)),
-                () -> Assertions.assertEquals("+", result.get(1)),
-                () -> Assertions.assertEquals("2", result.get(2))
-        );
     }
 
 }

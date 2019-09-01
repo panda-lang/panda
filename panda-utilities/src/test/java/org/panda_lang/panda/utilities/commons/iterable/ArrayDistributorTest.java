@@ -21,22 +21,8 @@ import org.junit.jupiter.api.Test;
 
 final class ArrayDistributorTest {
 
-    private static final String[] array = { "a", "b", "c", "d", "e" };
-
     @Test
     void testArrayDistributor() {
-        ArrayDistributor<String> distributor = new ArrayDistributor<>(array);
-        distributor.setIndex(2);
-
-        Assertions.assertAll(
-                () -> Assertions.assertEquals("a", distributor.getPrevious(2)),
-                () -> Assertions.assertEquals("b", distributor.getPrevious()),
-
-                () -> Assertions.assertEquals("c", distributor.current()),
-
-                () -> Assertions.assertEquals("d", distributor.further()),
-                () -> Assertions.assertEquals("e", distributor.future())
-        );
     }
 
 }

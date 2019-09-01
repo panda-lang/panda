@@ -31,26 +31,18 @@ import org.panda_lang.panda.framework.design.architecture.Application;
 @Warmup(time = 1, iterations = 1)
 @Fork(1)
 public class MatmulPerformanceTest {
-
-    private Application matmulApplication;
-
-    @Setup
     public void setup() {
-        this.matmulApplication = Launcher.interpret("performance", "matmul.panda");
     }
 
     @Benchmark
     public void benchmarkMatmulPanda() {
-        matmulApplication.launch();
     }
 
     @Benchmark
     public void benchmarkMatmulJava() {
-        MatmulJava.main();
     }
 
     public static void main(String[] args) throws Exception {
-        new Runner(new OptionsBuilder().include(MatmulPerformanceTest.class.getName()).build()).run();
     }
 
 }

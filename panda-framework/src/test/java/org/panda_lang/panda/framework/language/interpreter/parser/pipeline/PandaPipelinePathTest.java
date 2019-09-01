@@ -31,46 +31,28 @@ import java.util.Arrays;
 
 class PandaPipelinePathTest implements Pipelines {
 
-    private static final PipelineComponent<?> TEST_COMPONENT = PipelineComponent.of(PandaPipelinePathTest.class, "test", Parser.class);
-    private static final PipelineComponent<?> ANOTHER_TEST_COMPONENT = PipelineComponent.of(PandaPipelinePathTest.class, "another-test", Parser.class);
-
-    private PipelinePath defaultPath;
-
     @BeforeEach
     void prepareDefaultPipelinePath() {
-        this.defaultPath = new PandaPipelinePath();
-        defaultPath.createPipeline(TEST_COMPONENT);
     }
 
     @Test
     void createPipeline() {
-        Assertions.assertNotNull(defaultPath.createPipeline(ANOTHER_TEST_COMPONENT));
     }
 
     @Test
     void hasPipeline() {
-        Assertions.assertTrue(defaultPath.hasPipeline(TEST_COMPONENT));
-        Assertions.assertFalse(defaultPath.hasPipeline(ANOTHER_TEST_COMPONENT));
     }
 
     @Test
     void getPipeline() {
-        Assertions.assertNotNull(defaultPath.getPipeline(TEST_COMPONENT));
-        Assertions.assertNull(defaultPath.getPipeline(ANOTHER_TEST_COMPONENT));
     }
 
     @Test
     void getTotalHandleTime() {
-        Assertions.assertNull(defaultPath.getPipeline(TEST_COMPONENT)
-                .handle(new PandaContext(), new PandaChannel(), PandaTokenRepresentation.of(TokenType.UNKNOWN, "test").toSnippet())
-                .getParser().orElse(null));
-
-        Assertions.assertTrue(defaultPath.getTotalHandleTime() > 0);
     }
 
     @Test
     void names() {
-        Assertions.assertTrue(Arrays.asList("all", "test").containsAll(defaultPath.names()));
     }
 
 }

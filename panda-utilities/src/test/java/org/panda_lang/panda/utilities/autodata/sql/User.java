@@ -25,13 +25,4 @@ import java.util.UUID;
 
 @Entity
 public interface User extends DataEntity {
-
-    void setName(String name);
-
-    String getName();
-
-    @Id
-    @Generated
-    UUID getId();
-
 }

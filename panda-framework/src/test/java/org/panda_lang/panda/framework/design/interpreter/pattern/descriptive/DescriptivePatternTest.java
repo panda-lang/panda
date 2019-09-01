@@ -22,73 +22,26 @@ class DescriptivePatternTest {
 
     @Test
     public void testMethodPattern() {
-        DescriptivePatternTester.test(
-                "(method|local|hidden) [static] [<return-type>] <name> `( [<*parameters>] `) `{ <*body> `}",
-
-                "method void anotherEcho() { Console.print(message); }",
-
-                DescriptivePatternTester.Wildcard.of("return-type", "void"),
-                DescriptivePatternTester.Wildcard.of("name", "anotherEcho"),
-                DescriptivePatternTester.Wildcard.of("*body", "Console.print(message);")
-        );
     }
 
     @Test
     public void testImportPattern() {
-        DescriptivePatternTester.test(
-                "import <import:condition token {type:unknown}, token {type:separator}, token {type:operator}>[;]",
-
-                "import panda-lang",
-
-                DescriptivePatternTester.Wildcard.of("import", "panda-lang")
-        );
     }
 
     @Test
     public void testModulePattern() {
-        DescriptivePatternTester.test(
-                "module <module:condition token {type:unknown}, token {type:separator}, token {type:operator}>[;]",
-
-                "module example-test import panda-lang;",
-
-                DescriptivePatternTester.Wildcard.of("module", "example-test")
-        );
     }
 
     @Test
     public void testMethod() {
-        DescriptivePatternTester.test(
-                "<*expression> `( [<*parameters>] `)",
-
-                "a.b().c(d)",
-
-                DescriptivePatternTester.Wildcard.of("*expression", "a.b")
-        );
     }
 
     @Test
     public void testStaticMethod() {
-        DescriptivePatternTester.test(
-                "[<*instance> .] <name> `( <*arguments> `) [;]",
-
-                "Console.print(message3);",
-
-                DescriptivePatternTester.Wildcard.of("*instance", "Console"),
-                DescriptivePatternTester.Wildcard.of("name", "print"),
-                DescriptivePatternTester.Wildcard.of("*arguments", "message3")
-        );
     }
 
     @Test
     public void testField() {
-        DescriptivePatternTester.test(
-                "(p:public|l:local|h:hidden) s:[static] m:[mut] n:[nil] <type:reader type> <name:condition token {type:unknown}> [= <assignation:reader expression>][;]",
-
-                "hidden mut Test testField",
-
-                DescriptivePatternTester.Wildcard.of("type", "Test"),
-                DescriptivePatternTester.Wildcard.of("name", "testField")
-        );
     }
 
 }

@@ -26,33 +26,14 @@ final class MapsTest {
 
     @Test
     void swapped() {
-        Map<String, Integer> map = new HashMap<String, Integer>() {{
-            put("a", 1);
-            put("b", 2);
-        }};
-
-        Map<Integer, String> swapped = Maps.swapped(map, HashMap::new);
-
-        Assertions.assertEquals("a", swapped.get(1));
-        Assertions.assertEquals("b", swapped.get(2));
     }
 
     @Test
     void entryOf() {
-        Map.Entry<String, Integer> entry = Maps.entryOf("a", 1);
-        Assertions.assertEquals("a", entry.getKey());
-        Assertions.assertEquals(1, entry.getValue());
-
-        entry.setValue(2);
-        Assertions.assertEquals(2, entry.getValue());
     }
 
     @Test
     void immutableEntryOf() {
-        Map.Entry<String, Integer> entry = Maps.immutableEntryOf("a", 1);
-        Assertions.assertEquals("a", entry.getKey());
-        Assertions.assertEquals(1, entry.getValue());
-        Assertions.assertThrows(UnsupportedOperationException.class, () -> entry.setValue(2));
     }
 
 }

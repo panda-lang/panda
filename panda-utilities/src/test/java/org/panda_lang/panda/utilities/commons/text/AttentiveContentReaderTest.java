@@ -23,23 +23,8 @@ import java.util.List;
 
 final class AttentiveContentReaderTest {
 
-    private static final String CONTENT = "Test|Bracket(|)|String\"|\"|Test";
-    private static final char SEPARATOR = '|';
-
     @Test
     void testAttentiveContentReader() {
-        AttentiveContentReader attentiveContentReader = new AttentiveContentReader(CONTENT);
-        List<String> selected = attentiveContentReader.select(SEPARATOR);
-
-        Assertions.assertNotNull(selected);
-        Assertions.assertEquals(4, selected.size());
-
-        Assertions.assertAll(
-                () -> Assertions.assertEquals("Test", selected.get(0)),
-                () -> Assertions.assertEquals("Bracket(|)", selected.get(1)),
-                () -> Assertions.assertEquals("String\"|\"", selected.get(2)),
-                () -> Assertions.assertEquals("Test", selected.get(3))
-        );
     }
 
 }

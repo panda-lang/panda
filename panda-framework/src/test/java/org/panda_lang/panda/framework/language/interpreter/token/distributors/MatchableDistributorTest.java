@@ -25,16 +25,8 @@ import org.panda_lang.panda.framework.language.resource.syntax.PandaSyntax;
 
 public class MatchableDistributorTest {
 
-    private static final Source SOURCE = new PandaSource("MatchableDistributorTest", "test [ a { b } c ] element");
-
     @Test
     public void testMatchable() {
-        Lexer lexer = PandaLexer.of(new PandaSyntax()).build();
-        MatchableDistributor distributor = new MatchableDistributor(new TokenDistributor(lexer.convert(SOURCE)));
-
-        while (distributor.hasNext()) {
-            System.out.println(distributor.nextVerified() + " isMatchable=" + distributor.isMatchable());
-        }
     }
 
 }

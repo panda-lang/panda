@@ -25,11 +25,4 @@ import java.util.UUID;
 
 @Repository
 public interface UserRepository extends SQLRepository<User> {
-
-    User createUser(@As("name") String name);
-
-    Optional<User> findUserByName(String name);
-
-    User findByNameOrId(String name, UUID id);
-
 }

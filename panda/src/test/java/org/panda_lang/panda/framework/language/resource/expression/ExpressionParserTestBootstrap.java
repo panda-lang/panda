@@ -37,51 +37,22 @@ import java.util.HashMap;
 
 class ExpressionParserTestBootstrap {
 
-    private static ExpressionParser PARSER;
-    private static Context DATA;
-
     @BeforeAll
     public static void load() {
-        PARSER = new PandaExpressionParser(PandaExpressionUtils.collectSubparsers());
-        DATA = prepareData();
     }
 
     @BeforeEach
     public void emptyLine() {
-        System.out.println(StringUtils.EMPTY);
-    }
-
-    protected static Context prepareData() {
-        return PandaParserDataUtils.createFakeData(context -> new HashMap<VariableData, Object>() {{
-            put(new PandaVariableData(PandaTypes.STRING.getReference(), "variable"), null);
-            put(new PandaVariableData(PandaTypes.STRING.toArray(context.getComponent(UniversalComponents.MODULE_LOADER)), "array"), null);
-            put(new PandaVariableData(PandaTypes.INT.getReference(), "i", true, false), null);
-        }});
     }
 
     protected static void parse(String source, String message) {
-        parse(source, PandaExpressionParserFailure.class, message);
+
     }
 
     protected static void parse(String source, Class<? extends Throwable> clazz, String message) {
-        Throwable throwable = Assertions.assertThrows(clazz, () -> parse(source));
-        Assertions.assertEquals(message, throwable.getLocalizedMessage());
-        System.out.println(source + ": " + message);
     }
 
     protected static void parse(String source) {
-        SourceStream stream = new PandaSourceStream(PandaLexerUtils.convert(source));
-
-        DATA.withComponent(UniversalComponents.SOURCE, stream.toSnippet());
-        DATA.withComponent(UniversalComponents.STREAM, stream);
-
-        Expression expression = PARSER.parse(DATA, stream);
-
-        if (stream.hasUnreadSource()) {
-            throw new RuntimeException("Unread source: " + stream.toSnippet());
-        }
-
-        System.out.println(source + ": " + expression);
     }
 
 }

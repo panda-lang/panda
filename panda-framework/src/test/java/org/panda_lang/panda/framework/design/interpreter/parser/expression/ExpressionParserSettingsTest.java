@@ -25,32 +25,22 @@ class ExpressionParserSettingsTest {
 
     @Test
     void includeSelected() {
-        Assertions.assertNull(ExpressionParserSettings.create().getSelectedMode());
-        Assertions.assertTrue(ExpressionParserSettings.create().excludeSelected().getSelectedMode());
-        Assertions.assertFalse(ExpressionParserSettings.create().includeSelected().getSelectedMode());
     }
 
     @Test
     void withSelectedSubparsers() {
-        Assertions.assertEquals(Collections.singletonList("a"), ExpressionParserSettings.create().withSelectedSubparsers("a").getSelectedSubparsers());
-        Assertions.assertNotEquals(Collections.singletonList("a"), ExpressionParserSettings.create().withSelectedSubparsers(Collections.emptyList()).getSelectedSubparsers());
     }
 
     @Test
     void isStandaloneOnly() {
-        Assertions.assertTrue(ExpressionParserSettings.create().onlyStandalone().isStandaloneOnly());
     }
 
     @Test
     void isCombined() {
-        Assertions.assertTrue(ExpressionParserSettings.create().withCombinedExpressions().isCombined());
     }
 
     @Test
     void create() {
-        ExpressionParserSettings settings = ExpressionParserSettings.create();
-        Assertions.assertNotNull(settings);
-        Assertions.assertEquals(ExpressionParserSettings.DEFAULT, settings);
     }
 
 }

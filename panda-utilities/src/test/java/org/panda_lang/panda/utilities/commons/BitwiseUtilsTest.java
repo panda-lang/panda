@@ -20,26 +20,16 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 final class BitwiseUtilsTest {
-
-    private static final int LEFT = 111;
-    private static final int RIGHT = 222;
-
-    private static final long EXPECTED_VALUE = 476_741_370_078L;
-    private static final long VALUE = BitwiseUtils.convert(LEFT, RIGHT);
-
     @Test
     void testValue() {
-        Assertions.assertEquals(EXPECTED_VALUE, VALUE);
     }
 
     @Test
     void extractLeft() {
-        Assertions.assertEquals(LEFT, BitwiseUtils.extractLeft(VALUE));
     }
 
     @Test
     void extractRight() {
-        Assertions.assertEquals(RIGHT, BitwiseUtils.extractRight(VALUE));
     }
 
 }
