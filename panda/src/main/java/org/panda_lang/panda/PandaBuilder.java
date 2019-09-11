@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.framework.language.resource.PandaLanguage;
-import org.panda_lang.panda.framework.language.resource.PandaResources;
+import org.panda_lang.panda.language.resource.PandaLanguage;
+import org.panda_lang.panda.language.resource.PandaResources;
 
 public class PandaBuilder {
 

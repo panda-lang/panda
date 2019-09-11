@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
 import org.panda_lang.panda.framework.design.architecture.dynamic.LivingFrame;
 import org.panda_lang.panda.framework.design.architecture.statement.Cell;
 import org.panda_lang.panda.framework.design.runtime.Process;
-import org.panda_lang.panda.framework.language.runtime.flow.PandaControlFlowController;
+import org.panda_lang.panda.language.runtime.flow.PandaControlFlowController;
 
 import java.util.Collection;
 

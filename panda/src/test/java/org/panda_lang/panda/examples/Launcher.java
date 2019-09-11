@@ -21,7 +21,7 @@ import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.bootstrap.PandaApplicationBootstrap;
 import org.panda_lang.panda.framework.PandaFramework;
-import org.panda_lang.panda.framework.PandaFrameworkLoggerUtils;
+import org.panda_lang.panda.framework.PandaFrameworkLogger;
 import org.panda_lang.panda.framework.design.architecture.Application;
 import org.panda_lang.panda.utilities.commons.TimeUtils;
 
@@ -49,7 +49,7 @@ public final class Launcher {
     }
 
     public static Application interpret(String directory, String file) {
-        PandaFrameworkLoggerUtils.printJVMUptime();
+        PandaFrameworkLogger.printJVMUptime();
 
         PandaFactory factory = new PandaFactory();
         Panda panda = factory.createPanda();

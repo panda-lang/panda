@@ -20,9 +20,9 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.PandaFrameworkException;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
-import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
+import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
+import org.panda_lang.panda.language.interpreter.token.PandaSnippet;
+import org.panda_lang.panda.language.interpreter.token.distributors.TokenDistributor;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.util.ArrayList;

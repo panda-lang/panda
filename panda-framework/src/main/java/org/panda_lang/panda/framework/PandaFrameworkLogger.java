@@ -16,10 +16,11 @@
 
 package org.panda_lang.panda.framework;
 
+import org.panda_lang.panda.utilities.commons.TimeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PandaFrameworkLogger {
+public final class PandaFrameworkLogger {
 
     protected static Logger PANDA_FRAMEWORK_LOGGER = LoggerFactory.getLogger("Panda Framework");
 
@@ -30,6 +31,16 @@ public class PandaFrameworkLogger {
      */
     public static void setLogger(Logger logger) {
         PANDA_FRAMEWORK_LOGGER = logger;
+    }
+
+    /**
+     * Print current JVM startup time.
+     * The method should be called as fast as it is possible.
+     */
+    public static void printJVMUptime() {
+        PandaFramework.getLogger().debug("");
+        PandaFramework.getLogger().debug("JVM launch time: " + TimeUtils.getJVMUptime() + "ms (｡•́︿•̀｡)");
+        PandaFramework.getLogger().debug("");
     }
 
 }

@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser;
 
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
 
 public interface SourceParser<T> extends Parser {
 

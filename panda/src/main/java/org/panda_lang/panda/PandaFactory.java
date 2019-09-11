@@ -18,20 +18,20 @@ package org.panda_lang.panda;
 
 import org.panda_lang.panda.bootstrap.PandaBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
-import org.panda_lang.panda.framework.language.interpreter.messenger.formatters.EnvironmentFormatter;
-import org.panda_lang.panda.framework.language.interpreter.messenger.formatters.ParserFailureFormatter;
-import org.panda_lang.panda.framework.language.interpreter.messenger.formatters.SourceFragmentFormatter;
-import org.panda_lang.panda.framework.language.interpreter.messenger.formatters.StacktraceFormatter;
-import org.panda_lang.panda.framework.language.interpreter.messenger.formatters.ThrowableFormatter;
-import org.panda_lang.panda.framework.language.interpreter.messenger.layouts.ExceptionTranslatorLayout;
-import org.panda_lang.panda.framework.language.interpreter.messenger.layouts.InterpreterFailureTranslatorLayout;
-import org.panda_lang.panda.framework.language.interpreter.messenger.layouts.PandaLexerFailureTranslatorLayout;
-import org.panda_lang.panda.framework.language.interpreter.messenger.layouts.ParserFailureTranslatorLayout;
-import org.panda_lang.panda.framework.language.interpreter.messenger.mappers.StacktraceMapper;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.framework.language.resource.PandaParsers;
-import org.panda_lang.panda.framework.language.resource.expression.subparsers.assignation.AssignationParsers;
-import org.panda_lang.panda.framework.language.resource.syntax.PandaSyntax;
+import org.panda_lang.panda.language.interpreter.messenger.formatters.EnvironmentFormatter;
+import org.panda_lang.panda.language.interpreter.messenger.formatters.ParserFailureFormatter;
+import org.panda_lang.panda.language.interpreter.messenger.formatters.SourceFragmentFormatter;
+import org.panda_lang.panda.language.interpreter.messenger.formatters.StacktraceFormatter;
+import org.panda_lang.panda.language.interpreter.messenger.formatters.ThrowableFormatter;
+import org.panda_lang.panda.language.interpreter.messenger.layouts.ExceptionTranslatorLayout;
+import org.panda_lang.panda.language.interpreter.messenger.layouts.InterpreterFailureTranslatorLayout;
+import org.panda_lang.panda.language.interpreter.messenger.layouts.PandaLexerFailureTranslatorLayout;
+import org.panda_lang.panda.language.interpreter.messenger.layouts.ParserFailureTranslatorLayout;
+import org.panda_lang.panda.language.interpreter.messenger.mappers.StacktraceMapper;
+import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.language.resource.PandaParsers;
+import org.panda_lang.panda.language.resource.expression.subparsers.assignation.AssignationParsers;
+import org.panda_lang.panda.language.resource.syntax.PandaSyntax;
 
 public class PandaFactory {
 

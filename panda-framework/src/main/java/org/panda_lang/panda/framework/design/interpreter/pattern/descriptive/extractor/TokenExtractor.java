@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.ex
 
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.framework.design.interpreter.token.SourceStream;
 
 public class TokenExtractor {
 

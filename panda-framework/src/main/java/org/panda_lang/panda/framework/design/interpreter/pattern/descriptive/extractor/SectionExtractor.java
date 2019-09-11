@@ -19,8 +19,8 @@ package org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.ex
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternSection;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
-import org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Section;
+import org.panda_lang.panda.language.interpreter.token.distributors.TokenDistributor;
+import org.panda_lang.panda.language.resource.syntax.auxiliary.Section;
 
 final class SectionExtractor extends AbstractElementExtractor<LexicalPatternSection> {
 

@@ -17,9 +17,7 @@
 package org.panda_lang.panda.framework.design.interpreter.token;
 
 import org.panda_lang.panda.framework.design.interpreter.source.SourceLocation;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippetable;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
+import org.panda_lang.panda.language.interpreter.token.PandaSnippet;
 
 import java.util.Optional;
 

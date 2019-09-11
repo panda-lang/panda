@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor;
 
 import org.panda_lang.panda.framework.PandaFrameworkException;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
 
 public final class ExtractorUtils {
 
