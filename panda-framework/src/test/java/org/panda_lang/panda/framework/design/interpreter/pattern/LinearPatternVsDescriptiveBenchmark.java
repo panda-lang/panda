@@ -25,8 +25,8 @@ import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.linear.LinearPattern;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerUtils;
+import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
+import org.panda_lang.panda.language.interpreter.lexer.PandaLexerUtils;
 
 @Fork(value = 1)
 @Warmup(iterations = 1)

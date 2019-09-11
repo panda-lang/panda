@@ -19,11 +19,11 @@ package org.panda_lang.panda.framework.design.interpreter.pattern.descriptive;
 import org.junit.jupiter.api.Assertions;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternElement;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaContext;
-import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
-import org.panda_lang.panda.framework.language.resource.syntax.PandaSyntax;
+import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
+import org.panda_lang.panda.language.interpreter.lexer.PandaLexer;
+import org.panda_lang.panda.language.interpreter.parser.PandaContext;
+import org.panda_lang.panda.language.interpreter.source.PandaSource;
+import org.panda_lang.panda.language.resource.syntax.PandaSyntax;
 
 class DescriptivePatternTester {
 

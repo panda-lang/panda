@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.interpreter.lexer;
 
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
 
 public interface Lexer {
 

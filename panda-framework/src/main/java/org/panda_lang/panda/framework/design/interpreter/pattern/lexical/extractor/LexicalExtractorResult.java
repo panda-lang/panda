@@ -19,8 +19,8 @@ package org.panda_lang.panda.framework.design.interpreter.pattern.lexical.extrac
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.pattern.MatcherResult;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.processed.ProcessedValue;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippetable;
+import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.util.ArrayList;

@@ -23,8 +23,8 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.element
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternSection;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternUnit;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternWildcard;
-import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
-import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.panda.language.resource.syntax.separator.Separator;
+import org.panda_lang.panda.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.CharacterUtils;
 import org.panda_lang.panda.utilities.commons.StringUtils;

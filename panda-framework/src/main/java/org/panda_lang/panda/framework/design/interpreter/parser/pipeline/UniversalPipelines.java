@@ -52,7 +52,7 @@ public final class UniversalPipelines implements Pipelines {
      */
     public static final String SCOPE_LABEL = "scope";
     /**
-     * Container parsers, used by {@link org.panda_lang.panda.framework.language.resource.parsers.ScopeParser}
+     * Container parsers, used by {@link org.panda_lang.panda.language.resource.parsers.ScopeParser}
      */
     public static final PipelineComponent<ContextParser> SCOPE = PipelineComponent.of(UniversalPipelines.class, SCOPE_LABEL, ContextParser.class);
 

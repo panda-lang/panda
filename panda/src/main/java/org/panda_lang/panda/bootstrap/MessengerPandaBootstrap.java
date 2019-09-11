@@ -17,11 +17,11 @@
 package org.panda_lang.panda.bootstrap;
 
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerOutputListener;
-import org.panda_lang.panda.framework.language.interpreter.messenger.MessengerDataFormatter;
-import org.panda_lang.panda.framework.language.interpreter.messenger.MessengerDataFormatterManager;
-import org.panda_lang.panda.framework.language.interpreter.messenger.MessengerDataMapper;
-import org.panda_lang.panda.framework.language.interpreter.messenger.PandaTranslatorLayout;
-import org.panda_lang.panda.framework.language.interpreter.messenger.PandaTranslatorLayoutManager;
+import org.panda_lang.panda.language.interpreter.messenger.MessengerDataFormatter;
+import org.panda_lang.panda.language.interpreter.messenger.MessengerDataFormatterManager;
+import org.panda_lang.panda.language.interpreter.messenger.MessengerDataMapper;
+import org.panda_lang.panda.language.interpreter.messenger.PandaTranslatorLayout;
+import org.panda_lang.panda.language.interpreter.messenger.PandaTranslatorLayoutManager;
 
 import java.util.ArrayList;
 import java.util.Collection;

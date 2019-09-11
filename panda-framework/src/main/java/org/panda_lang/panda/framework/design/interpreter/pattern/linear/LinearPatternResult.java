@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.interpreter.pattern.linear;
 
 import org.panda_lang.panda.framework.design.interpreter.pattern.MatcherResult;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
 
 import java.util.List;
 import java.util.Map;

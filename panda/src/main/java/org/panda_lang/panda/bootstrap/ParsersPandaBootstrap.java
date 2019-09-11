@@ -18,10 +18,10 @@ package org.panda_lang.panda.bootstrap;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parsers;
-import org.panda_lang.panda.framework.language.interpreter.parser.loader.RegistrableLoader;
+import org.panda_lang.panda.language.interpreter.parser.loader.RegistrableLoader;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionSubparsers;
-import org.panda_lang.panda.framework.language.resource.expression.PandaExpressionUtils;
+import org.panda_lang.panda.language.interpreter.parser.expression.PandaExpressionSubparsers;
+import org.panda_lang.panda.language.resource.expression.PandaExpressionUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

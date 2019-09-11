@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.expression;
 
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParser;
+import org.panda_lang.panda.language.interpreter.parser.expression.PandaExpressionParser;
 
 import java.util.Collection;
 

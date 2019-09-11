@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.source;
 
-import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceSet;
+import org.panda_lang.panda.language.interpreter.source.PandaSourceSet;
 
 /**
  * Provider of code source instances.

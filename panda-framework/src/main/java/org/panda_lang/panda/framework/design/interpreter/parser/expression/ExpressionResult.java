@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.design.interpreter.parser.expression;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 import java.util.function.Supplier;

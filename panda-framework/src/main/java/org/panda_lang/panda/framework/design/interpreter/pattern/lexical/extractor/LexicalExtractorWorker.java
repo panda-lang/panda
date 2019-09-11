@@ -24,7 +24,7 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.element
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.processed.ProcessedValue;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.processed.WildcardProcessor;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenRepresentation;
+import org.panda_lang.panda.language.interpreter.token.PandaTokenRepresentation;
 
 import java.util.List;
 

@@ -23,13 +23,12 @@ import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.interpreter.Interpretation;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserDebug;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.SourceStream;
 
 public final class UniversalComponents {
 
@@ -58,8 +57,6 @@ public final class UniversalComponents {
 
     public static final Component<Scope> SCOPE = Component.of("scope", Scope.class);
 
-
-    public static final Component<ParserDebug> PARSER_DEBUG = Component.of("parser-debug", ParserDebug.class);
 
     public static final Component<Context> PARENT_DATA = Component.of("parent-data", Context.class);
 

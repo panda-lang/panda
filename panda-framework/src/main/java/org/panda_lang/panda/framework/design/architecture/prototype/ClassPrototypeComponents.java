@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.architecture.prototype;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.component.Component;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.structure.ClassPrototypeFrame;
+import org.panda_lang.panda.language.architecture.prototype.standard.structure.ClassPrototypeFrame;
 
 public final class ClassPrototypeComponents {
 

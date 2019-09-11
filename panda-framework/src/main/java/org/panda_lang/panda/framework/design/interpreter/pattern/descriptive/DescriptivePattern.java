@@ -24,9 +24,9 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.wil
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.wildcard.reader.WildcardReader;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.wildcard.reader.defaults.DefaultWildcardReaders;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternElement;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
+import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.SourceStream;
+import org.panda_lang.panda.language.interpreter.token.PandaSourceStream;
 
 import java.util.Collection;
 

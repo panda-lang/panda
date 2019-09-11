@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.wi
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
-import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
+import org.panda_lang.panda.language.interpreter.token.distributors.TokenDistributor;
 
 public class WildcardReaderCompiler {
 

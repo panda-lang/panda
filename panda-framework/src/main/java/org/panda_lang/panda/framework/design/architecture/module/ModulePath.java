@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.architecture.module;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.utilities.commons.StreamUtils;
 
 import java.util.Collection;

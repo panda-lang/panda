@@ -19,9 +19,9 @@ package org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.ex
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.wildcard.WildcardCompiler;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternWildcard;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
-import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
+import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
+import org.panda_lang.panda.language.interpreter.token.PandaSnippet;
+import org.panda_lang.panda.language.interpreter.token.distributors.TokenDistributor;
 
 class WildcardExtractor extends AbstractElementExtractor<LexicalPatternWildcard> {
 

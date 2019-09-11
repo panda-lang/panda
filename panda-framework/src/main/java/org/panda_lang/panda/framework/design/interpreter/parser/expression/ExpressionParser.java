@@ -18,10 +18,10 @@ package org.panda_lang.panda.framework.design.interpreter.parser.expression;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.interpreter.token.distributors.DiffusedSource;
+import org.panda_lang.panda.language.interpreter.token.distributors.DiffusedSource;
 
 import java.util.Optional;
 

@@ -17,8 +17,8 @@
 package org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor;
 
 import org.panda_lang.panda.framework.design.interpreter.pattern.MatcherResult;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippetable;
+import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.Snippetable;
 
 import java.util.ArrayList;
 import java.util.List;

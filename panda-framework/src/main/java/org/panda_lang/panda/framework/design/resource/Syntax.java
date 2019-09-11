@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.framework.design.resource;
 
-import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keyword;
-import org.panda_lang.panda.framework.language.resource.syntax.literal.Literal;
-import org.panda_lang.panda.framework.language.resource.syntax.operator.Operator;
-import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
-import org.panda_lang.panda.framework.language.resource.syntax.sequence.Sequence;
+import org.panda_lang.panda.language.resource.syntax.keyword.Keyword;
+import org.panda_lang.panda.language.resource.syntax.literal.Literal;
+import org.panda_lang.panda.language.resource.syntax.operator.Operator;
+import org.panda_lang.panda.language.resource.syntax.separator.Separator;
+import org.panda_lang.panda.language.resource.syntax.sequence.Sequence;
 
 import java.util.List;
 
@@ -43,7 +43,7 @@ public interface Syntax {
      *
      * @return list of sequences
      *
-     * @see org.panda_lang.panda.framework.language.resource.syntax.sequence.Sequence
+     * @see org.panda_lang.panda.language.resource.syntax.sequence.Sequence
      */
     List<? extends Sequence> getSequences();
 
@@ -52,7 +52,7 @@ public interface Syntax {
      *
      * @return list of separators
      *
-     * @see org.panda_lang.panda.framework.language.resource.syntax.separator.Separator
+     * @see org.panda_lang.panda.language.resource.syntax.separator.Separator
      */
     List<? extends Operator> getOperators();
 
@@ -61,7 +61,7 @@ public interface Syntax {
      *
      * @return list of separators
      *
-     * @see org.panda_lang.panda.framework.language.resource.syntax.separator.Separator
+     * @see org.panda_lang.panda.language.resource.syntax.separator.Separator
      */
     List<? extends Separator> getSeparators();
 
@@ -70,7 +70,7 @@ public interface Syntax {
      *
      * @return list of literals
      *
-     * @see org.panda_lang.panda.framework.language.resource.syntax.literal.Literal
+     * @see org.panda_lang.panda.language.resource.syntax.literal.Literal
      */
     List<? extends Literal> getLiterals();
 
@@ -79,7 +79,7 @@ public interface Syntax {
      *
      * @return list of keywords
      *
-     * @see org.panda_lang.panda.framework.language.resource.syntax.keyword.Keyword
+     * @see org.panda_lang.panda.language.resource.syntax.keyword.Keyword
      */
     List<? extends Keyword> getKeywords();
 
