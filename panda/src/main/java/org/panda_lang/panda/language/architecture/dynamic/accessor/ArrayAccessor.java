@@ -73,7 +73,7 @@ public final class ArrayAccessor implements Accessor {
     }
 
     @Override
-    public ArrayAssigner toAssigner(Expression value) {
+    public ArrayAssigner toAssigner(boolean initialize, Expression value) {
         return new ArrayAssigner(this, value);
     }
 

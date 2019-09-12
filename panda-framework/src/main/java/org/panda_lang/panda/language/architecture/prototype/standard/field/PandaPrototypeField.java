@@ -30,6 +30,7 @@ public class PandaPrototypeField extends PandaParameterizedExecutable implements
 
     private Expression defaultValue;
     private Object staticValue;
+    private boolean initialized;
 
     protected PandaPrototypeField(PandaPrototypeFieldBuilder builder) {
         super(builder);
@@ -39,6 +40,11 @@ public class PandaPrototypeField extends PandaParameterizedExecutable implements
         this.isNative = builder.isNative;
         this.mutable = builder.mutable;
         this.nillable = builder.nillable;
+    }
+
+    @Override
+    public void initialize() {
+        this.initialized = true;
     }
 
     @Override
@@ -69,6 +75,11 @@ public class PandaPrototypeField extends PandaParameterizedExecutable implements
     @Override
     public boolean isNative() {
         return isNative;
+    }
+
+    @Override
+    public boolean isInitialized() {
+        return initialized;
     }
 
     @Override

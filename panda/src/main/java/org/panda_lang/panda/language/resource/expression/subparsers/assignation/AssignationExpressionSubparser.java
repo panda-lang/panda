@@ -72,22 +72,22 @@ public class AssignationExpressionSubparser implements ExpressionSubparser {
     private static class AssignationExpressionSubparserWorker extends AbstractExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
-            Snippet source = context.getDiffusedSource().getSource();
+        public @Nullable ExpressionResult next(ExpressionContext expressionContext, TokenRepresentation token) {
+            Snippet source = expressionContext.getDiffusedSource().getSource();
             int index = OperatorUtils.indexOf(source, OperatorFamilies.ASSIGNATION);
 
             if (index == -1) {
                 return null;
             }
 
+            Context context = expressionContext.getContext();
             Snippet declaration = source.subSource(0, index);
-            SourceStream expressionSource = new PandaSourceStream(source.subSource(index + 1, source.size()));
 
-            Context assignationContext = context.getContext().fork()
+            Context assignationContext = context.fork()
                     .withComponent(PipelineComponents.CHANNEL, new PandaChannel())
-                    .withComponent(AssignationComponents.SCOPE, context.getContext().getComponent(UniversalComponents.SCOPE));
+                    .withComponent(AssignationComponents.SCOPE, context.getComponent(UniversalComponents.SCOPE));
 
-            HandleResult<AssignationSubparser> handleResult = context.getContext().getComponent(UniversalComponents.PIPELINE)
+            HandleResult<AssignationSubparser> handleResult = context.getComponent(UniversalComponents.PIPELINE)
                     .getPipeline(PandaPipelines.ASSIGNER)
                     .handle(assignationContext, assignationContext.getComponent(PipelineComponents.CHANNEL), declaration);
 
@@ -95,8 +95,10 @@ public class AssignationExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
+            SourceStream expressionSource = new PandaSourceStream(source.subSource(index + 1, source.size()));
+
             try {
-                Expression expression = context.getParser().parse(assignationContext, expressionSource);
+                Expression expression = expressionContext.getParser().parse(assignationContext, expressionSource);
 
                 @SuppressWarnings("OptionalGetWithoutIsPresent")
                 AssignationSubparser subparser = handleResult.getParser().get();
@@ -106,7 +108,7 @@ public class AssignationExpressionSubparser implements ExpressionSubparser {
                     return ExpressionResult.error("Cannot parse declaration", declaration);
                 }
 
-                context.getDiffusedSource().setIndex(declaration.size() + 1 + expressionSource.getReadLength());
+                expressionContext.getDiffusedSource().setIndex(declaration.size() + 1 + expressionSource.getReadLength());
                 Assignation assignation = new Assignation(assigner);
                 Expression assignationResult = assignation.toExpression();
 

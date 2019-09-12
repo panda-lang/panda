@@ -28,7 +28,7 @@ import org.panda_lang.panda.language.interpreter.parser.PandaParserFailure;
 public class ArrayValueAccessorUtils {
 
     public static Assigner of(Context context, Snippetable source, Expression instance, Expression index, Expression value) {
-        return of(context, source, instance, index).toAssigner(value);
+        return of(context, source, instance, index).toAssigner(true, value);
     }
 
     public static Accessor<?> of(Context context, Snippetable source, Expression instance, Expression index) {

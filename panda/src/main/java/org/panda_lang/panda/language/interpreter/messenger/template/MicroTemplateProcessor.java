@@ -61,7 +61,9 @@ final class MicroTemplateProcessor {
             lines[i] = CharacterUtils.BACKSPACE + prefix + lines[i];
         }
 
-        return ContentJoiner.on(System.lineSeparator()).join((Object) lines).toString();
+        return ContentJoiner.on(System.lineSeparator())
+                .join(lines)
+                .toString();
     }
 
     protected String colored(String content) {

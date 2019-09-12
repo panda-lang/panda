@@ -30,7 +30,7 @@ public interface Accessor<T extends Variable> {
 
     MemoryContainer fetchMemoryContainer(Flow flow);
 
-    Assigner<T> toAssigner(Expression value);
+    Assigner<T> toAssigner(boolean initialize, Expression value);
 
     default ClassPrototypeReference getTypeReference() {
         return getVariable().getType();

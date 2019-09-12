@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.function.Function;
 
-public class ContentJoiner {
+public final class ContentJoiner {
 
     private final String separator;
     private final StringBuilder builder;

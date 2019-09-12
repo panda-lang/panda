@@ -17,23 +17,25 @@
 package org.panda_lang.panda.language.resource.expression.subparsers.assignation.variable;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.language.architecture.dynamic.accessor.Accessor;
-import org.panda_lang.panda.language.architecture.dynamic.accessor.AccessorExpression;
-import org.panda_lang.panda.language.architecture.dynamic.assigner.Assigner;
+import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
-import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.language.architecture.dynamic.accessor.Accessor;
+import org.panda_lang.panda.language.architecture.dynamic.accessor.AccessorExpression;
+import org.panda_lang.panda.language.architecture.dynamic.assigner.Assigner;
+import org.panda_lang.panda.language.architecture.prototype.standard.constructor.ConstructorFrame;
 import org.panda_lang.panda.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Component;
+import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 import org.panda_lang.panda.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.panda.language.resource.expression.subparsers.assignation.AssignationPriorities;
 import org.panda_lang.panda.language.resource.expression.subparsers.assignation.AssignationSubparserBootstrap;
@@ -72,9 +74,9 @@ public class VariableAssignationSubparser extends AssignationSubparserBootstrap 
     }
 
     @Autowired
-    protected Assigner<?> parse(@Component Channel channel, @Component Expression expression) {
+    protected Assigner<?> parse(@Component Channel channel, @Component Scope scope, @Component Expression expression) {
         Accessor<?> accessor = channel.get("accessor", AccessorExpression.class).getAccessor();
-        return accessor.toAssigner(expression);
+        return accessor.toAssigner(scope.getFrame() instanceof ConstructorFrame, expression);
     }
 
 }
