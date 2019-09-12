@@ -105,7 +105,7 @@ public class VariableDeclarationSubparser extends AssignationSubparserBootstrap 
         VariableData variableData = dataInitializer.createVariableData(elements.type, elements.name, elements.mutable, elements.nillable);
         Variable variable = scope.createVariable(variableData);
 
-        return VariableAssignerUtils.of(context, variable, expression);
+        return VariableAssignerUtils.of(context, variable, true, expression);
     }
 
     static class Elements {

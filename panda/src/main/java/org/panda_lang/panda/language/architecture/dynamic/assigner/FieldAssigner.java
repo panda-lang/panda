@@ -16,19 +16,20 @@
 
 package org.panda_lang.panda.language.architecture.dynamic.assigner;
 
-import org.panda_lang.panda.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
-import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
+import org.panda_lang.panda.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.panda.language.runtime.PandaRuntimeException;
 
 public class FieldAssigner extends AbstractAssigner<PrototypeField> {
 
+    private final boolean initialize;
     private final Expression valueExpression;
 
-    public FieldAssigner(Accessor<PrototypeField> accessor, Expression valueExpression) {
+    public FieldAssigner(Accessor<PrototypeField> accessor, boolean initialize, Expression valueExpression) {
         super(accessor);
+        this.initialize = initialize;
         this.valueExpression = valueExpression;
     }
 
@@ -36,38 +37,27 @@ public class FieldAssigner extends AbstractAssigner<PrototypeField> {
     public void execute(Flow flow) {
         PrototypeField field = accessor.getVariable();
 
-        if (field.isStatic()) {
-            Object staticValue = valueExpression.evaluate(flow);
-
-            if (!field.isNillable() && staticValue == null) {
-                throw new PandaRuntimeException("Cannot assign null to static field '" + field.getName() + "' without nil modifier");
-            }
-
-            if (!field.isMutable() && field.getStaticValue() != null) {
-                throw new PandaRuntimeException("Cannot change value of immutable static field '" + field.getName() + "'");
-            }
-
-            field.setStaticValue(staticValue);
-            return;
+        if (!initialize && !field.isMutable()) {
+            throw new PandaRuntimeException("Cannot change value of immutable field '" + field.getName() + "'");
         }
 
-        MemoryContainer memory = accessor.fetchMemoryContainer(flow);
         Object value = valueExpression.evaluate(flow);
 
         if (value == null && !field.isNillable()) {
             throw new PandaRuntimeException("Cannot assign null to field  '" + field.getName() + "' without nil modifier");
         }
 
-        if (!field.isMutable() && memory.get(accessor.getMemoryPointer()) != null) {
-            throw new PandaRuntimeException("Cannot change value of immutable field '" + field.getName() + "'");
+        if (field.isStatic()) {
+            field.setStaticValue(value);
+            return;
         }
 
-        memory.set(accessor.getMemoryPointer(), value);
+        accessor.fetchMemoryContainer(flow).set(accessor.getMemoryPointer(), value);
     }
 
     @Override
     public String toString() {
-        return accessor.getVariable().getPrototype().getName() + "@f_memory[" + accessor.getMemoryPointer() + "] << " + valueExpression;
+        return accessor.getVariable().getPrototype().getName() + "assigner@f_memory[" + accessor.getMemoryPointer() + "] << " + valueExpression;
     }
 
 }

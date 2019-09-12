@@ -23,6 +23,7 @@ import org.panda_lang.panda.framework.design.architecture.statement.VariableData
 public class PandaVariable extends PandaVariableData implements Variable {
 
     protected final int pointer;
+    protected boolean initialized;
 
     public PandaVariable(int pointer, ClassPrototypeReference type, String name, boolean mutable, boolean nillable) {
         super(type, name, mutable, nillable);
@@ -36,6 +37,16 @@ public class PandaVariable extends PandaVariableData implements Variable {
 
     public PandaVariable(int pointer, VariableData data) {
         this(pointer, data.getType(), data.getName(), data.isMutable(), data.isNillable());
+    }
+
+    @Override
+    public void initialize() {
+        this.initialized = true;
+    }
+
+    @Override
+    public boolean isInitialized() {
+        return initialized;
     }
 
     @Override

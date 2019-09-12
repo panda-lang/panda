@@ -16,38 +16,38 @@
 
 package org.panda_lang.panda.language.architecture.dynamic.assigner;
 
-import org.panda_lang.panda.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.panda.framework.design.architecture.statement.Variable;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
-import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
+import org.panda_lang.panda.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.panda.language.runtime.PandaRuntimeException;
 
 public class VariableAssigner extends AbstractAssigner<Variable> {
 
+    private final boolean initialize;
     private final Expression expression;
 
-    public VariableAssigner(Accessor<Variable> accessor, Expression expression) {
+    public VariableAssigner(Accessor<Variable> accessor, boolean initialize, Expression expression) {
         super(accessor);
+        this.initialize = initialize;
         this.expression = expression;
     }
 
     @Override
     public void execute(Flow flow) {
         Variable variable = accessor.getVariable();
+
+        if (!initialize && !variable.isMutable()) {
+            throw new PandaRuntimeException("Cannot change value of immutable variable '" + variable.getName() + "'");
+        }
+
         Object value = expression.evaluate(flow);
 
         if (value == null && !variable.isNillable()) {
             throw new PandaRuntimeException("Cannot assign null to variable '" + variable.getName() + "' without nil modifier");
         }
 
-        MemoryContainer memory = accessor.fetchMemoryContainer(flow);
-
-        if (!variable.isMutable() && memory.get(accessor.getMemoryPointer()) != null) {
-            throw new PandaRuntimeException("Cannot change value of immutable variable '" + variable.getName() + "'");
-        }
-
-        memory.set(accessor.getMemoryPointer(), value);
+        accessor.fetchMemoryContainer(flow).set(accessor.getMemoryPointer(), value);
     }
 
     @Override

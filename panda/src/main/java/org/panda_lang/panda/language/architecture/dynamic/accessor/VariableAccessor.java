@@ -36,8 +36,8 @@ public class VariableAccessor extends DefaultAccessor<Variable> {
     }
 
     @Override
-    public Assigner<Variable> toAssigner(Expression value) {
-        return new VariableAssigner(this, value);
+    public Assigner<Variable> toAssigner(boolean initalize, Expression value) {
+        return new VariableAssigner(this, initalize, value);
     }
 
 }

@@ -22,6 +22,9 @@
    MatmulPerformanceTest.benchmarkMatmulJava   thrpt    5  49,364 ± 13,306  ops/s
    MatmulPerformanceTest.benchmarkMatmulPanda  thrpt    5   2,290 ±  0,320  ops/s
 
+ - 12.09.2019 (Java 8)
+   MatmulPerformanceTest.benchmarkMatmulJava   thrpt    5  52,975 ± 25,397  ops/s
+   MatmulPerformanceTest.benchmarkMatmulPanda  thrpt    5   3,386 ±  5,368  ops/s
 */
 module performance
 
@@ -74,7 +77,7 @@ class Matmul {
 }
 
 main {
-    mut Int n = 2
+    mut Int n = 100
 
     Matmul m = new Matmul()
     Double[][] a = m.matgen(n)

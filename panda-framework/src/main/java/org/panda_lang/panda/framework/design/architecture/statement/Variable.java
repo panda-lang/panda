@@ -19,6 +19,18 @@ package org.panda_lang.panda.framework.design.architecture.statement;
 public interface Variable extends VariableData {
 
     /**
+     * Mark variable as initialized
+     */
+    void initialize();
+
+    /**
+     * Check if the variable is initialized
+     *
+     * @return true if initialized
+     */
+    boolean isInitialized();
+
+    /**
      * Get the index that points the variable in memory
      *
      * @return the pointer
