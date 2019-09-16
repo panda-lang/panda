@@ -17,10 +17,11 @@
 package org.panda_lang.panda.language.resource.expression.subparsers.assignation.variable;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
 import org.panda_lang.panda.framework.design.architecture.statement.Variable;
 import org.panda_lang.panda.framework.design.architecture.statement.VariableData;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
@@ -29,7 +30,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.language.architecture.dynamic.assigner.Assigner;
-import org.panda_lang.panda.language.architecture.dynamic.assigner.VariableAssignerUtils;
+import org.panda_lang.panda.language.architecture.dynamic.assigner.AssignerExpression;
 import org.panda_lang.panda.language.architecture.statement.VariableDataInitializer;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
@@ -47,7 +48,7 @@ import java.util.Optional;
 public class VariableDeclarationSubparser extends AssignationSubparserBootstrap {
 
     @Override
-    protected BootstrapInitializer<@Nullable Assigner<?>> initialize(Context context, BootstrapInitializer<@Nullable Assigner<?>> initializer) {
+    protected BootstrapInitializer<@Nullable ExpressionResult> initialize(Context context, BootstrapInitializer<@Nullable ExpressionResult> initializer) {
         return initializer;
     }
 
@@ -98,17 +99,18 @@ public class VariableDeclarationSubparser extends AssignationSubparserBootstrap 
     }
 
     @Autowired
-    Assigner<?> parse(Context context, @Component Scope scope, @Component SourceStream source, @Component Channel channel, @Component Expression expression) {
+    ExpressionResult parse(Context context, @Component Scope scope, @Component SourceStream source, @Component Channel channel, @Component Expression expression) {
         Elements elements = channel.get("elements", Elements.class);
 
         VariableDataInitializer dataInitializer = new VariableDataInitializer(context, scope);
         VariableData variableData = dataInitializer.createVariableData(elements.type, elements.name, elements.mutable, elements.nillable);
         Variable variable = scope.createVariable(variableData);
 
-        return VariableAssignerUtils.of(context, variable, true, expression);
+        Assigner<Variable> assigner = VariableAssignerUtils.of(context, variable, true, expression);
+        return ExpressionResult.of(new AssignerExpression(assigner));
     }
 
-    static class Elements {
+    static final class Elements {
 
         private TokenRepresentation name;
         private Snippet type;

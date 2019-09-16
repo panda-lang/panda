@@ -17,13 +17,13 @@
 package org.panda_lang.panda.language.architecture.prototype.standard.method;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.architecture.dynamic.LivingFrame;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
+import org.panda_lang.panda.framework.design.runtime.Result;
 import org.panda_lang.panda.language.architecture.prototype.standard.parameter.ParameterUtils;
 import org.panda_lang.panda.language.architecture.prototype.standard.parameter.ParametrizedExecutableCallback;
-import org.panda_lang.panda.language.architecture.prototype.standard.structure.ClassPrototypeLivingFrame;
-import org.panda_lang.panda.language.runtime.PandaFlow;
 
-public class PandaMethodCallback implements ParametrizedExecutableCallback<ClassPrototypeLivingFrame> {
+public class PandaMethodCallback implements ParametrizedExecutableCallback<LivingFrame> {
 
     private final MethodFrame scope;
 
@@ -32,16 +32,16 @@ public class PandaMethodCallback implements ParametrizedExecutableCallback<Class
     }
 
     @Override
-    public Object invoke(Flow flow, @Nullable ClassPrototypeLivingFrame instance, Object[] arguments) {
-        Flow subFlow = new PandaFlow(flow, instance);
-
-        MethodLivingFrame scopeInstance = scope.revive(subFlow);
+    public @Nullable Object invoke(ProcessStack stack, @Nullable LivingFrame instance, Object[] arguments) {
+        MethodFrame.MethodLivingFrame scopeInstance = scope.revive(stack, instance);
         ParameterUtils.assignValues(scopeInstance, arguments);
+        Result<?> result = stack.call(scopeInstance, scopeInstance);
 
-        Flow methodBranch = subFlow.call(scopeInstance);
-        subFlow.setReturnValue(methodBranch.getReturnedValue());
+        if (result == null) {
+            return null;
+        }
 
-        return methodBranch.getReturnedValue();
+        return result.getResult();
     }
 
 }

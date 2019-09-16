@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.statement.Variable;
 import org.panda_lang.panda.language.architecture.dynamic.AbstractExecutableStatement;
 import org.panda_lang.panda.language.architecture.dynamic.accessor.Accessor;
 
-abstract class AbstractAssigner<T extends Variable> extends AbstractExecutableStatement implements Assigner<T> {
+public abstract class AbstractAssigner<T extends Variable> extends AbstractExecutableStatement implements Assigner<T> {
 
     protected final Accessor<T> accessor;
 

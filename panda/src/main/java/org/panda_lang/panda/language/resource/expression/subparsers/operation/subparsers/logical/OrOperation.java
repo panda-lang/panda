@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.resource.expression.subparsers.operation.s
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.language.resource.PandaTypes;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.rpn.RPNOperationAction;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.rpn.RPNOperationSupplier;
@@ -26,7 +26,7 @@ import org.panda_lang.panda.language.resource.expression.subparsers.operation.rp
 public class OrOperation implements RPNOperationSupplier, RPNOperationAction<Boolean, Boolean, Boolean> {
 
     @Override
-    public Boolean get(Flow flow, Boolean aValue, Boolean bValue) {
+    public Boolean get(ProcessStack stack, Boolean aValue, Boolean bValue) {
         return aValue || bValue;
     }
 

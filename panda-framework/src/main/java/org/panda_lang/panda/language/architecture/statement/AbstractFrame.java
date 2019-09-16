@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.architecture.statement;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.statement.Frame;
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
 
 public abstract class AbstractFrame extends AbstractScope implements Frame {
 

@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.language.architecture.prototype.standard.field.PandaPrototypeField;
 import org.panda_lang.panda.language.runtime.PandaRuntimeException;
 import org.panda_lang.panda.language.runtime.expression.PandaDynamicExpression;
@@ -60,9 +60,7 @@ final class ClassPrototypeFieldGenerator {
         Expression fieldExpression = new PandaExpression(new PandaDynamicExpression(returnType.fetch()) {
             @Override
             @SuppressWarnings("unchecked")
-            public Object call(Expression expression, Flow flow) {
-                Object instance = flow != null ? flow.getInstance() : null;
-
+            public Object call(ProcessStack flow, Object instance) {
                 try {
                     return field.get(instance);
                 } catch (IllegalAccessException e) {
@@ -72,7 +70,7 @@ final class ClassPrototypeFieldGenerator {
         });
 
         prototypeField.setDefaultValue(fieldExpression);
-        prototypeField.setStaticValue(prototypeField.isStatic() ? fieldExpression.evaluate(null) : null);
+        prototypeField.setStaticValue(prototypeField.isStatic() ? fieldExpression.evaluate(null, null) : null);
 
         return prototypeField;
     }

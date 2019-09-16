@@ -16,14 +16,17 @@
 
 package org.panda_lang.panda.language.resource.scope.block.conditional;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.panda_lang.panda.framework.design.architecture.dynamic.ControlledBlock;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.panda.framework.design.runtime.Result;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.language.architecture.dynamic.AbstractBlock;
 import org.panda_lang.panda.language.interpreter.parser.PandaParserException;
 
-class ConditionalBlock extends AbstractBlock {
+class ConditionalBlock extends AbstractBlock implements ControlledBlock {
 
     private final Expression condition;
     private Block elseBlock;
@@ -39,17 +42,18 @@ class ConditionalBlock extends AbstractBlock {
     }
 
     @Override
-    public void execute(Flow flow) {
-        Boolean flag = condition.evaluate(flow);
+    public @Nullable Result<?> controlledCall(ProcessStack stack, Object instance) {
+        Boolean flag = condition.evaluate(stack, instance);
 
         if (flag) {
-            flow.call(super.getCells());
-            return;
+            return stack.call(instance, this);
         }
 
         if (elseBlock != null) {
-            flow.call(elseBlock);
+            return stack.call(instance, elseBlock);
         }
+
+        return null;
     }
 
     public void setElseBlock(Block elseBlock) {

@@ -21,8 +21,8 @@ import org.panda_lang.panda.framework.design.architecture.prototype.method.Proto
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethods;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Arguments;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.language.architecture.prototype.standard.parameter.ParameterUtils;
 import org.panda_lang.panda.language.architecture.prototype.standard.parameter.ParametrizedPropertiesMatcher;
-import org.panda_lang.panda.language.interpreter.parser.expression.ExpressionUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -78,7 +78,7 @@ public class PandaMethods implements PrototypeMethods {
             return Optional.empty();
         }
 
-        return MATCHER.match(methods, ExpressionUtils.toTypes(arguments), arguments);
+        return MATCHER.match(methods, ParameterUtils.toTypes(arguments), arguments);
     }
 
     @Override

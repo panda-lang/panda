@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.design.architecture.dynamic;
 import org.panda_lang.panda.framework.design.architecture.statement.Frame;
 import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
 
-public interface LivingFrame extends StandaloneExecutable, MemoryContainer {
+public interface LivingFrame extends MemoryContainer {
 
     /**
      * @return the proper scope

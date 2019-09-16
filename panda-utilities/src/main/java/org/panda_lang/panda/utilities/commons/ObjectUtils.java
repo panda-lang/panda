@@ -42,6 +42,11 @@ public final class ObjectUtils {
         return clazz.cast(object);
     }
 
+    @SuppressWarnings("unchecked")
+    public static @Nullable <T> T cast(Object object) {
+        return (T) object;
+    }
+
     /**
      * Check if object is not null
      *

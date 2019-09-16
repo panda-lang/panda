@@ -16,12 +16,15 @@
 
 package org.panda_lang.panda.language.resource.scope.branching;
 
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Controller;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
+import org.panda_lang.panda.framework.design.runtime.Status;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.language.architecture.dynamic.AbstractExecutableStatement;
 import org.panda_lang.panda.utilities.commons.UnsafeUtils;
 
-final class Throw extends AbstractExecutableStatement {
+final class Throw extends AbstractExecutableStatement implements Controller {
 
     private final Expression value;
 
@@ -30,8 +33,14 @@ final class Throw extends AbstractExecutableStatement {
     }
 
     @Override
-    public void execute(Flow flow) {
-        UnsafeUtils.getUnsafe().throwException(value.evaluate(flow));
+    public @Nullable Object execute(ProcessStack stack, Object instance) {
+        UnsafeUtils.getUnsafe().throwException(value.evaluate(stack, instance));
+        return null;
+    }
+
+    @Override
+    public byte getStatus() {
+        return Status.THROW;
     }
 
 }

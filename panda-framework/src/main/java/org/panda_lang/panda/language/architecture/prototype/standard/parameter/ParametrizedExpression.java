@@ -21,11 +21,10 @@ import org.panda_lang.panda.framework.PandaFrameworkException;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Arguments;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.ParameterizedExecutable;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionValueType;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
-import org.panda_lang.panda.language.interpreter.parser.expression.ExpressionUtils;
-import org.panda_lang.panda.language.runtime.PandaFlow;
+import org.panda_lang.panda.framework.design.runtime.expression.ExpressionUtils;
 
 public final class ParametrizedExpression implements Expression {
 
@@ -45,18 +44,15 @@ public final class ParametrizedExpression implements Expression {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Object evaluate(Flow flow) {
-        Object[] values = ExpressionUtils.getValues(flow, arguments);
-        Object instance = flow.getInstance();
+    public Object evaluate(ProcessStack stack, Object instance) {
+        Object[] values = ExpressionUtils.getValues(stack, instance, arguments);
 
         if (instanceExpression != null) {
-            instance = instanceExpression.evaluate(flow);
+            instance = instanceExpression.evaluate(stack, instance);
         }
 
-        Flow executableFlow = new PandaFlow(flow, instance);
-
         try {
-            return executable.invoke(executableFlow, instance, values);
+            return executable.invoke(stack, instance, values);
         } catch (Exception e) {
             throw new PandaFrameworkException("Internal error: " + e.getMessage(), e);
         }

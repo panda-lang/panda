@@ -17,16 +17,16 @@
 package org.panda_lang.panda.language.resource.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserType;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
-import org.panda_lang.panda.language.interpreter.parser.expression.ExpressionUtils;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+import org.panda_lang.panda.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
+import org.panda_lang.panda.language.interpreter.parser.expression.ExpressionParserUtils;
 import org.panda_lang.panda.language.resource.PandaTypes;
 import org.panda_lang.panda.language.runtime.expression.ThisExpression;
 
@@ -57,13 +57,13 @@ public class LiteralExpressionSubparser implements ExpressionSubparser {
 
             switch (token.getValue()) {
                 case "true":
-                    return ExpressionUtils.toExpressionResult(PandaTypes.BOOLEAN, true);
+                    return ExpressionParserUtils.toExpressionResult(PandaTypes.BOOLEAN, true);
                 case "false":
-                    return ExpressionUtils.toExpressionResult(PandaTypes.BOOLEAN, false);
+                    return ExpressionParserUtils.toExpressionResult(PandaTypes.BOOLEAN, false);
+                case "null":
+                    return ExpressionParserUtils.toExpressionResult(null, null);
                 case "this":
                     return ExpressionResult.of(ThisExpression.of(context.getContext()));
-                case "null":
-                    return ExpressionUtils.toExpressionResult(null, null);
                 default:
                     throw new PandaParserException("Unknown literal: " + token);
             }

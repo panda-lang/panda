@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.resource.expression.subparsers;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.language.architecture.prototype.array.ArrayClassPrototype;
 import org.panda_lang.panda.language.runtime.expression.PandaDynamicExpression;
 
@@ -38,11 +38,11 @@ public class ArrayInstanceExpression extends PandaDynamicExpression {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Object call(Expression expression, Flow flow) {
+    public Object call(ProcessStack stack, Object instance) {
         int[] capacitiesValues = new int[capacities.length];
 
         for (int index = 0; index < capacitiesValues.length; index++) {
-            capacitiesValues[index] = capacities[index].evaluate(flow);
+            capacitiesValues[index] = capacities[index].evaluate(stack, instance);
         }
 
         return Array.newInstance(prototype.getAssociatedClass(), capacitiesValues);

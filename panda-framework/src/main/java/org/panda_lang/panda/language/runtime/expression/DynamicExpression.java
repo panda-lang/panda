@@ -18,11 +18,11 @@ package org.panda_lang.panda.language.runtime.expression;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 
 public interface DynamicExpression {
 
-    <T> T call(Expression expression, Flow flow);
+    <T> T call(ProcessStack stack, Object instance);
 
     ClassPrototype getReturnType();
 

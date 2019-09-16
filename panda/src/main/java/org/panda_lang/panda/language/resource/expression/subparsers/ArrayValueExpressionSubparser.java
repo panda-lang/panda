@@ -17,7 +17,6 @@
 package org.panda_lang.panda.language.resource.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
@@ -25,14 +24,13 @@ import org.panda_lang.panda.framework.design.interpreter.parser.expression.Expre
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.language.architecture.prototype.array.ArrayClassPrototype;
 import org.panda_lang.panda.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.language.resource.PandaTypes;
-import org.panda_lang.panda.language.resource.expression.subparsers.assignation.array.ArrayValueAccessorUtils;
+import org.panda_lang.panda.language.resource.expression.subparsers.assignation.array.ArrayAccessor;
+import org.panda_lang.panda.language.resource.expression.subparsers.assignation.array.ArrayValueAccessorParser;
 import org.panda_lang.panda.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.language.resource.syntax.separator.Separators;
-import org.panda_lang.panda.language.runtime.expression.PandaDynamicExpression;
 
 public class ArrayValueExpressionSubparser implements ExpressionSubparser {
 
@@ -47,6 +45,8 @@ public class ArrayValueExpressionSubparser implements ExpressionSubparser {
     }
 
     private static class ArrayValueWorker extends AbstractExpressionSubparserWorker {
+
+        private static final ArrayValueAccessorParser PARSER = new ArrayValueAccessorParser();
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
@@ -93,15 +93,8 @@ public class ArrayValueExpressionSubparser implements ExpressionSubparser {
             }
 
             // access the value
-            Accessor<?> accessor = ArrayValueAccessorUtils.of(context.getContext(), section.getContent(), instance, indexExpression);
-
-            return ExpressionResult.of(new PandaDynamicExpression(arrayClassPrototype.getType().fetch()) {
-                @Override
-                @SuppressWarnings("unchecked")
-                public Object call(Expression expression, Flow flow) {
-                    return accessor.getValue(flow);
-                }
-            }.toExpression());
+            ArrayAccessor accessor = PARSER.of(context.getContext(), section.getContent(), instance, indexExpression);
+            return ExpressionResult.of(accessor.toExpression());
         }
 
     }

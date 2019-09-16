@@ -21,7 +21,7 @@ import org.panda_lang.panda.utilities.commons.TimeUtils;
 @SuppressWarnings("WrapperTypeMayBePrimitive")
 final class MatmulJava {
 
-    public Number[][] matgen(Number n) {
+    Number[][] matgen(Number n) {
         Number[][] a = new Number[n.intValue()][n.intValue()];
         Double tmp = 1.0 / n.intValue() / n.intValue();
 
@@ -34,7 +34,7 @@ final class MatmulJava {
         return a;
     }
 
-    public Number[][] matmul(Number[][] a, Number[][] b) {
+    Number[][] matmul(Number[][] a, Number[][] b) {
         Number m = a.length,
                 n = a[0].length,
                 p = b[0].length;

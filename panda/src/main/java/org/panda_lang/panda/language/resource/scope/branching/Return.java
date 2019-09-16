@@ -16,11 +16,13 @@
 
 package org.panda_lang.panda.language.resource.scope.branching;
 
+import org.panda_lang.panda.framework.design.architecture.dynamic.Controller;
+import org.panda_lang.panda.framework.design.runtime.Status;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.language.architecture.dynamic.AbstractExecutableStatement;
 
-class Return extends AbstractExecutableStatement {
+class Return extends AbstractExecutableStatement implements Controller {
 
     private final Expression value;
 
@@ -29,12 +31,13 @@ class Return extends AbstractExecutableStatement {
     }
 
     @Override
-    public void execute(Flow flow) {
-        if (value != null) {
-            flow.returnValue(value.evaluate(flow));
-        }
+    public Object execute(ProcessStack stack, Object instance) {
+        return value != null ? value.evaluate(stack, instance) : null;
+    }
 
-        flow.interrupt();
+    @Override
+    public byte getStatus() {
+        return Status.RETURN;
     }
 
 }

@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.architecture.statement;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.statement.Frame;
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
 import org.panda_lang.panda.framework.design.architecture.statement.Cell;
 import org.panda_lang.panda.framework.design.architecture.statement.Variable;
@@ -34,7 +34,7 @@ public abstract class AbstractScope extends AbstractStatement implements Scope {
     protected final Frame frame;
     protected final Scope parent;
     protected final List<Variable> variables = new ArrayList<>();
-    protected final List<Cell> executableCells = new ArrayList<>();
+    protected final List<Cell> cells = new ArrayList<>();
 
     protected AbstractScope(Frame frame, @Nullable Scope parent) {
         this.frame = frame;
@@ -52,7 +52,7 @@ public abstract class AbstractScope extends AbstractStatement implements Scope {
 
     @Override
     public Cell addStatement(Statement executable) {
-        return Lists.add(executableCells, new PandaCell(executable));
+        return Lists.add(cells, new PandaCell(executable));
     }
 
     @Override
@@ -83,7 +83,7 @@ public abstract class AbstractScope extends AbstractStatement implements Scope {
 
     @Override
     public List<? extends Cell> getCells() {
-        return executableCells;
+        return cells;
     }
 
     @Override

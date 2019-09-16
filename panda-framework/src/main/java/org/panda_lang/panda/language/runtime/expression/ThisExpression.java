@@ -18,9 +18,11 @@ package org.panda_lang.panda.language.runtime.expression;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeComponents;
+import org.panda_lang.panda.framework.design.architecture.prototype.PropertyLivingFrame;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.utilities.commons.ObjectUtils;
 
 public class ThisExpression implements DynamicExpression {
 
@@ -31,8 +33,8 @@ public class ThisExpression implements DynamicExpression {
     }
 
     @Override
-    public <T> T call(Expression expression, Flow flow) {
-        return flow.getInstance();
+    public <T> T call(ProcessStack stack, Object instance) {
+        return ObjectUtils.cast(instance instanceof PropertyLivingFrame ? ((PropertyLivingFrame) instance).getInstance() : instance);
     }
 
     @Override

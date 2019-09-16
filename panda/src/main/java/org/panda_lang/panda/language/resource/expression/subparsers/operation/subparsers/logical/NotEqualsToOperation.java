@@ -16,13 +16,13 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers.logical;
 
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 
 public class NotEqualsToOperation extends EqualsToOperation {
 
     @Override
-    public Boolean get(Flow flow, Object a, Object b) {
-        return !super.get(flow, a, b);
+    public Boolean get(ProcessStack stack, Object a, Object b) {
+        return !super.get(stack, a, b);
     }
 
 }

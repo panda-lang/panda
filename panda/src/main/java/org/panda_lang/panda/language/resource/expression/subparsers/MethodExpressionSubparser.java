@@ -34,7 +34,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.expression.Expre
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.panda.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.language.interpreter.token.distributors.DiffusedSource;
-import org.panda_lang.panda.language.resource.prototype.parameter.ArgumentsParser;
+import org.panda_lang.panda.language.resource.head.ArgumentsParser;
 import org.panda_lang.panda.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.runtime.expression.StaticExpression;

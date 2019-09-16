@@ -16,11 +16,13 @@
 
 package org.panda_lang.panda.language.runtime;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.Application;
 import org.panda_lang.panda.framework.design.architecture.dynamic.LivingFrame;
 import org.panda_lang.panda.framework.design.architecture.statement.Frame;
 import org.panda_lang.panda.framework.design.runtime.Process;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
+import org.panda_lang.panda.framework.design.runtime.Result;
 
 public class PandaProcess implements Process {
 
@@ -35,13 +37,14 @@ public class PandaProcess implements Process {
     }
 
     @Override
-    public <T> T execute() {
-        LivingFrame instance = mainFrame.revive(null); // TODO: check behaviour of branch after applying the 'null' value
+    @SuppressWarnings("unchecked")
+    public @Nullable <T> T execute() {
+        LivingFrame instance = mainFrame.revive(null, null); // TODO: check behaviour of branch after applying the 'null' value
 
-        Flow flow = new PandaFlow(this, null, instance);
-        flow.call();
+        ProcessStack stack = new PandaProcessStack(this);
+        Result<?> result = stack.call(instance, instance);
 
-        return flow.getReturnedValue();
+        return result != null ? (T) result.getResult() : null;
     }
 
     public String[] getParameters() {

@@ -24,28 +24,9 @@ import java.lang.reflect.Constructor;
 
 public class PandaConstructor extends PandaParameterizedExecutable implements PrototypeConstructor {
 
-    // private final ClassPrototypeScope classScope;
-    // private final ConstructorScope constructorScope;
-
     private PandaConstructor(PandaConstructorBuilder builder) {
         super(builder);
     }
-
-    /*
-    @Override
-    public ClassPrototypeScopeFrame createInstance(Frame frame, Value... values) {
-        ClassPrototypeScopeFrame classInstance = classScope.createInstance(frame);
-        Value instance = new PandaStaticValue(classPrototype, classInstance);
-
-        ConstructorScopeFrame constructorInstance = constructorScope.createInstance(frame);
-        ParameterUtils.assignValues(constructorInstance, values);
-
-        frame.instance(instance);
-        frame.call(constructorInstance);
-
-        return classInstance;
-    }
-    */
 
     public static PandaConstructorBuilder builder() {
         return new PandaConstructorBuilder();

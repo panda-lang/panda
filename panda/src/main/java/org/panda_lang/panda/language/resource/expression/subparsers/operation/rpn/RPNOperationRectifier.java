@@ -17,8 +17,9 @@
 package org.panda_lang.panda.language.resource.expression.subparsers.operation.rpn;
 
 import org.panda_lang.panda.framework.PandaFrameworkException;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.runtime.expression.ExpressionValueType;
 import org.panda_lang.panda.language.resource.syntax.operator.Operator;
 import org.panda_lang.panda.language.runtime.expression.PandaDynamicExpression;
 import org.panda_lang.panda.language.runtime.expression.PandaExpression;
@@ -27,11 +28,11 @@ import org.panda_lang.panda.utilities.commons.ObjectUtils;
 import java.util.Map;
 import java.util.Stack;
 
-class RPNOperationRectifier {
+public class RPNOperationRectifier {
 
     private static final RPNOperationRectifier RECTIFIER = new RPNOperationRectifier();
 
-    public Expression rectify(Map<Operator, RPNOperationSupplier> suppliers, Stack<Object> elements) {
+    public Expression rectify(Map<Operator, RPNOperationSupplier> suppliers, Stack<?> elements) {
         Stack<Expression> values = new Stack<>();
 
         for (Object element : elements) {
@@ -52,11 +53,16 @@ class RPNOperationRectifier {
             Expression a = values.pop();
             RPNOperationAction<?, ?, ?> action = supplier.of(a, b);
 
+            if(a.getType() == ExpressionValueType.KNOWN && b.getType() == ExpressionValueType.KNOWN) {
+                values.push(new PandaExpression(action.returnType(), action.get(null, a.evaluate(null, null), b.evaluate(null, null))));
+                continue;
+            }
+
             Expression expression = new PandaExpression(new PandaDynamicExpression(action.returnType()) {
                 @Override
                 @SuppressWarnings("unchecked")
-                public Object call(Expression expression, Flow flow) {
-                    return action.get(flow, a.evaluate(flow), b.evaluate(flow));
+                public Object call(ProcessStack stack, Object instance) {
+                    return action.get(stack, a.evaluate(stack, instance), b.evaluate(stack, instance));
                 }
             });
 

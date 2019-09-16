@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.runtime.expression;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionValueType;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 
 import java.security.InvalidParameterException;
 
@@ -57,8 +57,8 @@ public class PandaExpression implements Expression {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Object evaluate(Flow flow) {
-        return type == ExpressionValueType.UNKNOWN ? callback.call(this, flow) : value;
+    public Object evaluate(ProcessStack stack, Object instance) {
+        return type == ExpressionValueType.KNOWN ? value : callback.call(stack, instance);
     }
 
     @Override

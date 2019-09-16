@@ -16,24 +16,18 @@
 
 package org.panda_lang.panda.language.architecture.prototype.standard.structure;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.statement.Frame;
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
-import org.panda_lang.panda.framework.design.architecture.statement.Statement;
-import org.panda_lang.panda.framework.design.architecture.statement.Cell;
-import org.panda_lang.panda.framework.design.architecture.statement.Variable;
-import org.panda_lang.panda.framework.design.architecture.statement.VariableData;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.language.architecture.dynamic.AbstractLivingFrame;
 import org.panda_lang.panda.language.architecture.prototype.standard.PandaClassPrototype;
-import org.panda_lang.panda.language.architecture.statement.AbstractStatement;
+import org.panda_lang.panda.language.architecture.statement.AbstractFrame;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class ClassPrototypeFrame extends AbstractStatement implements Frame {
+public class ClassPrototypeFrame extends AbstractFrame implements Frame {
 
     private final ClassPrototype prototype;
 
@@ -42,12 +36,12 @@ public class ClassPrototypeFrame extends AbstractStatement implements Frame {
     }
 
     @Override
-    public ClassPrototypeLivingFrame revive(Flow flow) {
+    public ClassPrototypeLivingFrame revive(ProcessStack stack, Object instance) {
         if (prototype instanceof PandaClassPrototype) {
             ((PandaClassPrototype) prototype).initialize();
         }
 
-        ClassPrototypeLivingFrame instance = new ClassPrototypeLivingFrame(this, prototype);
+        ClassPrototypeLivingFrame classInstance = new ClassPrototypeLivingFrame(this, prototype);
 
         for (PrototypeField field : prototype.getFields().getProperties()) {
             if (!field.hasDefaultValue() || field.isStatic()) {
@@ -55,69 +49,35 @@ public class ClassPrototypeFrame extends AbstractStatement implements Frame {
             }
 
             Expression expression = field.getDefaultValue();
-            instance.set(field.getFieldIndex(), expression.evaluate(flow));
+            classInstance.set(field.getFieldIndex(), expression.evaluate(stack, classInstance));
         }
 
-        return instance;
-    }
-
-    @Override
-    public int allocate() {
-        return -1;
-    }
-
-    @Override
-    public Cell reserveCell() {
-        return addStatement(null);
-    }
-
-    @Override
-    public Cell addStatement(Statement statement) {
-        throw new RuntimeException("Cannot add element to the class scope");
-    }
-
-    @Override
-    public Variable createVariable(VariableData variableData) {
-        throw new RuntimeException("Cannot create variable in the class scope");
-    }
-
-    @Override
-    public void addVariable(Variable variable) {
-        throw new RuntimeException("Cannot add variable to the class scope");
-    }
-
-    @Override
-    public Optional<Variable> getVariable(String name) {
-        return Optional.empty();
-    }
-
-    @Override
-    public @Nullable List<Variable> getVariables() {
-        return null;
-    }
-
-    @Override
-    public int getRequiredMemorySize() {
-        return prototype.getFields().size();
-    }
-
-    @Override
-    public @Nullable List<Cell> getCells() {
-        return null;
-    }
-
-    @Override
-    public Optional<Scope> getParent() {
-        return Optional.empty();
-    }
-
-    @Override
-    public Frame getFrame() {
-        return this;
+        return classInstance;
     }
 
     public ClassPrototype getPrototype() {
         return prototype;
+    }
+
+    public static class ClassPrototypeLivingFrame extends AbstractLivingFrame<ClassPrototypeFrame> {
+
+        private static final AtomicInteger idAssigner = new AtomicInteger();
+
+        private final int id;
+        private final ClassPrototype prototype;
+
+        public ClassPrototypeLivingFrame(ClassPrototypeFrame frame, ClassPrototype classPrototype) {
+            super(frame, classPrototype.getFields().getProperties().size());
+
+            this.id = idAssigner.getAndIncrement();
+            this.prototype = classPrototype;
+        }
+
+        @Override
+        public String toString() {
+            return prototype.getName() + "#" + String.format("%06X", id & 0xFFFFF);
+        }
+
     }
 
 }

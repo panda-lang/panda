@@ -17,15 +17,15 @@
 package org.panda_lang.panda.language.resource.expression.subparsers.assignation;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 @FunctionalInterface
-public interface AssignationSubparser extends Parser {
+public interface AssignationSubparser<T> extends Parser {
 
-    @Nullable Assigner<?> parseAssignment(Context context, Snippet declaration, Expression expression) throws Exception;
+    @Nullable ExpressionResult parseAssignment(Context context, Snippet declaration, Expression expression) throws Exception;
 
 }

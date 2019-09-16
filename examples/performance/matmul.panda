@@ -22,9 +22,14 @@
    MatmulPerformanceTest.benchmarkMatmulJava   thrpt    5  49,364 ± 13,306  ops/s
    MatmulPerformanceTest.benchmarkMatmulPanda  thrpt    5   2,290 ±  0,320  ops/s
 
- - 12.09.2019 (Java 8)
-   MatmulPerformanceTest.benchmarkMatmulJava   thrpt    5  52,975 ± 25,397  ops/s
-   MatmulPerformanceTest.benchmarkMatmulPanda  thrpt    5   3,386 ±  5,368  ops/s
+ - 14.09.2019 (Java 8)
+   MatmulPerformanceTest.benchmarkMatmulJava   thrpt    5  48,884 ± 8,513  ops/s
+   MatmulPerformanceTest.benchmarkMatmulPanda  thrpt    5   2,485 ± 0,635  ops/s
+
+ - 15.09.2019 (Java 8)
+   MatmulPerformanceTest.benchmarkMatmulJava   thrpt    5  48,355 ± 7,385  ops/s
+   MatmulPerformanceTest.benchmarkMatmulPanda  thrpt    5   3,439 ± 3,788  ops/s
+
 */
 module performance
 
@@ -64,7 +69,7 @@ class Matmul {
                 mut Double s = 0.0
 
                 for (mut Int k = 0; k < n; ++k) {
-                    s = s + (a[i][k] * c[j][k])
+                    s = s + a[i][k] * c[j][k]
                 }
 
                 x[i][j] = s

@@ -21,22 +21,20 @@ import org.panda_lang.panda.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.statement.Variable;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
 
 public interface Accessor<T extends Variable> {
 
-    @Nullable <R> R perform(Flow flow, AccessorVisitor callback);
-
-    MemoryContainer fetchMemoryContainer(Flow flow);
+    MemoryContainer fetchMemoryContainer(ProcessStack stack, Object instance);
 
     Assigner<T> toAssigner(boolean initialize, Expression value);
+
+    @Nullable <R> R getValue(ProcessStack stack, Object instance);
 
     default ClassPrototypeReference getTypeReference() {
         return getVariable().getType();
     }
-
-    @Nullable <R> R getValue(Flow flow);
 
     int getMemoryPointer();
 

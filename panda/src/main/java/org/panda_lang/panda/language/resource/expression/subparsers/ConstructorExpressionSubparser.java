@@ -36,7 +36,7 @@ import org.panda_lang.panda.language.interpreter.parser.expression.AbstractExpre
 import org.panda_lang.panda.language.interpreter.token.distributors.DiffusedSource;
 import org.panda_lang.panda.language.resource.PandaTypes;
 import org.panda_lang.panda.language.resource.expression.subparsers.assignation.variable.VariableDeclarationUtils;
-import org.panda_lang.panda.language.resource.prototype.parameter.ArgumentsParser;
+import org.panda_lang.panda.language.resource.head.ArgumentsParser;
 import org.panda_lang.panda.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.resource.syntax.separator.Separators;

@@ -17,19 +17,13 @@
 package org.panda_lang.panda.language.architecture.dynamic;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
 import org.panda_lang.panda.language.architecture.statement.AbstractScope;
 
 public abstract class AbstractBlock extends AbstractScope implements Block {
 
     protected AbstractBlock(Scope parent) {
         super(parent);
-    }
-
-    @Override
-    public void execute(Flow flow) {
-        flow.call(super.getCells());
     }
 
 }

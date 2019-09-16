@@ -21,8 +21,8 @@ import org.panda_lang.panda.framework.design.architecture.prototype.constructor.
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructors;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Arguments;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.language.architecture.prototype.standard.parameter.ParameterUtils;
 import org.panda_lang.panda.language.architecture.prototype.standard.parameter.ParametrizedPropertiesMatcher;
-import org.panda_lang.panda.language.interpreter.parser.expression.ExpressionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +46,7 @@ public class PandaConstructors implements PrototypeConstructors {
 
     @Override
     public Optional<Arguments<PrototypeConstructor>> getAdjustedConstructor(Expression[] arguments) {
-        return MATCHER.match(constructors, ExpressionUtils.toTypes(arguments), arguments);
+        return MATCHER.match(constructors, ParameterUtils.toTypes(arguments), arguments);
     }
 
     @Override

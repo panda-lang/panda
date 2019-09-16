@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.architecture.prototype.standard.method;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.language.architecture.prototype.standard.parameter.ParametrizedExecutableCallback;
 import org.panda_lang.panda.language.architecture.prototype.standard.parameter.PandaParameterizedExecutable;
 import org.panda_lang.panda.language.resource.PandaTypes;
@@ -35,8 +35,8 @@ public class PandaMethod extends PandaParameterizedExecutable implements Prototy
 
     @Override
     @SuppressWarnings({ "unchecked" })
-    public Object invoke(Flow flow, Object instance, Object... parameters) throws Exception {
-        return methodBody.invoke(flow, instance, parameters);
+    public Object invoke(ProcessStack stack, Object instance, Object... parameters) throws Exception {
+        return methodBody.invoke(stack, instance, parameters);
     }
 
     @Override

@@ -16,9 +16,10 @@
 
 package org.panda_lang.panda.language.resource.scope;
 
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
 import org.panda_lang.panda.framework.design.architecture.statement.Variable;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.language.architecture.dynamic.AbstractExecutableStatement;
 
 import java.util.HashMap;
@@ -36,9 +37,9 @@ final class TryCatch extends AbstractExecutableStatement {
     }
 
     @Override
-    public void execute(Flow flow) {
+    public @Nullable Object execute(ProcessStack stack, Object instance) {
         try {
-            flow.call(tryScope.getCells());
+            return stack.call(instance, tryScope);
         } catch (Throwable throwable) {
             Data catchData = catchContainers.get(throwable.getClass());
 
@@ -54,27 +55,27 @@ final class TryCatch extends AbstractExecutableStatement {
                 throw throwable;
             }
 
-            flow.getCurrentScope().set(catchData.pointer, throwable);
-            flow.call(catchData.scope.getCells());
+            stack.getCurrentScope().set(catchData.variable.getPointer(), throwable);
+            stack.call(instance, catchData.scope);
         } finally {
-            flow.call(finallyScope.getCells());
+            stack.call(instance, finallyScope);
         }
+
+        return null;
     }
 
-    public TryCatch addHandler(Class<? extends Throwable> type, Variable variable, int variablePointer, Scope scope) {
-        catchContainers.put(type, new Data(variable, variablePointer, scope));
+    public TryCatch addHandler(Class<? extends Throwable> type, Variable variable, Scope scope) {
+        catchContainers.put(type, new Data(variable, scope));
         return this;
     }
 
     private static class Data {
 
         private Variable variable;
-        private int pointer;
         private Scope scope;
 
-        public Data(Variable variable, int pointer, Scope scope) {
+        public Data(Variable variable, Scope scope) {
             this.variable = variable;
-            this.pointer = pointer;
             this.scope = scope;
         }
 

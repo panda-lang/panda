@@ -16,14 +16,22 @@
 
 package org.panda_lang.panda.language.resource.scope.branching;
 
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Controller;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
+import org.panda_lang.panda.framework.design.runtime.Status;
 import org.panda_lang.panda.language.architecture.dynamic.AbstractExecutableStatement;
 
-class Break extends AbstractExecutableStatement {
+class Break extends AbstractExecutableStatement implements Controller {
 
     @Override
-    public void execute(Flow flow) {
-        flow.getCurrentControlFlow().escape();
+    public @Nullable Object execute(ProcessStack stack, Object instance) {
+        return null;
+    }
+
+    @Override
+    public byte getStatus() {
+        return Status.BREAK;
     }
 
 }

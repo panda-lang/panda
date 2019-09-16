@@ -46,7 +46,7 @@ public class PandaClassPrototype extends AbstractClassPrototype {
             }
 
             Expression expression = field.getDefaultValue();
-            field.setStaticValue(expression.evaluate(null));
+            field.setStaticValue(expression.evaluate(null, null));
         }
     }
 
