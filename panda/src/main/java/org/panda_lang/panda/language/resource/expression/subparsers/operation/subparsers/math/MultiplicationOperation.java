@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers.math;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.rpn.RPNOperationAction;
 
@@ -27,7 +27,7 @@ public class MultiplicationOperation extends MathOperation {
     public RPNOperationAction of(ClassPrototype returnType, int priority) {
         return new MathOperationAction(returnType) {
             @Override
-            public Object get(Flow flow, Number a, Number b) {
+            public Object get(ProcessStack stack, Number a, Number b) {
                 switch (priority) {
                     case INT:
                         return a.intValue() * b.intValue();

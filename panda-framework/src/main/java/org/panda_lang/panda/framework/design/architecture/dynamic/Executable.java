@@ -16,15 +16,16 @@
 
 package org.panda_lang.panda.framework.design.architecture.dynamic;
 
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 
 public interface Executable {
 
     /**
-     * Execute current executable
+     * Execute the statement
      *
-     * @param flow the parent frame of current executable
+     * @param stack the current stack and instance
      */
-    void execute(Flow flow);
+    @Nullable Object execute(ProcessStack stack, Object instance);
 
 }

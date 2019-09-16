@@ -17,21 +17,21 @@
 package org.panda_lang.panda.language.resource.expression.subparsers.assignation.array;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Channel;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.SourceStream;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Component;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Channel;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.token.SourceStream;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.panda.language.resource.expression.subparsers.assignation.AssignationComponents;
 import org.panda_lang.panda.language.resource.expression.subparsers.assignation.AssignationPriorities;
@@ -47,7 +47,7 @@ public class ArrayValueAssignationSubparser extends AssignationSubparserBootstra
     private static final ArrayValueAccessorParser PARSER = new ArrayValueAccessorParser();
 
     @Override
-    protected BootstrapInitializer<@Nullable Assigner<?>> initialize(Context context, BootstrapInitializer<@Nullable Assigner<?>> initializer) {
+    protected BootstrapInitializer<@Nullable ExpressionResult> initialize(Context context, BootstrapInitializer<@Nullable ExpressionResult> initializer) {
         return initializer;
     }
 
@@ -77,9 +77,12 @@ public class ArrayValueAssignationSubparser extends AssignationSubparserBootstra
     }
 
     @Autowired
-    Assigner<?> parse(Context context, @Component SourceStream source, @Component Channel channel, @Component(AssignationComponents.EXPRESSION_LABEL) Expression value) {
+    ExpressionResult parse(Context context, @Component SourceStream source, @Component Channel channel, @Component(AssignationComponents.EXPRESSION_LABEL) Expression value) {
         Snippet snippet = source.toSnippet();
-        return PARSER.parse(context, snippet, channel.get("array-instance", Expression.class), snippet.getLast().toToken(), value);
+        ArrayAccessor accessorExpression = PARSER.parse(context, snippet, channel.get("array-instance", Expression.class), snippet.getLast().toToken());
+        ArrayAssigner assignerExpression = accessorExpression.toAssignerExpression(value);
+
+        return ExpressionResult.of(assignerExpression.toExpression());
     }
 
 }

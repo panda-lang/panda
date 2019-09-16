@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Ar
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.ParameterizedExecutable;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.language.architecture.prototype.array.ArrayClassPrototype;
 import org.panda_lang.panda.language.runtime.expression.PandaDynamicExpression;
 
@@ -131,9 +131,9 @@ public final class ParametrizedPropertiesMatcher<T extends ParameterizedExecutab
             fixedArguments[argumentIndex] = new PandaDynamicExpression(((ArrayClassPrototype) parameters[argumentIndex].getType().fetch()).getType().fetch()) {
                 @Override
                 @SuppressWarnings("unchecked")
-                public Object call(Expression expression, Flow flow) {
+                public Object call(ProcessStack stack, Object instance) {
                     return expressions.stream()
-                            .map(expr -> expr.evaluate(flow))
+                            .map(expr -> expr.evaluate(stack, instance))
                             .toArray(Object[]::new);
                 }
             }.toExpression();

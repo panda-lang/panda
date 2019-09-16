@@ -25,14 +25,12 @@ import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Warmup;
 import org.openjdk.jmh.infra.Blackhole;
-import org.openjdk.jmh.runner.Runner;
-import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.panda.language.interpreter.parser.expression.PandaExpressionParser;
-import org.panda_lang.panda.language.resource.expression.subparsers.number.NumberParser;
+import org.panda_lang.panda.util.BenchmarkUtils;
 
 @Fork(value = 1)
 @Warmup(iterations = 1)
@@ -51,7 +49,6 @@ public class ExpressionBenchmark extends ExpressionParserTestBootstrap {
 
         protected Context context;
         protected ExpressionParser expressionParser;
-        protected NumberParser numberParser = new NumberParser();
 
         @Setup(Level.Trial)
         public void setup() {
@@ -60,7 +57,7 @@ public class ExpressionBenchmark extends ExpressionParserTestBootstrap {
         }
 
         public static void main(String[] args) throws Exception {
-            new Runner(new OptionsBuilder().include(ExpressionBenchmark.class.getName()).build()).run();
+            BenchmarkUtils.run(ExpressionBenchmark.class);
         }
 
     }

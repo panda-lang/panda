@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.operation;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
@@ -45,7 +46,7 @@ public class OperationParser implements Parser {
         return expression;
     }
 
-    public Expression parse(Context context, Operation operation) {
+    public @Nullable Expression parse(Context context, Operation operation) {
         if (OperationUtils.isNumeric(operation)) {
             return new MathOperationSubparser().parse(this, context, operation);
         }

@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.resource.scope;
 
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
 import org.panda_lang.panda.framework.design.architecture.statement.Variable;
 import org.panda_lang.panda.framework.design.architecture.statement.VariableData;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
@@ -68,7 +68,7 @@ public final class TryCatchParser extends ParserBootstrap {
 
         if (Throwable.class.isAssignableFrom(type)) {
             //noinspection unchecked
-            tryCatch.addHandler((Class<? extends Throwable>) type, variable, variable.getPointer(), catchScope);
+            tryCatch.addHandler((Class<? extends Throwable>) type, variable, catchScope);
         }
     }
 

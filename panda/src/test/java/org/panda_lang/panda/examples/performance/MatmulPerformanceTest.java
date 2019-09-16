@@ -22,10 +22,9 @@ import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Warmup;
-import org.openjdk.jmh.runner.Runner;
-import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.panda_lang.panda.examples.Launcher;
 import org.panda_lang.panda.framework.design.architecture.Application;
+import org.panda_lang.panda.util.BenchmarkUtils;
 
 @State(Scope.Benchmark)
 @Warmup(time = 1, iterations = 1)
@@ -50,7 +49,7 @@ public class MatmulPerformanceTest {
     }
 
     public static void main(String[] args) throws Exception {
-        new Runner(new OptionsBuilder().include(MatmulPerformanceTest.class.getName()).build()).run();
+        BenchmarkUtils.run(MatmulPerformanceTest.class);
     }
 
 }

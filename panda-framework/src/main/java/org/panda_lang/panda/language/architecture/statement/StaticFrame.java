@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.architecture.statement;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.LivingFrame;
 import org.panda_lang.panda.framework.design.architecture.statement.VariableData;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.language.architecture.dynamic.AbstractLivingFrame;
 
 import java.util.Map;
@@ -34,7 +34,7 @@ public final class StaticFrame extends AbstractFrame {
     }
 
     @Override
-    public final LivingFrame revive(Flow parentFlow) {
+    public final LivingFrame revive(ProcessStack parentStack, Object instance) {
         LivingFrame frame = new StaticLivingFrame(this);
 
         for (Map.Entry<VariableData, Object> entry : variables.entrySet()) {
@@ -49,11 +49,6 @@ public final class StaticFrame extends AbstractFrame {
 
         protected StaticLivingFrame(StaticFrame scope) {
             super(scope);
-        }
-
-        @Override
-        public void execute(Flow flow) {
-            flow.call(this);
         }
 
     }

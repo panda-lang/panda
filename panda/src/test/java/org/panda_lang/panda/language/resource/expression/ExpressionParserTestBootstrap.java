@@ -52,7 +52,7 @@ class ExpressionParserTestBootstrap {
     }
 
     protected static Context prepareData() {
-        return PandaParserDataUtils.createFakeData(context -> new HashMap<VariableData, Object>() {{
+        return ExpressionContextUtils.createFakeContext(context -> new HashMap<VariableData, Object>() {{
             put(new PandaVariableData(PandaTypes.STRING.getReference(), "variable"), null);
             put(new PandaVariableData(PandaTypes.STRING.toArray(context.getComponent(UniversalComponents.MODULE_LOADER)), "array"), null);
             put(new PandaVariableData(PandaTypes.INT.getReference(), "i", true, false), null);

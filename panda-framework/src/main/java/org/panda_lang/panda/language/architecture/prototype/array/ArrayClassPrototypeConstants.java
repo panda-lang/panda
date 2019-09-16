@@ -21,6 +21,7 @@ import org.panda_lang.panda.language.architecture.prototype.standard.method.Pand
 import org.panda_lang.panda.language.resource.PandaTypes;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 final class ArrayClassPrototypeConstants {
 
@@ -28,11 +29,7 @@ final class ArrayClassPrototypeConstants {
             .name("size")
             .returnType(PandaTypes.INT.getReference())
             .methodBody((branch, instance, arguments) -> {
-                if (!instance.getClass().isArray()) {
-                    throw new RuntimeException();
-                }
-
-                return branch.setReturnValue(((Object[]) instance).length);
+                return ((Object[]) Objects.requireNonNull(instance)).length;
             })
             .build();
 
@@ -40,11 +37,7 @@ final class ArrayClassPrototypeConstants {
             .name("toString")
             .returnType(PandaTypes.STRING.getReference())
             .methodBody((branch, instance, arguments) -> {
-                if (!instance.getClass().isArray()) {
-                    throw new RuntimeException();
-                }
-
-                return branch.setReturnValue(Arrays.toString((Object[]) instance));
+                return Arrays.toString((Object[]) instance);
             })
             .build();
 

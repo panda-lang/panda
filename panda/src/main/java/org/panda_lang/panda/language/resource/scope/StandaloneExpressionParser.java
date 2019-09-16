@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.resource.scope;
 
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;

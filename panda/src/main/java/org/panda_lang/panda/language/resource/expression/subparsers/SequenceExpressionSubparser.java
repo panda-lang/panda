@@ -17,13 +17,13 @@
 package org.panda_lang.panda.language.resource.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
-import org.panda_lang.panda.language.interpreter.parser.expression.ExpressionUtils;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
+import org.panda_lang.panda.language.interpreter.parser.expression.ExpressionParserUtils;
 import org.panda_lang.panda.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.language.resource.PandaTypes;
 
@@ -43,11 +43,11 @@ public class SequenceExpressionSubparser implements ExpressionSubparser {
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
-            if (!TokenUtils.hasName(token, "String")) {
-                return null;
+            if (TokenUtils.hasName(token, "String")) {
+                return ExpressionParserUtils.toExpressionResult(PandaTypes.STRING, token.getValue());
             }
 
-            return ExpressionUtils.toExpressionResult(PandaTypes.STRING, token.getValue());
+            return null;
         }
 
     }

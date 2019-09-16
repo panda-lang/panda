@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.architecture.statement;
 
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
 import org.panda_lang.panda.framework.design.architecture.statement.VariableData;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;

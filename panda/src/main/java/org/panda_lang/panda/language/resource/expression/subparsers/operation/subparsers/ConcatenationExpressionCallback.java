@@ -18,9 +18,10 @@ package org.panda_lang.panda.language.resource.expression.subparsers.operation.s
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.language.resource.PandaTypes;
 import org.panda_lang.panda.language.runtime.expression.DynamicExpression;
+import org.panda_lang.panda.utilities.commons.ObjectUtils;
 
 import java.util.List;
 
@@ -33,14 +34,14 @@ public class ConcatenationExpressionCallback implements DynamicExpression {
     }
 
     @Override
-    public Object call(Expression expression, Flow flow) {
+    public <T> T call(ProcessStack stack, Object instance) {
         StringBuilder content = new StringBuilder();
 
         for (Expression value : values) {
-            content.append(value.evaluate(flow).toString());
+            content.append(value.evaluate(stack, instance).toString());
         }
 
-        return content;
+        return ObjectUtils.cast(content);
     }
 
     @Override

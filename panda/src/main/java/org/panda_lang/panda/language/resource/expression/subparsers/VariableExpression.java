@@ -21,8 +21,8 @@ import org.panda_lang.panda.language.architecture.dynamic.accessor.AccessorExpre
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.statement.Variable;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
-import org.panda_lang.panda.language.architecture.dynamic.accessor.VariableAccessor;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
+import org.panda_lang.panda.language.resource.expression.subparsers.assignation.variable.VariableAccessor;
 import org.panda_lang.panda.language.runtime.expression.DynamicExpression;
 
 public class VariableExpression implements DynamicExpression {
@@ -39,8 +39,8 @@ public class VariableExpression implements DynamicExpression {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Object call(Expression expression, Flow flow) {
-        return accessor.getValue(flow);
+    public Object call(ProcessStack stack, Object instance) {
+        return accessor.getValue(stack, instance);
     }
 
     @Override

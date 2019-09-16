@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.assignation;
 
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.Component;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 

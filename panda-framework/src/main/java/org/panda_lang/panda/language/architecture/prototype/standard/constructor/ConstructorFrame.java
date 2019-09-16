@@ -16,9 +16,11 @@
 
 package org.panda_lang.panda.language.architecture.prototype.standard.constructor;
 
+import org.panda_lang.panda.framework.design.architecture.dynamic.LivingFrame;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.language.architecture.statement.ParametrizedAbstractFrame;
+import org.panda_lang.panda.language.architecture.statement.ParametrizedLivingFrame;
 
 import java.util.List;
 
@@ -29,12 +31,19 @@ public class ConstructorFrame extends ParametrizedAbstractFrame {
     }
 
     @Override
-    public ConstructorLivingFrame revive(Flow flow) {
-        return new ConstructorLivingFrame(this);
+    public ConstructorLivingFrame revive(ProcessStack stack, Object instance) {
+        return new ConstructorLivingFrame(this, (LivingFrame) instance);
     }
 
     public List<PrototypeParameter> getParameters() {
         return parameters;
     }
 
+    public static class ConstructorLivingFrame extends ParametrizedLivingFrame<ConstructorFrame> {
+
+        public ConstructorLivingFrame(ConstructorFrame scope, LivingFrame instance) {
+            super(scope, instance);
+        }
+
+    }
 }

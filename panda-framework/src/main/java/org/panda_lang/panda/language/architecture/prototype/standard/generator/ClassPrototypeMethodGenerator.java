@@ -53,7 +53,7 @@ final class ClassPrototypeMethodGenerator {
         // TODO: Generate bytecode
         method.setAccessible(true);
 
-        ParametrizedExecutableCallback<Object> methodBody = (branch, instance, arguments) -> {
+        ParametrizedExecutableCallback<Object> methodBody = (stack, instance, arguments) -> {
             int amountOfArgs = arguments.length;
             int parameterCount = method.getParameterCount();
             Object varargs = null;
@@ -65,6 +65,7 @@ final class ClassPrototypeMethodGenerator {
 
                 Class<?> last = method.getParameterTypes()[parameterCount - 1];
                 String lastName = last.getName();
+                System.out.println(last);
                 Class<?> rootLast = Class.forName(lastName.substring(2, lastName.length() - 1));
 
                 if (amountOfArgs + 1 != parameterCount || !last.isArray()) {
@@ -85,7 +86,6 @@ final class ClassPrototypeMethodGenerator {
                 return null;
             }
 
-            branch.setReturnValue(returnValue);
             return returnValue;
         };
 

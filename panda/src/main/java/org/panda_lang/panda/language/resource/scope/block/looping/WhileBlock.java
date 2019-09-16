@@ -16,12 +16,16 @@
 
 package org.panda_lang.panda.language.resource.scope.block.looping;
 
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.dynamic.ControlledBlock;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
+import org.panda_lang.panda.framework.design.runtime.Result;
+import org.panda_lang.panda.framework.design.runtime.Status;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.language.architecture.dynamic.AbstractBlock;
 
-class WhileBlock extends ControllerBlock {
+class WhileBlock extends AbstractBlock implements ControlledBlock {
 
     private final Expression expression;
 
@@ -31,15 +35,22 @@ class WhileBlock extends ControllerBlock {
     }
 
     @Override
-    public void call(ControlFlow controlFlow, Flow flow) {
-        while (expression.evaluate(flow)) {
-            controlFlow.reset();
-            controlFlow.call();
+    public @Nullable Result<?> controlledCall(ProcessStack stack, Object instance) {
+        while (expression.evaluate(stack, instance)) {
+            Result<?> result = stack.call(instance, this);
 
-            if (controlFlow.isEscaped() || flow.isInterrupted()) {
+            if (result == null || result.getStatus() == Status.CONTINUE) {
+                continue;
+            }
+
+            if (result.getStatus() == Status.BREAK) {
                 break;
             }
+
+            return result;
         }
+
+        return null;
     }
 
 }

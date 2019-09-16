@@ -69,6 +69,10 @@ public class PandaInterpreter implements Interpreter {
         PandaFramework.getLogger().debug("• Parse time: " + parseTime);
         PandaFramework.getLogger().debug("");
 
+        ExtractorWorker.fullTime = 0;
+        PandaExpressionParser.time = 0;
+        PandaExpressionParser.amount = 0;
+
         return Optional.of(application);
     }
 

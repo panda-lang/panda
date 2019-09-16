@@ -16,7 +16,9 @@
 
 package org.panda_lang.panda.language.architecture.prototype.standard.parameter;
 
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.language.architecture.dynamic.AbstractLivingFrame;
 import org.panda_lang.panda.language.architecture.dynamic.AbstractScopeFrameUtils;
 import org.panda_lang.panda.language.runtime.PandaRuntimeException;
@@ -31,6 +33,17 @@ public class ParameterUtils {
         }
 
         System.arraycopy(parameterValues, 0, AbstractScopeFrameUtils.extractMemory(instance), 0, parameterValues.length);
+    }
+
+    public static ClassPrototype[] toTypes(Expression... expressions) {
+        ClassPrototype[] prototypes = new ClassPrototype[expressions.length];
+
+        for (int i = 0; i < prototypes.length; i++) {
+            Expression expression = expressions[i];
+            prototypes[i] = expression.getReturnType();
+        }
+
+        return prototypes;
     }
 
 }

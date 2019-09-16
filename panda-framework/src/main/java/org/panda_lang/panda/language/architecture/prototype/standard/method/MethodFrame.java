@@ -16,28 +16,30 @@
 
 package org.panda_lang.panda.language.architecture.prototype.standard.method;
 
+import org.panda_lang.panda.framework.design.architecture.dynamic.LivingFrame;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.language.architecture.statement.ParametrizedAbstractFrame;
+import org.panda_lang.panda.language.architecture.statement.ParametrizedLivingFrame;
 
 import java.util.List;
 
 public class MethodFrame extends ParametrizedAbstractFrame {
 
-    private final String methodName;
-
-    public MethodFrame(String methodName, List<PrototypeParameter> parameters) {
+    public MethodFrame(List<PrototypeParameter> parameters) {
         super(parameters);
-        this.methodName = methodName;
     }
 
     @Override
-    public MethodLivingFrame revive(Flow flow) {
-        return new MethodLivingFrame(this);
+    public MethodLivingFrame revive(ProcessStack stack, Object instance) {
+        return new MethodLivingFrame(this, (LivingFrame) instance);
     }
 
-    public String getMethodName() {
-        return methodName;
-    }
+    public static class MethodLivingFrame extends ParametrizedLivingFrame<MethodFrame> {
 
+        public MethodLivingFrame(MethodFrame method, LivingFrame instance) {
+            super(method, instance);
+        }
+
+    }
 }

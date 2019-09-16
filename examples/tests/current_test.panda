@@ -61,7 +61,7 @@ main {
     nil Object req = null
 
     Test test = new Test('"Constructor"')
-    test.echo("Method")
+    test.echo("Method echo")
     Console.print(test.getTestField().testField)
 
     mut nil Foo varFoo = null

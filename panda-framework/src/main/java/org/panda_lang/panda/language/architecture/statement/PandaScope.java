@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.architecture.statement;
 
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
 
 public final class PandaScope extends AbstractScope {
 

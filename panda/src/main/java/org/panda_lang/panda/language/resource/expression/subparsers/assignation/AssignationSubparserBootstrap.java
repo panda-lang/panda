@@ -17,18 +17,18 @@
 package org.panda_lang.panda.language.resource.expression.subparsers.assignation;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.token.PandaSourceStream;
 
-public abstract class AssignationSubparserBootstrap extends ParserBootstrap<@Nullable Assigner<?>> implements AssignationSubparser {
+public abstract class AssignationSubparserBootstrap extends ParserBootstrap<@Nullable ExpressionResult> implements AssignationSubparser {
 
     @Override
-    public final @Nullable Assigner<?> parseAssignment(Context context, Snippet declaration, Expression expression) throws Exception {
+    public final @Nullable ExpressionResult parseAssignment(Context context, Snippet declaration, Expression expression) throws Exception {
         context.withComponent(AssignationComponents.EXPRESSION, expression);
         context.withComponent(UniversalComponents.STREAM, new PandaSourceStream(declaration));
         return parse(context);

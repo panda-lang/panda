@@ -17,9 +17,7 @@
 package org.panda_lang.panda.language.resource.expression.subparsers.assignation;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
@@ -29,18 +27,17 @@ import org.panda_lang.panda.framework.design.interpreter.parser.expression.Expre
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.HandleResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponents;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.SourceStream;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.panda.language.interpreter.parser.pipeline.PandaChannel;
 import org.panda_lang.panda.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.panda.language.resource.syntax.operator.OperatorFamilies;
 import org.panda_lang.panda.language.resource.syntax.operator.OperatorUtils;
-import org.panda_lang.panda.language.runtime.expression.PandaDynamicExpression;
 
 public class AssignationExpressionSubparser implements ExpressionSubparser {
 
@@ -91,7 +88,7 @@ public class AssignationExpressionSubparser implements ExpressionSubparser {
                     .getPipeline(PandaPipelines.ASSIGNER)
                     .handle(assignationContext, assignationContext.getComponent(PipelineComponents.CHANNEL), declaration);
 
-            if (!handleResult.isFound()) {
+            if (!handleResult.isFound() || !handleResult.getParser().isPresent()) {
                 return null;
             }
 
@@ -100,26 +97,10 @@ public class AssignationExpressionSubparser implements ExpressionSubparser {
             try {
                 Expression expression = expressionContext.getParser().parse(assignationContext, expressionSource);
 
-                @SuppressWarnings("OptionalGetWithoutIsPresent")
-                AssignationSubparser subparser = handleResult.getParser().get();
-                Assigner<?> assigner = subparser.parseAssignment(assignationContext, declaration, expression);
-
-                if (assigner == null) {
-                    return ExpressionResult.error("Cannot parse declaration", declaration);
-                }
-
+                ExpressionResult result = handleResult.getParser().get().parseAssignment(assignationContext, declaration, expression);
                 expressionContext.getDiffusedSource().setIndex(declaration.size() + 1 + expressionSource.getReadLength());
-                Assignation assignation = new Assignation(assigner);
-                Expression assignationResult = assignation.toExpression();
 
-                return ExpressionResult.of(new PandaDynamicExpression(expression.getReturnType()) {
-                    @Override
-                    @SuppressWarnings("unchecked")
-                    public Object call(Expression expression, Flow flow) {
-                        assignation.execute(flow);
-                        return assignationResult.evaluate(flow);
-                    }
-                }.toExpression());
+                return result;
             } catch (PandaExpressionParserFailure e) {
                 return ExpressionResult.error("Cannot parse assigned expression: " + e.getExpressionMessage(), expressionSource.getOriginalSource());
             } catch (Exception e) {

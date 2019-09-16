@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.architecture.dynamic;
 
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
 
 public final class DefaultBlock extends AbstractBlock {
 

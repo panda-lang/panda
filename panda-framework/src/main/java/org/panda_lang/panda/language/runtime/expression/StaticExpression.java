@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionValueType;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 
 public final class StaticExpression implements Expression {
 
@@ -32,8 +32,7 @@ public final class StaticExpression implements Expression {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public @Nullable Object evaluate(Flow flow) {
+    public @Nullable <T> T evaluate(ProcessStack stack, Object instance) {
         return null;
     }
 

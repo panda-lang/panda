@@ -127,7 +127,7 @@ public class ClassPrototypeParser extends ParserBootstrap {
         PrototypeConstructor defaultConstructor = PandaConstructor.builder()
                 .type(prototype.getReference())
                 .callback((frame, instance, arguments) -> {
-                    return scope.revive(frame);
+                    return scope.revive(frame, instance);
                 })
                 .build();
 

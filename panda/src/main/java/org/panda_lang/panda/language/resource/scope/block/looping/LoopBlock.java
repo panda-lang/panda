@@ -16,12 +16,16 @@
 
 package org.panda_lang.panda.language.resource.scope.block.looping;
 
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.dynamic.ControlledBlock;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
+import org.panda_lang.panda.framework.design.runtime.Result;
+import org.panda_lang.panda.framework.design.runtime.Status;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.language.architecture.dynamic.AbstractBlock;
 
-class LoopBlock extends ControllerBlock {
+class LoopBlock extends AbstractBlock implements ControlledBlock {
 
     private final Expression expression;
 
@@ -31,17 +35,24 @@ class LoopBlock extends ControllerBlock {
     }
 
     @Override
-    public void call(ControlFlow controlFlow, Flow flow) {
-        int times  = expression.evaluate(flow);
+    public @Nullable Result<?> controlledCall(ProcessStack stack, Object instance) {
+        int times  = expression.evaluate(stack, instance);
 
-        for (int i = 0; i < times; i++) {
-            controlFlow.reset();
-            controlFlow.call();
+        for (int index = 0; index < times; index++) {
+            Result<?> result = stack.call(instance, this);
 
-            if (controlFlow.isEscaped() || flow.isInterrupted()) {
+            if (result == null || result.getStatus() == Status.CONTINUE) {
+                continue;
+            }
+
+            if (result.getStatus() == Status.BREAK) {
                 break;
             }
+
+            return result;
         }
+
+        return null;
     }
 
 }

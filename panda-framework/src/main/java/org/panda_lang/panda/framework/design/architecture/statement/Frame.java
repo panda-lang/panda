@@ -17,7 +17,8 @@
 package org.panda_lang.panda.framework.design.architecture.statement;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.LivingFrame;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 
 /**
  * Specific type of scope which contains own memory, independence, etc.
@@ -29,7 +30,7 @@ public interface Frame extends Scope {
      *
      * @return instance of the frame
      */
-    LivingFrame revive(Flow flow);
+    LivingFrame revive(ProcessStack stack, Object instance);
 
     /**
      * Allocate variable in the frame and get assigned pointer

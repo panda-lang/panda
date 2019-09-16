@@ -17,10 +17,11 @@
 package org.panda_lang.panda.language.resource.expression.subparsers.assignation.variable;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
@@ -29,6 +30,7 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.panda.language.architecture.dynamic.accessor.AccessorExpression;
 import org.panda_lang.panda.language.architecture.dynamic.assigner.Assigner;
+import org.panda_lang.panda.language.architecture.dynamic.assigner.AssignerExpression;
 import org.panda_lang.panda.language.architecture.prototype.standard.constructor.ConstructorFrame;
 import org.panda_lang.panda.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
@@ -44,7 +46,7 @@ import org.panda_lang.panda.language.resource.expression.subparsers.assignation.
 public class VariableAssignationSubparser extends AssignationSubparserBootstrap {
 
     @Override
-    protected BootstrapInitializer<@Nullable Assigner<?>> initialize(Context context, BootstrapInitializer<@Nullable Assigner<?>> initializer) {
+    protected BootstrapInitializer<@Nullable ExpressionResult> initialize(Context context, BootstrapInitializer<@Nullable ExpressionResult> initializer) {
         return initializer;
     }
 
@@ -74,9 +76,11 @@ public class VariableAssignationSubparser extends AssignationSubparserBootstrap 
     }
 
     @Autowired
-    protected Assigner<?> parse(@Component Channel channel, @Component Scope scope, @Component Expression expression) {
+    ExpressionResult parse(@Component Channel channel, @Component Scope scope, @Component Expression expression) {
         Accessor<?> accessor = channel.get("accessor", AccessorExpression.class).getAccessor();
-        return accessor.toAssigner(scope.getFrame() instanceof ConstructorFrame, expression);
+        Assigner<?> assigner = accessor.toAssigner(scope.getFrame() instanceof ConstructorFrame, expression);
+
+        return ExpressionResult.of(new AssignerExpression(assigner));
     }
 
 }

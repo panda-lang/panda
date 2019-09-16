@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.resource.scope.block.conditional;
 
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
 import org.panda_lang.panda.language.architecture.dynamic.AbstractBlock;
 
 class ElseBlock extends AbstractBlock {

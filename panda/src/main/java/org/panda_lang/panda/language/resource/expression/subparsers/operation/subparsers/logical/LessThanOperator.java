@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers.logical;
 
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.rpn.RPNOperationAction;
 
@@ -26,7 +26,7 @@ public class LessThanOperator extends ComparisonOperator {
     public RPNOperationAction of(int compared) {
         return new ComparisonOperatorAction() {
             @Override
-            public Object get(Flow flow, Number a, Number b) {
+            public Object get(ProcessStack stack, Number a, Number b) {
                 switch (compared) {
                     case INT:
                         return a.intValue() < b.intValue();

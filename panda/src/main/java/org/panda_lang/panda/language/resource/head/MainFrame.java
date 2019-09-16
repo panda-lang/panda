@@ -17,14 +17,14 @@
 package org.panda_lang.panda.language.resource.head;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.LivingFrame;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.language.architecture.dynamic.AbstractLivingFrame;
 import org.panda_lang.panda.language.architecture.statement.AbstractFrame;
 
 public class MainFrame extends AbstractFrame {
 
     @Override
-    public LivingFrame revive(Flow flow) {
+    public LivingFrame revive(ProcessStack stack, Object instance) {
         return new MainLivingFrame(this);
     }
 
@@ -37,11 +37,6 @@ public class MainFrame extends AbstractFrame {
 
         public MainLivingFrame(MainFrame main) {
             super(main);
-        }
-
-        @Override
-        public void execute(Flow flow) {
-            flow.call(super.getFrame().getCells());
         }
 
     }

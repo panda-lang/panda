@@ -16,17 +16,17 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers;
 
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
 import org.panda_lang.panda.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.panda.language.architecture.dynamic.accessor.AccessorExpression;
-import org.panda_lang.panda.language.architecture.dynamic.accessor.AccessorVisitor;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.language.resource.expression.subparsers.number.NumberPriorities;
 import org.panda_lang.panda.language.runtime.expression.DynamicExpression;
 
-public class CreaseExpression extends NumberPriorities implements DynamicExpression, AccessorVisitor {
+public class CreaseExpression extends NumberPriorities implements DynamicExpression {
 
     private final Accessor<?> accessor;
     private final boolean grow;
@@ -42,19 +42,17 @@ public class CreaseExpression extends NumberPriorities implements DynamicExpress
 
     @Override
     @SuppressWarnings("unchecked")
-    public Object call(Expression expression, Flow flow) {
-        Object before = accessor.fetchMemoryContainer(flow).get(accessor.getMemoryPointer());
-        Object after = accessor.perform(flow, this);
+    public Object call(ProcessStack stack, Object instance) {
+        MemoryContainer memory = accessor.fetchMemoryContainer(stack, instance);
+        Object before = memory.get(accessor.getMemoryPointer());
+
+        Object after = of(before);
+        memory.set(accessor.getMemoryPointer(), after);
+
         return post ? after : before;
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T> T visit(Accessor<?> accessor, Flow flow, T currentValue) {
-        return (T) of(priority, currentValue);
-    }
-
-    private Object of(int priority, Object value) {
+    private Object of(Object value) {
         switch (priority) {
             case INT:
                 int intValue = (int) value;
