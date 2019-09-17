@@ -28,7 +28,7 @@ import org.panda_lang.panda.language.architecture.prototype.standard.generator.C
 import java.util.ArrayList;
 import java.util.List;
 
-public class PandaTypes {
+public final class PandaTypes {
 
     private static final Module MODULE = new PandaModule(null);
 

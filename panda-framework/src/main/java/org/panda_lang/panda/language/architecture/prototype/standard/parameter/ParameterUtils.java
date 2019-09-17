@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.language.architecture.dynamic.AbstractLivingFrame;
-import org.panda_lang.panda.language.architecture.dynamic.AbstractScopeFrameUtils;
+import org.panda_lang.panda.language.architecture.dynamic.AbstractLivingFrameUtils;
 import org.panda_lang.panda.language.runtime.PandaRuntimeException;
 
 public class ParameterUtils {
@@ -32,7 +32,7 @@ public class ParameterUtils {
             throw new PandaRuntimeException("Incompatible number of parameters");
         }
 
-        System.arraycopy(parameterValues, 0, AbstractScopeFrameUtils.extractMemory(instance), 0, parameterValues.length);
+        System.arraycopy(parameterValues, 0, AbstractLivingFrameUtils.extractMemory(instance), 0, parameterValues.length);
     }
 
     public static ClassPrototype[] toTypes(Expression... expressions) {

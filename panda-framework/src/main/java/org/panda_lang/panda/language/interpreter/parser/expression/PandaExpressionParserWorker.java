@@ -116,7 +116,7 @@ public class PandaExpressionParserWorker {
         ExpressionSubparser subparser = worker.getSubparser();
 
         // skip subparser that does not meet assumptions
-        if (subparser.getMinimalRequiredLengthOfSource() > context.getDiffusedSource().getAmountOfAvailableSource() + 1) {
+        if (subparser.getMinimalRequiredLengthOfSource() > context.getSynchronizedSource().getAmountOfAvailableSource() + 1) {
             return false;
         }
 
@@ -126,13 +126,13 @@ public class PandaExpressionParserWorker {
         }
 
         long time = System.nanoTime();
-        int cachedIndex = context.getDiffusedSource().getIndex();
+        int cachedIndex = context.getSynchronizedSource().getIndex();
         ExpressionResult result = worker.next(context, token);
         Maps.update(TIMES, subparser.getSubparserName(), () -> 0L, cachedTime -> cachedTime + (System.nanoTime() - time));
 
         // if something went wrong
         if (result == null || result.containsError()) {
-            context.getDiffusedSource().setIndex(cachedIndex);
+            context.getSynchronizedSource().setIndex(cachedIndex);
 
             // do not override previous error
             if (result != null && error == null) {
@@ -158,7 +158,7 @@ public class PandaExpressionParserWorker {
         cachedWorkers.push(worker);
 
         // cleanup cache, move the index
-        lastSucceededRead = context.getDiffusedSource().getIndex();
+        lastSucceededRead = context.getSynchronizedSource().getIndex();
         error = null;
 
         return true;

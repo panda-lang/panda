@@ -19,9 +19,11 @@ package org.panda_lang.panda.language.resource.syntax;
 /**
  * Default set of the special characters
  */
-public abstract class DefaultCharacters {
+public final class DefaultCharacters {
 
     private static final char[] SPECIAL_CHARACTERS = "#&'()[]{}*+,-./:;<=>!|`^".toCharArray();
+
+    private DefaultCharacters() { }
 
     public static char[] getSpecialCharacters() {
         return SPECIAL_CHARACTERS;

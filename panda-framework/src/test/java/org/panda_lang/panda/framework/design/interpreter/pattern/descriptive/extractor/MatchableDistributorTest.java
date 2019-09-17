@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.token.distributors;
+package org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor;
 
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.language.interpreter.source.PandaSource;
+import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.utils.TokenDistributor;
 import org.panda_lang.panda.language.resource.syntax.PandaSyntax;
 
 public class MatchableDistributorTest {

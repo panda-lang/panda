@@ -23,7 +23,7 @@ import java.util.Collection;
 /**
  * Default sequences
  */
-public class Sequences {
+public final class Sequences {
 
     public static final Sequence STRING = new Sequence("String", '"');
 
@@ -40,6 +40,8 @@ public class Sequences {
     static {
         VALUES = ReflectionUtils.getStaticFieldValues(Sequences.class, Sequence.class);
     }
+
+    private Sequences() { }
 
     public static Sequence[] values() {
         return VALUES.toArray(new Sequence[0]);

@@ -24,7 +24,7 @@ import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.utilities.commons.ObjectUtils;
 
-public class ThisExpression implements DynamicExpression {
+public final class ThisExpression implements DynamicExpression {
 
     private final ClassPrototype type;
 

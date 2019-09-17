@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class TokenType {
+public final class TokenType {
 
     private static final AtomicInteger ID_ASSIGNER = new AtomicInteger();
 

@@ -25,7 +25,7 @@ import java.util.Collection;
 /**
  * Default separators
  */
-public class Separators {
+public final class Separators {
 
     public static final Separator SEMICOLON = new Separator(";", null);
     public static final Separator COMMA = new Separator(",", null);
@@ -45,6 +45,8 @@ public class Separators {
     static {
         VALUES = ReflectionUtils.getStaticFieldValues(Separators.class, Separator.class);
     }
+
+    private Separators() { }
 
     public static @Nullable Separator valueOf(Token token) {
         for (Separator separator : values()) {

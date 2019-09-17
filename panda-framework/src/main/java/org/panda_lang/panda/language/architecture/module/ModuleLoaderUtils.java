@@ -27,7 +27,9 @@ import org.panda_lang.panda.language.interpreter.parser.PandaParserFailure;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class ModuleLoaderUtils {
+public final class ModuleLoaderUtils {
+
+    private ModuleLoaderUtils() { }
 
     public static @Nullable ClassPrototypeReference getReferenceOrNull(Context context, String className) {
         return getReferenceOrOptional(context, className).orElse(null);

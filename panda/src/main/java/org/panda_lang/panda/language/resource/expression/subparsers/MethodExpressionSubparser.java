@@ -33,7 +33,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.expression.Expre
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.panda.language.interpreter.token.TokenUtils;
-import org.panda_lang.panda.language.interpreter.token.distributors.DiffusedSource;
+import org.panda_lang.panda.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.panda.language.resource.head.ArgumentsParser;
 import org.panda_lang.panda.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.language.resource.syntax.separator.Separators;
@@ -71,7 +71,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation nameToken) {
-            DiffusedSource source = context.getDiffusedSource();
+            SynchronizedSource source = context.getSynchronizedSource();
 
             // name has to be declared by unknown type of token
             if (nameToken.getType() != TokenType.UNKNOWN || !source.hasNext()) {

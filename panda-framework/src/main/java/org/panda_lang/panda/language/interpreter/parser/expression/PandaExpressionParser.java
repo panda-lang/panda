@@ -28,7 +28,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.interpreter.token.distributors.DiffusedSource;
+import org.panda_lang.panda.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.panda.language.interpreter.token.PandaSourceStream;
 
 import java.util.Collections;
@@ -86,12 +86,12 @@ public class PandaExpressionParser implements ExpressionParser {
     }
 
     @Override
-    public Expression parse(Context context, DiffusedSource source) {
+    public Expression parse(Context context, SynchronizedSource source) {
         return parse(context, source, ExpressionParserSettings.DEFAULT);
     }
 
     @Override
-    public Expression parse(Context context, DiffusedSource source, ExpressionParserSettings settings) {
+    public Expression parse(Context context, SynchronizedSource source, ExpressionParserSettings settings) {
         SourceStream stream = new PandaSourceStream(source.getAvailableSource());
 
         Expression expression = parse(context, stream, settings);
@@ -120,7 +120,7 @@ public class PandaExpressionParser implements ExpressionParser {
             throw new PandaExpressionParserFailure("Expression expected", expressionContext, source);
         }
 
-        for (TokenRepresentation representation : expressionContext.getDiffusedSource()) {
+        for (TokenRepresentation representation : expressionContext.getSynchronizedSource()) {
             if (!worker.next(expressionContext, representation)) {
                 break;
             }

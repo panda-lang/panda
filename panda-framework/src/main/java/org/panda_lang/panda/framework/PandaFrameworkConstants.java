@@ -16,7 +16,9 @@
 
 package org.panda_lang.panda.framework;
 
-public class PandaFrameworkConstants {
+public final class PandaFrameworkConstants {
+
+    private PandaFrameworkConstants() { }
 
     /**
      * Current version of the Panda Framework

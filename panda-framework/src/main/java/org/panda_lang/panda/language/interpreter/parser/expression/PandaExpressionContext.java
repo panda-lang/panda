@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.expression.Expre
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.interpreter.token.distributors.DiffusedSource;
+import org.panda_lang.panda.language.interpreter.token.SynchronizedSource;
 
 import java.util.Stack;
 
@@ -30,14 +30,14 @@ final public class PandaExpressionContext implements ExpressionContext {
     private final ExpressionParser parser;
     private final Context context;
     private final SourceStream source;
-    private final DiffusedSource diffusedSource;
+    private final SynchronizedSource synchronizedSource;
     private final Stack<Expression> results = new Stack<>();
 
     public PandaExpressionContext(ExpressionParser parser, Context context, SourceStream source) {
         this.parser = parser;
         this.context = context;
         this.source = source;
-        this.diffusedSource = new DiffusedSource(source.toSnippet());
+        this.synchronizedSource = new SynchronizedSource(source.toSnippet());
     }
 
     @Override
@@ -56,8 +56,8 @@ final public class PandaExpressionContext implements ExpressionContext {
     }
 
     @Override
-    public DiffusedSource getDiffusedSource() {
-        return diffusedSource;
+    public SynchronizedSource getSynchronizedSource() {
+        return synchronizedSource;
     }
 
     @Override

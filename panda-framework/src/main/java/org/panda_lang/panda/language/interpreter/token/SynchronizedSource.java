@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.token.distributors;
+package org.panda_lang.panda.language.interpreter.token;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
@@ -23,15 +23,15 @@ import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
 import java.util.Iterator;
 
 /**
- * DiffusedSource works like a shared iterator with its own index and source based on {@link org.panda_lang.panda.framework.design.interpreter.token.Snippet}
+ * SynchronizedSource works like a shared iterator with its own index and source based on {@link org.panda_lang.panda.framework.design.interpreter.token.Snippet}
  */
-public class DiffusedSource implements Iterable<TokenRepresentation>, Iterator<TokenRepresentation> {
+public class SynchronizedSource implements Iterable<TokenRepresentation>, Iterator<TokenRepresentation> {
 
     private final Snippet source;
     private int index;
     private int cachedIndex;
 
-    public DiffusedSource(Snippet source) {
+    public SynchronizedSource(Snippet source) {
         this.source = source;
     }
 
@@ -165,7 +165,7 @@ public class DiffusedSource implements Iterable<TokenRepresentation>, Iterator<T
     }
 
     /**
-     * The original source used to create {@link org.panda_lang.panda.language.interpreter.token.distributors.DiffusedSource}
+     * The original source used to create {@link SynchronizedSource}
      *
      * @return the original source
      */

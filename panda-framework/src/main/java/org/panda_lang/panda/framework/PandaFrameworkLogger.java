@@ -24,6 +24,8 @@ public final class PandaFrameworkLogger {
 
     protected static Logger PANDA_FRAMEWORK_LOGGER = LoggerFactory.getLogger("Panda Framework");
 
+    private PandaFrameworkLogger() { }
+
     /**
      * Set logger used by the framework
      *

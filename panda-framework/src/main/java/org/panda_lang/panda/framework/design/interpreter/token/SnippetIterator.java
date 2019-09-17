@@ -23,7 +23,7 @@ final class SnippetIterator implements Iterator<TokenRepresentation> {
     private final Snippet snippet;
     private int index;
 
-    public SnippetIterator(Snippet snippet) {
+    SnippetIterator(Snippet snippet) {
         this.snippet = snippet;
     }
 
