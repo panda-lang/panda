@@ -47,7 +47,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ConstructorExpressionSubparser implements ExpressionSubparser {
+public final class ConstructorExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker() {
@@ -69,7 +69,7 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
         return "constructor";
     }
 
-    private static class ConstructorWorker extends AbstractExpressionSubparserWorker {
+    private static final class ConstructorWorker extends AbstractExpressionSubparserWorker {
 
         private static final ArgumentsParser ARGUMENT_PARSER = new ArgumentsParser();
 

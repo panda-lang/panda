@@ -24,6 +24,8 @@ import java.util.Collection;
 
 public final class PandaLauncher {
 
+    private PandaLauncher() { }
+
     public static void main(String[] args) {
         PandaFactory pandaFactory = new PandaFactory();
         Panda panda = pandaFactory.createPanda();

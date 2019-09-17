@@ -23,10 +23,12 @@ import org.panda_lang.panda.framework.design.interpreter.parser.component.Compon
 /**
  * Default list of names used by {@link org.panda_lang.panda.framework.design.interpreter.parser.Context} for components
  */
-public class PandaComponents {
+public final class PandaComponents {
 
     public static final Component<Panda> PANDA = Component.of("panda", Panda.class);
 
     public static final Component<PandaScript> PANDA_SCRIPT = Component.of("panda-script", PandaScript.class);
+
+    private PandaComponents() { }
 
 }

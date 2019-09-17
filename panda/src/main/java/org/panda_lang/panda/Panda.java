@@ -20,12 +20,14 @@ import org.panda_lang.panda.cli.PandaCLI;
 import org.panda_lang.panda.framework.design.FrameworkController;
 import org.panda_lang.panda.framework.design.resource.Language;
 import org.panda_lang.panda.framework.design.resource.Resources;
+import org.panda_lang.panda.language.resource.PandaLanguage;
+import org.panda_lang.panda.language.resource.PandaResources;
 import org.panda_lang.panda.util.embed.PandaEngineFactoryConstants;
 
 /**
  * The framework controller of Panda language.
  *
- * @see org.panda_lang.panda.PandaBuilder
+ * @see org.panda_lang.panda.Panda.PandaBuilder
  *
  */
 public final class Panda implements FrameworkController {
@@ -36,7 +38,7 @@ public final class Panda implements FrameworkController {
     private final PandaCLI cli;
     private final PandaLoader loader;
 
-    protected Panda(PandaBuilder builder) {
+    private Panda(PandaBuilder builder) {
         if (builder.language == null) {
             throw new IllegalArgumentException("Language has to be defined");
         }
@@ -98,6 +100,37 @@ public final class Panda implements FrameworkController {
     @Override
     public String getVersion() {
         return PandaEngineFactoryConstants.VERSION;
+    }
+
+    public static PandaBuilder builder() {
+        return new PandaBuilder();
+    }
+
+    public static class PandaBuilder {
+
+        protected PandaLanguage language;
+        protected PandaResources resources;
+
+        private PandaBuilder() { }
+
+        public PandaBuilder withLanguage(PandaLanguage language) {
+            this.language = language;
+            return this;
+        }
+
+        public PandaBuilder withResources(PandaResources resources) {
+            this.resources = resources;
+            return this;
+        }
+
+        public Panda build() {
+            return new Panda(this);
+        }
+
+        public static PandaBuilder builder() {
+            return new PandaBuilder();
+        }
+
     }
 
 }

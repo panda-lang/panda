@@ -23,7 +23,7 @@ import org.panda_lang.panda.language.runtime.expression.DynamicExpression;
 
 import java.security.InvalidParameterException;
 
-public class NegateLogicalExpression implements DynamicExpression {
+final class NegateLogicalExpression implements DynamicExpression {
 
     private final Expression logicalExpression;
 

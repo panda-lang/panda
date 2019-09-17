@@ -16,12 +16,14 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.assignation;
 
-public class AssignationPriorities {
+public final class AssignationPriorities {
 
     public static final double VARIABLE_DECLARATION = 1.0;
 
     public static final double VARIABLE_ASSIGNATION = 2.0;
 
     public static final double ARRAY_ASSIGNATION = 3.0;
+
+    private AssignationPriorities() { }
 
 }

@@ -92,6 +92,8 @@ public final class PandaParsers extends Parsers {
             ThrowParser.class
     );
 
+    private PandaParsers() { }
+
     @Override
     public Class<? extends Parser>[] getParsers() {
         return PARSERS;

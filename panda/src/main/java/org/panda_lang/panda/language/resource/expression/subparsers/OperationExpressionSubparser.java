@@ -32,7 +32,7 @@ import org.panda_lang.panda.language.resource.expression.subparsers.operation.Op
 import java.util.ArrayList;
 import java.util.List;
 
-public class OperationExpressionSubparser implements ExpressionSubparser {
+public final class OperationExpressionSubparser implements ExpressionSubparser {
 
     private static final OperationParser OPERATION_PARSER = new OperationParser();
 
@@ -61,7 +61,7 @@ public class OperationExpressionSubparser implements ExpressionSubparser {
         return "operation";
     }
 
-    private static class OperationWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
+    private static final class OperationWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
         private List<Operation.OperationElement> elements;
 

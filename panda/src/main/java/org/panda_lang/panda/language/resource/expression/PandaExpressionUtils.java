@@ -23,7 +23,9 @@ import org.panda_lang.panda.language.interpreter.parser.expression.PandaExpressi
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-public class PandaExpressionUtils {
+public final class PandaExpressionUtils {
+
+    private PandaExpressionUtils() { }
 
     public static ExpressionSubparsers collectSubparsers() {
         return collectSubparsers(PandaExpressions.SUBPARSERS);

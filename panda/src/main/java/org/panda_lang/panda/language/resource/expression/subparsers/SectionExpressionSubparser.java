@@ -27,7 +27,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.expression.Expre
 import org.panda_lang.panda.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.language.resource.syntax.separator.Separators;
 
-public class SectionExpressionSubparser implements ExpressionSubparser {
+public final class SectionExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker() {
@@ -39,7 +39,7 @@ public class SectionExpressionSubparser implements ExpressionSubparser {
         return "section";
     }
 
-    private static class SentenceWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
+    private static final class SentenceWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {

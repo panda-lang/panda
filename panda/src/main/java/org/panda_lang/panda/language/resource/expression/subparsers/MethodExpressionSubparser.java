@@ -43,7 +43,7 @@ import org.panda_lang.panda.utilities.commons.ObjectUtils;
 
 import java.util.Optional;
 
-public class MethodExpressionSubparser implements ExpressionSubparser {
+public final class MethodExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker() {
@@ -65,7 +65,7 @@ public class MethodExpressionSubparser implements ExpressionSubparser {
         return "method";
     }
 
-    private static class MethodWorker extends AbstractExpressionSubparserWorker {
+    private static final class MethodWorker extends AbstractExpressionSubparserWorker {
 
         private static final ArgumentsParser ARGUMENT_PARSER = new ArgumentsParser();
 

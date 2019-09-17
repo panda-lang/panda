@@ -32,7 +32,7 @@ import org.panda_lang.panda.language.resource.PandaTypes;
 import org.panda_lang.panda.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.language.resource.syntax.separator.Separators;
 
-public class ArrayValueAccessorParser implements Parser {
+public final class ArrayValueAccessorParser implements Parser {
 
     public @Nullable ArrayAccessor parse(Context context, Snippet source) {
         TokenRepresentation sectionRepresentation = source.getLast();

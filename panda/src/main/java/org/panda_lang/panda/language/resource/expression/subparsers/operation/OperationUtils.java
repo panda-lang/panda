@@ -27,9 +27,9 @@ import org.panda_lang.panda.utilities.commons.ObjectUtils;
 
 import java.util.function.Predicate;
 
-public class OperationUtils {
+final class OperationUtils {
 
-    public static boolean isConcatenation(Operation operation) {
+    static boolean isConcatenation(Operation operation) {
         boolean operator = false;
         boolean string = false;
 
@@ -49,7 +49,7 @@ public class OperationUtils {
         return operator && string;
     }
 
-    public static boolean isNumeric(Operation operation) {
+    static boolean isNumeric(Operation operation) {
         return verify(operation, null, element -> {
             if (element.isExpression()) {
                 return PandaTypes.NUMBER.isAssignableFrom(element.getExpression().getReturnType());
@@ -65,15 +65,15 @@ public class OperationUtils {
         });
     }
 
-    public static boolean isLogical(Operation operation) {
+    static boolean isLogical(Operation operation) {
         return verify(operation, Type.OPERATOR, element -> OperatorUtils.isMemberOf(element.getOperator(), OperatorFamilies.LOGICAL));
     }
 
-    public static boolean verifyOperator(Operation operation, Token token) {
+    static boolean verifyOperator(Operation operation, Token token) {
         return verify(operation, Type.OPERATOR, element -> element.getOperatorRepresentation().contentEquals(token));
     }
 
-    private static boolean verify(Operation operation, Type type, Predicate<Operation.OperationElement> filter) {
+    static boolean verify(Operation operation, Type type, Predicate<Operation.OperationElement> filter) {
         for (Operation.OperationElement element : operation.getElements()) {
             if (type == Type.EXPRESSION && element.isOperator()) {
                 continue;

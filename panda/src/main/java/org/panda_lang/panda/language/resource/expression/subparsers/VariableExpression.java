@@ -25,7 +25,7 @@ import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.language.resource.expression.subparsers.assignation.variable.VariableAccessor;
 import org.panda_lang.panda.language.runtime.expression.DynamicExpression;
 
-public class VariableExpression implements DynamicExpression {
+final class VariableExpression implements DynamicExpression {
 
     private final Accessor<?> accessor;
 

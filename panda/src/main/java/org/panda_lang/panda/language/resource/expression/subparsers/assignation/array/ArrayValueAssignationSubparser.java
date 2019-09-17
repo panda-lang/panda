@@ -42,7 +42,7 @@ import org.panda_lang.panda.language.resource.syntax.separator.Separators;
 import java.util.Optional;
 
 @Registrable(pipeline = PandaPipelines.ASSIGNER_LABEL, priority = AssignationPriorities.ARRAY_ASSIGNATION)
-public class ArrayValueAssignationSubparser extends AssignationSubparserBootstrap {
+public final class ArrayValueAssignationSubparser extends AssignationSubparserBootstrap {
 
     private static final ArrayValueAccessorParser PARSER = new ArrayValueAccessorParser();
 

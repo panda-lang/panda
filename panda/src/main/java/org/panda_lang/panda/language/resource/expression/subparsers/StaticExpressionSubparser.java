@@ -28,7 +28,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.language.runtime.expression.StaticExpression;
 
-public class StaticExpressionSubparser implements ExpressionSubparser {
+public final class StaticExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker() {
@@ -40,7 +40,7 @@ public class StaticExpressionSubparser implements ExpressionSubparser {
         return "static";
     }
 
-    private static class StaticWorker extends AbstractExpressionSubparserWorker {
+    private static final class StaticWorker extends AbstractExpressionSubparserWorker {
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {

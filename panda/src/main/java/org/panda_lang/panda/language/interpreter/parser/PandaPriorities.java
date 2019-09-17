@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parser;
 
-public class PandaPriorities {
+public final class PandaPriorities {
 
     /**
      * Used by {@link org.panda_lang.panda.language.resource.prototype.MethodParser}
@@ -48,5 +48,7 @@ public class PandaPriorities {
      * Used by {@link org.panda_lang.panda.language.resource.expression.subparsers.assignation.AssignationExpressionSubparser}
      */
     public static final int CONTAINER_ASSIGNATION = 6;
+
+    private PandaPriorities() { }
 
 }

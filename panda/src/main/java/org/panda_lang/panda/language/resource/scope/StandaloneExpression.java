@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.language.architecture.dynamic.AbstractExecutableStatement;
 
-class StandaloneExpression extends AbstractExecutableStatement {
+final class StandaloneExpression extends AbstractExecutableStatement {
 
     private final Expression expression;
 
