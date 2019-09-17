@@ -31,7 +31,7 @@ import org.panda_lang.panda.language.resource.expression.subparsers.number.Numbe
 import org.panda_lang.panda.language.resource.expression.subparsers.number.NumberUtils;
 import org.panda_lang.panda.language.resource.syntax.separator.Separators;
 
-public class NumberExpressionSubparser implements ExpressionSubparser {
+public final class NumberExpressionSubparser implements ExpressionSubparser {
 
     private static final NumberParser PARSER = new NumberParser();
 
@@ -45,7 +45,7 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
         return "number";
     }
 
-    private static class NumberWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
+    private static final class NumberWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
         private Snippet content;
         private TokenRepresentation period;

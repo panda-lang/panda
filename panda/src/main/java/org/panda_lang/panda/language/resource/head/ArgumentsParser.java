@@ -31,7 +31,7 @@ import org.panda_lang.panda.language.resource.syntax.separator.Separators;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArgumentsParser implements Parser {
+public final class ArgumentsParser implements Parser {
 
     private static final Expression[] EMPTY = new Expression[0];
 

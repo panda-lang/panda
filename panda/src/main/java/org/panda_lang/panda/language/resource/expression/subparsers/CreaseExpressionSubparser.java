@@ -29,7 +29,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.expression.Expre
 import org.panda_lang.panda.language.resource.syntax.operator.CreaseType;
 import org.panda_lang.panda.language.resource.syntax.operator.Operators;
 
-public class CreaseExpressionSubparser implements ExpressionSubparser {
+public final class CreaseExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker() {
@@ -46,7 +46,7 @@ public class CreaseExpressionSubparser implements ExpressionSubparser {
         return "crease";
     }
 
-    private static class CreaseWorker extends AbstractExpressionSubparserWorker {
+    private static final class CreaseWorker extends AbstractExpressionSubparserWorker {
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {

@@ -26,7 +26,7 @@ import org.panda_lang.panda.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.language.resource.expression.subparsers.number.NumberPriorities;
 import org.panda_lang.panda.language.runtime.expression.DynamicExpression;
 
-public class CreaseExpression extends NumberPriorities implements DynamicExpression {
+final class CreaseExpression extends NumberPriorities implements DynamicExpression {
 
     private final Accessor<?> accessor;
     private final boolean grow;

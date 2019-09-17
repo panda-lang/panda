@@ -36,7 +36,7 @@ import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 import org.panda_lang.panda.language.resource.syntax.keyword.Keywords;
 
 @Registrable(pipeline = UniversalPipelines.SCOPE_LABEL, priority = PandaPriorities.CONTAINER_LATE_DECLARATION)
-public class LateDeclarationParser extends ParserBootstrap {
+public final class LateDeclarationParser extends ParserBootstrap {
 
     @Override
     protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {

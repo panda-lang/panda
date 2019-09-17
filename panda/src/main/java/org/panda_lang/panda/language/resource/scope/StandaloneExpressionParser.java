@@ -37,7 +37,7 @@ import org.panda_lang.panda.language.interpreter.parser.expression.PandaExpressi
 import org.panda_lang.panda.language.interpreter.token.PandaSourceStream;
 
 @Registrable(pipeline = UniversalPipelines.SCOPE_LABEL, priority = PandaPriorities.CONTAINER_EXPRESSION)
-public class StandaloneExpressionParser extends ParserBootstrap {
+public final class StandaloneExpressionParser extends ParserBootstrap {
 
     private static final ExpressionParserSettings SETTINGS = ExpressionParserSettings.create().onlyStandalone();
 

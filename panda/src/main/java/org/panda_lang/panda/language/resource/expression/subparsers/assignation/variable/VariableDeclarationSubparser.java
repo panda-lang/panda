@@ -45,7 +45,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Registrable(pipeline = PandaPipelines.ASSIGNER_LABEL, priority = AssignationPriorities.VARIABLE_DECLARATION)
-public class VariableDeclarationSubparser extends AssignationSubparserBootstrap {
+public final class VariableDeclarationSubparser extends AssignationSubparserBootstrap {
 
     @Override
     protected BootstrapInitializer<@Nullable ExpressionResult> initialize(Context context, BootstrapInitializer<@Nullable ExpressionResult> initializer) {

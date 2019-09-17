@@ -22,4 +22,6 @@ public final class PandaConstants {
 
     public static final String VERSION = PandaFrameworkConstants.VERSION;
 
+    private PandaConstants() { }
+    
 }

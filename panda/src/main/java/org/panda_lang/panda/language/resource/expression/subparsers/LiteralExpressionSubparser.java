@@ -30,7 +30,7 @@ import org.panda_lang.panda.language.interpreter.parser.expression.ExpressionPar
 import org.panda_lang.panda.language.resource.PandaTypes;
 import org.panda_lang.panda.language.runtime.expression.ThisExpression;
 
-public class LiteralExpressionSubparser implements ExpressionSubparser {
+public final class LiteralExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker() {
@@ -47,7 +47,7 @@ public class LiteralExpressionSubparser implements ExpressionSubparser {
         return "literal";
     }
 
-    private static class SequenceWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
+    private static final class SequenceWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {

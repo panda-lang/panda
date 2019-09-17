@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Registrable(pipeline = UniversalPipelines.ALL_LABEL)
-public class CommentParser implements ContextParser<CommentStatement>, ParserHandler {
+public final class CommentParser implements ContextParser<CommentStatement>, ParserHandler {
 
     @Override
     public Boolean handle(Context context, Channel channel, Snippet source) {

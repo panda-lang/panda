@@ -24,7 +24,7 @@ import org.panda_lang.panda.language.runtime.expression.PandaDynamicExpression;
 
 import java.lang.reflect.Array;
 
-public class ArrayInstanceExpression extends PandaDynamicExpression {
+final class ArrayInstanceExpression extends PandaDynamicExpression {
 
     private final ClassPrototype prototype;
     private final Expression[] capacities;

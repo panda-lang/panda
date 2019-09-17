@@ -26,7 +26,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.expression.Expre
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.panda.language.resource.syntax.operator.Operators;
 
-public class NegateExpressionSubparser implements ExpressionSubparser {
+public final class NegateExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker() {
@@ -43,7 +43,7 @@ public class NegateExpressionSubparser implements ExpressionSubparser {
         return "negate";
     }
 
-    private static class NegateWorker extends AbstractExpressionSubparserWorker {
+    private static final class NegateWorker extends AbstractExpressionSubparserWorker {
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {

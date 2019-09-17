@@ -17,14 +17,13 @@
 package org.panda_lang.panda.bootstrap;
 
 import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.PandaBuilder;
 import org.panda_lang.panda.framework.design.resource.Syntax;
 import org.panda_lang.panda.language.resource.PandaLanguage;
 import org.panda_lang.panda.language.resource.PandaResources;
 
 public class PandaBootstrap {
 
-    protected final PandaBuilder panda = PandaBuilder.builder();
+    protected final Panda.PandaBuilder panda = Panda.PandaBuilder.builder();
     protected final PandaLanguage.PandaLanguageBuilder language = PandaLanguage.builder();
     protected final PandaResources.PandaResourcesBuilder resources = PandaResources.builder();
 

@@ -43,7 +43,7 @@ import org.panda_lang.panda.language.resource.expression.subparsers.assignation.
 import org.panda_lang.panda.language.resource.expression.subparsers.assignation.AssignationSubparserBootstrap;
 
 @Registrable(pipeline = PandaPipelines.ASSIGNER_LABEL, priority = AssignationPriorities.VARIABLE_ASSIGNATION)
-public class VariableAssignationSubparser extends AssignationSubparserBootstrap {
+public final class VariableAssignationSubparser extends AssignationSubparserBootstrap {
 
     @Override
     protected BootstrapInitializer<@Nullable ExpressionResult> initialize(Context context, BootstrapInitializer<@Nullable ExpressionResult> initializer) {

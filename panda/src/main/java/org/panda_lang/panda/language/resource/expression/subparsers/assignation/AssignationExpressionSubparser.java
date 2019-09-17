@@ -39,7 +39,7 @@ import org.panda_lang.panda.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.panda.language.resource.syntax.operator.OperatorFamilies;
 import org.panda_lang.panda.language.resource.syntax.operator.OperatorUtils;
 
-public class AssignationExpressionSubparser implements ExpressionSubparser {
+public final class AssignationExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker() {

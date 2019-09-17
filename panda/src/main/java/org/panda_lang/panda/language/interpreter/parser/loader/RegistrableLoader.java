@@ -31,7 +31,7 @@ import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-public class RegistrableLoader {
+public final class RegistrableLoader {
 
     public PipelinePath load(AnnotationsScannerProcess scannerProcess) {
         return load(new PandaPipelinePath(), scannerProcess);

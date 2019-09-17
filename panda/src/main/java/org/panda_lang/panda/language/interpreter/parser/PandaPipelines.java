@@ -24,7 +24,7 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockSu
 /**
  * Used by {@link org.panda_lang.panda.language.interpreter.parser.loader.Registrable}
  */
-public class PandaPipelines implements Pipelines {
+public final class PandaPipelines implements Pipelines {
 
     /**
      * Text representation of {@link PandaPipelines#BLOCK}

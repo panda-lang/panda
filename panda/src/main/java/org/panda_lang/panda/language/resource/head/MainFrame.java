@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.language.architecture.dynamic.AbstractLivingFrame;
 import org.panda_lang.panda.language.architecture.statement.AbstractFrame;
 
-public class MainFrame extends AbstractFrame {
+public final class MainFrame extends AbstractFrame {
 
     @Override
     public LivingFrame revive(ProcessStack stack, Object instance) {
@@ -33,7 +33,7 @@ public class MainFrame extends AbstractFrame {
         return "main scope";
     }
 
-    public static class MainLivingFrame extends AbstractLivingFrame<MainFrame> {
+    public static final class MainLivingFrame extends AbstractLivingFrame<MainFrame> {
 
         public MainLivingFrame(MainFrame main) {
             super(main);

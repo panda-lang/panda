@@ -25,7 +25,7 @@ import org.panda_lang.panda.language.interpreter.source.PandaURLSource;
 import java.io.File;
 import java.util.Optional;
 
-public class PandaLoader {
+public final class PandaLoader {
 
     private final Panda panda;
 

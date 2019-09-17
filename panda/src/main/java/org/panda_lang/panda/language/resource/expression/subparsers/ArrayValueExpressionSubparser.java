@@ -32,7 +32,7 @@ import org.panda_lang.panda.language.resource.expression.subparsers.assignation.
 import org.panda_lang.panda.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.language.resource.syntax.separator.Separators;
 
-public class ArrayValueExpressionSubparser implements ExpressionSubparser {
+public final class ArrayValueExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker() {
@@ -44,7 +44,7 @@ public class ArrayValueExpressionSubparser implements ExpressionSubparser {
         return "array-value";
     }
 
-    private static class ArrayValueWorker extends AbstractExpressionSubparserWorker {
+    private static final class ArrayValueWorker extends AbstractExpressionSubparserWorker {
 
         private static final ArrayValueAccessorParser PARSER = new ArrayValueAccessorParser();
 

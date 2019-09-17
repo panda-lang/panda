@@ -29,6 +29,8 @@ public final class AssignationParsers extends Parsers {
             ArrayValueAssignationSubparser.class
     );
 
+    private AssignationParsers() { }
+
     @Override
     public Class<? extends AssignationSubparser>[] getParsers() {
         return SUBPARSERS;

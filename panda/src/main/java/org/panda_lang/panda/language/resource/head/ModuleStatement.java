@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.resource.head;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.language.architecture.statement.AbstractStatement;
 
-class ModuleStatement extends AbstractStatement {
+final class ModuleStatement extends AbstractStatement {
 
     private final Module module;
 

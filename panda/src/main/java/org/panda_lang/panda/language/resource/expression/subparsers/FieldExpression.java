@@ -26,7 +26,7 @@ import org.panda_lang.panda.language.resource.expression.subparsers.assignation.
 import org.panda_lang.panda.language.runtime.PandaRuntimeException;
 import org.panda_lang.panda.language.runtime.expression.DynamicExpression;
 
-public class FieldExpression implements DynamicExpression {
+final class FieldExpression implements DynamicExpression {
 
     private final Accessor<? extends PrototypeField> accessor;
 

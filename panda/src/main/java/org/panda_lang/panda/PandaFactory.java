@@ -33,7 +33,7 @@ import org.panda_lang.panda.language.resource.PandaParsers;
 import org.panda_lang.panda.language.resource.expression.subparsers.assignation.AssignationParsers;
 import org.panda_lang.panda.language.resource.syntax.PandaSyntax;
 
-public class PandaFactory {
+public final class PandaFactory {
 
     public Panda createPanda() {
         return PandaBootstrap.initializeBootstrap()

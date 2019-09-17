@@ -26,20 +26,22 @@ import org.panda_lang.panda.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 
-public class OperationExpressionUtils {
+final class OperationExpressionUtils {
 
-    public static final Token[] OPERATORS = ArrayUtils.mergeArrays(
+    static final Token[] OPERATORS = ArrayUtils.mergeArrays(
             Operators.getFamily(OperatorFamilies.MATH),
             Operators.getFamily(OperatorFamilies.LOGICAL)
     );
 
-    public static final ProgressivePattern OPERATION_PATTERN = new ProgressivePattern(Separators.getOpeningSeparators(), OPERATORS);
+    static final ProgressivePattern OPERATION_PATTERN = new ProgressivePattern(Separators.getOpeningSeparators(), OPERATORS);
 
-    public static boolean isOperationExpression(Snippet source) {
+    private OperationExpressionUtils() { }
+
+    static boolean isOperationExpression(Snippet source) {
         return isOperationExpression(OPERATION_PATTERN.extract(source));
     }
 
-    public static boolean isOperationExpression(ProgressivePatternResult source) {
+    static boolean isOperationExpression(ProgressivePatternResult source) {
         if (source.size() % 2 == 0) {
             return false;
         }

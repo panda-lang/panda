@@ -28,7 +28,7 @@ import org.panda_lang.panda.language.resource.expression.subparsers.operation.su
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers.LogicalOperatorSubparser;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers.MathOperationSubparser;
 
-public class OperationParser implements Parser {
+public final class OperationParser implements Parser {
 
     public Expression parse(Context context, Snippet source) {
         return parse(context, source, OperationExpressionUtils.OPERATION_PATTERN.extract(source));

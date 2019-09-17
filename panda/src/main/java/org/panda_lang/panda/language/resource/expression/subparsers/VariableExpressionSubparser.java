@@ -37,7 +37,7 @@ import org.panda_lang.panda.language.runtime.expression.ThisExpression;
 
 import java.util.Optional;
 
-public class VariableExpressionSubparser implements ExpressionSubparser {
+public final class VariableExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker() {
@@ -49,7 +49,7 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
         return "variable";
     }
 
-    private static class VariableWorker extends AbstractExpressionSubparserWorker {
+    private static final class VariableWorker extends AbstractExpressionSubparserWorker {
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
