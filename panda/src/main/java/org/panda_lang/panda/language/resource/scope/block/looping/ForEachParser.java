@@ -33,6 +33,7 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annot
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Component;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.TokenHandler;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.interceptors.LinearPatternInterceptor;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 import org.panda_lang.panda.language.resource.PandaTypes;
 import org.panda_lang.panda.language.resource.syntax.keyword.Keywords;
@@ -44,7 +45,8 @@ public class ForEachParser extends BlockSubparserBootstrap {
     protected BootstrapInitializer<BlockData> initialize(Context context, BootstrapInitializer<BlockData> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.FOREACH))
-                .pattern("foreach content:~(");
+                .interceptor(new LinearPatternInterceptor())
+                .pattern("foreach content:(~)");
     }
 
     @Autowired

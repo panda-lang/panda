@@ -38,6 +38,7 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annot
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.Delegation;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.LocalData;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.TokenHandler;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.interceptors.LinearPatternInterceptor;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 import org.panda_lang.panda.language.resource.parsers.ScopeParser;
 import org.panda_lang.panda.language.resource.syntax.keyword.Keywords;
@@ -54,7 +55,8 @@ public class ConstructorParser extends ParserBootstrap {
     protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.CONSTRUCTOR))
-                .pattern("constructor parameters:~( body:~{");
+                .interceptor(new LinearPatternInterceptor())
+                .pattern("constructor parameters:(~) body:{~}");
     }
 
     @Autowired(order = 1)
