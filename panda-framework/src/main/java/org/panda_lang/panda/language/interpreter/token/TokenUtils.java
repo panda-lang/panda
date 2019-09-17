@@ -24,9 +24,11 @@ import org.panda_lang.panda.utilities.commons.ArrayUtils;
 
 import java.util.Comparator;
 
-public class TokenUtils {
+public final class TokenUtils {
 
     public static final Comparator<Token> TOKEN_ORDER_COMPARATOR = (a, b) -> Integer.compare(b.getValue().length(), a.getValue().length());
+
+    private TokenUtils() { }
 
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     public static boolean hasName(Token token, String name) {

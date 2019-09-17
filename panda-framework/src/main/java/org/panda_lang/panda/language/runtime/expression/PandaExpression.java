@@ -43,12 +43,6 @@ public class PandaExpression implements Expression {
             throw new InvalidParameterException("ExpressionType cannot be null");
         }
 
-        /*
-        if (callback == null && returnType == null) {
-            throw new InvalidParameterException("Callback and Value cannot be null at the same time");
-        }
-         */
-
         this.type = type;
         this.returnType = returnType;
         this.callback = callback;

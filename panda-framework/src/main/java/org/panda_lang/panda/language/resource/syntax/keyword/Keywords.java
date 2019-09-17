@@ -23,7 +23,7 @@ import java.util.Collection;
 /**
  * Default keywords
  */
-public class Keywords {
+public final class Keywords {
 
     public static final Keyword AS = new Keyword("as");
 
@@ -94,6 +94,8 @@ public class Keywords {
     static {
         VALUES = ReflectionUtils.getStaticFieldValues(Keywords.class, Keyword.class);
     }
+
+    private Keywords() { }
 
     public static Keyword[] values() {
         return VALUES.toArray(new Keyword[0]);

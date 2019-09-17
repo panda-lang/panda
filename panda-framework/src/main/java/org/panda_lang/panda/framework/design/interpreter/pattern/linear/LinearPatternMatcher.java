@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.panda.language.interpreter.parser.expression.PandaExpressionParserFailure;
-import org.panda_lang.panda.language.interpreter.token.distributors.DiffusedSource;
+import org.panda_lang.panda.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.panda.language.resource.syntax.auxiliary.Section;
 
 import java.util.ArrayList;
@@ -40,8 +40,8 @@ class LinearPatternMatcher {
         this.source = source;
     }
 
-    LinearPatternResult match(Function<DiffusedSource, Object> expressionMatcher) {
-        DiffusedSource content = new DiffusedSource(source.toSnippet());
+    LinearPatternResult match(Function<SynchronizedSource, Object> expressionMatcher) {
+        SynchronizedSource content = new SynchronizedSource(source.toSnippet());
         List<String> identifiers = new ArrayList<>(pattern.getElements().size());
         Map<String, Object> wildcards = new HashMap<>(pattern.getElements().size());
 
@@ -70,7 +70,7 @@ class LinearPatternMatcher {
         return new LinearPatternResult(source.read(content.getIndex()), identifiers, wildcards);
     }
 
-    private boolean match(Function<DiffusedSource, Object> matcher, DiffusedSource content, List<String> identifiers, Map<String, Object> wildcards, LinearPatternElement element) {
+    private boolean match(Function<SynchronizedSource, Object> matcher, SynchronizedSource content, List<String> identifiers, Map<String, Object> wildcards, LinearPatternElement element) {
         if (!content.hasNext()) {
             return false;
         }

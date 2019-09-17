@@ -18,7 +18,9 @@ package org.panda_lang.panda.framework.design.interpreter.token;
 
 import org.jetbrains.annotations.Nullable;
 
-public class SnippetUtils {
+public final class SnippetUtils {
+
+    private SnippetUtils() { }
 
     /**
      * {@link Snippet#isEmpty()} with null support

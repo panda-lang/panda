@@ -24,7 +24,9 @@ import org.panda_lang.panda.framework.design.interpreter.token.Snippetable;
 
 import java.util.Objects;
 
-public class OperatorUtils {
+public final class OperatorUtils {
+
+    private OperatorUtils() { }
 
     /**
      * Check if operator has the given family

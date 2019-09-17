@@ -32,6 +32,7 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annot
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.LocalData;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.TokenHandler;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.interceptors.LinearPatternInterceptor;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 import org.panda_lang.panda.language.resource.parsers.ScopeParser;
 import org.panda_lang.panda.language.resource.syntax.keyword.Keywords;
@@ -45,7 +46,8 @@ public final class TryCatchParser extends ParserBootstrap {
     protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.TRY))
-                .pattern("try try-body:~{ catch catch-what:~( catch-body:~{");
+                .interceptor(new LinearPatternInterceptor())
+                .pattern("try try-body:{~} catch catch-what:(~) catch-body:{~}");
     }
 
     @Autowired

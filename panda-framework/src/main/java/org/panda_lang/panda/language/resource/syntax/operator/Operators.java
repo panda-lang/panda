@@ -25,7 +25,7 @@ import java.util.Collection;
 /**
  * Default operators
  */
-public class Operators {
+public final class Operators {
 
     public static final Operator ADDITION = new Operator(OperatorFamilies.MATH, "+");
 
@@ -97,6 +97,8 @@ public class Operators {
     static {
         VALUES = ReflectionUtils.getStaticFieldValues(Operators.class, Operator.class);
     }
+
+    private Operators() { }
 
     public static Operator[] values() {
         return VALUES.toArray(new Operator[0]);

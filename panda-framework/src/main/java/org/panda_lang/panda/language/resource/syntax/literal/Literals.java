@@ -23,7 +23,7 @@ import java.util.Collection;
 /**
  * Default literals
  */
-public class Literals {
+public final class Literals {
 
     public static final Literal FALSE = new Literal("false");
 
@@ -38,6 +38,8 @@ public class Literals {
     static {
         VALUES = ReflectionUtils.getStaticFieldValues(Literals.class, Literal.class);
     }
+
+    private Literals() { }
 
     public static Literal[] values() {
         return VALUES.toArray(new Literal[0]);

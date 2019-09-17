@@ -26,7 +26,9 @@ import org.panda_lang.panda.utilities.commons.ClassUtils;
 import java.util.Collection;
 import java.util.Optional;
 
-public class PandaClassPrototypeUtils {
+public final class PandaClassPrototypeUtils {
+
+    private PandaClassPrototypeUtils() { }
 
     public static boolean isAssignableFrom(Class<?> from, Class<?> to) {
         return from != null && to != null && (from == to || ClassUtils.isAssignableFrom(from, to));

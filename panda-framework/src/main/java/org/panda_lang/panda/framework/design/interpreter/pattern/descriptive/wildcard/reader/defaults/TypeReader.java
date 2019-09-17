@@ -24,7 +24,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.language.interpreter.token.PandaSnippet;
-import org.panda_lang.panda.language.interpreter.token.distributors.TokenDistributor;
+import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.utils.TokenDistributor;
 import org.panda_lang.panda.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.language.resource.syntax.separator.Separators;

@@ -53,7 +53,7 @@ public final class VariableExpressionSubparser implements ExpressionSubparser {
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
-            boolean period = TokenUtils.contentEquals(context.getDiffusedSource().getPrevious(), Separators.PERIOD);
+            boolean period = TokenUtils.contentEquals(context.getSynchronizedSource().getPrevious(), Separators.PERIOD);
 
             if (token.getType() != TokenType.UNKNOWN) {
                 return null;

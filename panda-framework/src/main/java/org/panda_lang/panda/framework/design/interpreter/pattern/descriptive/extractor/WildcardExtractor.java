@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.wil
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternWildcard;
 import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.language.interpreter.token.PandaSnippet;
-import org.panda_lang.panda.language.interpreter.token.distributors.TokenDistributor;
+import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.utils.TokenDistributor;
 
 class WildcardExtractor extends AbstractElementExtractor<LexicalPatternWildcard> {
 

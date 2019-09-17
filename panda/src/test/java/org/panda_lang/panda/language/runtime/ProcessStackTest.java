@@ -21,8 +21,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
 import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
 import org.panda_lang.panda.framework.design.runtime.ProcessStack;
-import org.panda_lang.panda.language.architecture.dynamic.DefaultBlock;
+import org.panda_lang.panda.language.architecture.dynamic.AbstractBlock;
 import org.panda_lang.panda.language.architecture.statement.AbstractStatement;
 import org.panda_lang.panda.language.resource.head.MainFrame;
 
@@ -34,12 +35,12 @@ class ProcessStackTest {
     void prepare() {
         this.main = new MainFrame();
 
-        Block block = new DefaultBlock(main);
+        Block block = new BlockStub(main);
         main.addStatement(block);
 
         // ~StackOverflowError
         for (int i = 0; i < 1024; i++) {
-            Block subBlock = new DefaultBlock(block);
+            Block subBlock = new BlockStub(block);
 
             for (int j = 0; j < 1024; j++) {
                 subBlock.addStatement(new ExecutableStub());
@@ -62,6 +63,14 @@ class ProcessStackTest {
         @Override
         public @Nullable Object execute(ProcessStack stack, Object instance) {
             return null;
+        }
+
+    }
+
+    private static class BlockStub extends AbstractBlock {
+
+        protected BlockStub(Scope parent) {
+            super(parent);
         }
 
     }

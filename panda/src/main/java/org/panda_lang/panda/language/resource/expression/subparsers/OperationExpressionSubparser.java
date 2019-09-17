@@ -102,7 +102,7 @@ public final class OperationExpressionSubparser implements ExpressionSubparser {
 
             if (elements.size() < 3 || (elements.size() % 2) == 0) {
                 context.getResults().clear();
-                return ExpressionResult.error("Cannot parse operation: " + null, context.getDiffusedSource().getCurrent());
+                return ExpressionResult.error("Cannot parse operation: " + null, context.getSynchronizedSource().getCurrent());
             }
 
             Operation operation = new Operation(elements);

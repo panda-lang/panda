@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.design.interpreter.pattern.linear;
 
 import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.SourceStream;
-import org.panda_lang.panda.language.interpreter.token.distributors.DiffusedSource;
+import org.panda_lang.panda.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.panda.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.panda.language.resource.syntax.PandaSyntax;
 
@@ -84,7 +84,7 @@ public class LinearPattern {
         return match(source, null);
     }
 
-    public LinearPatternResult match(SourceStream source, Function<DiffusedSource, Object> expressionMatcher) {
+    public LinearPatternResult match(SourceStream source, Function<SynchronizedSource, Object> expressionMatcher) {
         return new LinearPatternMatcher(this, source).match(expressionMatcher);
     }
 

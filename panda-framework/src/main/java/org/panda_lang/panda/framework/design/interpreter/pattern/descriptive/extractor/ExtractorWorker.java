@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.panda.framework.design.interpreter.token.SourceStream;
-import org.panda_lang.panda.language.interpreter.token.distributors.TokenDistributor;
+import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.utils.TokenDistributor;
 import org.panda_lang.panda.utilities.commons.TimeUtils;
 
 import java.util.HashMap;

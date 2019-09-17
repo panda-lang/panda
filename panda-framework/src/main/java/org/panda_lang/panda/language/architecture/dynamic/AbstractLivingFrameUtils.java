@@ -16,12 +16,12 @@
 
 package org.panda_lang.panda.language.architecture.dynamic;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
+public final class AbstractLivingFrameUtils {
 
-public final class DefaultBlock extends AbstractBlock {
+    private AbstractLivingFrameUtils() { }
 
-    public DefaultBlock(Scope parent) {
-        super(parent);
+    public static Object[] extractMemory(AbstractLivingFrame<?> livingFrame) {
+        return livingFrame.localMemory;
     }
 
 }

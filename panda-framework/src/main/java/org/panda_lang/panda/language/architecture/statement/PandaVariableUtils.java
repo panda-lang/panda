@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.utilities.commons.CharacterUtils;
 
-public class PandaVariableUtils {
+public final class PandaVariableUtils {
 
     private static final char[] ALLOWED_START = CharacterUtils.mergeArrays(
             CharacterUtils.LETTERS,
@@ -31,6 +31,8 @@ public class PandaVariableUtils {
             ALLOWED_START,
             CharacterUtils.DIGITS
     );
+
+    private PandaVariableUtils() { }
 
     public static boolean isAllowedName(Token token) {
         if (token.getType() != TokenType.UNKNOWN) {

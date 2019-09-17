@@ -18,7 +18,9 @@ package org.panda_lang.panda.framework;
 
 import org.slf4j.Logger;
 
-public class PandaFramework {
+public final class PandaFramework {
+
+    private PandaFramework() { }
 
     /**
      * Get logger used by the framework.

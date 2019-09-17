@@ -16,6 +16,6 @@
 
 package org.panda_lang.panda.util.analytics;
 
-public class Analytics {
+public final class Analytics {
 
 }

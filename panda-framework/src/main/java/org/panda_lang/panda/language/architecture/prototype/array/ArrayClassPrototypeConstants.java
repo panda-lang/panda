@@ -41,4 +41,6 @@ final class ArrayClassPrototypeConstants {
             })
             .build();
 
+    private ArrayClassPrototypeConstants() { }
+
 }

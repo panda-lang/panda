@@ -70,7 +70,7 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext expressionContext, TokenRepresentation token) {
-            Snippet source = expressionContext.getDiffusedSource().getSource();
+            Snippet source = expressionContext.getSynchronizedSource().getSource();
             int index = OperatorUtils.indexOf(source, OperatorFamilies.ASSIGNATION);
 
             if (index == -1) {
@@ -98,7 +98,7 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
                 Expression expression = expressionContext.getParser().parse(assignationContext, expressionSource);
 
                 ExpressionResult result = handleResult.getParser().get().parseAssignment(assignationContext, declaration, expression);
-                expressionContext.getDiffusedSource().setIndex(declaration.size() + 1 + expressionSource.getReadLength());
+                expressionContext.getSynchronizedSource().setIndex(declaration.size() + 1 + expressionSource.getReadLength());
 
                 return result;
             } catch (PandaExpressionParserFailure e) {

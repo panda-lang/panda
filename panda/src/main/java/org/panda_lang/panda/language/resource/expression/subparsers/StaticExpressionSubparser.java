@@ -44,7 +44,7 @@ public final class StaticExpressionSubparser implements ExpressionSubparser {
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
-            if (token.getType() != TokenType.UNKNOWN || context.hasResults() || !context.getDiffusedSource().hasNext()) {
+            if (token.getType() != TokenType.UNKNOWN || context.hasResults() || !context.getSynchronizedSource().hasNext()) {
                 return null;
             }
 

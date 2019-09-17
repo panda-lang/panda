@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.token.distributors;
+package org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.utils.TokenDistributor;
 import org.panda_lang.panda.language.resource.syntax.separator.Separator;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
-public class MatchableDistributor {
+final class MatchableDistributor {
 
     private final TokenDistributor distributor;
     private final Map<Token, Token> replaced = new HashMap<>(0);

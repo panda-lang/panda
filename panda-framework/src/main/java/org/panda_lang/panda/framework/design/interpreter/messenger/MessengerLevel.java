@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.messenger;
 
-public enum  MessengerLevel {
+public enum MessengerLevel {
 
     DEBUG,
     TRACE,

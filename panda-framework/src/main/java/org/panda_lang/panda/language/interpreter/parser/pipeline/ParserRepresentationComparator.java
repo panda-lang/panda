@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserR
 
 import java.util.Comparator;
 
-public class ParserRepresentationComparator implements Comparator<ParserRepresentation> {
+public final class ParserRepresentationComparator implements Comparator<ParserRepresentation> {
 
     @Override
     public int compare(ParserRepresentation parserRepresentation, ParserRepresentation parserRepresentationTo) {
