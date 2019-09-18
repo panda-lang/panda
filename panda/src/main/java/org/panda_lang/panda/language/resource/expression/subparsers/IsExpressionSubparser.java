@@ -17,36 +17,47 @@
 package org.panda_lang.panda.language.resource.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.language.interpreter.parser.expression.ExpressionParserUtils;
-import org.panda_lang.panda.language.interpreter.token.TokenUtils;
-import org.panda_lang.panda.language.resource.PandaTypes;
+import org.panda_lang.panda.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.panda.utilities.commons.function.Produce;
 
-public final class SequenceExpressionSubparser implements ExpressionSubparser {
+public final class IsExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker() {
-        return new SequenceWorker().withSubparser(this);
+        return new IsWorker().withSubparser(this);
+    }
+
+    @Override
+    public int getMinimalRequiredLengthOfSource() {
+        return 2;
     }
 
     @Override
     public String getSubparserName() {
-        return "sequence";
+        return "is";
     }
 
-    private static final class SequenceWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
+    private static final class IsWorker extends AbstractExpressionSubparserWorker {
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
-            if (TokenUtils.hasName(token, "String")) {
-                return ExpressionParserUtils.toExpressionResult(PandaTypes.STRING, token.getValue());
+            if (!context.hasResults() || !token.contentEquals(Keywords.IS)) {
+                return null;
             }
 
-            return null;
+            Produce<ClassPrototypeReference, ExpressionResult> result = SubparsersUtils.readType(context);
+
+            if (result.hasError()) {
+                return result.getError();
+            }
+
+            return ExpressionResult.of(new IsExpression(context.popExpression(), result.getResult()).toExpression());
         }
 
     }

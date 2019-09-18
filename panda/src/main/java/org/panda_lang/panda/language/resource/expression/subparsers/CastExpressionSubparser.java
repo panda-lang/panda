@@ -17,21 +17,15 @@
 package org.panda_lang.panda.language.resource.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
-import org.panda_lang.panda.language.resource.expression.subparsers.assignation.variable.VariableDeclarationUtils;
 import org.panda_lang.panda.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.runtime.expression.PandaDynamicExpression;
-
-import java.util.Optional;
+import org.panda_lang.panda.utilities.commons.function.Produce;
 
 public class CastExpressionSubparser implements ExpressionSubparser {
 
@@ -58,21 +52,13 @@ public class CastExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            Optional<Snippet> typeSource = VariableDeclarationUtils.readType(context.getSynchronizedSource().getAvailableSource());
+            Produce<ClassPrototypeReference, ExpressionResult> result = SubparsersUtils.readType(context);
 
-            if (!typeSource.isPresent()) {
-                return ExpressionResult.error("Cannot read type", context.getSynchronizedSource().getAvailableSource());
+            if (result.hasError()) {
+                return result.getError();
             }
 
-            ModuleLoader loader = context.getContext().getComponent(UniversalComponents.MODULE_LOADER);
-            Optional<ClassPrototypeReference> typeReference = loader.forName(typeSource.get().asSource());
-
-            if (!typeReference.isPresent()) {
-                return ExpressionResult.error("Unknown type", context.getSynchronizedSource().getAvailableSource());
-            }
-
-            context.getSynchronizedSource().next(typeSource.get().size());
-            return ExpressionResult.of(new PandaDynamicExpression(typeReference.get().fetch(), context.popExpression()).toExpression());
+            return ExpressionResult.of(new PandaDynamicExpression(result.getResult().fetch(), context.popExpression()).toExpression());
         }
 
     }
