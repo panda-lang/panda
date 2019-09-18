@@ -17,14 +17,14 @@
 package org.panda_lang.panda.language.resource.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.utilities.commons.function.Produce;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.utilities.commons.function.Produce;
 
 public final class IsExpressionSubparser implements ExpressionSubparser {
 
@@ -51,7 +51,7 @@ public final class IsExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            Produce<ClassPrototypeReference, ExpressionResult> result = SubparsersUtils.readType(context);
+            Produce<PrototypeReference, ExpressionResult> result = SubparsersUtils.readType(context);
 
             if (result.hasError()) {
                 return result.getError();

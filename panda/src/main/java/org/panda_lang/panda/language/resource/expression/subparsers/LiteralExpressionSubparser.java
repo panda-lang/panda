@@ -17,17 +17,17 @@
 package org.panda_lang.panda.language.resource.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserType;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.language.interpreter.parser.expression.ExpressionParserUtils;
-import org.panda_lang.panda.language.resource.PandaTypes;
-import org.panda_lang.panda.language.runtime.expression.ThisExpression;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserType;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.framework.language.interpreter.parser.expression.ExpressionParserUtils;
+import org.panda_lang.framework.language.resource.PandaTypes;
+import org.panda_lang.framework.language.architecture.expression.ThisExpression;
 
 public final class LiteralExpressionSubparser implements ExpressionSubparser {
 

@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.resource.scope.branching;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.language.architecture.statement.AbstractStatement;
+import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.language.architecture.statement.AbstractStatement;
 
 import java.util.function.Supplier;
 

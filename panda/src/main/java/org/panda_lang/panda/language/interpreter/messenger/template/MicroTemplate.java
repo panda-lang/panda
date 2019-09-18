@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.messenger.template;
 
-import org.panda_lang.panda.utilities.commons.StringUtils;
+import org.panda_lang.utilities.commons.StringUtils;
 
 public final class MicroTemplate {
 

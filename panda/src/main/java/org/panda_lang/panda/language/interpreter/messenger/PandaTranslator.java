@@ -16,10 +16,11 @@
 
 package org.panda_lang.panda.language.interpreter.messenger;
 
-import org.panda_lang.panda.framework.design.interpreter.messenger.Messenger;
-import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerFormatter;
-import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerMessage;
-import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerMessageTranslator;
+import org.panda_lang.framework.design.interpreter.messenger.Messenger;
+import org.panda_lang.framework.design.interpreter.messenger.MessengerFormatter;
+import org.panda_lang.framework.design.interpreter.messenger.MessengerMessage;
+import org.panda_lang.framework.design.interpreter.messenger.MessengerMessageTranslator;
+import org.panda_lang.framework.language.interpreter.messenger.PandaMessengerMessage;
 import org.panda_lang.panda.language.interpreter.messenger.template.MicroTemplate;
 import org.panda_lang.panda.language.interpreter.messenger.template.MicroTemplateEngine;
 import org.panda_lang.panda.language.interpreter.messenger.template.MicroTemplateRequest;

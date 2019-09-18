@@ -16,19 +16,19 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.runtime.ProcessStack;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.resource.PandaTypes;
-import org.panda_lang.panda.language.runtime.expression.DynamicExpression;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.language.resource.PandaTypes;
+import org.panda_lang.framework.language.architecture.expression.DynamicExpression;
 
 final class IsExpression implements DynamicExpression {
 
     private final Expression value;
-    private final ClassPrototypeReference requestedTypeReference;
+    private final PrototypeReference requestedTypeReference;
 
-    IsExpression(Expression value, ClassPrototypeReference requestedTypeReference) {
+    IsExpression(Expression value, PrototypeReference requestedTypeReference) {
         this.value = value;
         this.requestedTypeReference = requestedTypeReference;
     }
@@ -40,7 +40,7 @@ final class IsExpression implements DynamicExpression {
     }
 
     @Override
-    public ClassPrototype getReturnType() {
+    public Prototype getReturnType() {
         return PandaTypes.BOOLEAN;
     }
 

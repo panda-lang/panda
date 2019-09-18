@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.language.interpreter.parser.bootstraps.context;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.ContextParser;
+import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.DescriptivePatternHandler;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.interceptors.DescriptivePatternInterceptor;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
-import org.panda_lang.panda.utilities.commons.ReflectionUtils;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserRepresentation;
+import org.panda_lang.utilities.commons.ReflectionUtils;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

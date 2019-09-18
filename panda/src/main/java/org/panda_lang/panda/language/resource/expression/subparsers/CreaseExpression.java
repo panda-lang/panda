@@ -16,15 +16,15 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.runtime.ProcessStack;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.runtime.MemoryContainer;
 import org.panda_lang.panda.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.panda.language.architecture.dynamic.accessor.AccessorExpression;
-import org.panda_lang.panda.language.interpreter.parser.PandaParserException;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.language.resource.expression.subparsers.number.NumberPriorities;
-import org.panda_lang.panda.language.runtime.expression.DynamicExpression;
+import org.panda_lang.framework.language.architecture.expression.DynamicExpression;
 
 final class CreaseExpression extends NumberPriorities implements DynamicExpression {
 
@@ -78,7 +78,7 @@ final class CreaseExpression extends NumberPriorities implements DynamicExpressi
     }
 
     @Override
-    public ClassPrototype getReturnType() {
+    public Prototype getReturnType() {
         return accessor.getVariable().getType().fetch();
     }
 

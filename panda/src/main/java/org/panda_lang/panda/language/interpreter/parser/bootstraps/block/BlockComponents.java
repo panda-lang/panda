@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.interpreter.parser.bootstraps.block;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.Component;
+import org.panda_lang.framework.design.architecture.dynamic.Block;
+import org.panda_lang.framework.design.interpreter.parser.component.Component;
 
 public class BlockComponents {
 

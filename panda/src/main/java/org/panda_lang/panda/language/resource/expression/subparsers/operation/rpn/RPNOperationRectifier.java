@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.operation.rpn;
 
-import org.panda_lang.panda.framework.PandaFrameworkException;
-import org.panda_lang.panda.framework.design.runtime.ProcessStack;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.expression.ExpressionValueType;
-import org.panda_lang.panda.language.resource.syntax.operator.Operator;
-import org.panda_lang.panda.language.runtime.expression.AbstractDynamicExpression;
-import org.panda_lang.panda.language.runtime.expression.PandaExpression;
-import org.panda_lang.panda.utilities.commons.ObjectUtils;
+import org.panda_lang.framework.PandaFrameworkException;
+import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.expression.ExpressionValueType;
+import org.panda_lang.framework.language.resource.syntax.operator.Operator;
+import org.panda_lang.framework.language.architecture.expression.AbstractDynamicExpression;
+import org.panda_lang.framework.language.architecture.expression.PandaExpression;
+import org.panda_lang.utilities.commons.ObjectUtils;
 
 import java.util.Map;
 import java.util.Stack;

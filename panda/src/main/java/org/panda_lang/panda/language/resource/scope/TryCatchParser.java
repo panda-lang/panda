@@ -16,13 +16,13 @@
 
 package org.panda_lang.panda.language.resource.scope;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
-import org.panda_lang.panda.framework.design.architecture.statement.Variable;
-import org.panda_lang.panda.framework.design.architecture.statement.VariableData;
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.language.architecture.statement.PandaScope;
+import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.architecture.statement.Variable;
+import org.panda_lang.framework.design.architecture.statement.VariableData;
+import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.language.architecture.statement.PandaScope;
 import org.panda_lang.panda.language.architecture.statement.VariableDataInitializer;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.ParserBootstrap;
@@ -34,8 +34,8 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.interceptors.LinearPatternInterceptor;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
-import org.panda_lang.panda.language.resource.parsers.ScopeParser;
-import org.panda_lang.panda.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.framework.language.interpreter.parser.ScopeParser;
+import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 
 @Registrable(pipeline = UniversalPipelines.SCOPE_LABEL)
 public final class TryCatchParser extends ParserBootstrap {

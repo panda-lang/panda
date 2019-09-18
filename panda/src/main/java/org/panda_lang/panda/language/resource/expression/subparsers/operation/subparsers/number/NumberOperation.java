@@ -16,13 +16,13 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers.number;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.rpn.RPNOperationSupplier;
 import org.panda_lang.panda.language.resource.expression.subparsers.number.NumberPriorities;
 
 public abstract class NumberOperation extends NumberPriorities implements RPNOperationSupplier {
 
-    protected ClassPrototype estimateType(ClassPrototype a, ClassPrototype b) {
+    protected Prototype estimateType(Prototype a, Prototype b) {
         if (a == b) {
             return a;
         }

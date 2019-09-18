@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.utilities.commons.ArrayUtils;
-import org.panda_lang.panda.utilities.commons.FileUtils;
+import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.FileUtils;
 
 import java.io.File;
 import java.util.Collection;

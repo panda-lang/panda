@@ -16,15 +16,15 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers.math;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.runtime.ProcessStack;
-import org.panda_lang.panda.language.interpreter.parser.PandaParserException;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.rpn.RPNOperationAction;
 
 public class AdditionOperation extends MathOperation {
 
     @Override
-    public RPNOperationAction of(ClassPrototype returnType, int priority) {
+    public RPNOperationAction of(Prototype returnType, int priority) {
         return new MathOperationAction(returnType) {
             @Override
             public Object get(ProcessStack stack, Number a, Number b) {

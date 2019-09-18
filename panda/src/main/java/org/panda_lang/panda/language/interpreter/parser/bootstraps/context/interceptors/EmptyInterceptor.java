@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parser.bootstraps.context.interceptors;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInterceptor;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.InterceptorData;
 

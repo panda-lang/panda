@@ -16,18 +16,18 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionTransaction;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.token.SourceStream;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.language.interpreter.token.PandaSourceStream;
-import org.panda_lang.panda.language.resource.syntax.separator.Separators;
+import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.Parser;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.token.SourceStream;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
+import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 
 import java.util.ArrayList;
 import java.util.List;

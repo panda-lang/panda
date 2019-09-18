@@ -16,15 +16,15 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.operation.rpn;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.expression.Expression;
 
 public interface RPNOperationSupplier {
 
     RPNOperationAction<?, ?, ?> of(Expression a, Expression b);
 
-    ClassPrototype returnType(ClassPrototype a, ClassPrototype b);
+    Prototype returnType(Prototype a, Prototype b);
 
-    ClassPrototype requiredType();
+    Prototype requiredType();
 
 }

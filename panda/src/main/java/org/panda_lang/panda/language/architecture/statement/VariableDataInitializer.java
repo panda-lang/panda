@@ -16,18 +16,19 @@
 
 package org.panda_lang.panda.language.architecture.statement;
 
-import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
-import org.panda_lang.panda.framework.design.architecture.statement.VariableData;
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
-import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorUtils;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippetable;
-import org.panda_lang.panda.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.architecture.statement.VariableData;
+import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
+import org.panda_lang.framework.design.interpreter.pattern.descriptive.extractor.ExtractorUtils;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.token.Snippetable;
+import org.panda_lang.framework.language.architecture.statement.PandaVariableData;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -89,7 +90,7 @@ public class VariableDataInitializer {
         }
 
         ModuleLoader loader = context.getComponent(UniversalComponents.MODULE_LOADER);
-        Optional<ClassPrototypeReference> prototype = loader.forName(type.toSnippet().asSource());
+        Optional<PrototypeReference> prototype = loader.forName(type.toSnippet().asSource());
 
         if (!prototype.isPresent()) {
             throw PandaParserFailure.builder("Cannot recognize variable type: " + type, context)

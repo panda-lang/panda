@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.interpreter.messenger;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerTypeFormatter;
+import org.panda_lang.framework.design.interpreter.messenger.MessengerTypeFormatter;
 
 public interface MessengerDataFormatter<T> {
 

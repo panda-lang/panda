@@ -16,18 +16,18 @@
 
 package org.panda_lang.panda.language.resource.head;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.ContextParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.ContextParser;
+import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Channel;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
-import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.language.interpreter.token.PandaSnippet;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.framework.design.interpreter.token.Token;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
 
 import java.util.ArrayList;
 import java.util.List;

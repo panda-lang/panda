@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.architecture.dynamic.assigner;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.ExecutableStatement;
-import org.panda_lang.panda.framework.design.architecture.statement.Variable;
-import org.panda_lang.panda.language.architecture.dynamic.AbstractExecutableStatement;
+import org.panda_lang.framework.design.architecture.dynamic.ExecutableStatement;
+import org.panda_lang.framework.design.architecture.statement.Variable;
+import org.panda_lang.framework.language.architecture.dynamic.AbstractExecutableStatement;
 import org.panda_lang.panda.language.architecture.dynamic.accessor.Accessor;
 
 public abstract class AbstractAssigner<T extends Variable> extends AbstractExecutableStatement implements Assigner<T> {

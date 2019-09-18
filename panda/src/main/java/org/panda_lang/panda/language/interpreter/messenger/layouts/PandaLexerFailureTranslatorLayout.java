@@ -16,12 +16,12 @@
 
 package org.panda_lang.panda.language.interpreter.messenger.layouts;
 
-import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
+import org.panda_lang.framework.design.interpreter.messenger.MessengerLevel;
 import org.panda_lang.panda.language.interpreter.messenger.PandaTranslatorLayout;
-import org.panda_lang.panda.framework.design.interpreter.source.Source;
-import org.panda_lang.panda.language.interpreter.lexer.PandaLexerException;
-import org.panda_lang.panda.language.interpreter.source.PandaSource;
-import org.panda_lang.panda.language.interpreter.source.PandaURLSource;
+import org.panda_lang.framework.design.interpreter.source.Source;
+import org.panda_lang.framework.language.interpreter.lexer.PandaLexerException;
+import org.panda_lang.framework.language.interpreter.source.PandaSource;
+import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
 
 public class PandaLexerFailureTranslatorLayout implements PandaTranslatorLayout<PandaLexerException> {
 

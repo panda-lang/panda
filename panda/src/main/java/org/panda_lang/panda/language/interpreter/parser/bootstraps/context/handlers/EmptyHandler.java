@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Channel;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
 
 public class EmptyHandler implements ParserHandler {
 

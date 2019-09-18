@@ -16,13 +16,13 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.operation.rpn;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.runtime.ProcessStack;
 
 public interface RPNOperationAction<A, B, R> {
 
     R get(ProcessStack stack, A aValue, B bValue);
 
-    ClassPrototype returnType();
+    Prototype returnType();
 
 }

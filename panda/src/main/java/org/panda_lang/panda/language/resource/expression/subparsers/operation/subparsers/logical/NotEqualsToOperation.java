@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers.logical;
 
-import org.panda_lang.panda.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.design.runtime.ProcessStack;
 
 public class NotEqualsToOperation extends EqualsToOperation {
 

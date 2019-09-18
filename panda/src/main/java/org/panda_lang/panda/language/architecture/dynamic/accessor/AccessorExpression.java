@@ -16,10 +16,8 @@
 
 package org.panda_lang.panda.language.architecture.dynamic.accessor;
 
-import org.panda_lang.panda.framework.design.runtime.ProcessStack;
-import org.panda_lang.panda.language.runtime.expression.DynamicExpression;
-import org.panda_lang.panda.language.runtime.expression.AbstractDynamicExpression;
-import org.panda_lang.panda.language.runtime.expression.PandaExpression;
+import org.panda_lang.framework.language.architecture.expression.DynamicExpression;
+import org.panda_lang.framework.language.architecture.expression.PandaExpression;
 
 public class AccessorExpression extends PandaExpression {
 
@@ -28,15 +26,6 @@ public class AccessorExpression extends PandaExpression {
     public AccessorExpression(Accessor<?> accessor, DynamicExpression callback) {
         super(callback);
         this.accessor = accessor;
-    }
-
-    public AccessorExpression(Accessor<?> accessor) {
-        this(accessor, new AbstractDynamicExpression(accessor.getTypeReference().fetch()) {
-            @Override
-            public <T> T evaluate(ProcessStack stack, Object instance) {
-                return accessor.getValue(stack, instance);
-            }
-        });
     }
 
     public Accessor<?> getAccessor() {

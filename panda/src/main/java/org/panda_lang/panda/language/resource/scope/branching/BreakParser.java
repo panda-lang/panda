@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.resource.scope.branching;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapComponents;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.ParserBootstrap;
@@ -25,10 +25,10 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annot
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Component;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.interceptors.LinearPatternInterceptor;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
-import org.panda_lang.panda.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 
 @Registrable(pipeline = UniversalPipelines.SCOPE_LABEL)
 public class BreakParser extends ParserBootstrap {

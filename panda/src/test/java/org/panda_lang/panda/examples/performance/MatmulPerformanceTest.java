@@ -23,7 +23,7 @@ import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Warmup;
 import org.panda_lang.panda.examples.Launcher;
-import org.panda_lang.panda.framework.design.architecture.Application;
+import org.panda_lang.framework.design.architecture.Application;
 import org.panda_lang.panda.util.BenchmarkUtils;
 
 @State(Scope.Benchmark)

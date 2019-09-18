@@ -17,12 +17,12 @@
 package org.panda_lang.panda.language.resource.expression.subparsers.assignation.variable;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.language.interpreter.token.PandaSnippet;
-import org.panda_lang.panda.language.resource.syntax.auxiliary.Section;
-import org.panda_lang.panda.language.resource.syntax.separator.Separators;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
+import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
+import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapContent;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapHandler;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Channel;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
-import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.PandaDescriptivePattern;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
+import org.panda_lang.framework.design.interpreter.pattern.descriptive.PandaDescriptivePattern;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
 
 import java.util.Objects;
 

@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.bootstrap;
 
-import org.panda_lang.panda.framework.PandaFramework;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.panda.language.interpreter.parser.pipeline.PandaPipelinePath;
+import org.panda_lang.framework.PandaFramework;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaPipelinePath;
 
 import java.util.Collection;
 

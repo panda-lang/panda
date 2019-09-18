@@ -17,14 +17,14 @@
 package org.panda_lang.panda.language.resource.scope.block.looping;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.dynamic.ControlledBlock;
-import org.panda_lang.panda.framework.design.architecture.dynamic.LivingFrame;
-import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
-import org.panda_lang.panda.framework.design.runtime.ProcessStack;
-import org.panda_lang.panda.framework.design.runtime.Result;
-import org.panda_lang.panda.framework.design.runtime.Status;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.architecture.dynamic.AbstractBlock;
+import org.panda_lang.framework.design.architecture.dynamic.ControlledBlock;
+import org.panda_lang.framework.design.architecture.dynamic.LivingFrame;
+import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.design.runtime.Result;
+import org.panda_lang.framework.design.runtime.Status;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.language.architecture.dynamic.AbstractBlock;
 
 class ForEachBlock extends AbstractBlock implements ControlledBlock {
 

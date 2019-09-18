@@ -17,7 +17,7 @@
 package org.panda_lang.panda;
 
 import org.panda_lang.panda.bootstrap.PandaBootstrap;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.language.interpreter.messenger.formatters.EnvironmentFormatter;
 import org.panda_lang.panda.language.interpreter.messenger.formatters.ParserFailureFormatter;
 import org.panda_lang.panda.language.interpreter.messenger.formatters.SourceFragmentFormatter;
@@ -31,7 +31,7 @@ import org.panda_lang.panda.language.interpreter.messenger.mappers.StacktraceMap
 import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.language.resource.PandaParsers;
 import org.panda_lang.panda.language.resource.expression.subparsers.assignation.AssignationParsers;
-import org.panda_lang.panda.language.resource.syntax.PandaSyntax;
+import org.panda_lang.framework.language.resource.syntax.PandaSyntax;
 
 public final class PandaFactory {
 

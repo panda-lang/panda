@@ -17,8 +17,8 @@
 package org.panda_lang.panda.language.interpreter.parser.bootstraps.block;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.architecture.dynamic.Block;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
@@ -27,19 +27,19 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annot
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Local;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.LocalData;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Channel;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.HandleResult;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.token.SourceStream;
-import org.panda_lang.panda.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.language.interpreter.parser.pipeline.PandaChannel;
-import org.panda_lang.panda.language.interpreter.token.PandaSourceStream;
-import org.panda_lang.panda.language.resource.parsers.ScopeParser;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.HandleResult;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponents;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.token.SourceStream;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaChannel;
+import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
+import org.panda_lang.framework.language.interpreter.parser.ScopeParser;
 
 import java.util.function.Supplier;
 

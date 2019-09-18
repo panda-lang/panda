@@ -1,7 +1,7 @@
 module panda-lang
 
 import java.lang.System
-import org.panda_lang.panda.utilities.commons.StringUtils
+import org.panda_lang.commons.StringUtils
 
 class Console {
 

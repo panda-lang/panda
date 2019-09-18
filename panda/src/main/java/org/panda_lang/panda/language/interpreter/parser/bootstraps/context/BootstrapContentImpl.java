@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.interpreter.parser.bootstraps.context;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
 
 import java.util.Optional;
 

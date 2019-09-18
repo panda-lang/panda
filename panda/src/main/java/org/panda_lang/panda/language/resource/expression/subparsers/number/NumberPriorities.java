@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.number;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.language.resource.PandaTypes;
-import org.panda_lang.panda.utilities.commons.collection.Maps;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.language.resource.PandaTypes;
+import org.panda_lang.utilities.commons.collection.Maps;
 
 import java.util.Map;
 
@@ -31,7 +31,7 @@ public class NumberPriorities {
     protected static final int FLOAT = 50;
     protected static final int DOUBLE = 60;
 
-    protected static final Map<ClassPrototype, Integer> HIERARCHY = Maps.of(
+    protected static final Map<Prototype, Integer> HIERARCHY = Maps.of(
             PandaTypes.BYTE, BYTE,
             PandaTypes.SHORT, SHORT,
             PandaTypes.INT, INT,
@@ -40,7 +40,7 @@ public class NumberPriorities {
             PandaTypes.DOUBLE, DOUBLE
     );
 
-    public int getPriority(ClassPrototype prototype) {
+    public int getPriority(Prototype prototype) {
         return HIERARCHY.get(prototype);
     }
 

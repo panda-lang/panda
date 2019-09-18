@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.ProcessStack;
-import org.panda_lang.panda.language.runtime.expression.DynamicExpression;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.language.architecture.expression.DynamicExpression;
 
 import java.security.InvalidParameterException;
 
@@ -43,7 +43,7 @@ final class NegateLogicalExpression implements DynamicExpression {
     }
 
     @Override
-    public ClassPrototype getReturnType() {
+    public Prototype getReturnType() {
         return logicalExpression.getReturnType();
     }
 

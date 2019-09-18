@@ -17,36 +17,35 @@
 package org.panda_lang.panda.language.resource.prototype;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.module.Module;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeComponents;
-import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
-import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.token.SnippetUtils;
+import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeComponents;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
+import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.token.SnippetUtils;
+import org.panda_lang.framework.language.architecture.prototype.PandaConstructor;
+import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
+import org.panda_lang.framework.language.architecture.prototype.generator.ClassPrototypeTypeGenerator;
+import org.panda_lang.framework.language.architecture.prototype.PrototypeFrame;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
+import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
+import org.panda_lang.framework.language.resource.PandaTypes;
+import org.panda_lang.framework.language.interpreter.parser.pipeline.PipelineParser;
+import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.architecture.PandaScript;
-import org.panda_lang.panda.language.architecture.prototype.standard.PandaClassPrototype;
-import org.panda_lang.panda.language.architecture.prototype.standard.constructor.PandaConstructor;
-import org.panda_lang.panda.language.architecture.prototype.standard.generator.ClassPrototypeTypeGenerator;
-import org.panda_lang.panda.language.architecture.prototype.standard.structure.ClassPrototypeFrame;
-import org.panda_lang.panda.language.architecture.prototype.standard.structure.ClassPrototypeReferenceStatement;
 import org.panda_lang.panda.language.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.Delegation;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.TokenHandler;
-import org.panda_lang.panda.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
-import org.panda_lang.panda.language.interpreter.token.PandaSourceStream;
-import org.panda_lang.panda.language.resource.PandaTypes;
-import org.panda_lang.panda.language.resource.parsers.PipelineParser;
-import org.panda_lang.panda.language.resource.syntax.keyword.Keywords;
 
 @Registrable(pipeline = UniversalPipelines.HEAD_LABEL)
 public class ClassPrototypeParser extends ParserBootstrap {
@@ -69,24 +68,21 @@ public class ClassPrototypeParser extends ParserBootstrap {
             throw new PandaParserException("Class name cannot be null");
         }
 
-        ClassPrototype prototype = PandaClassPrototype.builder()
+        Prototype prototype = PandaPrototype.builder()
                 .module(module)
                 .associated(GENERATOR.generateType(className))
                 .name(className)
                 .build();
 
-        context.withComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, prototype);
+        context.withComponent(PrototypeComponents.CLASS_PROTOTYPE, prototype);
         module.add(prototype.getReference());
 
         prototype.addExtended(PandaTypes.OBJECT.getReference());
-        context.withComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, prototype);
+        context.withComponent(PrototypeComponents.CLASS_PROTOTYPE, prototype);
 
-        ClassPrototypeFrame scope = new ClassPrototypeFrame(prototype);
-        context.withComponent(ClassPrototypeComponents.CLASS_FRAME, scope)
+        PrototypeFrame scope = new PrototypeFrame(prototype);
+        context.withComponent(PrototypeComponents.CLASS_FRAME, scope)
                 .withComponent(UniversalComponents.SCOPE, scope);
-
-        ClassPrototypeReferenceStatement referenceStatement = new ClassPrototypeReferenceStatement(prototype, scope);
-        script.addStatement(referenceStatement);
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
@@ -111,8 +107,8 @@ public class ClassPrototypeParser extends ParserBootstrap {
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
     void parseAfter(Context context) {
-        ClassPrototype prototype = context.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
-        ClassPrototypeFrame scope = context.getComponent(ClassPrototypeComponents.CLASS_FRAME);
+        Prototype prototype = context.getComponent(PrototypeComponents.CLASS_PROTOTYPE);
+        PrototypeFrame scope = context.getComponent(PrototypeComponents.CLASS_FRAME);
 
         if (!prototype.getConstructors().getProperties().isEmpty()) {
             return;

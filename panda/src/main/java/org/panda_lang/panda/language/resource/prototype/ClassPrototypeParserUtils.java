@@ -16,25 +16,25 @@
 
 package org.panda_lang.panda.language.resource.prototype;
 
-import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeComponents;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeComponents;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.token.Token;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 
 import java.util.Optional;
 
 public class ClassPrototypeParserUtils {
 
     public static void readDeclaration(Context context, Snippet classDeclaration) {
-        ClassPrototype classPrototype = context.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
+        Prototype classPrototype = context.getComponent(PrototypeComponents.CLASS_PROTOTYPE);
         Token next = classDeclaration.get(1);
 
         if (next == null || next.getType() != TokenType.KEYWORD) {
@@ -51,7 +51,7 @@ public class ClassPrototypeParserUtils {
         }
     }
 
-    private static void readExtends(Context context, Snippet classDeclaration, ClassPrototype prototype) {
+    private static void readExtends(Context context, Snippet classDeclaration, Prototype prototype) {
         ModuleLoader loader = context.getComponent(UniversalComponents.MODULE_LOADER);
 
         for (int i = 2; i < classDeclaration.size(); i++) {
@@ -66,7 +66,7 @@ public class ClassPrototypeParserUtils {
                 continue;
             }
             else if (classNameToken.getType() == TokenType.UNKNOWN) {
-                Optional<ClassPrototypeReference> extendedPrototype = loader.forName(classNameToken.getValue());
+                Optional<PrototypeReference> extendedPrototype = loader.forName(classNameToken.getValue());
 
                 if (!extendedPrototype.isPresent()) {
                     throw PandaParserFailure.builder("Class " + classNameToken.getValue() + " not found", context)

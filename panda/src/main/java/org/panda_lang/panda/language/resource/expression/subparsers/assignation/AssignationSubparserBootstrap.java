@@ -17,13 +17,13 @@
 package org.panda_lang.panda.language.resource.expression.subparsers.assignation;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.ParserBootstrap;
-import org.panda_lang.panda.language.interpreter.token.PandaSourceStream;
+import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 
 public abstract class AssignationSubparserBootstrap extends ParserBootstrap<@Nullable ExpressionResult> implements AssignationSubparser {
 

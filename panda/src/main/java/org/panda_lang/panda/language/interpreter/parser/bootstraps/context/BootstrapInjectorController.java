@@ -17,18 +17,18 @@
 package org.panda_lang.panda.language.interpreter.parser.bootstraps.context;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Component;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Inter;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Local;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.InterceptorData;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.LocalData;
-import org.panda_lang.panda.framework.design.interpreter.pattern.PatternMapping;
-import org.panda_lang.panda.utilities.commons.StringUtils;
-import org.panda_lang.panda.utilities.inject.InjectorAnnotation;
-import org.panda_lang.panda.utilities.inject.InjectorController;
-import org.panda_lang.panda.utilities.inject.InjectorResources;
+import org.panda_lang.framework.design.interpreter.pattern.PatternMapping;
+import org.panda_lang.utilities.commons.StringUtils;
+import org.panda_lang.utilities.inject.InjectorAnnotation;
+import org.panda_lang.utilities.inject.InjectorController;
+import org.panda_lang.utilities.inject.InjectorResources;
 
 import java.util.Map;
 import java.util.Objects;

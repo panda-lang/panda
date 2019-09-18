@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.interpreter;
 
-import org.panda_lang.panda.framework.design.architecture.Environment;
-import org.panda_lang.panda.framework.design.resource.Language;
+import org.panda_lang.framework.design.architecture.Environment;
+import org.panda_lang.framework.design.resource.Language;
 
 public final class PandaInterpreterBuilder {
 

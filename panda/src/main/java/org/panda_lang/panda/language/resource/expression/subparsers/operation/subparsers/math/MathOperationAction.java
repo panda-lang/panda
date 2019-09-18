@@ -16,19 +16,19 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers.math;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers.number.NumberOperationAction;
 
 public abstract class MathOperationAction extends NumberOperationAction {
 
-    private final ClassPrototype prototype;
+    private final Prototype prototype;
 
-    protected MathOperationAction(ClassPrototype prototype) {
+    protected MathOperationAction(Prototype prototype) {
         this.prototype = prototype;
     }
 
     @Override
-    public ClassPrototype returnType() {
+    public Prototype returnType() {
         return prototype;
     }
 

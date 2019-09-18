@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.operation.rpn;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.Operation;
-import org.panda_lang.panda.language.resource.syntax.operator.Operator;
+import org.panda_lang.framework.language.resource.syntax.operator.Operator;
 
 import java.util.Map;
 

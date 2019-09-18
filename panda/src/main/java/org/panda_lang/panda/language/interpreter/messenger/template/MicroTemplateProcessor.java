@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.language.interpreter.messenger.template;
 
-import org.panda_lang.panda.utilities.commons.CharacterUtils;
-import org.panda_lang.panda.utilities.commons.StringUtils;
-import org.panda_lang.panda.utilities.commons.console.Effect;
-import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
+import org.panda_lang.utilities.commons.CharacterUtils;
+import org.panda_lang.utilities.commons.StringUtils;
+import org.panda_lang.utilities.commons.console.Effect;
+import org.panda_lang.utilities.commons.text.ContentJoiner;
 
 import java.util.Map;
 import java.util.regex.Matcher;
