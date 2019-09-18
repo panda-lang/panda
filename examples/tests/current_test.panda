@@ -120,9 +120,6 @@ main {
 
     creaseValue++
     Console.print(creaseValue)
-
-    // 3849 3839 | 479 113 = 3660 expr |
-    //Console.print("Random",  (false || false) + ", " + false || true, true && false, true && true, (false || false) + ", " + false || true, true && false, true && true)
     Console.print("Random",  (false || false) + ", " + false || true, true && false, true && true, (false || false) + ", " + false || true, true && false, true && true)
 
     Required required = new Required()
@@ -144,11 +141,10 @@ main {
         Console.print("ForI: " + index)
     }
 
-    Console.print("Assignation: " + (Int assignation = 2))
-    Object intValue = 10
+    Console.print("Assignation: " + (Object assignation = 10))
 
-    if (intValue is Int) {
-        Int castTest = intValue as Int
+    if (assignation is Int) {
+        Int castTest = assignation as Int
         Console.print("Is int value: " + castTest)
     }
 }
