@@ -54,7 +54,7 @@ public final class StandaloneExpressionParser extends ParserBootstrap {
         SourceStream stream = new PandaSourceStream(source);
 
         try {
-            channel.put("expression", expressionParser.parse(context, stream, SETTINGS));
+            channel.put("expression", expressionParser.parse(context, stream, SETTINGS).getExpression());
             channel.put("read", stream.getReadLength());
             return true;
         } catch (PandaExpressionParserFailure e) {

@@ -31,7 +31,7 @@ public final class SequenceExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker() {
-        return new LiteralWorker().withSubparser(this);
+        return new SequenceWorker().withSubparser(this);
     }
 
     @Override
@@ -39,7 +39,7 @@ public final class SequenceExpressionSubparser implements ExpressionSubparser {
         return "sequence";
     }
 
-    private static final class LiteralWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
+    private static final class SequenceWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {

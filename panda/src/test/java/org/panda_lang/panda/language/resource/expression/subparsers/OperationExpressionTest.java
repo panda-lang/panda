@@ -34,13 +34,13 @@ class OperationExpressionTest {
 
     @Test
     void testMathOperation() {
-        Expression expression = PARSER.parse(ExpressionContextUtils.createFakeContext((context -> new HashMap<>())), PandaLexerUtils.convert("1 + 2"));
+        Expression expression = PARSER.parse(ExpressionContextUtils.createFakeContext((context -> new HashMap<>())), PandaLexerUtils.convert("1 + 2")).getExpression();
         Assertions.assertEquals((Object) 3, expression.evaluate(null, null));
     }
 
     @Test
     void test100M() {
-        Expression expression = PARSER.parse(ExpressionContextUtils.createFakeContext((context -> new HashMap<>())), PandaLexerUtils.convert("1 + 1"));
+        Expression expression = PARSER.parse(ExpressionContextUtils.createFakeContext((context -> new HashMap<>())), PandaLexerUtils.convert("1 + 1")).getExpression();
         long time = System.nanoTime();
 
         for (int times = 0; times < 100_000_000; times++) {

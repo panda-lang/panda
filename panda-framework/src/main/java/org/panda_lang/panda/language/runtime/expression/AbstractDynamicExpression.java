@@ -14,15 +14,21 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.expression;
+package org.panda_lang.panda.language.runtime.expression;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
-public interface ExpressionSubparserWorker {
+public abstract class AbstractDynamicExpression implements DynamicExpression {
 
-    @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token);
+    private final ClassPrototype returnType;
 
-    ExpressionSubparser getSubparser();
+    public AbstractDynamicExpression(ClassPrototype returnType) {
+        this.returnType = returnType;
+    }
+
+    @Override
+    public ClassPrototype getReturnType() {
+        return returnType;
+    }
 
 }

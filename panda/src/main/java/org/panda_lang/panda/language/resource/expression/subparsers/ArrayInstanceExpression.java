@@ -20,11 +20,11 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.language.architecture.prototype.array.ArrayClassPrototype;
-import org.panda_lang.panda.language.runtime.expression.PandaDynamicExpression;
+import org.panda_lang.panda.language.runtime.expression.AbstractDynamicExpression;
 
 import java.lang.reflect.Array;
 
-final class ArrayInstanceExpression extends PandaDynamicExpression {
+final class ArrayInstanceExpression extends AbstractDynamicExpression {
 
     private final ClassPrototype prototype;
     private final Expression[] capacities;
@@ -38,7 +38,7 @@ final class ArrayInstanceExpression extends PandaDynamicExpression {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Object call(ProcessStack stack, Object instance) {
+    public Object evaluate(ProcessStack stack, Object instance) {
         int[] capacitiesValues = new int[capacities.length];
 
         for (int index = 0; index < capacitiesValues.length; index++) {

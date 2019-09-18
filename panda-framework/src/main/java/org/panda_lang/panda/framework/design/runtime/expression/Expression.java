@@ -17,17 +17,8 @@
 package org.panda_lang.panda.framework.design.runtime.expression;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 
-public interface Expression {
-
-    /**
-     * Evaluate expression using the specified branch
-     *
-     * @param stack the frame to use
-     * @return nullable value
-     */
-    <T> T evaluate(ProcessStack stack, Object instance);
+public interface Expression extends ExpressionEvaluator {
 
     /**
      * Check if the expression returns null value

@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.expression;
+package org.panda_lang.panda.language.interpreter.parser.expression;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
 
-public interface ExpressionSubparserWorker {
-
-    @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token);
-
-    ExpressionSubparser getSubparser();
+/**
+ * Result from this subparser does not overrides errors
+ */
+public interface PartialResultSubparser extends ExpressionSubparser {
 
 }

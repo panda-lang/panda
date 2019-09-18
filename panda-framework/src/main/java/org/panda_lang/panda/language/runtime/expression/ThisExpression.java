@@ -33,7 +33,7 @@ public final class ThisExpression implements DynamicExpression {
     }
 
     @Override
-    public <T> T call(ProcessStack stack, Object instance) {
+    public <T> T evaluate(ProcessStack stack, Object instance) {
         return ObjectUtils.cast(instance instanceof PropertyLivingFrame ? ((PropertyLivingFrame) instance).getInstance() : instance);
     }
 

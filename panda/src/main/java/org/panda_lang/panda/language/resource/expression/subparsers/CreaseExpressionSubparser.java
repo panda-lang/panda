@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.resource.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.panda.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -70,7 +71,9 @@ public final class CreaseExpressionSubparser implements ExpressionSubparser {
                 expression = context.popExpression();
             }
             else {
-                expression = context.getParser().parse(context.getContext(), context.getSynchronizedSource());
+                ExpressionTransaction transaction = context.getParser().parse(context.getContext(), context.getSynchronizedSource());
+                context.commit(transaction::rollback);
+                expression = transaction.getExpression();
             }
 
             if (!(expression instanceof AccessorExpression)) {

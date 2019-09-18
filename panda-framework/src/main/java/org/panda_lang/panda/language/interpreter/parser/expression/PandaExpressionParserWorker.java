@@ -20,6 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.expression.Expre
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserPostProcessor;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserType;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
@@ -55,11 +56,11 @@ public class PandaExpressionParserWorker {
     protected void finish(ExpressionContext context) {
         for (ExpressionSubparserWorker worker : workers) {
             // skip removed subparsers
-            if (worker == null || worker.getSubparser().getSubparserType() != ExpressionSubparserType.MUTUAL) {
+            if (!(worker instanceof ExpressionSubparserPostProcessor)) {
                 continue;
             }
 
-            ExpressionResult result = worker.finish(context);
+            ExpressionResult result = ((ExpressionSubparserPostProcessor) worker).finish(context);
 
             if (result != null && result.isPresent()) {
                 context.getResults().push(result.get());
@@ -121,7 +122,7 @@ public class PandaExpressionParserWorker {
         }
 
         // skip individual subparser if there's some content
-        if (subparser.getSubparserType() == ExpressionSubparserType.INDIVIDUAL && !context.getResults().isEmpty()) {
+        if (subparser.getSubparserType() == ExpressionSubparserType.INDIVIDUAL && context.hasResults()) {
             return false;
         }
 
@@ -136,7 +137,7 @@ public class PandaExpressionParserWorker {
 
             // do not override previous error
             if (result != null && error == null) {
-                error = result;
+                this.error = result;
             }
 
             return false;
@@ -159,7 +160,7 @@ public class PandaExpressionParserWorker {
 
         // cleanup cache, move the index
         lastSucceededRead = context.getSynchronizedSource().getIndex();
-        error = null;
+        error = subparser instanceof PartialResultSubparser ? error : null;
 
         return true;
     }

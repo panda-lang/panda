@@ -60,6 +60,15 @@ public class SynchronizedSource implements Iterable<TokenRepresentation>, Iterat
     }
 
     /**
+     * Read the given amount of tokens
+     *
+     * @param amount the amount to read
+     */
+    public void next(int amount) {
+        index += amount;
+    }
+
+    /**
      * Check if source has available next token
      *
      * @return true if there is token to read

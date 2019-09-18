@@ -52,7 +52,7 @@ public class OperationExpressionBenchmark {
     @Setup
     public void setup() {
         ExpressionParser parser = new PandaExpressionParser(PandaExpressionUtils.collectSubparsers());
-        this.expression = parser.parse(ExpressionContextUtils.createFakeContext((context -> new HashMap<>())), PandaLexerUtils.convert("1 + 2"));
+        this.expression = parser.parse(ExpressionContextUtils.createFakeContext((context -> new HashMap<>())), PandaLexerUtils.convert("1 + 2")).getExpression();
         this.integer = 1;
         this.integer2 = 2;
     }

@@ -70,21 +70,21 @@ public final class ForParser extends BlockSubparserBootstrap {
         Expression initialization = null;
 
         if (!initializationSource.isEmpty()) {
-            initialization = expressionParser.parse(delegatedContext, initializationSource);
+            initialization = expressionParser.parse(delegatedContext, initializationSource).getExpression();
         }
 
         Snippet terminationSource = forEachElements[1];
         Expression termination = DEFAULT_CONDITION;
 
         if (!terminationSource.isEmpty()) {
-            termination = expressionParser.parse(delegatedContext, terminationSource);
+            termination = expressionParser.parse(delegatedContext, terminationSource).getExpression();
         }
 
         Snippet incrementSource = forEachElements[2];
         Expression increment = null;
 
         if (!incrementSource.isEmpty()) {
-            increment = expressionParser.parse(delegatedContext, incrementSource);
+            increment = expressionParser.parse(delegatedContext, incrementSource).getExpression();
         }
 
         return new BlockData(new ForBlock(forScope, initialization, termination, increment));

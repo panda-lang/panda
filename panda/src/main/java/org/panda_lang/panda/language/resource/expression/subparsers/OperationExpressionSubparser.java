@@ -17,15 +17,16 @@
 package org.panda_lang.panda.language.resource.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserPostProcessor;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserType;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+import org.panda_lang.panda.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.Operation;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.OperationParser;
 
@@ -61,7 +62,7 @@ public final class OperationExpressionSubparser implements ExpressionSubparser {
         return "operation";
     }
 
-    private static final class OperationWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
+    private static final class OperationWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserPostProcessor {
 
         private List<Operation.OperationElement> elements;
 

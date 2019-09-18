@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.resource.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.panda.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
@@ -31,7 +32,7 @@ public final class SectionExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker() {
-        return new SentenceWorker().withSubparser(this);
+        return new SectionWorker().withSubparser(this);
     }
 
     @Override
@@ -39,7 +40,7 @@ public final class SectionExpressionSubparser implements ExpressionSubparser {
         return "section";
     }
 
-    private static final class SentenceWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
+    private static final class SectionWorker extends AbstractExpressionSubparserWorker {
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
@@ -57,7 +58,10 @@ public final class SectionExpressionSubparser implements ExpressionSubparser {
                 return ExpressionResult.error("Expression expected", token);
             }
 
-            return ExpressionResult.of(context.getParser().parse(context.getContext(), section.getContent()));
+            ExpressionTransaction expressionTransaction = context.getParser().parse(context.getContext(), section.getContent());
+            context.commit(expressionTransaction::rollback);
+
+            return ExpressionResult.of(expressionTransaction.getExpression());
         }
 
     }

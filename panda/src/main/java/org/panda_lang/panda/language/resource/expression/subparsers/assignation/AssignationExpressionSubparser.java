@@ -25,12 +25,12 @@ import org.panda_lang.panda.framework.design.interpreter.parser.expression.Expre
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserType;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.HandleResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.language.interpreter.parser.expression.PandaExpressionParserFailure;
@@ -82,6 +82,7 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
 
             Context assignationContext = context.fork()
                     .withComponent(PipelineComponents.CHANNEL, new PandaChannel())
+                    .withComponent(AssignationComponents.CONTEXT, expressionContext)
                     .withComponent(AssignationComponents.SCOPE, context.getComponent(UniversalComponents.SCOPE));
 
             HandleResult<AssignationSubparser> handleResult = context.getComponent(UniversalComponents.PIPELINE)
@@ -95,17 +96,16 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
             SourceStream expressionSource = new PandaSourceStream(source.subSource(index + 1, source.size()));
 
             try {
-                Expression expression = expressionContext.getParser().parse(assignationContext, expressionSource);
+                ExpressionTransaction expression = expressionContext.getParser().parse(assignationContext, expressionSource);
 
-                ExpressionResult result = handleResult.getParser().get().parseAssignment(assignationContext, declaration, expression);
+                ExpressionResult result = handleResult.getParser().get().parseAssignment(assignationContext, declaration, expression.getExpression());
                 expressionContext.getSynchronizedSource().setIndex(declaration.size() + 1 + expressionSource.getReadLength());
 
                 return result;
             } catch (PandaExpressionParserFailure e) {
-                return ExpressionResult.error("Cannot parse assigned expression: " + e.getExpressionMessage(), expressionSource.getOriginalSource());
+                return ExpressionResult.error("Cannot parse assigned expression - " + e.getExpressionMessage(), expressionSource.getOriginalSource());
             } catch (Exception e) {
-                e.printStackTrace();
-                return ExpressionResult.error("Cannot parse assigned expression: " + e.getMessage(), expressionSource.getOriginalSource());
+                return ExpressionResult.error("Cannot parse assigned expression - " + e.getMessage(), expressionSource.getOriginalSource());
             }
         }
 

@@ -19,10 +19,13 @@ package org.panda_lang.panda.language.interpreter.parser.expression;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionTransactionCommit;
 import org.panda_lang.panda.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.language.interpreter.token.SynchronizedSource;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Stack;
 
 final public class PandaExpressionContext implements ExpressionContext {
@@ -32,6 +35,7 @@ final public class PandaExpressionContext implements ExpressionContext {
     private final SourceStream source;
     private final SynchronizedSource synchronizedSource;
     private final Stack<Expression> results = new Stack<>();
+    private final Collection<ExpressionTransactionCommit> commits = new ArrayList<>(1);
 
     public PandaExpressionContext(ExpressionParser parser, Context context, SourceStream source) {
         this.parser = parser;
@@ -51,6 +55,11 @@ final public class PandaExpressionContext implements ExpressionContext {
     }
 
     @Override
+    public void commit(ExpressionTransactionCommit commit) {
+        commits.add(commit);
+    }
+
+    @Override
     public boolean hasResults() {
         return !this.getResults().isEmpty();
     }
@@ -63,6 +72,10 @@ final public class PandaExpressionContext implements ExpressionContext {
     @Override
     public SourceStream getSource() {
         return source;
+    }
+
+    public Collection<ExpressionTransactionCommit> getCommits() {
+        return commits;
     }
 
     @Override

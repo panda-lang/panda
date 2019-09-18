@@ -23,22 +23,72 @@ import org.panda_lang.panda.language.interpreter.token.SynchronizedSource;
 
 import java.util.Stack;
 
+/**
+ * Context of expression parser
+ */
 public interface ExpressionContext {
 
+    /**
+     * Remove the latest expression from stack
+     *
+     * @return removed expression
+     */
     Expression popExpression();
 
+    /**
+     * Check the latest expression on stack
+     *
+     * @return the latest expression
+     */
     Expression peekExpression();
 
+    /**
+     * Register commit in the transaction
+     *
+     * @param commit the commit to save
+     */
+    void commit(ExpressionTransactionCommit commit);
+
+    /**
+     * Check if context contains any expressions on stack
+     *
+     * @return true if stack contains some expressions
+     */
     boolean hasResults();
 
+    /**
+     * Get synchronized source used by expression parser
+     *
+     * @return the synchronized source
+     */
     SynchronizedSource getSynchronizedSource();
 
+    /**
+     * Get source used to create synchronized source
+     *
+     * @return the original source
+     */
     SourceStream getSource();
 
+    /**
+     * Get results
+     *
+     * @return the stack containing results
+     */
     Stack<Expression> getResults();
 
+    /**
+     * Get parser context
+     *
+     * @return the context
+     */
     Context getContext();
 
+    /**
+     * Get current expression parser
+     *
+     * @return the expression parser instance
+     */
     ExpressionParser getParser();
 
 }

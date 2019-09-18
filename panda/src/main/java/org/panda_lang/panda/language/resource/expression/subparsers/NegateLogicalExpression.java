@@ -37,7 +37,7 @@ final class NegateLogicalExpression implements DynamicExpression {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Object call(ProcessStack stack, Object instance) {
+    public Object evaluate(ProcessStack stack, Object instance) {
         Boolean value = logicalExpression.evaluate(stack, instance);
         return !value; // handle npe?
     }

@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
@@ -66,13 +67,20 @@ public final class ArrayValueAssignationSubparser extends AssignationSubparserBo
         }
 
         SourceStream expressionSource = new PandaSourceStream(source.subSource(0, source.size() - 1));
-        Optional<Expression> expression = context.getComponent(UniversalComponents.EXPRESSION).parseSilently(context, expressionSource);
+        Optional<ExpressionTransaction> expressionTransactionValue = context.getComponent(UniversalComponents.EXPRESSION).parseSilently(context, expressionSource);
 
-        if (expressionSource.hasUnreadSource() || !expression.isPresent()) {
+        if (!expressionTransactionValue.isPresent()) {
             return false;
         }
 
-        channel.put("array-instance", expression.get());
+        ExpressionTransaction expressionTransaction = expressionTransactionValue.get();
+
+        if (expressionSource.hasUnreadSource()) {
+            expressionTransaction.rollback();
+            return false;
+        }
+
+        channel.put("array-instance", expressionTransaction.getExpression());
         return true;
     }
 

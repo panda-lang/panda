@@ -21,13 +21,13 @@ import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
 import org.panda_lang.panda.framework.design.architecture.statement.Variable;
 import org.panda_lang.panda.framework.design.architecture.statement.VariableData;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.panda.language.architecture.dynamic.assigner.AssignerExpression;
@@ -99,12 +99,14 @@ public final class VariableDeclarationSubparser extends AssignationSubparserBoot
     }
 
     @Autowired
-    ExpressionResult parse(Context context, @Component Scope scope, @Component SourceStream source, @Component Channel channel, @Component Expression expression) {
+    ExpressionResult parse(Context context, @Component ExpressionContext expressionContext, @Component Scope scope, @Component Channel channel, @Component Expression expression) {
         Elements elements = channel.get("elements", Elements.class);
 
         VariableDataInitializer dataInitializer = new VariableDataInitializer(context, scope);
         VariableData variableData = dataInitializer.createVariableData(elements.type, elements.name, elements.mutable, elements.nillable);
+
         Variable variable = scope.createVariable(variableData);
+        expressionContext.commit(() -> scope.removeVariable(variable.getName()));
 
         Assigner<Variable> assigner = VariableAssignerUtils.of(context, variable, true, expression);
         return ExpressionResult.of(new AssignerExpression(assigner));

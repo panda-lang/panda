@@ -40,7 +40,7 @@ public final class ArrayAccessor implements DynamicExpression {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Object call(ProcessStack stack, Object instance) {
+    public Object evaluate(ProcessStack stack, Object instance) {
         return getArrayInstance(stack, instance)[getIndex(stack, instance)];
     }
 

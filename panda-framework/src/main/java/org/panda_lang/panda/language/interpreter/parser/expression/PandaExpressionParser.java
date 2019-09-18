@@ -24,12 +24,12 @@ import org.panda_lang.panda.framework.design.interpreter.parser.expression.Expre
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParserSettings;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparsers;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.SourceStream;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.interpreter.token.SynchronizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.language.interpreter.token.PandaSourceStream;
+import org.panda_lang.panda.language.interpreter.token.SynchronizedSource;
 
 import java.util.Collections;
 import java.util.List;
@@ -62,17 +62,17 @@ public class PandaExpressionParser implements ExpressionParser {
     }
 
     @Override
-    public Optional<Expression> parseSilently(Context context, Snippet source) {
+    public Optional<ExpressionTransaction> parseSilently(Context context, Snippet source) {
         return parseSilently(context, new PandaSourceStream(source));
     }
 
     @Override
-    public Optional<Expression> parseSilently(Context context, SourceStream source) {
+    public Optional<ExpressionTransaction> parseSilently(Context context, SourceStream source) {
         return parseSilently(context, source, ExpressionParserSettings.COMBINED);
     }
 
     @Override
-    public Optional<Expression> parseSilently(Context context, SourceStream source, ExpressionParserSettings settings) {
+    public Optional<ExpressionTransaction> parseSilently(Context context, SourceStream source, ExpressionParserSettings settings) {
         try {
             return Optional.of(parse(context, source, settings));
         } catch (Exception e) {
@@ -81,39 +81,39 @@ public class PandaExpressionParser implements ExpressionParser {
     }
 
     @Override
-    public Expression parse(Context context, Snippet source) {
+    public ExpressionTransaction parse(Context context, Snippet source) {
         return parse(context, new PandaSourceStream(source));
     }
 
     @Override
-    public Expression parse(Context context, SynchronizedSource source) {
+    public ExpressionTransaction parse(Context context, SynchronizedSource source) {
         return parse(context, source, ExpressionParserSettings.DEFAULT);
     }
 
     @Override
-    public Expression parse(Context context, SynchronizedSource source, ExpressionParserSettings settings) {
+    public ExpressionTransaction parse(Context context, SynchronizedSource source, ExpressionParserSettings settings) {
         SourceStream stream = new PandaSourceStream(source.getAvailableSource());
 
-        Expression expression = parse(context, stream, settings);
+        ExpressionTransaction expression = parse(context, stream, settings);
         source.setIndex(source.getIndex() + stream.getReadLength());
 
         return expression;
     }
 
     @Override
-    public Expression parse(Context context, SourceStream source) {
+    public ExpressionTransaction parse(Context context, SourceStream source) {
         return parse(context, source, ExpressionParserSettings.COMBINED);
     }
 
     @Override
-    public Expression parse(Context context, SourceStream source, ExpressionParserSettings settings) {
+    public ExpressionTransaction parse(Context context, SourceStream source, ExpressionParserSettings settings) {
         return parse(context, source, settings, null);
     }
 
-    public Expression parse(Context context, SourceStream source, ExpressionParserSettings settings, @Nullable BiConsumer<ExpressionContext, PandaExpressionParserWorker> visitor) {
+    public ExpressionTransaction parse(Context context, SourceStream source, ExpressionParserSettings settings, @Nullable BiConsumer<ExpressionContext, PandaExpressionParserWorker> visitor) {
         long uptime = System.nanoTime();
 
-        ExpressionContext expressionContext = new PandaExpressionContext(this, context, source);
+        PandaExpressionContext expressionContext = new PandaExpressionContext(this, context, source);
         PandaExpressionParserWorker worker = new PandaExpressionParserWorker(subparsers);
 
         if (!source.hasUnreadSource()) {
@@ -127,19 +127,23 @@ public class PandaExpressionParser implements ExpressionParser {
         }
 
         worker.finish(expressionContext);
+        PandaExpressionTransaction transaction = new PandaExpressionTransaction(null, expressionContext.getCommits());
 
         // if something went wrong
         if (worker.hasError()) {
+            transaction.rollback();
             throw new PandaExpressionParserFailure(worker.getError().getErrorMessage(), expressionContext, worker.getError().getSource());
         }
 
         // if context does not contain any results
         if (!expressionContext.hasResults()) {
+            transaction.rollback();
             throw new PandaExpressionParserFailure("Unknown expression", expressionContext, source.toSnippet());
         }
 
         // if worker couldn't prepare the final result
         if (expressionContext.getResults().size() > 1) {
+            transaction.rollback();
             throw new PandaExpressionParserFailure("Source contains " + expressionContext.getResults().size() + " expressions", expressionContext, source.toSnippet());
         }
 
@@ -159,10 +163,11 @@ public class PandaExpressionParser implements ExpressionParser {
         }
 
         if (settings.isStandaloneOnly() && worker.getLastCategory() != ExpressionCategory.STANDALONE) {
+            transaction.rollback();
             throw new PandaExpressionParserFailure("Invalid category of expression", expressionContext, source.toSnippet());
         }
 
-        return expressionContext.getResults().pop();
+        return transaction.withExpression(expressionContext.getResults().pop());
     }
 
 }

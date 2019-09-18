@@ -18,9 +18,13 @@ package org.panda_lang.panda.language.resource.expression.subparsers.assignation
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.Component;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 public final class AssignationComponents {
+
+    public static final String CONTEXT_LABEL = "context";
+    public static final Component<ExpressionContext> CONTEXT = Component.of(CONTEXT_LABEL, ExpressionContext.class);
 
     public static final String SCOPE_LABEL = "assignation-scope";
     public static final Component<Scope> SCOPE = Component.of(SCOPE_LABEL, Scope.class);

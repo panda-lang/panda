@@ -25,7 +25,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Pr
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.language.architecture.prototype.array.ArrayClassPrototype;
-import org.panda_lang.panda.language.runtime.expression.PandaDynamicExpression;
+import org.panda_lang.panda.language.runtime.expression.AbstractDynamicExpression;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -128,10 +128,10 @@ public final class ParametrizedPropertiesMatcher<T extends ParameterizedExecutab
             }
 
             // generate varargs array expression
-            fixedArguments[argumentIndex] = new PandaDynamicExpression(((ArrayClassPrototype) parameters[argumentIndex].getType().fetch()).getType().fetch()) {
+            fixedArguments[argumentIndex] = new AbstractDynamicExpression(((ArrayClassPrototype) parameters[argumentIndex].getType().fetch()).getType().fetch()) {
                 @Override
                 @SuppressWarnings("unchecked")
-                public Object call(ProcessStack stack, Object instance) {
+                public Object evaluate(ProcessStack stack, Object instance) {
                     return expressions.stream()
                             .map(expr -> expr.evaluate(stack, instance))
                             .toArray(Object[]::new);

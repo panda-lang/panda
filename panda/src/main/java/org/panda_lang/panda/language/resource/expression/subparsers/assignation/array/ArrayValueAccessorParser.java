@@ -49,14 +49,14 @@ public final class ArrayValueAccessorParser implements Parser {
 
         Snippet instanceSource = source.subSource(0, source.size() - 1);
         ExpressionParser parser = context.getComponent(UniversalComponents.EXPRESSION);
-        Expression instance = parser.parse(context, instanceSource);
+        Expression instance = parser.parse(context, instanceSource).getExpression();
 
         return parse(context, source, instance, section);
     }
 
-    public @Nullable ArrayAccessor parse(Context context, Snippetable source, Expression instance, Section indexSource) {
+    public ArrayAccessor parse(Context context, Snippetable source, Expression instance, Section indexSource) {
         ExpressionParser parser = context.getComponent(UniversalComponents.EXPRESSION);
-        Expression index = parser.parse(context, indexSource.getContent());
+        Expression index = parser.parse(context, indexSource.getContent()).getExpression();
 
         if (!PandaTypes.INT.isAssignableFrom(index.getReturnType())) {
             throw PandaParserFailure.builder("The specified index is not an integer", context)
