@@ -42,7 +42,7 @@ final class Assignation extends AbstractExecutableStatement implements DynamicEx
 
     @Override
     @SuppressWarnings("unchecked")
-    public Object call(ProcessStack stack, Object instance) {
+    public Object evaluate(ProcessStack stack, Object instance) {
         return accessor.getValue(stack, instance);
     }
 

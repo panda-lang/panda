@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.head;
+package org.panda_lang.panda.language.resource.expression.subparsers;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.SourceStream;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.language.interpreter.token.PandaSourceStream;
@@ -35,18 +36,21 @@ public final class ArgumentsParser implements Parser {
 
     private static final Expression[] EMPTY = new Expression[0];
 
-    public Expression[] parse(Context context, Snippet snippet) {
+    public Expression[] parse(ExpressionContext expressionContext, Snippet snippet) {
         if (snippet.isEmpty()) {
             return EMPTY;
         }
 
-        ExpressionParser expressionParser = context.getComponent(UniversalComponents.EXPRESSION);
+        Context context = expressionContext.getContext();
+        ExpressionParser expressionParser = expressionContext.getParser();
+
         List<Expression> expressions = new ArrayList<>((snippet.size() - 1) / 2);
         SourceStream source = new PandaSourceStream(snippet);
 
         while (source.hasUnreadSource()) {
-            Expression expression = expressionParser.parse(context, source);
-            expressions.add(expression);
+            ExpressionTransaction transaction = expressionParser.parse(context, source);
+            expressionContext.commit(transaction::rollback);
+            expressions.add(transaction.getExpression());
 
             if (source.hasUnreadSource()) {
                 TokenRepresentation comma = source.read();

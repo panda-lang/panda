@@ -17,12 +17,9 @@
 package org.panda_lang.panda.framework.design.interpreter.parser.expression;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 
-public interface ExpressionSubparserWorker {
+public interface ExpressionSubparserPostProcessor {
 
-    @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token);
-
-    ExpressionSubparser getSubparser();
+    @Nullable ExpressionResult finish(ExpressionContext context);
 
 }

@@ -31,7 +31,7 @@ import org.panda_lang.panda.language.resource.prototype.ClassPrototypeParser;
 import org.panda_lang.panda.language.resource.prototype.ConstructorParser;
 import org.panda_lang.panda.language.resource.prototype.FieldParser;
 import org.panda_lang.panda.language.resource.prototype.MethodParser;
-import org.panda_lang.panda.language.resource.head.ArgumentsParser;
+import org.panda_lang.panda.language.resource.expression.subparsers.ArgumentsParser;
 import org.panda_lang.panda.language.resource.prototype.ParameterParser;
 import org.panda_lang.panda.language.resource.scope.LateDeclarationParser;
 import org.panda_lang.panda.language.resource.scope.StandaloneExpressionParser;

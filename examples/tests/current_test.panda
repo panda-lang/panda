@@ -145,6 +145,9 @@ main {
     }
 
     Console.print("Assignation: " + (Int assignation = 2))
+
+    Object intValue = 10
+    Int castTest = intValue
 }
 
 class TestArray {

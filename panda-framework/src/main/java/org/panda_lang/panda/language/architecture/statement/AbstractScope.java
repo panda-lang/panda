@@ -66,6 +66,13 @@ public abstract class AbstractScope extends AbstractStatement implements Scope {
     }
 
     @Override
+    public boolean removeVariable(String name) {
+        return getVariable(name)
+                .map(variables::remove)
+                .orElse(false);
+    }
+
+    @Override
     public Optional<Variable> getVariable(String name) {
         for (Variable variable : variables) {
             if (variable.getName().equals(name)) {

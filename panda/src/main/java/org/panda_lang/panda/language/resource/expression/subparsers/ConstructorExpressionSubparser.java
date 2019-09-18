@@ -25,6 +25,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.expression.Expre
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
@@ -36,7 +37,6 @@ import org.panda_lang.panda.language.interpreter.parser.expression.AbstractExpre
 import org.panda_lang.panda.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.panda.language.resource.PandaTypes;
 import org.panda_lang.panda.language.resource.expression.subparsers.assignation.variable.VariableDeclarationUtils;
-import org.panda_lang.panda.language.resource.head.ArgumentsParser;
 import org.panda_lang.panda.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.resource.syntax.separator.Separators;
@@ -126,7 +126,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
         }
 
         private ExpressionResult parseDefault(ExpressionContext context, ClassPrototype type, Snippet argsSource) {
-            Expression[] arguments = ARGUMENT_PARSER.parse(context.getContext(), argsSource);
+            Expression[] arguments = ARGUMENT_PARSER.parse(context, argsSource);
             Optional<Arguments<PrototypeConstructor>> adjustedConstructor = type.getConstructors().getAdjustedConstructor(arguments);
 
             return adjustedConstructor
@@ -145,7 +145,9 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
                     break;
                 }
 
-                Expression capacity = context.getParser().parse(context.getContext(), content);
+                ExpressionTransaction capacityTransaction = context.getParser().parse(context.getContext(), content);
+                context.commit(capacityTransaction::rollback);
+                Expression capacity = capacityTransaction.getExpression();
 
                 if (!PandaTypes.INT.isAssignableFrom(capacity.getReturnType())) {
                     return ExpressionResult.error("Capacity has to be Int", content);

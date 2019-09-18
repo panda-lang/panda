@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParserSettings;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.wildcard.reader.WildcardReader;
 import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.SourceStream;
@@ -66,10 +67,10 @@ public class ExpressionWildcardReader implements WildcardReader<Expression> {
 
     private @Nullable Expression parse(ExpressionParser expressionParser, @Nullable ExpressionParserSettings settings, Context context, TokenDistributor distributor, Snippet content) {
         SourceStream source = new PandaSourceStream(content);
-        Expression expression = settings == null ? expressionParser.parse(context, source) : expressionParser.parse(context, source, settings);
+        ExpressionTransaction expressionTransaction = settings == null ? expressionParser.parse(context, source) : expressionParser.parse(context, source, settings);
 
         distributor.next(source.getReadLength());
-        return expression;
+        return expressionTransaction.getExpression();
     }
 
     private Collection<String> convert(String elements) {

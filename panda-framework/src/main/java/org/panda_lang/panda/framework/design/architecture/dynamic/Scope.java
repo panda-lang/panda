@@ -58,6 +58,14 @@ public interface Scope extends Statement {
     void addVariable(Variable variable);
 
     /**
+     * Remove variable with the given name
+     *
+     * @param name the name of variable to search for
+     * @return true if variable was found and removed, otherwise false
+     */
+    boolean removeVariable(String name);
+
+    /**
      * Get variable with the given name
      *
      * @param name the name to search for

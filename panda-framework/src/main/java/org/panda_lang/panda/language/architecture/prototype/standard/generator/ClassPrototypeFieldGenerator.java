@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.language.architecture.prototype.standard.field.PandaPrototypeField;
 import org.panda_lang.panda.language.runtime.PandaRuntimeException;
-import org.panda_lang.panda.language.runtime.expression.PandaDynamicExpression;
+import org.panda_lang.panda.language.runtime.expression.AbstractDynamicExpression;
 import org.panda_lang.panda.language.runtime.expression.PandaExpression;
 
 import java.lang.reflect.Field;
@@ -57,10 +57,10 @@ final class ClassPrototypeFieldGenerator {
         // TODO: Generate bytecode
         field.setAccessible(true);
 
-        Expression fieldExpression = new PandaExpression(new PandaDynamicExpression(returnType.fetch()) {
+        Expression fieldExpression = new PandaExpression(new AbstractDynamicExpression(returnType.fetch()) {
             @Override
             @SuppressWarnings("unchecked")
-            public Object call(ProcessStack flow, Object instance) {
+            public Object evaluate(ProcessStack flow, Object instance) {
                 try {
                     return field.get(instance);
                 } catch (IllegalAccessException e) {

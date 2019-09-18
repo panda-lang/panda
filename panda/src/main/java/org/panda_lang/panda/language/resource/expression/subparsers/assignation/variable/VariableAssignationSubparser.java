@@ -22,6 +22,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
@@ -56,19 +57,20 @@ public final class VariableAssignationSubparser extends AssignationSubparserBoot
 
         try {
             SourceStream stream = new PandaSourceStream(source);
-            Expression expression = parser.parse(context, stream);
+            ExpressionTransaction transaction = parser.parse(context, stream);
 
             if (stream.hasUnreadSource()) {
+                transaction.rollback();
                 return false;
             }
 
-            if (!(expression instanceof AccessorExpression)) {
+            if (!(transaction.getExpression() instanceof AccessorExpression)) {
                 return PandaParserFailure.builder("Expression is not accessor", context)
                         .withStreamOrigin(source)
                         .build();
             }
 
-            channel.put("accessor", expression);
+            channel.put("accessor", transaction.getExpression());
             return true;
         } catch (Exception e) {
             return e;

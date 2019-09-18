@@ -21,10 +21,10 @@ import org.panda_lang.panda.framework.design.interpreter.parser.expression.Expre
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.architecture.prototype.array.ArrayClassPrototype;
 import org.panda_lang.panda.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.language.resource.PandaTypes;
 import org.panda_lang.panda.language.resource.expression.subparsers.assignation.array.ArrayAccessor;
@@ -84,8 +84,9 @@ public final class ArrayValueExpressionSubparser implements ExpressionSubparser 
                 ExpressionResult.error("Cannot use array index on non-array return type", section.getContent());
             }
 
-            ArrayClassPrototype arrayClassPrototype = (ArrayClassPrototype) instance.getReturnType();
-            Expression indexExpression = context.getParser().parse(context.getContext(), section.getContent());
+            ExpressionTransaction indexTransaction = context.getParser().parse(context.getContext(), section.getContent());
+            context.commit(indexTransaction::rollback);
+            Expression indexExpression = indexTransaction.getExpression();
 
             // require int as index
             if (!PandaTypes.INT.isAssignableFrom(indexExpression.getReturnType())) {

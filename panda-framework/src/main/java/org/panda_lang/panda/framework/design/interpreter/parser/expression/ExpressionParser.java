@@ -16,31 +16,30 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.expression;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.SourceStream;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.language.interpreter.token.SynchronizedSource;
 
 import java.util.Optional;
 
 public interface ExpressionParser extends Parser {
 
-    Optional<Expression> parseSilently(Context context, Snippet source);
+    Optional<ExpressionTransaction> parseSilently(Context context, Snippet source);
 
-    Optional<Expression> parseSilently(Context context, SourceStream source);
+    Optional<ExpressionTransaction> parseSilently(Context context, SourceStream source);
 
-    Optional<Expression> parseSilently(Context context, SourceStream source, ExpressionParserSettings settings);
+    Optional<ExpressionTransaction> parseSilently(Context context, SourceStream source, ExpressionParserSettings settings);
 
-    Expression parse(Context context, Snippet source);
+    ExpressionTransaction parse(Context context, Snippet source);
 
-    Expression parse(Context context, SynchronizedSource source);
+    ExpressionTransaction parse(Context context, SynchronizedSource source);
 
-    Expression parse(Context context, SynchronizedSource source, ExpressionParserSettings settings);
+    ExpressionTransaction parse(Context context, SynchronizedSource source, ExpressionParserSettings settings);
 
-    Expression parse(Context context, SourceStream source);
+    ExpressionTransaction parse(Context context, SourceStream source);
 
-    Expression parse(Context context, SourceStream source, ExpressionParserSettings settings);
+    ExpressionTransaction parse(Context context, SourceStream source, ExpressionParserSettings settings);
 
 }

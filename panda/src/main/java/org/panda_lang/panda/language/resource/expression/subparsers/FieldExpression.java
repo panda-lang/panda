@@ -40,7 +40,7 @@ final class FieldExpression implements DynamicExpression {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Object call(ProcessStack stack, Object instance) {
+    public Object evaluate(ProcessStack stack, Object instance) {
         PrototypeField field = accessor.getVariable();
 
         if (field.isStatic()) {

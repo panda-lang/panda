@@ -18,6 +18,7 @@ package org.panda_lang.panda.language.runtime.expression;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.expression.ExpressionEvaluator;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionValueType;
 import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 
@@ -27,32 +28,32 @@ public class PandaExpression implements Expression {
 
     private final ExpressionValueType type;
     private final ClassPrototype returnType;
-    private final DynamicExpression callback;
+    private final ExpressionEvaluator evaluator;
     private final Object value;
 
     public PandaExpression(ClassPrototype returnType, Object value) {
         this(ExpressionValueType.KNOWN, returnType, null, value);
     }
 
-    public PandaExpression(DynamicExpression callback) {
-        this(ExpressionValueType.UNKNOWN, callback.getReturnType(), callback, null);
+    public PandaExpression(DynamicExpression expression) {
+        this(ExpressionValueType.UNKNOWN, expression.getReturnType(), expression, null);
     }
 
-    protected PandaExpression(ExpressionValueType type, ClassPrototype returnType, DynamicExpression callback, Object value) {
+    protected PandaExpression(ExpressionValueType type, ClassPrototype returnType, ExpressionEvaluator evaluator, Object value) {
         if (type == null) {
             throw new InvalidParameterException("ExpressionType cannot be null");
         }
 
         this.type = type;
         this.returnType = returnType;
-        this.callback = callback;
+        this.evaluator = evaluator;
         this.value = value;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public Object evaluate(ProcessStack stack, Object instance) {
-        return type == ExpressionValueType.KNOWN ? value : callback.call(stack, instance);
+        return type == ExpressionValueType.KNOWN ? value : evaluator.evaluate(stack, instance);
     }
 
     @Override

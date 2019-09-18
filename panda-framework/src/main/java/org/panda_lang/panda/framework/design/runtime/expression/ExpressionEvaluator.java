@@ -14,15 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.expression;
+package org.panda_lang.panda.framework.design.runtime.expression;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 
-public interface ExpressionSubparserWorker {
+public interface ExpressionEvaluator {
 
-    @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token);
-
-    ExpressionSubparser getSubparser();
+    /**
+     * Evaluate expression using the specified branch
+     *
+     * @param stack the frame to use
+     * @return nullable value
+     */
+    <T> T evaluate(ProcessStack stack, Object instance);
 
 }

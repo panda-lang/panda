@@ -19,22 +19,20 @@ package org.panda_lang.panda.language.resource.expression.subparsers;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Arguments;
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.architecture.prototype.standard.parameter.ParametrizedExpression;
-import org.panda_lang.panda.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
-import org.panda_lang.panda.language.interpreter.token.TokenUtils;
+import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.language.architecture.prototype.standard.parameter.ParametrizedExpression;
+import org.panda_lang.panda.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.panda.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.language.interpreter.token.SynchronizedSource;
-import org.panda_lang.panda.language.resource.head.ArgumentsParser;
+import org.panda_lang.panda.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.runtime.expression.StaticExpression;
@@ -109,7 +107,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
             }
 
             // parse method
-            Expression expression = parseMethod(context.getContext(), instance, nameToken, section.getContent());
+            Expression expression = parseMethod(context, instance, nameToken, section.getContent());
 
             // drop used instance
             if (context.hasResults()) {
@@ -119,12 +117,12 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
             return ExpressionResult.of(expression);
         }
 
-        private Expression parseMethod(Context context, Expression instance, TokenRepresentation methodName, Snippet argumentsSource) {
+        private Expression parseMethod(ExpressionContext context, Expression instance, TokenRepresentation methodName, Snippet argumentsSource) {
             Expression[] arguments = ARGUMENT_PARSER.parse(context, argumentsSource);
             Optional<Arguments<PrototypeMethod>> adjustedArguments = instance.getReturnType().getMethods().getAdjustedArguments(methodName.getValue(), arguments);
 
             if (!adjustedArguments.isPresent()) {
-                throw PandaParserFailure.builder("Class " + instance.getReturnType().getName() + " does not have method '" + methodName + "' with these parameters", context)
+                throw PandaParserFailure.builder("Class " + instance.getReturnType().getName() + " does not have method '" + methodName + "' with these parameters", context.getContext())
                         .withStreamOrigin(argumentsSource)
                         .withNote("Change arguments or add a new method with the provided types of parameters")
                         .build();
@@ -133,7 +131,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
             PrototypeMethod method = adjustedArguments.get().getExecutable();
 
             if (!method.isStatic() && instance instanceof StaticExpression) {
-                throw PandaParserFailure.builder("Cannot invoke non-static method on static context", context)
+                throw PandaParserFailure.builder("Cannot invoke non-static method on static context", context.getContext())
                         .withStreamOrigin(methodName)
                         .withNote("Call method using class instance or add missing 'static' keyword to the '" + methodName.getValue() + "'method signature")
                         .build();

@@ -17,13 +17,13 @@
 package org.panda_lang.panda.language.resource.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionTransaction;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.language.resource.syntax.operator.Operators;
 
 public final class NegateExpressionSubparser implements ExpressionSubparser {
@@ -51,8 +51,10 @@ public final class NegateExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            Expression expression = context.getParser().parse(context.getContext(), context.getSynchronizedSource());
-            return ExpressionResult.of(new NegateLogicalExpression(expression).toExpression());
+            ExpressionTransaction transaction = context.getParser().parse(context.getContext(), context.getSynchronizedSource());
+            context.commit(transaction::rollback);
+
+            return ExpressionResult.of(new NegateLogicalExpression(transaction.getExpression()).toExpression());
         }
 
     }

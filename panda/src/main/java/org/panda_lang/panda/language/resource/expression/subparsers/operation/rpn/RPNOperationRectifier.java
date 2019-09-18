@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionValueType;
 import org.panda_lang.panda.language.resource.syntax.operator.Operator;
-import org.panda_lang.panda.language.runtime.expression.PandaDynamicExpression;
+import org.panda_lang.panda.language.runtime.expression.AbstractDynamicExpression;
 import org.panda_lang.panda.language.runtime.expression.PandaExpression;
 import org.panda_lang.panda.utilities.commons.ObjectUtils;
 
@@ -58,10 +58,10 @@ public class RPNOperationRectifier {
                 continue;
             }
 
-            Expression expression = new PandaExpression(new PandaDynamicExpression(action.returnType()) {
+            Expression expression = new PandaExpression(new AbstractDynamicExpression(action.returnType()) {
                 @Override
                 @SuppressWarnings("unchecked")
-                public Object call(ProcessStack stack, Object instance) {
+                public Object evaluate(ProcessStack stack, Object instance) {
                     return action.get(stack, a.evaluate(stack, instance), b.evaluate(stack, instance));
                 }
             });

@@ -17,18 +17,21 @@
 package org.panda_lang.panda.language.runtime.expression;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.runtime.ProcessStack;
+import org.panda_lang.panda.framework.design.runtime.expression.ExpressionEvaluator;
 
-public abstract class PandaDynamicExpression implements DynamicExpression {
+public class PandaDynamicExpression extends AbstractDynamicExpression {
 
-    private final ClassPrototype returnType;
+    private ExpressionEvaluator evaluator;
 
-    public PandaDynamicExpression(ClassPrototype returnType) {
-        this.returnType = returnType;
+    public PandaDynamicExpression(ClassPrototype type, ExpressionEvaluator evaluator) {
+        super(type);
+        this.evaluator = evaluator;
     }
 
     @Override
-    public ClassPrototype getReturnType() {
-        return returnType;
+    public <T> T evaluate(ProcessStack stack, Object instance) {
+        return evaluator.evaluate(stack, instance);
     }
 
 }

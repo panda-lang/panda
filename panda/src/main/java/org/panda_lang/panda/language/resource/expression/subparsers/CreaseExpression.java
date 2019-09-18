@@ -42,7 +42,7 @@ final class CreaseExpression extends NumberPriorities implements DynamicExpressi
 
     @Override
     @SuppressWarnings("unchecked")
-    public Object call(ProcessStack stack, Object instance) {
+    public Object evaluate(ProcessStack stack, Object instance) {
         MemoryContainer memory = accessor.fetchMemoryContainer(stack, instance);
         Object before = memory.get(accessor.getMemoryPointer());
 

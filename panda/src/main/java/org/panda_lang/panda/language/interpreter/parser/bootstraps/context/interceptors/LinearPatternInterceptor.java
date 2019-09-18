@@ -52,7 +52,7 @@ public class LinearPatternInterceptor implements BootstrapInterceptor {
             Snippet currentSource = stream.toSnippet();
 
             ExpressionParser expressionParser = context.getComponent(UniversalComponents.EXPRESSION);
-            LinearPatternResult result = pattern.match(stream, source -> expressionParser.parse(context, source));
+            LinearPatternResult result = pattern.match(stream, source -> expressionParser.parse(context, source).getExpression());
 
             if (!result.isMatched()) {
                 throw PandaParserFailure.builder("Interceptor could not match pattern '" + content.getPattern().orElse("<pattern is null>") + "'", context)

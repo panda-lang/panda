@@ -48,7 +48,7 @@ public class WhileParser extends BlockSubparserBootstrap {
 
     @Autowired
     BlockData parseWhile(Context context, @Component Scope parent, @Src("content") Snippet content) {
-        Expression expression = context.getComponent(UniversalComponents.EXPRESSION).parse(context, content);
+        Expression expression = context.getComponent(UniversalComponents.EXPRESSION).parse(context, content).getExpression();
 
         if (!PandaTypes.BOOLEAN.isAssignableFrom(expression.getReturnType())) {
             throw new PandaParserException("Loop requires boolean as an argument");

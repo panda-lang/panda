@@ -75,7 +75,7 @@ class ExpressionParserTestBootstrap {
         DATA.withComponent(UniversalComponents.SOURCE, stream.toSnippet());
         DATA.withComponent(UniversalComponents.STREAM, stream);
 
-        Expression expression = PARSER.parse(DATA, stream);
+        Expression expression = PARSER.parse(DATA, stream).getExpression();
 
         if (stream.hasUnreadSource()) {
             throw new RuntimeException("Unread source: " + stream.toSnippet());

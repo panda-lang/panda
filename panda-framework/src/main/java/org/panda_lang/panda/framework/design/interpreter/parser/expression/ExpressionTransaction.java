@@ -16,13 +16,16 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.expression;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
-public interface ExpressionSubparserWorker {
+import java.util.Collection;
 
-    @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token);
+public interface ExpressionTransaction {
 
-    ExpressionSubparser getSubparser();
+    void rollback();
+
+    Collection<ExpressionTransactionCommit> getCommits();
+
+    Expression getExpression();
 
 }
