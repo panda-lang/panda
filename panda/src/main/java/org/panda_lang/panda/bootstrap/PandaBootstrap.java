@@ -17,9 +17,9 @@
 package org.panda_lang.panda.bootstrap;
 
 import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.framework.design.resource.Syntax;
-import org.panda_lang.panda.language.resource.PandaLanguage;
-import org.panda_lang.panda.language.resource.PandaResources;
+import org.panda_lang.framework.design.resource.Syntax;
+import org.panda_lang.framework.language.resource.PandaLanguage;
+import org.panda_lang.framework.language.resource.PandaResources;
 
 public class PandaBootstrap {
 

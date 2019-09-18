@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.resource.head;
 
-import org.panda_lang.panda.language.architecture.statement.AbstractStatement;
+import org.panda_lang.framework.language.architecture.statement.AbstractStatement;
 
 final class CommentStatement extends AbstractStatement {
 

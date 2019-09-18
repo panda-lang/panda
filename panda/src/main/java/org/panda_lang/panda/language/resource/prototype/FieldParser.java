@@ -17,11 +17,11 @@
 package org.panda_lang.panda.language.resource.prototype;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.architecture.prototype.PrototypeVisibility;
-import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeVisibility;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
@@ -29,18 +29,18 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annot
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Local;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.LocalData;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
-import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptiveContentBuilder;
-import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.framework.design.interpreter.pattern.descriptive.DescriptiveContentBuilder;
+import org.panda_lang.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.architecture.module.ModuleLoaderUtils;
-import org.panda_lang.panda.language.architecture.prototype.standard.field.PandaPrototypeField;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.language.architecture.module.ModuleLoaderUtils;
+import org.panda_lang.framework.language.architecture.prototype.PandaPrototypeField;
 import org.panda_lang.panda.language.interpreter.parser.PandaPriorities;
-import org.panda_lang.panda.language.interpreter.parser.generation.GenerationCycles;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeComponents;
-import org.panda_lang.panda.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeComponents;
+import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 
 @Registrable(pipeline = UniversalPipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_FIELD)
 public class FieldParser extends ParserBootstrap {
@@ -62,7 +62,7 @@ public class FieldParser extends ParserBootstrap {
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
     void parse(Context context, LocalData local, @Inter ExtractorResult result, @Src("type") Snippet type, @Src("name") Snippet name) {
-        ClassPrototypeReference returnType = ModuleLoaderUtils.getReferenceOrThrow(context, type.asSource(), type);
+        PrototypeReference returnType = ModuleLoaderUtils.getReferenceOrThrow(context, type.asSource(), type);
 
         PrototypeVisibility visibility = PrototypeVisibility.LOCAL;
         visibility = result.hasIdentifier("p") ? PrototypeVisibility.PUBLIC : visibility;
@@ -72,7 +72,7 @@ public class FieldParser extends ParserBootstrap {
         boolean mutable = result.hasIdentifier(Keywords.MUT.getValue());
         boolean nillable = result.hasIdentifier(Keywords.NIL.getValue());
 
-        ClassPrototype prototype = context.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
+        Prototype prototype = context.getComponent(PrototypeComponents.CLASS_PROTOTYPE);
         int fieldIndex = prototype.getFields().getProperties().size();
 
         PrototypeField field = PandaPrototypeField.builder()

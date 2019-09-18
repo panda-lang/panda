@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.interpreter.messenger.template;
 
-import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerFormatter;
-import org.panda_lang.panda.framework.design.interpreter.source.Source;
+import org.panda_lang.framework.design.interpreter.messenger.MessengerFormatter;
+import org.panda_lang.framework.design.interpreter.source.Source;
 
 import java.util.Map;
 

@@ -17,9 +17,9 @@
 package org.panda_lang.panda.language.resource.scope.block.conditional;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
-import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.architecture.dynamic.Block;
+import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
@@ -28,13 +28,13 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annot
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
-import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockComponents;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockData;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockSubparserBootstrap;
-import org.panda_lang.panda.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 
 @Registrable(pipeline = PandaPipelines.BLOCK_LABEL)
 public class ConditionalBlockParser extends BlockSubparserBootstrap {

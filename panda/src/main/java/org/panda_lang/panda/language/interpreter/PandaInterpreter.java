@@ -16,19 +16,20 @@
 
 package org.panda_lang.panda.language.interpreter;
 
-import org.panda_lang.panda.framework.PandaFramework;
-import org.panda_lang.panda.framework.design.architecture.Application;
-import org.panda_lang.panda.framework.design.architecture.Environment;
+import org.panda_lang.framework.PandaFramework;
+import org.panda_lang.framework.design.architecture.Application;
+import org.panda_lang.framework.design.architecture.Environment;
 import org.panda_lang.panda.language.architecture.PandaApplication;
-import org.panda_lang.panda.framework.design.interpreter.Interpretation;
-import org.panda_lang.panda.framework.design.interpreter.Interpreter;
-import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
-import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorWorker;
-import org.panda_lang.panda.framework.design.interpreter.source.Source;
-import org.panda_lang.panda.framework.design.resource.Language;
-import org.panda_lang.panda.language.interpreter.parser.expression.PandaExpressionParser;
+import org.panda_lang.framework.design.interpreter.Interpretation;
+import org.panda_lang.framework.design.interpreter.Interpreter;
+import org.panda_lang.framework.design.interpreter.messenger.MessengerLevel;
+import org.panda_lang.framework.design.interpreter.pattern.descriptive.extractor.ExtractorWorker;
+import org.panda_lang.framework.design.interpreter.source.Source;
+import org.panda_lang.framework.design.resource.Language;
+import org.panda_lang.framework.language.interpreter.PandaInterpretation;
+import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.panda.language.interpreter.parser.ApplicationParser;
-import org.panda_lang.panda.utilities.commons.TimeUtils;
+import org.panda_lang.utilities.commons.TimeUtils;
 
 import java.util.Optional;
 

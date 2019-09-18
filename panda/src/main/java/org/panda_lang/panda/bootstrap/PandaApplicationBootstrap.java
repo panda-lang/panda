@@ -17,7 +17,7 @@
 package org.panda_lang.panda.bootstrap;
 
 import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.framework.design.architecture.Application;
+import org.panda_lang.framework.design.architecture.Application;
 
 import java.io.File;
 import java.util.Optional;

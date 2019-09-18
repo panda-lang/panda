@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.assignation;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.ExecutableStatement;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.statement.Variable;
-import org.panda_lang.panda.framework.design.runtime.ProcessStack;
-import org.panda_lang.panda.language.architecture.dynamic.AbstractExecutableStatement;
+import org.panda_lang.framework.design.architecture.dynamic.ExecutableStatement;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.statement.Variable;
+import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.language.architecture.dynamic.AbstractExecutableStatement;
 import org.panda_lang.panda.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.panda.language.architecture.dynamic.assigner.Assigner;
-import org.panda_lang.panda.language.runtime.expression.DynamicExpression;
+import org.panda_lang.framework.language.architecture.expression.DynamicExpression;
 
 final class Assignation extends AbstractExecutableStatement implements DynamicExpression {
 
@@ -47,7 +47,7 @@ final class Assignation extends AbstractExecutableStatement implements DynamicEx
     }
 
     @Override
-    public ClassPrototype getReturnType() {
+    public Prototype getReturnType() {
         return accessor.getTypeReference().fetch();
     }
 

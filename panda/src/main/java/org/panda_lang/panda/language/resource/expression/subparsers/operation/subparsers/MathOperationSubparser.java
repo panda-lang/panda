@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.Operation;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.OperationParser;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.OperationSubparser;
@@ -27,9 +27,9 @@ import org.panda_lang.panda.language.resource.expression.subparsers.operation.su
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers.math.DivisionOperation;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers.math.MultiplicationOperation;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers.math.SubtractionOperation;
-import org.panda_lang.panda.language.resource.syntax.operator.Operator;
-import org.panda_lang.panda.language.resource.syntax.operator.Operators;
-import org.panda_lang.panda.utilities.commons.collection.Maps;
+import org.panda_lang.framework.language.resource.syntax.operator.Operator;
+import org.panda_lang.framework.language.resource.syntax.operator.Operators;
+import org.panda_lang.utilities.commons.collection.Maps;
 
 import java.util.Map;
 

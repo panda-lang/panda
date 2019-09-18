@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.interpreter.messenger;
 
-import org.panda_lang.panda.framework.design.interpreter.messenger.Messenger;
-import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerTypeFormatter;
+import org.panda_lang.framework.design.interpreter.messenger.Messenger;
+import org.panda_lang.framework.design.interpreter.messenger.MessengerTypeFormatter;
 
 import java.util.Collection;
 

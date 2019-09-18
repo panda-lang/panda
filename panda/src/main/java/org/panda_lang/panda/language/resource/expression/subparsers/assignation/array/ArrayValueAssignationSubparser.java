@@ -17,28 +17,28 @@
 package org.panda_lang.panda.language.resource.expression.subparsers.assignation.array;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionTransaction;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Channel;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.token.SourceStream;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.token.SourceStream;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Component;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
-import org.panda_lang.panda.language.interpreter.token.PandaSourceStream;
+import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.panda.language.resource.expression.subparsers.assignation.AssignationComponents;
 import org.panda_lang.panda.language.resource.expression.subparsers.assignation.AssignationPriorities;
 import org.panda_lang.panda.language.resource.expression.subparsers.assignation.AssignationSubparserBootstrap;
-import org.panda_lang.panda.language.resource.syntax.auxiliary.Section;
-import org.panda_lang.panda.language.resource.syntax.separator.Separators;
+import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
+import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 
 import java.util.Optional;
 

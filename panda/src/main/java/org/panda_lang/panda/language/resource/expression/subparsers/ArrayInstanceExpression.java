@@ -16,20 +16,20 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.ProcessStack;
-import org.panda_lang.panda.language.architecture.prototype.array.ArrayClassPrototype;
-import org.panda_lang.panda.language.runtime.expression.AbstractDynamicExpression;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
+import org.panda_lang.framework.language.architecture.expression.AbstractDynamicExpression;
 
 import java.lang.reflect.Array;
 
 final class ArrayInstanceExpression extends AbstractDynamicExpression {
 
-    private final ClassPrototype prototype;
+    private final Prototype prototype;
     private final Expression[] capacities;
 
-    public ArrayInstanceExpression(ArrayClassPrototype instancePrototype, ClassPrototype basePrototype, Expression[] capacities) {
+    public ArrayInstanceExpression(ArrayPrototype instancePrototype, Prototype basePrototype, Expression[] capacities) {
         super(instancePrototype);
 
         this.prototype = basePrototype;

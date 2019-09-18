@@ -17,12 +17,12 @@
 package org.panda_lang.panda.language.architecture;
 
 import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.framework.design.architecture.Environment;
-import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
+import org.panda_lang.framework.design.architecture.Environment;
+import org.panda_lang.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.language.interpreter.PandaInterpreter;
-import org.panda_lang.panda.framework.design.resource.Resources;
-import org.panda_lang.panda.language.architecture.module.PandaModulePath;
-import org.panda_lang.panda.language.resource.PandaTypes;
+import org.panda_lang.framework.design.resource.Resources;
+import org.panda_lang.framework.language.architecture.module.PandaModulePath;
+import org.panda_lang.framework.language.resource.PandaTypes;
 
 import java.io.File;
 

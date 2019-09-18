@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations;
 
-import org.panda_lang.panda.utilities.inject.annotations.Injectable;
+import org.panda_lang.utilities.inject.annotations.Injectable;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

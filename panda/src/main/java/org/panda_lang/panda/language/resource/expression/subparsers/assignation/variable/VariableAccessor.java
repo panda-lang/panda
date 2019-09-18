@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.assignation.variable;
 
-import org.panda_lang.panda.framework.design.architecture.statement.Variable;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.framework.design.architecture.statement.Variable;
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.panda.language.architecture.dynamic.accessor.AbstractAccessor;
 import org.panda_lang.panda.language.architecture.dynamic.assigner.Assigner;
 

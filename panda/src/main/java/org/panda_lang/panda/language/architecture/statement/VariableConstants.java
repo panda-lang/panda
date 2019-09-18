@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.architecture.statement;
 
-import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
+import org.panda_lang.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
 
 public final class VariableConstants {
 

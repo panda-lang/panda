@@ -17,29 +17,29 @@
 package org.panda_lang.panda.language.resource.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
-import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Arguments;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionCategory;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionTransaction;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.architecture.module.ModuleLoaderUtils;
-import org.panda_lang.panda.language.architecture.prototype.array.ArrayClassPrototype;
-import org.panda_lang.panda.language.architecture.prototype.standard.parameter.ParametrizedExpression;
-import org.panda_lang.panda.language.interpreter.token.SynchronizedSource;
-import org.panda_lang.panda.language.resource.PandaTypes;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
+import org.panda_lang.framework.design.architecture.parameter.Arguments;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionCategory;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.language.architecture.module.ModuleLoaderUtils;
+import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
+import org.panda_lang.framework.language.architecture.prototype.PrototypeExecutableExpression;
+import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
+import org.panda_lang.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.language.resource.expression.subparsers.assignation.variable.VariableDeclarationUtils;
-import org.panda_lang.panda.language.resource.syntax.auxiliary.Section;
-import org.panda_lang.panda.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.language.resource.syntax.separator.Separators;
-import org.panda_lang.panda.utilities.commons.StringUtils;
+import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
+import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.utilities.commons.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -120,16 +120,16 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             }
 
             // parse constructor call
-            ClassPrototype type = ModuleLoaderUtils.getReferenceOrThrow(context.getContext(), typeSource.asSource(), typeSource).fetch();
+            Prototype type = ModuleLoaderUtils.getReferenceOrThrow(context.getContext(), typeSource.asSource(), typeSource).fetch();
             return parseDefault(context, type, section.getContent());
         }
 
-        private ExpressionResult parseDefault(ExpressionContext context, ClassPrototype type, Snippet argsSource) {
+        private ExpressionResult parseDefault(ExpressionContext context, Prototype type, Snippet argsSource) {
             Expression[] arguments = ARGUMENT_PARSER.parse(context, argsSource);
             Optional<Arguments<PrototypeConstructor>> adjustedConstructor = type.getConstructors().getAdjustedConstructor(arguments);
 
             return adjustedConstructor
-                    .map(constructorArguments -> ExpressionResult.of(new ParametrizedExpression(null, constructorArguments)))
+                    .map(constructorArguments -> ExpressionResult.of(new PrototypeExecutableExpression(null, constructorArguments)))
                     .orElseGet(() -> ExpressionResult.error(type.getName() + " does not have constructor with the required parameters: " + Arrays.toString(arguments), argsSource));
         }
 
@@ -162,17 +162,17 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             String baseClassName = typeSource.subSource(0, typeSource.size() - sections.size()).asSource();
             String endTypeName = baseClassName + StringUtils.repeated(sections.size(), "[]");
 
-            ArrayClassPrototype instanceType = (ArrayClassPrototype) ModuleLoaderUtils.getReferenceOrThrow(context.getContext(), endTypeName, typeSource).fetch();
-            ArrayClassPrototype baseType = instanceType;
+            ArrayPrototype instanceType = (ArrayPrototype) ModuleLoaderUtils.getReferenceOrThrow(context.getContext(), endTypeName, typeSource).fetch();
+            ArrayPrototype baseType = instanceType;
 
             for (int declaredCapacities = 0; declaredCapacities < capacities.size() - 1; declaredCapacities++) {
-                ClassPrototype componentType = baseType.getType().fetch();
+                Prototype componentType = baseType.getType().fetch();
 
-                if (!(componentType instanceof ArrayClassPrototype)) {
+                if (!(componentType instanceof ArrayPrototype)) {
                     throw new RuntimeException("Should not happen");
                 }
 
-                baseType = (ArrayClassPrototype) componentType;
+                baseType = (ArrayPrototype) componentType;
             }
 
             return ExpressionResult.of(new ArrayInstanceExpression(instanceType, baseType.getType().fetch(), capacities.toArray(new Expression[0])).toExpression());

@@ -16,15 +16,15 @@
 
 package org.panda_lang.panda.language.resource.scope.block.looping;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.Scope;
-import org.panda_lang.panda.framework.design.architecture.statement.VariableData;
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.language.architecture.statement.PandaVariable;
+import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.architecture.statement.VariableData;
+import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.language.architecture.statement.PandaVariable;
 import org.panda_lang.panda.language.architecture.statement.VariableDataInitializer;
-import org.panda_lang.panda.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockData;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockSubparserBootstrap;
@@ -35,9 +35,9 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annot
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.interceptors.LinearPatternInterceptor;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
-import org.panda_lang.panda.language.resource.PandaTypes;
-import org.panda_lang.panda.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.language.resource.syntax.operator.Operators;
+import org.panda_lang.framework.language.resource.PandaTypes;
+import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.framework.language.resource.syntax.operator.Operators;
 
 @Registrable(pipeline = PandaPipelines.BLOCK_LABEL)
 public class ForEachParser extends BlockSubparserBootstrap {

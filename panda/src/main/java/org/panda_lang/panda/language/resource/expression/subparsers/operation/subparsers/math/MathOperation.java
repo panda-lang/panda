@@ -16,29 +16,29 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers.math;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.resource.PandaTypes;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.rpn.RPNOperationAction;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers.number.NumberOperation;
 
 public abstract class MathOperation extends NumberOperation {
 
-    public abstract RPNOperationAction of(ClassPrototype returnType, int priority);
+    public abstract RPNOperationAction of(Prototype returnType, int priority);
 
     @Override
     public RPNOperationAction of(Expression a, Expression b) {
-        ClassPrototype returnType = returnType(a.getReturnType(), b.getReturnType());
+        Prototype returnType = returnType(a.getReturnType(), b.getReturnType());
         return of(returnType, super.getPriority(returnType));
     }
 
     @Override
-    public ClassPrototype returnType(ClassPrototype a, ClassPrototype b) {
+    public Prototype returnType(Prototype a, Prototype b) {
         return estimateType(a, b);
     }
 
     @Override
-    public ClassPrototype requiredType() {
+    public Prototype requiredType() {
         return PandaTypes.NUMBER;
     }
 

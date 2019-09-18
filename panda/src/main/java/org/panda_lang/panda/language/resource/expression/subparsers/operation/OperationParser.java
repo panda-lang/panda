@@ -17,14 +17,14 @@
 package org.panda_lang.panda.language.resource.expression.subparsers.operation;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
-import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternResult;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.design.interpreter.parser.Parser;
+import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
+import org.panda_lang.framework.design.interpreter.pattern.progressive.ProgressivePatternResult;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers.ConcatenationOperatorSubparser;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers.LogicalOperatorSubparser;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers.MathOperationSubparser;

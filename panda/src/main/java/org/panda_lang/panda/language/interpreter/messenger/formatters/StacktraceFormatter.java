@@ -16,13 +16,13 @@
 
 package org.panda_lang.panda.language.interpreter.messenger.formatters;
 
-import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerTypeFormatter;
+import org.panda_lang.framework.design.interpreter.messenger.MessengerTypeFormatter;
 import org.panda_lang.panda.language.interpreter.messenger.MessengerDataFormatter;
 import org.panda_lang.panda.language.interpreter.parser.ApplicationParser;
-import org.panda_lang.panda.utilities.commons.ArrayUtils;
-import org.panda_lang.panda.utilities.commons.ClassUtils;
-import org.panda_lang.panda.utilities.commons.PackageUtils;
-import org.panda_lang.panda.utilities.commons.StringUtils;
+import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.ClassUtils;
+import org.panda_lang.utilities.commons.PackageUtils;
+import org.panda_lang.utilities.commons.StringUtils;
 
 import java.util.Optional;
 

@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.number;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.SourceParser;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.language.resource.PandaTypes;
-import org.panda_lang.panda.language.runtime.expression.PandaExpression;
-import org.panda_lang.panda.utilities.commons.StringUtils;
+import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.SourceParser;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.framework.language.resource.PandaTypes;
+import org.panda_lang.framework.language.architecture.expression.PandaExpression;
+import org.panda_lang.utilities.commons.StringUtils;
 
 public class NumberParser implements SourceParser<Expression> {
 

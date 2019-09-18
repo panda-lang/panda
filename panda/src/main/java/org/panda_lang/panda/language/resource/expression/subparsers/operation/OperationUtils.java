@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.operation;
 
-import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.language.resource.PandaTypes;
-import org.panda_lang.panda.language.resource.syntax.operator.Operator;
-import org.panda_lang.panda.language.resource.syntax.operator.OperatorFamilies;
-import org.panda_lang.panda.language.resource.syntax.operator.OperatorUtils;
-import org.panda_lang.panda.language.resource.syntax.operator.Operators;
-import org.panda_lang.panda.utilities.commons.ObjectUtils;
+import org.panda_lang.framework.design.interpreter.token.Token;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.framework.language.resource.PandaTypes;
+import org.panda_lang.framework.language.resource.syntax.operator.Operator;
+import org.panda_lang.framework.language.resource.syntax.operator.OperatorFamilies;
+import org.panda_lang.framework.language.resource.syntax.operator.OperatorUtils;
+import org.panda_lang.framework.language.resource.syntax.operator.Operators;
+import org.panda_lang.utilities.commons.ObjectUtils;
 
 import java.util.function.Predicate;
 

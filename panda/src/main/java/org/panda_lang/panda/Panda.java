@@ -17,11 +17,11 @@
 package org.panda_lang.panda;
 
 import org.panda_lang.panda.cli.PandaCLI;
-import org.panda_lang.panda.framework.design.FrameworkController;
-import org.panda_lang.panda.framework.design.resource.Language;
-import org.panda_lang.panda.framework.design.resource.Resources;
-import org.panda_lang.panda.language.resource.PandaLanguage;
-import org.panda_lang.panda.language.resource.PandaResources;
+import org.panda_lang.framework.design.FrameworkController;
+import org.panda_lang.framework.design.resource.Language;
+import org.panda_lang.framework.design.resource.Resources;
+import org.panda_lang.framework.language.resource.PandaLanguage;
+import org.panda_lang.framework.language.resource.PandaResources;
 import org.panda_lang.panda.util.embed.PandaEngineFactoryConstants;
 
 /**

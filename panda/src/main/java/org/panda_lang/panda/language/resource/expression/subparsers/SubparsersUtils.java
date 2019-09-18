@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers;
 
-import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.language.resource.expression.subparsers.assignation.variable.VariableDeclarationUtils;
-import org.panda_lang.panda.utilities.commons.function.Produce;
+import org.panda_lang.utilities.commons.function.Produce;
 
 import java.util.Optional;
 
@@ -31,7 +31,7 @@ final class SubparsersUtils {
 
     private SubparsersUtils() { }
 
-    protected static Produce<ClassPrototypeReference, ExpressionResult> readType(ExpressionContext context) {
+    protected static Produce<PrototypeReference, ExpressionResult> readType(ExpressionContext context) {
         Optional<Snippet> typeSource = VariableDeclarationUtils.readType(context.getSynchronizedSource().getAvailableSource());
 
         if (!typeSource.isPresent()) {
@@ -39,7 +39,7 @@ final class SubparsersUtils {
         }
 
         ModuleLoader loader = context.getContext().getComponent(UniversalComponents.MODULE_LOADER);
-        Optional<ClassPrototypeReference> typeReference = loader.forName(typeSource.get().asSource());
+        Optional<PrototypeReference> typeReference = loader.forName(typeSource.get().asSource());
 
         if (!typeReference.isPresent()) {
             return new Produce<>(() -> ExpressionResult.error("Unknown type", context.getSynchronizedSource().getAvailableSource()));

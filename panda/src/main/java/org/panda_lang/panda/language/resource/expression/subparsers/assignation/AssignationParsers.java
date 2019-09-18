@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.assignation;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.Parsers;
+import org.panda_lang.framework.design.interpreter.parser.Parsers;
 import org.panda_lang.panda.language.resource.expression.subparsers.assignation.array.ArrayValueAssignationSubparser;
 import org.panda_lang.panda.language.resource.expression.subparsers.assignation.variable.VariableAssignationSubparser;
 import org.panda_lang.panda.language.resource.expression.subparsers.assignation.variable.VariableDeclarationSubparser;

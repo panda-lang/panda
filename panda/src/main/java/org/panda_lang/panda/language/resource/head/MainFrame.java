@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.language.resource.head;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.LivingFrame;
-import org.panda_lang.panda.framework.design.runtime.ProcessStack;
-import org.panda_lang.panda.language.architecture.dynamic.AbstractLivingFrame;
-import org.panda_lang.panda.language.architecture.statement.AbstractFrame;
+import org.panda_lang.framework.design.architecture.dynamic.LivingFrame;
+import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.language.architecture.dynamic.AbstractLivingFrame;
+import org.panda_lang.framework.language.architecture.statement.AbstractFrame;
 
 public final class MainFrame extends AbstractFrame {
 

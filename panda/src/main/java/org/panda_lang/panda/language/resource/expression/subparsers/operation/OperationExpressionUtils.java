@@ -16,15 +16,15 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.operation;
 
-import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePattern;
-import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternElement;
-import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternResult;
-import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.language.resource.syntax.operator.OperatorFamilies;
-import org.panda_lang.panda.language.resource.syntax.operator.Operators;
-import org.panda_lang.panda.language.resource.syntax.separator.Separators;
-import org.panda_lang.panda.utilities.commons.ArrayUtils;
+import org.panda_lang.framework.design.interpreter.pattern.progressive.ProgressivePattern;
+import org.panda_lang.framework.design.interpreter.pattern.progressive.ProgressivePatternElement;
+import org.panda_lang.framework.design.interpreter.pattern.progressive.ProgressivePatternResult;
+import org.panda_lang.framework.design.interpreter.token.Token;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.language.resource.syntax.operator.OperatorFamilies;
+import org.panda_lang.framework.language.resource.syntax.operator.Operators;
+import org.panda_lang.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.utilities.commons.ArrayUtils;
 
 final class OperationExpressionUtils {
 

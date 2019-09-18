@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.framework.design.architecture.Application;
+import org.panda_lang.framework.design.architecture.Application;
 import org.panda_lang.panda.language.architecture.PandaEnvironment;
 import org.panda_lang.panda.language.interpreter.PandaInterpreter;
-import org.panda_lang.panda.framework.design.interpreter.source.Source;
-import org.panda_lang.panda.language.interpreter.source.PandaURLSource;
+import org.panda_lang.framework.design.interpreter.source.Source;
+import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
 
 import java.io.File;
 import java.util.Optional;

@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.architecture.dynamic.assigner;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
-import org.panda_lang.panda.framework.design.architecture.dynamic.ExecutableStatement;
-import org.panda_lang.panda.framework.design.architecture.statement.Variable;
+import org.panda_lang.framework.design.architecture.dynamic.Executable;
+import org.panda_lang.framework.design.architecture.dynamic.ExecutableStatement;
+import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.panda.language.architecture.dynamic.accessor.Accessor;
 
 public interface Assigner<T extends Variable> extends Executable {

@@ -17,10 +17,10 @@
 package org.panda_lang.panda.language.architecture.dynamic.accessor;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.statement.Variable;
-import org.panda_lang.panda.framework.design.runtime.ProcessStack;
-import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
-import org.panda_lang.panda.language.runtime.PandaRuntimeException;
+import org.panda_lang.framework.design.architecture.statement.Variable;
+import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.design.runtime.MemoryContainer;
+import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 
 import java.util.function.BiFunction;
 

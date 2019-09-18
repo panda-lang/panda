@@ -16,13 +16,13 @@
 
 package org.panda_lang.panda.language.architecture;
 
-import org.panda_lang.panda.framework.PandaFrameworkException;
-import org.panda_lang.panda.framework.design.architecture.Application;
-import org.panda_lang.panda.framework.design.architecture.Environment;
-import org.panda_lang.panda.framework.design.architecture.Script;
-import org.panda_lang.panda.framework.design.runtime.Process;
+import org.panda_lang.framework.PandaFrameworkException;
+import org.panda_lang.framework.design.architecture.Application;
+import org.panda_lang.framework.design.architecture.Environment;
+import org.panda_lang.framework.design.architecture.Script;
+import org.panda_lang.framework.design.runtime.Process;
 import org.panda_lang.panda.language.resource.head.MainFrame;
-import org.panda_lang.panda.language.runtime.PandaProcess;
+import org.panda_lang.framework.language.runtime.PandaProcess;
 
 import java.util.ArrayList;
 import java.util.List;

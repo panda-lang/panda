@@ -17,26 +17,26 @@
 package org.panda_lang.panda.language.resource.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
-import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Arguments;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionCategory;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.architecture.prototype.standard.parameter.ParametrizedExpression;
-import org.panda_lang.panda.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.language.interpreter.token.SynchronizedSource;
-import org.panda_lang.panda.language.interpreter.token.TokenUtils;
-import org.panda_lang.panda.language.resource.syntax.auxiliary.Section;
-import org.panda_lang.panda.language.resource.syntax.separator.Separators;
-import org.panda_lang.panda.language.runtime.expression.StaticExpression;
-import org.panda_lang.panda.language.runtime.expression.ThisExpression;
-import org.panda_lang.panda.utilities.commons.ObjectUtils;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
+import org.panda_lang.framework.design.architecture.parameter.Arguments;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionCategory;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.language.architecture.prototype.PrototypeExecutableExpression;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
+import org.panda_lang.framework.language.interpreter.token.TokenUtils;
+import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
+import org.panda_lang.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.framework.language.architecture.expression.StaticExpression;
+import org.panda_lang.framework.language.architecture.expression.ThisExpression;
+import org.panda_lang.utilities.commons.ObjectUtils;
 
 import java.util.Optional;
 
@@ -136,7 +136,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
                         .build();
             }
 
-            return new ParametrizedExpression(instance, adjustedArguments.get());
+            return new PrototypeExecutableExpression(instance, adjustedArguments.get());
         }
 
     }

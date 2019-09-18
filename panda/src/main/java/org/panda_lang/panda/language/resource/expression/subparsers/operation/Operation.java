@@ -16,16 +16,16 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.operation;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionTransaction;
-import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternElement;
-import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternResult;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.resource.syntax.operator.Operator;
+import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
+import org.panda_lang.framework.design.interpreter.pattern.progressive.ProgressivePatternElement;
+import org.panda_lang.framework.design.interpreter.pattern.progressive.ProgressivePatternResult;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.language.resource.syntax.operator.Operator;
 
 import java.util.ArrayList;
 import java.util.List;

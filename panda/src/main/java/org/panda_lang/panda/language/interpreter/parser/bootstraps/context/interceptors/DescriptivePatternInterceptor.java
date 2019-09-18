@@ -16,18 +16,18 @@
 
 package org.panda_lang.panda.language.interpreter.parser.bootstraps.context.interceptors;
 
-import org.panda_lang.panda.framework.PandaFramework;
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.PandaFramework;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapContent;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInterceptor;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.InterceptorData;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.PandaDescriptivePattern;
-import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
-import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptivePatternMapping;
-import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.pattern.descriptive.PandaDescriptivePattern;
+import org.panda_lang.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
+import org.panda_lang.framework.design.interpreter.pattern.descriptive.DescriptivePatternMapping;
+import org.panda_lang.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 
 public class DescriptivePatternInterceptor implements BootstrapInterceptor {
 

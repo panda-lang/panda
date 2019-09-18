@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers.logical;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.language.resource.PandaTypes;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers.number.NumberOperationAction;
 
 public abstract class ComparisonOperatorAction extends NumberOperationAction {
 
     @Override
-    public ClassPrototype returnType() {
+    public Prototype returnType() {
         return PandaTypes.BOOLEAN;
     }
 

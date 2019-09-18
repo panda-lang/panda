@@ -16,15 +16,15 @@
 
 package org.panda_lang.panda.language.interpreter.messenger.layouts;
 
-import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerFormatter;
-import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
+import org.panda_lang.framework.design.interpreter.messenger.MessengerFormatter;
+import org.panda_lang.framework.design.interpreter.messenger.MessengerLevel;
 import org.panda_lang.panda.language.interpreter.messenger.PandaTranslatorLayout;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationCycle;
-import org.panda_lang.panda.framework.design.interpreter.source.Source;
-import org.panda_lang.panda.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.language.interpreter.source.PandaSource;
-import org.panda_lang.panda.language.interpreter.source.PandaURLSource;
+import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.generation.GenerationCycle;
+import org.panda_lang.framework.design.interpreter.source.Source;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.language.interpreter.source.PandaSource;
+import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
 
 import java.util.Map;
 import java.util.Optional;

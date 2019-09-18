@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.language.architecture.dynamic.assigner;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.runtime.ProcessStack;
-import org.panda_lang.panda.language.runtime.expression.DynamicExpression;
-import org.panda_lang.panda.language.runtime.expression.PandaExpression;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.language.architecture.expression.DynamicExpression;
+import org.panda_lang.framework.language.architecture.expression.PandaExpression;
 
 public class AssignerExpression extends PandaExpression {
 
@@ -42,7 +42,7 @@ public class AssignerExpression extends PandaExpression {
         }
 
         @Override
-        public ClassPrototype getReturnType() {
+        public Prototype getReturnType() {
             return assigner.getAccessor().getTypeReference().fetch();
         }
 

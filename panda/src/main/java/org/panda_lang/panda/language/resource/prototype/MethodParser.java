@@ -16,22 +16,22 @@
 
 package org.panda_lang.panda.language.resource.prototype;
 
-import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeComponents;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.architecture.prototype.PrototypeVisibility;
-import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
-import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
-import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.language.architecture.prototype.standard.method.MethodFrame;
-import org.panda_lang.panda.language.architecture.prototype.standard.method.PandaMethod;
-import org.panda_lang.panda.language.architecture.prototype.standard.method.PandaMethodCallback;
-import org.panda_lang.panda.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeComponents;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeVisibility;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
+import org.panda_lang.framework.design.architecture.parameter.Parameter;
+import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.language.architecture.prototype.MethodFrame;
+import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
+import org.panda_lang.framework.language.architecture.prototype.PandaMethodCallback;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.ParserBootstrap;
@@ -41,10 +41,10 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annot
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.Delegation;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.LocalData;
-import org.panda_lang.panda.language.interpreter.parser.generation.GenerationCycles;
+import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
-import org.panda_lang.panda.language.resource.PandaTypes;
-import org.panda_lang.panda.language.resource.parsers.ScopeParser;
+import org.panda_lang.framework.language.resource.PandaTypes;
+import org.panda_lang.framework.language.interpreter.parser.ScopeParser;
 
 import java.util.List;
 import java.util.Objects;
@@ -73,11 +73,11 @@ public class MethodParser extends ParserBootstrap {
             visibility = result.hasIdentifier(LOCAL) ? PrototypeVisibility.LOCAL : PrototypeVisibility.HIDDEN;
         }
 
-        ClassPrototypeReference returnType = PandaTypes.VOID.getReference();
+        PrototypeReference returnType = PandaTypes.VOID.getReference();
 
         if (signature.size() > 1) {
             ModuleLoader registry = context.getComponent(UniversalComponents.MODULE_LOADER);
-            Optional<ClassPrototypeReference> reference = registry.forName(signature.subSource(0, signature.size() - 1).asSource());
+            Optional<PrototypeReference> reference = registry.forName(signature.subSource(0, signature.size() - 1).asSource());
 
             if (!reference.isPresent()) {
                 throw PandaParserFailure.builder("Unknown type", context)
@@ -90,15 +90,15 @@ public class MethodParser extends ParserBootstrap {
         }
 
         String method = Objects.requireNonNull(signature.getLast()).getValue();
-        List<PrototypeParameter> parameters = PARAMETER_PARSER.parse(context, parametersSource);
+        List<Parameter> parameters = PARAMETER_PARSER.parse(context, parametersSource);
 
         MethodFrame methodScope = local.allocated(new MethodFrame(parameters));
         context.withComponent(UniversalComponents.SCOPE, methodScope);
-        ClassPrototype prototype = context.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
+        Prototype prototype = context.getComponent(PrototypeComponents.CLASS_PROTOTYPE);
 
         PrototypeMethod prototypeMethod = PandaMethod.builder()
                 .prototype(prototype.getReference())
-                .parameters(parameters.toArray(new PrototypeParameter[0]))
+                .parameters(parameters.toArray(new Parameter[0]))
                 .name(method)
                 .visibility(visibility)
                 .returnType(returnType)

@@ -17,20 +17,20 @@
 package org.panda_lang.panda.language.resource.expression.subparsers.assignation.array;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippetable;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.architecture.prototype.array.ArrayClassPrototype;
-import org.panda_lang.panda.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.language.resource.PandaTypes;
-import org.panda_lang.panda.language.resource.syntax.auxiliary.Section;
-import org.panda_lang.panda.language.resource.syntax.separator.Separators;
+import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.Parser;
+import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.token.Snippetable;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.language.resource.PandaTypes;
+import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
+import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 
 public final class ArrayValueAccessorParser implements Parser {
 
@@ -75,7 +75,7 @@ public final class ArrayValueAccessorParser implements Parser {
                     .build();
         }
 
-        ArrayClassPrototype arrayPrototype = (ArrayClassPrototype) instance.getReturnType();
+        ArrayPrototype arrayPrototype = (ArrayPrototype) instance.getReturnType();
 
         if (arrayPrototype == null) {
             throw PandaParserFailure.builder("Cannot locate array class", context)

@@ -20,10 +20,10 @@ import org.junit.jupiter.api.Assertions;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.bootstrap.PandaApplicationBootstrap;
-import org.panda_lang.panda.framework.PandaFramework;
-import org.panda_lang.panda.framework.PandaFrameworkLogger;
-import org.panda_lang.panda.framework.design.architecture.Application;
-import org.panda_lang.panda.utilities.commons.TimeUtils;
+import org.panda_lang.framework.PandaFramework;
+import org.panda_lang.framework.PandaFrameworkLogger;
+import org.panda_lang.framework.design.architecture.Application;
+import org.panda_lang.utilities.commons.TimeUtils;
 
 import java.util.Optional;
 

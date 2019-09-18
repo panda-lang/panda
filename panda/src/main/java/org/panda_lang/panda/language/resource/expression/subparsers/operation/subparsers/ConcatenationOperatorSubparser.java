@@ -17,12 +17,12 @@
 package org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.Operation;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.OperationParser;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.OperationSubparser;
-import org.panda_lang.panda.language.resource.syntax.operator.Operators;
+import org.panda_lang.framework.language.resource.syntax.operator.Operators;
 
 import java.util.ArrayList;
 import java.util.List;

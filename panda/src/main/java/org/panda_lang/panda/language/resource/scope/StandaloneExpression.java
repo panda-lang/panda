@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.resource.scope;
 
-import org.panda_lang.panda.framework.design.runtime.ProcessStack;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.architecture.dynamic.AbstractExecutableStatement;
+import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.language.architecture.dynamic.AbstractExecutableStatement;
 
 final class StandaloneExpression extends AbstractExecutableStatement {
 

@@ -17,17 +17,17 @@
 package org.panda_lang.panda.language.interpreter.parser.bootstraps.context;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.InterceptorData;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.LocalData;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.Generation;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationCycle;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationPhase;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationTask;
-import org.panda_lang.panda.utilities.inject.DependencyInjection;
-import org.panda_lang.panda.utilities.inject.Injector;
-import org.panda_lang.panda.utilities.inject.InjectorController;
+import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.generation.Generation;
+import org.panda_lang.framework.design.interpreter.parser.generation.GenerationCycle;
+import org.panda_lang.framework.design.interpreter.parser.generation.GenerationPhase;
+import org.panda_lang.framework.design.interpreter.parser.generation.GenerationTask;
+import org.panda_lang.utilities.inject.DependencyInjection;
+import org.panda_lang.utilities.inject.Injector;
+import org.panda_lang.utilities.inject.InjectorController;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Stack;

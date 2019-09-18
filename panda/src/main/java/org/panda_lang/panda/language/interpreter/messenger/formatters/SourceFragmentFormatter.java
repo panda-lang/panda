@@ -16,13 +16,13 @@
 
 package org.panda_lang.panda.language.interpreter.messenger.formatters;
 
-import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerTypeFormatter;
+import org.panda_lang.framework.design.interpreter.messenger.MessengerTypeFormatter;
 import org.panda_lang.panda.language.interpreter.messenger.MessengerDataFormatter;
-import org.panda_lang.panda.framework.design.interpreter.source.SourceFragment;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.utilities.commons.StringUtils;
-import org.panda_lang.panda.utilities.commons.console.Colored;
-import org.panda_lang.panda.utilities.commons.console.Effect;
+import org.panda_lang.framework.design.interpreter.source.SourceFragment;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.utilities.commons.StringUtils;
+import org.panda_lang.utilities.commons.console.Colored;
+import org.panda_lang.utilities.commons.console.Effect;
 
 public final class SourceFragmentFormatter implements MessengerDataFormatter<SourceFragment> {
 

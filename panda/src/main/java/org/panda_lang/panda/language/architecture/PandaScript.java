@@ -16,7 +16,8 @@
 
 package org.panda_lang.panda.language.architecture;
 
-import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.framework.language.architecture.AbstractScript;
 
 public class PandaScript extends AbstractScript {
 

@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.interpreter.parser.bootstraps.context;
 
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.Delegation;
-import org.panda_lang.panda.utilities.inject.annotations.Wired;
+import org.panda_lang.utilities.inject.annotations.Wired;
 
 import java.lang.reflect.Method;
 

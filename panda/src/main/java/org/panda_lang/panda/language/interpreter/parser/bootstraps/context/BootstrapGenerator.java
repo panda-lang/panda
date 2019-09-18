@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.interpreter.parser.bootstraps.context;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ContextParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
-import org.panda_lang.panda.language.interpreter.parser.pipeline.PandaParserRepresentation;
+import org.panda_lang.framework.design.interpreter.parser.ContextParser;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserRepresentation;
+import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaParserRepresentation;
 
 import java.util.Comparator;
 import java.util.List;

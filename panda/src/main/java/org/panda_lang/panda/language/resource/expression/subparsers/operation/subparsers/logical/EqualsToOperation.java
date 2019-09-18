@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers.logical;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.ProcessStack;
-import org.panda_lang.panda.language.resource.PandaTypes;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.rpn.RPNOperationAction;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.rpn.RPNOperationSupplier;
 
@@ -38,17 +38,17 @@ public class EqualsToOperation implements RPNOperationSupplier, RPNOperationActi
     }
 
     @Override
-    public ClassPrototype returnType(ClassPrototype a, ClassPrototype b) {
+    public Prototype returnType(Prototype a, Prototype b) {
         return returnType();
     }
 
     @Override
-    public ClassPrototype returnType() {
+    public Prototype returnType() {
         return PandaTypes.BOOLEAN;
     }
 
     @Override
-    public ClassPrototype requiredType() {
+    public Prototype requiredType() {
         return PandaTypes.OBJECT;
     }
 

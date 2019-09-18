@@ -17,19 +17,19 @@
 package org.panda_lang.panda.language.resource.prototype;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.token.SnippetUtils;
-import org.panda_lang.panda.language.architecture.module.ModuleLoaderUtils;
-import org.panda_lang.panda.language.architecture.prototype.standard.parameter.PandaParameter;
-import org.panda_lang.panda.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.language.resource.syntax.separator.Separators;
-import org.panda_lang.panda.utilities.commons.ArrayUtils;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.parameter.Parameter;
+import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.Parser;
+import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.token.Token;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.token.SnippetUtils;
+import org.panda_lang.framework.language.architecture.module.ModuleLoaderUtils;
+import org.panda_lang.framework.language.architecture.parameter.PandaParameter;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.utilities.commons.ArrayUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,13 +37,13 @@ import java.util.List;
 
 public class ParameterParser implements Parser {
 
-    public List<PrototypeParameter> parse(Context context, @Nullable Snippet snippet) {
+    public List<Parameter> parse(Context context, @Nullable Snippet snippet) {
         if (SnippetUtils.isEmpty(snippet)) {
             return Collections.emptyList();
         }
 
         Snippet[] parametersSource = snippet.split(Separators.COMMA);
-        List<PrototypeParameter> parameters = new ArrayList<>(parametersSource.length);
+        List<Parameter> parameters = new ArrayList<>(parametersSource.length);
 
         if (ArrayUtils.isEmpty(parametersSource)) {
             return parameters;
@@ -65,14 +65,14 @@ public class ParameterParser implements Parser {
                 end -= 3;
             }
 
-            ClassPrototypeReference reference = ModuleLoaderUtils.getReferenceOrThrow(context, source.subSource(0, end).asSource(), source);
+            PrototypeReference reference = ModuleLoaderUtils.getReferenceOrThrow(context, source.subSource(0, end).asSource(), source);
             boolean varargs = end + 1 < source.size();
 
             if (varargs) {
                 reference = reference.toArray(context.getComponent(UniversalComponents.MODULE_LOADER));
             }
 
-            PrototypeParameter parameter = new PandaParameter(index, reference, name.getValue(), varargs, false);
+            Parameter parameter = new PandaParameter(index, reference, name.getValue(), varargs, false);
             parameters.add(parameter);
         }
 

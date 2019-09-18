@@ -17,22 +17,22 @@
 package org.panda_lang.panda.language.resource.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeComponents;
-import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.framework.design.architecture.statement.Variable;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.interpreter.token.TokenUtils;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeComponents;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
+import org.panda_lang.framework.design.architecture.statement.Variable;
+import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.language.resource.expression.subparsers.number.NumberUtils;
-import org.panda_lang.panda.language.resource.syntax.separator.Separators;
-import org.panda_lang.panda.language.runtime.expression.ThisExpression;
+import org.panda_lang.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.framework.language.architecture.expression.ThisExpression;
 
 import java.util.Optional;
 
@@ -85,7 +85,7 @@ public final class VariableExpressionSubparser implements ExpressionSubparser {
                 return result;
             }
 
-            ClassPrototype prototype = context.getContext().getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
+            Prototype prototype = context.getContext().getComponent(PrototypeComponents.CLASS_PROTOTYPE);
 
             if (prototype != null) {
                 return fromInstance(ThisExpression.of(prototype), name).orElseGet(() -> ExpressionResult.error("Cannot find class/variable '" + name + "'", token));
@@ -96,7 +96,7 @@ public final class VariableExpressionSubparser implements ExpressionSubparser {
         }
 
         private Optional<ExpressionResult> fromInstance(Expression instance, String name) {
-            ClassPrototype prototype = instance.getReturnType();
+            Prototype prototype = instance.getReturnType();
             PrototypeField field = prototype.getFields().getField(name);
 
             if (field != null) {

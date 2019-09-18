@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.interpreter.parser.bootstraps.context;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.component.Component;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.parser.component.Component;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
 
 public final class BootstrapComponents {
 

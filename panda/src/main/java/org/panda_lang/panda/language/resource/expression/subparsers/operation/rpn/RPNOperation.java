@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.operation.rpn;
 
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.resource.syntax.operator.Operator;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.language.resource.syntax.operator.Operator;
 
 import java.util.Map;
 import java.util.Stack;

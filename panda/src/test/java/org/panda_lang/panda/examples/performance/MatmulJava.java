@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.examples.performance;
 
-import org.panda_lang.panda.utilities.commons.TimeUtils;
+import org.panda_lang.utilities.commons.TimeUtils;
 
 @SuppressWarnings("WrapperTypeMayBePrimitive")
 final class MatmulJava {

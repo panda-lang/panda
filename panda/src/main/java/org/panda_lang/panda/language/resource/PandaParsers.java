@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.resource;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.Parsers;
+import org.panda_lang.framework.design.interpreter.parser.Parser;
+import org.panda_lang.framework.design.interpreter.parser.Parsers;
 import org.panda_lang.panda.language.interpreter.parser.ApplicationParser;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockParser;
 import org.panda_lang.panda.language.resource.expression.subparsers.number.NumberParser;
@@ -26,7 +26,7 @@ import org.panda_lang.panda.language.resource.head.ImportParser;
 import org.panda_lang.panda.language.resource.head.MainParser;
 import org.panda_lang.panda.language.resource.head.ModuleParser;
 import org.panda_lang.panda.language.resource.head.RequireParser;
-import org.panda_lang.panda.language.resource.parsers.ScopeParser;
+import org.panda_lang.framework.language.interpreter.parser.ScopeParser;
 import org.panda_lang.panda.language.resource.prototype.ClassPrototypeParser;
 import org.panda_lang.panda.language.resource.prototype.ConstructorParser;
 import org.panda_lang.panda.language.resource.prototype.FieldParser;

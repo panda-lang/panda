@@ -17,8 +17,8 @@
 package org.panda_lang.panda.cli;
 
 import org.panda_lang.panda.PandaConstants;
-import org.panda_lang.panda.framework.PandaFramework;
-import org.panda_lang.panda.framework.design.architecture.Application;
+import org.panda_lang.framework.PandaFramework;
+import org.panda_lang.framework.design.architecture.Application;
 import picocli.CommandLine;
 
 import java.io.File;

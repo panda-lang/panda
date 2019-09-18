@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.assignation.variable;
 
-import org.panda_lang.panda.framework.design.runtime.ProcessStack;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
+import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.runtime.MemoryContainer;
 
 import java.util.function.BiFunction;
 

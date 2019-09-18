@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parser.bootstraps.block;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
+import org.panda_lang.framework.design.architecture.dynamic.Block;
 
 public class BlockData {
 

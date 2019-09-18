@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers.logical;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.resource.PandaTypes;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.rpn.RPNOperationAction;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers.number.NumberOperation;
 
@@ -28,17 +28,17 @@ public abstract class ComparisonOperator extends NumberOperation {
 
     @Override
     public RPNOperationAction of(Expression a, Expression b) {
-        ClassPrototype comparedType = estimateType(a.getReturnType(), b.getReturnType());
+        Prototype comparedType = estimateType(a.getReturnType(), b.getReturnType());
         return of(super.getPriority(comparedType));
     }
 
     @Override
-    public ClassPrototype returnType(ClassPrototype a, ClassPrototype b) {
+    public Prototype returnType(Prototype a, Prototype b) {
         return PandaTypes.BOOLEAN;
     }
 
     @Override
-    public ClassPrototype requiredType() {
+    public Prototype requiredType() {
         return PandaTypes.NUMBER;
     }
 

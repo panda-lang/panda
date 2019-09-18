@@ -17,27 +17,27 @@
 package org.panda_lang.panda.language.resource.expression.subparsers.assignation;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionCategory;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionContext;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionResult;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparser;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserType;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionTransaction;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.HandleResult;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponents;
-import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.token.SourceStream;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionCategory;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserType;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.HandleResult;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponents;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.token.SourceStream;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.language.resource.expression.subparsers.AbstractExpressionSubparserWorker;
-import org.panda_lang.panda.language.interpreter.parser.expression.PandaExpressionParserFailure;
-import org.panda_lang.panda.language.interpreter.parser.pipeline.PandaChannel;
-import org.panda_lang.panda.language.interpreter.token.PandaSourceStream;
-import org.panda_lang.panda.language.resource.syntax.operator.OperatorFamilies;
-import org.panda_lang.panda.language.resource.syntax.operator.OperatorUtils;
+import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParserFailure;
+import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaChannel;
+import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
+import org.panda_lang.framework.language.resource.syntax.operator.OperatorFamilies;
+import org.panda_lang.framework.language.resource.syntax.operator.OperatorUtils;
 
 public final class AssignationExpressionSubparser implements ExpressionSubparser {
 

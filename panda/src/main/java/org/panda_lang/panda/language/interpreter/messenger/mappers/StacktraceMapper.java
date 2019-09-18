@@ -19,9 +19,9 @@ package org.panda_lang.panda.language.interpreter.messenger.mappers;
 import org.panda_lang.panda.language.interpreter.messenger.MessengerDataMapper;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.ParserBootstrapUtils;
-import org.panda_lang.panda.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.utilities.commons.ArrayUtils;
-import org.panda_lang.panda.utilities.commons.StackTraceUtils;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.StackTraceUtils;
 
 import java.util.Arrays;
 
@@ -33,7 +33,7 @@ public final class StacktraceMapper implements MessengerDataMapper<StackTraceEle
     );
 
     private static final String[] IGNORED = new String[] {
-            "sun.reflect", "java.lang.reflect", "org.panda_lang.panda.utilities.inject",
+            "sun.reflect", "java.lang.reflect", "org.panda_lang.utilities.inject",
             "ParserLayerGenerator", "PandaGeneration", "PandaInterpretation", "AssignationSubparserBootstrap"
     };
 

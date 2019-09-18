@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers.logical;
 
-import org.panda_lang.panda.framework.design.runtime.ProcessStack;
-import org.panda_lang.panda.language.interpreter.parser.PandaParserException;
+import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.rpn.RPNOperationAction;
 
 public class GreaterThanOperator extends ComparisonOperator {

@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.interpreter.parser.loader;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ContextParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.framework.design.interpreter.parser.ContextParser;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

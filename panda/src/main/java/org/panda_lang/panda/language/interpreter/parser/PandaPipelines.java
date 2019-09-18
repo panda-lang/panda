@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.interpreter.parser;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.panda.language.resource.expression.subparsers.assignation.AssignationSubparser;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockSubparser;
 

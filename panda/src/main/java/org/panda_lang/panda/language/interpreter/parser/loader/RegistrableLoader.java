@@ -17,16 +17,16 @@
 package org.panda_lang.panda.language.interpreter.parser.loader;
 
 import org.panda_lang.panda.PandaException;
-import org.panda_lang.panda.framework.PandaFramework;
-import org.panda_lang.panda.framework.design.interpreter.parser.ContextParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
-import org.panda_lang.panda.language.interpreter.parser.pipeline.PandaParserRepresentation;
-import org.panda_lang.panda.language.interpreter.parser.pipeline.PandaPipelinePath;
-import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
+import org.panda_lang.framework.PandaFramework;
+import org.panda_lang.framework.design.interpreter.parser.ContextParser;
+import org.panda_lang.framework.design.interpreter.parser.Parser;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserRepresentation;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
+import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaParserRepresentation;
+import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaPipelinePath;
+import org.panda_lang.utilities.annotations.AnnotationsScannerProcess;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
