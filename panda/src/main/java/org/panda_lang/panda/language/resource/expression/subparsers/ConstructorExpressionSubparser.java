@@ -33,7 +33,6 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.language.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.panda.language.architecture.prototype.array.ArrayClassPrototype;
 import org.panda_lang.panda.language.architecture.prototype.standard.parameter.ParametrizedExpression;
-import org.panda_lang.panda.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.panda.language.resource.PandaTypes;
 import org.panda_lang.panda.language.resource.expression.subparsers.assignation.variable.VariableDeclarationUtils;

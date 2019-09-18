@@ -32,7 +32,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
+import org.panda_lang.panda.language.resource.expression.subparsers.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.panda.language.interpreter.parser.pipeline.PandaChannel;
 import org.panda_lang.panda.language.interpreter.token.PandaSourceStream;

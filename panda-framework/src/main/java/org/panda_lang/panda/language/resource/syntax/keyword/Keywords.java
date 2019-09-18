@@ -53,6 +53,8 @@ public final class Keywords {
 
     public static final Keyword IMPORT = new Keyword("import");
 
+    public static final Keyword IS = new Keyword("is");
+
     public static final Keyword LATE = new Keyword("late");
 
     public static final Keyword LAZY = new Keyword("lazy");

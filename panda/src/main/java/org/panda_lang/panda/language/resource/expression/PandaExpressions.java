@@ -23,6 +23,7 @@ import org.panda_lang.panda.language.resource.expression.subparsers.ArrayValueEx
 import org.panda_lang.panda.language.resource.expression.subparsers.CastExpressionSubparser;
 import org.panda_lang.panda.language.resource.expression.subparsers.ConstructorExpressionSubparser;
 import org.panda_lang.panda.language.resource.expression.subparsers.CreaseExpressionSubparser;
+import org.panda_lang.panda.language.resource.expression.subparsers.IsExpressionSubparser;
 import org.panda_lang.panda.language.resource.expression.subparsers.LiteralExpressionSubparser;
 import org.panda_lang.panda.language.resource.expression.subparsers.MethodExpressionSubparser;
 import org.panda_lang.panda.language.resource.expression.subparsers.NegateExpressionSubparser;
@@ -42,6 +43,7 @@ public final class PandaExpressions extends Parsers {
             CastExpressionSubparser.class,
             ConstructorExpressionSubparser.class,
             CreaseExpressionSubparser.class,
+            IsExpressionSubparser.class,
             LiteralExpressionSubparser.class,
             MethodExpressionSubparser.class,
             NegateExpressionSubparser.class,

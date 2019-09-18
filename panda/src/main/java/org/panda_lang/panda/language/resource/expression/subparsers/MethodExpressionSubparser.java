@@ -30,7 +30,6 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.language.architecture.prototype.standard.parameter.ParametrizedExpression;
 import org.panda_lang.panda.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.language.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.panda.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.language.resource.syntax.auxiliary.Section;
