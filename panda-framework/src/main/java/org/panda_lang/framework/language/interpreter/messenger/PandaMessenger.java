@@ -18,7 +18,6 @@ package org.panda_lang.framework.language.interpreter.messenger;
 
 import org.panda_lang.framework.PandaFramework;
 import org.panda_lang.framework.PandaFrameworkException;
-import org.panda_lang.framework.design.interpreter.Interpretation;
 import org.panda_lang.framework.design.interpreter.messenger.Messenger;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerFormatter;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerLevel;
@@ -32,14 +31,9 @@ import java.util.List;
 
 public class PandaMessenger implements Messenger {
 
-    private final Interpretation interpretation;
     private final MessengerFormatter formatter = new PandaMessengerFormatter(this);
     private final List<MessengerMessageTranslator> translators = new ArrayList<>();
     private MessengerOutputListener outputListener = new PandaMessengerOutputListener(PandaFramework.getLogger());
-
-    public PandaMessenger(Interpretation interpretation) {
-        this.interpretation = interpretation;
-    }
 
     @Override
     @SuppressWarnings("unchecked")
@@ -91,11 +85,6 @@ public class PandaMessenger implements Messenger {
     @Override
     public MessengerFormatter getMessengerFormatter() {
         return formatter;
-    }
-
-    @Override
-    public Interpretation getInterpretation() {
-        return interpretation;
     }
 
 }

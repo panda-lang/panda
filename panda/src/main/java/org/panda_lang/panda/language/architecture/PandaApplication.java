@@ -70,11 +70,6 @@ public class PandaApplication implements Application {
     }
 
     @Override
-    public List<? extends Script> getScripts() {
-        return scripts;
-    }
-
-    @Override
     public Environment getEnvironment() {
         return environment;
     }
