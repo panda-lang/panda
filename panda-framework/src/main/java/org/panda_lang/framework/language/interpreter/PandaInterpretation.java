@@ -20,9 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.Environment;
 import org.panda_lang.framework.design.interpreter.Interpretation;
 import org.panda_lang.framework.design.interpreter.Interpreter;
-import org.panda_lang.framework.design.interpreter.messenger.Messenger;
 import org.panda_lang.framework.design.resource.Language;
-import org.panda_lang.framework.language.interpreter.messenger.PandaMessenger;
 import org.panda_lang.utilities.commons.function.ThrowingRunnable;
 import org.panda_lang.utilities.commons.function.ThrowingSupplier;
 
@@ -34,7 +32,6 @@ public class PandaInterpretation implements Interpretation {
     private final Language language;
     private final Environment environment;
     private final Interpreter interpreter;
-    private final Messenger messenger;
     private final Collection<Exception> failures = new ArrayList<>(1);
     private boolean healthy = true;
 
@@ -42,9 +39,6 @@ public class PandaInterpretation implements Interpretation {
         this.language = language;
         this.environment = environment;
         this.interpreter = interpreter;
-
-        this.messenger = new PandaMessenger(this);
-        this.environment.getResources().getMessengerInitializer().onInitialize(messenger);
     }
 
     @Override
@@ -62,7 +56,7 @@ public class PandaInterpretation implements Interpretation {
         try {
             return isHealthy() ? callback.get() : null;
         } catch (Exception exception) {
-            this.healthy = !this.getMessenger().send(exception);
+            this.healthy = !getEnvironment().getMessenger().send(exception);
             return null;
         }
     }
@@ -75,11 +69,6 @@ public class PandaInterpretation implements Interpretation {
     @Override
     public Collection<? extends Exception> getFailures() {
         return failures;
-    }
-
-    @Override
-    public Messenger getMessenger() {
-        return messenger;
     }
 
     @Override

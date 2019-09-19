@@ -18,6 +18,7 @@ package org.panda_lang.framework.design.architecture;
 
 import org.panda_lang.framework.design.architecture.module.ModulePath;
 import org.panda_lang.framework.design.interpreter.Interpreter;
+import org.panda_lang.framework.design.interpreter.messenger.Messenger;
 import org.panda_lang.framework.design.resource.Resources;
 
 import java.io.File;
@@ -37,6 +38,13 @@ public interface Environment {
      * @return the interpreter
      */
     Interpreter getInterpreter();
+
+    /**
+     * Get the environment messenger
+     *
+     * @return the messenger
+     */
+    Messenger getMessenger();
 
     /**
      * Get resources assigned to the environment

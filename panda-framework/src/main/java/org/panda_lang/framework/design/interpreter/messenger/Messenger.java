@@ -16,8 +16,6 @@
 
 package org.panda_lang.framework.design.interpreter.messenger;
 
-import org.panda_lang.framework.design.interpreter.Interpretation;
-
 public interface Messenger {
 
     /**
@@ -66,12 +64,5 @@ public interface Messenger {
      * @return the formatter instance
      */
     MessengerFormatter getMessengerFormatter();
-
-    /**
-     * Get associated interpretation process
-     *
-     * @return the interpretation instance
-     */
-    Interpretation getInterpretation();
 
 }

@@ -17,7 +17,6 @@
 package org.panda_lang.framework.design.interpreter;
 
 import org.panda_lang.framework.design.architecture.Environment;
-import org.panda_lang.framework.design.interpreter.messenger.Messenger;
 import org.panda_lang.framework.design.resource.Language;
 import org.panda_lang.utilities.commons.function.ThrowingRunnable;
 import org.panda_lang.utilities.commons.function.ThrowingSupplier;
@@ -33,8 +32,6 @@ public interface Interpretation {
     boolean isHealthy();
 
     Collection<? extends Exception> getFailures();
-
-    Messenger getMessenger();
 
     Language getLanguage();
 

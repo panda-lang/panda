@@ -40,11 +40,14 @@ public class PandaProcess implements Process {
     @SuppressWarnings("unchecked")
     public @Nullable <T> T execute() {
         LivingFrame instance = mainFrame.revive(null, null); // TODO: check behaviour of branch after applying the 'null' value
-
         ProcessStack stack = new PandaProcessStack(this);
-        Result<?> result = stack.call(instance, instance);
 
-        return result != null ? (T) result.getResult() : null;
+        try {
+            Result<?> result = stack.call(instance, instance);
+            return result != null ? (T) result.getResult() : null;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public String[] getParameters() {

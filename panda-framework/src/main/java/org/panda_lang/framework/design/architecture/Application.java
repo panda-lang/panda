@@ -16,19 +16,12 @@
 
 package org.panda_lang.framework.design.architecture;
 
-import java.util.Collection;
-
 public interface Application {
 
     /**
      * Launch application with a specified arguments
      */
     void launch(String... arguments);
-
-    /**
-     * @return a list of belonging to the application scripts
-     */
-    Collection<? extends Script> getScripts();
 
     /**
      * Get application environment
