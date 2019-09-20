@@ -27,8 +27,8 @@ import org.panda_lang.framework.design.runtime.Result;
 public class PandaProcess implements Process {
 
     private final Application application;
-    private final Frame mainFrame;
     private final String[] parameters;
+    private final Frame mainFrame;
 
     public PandaProcess(Application application, Frame mainFrame, String... parameters) {
         this.application = application;
@@ -38,24 +38,21 @@ public class PandaProcess implements Process {
 
     @Override
     @SuppressWarnings("unchecked")
-    public @Nullable <T> T execute() {
-        LivingFrame instance = mainFrame.revive(null, null); // TODO: check behaviour of branch after applying the 'null' value
+    public @Nullable Object execute() {
+        LivingFrame instance = mainFrame.revive(null, null);
         ProcessStack stack = new PandaProcessStack(this);
 
         try {
             Result<?> result = stack.call(instance, instance);
-            return result != null ? (T) result.getResult() : null;
+            return result != null ? result.getResult() : null;
         } catch (Exception e) {
+            application.getEnvironment().getMessenger().send(e);
             return null;
         }
     }
 
     public String[] getParameters() {
         return parameters;
-    }
-
-    public Application getApplication() {
-        return application;
     }
 
 }

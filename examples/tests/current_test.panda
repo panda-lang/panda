@@ -131,6 +131,7 @@ main {
         Console.print(e.getMessage())
     }
 
+    // throw new RuntimeException("Try")
     Console.print(PandaConstants.VERSION)
 
     for (mut Int index = 3; index != 0; index--) {
