@@ -37,7 +37,7 @@ public class AssignerExpression extends PandaExpression {
 
         @Override
         @SuppressWarnings("unchecked")
-        public Object evaluate(ProcessStack stack, Object instance) {
+        public Object evaluate(ProcessStack stack, Object instance) throws Exception {
             return assigner.execute(stack, instance);
         }
 

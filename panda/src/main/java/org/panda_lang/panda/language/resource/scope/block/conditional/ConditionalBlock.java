@@ -17,22 +17,22 @@
 package org.panda_lang.panda.language.resource.scope.block.conditional;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.dynamic.Block;
-import org.panda_lang.framework.design.architecture.dynamic.ControlledBlock;
-import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.architecture.dynamic.ControlledScope;
+import org.panda_lang.framework.design.architecture.statement.Scope;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.Result;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.language.architecture.dynamic.AbstractBlock;
+import org.panda_lang.framework.language.architecture.statement.AbstractScope;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
 
-class ConditionalBlock extends AbstractBlock implements ControlledBlock {
+class ConditionalBlock extends AbstractScope implements ControlledScope, Scope {
 
     private final Expression condition;
-    private Block elseBlock;
+    private Scope elseBlock;
 
-    public ConditionalBlock(Scope parent, Expression condition) {
-        super(parent);
+    public ConditionalBlock(Scope parent, SourceLocation location, Expression condition) {
+        super(parent, location);
 
         if (!condition.getReturnType().isClassOf("Boolean")) {
             throw new PandaParserException("Condition has to return boolean");
@@ -42,7 +42,7 @@ class ConditionalBlock extends AbstractBlock implements ControlledBlock {
     }
 
     @Override
-    public @Nullable Result<?> controlledCall(ProcessStack stack, Object instance) {
+    public @Nullable Result<?> controlledCall(ProcessStack stack, Object instance) throws Exception {
         Boolean flag = condition.evaluate(stack, instance);
 
         if (flag) {
@@ -56,7 +56,7 @@ class ConditionalBlock extends AbstractBlock implements ControlledBlock {
         return null;
     }
 
-    public void setElseBlock(Block elseBlock) {
+    public void setElseBlock(Scope elseBlock) {
         this.elseBlock = elseBlock;
     }
 

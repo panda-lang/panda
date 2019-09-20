@@ -17,21 +17,21 @@
 package org.panda_lang.framework.language.architecture.dynamic;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.dynamic.LivingFrame;
-import org.panda_lang.framework.design.architecture.statement.Frame;
+import org.panda_lang.framework.design.architecture.dynamic.Frame;
+import org.panda_lang.framework.design.architecture.statement.FramedScope;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 
-public abstract class AbstractLivingFrame<T extends Frame> implements LivingFrame {
+public abstract class AbstractFrame<T extends FramedScope> implements Frame {
 
     protected final T frame;
     protected final Object[] localMemory;
 
-    protected AbstractLivingFrame(T frame, int memorySize) {
+    protected AbstractFrame(T frame, int memorySize) {
         this.frame = frame;
         this.localMemory = new Object[memorySize];
     }
 
-    protected AbstractLivingFrame(T frame) {
+    protected AbstractFrame(T frame) {
         this(frame, frame.getRequiredMemorySize());
     }
 

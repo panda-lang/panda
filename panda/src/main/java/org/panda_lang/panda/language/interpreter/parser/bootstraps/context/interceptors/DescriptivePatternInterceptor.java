@@ -63,6 +63,7 @@ public class DescriptivePatternInterceptor implements BootstrapInterceptor {
                         .build();
             }
 
+            interceptorData.addElement(currentSource.getLocation());
             interceptorData.addElement(new DescriptivePatternMapping(result));
             interceptorData.addElement(result);
         }

@@ -17,25 +17,26 @@
 package org.panda_lang.panda.language.resource.scope.block.looping;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.dynamic.ControlledBlock;
-import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.architecture.dynamic.ControlledScope;
+import org.panda_lang.framework.design.architecture.statement.Scope;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Result;
 import org.panda_lang.framework.design.runtime.Status;
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.language.architecture.dynamic.AbstractBlock;
+import org.panda_lang.framework.language.architecture.statement.AbstractScope;
 
-class LoopBlock extends AbstractBlock implements ControlledBlock {
+class LoopBlock extends AbstractScope implements ControlledScope, Scope {
 
     private final Expression expression;
 
-    LoopBlock(Scope scope, Expression expression) {
-        super(scope);
+    LoopBlock(Scope parent, SourceLocation location, Expression expression) {
+        super(parent, location);
         this.expression = expression;
     }
 
     @Override
-    public @Nullable Result<?> controlledCall(ProcessStack stack, Object instance) {
+    public @Nullable Result<?> controlledCall(ProcessStack stack, Object instance) throws Exception {
         int times  = expression.evaluate(stack, instance);
 
         for (int index = 0; index < times; index++) {

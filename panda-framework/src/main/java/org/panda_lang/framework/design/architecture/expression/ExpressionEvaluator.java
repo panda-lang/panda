@@ -26,6 +26,6 @@ public interface ExpressionEvaluator {
      * @param stack the frame to use
      * @return nullable value
      */
-    <T> T evaluate(ProcessStack stack, Object instance);
+    <T> T evaluate(ProcessStack stack, Object instance) throws Exception;
 
 }

@@ -40,7 +40,7 @@ public final class ArrayAccessor implements DynamicExpression {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Object evaluate(ProcessStack stack, Object instance) {
+    public Object evaluate(ProcessStack stack, Object instance) throws Exception {
         return getArrayInstance(stack, instance)[getIndex(stack, instance)];
     }
 
@@ -48,11 +48,11 @@ public final class ArrayAccessor implements DynamicExpression {
         return new ArrayAssigner(this, value);
     }
 
-    public int getIndex(ProcessStack stack, Object instance) {
+    public int getIndex(ProcessStack stack, Object instance) throws Exception {
         return indexExpression.evaluate(stack, instance);
     }
 
-    public <T> T[] getArrayInstance(ProcessStack stack, Object instance) {
+    public <T> T[] getArrayInstance(ProcessStack stack, Object instance) throws Exception {
         return instanceExpression.evaluate(stack, instance);
     }
 

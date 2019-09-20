@@ -25,12 +25,13 @@ import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SnippetUtils;
 import org.panda_lang.framework.language.architecture.prototype.PandaConstructor;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
 import org.panda_lang.framework.language.architecture.prototype.generator.ClassPrototypeTypeGenerator;
-import org.panda_lang.framework.language.architecture.prototype.PrototypeFrame;
+import org.panda_lang.framework.language.architecture.prototype.PrototypeScope;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
@@ -42,6 +43,7 @@ import org.panda_lang.panda.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Inter;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.Delegation;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.TokenHandler;
@@ -60,7 +62,7 @@ public class ClassPrototypeParser extends ParserBootstrap {
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL)
-    void parse(Context context, @Src("name") String className) throws Exception {
+    void parse(Context context, @Inter SourceLocation location, @Src("name") String className) throws Exception {
         PandaScript script = context.getComponent(PandaComponents.PANDA_SCRIPT);
         Module module = script.getModule();
 
@@ -74,15 +76,14 @@ public class ClassPrototypeParser extends ParserBootstrap {
                 .name(className)
                 .build();
 
-        context.withComponent(PrototypeComponents.CLASS_PROTOTYPE, prototype);
-        module.add(prototype.getReference());
-
         prototype.addExtended(PandaTypes.OBJECT.getReference());
-        context.withComponent(PrototypeComponents.CLASS_PROTOTYPE, prototype);
+        module.add(prototype.getReference());
+        PrototypeScope scope = new PrototypeScope(location, prototype);
 
-        PrototypeFrame scope = new PrototypeFrame(prototype);
-        context.withComponent(PrototypeComponents.CLASS_FRAME, scope)
-                .withComponent(UniversalComponents.SCOPE, scope);
+        context
+                .withComponent(UniversalComponents.SCOPE, scope)
+                .withComponent(PrototypeComponents.CLASS_FRAME, scope)
+                .withComponent(PrototypeComponents.CLASS_PROTOTYPE, prototype);
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
@@ -108,7 +109,7 @@ public class ClassPrototypeParser extends ParserBootstrap {
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
     void parseAfter(Context context) {
         Prototype prototype = context.getComponent(PrototypeComponents.CLASS_PROTOTYPE);
-        PrototypeFrame scope = context.getComponent(PrototypeComponents.CLASS_FRAME);
+        PrototypeScope scope = context.getComponent(PrototypeComponents.CLASS_FRAME);
 
         if (!prototype.getConstructors().getProperties().isEmpty()) {
             return;

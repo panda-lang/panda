@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.resource.expression.subparsers.assignation.variable;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
@@ -32,7 +32,7 @@ import org.panda_lang.panda.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.panda.language.architecture.dynamic.accessor.AccessorExpression;
 import org.panda_lang.panda.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.panda.language.architecture.dynamic.assigner.AssignerExpression;
-import org.panda_lang.framework.language.architecture.prototype.PandaConstructorFrame;
+import org.panda_lang.framework.language.architecture.prototype.PandaConstructorScope;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
@@ -78,9 +78,9 @@ public final class VariableAssignationSubparser extends AssignationSubparserBoot
     }
 
     @Autowired
-    ExpressionResult parse(@Component Channel channel, @Component Scope scope, @Component Expression expression) {
+    ExpressionResult parse(@Component Channel channel, @Component Scope block, @Component Expression expression) {
         Accessor<?> accessor = channel.get("accessor", AccessorExpression.class).getAccessor();
-        Assigner<?> assigner = accessor.toAssigner(scope.getFrame() instanceof PandaConstructorFrame, expression);
+        Assigner<?> assigner = accessor.toAssigner(block.getScope() instanceof PandaConstructorScope, expression);
 
         return ExpressionResult.of(new AssignerExpression(assigner));
     }

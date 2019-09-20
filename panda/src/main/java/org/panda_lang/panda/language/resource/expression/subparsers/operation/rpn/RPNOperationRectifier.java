@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.resource.expression.subparsers.operation.rpn;
 
 import org.panda_lang.framework.PandaFrameworkException;
+import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.expression.ExpressionValueType;
@@ -54,14 +55,14 @@ public class RPNOperationRectifier {
             RPNOperationAction<?, ?, ?> action = supplier.of(a, b);
 
             if(a.getType() == ExpressionValueType.KNOWN && b.getType() == ExpressionValueType.KNOWN) {
-                values.push(new PandaExpression(action.returnType(), action.get(null, a.evaluate(null, null), b.evaluate(null, null))));
+                values.push(new PandaExpression(action.returnType(), action.get(null, ExpressionUtils.evaluateStaticExpression(a), ExpressionUtils.evaluateStaticExpression(b))));
                 continue;
             }
 
             Expression expression = new PandaExpression(new AbstractDynamicExpression(action.returnType()) {
                 @Override
                 @SuppressWarnings("unchecked")
-                public Object evaluate(ProcessStack stack, Object instance) {
+                public Object evaluate(ProcessStack stack, Object instance) throws Exception {
                     return action.get(stack, a.evaluate(stack, instance), b.evaluate(stack, instance));
                 }
             });

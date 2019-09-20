@@ -28,7 +28,7 @@ import org.panda_lang.framework.design.interpreter.parser.component.UniversalCom
 import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.language.architecture.prototype.MethodFrame;
+import org.panda_lang.framework.language.architecture.prototype.MethodScope;
 import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
 import org.panda_lang.framework.language.architecture.prototype.PandaMethodCallback;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
@@ -92,7 +92,7 @@ public class MethodParser extends ParserBootstrap {
         String method = Objects.requireNonNull(signature.getLast()).getValue();
         List<Parameter> parameters = PARAMETER_PARSER.parse(context, parametersSource);
 
-        MethodFrame methodScope = local.allocated(new MethodFrame(parameters));
+        MethodScope methodScope = local.allocated(new MethodScope(signature.getLocation(), parameters));
         context.withComponent(UniversalComponents.SCOPE, methodScope);
         Prototype prototype = context.getComponent(PrototypeComponents.CLASS_PROTOTYPE);
 
@@ -111,7 +111,7 @@ public class MethodParser extends ParserBootstrap {
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
-    void parse(Context delegatedContext, @Local MethodFrame methodScope, @Src("body") Snippet body) throws Exception {
+    void parse(Context delegatedContext, @Local MethodScope methodScope, @Src("body") Snippet body) throws Exception {
         SCOPE_PARSER.parse(delegatedContext, methodScope, body);
     }
 

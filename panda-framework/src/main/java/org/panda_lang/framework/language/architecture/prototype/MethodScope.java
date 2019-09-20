@@ -16,28 +16,29 @@
 
 package org.panda_lang.framework.language.architecture.prototype;
 
-import org.panda_lang.framework.design.architecture.dynamic.LivingFrame;
+import org.panda_lang.framework.design.architecture.dynamic.Frame;
 import org.panda_lang.framework.design.architecture.parameter.Parameter;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.language.architecture.statement.ParametrizedAbstractFrame;
-import org.panda_lang.framework.language.architecture.statement.ParametrizedLivingFrame;
+import org.panda_lang.framework.language.architecture.statement.ParametrizedAbstractScope;
+import org.panda_lang.framework.language.architecture.statement.ParametrizedFrame;
 
 import java.util.List;
 
-public class MethodFrame extends ParametrizedAbstractFrame {
+public class MethodScope extends ParametrizedAbstractScope {
 
-    public MethodFrame(List<Parameter> parameters) {
-        super(parameters);
+    public MethodScope(SourceLocation location, List<Parameter> parameters) {
+        super(location, parameters);
     }
 
     @Override
-    public MethodLivingFrame revive(ProcessStack stack, Object instance) {
-        return new MethodLivingFrame(this, (LivingFrame) instance);
+    public MethodFrame revive(ProcessStack stack, Object instance) {
+        return new MethodFrame(this, (Frame) instance);
     }
 
-    public static class MethodLivingFrame extends ParametrizedLivingFrame<MethodFrame> {
+    public static class MethodFrame extends ParametrizedFrame<MethodScope> {
 
-        public MethodLivingFrame(MethodFrame method, LivingFrame instance) {
+        public MethodFrame(MethodScope method, Frame instance) {
             super(method, instance);
         }
 

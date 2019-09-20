@@ -34,7 +34,7 @@ public class ConcatenationExpressionCallback implements DynamicExpression {
     }
 
     @Override
-    public <T> T evaluate(ProcessStack stack, Object instance) {
+    public <T> T evaluate(ProcessStack stack, Object instance) throws Exception {
         StringBuilder content = new StringBuilder();
 
         for (Expression value : values) {

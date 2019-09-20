@@ -17,22 +17,21 @@
 package org.panda_lang.framework.design.runtime;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.dynamic.LivingFrame;
-import org.panda_lang.framework.design.architecture.dynamic.Scope;
-import org.panda_lang.framework.design.architecture.statement.Cell;
+import org.panda_lang.framework.design.architecture.dynamic.Frame;
+import org.panda_lang.framework.design.architecture.statement.Statement;
 
 public interface ProcessStack {
 
-    @Nullable Result<?> call(Object instance, LivingFrame frame);
+    @Nullable Result<?> call(Object instance, Frame frame) throws Exception;
 
-    @Nullable Result<?> call(Object instance, Scope scope);
+    @Nullable Result<?> call(Object instance, Statement statement) throws Exception;
 
-    @Nullable Result<?> call(Object instance, Cell statement);
+    Statement[] getLivingFramesOnStack();
 
     /**
      * @return instance of the current scope
      */
-    LivingFrame getCurrentScope();
+    Frame getCurrentScope();
 
     /**
      * Get associated process

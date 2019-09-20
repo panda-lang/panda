@@ -19,31 +19,31 @@ package org.panda_lang.framework.language.runtime;
 import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.panda_lang.framework.design.architecture.dynamic.Block;
 import org.panda_lang.framework.design.architecture.dynamic.Executable;
-import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.architecture.statement.Scope;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.language.architecture.dynamic.AbstractBlock;
+import org.panda_lang.framework.language.architecture.statement.AbstractScope;
 import org.panda_lang.framework.language.architecture.statement.AbstractStatement;
-import org.panda_lang.panda.language.resource.head.MainFrame;
+import org.panda_lang.panda.language.resource.head.MainScope;
 
 class ProcessStackTest {
 
-    private MainFrame main;
+    private MainScope main;
 
     @BeforeEach
     void prepare() {
-        this.main = new MainFrame();
+        this.main = new MainScope(null);
 
-        Block block = new BlockStub(main);
+        Scope block = new ScopeStub(main);
         main.addStatement(block);
 
         // ~StackOverflowError
         for (int i = 0; i < 1024; i++) {
-            Block subBlock = new BlockStub(block);
+            Scope subBlock = new ScopeStub(block);
 
             for (int j = 0; j < 1024; j++) {
-                subBlock.addStatement(new ExecutableStub());
+                subBlock.addStatement(new ExecutableStub(null));
             }
 
             block.addStatement(subBlock);
@@ -60,6 +60,10 @@ class ProcessStackTest {
 
     private static class ExecutableStub extends AbstractStatement implements Executable {
 
+        private ExecutableStub(SourceLocation location) {
+            super(location);
+        }
+
         @Override
         public @Nullable Object execute(ProcessStack stack, Object instance) {
             return null;
@@ -67,10 +71,10 @@ class ProcessStackTest {
 
     }
 
-    private static class BlockStub extends AbstractBlock {
+    private static class ScopeStub extends AbstractScope implements Scope {
 
-        protected BlockStub(Scope parent) {
-            super(parent);
+        protected ScopeStub(Scope parent) {
+            super(parent, null);
         }
 
     }

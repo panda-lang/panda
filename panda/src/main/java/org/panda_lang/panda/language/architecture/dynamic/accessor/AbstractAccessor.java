@@ -18,19 +18,18 @@ package org.panda_lang.panda.language.architecture.dynamic.accessor;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.statement.Variable;
-import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.MemoryContainer;
+import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
-
-import java.util.function.BiFunction;
+import org.panda_lang.utilities.commons.function.ThrowingBiFunction;
 
 public abstract class AbstractAccessor<T extends Variable> implements Accessor<T> {
 
-    private final BiFunction<ProcessStack, Object, MemoryContainer> memory;
+    private final ThrowingBiFunction<ProcessStack, Object, MemoryContainer, Exception> memory;
     private final T variable;
     private final int pointer;
 
-    public AbstractAccessor(BiFunction<ProcessStack, Object, MemoryContainer> memory, T variable, int internalPointer) {
+    public AbstractAccessor(ThrowingBiFunction<ProcessStack, Object, MemoryContainer, Exception> memory, T variable, int internalPointer) {
         if (internalPointer == -1) {
             throw new PandaRuntimeException("Invalid memory pointer, variable may not exist");
         }
@@ -41,13 +40,13 @@ public abstract class AbstractAccessor<T extends Variable> implements Accessor<T
     }
 
     @Override
-    public MemoryContainer fetchMemoryContainer(ProcessStack stack, Object instance) {
+    public MemoryContainer fetchMemoryContainer(ProcessStack stack, Object instance) throws Exception {
         return memory.apply(stack, instance);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public @Nullable Object getValue(ProcessStack stack, Object instance) {
+    public @Nullable Object getValue(ProcessStack stack, Object instance) throws Exception {
         return fetchMemoryContainer(stack, instance).get(pointer);
     }
 

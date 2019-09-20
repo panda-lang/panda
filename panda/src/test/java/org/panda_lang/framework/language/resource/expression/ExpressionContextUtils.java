@@ -18,13 +18,13 @@ package org.panda_lang.framework.language.resource.expression;
 
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.module.ModulePath;
-import org.panda_lang.framework.design.architecture.statement.Frame;
+import org.panda_lang.framework.design.architecture.statement.FramedScope;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.framework.language.architecture.module.PandaModuleLoader;
 import org.panda_lang.framework.language.architecture.module.PandaModulePath;
-import org.panda_lang.framework.language.architecture.statement.StaticFrame;
+import org.panda_lang.framework.language.architecture.statement.StaticScope;
 import org.panda_lang.framework.language.interpreter.parser.PandaContext;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.framework.language.resource.PandaTypes;
@@ -57,8 +57,8 @@ public class ExpressionContextUtils {
         loader.load(path.getDefaultModule());
         context.withComponent(UniversalComponents.MODULE_LOADER, loader);
 
-        Frame frame = new StaticFrame(variablesSupplier.apply(context));
-        context.withComponent(UniversalComponents.SCOPE, frame);
+        FramedScope scope = new StaticScope(variablesSupplier.apply(context));
+        context.withComponent(UniversalComponents.SCOPE, scope);
 
         return context;
     }

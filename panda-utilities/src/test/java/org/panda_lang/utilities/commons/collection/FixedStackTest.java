@@ -21,8 +21,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class FixedStackTest {
 
     @Test
@@ -82,7 +80,7 @@ class FixedStackTest {
         stack.clear();
         Assertions.assertTrue(stack.isEmpty());
         Assertions.assertThrows(IndexOutOfBoundsException.class, stack::peek);
-        Assertions.assertEquals("[]", Arrays.toString(stack.toArray()));
+        Assertions.assertEquals("[]", Arrays.toString(stack.toArray(String[].class)));
     }
 
     @Test
@@ -97,11 +95,11 @@ class FixedStackTest {
     @Test
     void toArray() {
         FixedStack<String> stack = new FixedStack<>(2);
-        Assertions.assertEquals("[]", Arrays.toString(stack.toArray()));
+        Assertions.assertEquals("[]", Arrays.toString(stack.toArray(String[].class)));
 
         stack.push("1");
         stack.push("2");
-        Assertions.assertEquals("[2, 1]", Arrays.toString(stack.toArray()));
+        Assertions.assertEquals("[2, 1]", Arrays.toString(stack.toArray(String[].class)));
     }
 
 }

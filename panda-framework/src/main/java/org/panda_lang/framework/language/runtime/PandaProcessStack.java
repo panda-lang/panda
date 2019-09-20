@@ -17,29 +17,33 @@
 package org.panda_lang.framework.language.runtime;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.dynamic.ControlledBlock;
+import org.panda_lang.framework.design.architecture.dynamic.ControlledScope;
 import org.panda_lang.framework.design.architecture.dynamic.Controller;
 import org.panda_lang.framework.design.architecture.dynamic.Executable;
-import org.panda_lang.framework.design.architecture.dynamic.LivingFrame;
-import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.architecture.dynamic.Frame;
+import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.Cell;
 import org.panda_lang.framework.design.architecture.statement.Statement;
 import org.panda_lang.framework.design.runtime.Process;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Result;
+import org.panda_lang.utilities.commons.collection.FixedStack;
+import org.panda_lang.utilities.commons.collection.IStack;
 
 public class PandaProcessStack implements ProcessStack {
 
     private final Process process;
-    private LivingFrame currentFrame;
+    private final IStack<Statement> stack;
+    private Frame currentFrame;
 
-    public PandaProcessStack(Process process) {
+    public PandaProcessStack(Process process, int stackCapacity) {
         this.process = process;
+        this.stack = new FixedStack<>(stackCapacity);
     }
 
     @Override
-    public @Nullable Result<?> call(Object instance, LivingFrame frame) {
-        LivingFrame cachedFrame = this.currentFrame;
+    public @Nullable Result<?> call(Object instance, Frame frame) throws Exception {
+        Frame cachedFrame = currentFrame;
         this.currentFrame = frame;
 
         Result<?> result = call(frame, frame.getFrame());
@@ -49,24 +53,16 @@ public class PandaProcessStack implements ProcessStack {
     }
 
     @Override
-    public @Nullable Result<?> call(Object instance, Scope scope) {
-        for (Cell cell : scope.getCells()) {
-            Result<?> result = call(instance, cell);
-
-            if (result != null) {
-                return result;
-            }
-        }
-
-        return null;
+    public @Nullable Result<?> call(Object instance, Statement statement) throws Exception {
+        stack.push(statement);
+        Result<?> result = callInternal(instance, statement);
+        stack.pop();
+        return result;
     }
 
-    @Override
-    public @Nullable Result<?> call(Object instance, Cell cell) {
-        Statement statement = cell.getStatement();
-
-        if (cell.isExecutable()) {
-            if (cell.isController()) {
+    private @Nullable Result<?> callInternal(Object instance, Statement statement) throws Exception {
+        if (statement instanceof Executable) {
+            if (statement instanceof Controller) {
                 Controller controller = (Controller) statement;
                 return new Result<>(controller.getStatus(), controller.execute(this, instance));
             }
@@ -75,19 +71,30 @@ public class PandaProcessStack implements ProcessStack {
             return null;
         }
 
-        if (cell.isScope()) {
-            if (cell.isControlledBlock()) {
-                return ((ControlledBlock) statement).controlledCall(this, instance);
+        if (statement instanceof Scope) {
+            if (statement instanceof ControlledScope) {
+                return ((ControlledScope) statement).controlledCall(this, instance);
             }
 
-            return call(instance, (Scope) statement);
+            for (Cell cell : ((Scope) statement).getCells()) {
+                Result<?> result = call(instance, cell.getStatement());
+
+                if (result != null) {
+                    return result;
+                }
+            }
         }
 
         return null;
     }
 
     @Override
-    public LivingFrame getCurrentScope() {
+    public Statement[] getLivingFramesOnStack() {
+        return stack.toArray(Statement[].class);
+    }
+
+    @Override
+    public Frame getCurrentScope() {
         return currentFrame;
     }
 

@@ -16,12 +16,14 @@
 
 package org.panda_lang.framework.design.architecture;
 
+import org.jetbrains.annotations.Nullable;
+
 public interface Application {
 
     /**
      * Launch application with a specified arguments
      */
-    void launch(String... arguments);
+    @Nullable Object launch(String... arguments);
 
     /**
      * Get application environment

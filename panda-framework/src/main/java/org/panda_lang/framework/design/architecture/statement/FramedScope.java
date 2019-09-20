@@ -16,21 +16,20 @@
 
 package org.panda_lang.framework.design.architecture.statement;
 
-import org.panda_lang.framework.design.architecture.dynamic.LivingFrame;
-import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.architecture.dynamic.Frame;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 
 /**
  * Specific type of scope which contains own memory, independence, etc.
  */
-public interface Frame extends Scope {
+public interface FramedScope extends Scope {
 
     /**
      * Creates a new instance of the frame
      *
      * @return instance of the frame
      */
-    LivingFrame revive(ProcessStack stack, Object instance);
+    Frame revive(ProcessStack stack, Object instance) throws Exception;
 
     /**
      * Allocate variable in the frame and get assigned pointer
@@ -40,7 +39,7 @@ public interface Frame extends Scope {
     int allocate();
 
     /**
-     * Get required memory size by {@link org.panda_lang.framework.design.architecture.dynamic.LivingFrame}
+     * Get required memory size by {@link org.panda_lang.framework.design.architecture.dynamic.Frame}
      *
      * @return the required size of memory
      */

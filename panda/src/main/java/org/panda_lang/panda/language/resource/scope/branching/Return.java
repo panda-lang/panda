@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.resource.scope.branching;
 
 import org.panda_lang.framework.design.architecture.dynamic.Controller;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.Status;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.runtime.ProcessStack;
@@ -26,12 +27,13 @@ class Return extends AbstractExecutableStatement implements Controller {
 
     private final Expression value;
 
-    public Return(Expression value) {
+    public Return(SourceLocation location, Expression value) {
+        super(location);
         this.value = value;
     }
 
     @Override
-    public Object execute(ProcessStack stack, Object instance) {
+    public Object execute(ProcessStack stack, Object instance) throws Exception {
         return value != null ? value.evaluate(stack, instance) : null;
     }
 

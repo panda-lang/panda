@@ -62,6 +62,6 @@ public interface IStack<T> {
      *
      * @return the array of items from stack
      */
-    T[] toArray();
+    T[] toArray(Class<T[]> type);
 
 }

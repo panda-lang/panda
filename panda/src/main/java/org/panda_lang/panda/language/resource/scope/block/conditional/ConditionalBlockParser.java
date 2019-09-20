@@ -17,9 +17,9 @@
 package org.panda_lang.panda.language.resource.scope.block.conditional;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.dynamic.Block;
-import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
@@ -47,10 +47,15 @@ public class ConditionalBlockParser extends BlockSubparserBootstrap {
     }
 
     @Autowired
-    BlockData parse(Context context, @Inter ExtractorResult result, @Component Context parentContext, @Component Scope scope, @Src("condition") @Nullable Expression condition) {
+    BlockData parse(
+            Context context,
+            @Component Context parentContext, @Component Scope parent,
+            @Inter ExtractorResult result, @Inter SourceLocation location,
+            @Src("condition") @Nullable Expression condition
+    ) {
         if (result.hasIdentifier("else")) {
-            ElseBlock elseBlock = new ElseBlock(scope);
-            Block previousBlock = parentContext.getComponent(BlockComponents.PREVIOUS_BLOCK);
+            ElseBlock elseBlock = new ElseBlock(parent, location);
+            Scope previousBlock = parentContext.getComponent(BlockComponents.PREVIOUS_BLOCK);
 
             if (!(previousBlock instanceof ConditionalBlock)) {
                 throw PandaParserFailure.builder("The Else-block without associated If-block", context)
@@ -74,14 +79,14 @@ public class ConditionalBlockParser extends BlockSubparserBootstrap {
                     .build();
         }
 
-        ConditionalBlock conditionalBlock = new ConditionalBlock(scope, condition);
+        ConditionalBlock conditionalBlock = new ConditionalBlock(parent, location, condition);
 
         if (result.hasIdentifier("if")) {
             return new BlockData(conditionalBlock);
         }
 
         if (result.hasIdentifier("elseif")) {
-            Block previousBlock = parentContext.getComponent(BlockComponents.PREVIOUS_BLOCK);
+            Scope previousBlock = parentContext.getComponent(BlockComponents.PREVIOUS_BLOCK);
 
             if (!(previousBlock instanceof ConditionalBlock)) {
                 throw PandaParserFailure.builder("The If-Else-block without associated If-block", context)

@@ -26,6 +26,6 @@ public interface Executable {
      *
      * @param stack the current stack and instance
      */
-    @Nullable Object execute(ProcessStack stack, Object instance);
+    @Nullable Object execute(ProcessStack stack, Object instance) throws Exception;
 
 }

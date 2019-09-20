@@ -17,12 +17,13 @@
 package org.panda_lang.framework.language.architecture.statement;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.statement.Frame;
-import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.architecture.statement.Scope;
+import org.panda_lang.framework.design.architecture.statement.FramedScope;
 import org.panda_lang.framework.design.architecture.statement.Statement;
 import org.panda_lang.framework.design.architecture.statement.Cell;
 import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.utilities.commons.collection.Lists;
 
 import java.util.ArrayList;
@@ -31,23 +32,19 @@ import java.util.Optional;
 
 public abstract class AbstractScope extends AbstractStatement implements Scope {
 
-    protected final Frame frame;
+    protected final FramedScope scope;
     protected final Scope parent;
     protected final List<Variable> variables = new ArrayList<>();
     protected final List<Cell> cells = new ArrayList<>();
 
-    protected AbstractScope(Frame frame, @Nullable Scope parent) {
-        this.frame = frame;
+    protected AbstractScope(FramedScope scope, @Nullable Scope parent, SourceLocation location) {
+        super(location);
+        this.scope = scope;
         this.parent = parent;
     }
 
-    protected AbstractScope(Scope parent) {
-        this(parent.getFrame(), parent);
-    }
-
-    @Override
-    public Cell reserveCell() {
-        return addStatement(null);
+    protected AbstractScope(Scope parent, SourceLocation location) {
+        this(parent.getScope(), parent, location);
     }
 
     @Override
@@ -57,7 +54,7 @@ public abstract class AbstractScope extends AbstractStatement implements Scope {
 
     @Override
     public Variable createVariable(VariableData variableData) {
-        return Lists.add(variables, new PandaVariable(getFrame().allocate(), variableData));
+        return Lists.add(variables, new PandaVariable(getScope().allocate(), variableData));
     }
 
     @Override
@@ -99,8 +96,8 @@ public abstract class AbstractScope extends AbstractStatement implements Scope {
     }
 
     @Override
-    public Frame getFrame() {
-        return frame;
+    public FramedScope getScope() {
+        return scope;
     }
 
 }

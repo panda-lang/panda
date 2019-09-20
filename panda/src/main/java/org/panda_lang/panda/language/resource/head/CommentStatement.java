@@ -16,14 +16,21 @@
 
 package org.panda_lang.panda.language.resource.head;
 
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.language.architecture.statement.AbstractStatement;
 
 final class CommentStatement extends AbstractStatement {
 
     private final String comment;
 
-    public CommentStatement(String comment) {
+    public CommentStatement(SourceLocation location, String comment) {
+        super(location);
         this.comment = comment;
+    }
+
+    public CommentStatement(TokenRepresentation token) {
+        this(token.getLocation(), token.getValue());
     }
 
     public String getComment() {

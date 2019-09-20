@@ -17,13 +17,15 @@
 package org.panda_lang.panda.language.resource.head;
 
 import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.language.architecture.statement.AbstractStatement;
 
 final class ImportStatement extends AbstractStatement {
 
     private final Module associatedModule;
 
-    public ImportStatement(Module associatedImport) {
+    public ImportStatement(SourceLocation location, Module associatedImport) {
+        super(location);
         this.associatedModule = associatedImport;
     }
 

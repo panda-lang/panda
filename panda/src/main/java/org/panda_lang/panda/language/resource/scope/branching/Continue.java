@@ -18,11 +18,16 @@ package org.panda_lang.panda.language.resource.scope.branching;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.dynamic.Controller;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Status;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractExecutableStatement;
 
 class Continue extends AbstractExecutableStatement implements Controller {
+
+    Continue(SourceLocation location) {
+        super(location);
+    }
 
     @Override
     public @Nullable Object execute(ProcessStack stack, Object instance) {

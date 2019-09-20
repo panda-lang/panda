@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.architecture.prototype;
+package org.panda_lang.utilities.commons.function;
 
-import org.panda_lang.framework.design.architecture.dynamic.LivingFrame;
+@FunctionalInterface
+public interface ThrowingBiFunction<A, B, R, E extends Exception> {
 
-public interface PrototypeLivingFrame extends LivingFrame {
+    R apply(A a, B b) throws E;
 
 }

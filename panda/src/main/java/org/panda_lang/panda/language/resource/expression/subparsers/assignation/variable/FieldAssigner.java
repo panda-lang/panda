@@ -35,7 +35,7 @@ public class FieldAssigner extends AbstractAssigner<PrototypeField> {
     }
 
     @Override
-    public Object execute(ProcessStack stack, Object instance) {
+    public Object execute(ProcessStack stack, Object instance) throws Exception {
         PrototypeField field = accessor.getVariable();
 
         if (!initialize && !field.isMutable()) {

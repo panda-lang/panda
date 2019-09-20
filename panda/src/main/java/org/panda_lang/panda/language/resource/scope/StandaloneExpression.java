@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.resource.scope;
 
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractExecutableStatement;
@@ -24,12 +25,13 @@ final class StandaloneExpression extends AbstractExecutableStatement {
 
     private final Expression expression;
 
-    public StandaloneExpression(Expression expression) {
+    public StandaloneExpression(SourceLocation location, Expression expression) {
+        super(location);
         this.expression = expression;
     }
 
     @Override
-    public Object execute(ProcessStack stack, Object instance) {
+    public Object execute(ProcessStack stack, Object instance) throws Exception {
         return expression.evaluate(stack, instance);
     }
 

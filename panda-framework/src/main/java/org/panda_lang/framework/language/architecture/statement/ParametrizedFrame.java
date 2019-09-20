@@ -16,12 +16,23 @@
 
 package org.panda_lang.framework.language.architecture.statement;
 
-import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.architecture.dynamic.Frame;
+import org.panda_lang.framework.design.architecture.prototype.PropertyFrame;
+import org.panda_lang.framework.design.architecture.statement.FramedScope;
+import org.panda_lang.framework.language.architecture.dynamic.AbstractFrame;
 
-public final class PandaScope extends AbstractScope {
+public class ParametrizedFrame<T extends FramedScope>  extends AbstractFrame<T> implements PropertyFrame {
 
-    public PandaScope(Scope parent) {
-        super(parent);
+    private final Frame instance;
+
+    public ParametrizedFrame(T frame, Frame instance) {
+        super(frame);
+        this.instance = instance;
+    }
+
+    @Override
+    public Frame getInstance() {
+        return instance;
     }
 
 }

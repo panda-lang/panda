@@ -16,12 +16,14 @@
 
 package org.panda_lang.panda.language.resource.scope.block.looping;
 
-import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Component;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Inter;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.interceptors.LinearPatternInterceptor;
@@ -47,14 +49,14 @@ public class LoopParser extends BlockSubparserBootstrap {
     }
 
     @Autowired
-    BlockData parseContent(Context context, @Component Scope parent, @Src("content") Snippet content) {
+    BlockData parseContent(Context context, @Component Scope parent, @Inter SourceLocation location, @Src("content") Snippet content) {
         Expression expression = context.getComponent(UniversalComponents.EXPRESSION).parse(context, content).getExpression();
 
         if (!PandaTypes.INT.isAssignableFrom(expression.getReturnType())) {
             throw new PandaParserException("Loop requires number as an argument");
         }
 
-        return new BlockData(new LoopBlock(parent, expression));
+        return new BlockData(new LoopBlock(parent, location, expression));
     }
 
 }

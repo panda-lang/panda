@@ -80,7 +80,7 @@ public final class RequireParser extends ParserBootstrap {
         loader.load(module.get());
 
         PandaScript script = context.getComponent(PandaComponents.PANDA_SCRIPT);
-        script.addStatement(new ImportStatement(module.get()));
+        script.addStatement(new ImportStatement(require.getLocation(), module.get()));
     }
 
     private void parseFile(Context context, Snippet requiredFile) {

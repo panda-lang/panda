@@ -17,12 +17,21 @@
 package org.panda_lang.framework.design.architecture.expression;
 
 import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 
 public final class ExpressionUtils {
 
     private ExpressionUtils() { }
 
-    public static Object[] getValues(ProcessStack stack, Object instance, Expression... expressions) {
+    public static <T> T evaluateStaticExpression(Expression expression) {
+        try {
+            return expression.evaluate(null, null);
+        } catch (Exception e) {
+            throw new PandaRuntimeException("Cannot evaluate static expression: " + expression);
+        }
+    }
+
+    public static Object[] getValues(ProcessStack stack, Object instance, Expression... expressions) throws Exception {
         Object[] values = new Object[expressions.length];
 
         for (int index = 0; index < values.length; index++) {

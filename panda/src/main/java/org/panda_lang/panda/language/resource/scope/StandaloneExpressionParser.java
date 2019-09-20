@@ -16,8 +16,9 @@
 
 package org.panda_lang.panda.language.resource.scope;
 
-import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.panda.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.ParserBootstrap;
@@ -26,6 +27,7 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annot
 import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParserSettings;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Inter;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
@@ -63,10 +65,9 @@ public final class StandaloneExpressionParser extends ParserBootstrap {
     }
 
     @Autowired
-    void parseExpression(@Component SourceStream source, @Component Scope scope, @Component Channel channel) {
-        StandaloneExpression statement = new StandaloneExpression(channel.get("expression", Expression.class));
-        statement.setLocation(source.toSnippet().getLocation());
-        scope.addStatement(statement);
+    void parseExpression(@Component SourceStream source, @Component Scope parent, @Component Channel channel, @Inter SourceLocation location) {
+        StandaloneExpression statement = new StandaloneExpression(source.getCurrent().getLocation(), channel.get("expression", Expression.class));
+        parent.addStatement(statement);
         source.read(channel.get("read", int.class));
     }
 

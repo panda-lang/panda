@@ -17,29 +17,34 @@
 package org.panda_lang.framework.language.architecture.prototype;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
-import org.panda_lang.framework.design.architecture.parameter.Arguments;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeExecutable;
-import org.panda_lang.framework.design.architecture.parameter.Parameter;
 import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
+import org.panda_lang.framework.design.architecture.parameter.Arguments;
+import org.panda_lang.framework.design.architecture.parameter.Parameter;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeExecutable;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
 import org.panda_lang.framework.language.architecture.expression.AbstractDynamicExpression;
+import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 public final class PrototypeExecutablePropertiesMatcher<T extends PrototypeExecutable> {
 
     public Optional<Arguments<T>> match(Collection<T> collection, Prototype[] requiredTypes, @Nullable Expression[] arguments) {
-        return collection.stream()
-                .map(executable -> match(executable, requiredTypes, arguments))
-                .filter(Objects::nonNull)
-                .findFirst();
+        for (T executable : collection) {
+            Arguments<T> args = match(executable, requiredTypes, arguments);
+
+            if (args != null) {
+                return Optional.of(args);
+            }
+        }
+
+        return Optional.empty();
     }
 
     private @Nullable Arguments<T> match(T executable, Prototype[] requiredTypes, @Nullable Expression[] arguments) {
@@ -127,14 +132,14 @@ public final class PrototypeExecutablePropertiesMatcher<T extends PrototypeExecu
                 continue;
             }
 
+            Expression[] expressionsArray = expressions.toArray(new Expression[0]);
+
             // generate varargs array expression
             fixedArguments[argumentIndex] = new AbstractDynamicExpression(((ArrayPrototype) parameters[argumentIndex].getType().fetch()).getType().fetch()) {
                 @Override
                 @SuppressWarnings("unchecked")
-                public Object evaluate(ProcessStack stack, Object instance) {
-                    return expressions.stream()
-                            .map(expr -> expr.evaluate(stack, instance))
-                            .toArray(Object[]::new);
+                public Object evaluate(ProcessStack stack, Object instance) throws Exception {
+                    return ExpressionUtils.getValues(stack, instance, expressionsArray);
                 }
             }.toExpression();
         }

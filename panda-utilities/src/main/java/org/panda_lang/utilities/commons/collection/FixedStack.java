@@ -16,6 +16,8 @@
 
 package org.panda_lang.utilities.commons.collection;
 
+import java.util.Arrays;
+
 public final class FixedStack<T> implements IStack<T> {
 
     private final T[] stack;
@@ -60,15 +62,14 @@ public final class FixedStack<T> implements IStack<T> {
     }
 
     @Override
-    public final T[] toArray() {
-        @SuppressWarnings("unchecked")
-        T[] array = (T[]) new Object[size()];
+    public final T[] toArray(Class<T[]> arrayType) {
+        Object[] array = new Object[size()];
 
         for (int stackIndex = size() - 1, arrayIndex = 0; stackIndex > -1; stackIndex--, arrayIndex++) {
             array[arrayIndex] = stack[stackIndex];
         }
 
-        return array;
+        return Arrays.copyOf(array, array.length, arrayType);
     }
 
 }

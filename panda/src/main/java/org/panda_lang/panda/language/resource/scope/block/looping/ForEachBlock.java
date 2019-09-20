@@ -17,29 +17,30 @@
 package org.panda_lang.panda.language.resource.scope.block.looping;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.dynamic.ControlledBlock;
-import org.panda_lang.framework.design.architecture.dynamic.LivingFrame;
-import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.architecture.dynamic.ControlledScope;
+import org.panda_lang.framework.design.architecture.dynamic.Frame;
+import org.panda_lang.framework.design.architecture.statement.Scope;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Result;
 import org.panda_lang.framework.design.runtime.Status;
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.language.architecture.dynamic.AbstractBlock;
+import org.panda_lang.framework.language.architecture.statement.AbstractScope;
 
-class ForEachBlock extends AbstractBlock implements ControlledBlock {
+class ForEachBlock extends AbstractScope implements ControlledScope, Scope {
 
     private final int valuePointer;
     private final Expression iterableExpression;
 
-    ForEachBlock(Scope parent, Expression iterableExpression) {
-        super(parent);
+    ForEachBlock(Scope parent, SourceLocation location, Expression iterableExpression) {
+        super(parent, location);
         this.iterableExpression = iterableExpression;
-        this.valuePointer = getFrame().allocate();
+        this.valuePointer = getScope().allocate();
     }
 
     @Override
-    public @Nullable Result<?> controlledCall(ProcessStack stack, Object instance) {
-        LivingFrame scope = stack.getCurrentScope();
+    public @Nullable Result<?> controlledCall(ProcessStack stack, Object instance) throws Exception {
+        Frame scope = stack.getCurrentScope();
         Iterable iterable = iterableExpression.evaluate(stack, instance);
 
         for (Object value : iterable) {

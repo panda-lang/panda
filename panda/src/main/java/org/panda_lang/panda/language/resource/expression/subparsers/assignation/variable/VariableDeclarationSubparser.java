@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.resource.expression.subparsers.assignation.variable;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
 import org.panda_lang.framework.design.interpreter.parser.Context;
@@ -99,14 +99,14 @@ public final class VariableDeclarationSubparser extends AssignationSubparserBoot
     }
 
     @Autowired
-    ExpressionResult parse(Context context, @Component ExpressionContext expressionContext, @Component Scope scope, @Component Channel channel, @Component Expression expression) {
+    ExpressionResult parse(Context context, @Component ExpressionContext expressionContext, @Component Scope block, @Component Channel channel, @Component Expression expression) {
         Elements elements = channel.get("elements", Elements.class);
 
-        VariableDataInitializer dataInitializer = new VariableDataInitializer(context, scope);
+        VariableDataInitializer dataInitializer = new VariableDataInitializer(context, block);
         VariableData variableData = dataInitializer.createVariableData(elements.type, elements.name, elements.mutable, elements.nillable);
 
-        Variable variable = scope.createVariable(variableData);
-        expressionContext.commit(() -> scope.removeVariable(variable.getName()));
+        Variable variable = block.createVariable(variableData);
+        expressionContext.commit(() -> block.removeVariable(variable.getName()));
 
         Assigner<Variable> assigner = VariableAssignerUtils.of(context, variable, true, expression);
         return ExpressionResult.of(new AssignerExpression(assigner));

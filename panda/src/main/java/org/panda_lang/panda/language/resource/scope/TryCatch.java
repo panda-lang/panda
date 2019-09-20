@@ -17,8 +17,9 @@
 package org.panda_lang.panda.language.resource.scope;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.Variable;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractExecutableStatement;
 
@@ -27,19 +28,20 @@ import java.util.Map;
 
 final class TryCatch extends AbstractExecutableStatement {
 
-    private final Scope tryScope;
-    private final Scope finallyScope;
+    private final Scope tryBlock;
+    private final Scope finallyBlock;
     private final Map<Class<? extends Throwable>, Data> catchContainers = new HashMap<>();
 
-    public TryCatch(Scope tryScope, Scope finallyScope) {
-        this.tryScope = tryScope;
-        this.finallyScope = finallyScope;
+    public TryCatch(SourceLocation location, Scope tryBlock, Scope finallyBlock) {
+        super(location);
+        this.tryBlock = tryBlock;
+        this.finallyBlock = finallyBlock;
     }
 
     @Override
-    public @Nullable Object execute(ProcessStack stack, Object instance) {
+    public @Nullable Object execute(ProcessStack stack, Object instance) throws Exception {
         try {
-            return stack.call(instance, tryScope);
+            return stack.call(instance, tryBlock);
         } catch (Throwable throwable) {
             Data catchData = catchContainers.get(throwable.getClass());
 
@@ -56,27 +58,27 @@ final class TryCatch extends AbstractExecutableStatement {
             }
 
             stack.getCurrentScope().set(catchData.variable.getPointer(), throwable);
-            stack.call(instance, catchData.scope);
+            stack.call(instance, catchData.block);
         } finally {
-            stack.call(instance, finallyScope);
+            stack.call(instance, finallyBlock);
         }
 
         return null;
     }
 
-    public TryCatch addHandler(Class<? extends Throwable> type, Variable variable, Scope scope) {
-        catchContainers.put(type, new Data(variable, scope));
+    public TryCatch addHandler(Class<? extends Throwable> type, Variable variable, Scope block) {
+        catchContainers.put(type, new Data(variable, block));
         return this;
     }
 
     private static class Data {
 
         private Variable variable;
-        private Scope scope;
+        private Scope block;
 
-        public Data(Variable variable, Scope scope) {
+        public Data(Variable variable, Scope block) {
             this.variable = variable;
-            this.scope = scope;
+            this.block = block;
         }
 
     }

@@ -32,7 +32,7 @@ public final class ArrayAssigner implements DynamicExpression {
     }
 
     @Override
-    public Object evaluate(ProcessStack stack, Object instance) {
+    public Object evaluate(ProcessStack stack, Object instance) throws Exception {
         return accessor.getArrayInstance(stack, instance)[accessor.getIndex(stack, instance)] = value.evaluate(stack, instance);
     }
 

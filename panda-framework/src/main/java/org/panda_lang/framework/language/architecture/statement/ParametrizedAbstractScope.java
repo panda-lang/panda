@@ -18,15 +18,17 @@ package org.panda_lang.framework.language.architecture.statement;
 
 import org.panda_lang.framework.design.architecture.parameter.Parameter;
 import org.panda_lang.framework.design.architecture.statement.Variable;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ParametrizedAbstractFrame extends AbstractFrame {
+public abstract class ParametrizedAbstractScope extends AbstractFramedScope {
 
     protected final List<Parameter> parameters;
 
-    public ParametrizedAbstractFrame(List<Parameter> parameters) {
+    public ParametrizedAbstractScope(SourceLocation location, List<Parameter> parameters) {
+        super(location);
         this.parameters = parameters;
         addParameters(parameters);
     }

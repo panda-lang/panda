@@ -16,13 +16,14 @@
 
 package org.panda_lang.panda.language.resource.scope.block.looping;
 
-import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.language.architecture.statement.PandaScope;
+import org.panda_lang.framework.language.architecture.statement.PandaBlock;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockData;
@@ -30,6 +31,7 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockSu
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Component;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Inter;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.interceptors.LinearPatternInterceptor;
@@ -53,7 +55,7 @@ public final class ForParser extends BlockSubparserBootstrap {
     }
 
     @Autowired
-    BlockData parseBlock(Context context, @Component Scope parent, @Src("content") Snippet content, @Component ExpressionParser expressionParser) {
+    BlockData parseBlock(Context context, @Component Scope parent, @Inter SourceLocation location, @Src("content") Snippet content, @Component ExpressionParser expressionParser) {
         Snippet[] forEachElements = content.split(Separators.SEMICOLON);
 
         if (forEachElements.length != 3) {
@@ -63,8 +65,8 @@ public final class ForParser extends BlockSubparserBootstrap {
                     .build();
         }
 
-        Scope forScope = new PandaScope(parent);
-        Context delegatedContext = context.fork().withComponent(UniversalComponents.SCOPE, forScope);
+        Scope forBlock = new PandaBlock(parent, location);
+        Context delegatedContext = context.fork().withComponent(UniversalComponents.SCOPE, forBlock);
 
         Snippet initializationSource = forEachElements[0];
         Expression initialization = null;
@@ -87,7 +89,7 @@ public final class ForParser extends BlockSubparserBootstrap {
             increment = expressionParser.parse(delegatedContext, incrementSource).getExpression();
         }
 
-        return new BlockData(new ForBlock(forScope, initialization, termination, increment));
+        return new BlockData(new ForBlock(forBlock, content.getLocation(), initialization, termination, increment));
     }
 
 }

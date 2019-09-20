@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.architecture.statement;
 
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
-import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
@@ -36,11 +36,11 @@ import java.util.Optional;
 public class VariableDataInitializer {
 
     private final Context context;
-    private final Scope scope;
+    private final Scope block;
 
-    public VariableDataInitializer(Context context, Scope scope) {
+    public VariableDataInitializer(Context context, Scope block) {
         this.context = context;
-        this.scope = scope;
+        this.block = block;
     }
 
     public VariableData createVariableData(Snippetable source) {
@@ -83,7 +83,7 @@ public class VariableDataInitializer {
 
         String variableName = nameSource.asSource();
 
-        if (scope.getVariable(variableName).isPresent()) {
+        if (block.getVariable(variableName).isPresent()) {
             throw PandaParserFailure.builder("Variable name is already used in the scope '" + variableName + "'", context)
                     .withStreamOrigin(name)
                     .build();

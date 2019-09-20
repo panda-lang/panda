@@ -18,8 +18,9 @@ package org.panda_lang.framework.language.runtime;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.Application;
-import org.panda_lang.framework.design.architecture.dynamic.LivingFrame;
-import org.panda_lang.framework.design.architecture.statement.Frame;
+import org.panda_lang.framework.design.architecture.dynamic.Frame;
+import org.panda_lang.framework.design.architecture.statement.FramedScope;
+import org.panda_lang.framework.design.architecture.statement.Statement;
 import org.panda_lang.framework.design.runtime.Process;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Result;
@@ -28,26 +29,33 @@ public class PandaProcess implements Process {
 
     private final Application application;
     private final String[] parameters;
-    private final Frame mainFrame;
+    private final FramedScope mainScope;
 
-    public PandaProcess(Application application, Frame mainFrame, String... parameters) {
+    public PandaProcess(Application application, FramedScope mainScope, String... parameters) {
         this.application = application;
-        this.mainFrame = mainFrame;
+        this.mainScope = mainScope;
         this.parameters = parameters;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public @Nullable Object execute() {
-        LivingFrame instance = mainFrame.revive(null, null);
-        ProcessStack stack = new PandaProcessStack(this);
+        ProcessStack stack = new PandaProcessStack(this, 1024);
 
         try {
+            Frame instance = mainScope.revive(null, null);
             Result<?> result = stack.call(instance, instance);
             return result != null ? result.getResult() : null;
         } catch (Exception e) {
-            application.getEnvironment().getMessenger().send(e);
-            return null;
+            //application.getEnvironment().getMessenger().send(e);
+
+            System.out.println(e.getClass().getName() + ": " + e.getMessage());
+
+            for (Statement statement : stack.getLivingFramesOnStack()) {
+                System.out.println("  " + statement.getSourceLocation() + " // " + statement.getClass().getSimpleName());
+            }
+
+            return -1;
         }
     }
 
