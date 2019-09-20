@@ -126,13 +126,13 @@
                 <groupId>org.openjdk.jmh</groupId>
                 <artifactId>jmh-core</artifactId>
                 <version>1.21</version>
-                <block>test</block>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.openjdk.jmh</groupId>
                 <artifactId>jmh-generator-annprocess</artifactId>
                 <version>1.21</version>
-                <block>test</block>
+                <scope>test</scope>
             </dependency>
 
             <!-- Tests -->
@@ -140,13 +140,13 @@
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-api</artifactId>
                 <version>5.5.2</version>
-                <block>test</block>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
                 <version>5.5.2</version>
-                <block>test</block>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
