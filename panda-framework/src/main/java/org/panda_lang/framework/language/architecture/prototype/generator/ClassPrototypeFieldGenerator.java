@@ -16,15 +16,16 @@
 
 package org.panda_lang.framework.language.architecture.prototype.generator;
 
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.language.architecture.prototype.PandaPrototypeField;
-import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 import org.panda_lang.framework.language.architecture.expression.AbstractDynamicExpression;
 import org.panda_lang.framework.language.architecture.expression.PandaExpression;
+import org.panda_lang.framework.language.architecture.prototype.PandaPrototypeField;
+import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -70,7 +71,7 @@ final class ClassPrototypeFieldGenerator {
         });
 
         prototypeField.setDefaultValue(fieldExpression);
-        prototypeField.setStaticValue(prototypeField.isStatic() ? fieldExpression.evaluate(null, null) : null);
+        prototypeField.setStaticValue(prototypeField.isStatic() ? ExpressionUtils.evaluateStaticExpression(fieldExpression) : null);
 
         return prototypeField;
     }

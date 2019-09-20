@@ -17,19 +17,20 @@
 package org.panda_lang.framework.language.architecture.statement;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.statement.Frame;
-import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.architecture.statement.Scope;
+import org.panda_lang.framework.design.architecture.statement.FramedScope;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 
-public abstract class AbstractFrame extends AbstractScope implements Frame {
+public abstract class AbstractFramedScope extends AbstractScope implements FramedScope {
 
     protected int pointers;
 
-    protected AbstractFrame(@Nullable Scope parent) {
-        super(null, parent);
+    protected AbstractFramedScope(@Nullable Scope parent, SourceLocation location) {
+        super(null, parent, location);
     }
 
-    protected AbstractFrame() {
-        this(null);
+    protected AbstractFramedScope(SourceLocation location) {
+        this(null, location);
     }
 
     @Override
@@ -43,7 +44,7 @@ public abstract class AbstractFrame extends AbstractScope implements Frame {
     }
 
     @Override
-    public Frame getFrame() {
+    public FramedScope getScope() {
         return this;
     }
 

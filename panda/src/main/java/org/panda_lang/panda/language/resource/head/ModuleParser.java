@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.resource.head;
 
 import org.panda_lang.framework.design.architecture.Environment;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.panda.language.architecture.PandaScript;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
@@ -25,6 +26,7 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.Boots
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Component;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Inter;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.TokenHandler;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
@@ -46,18 +48,18 @@ public final class ModuleParser extends ParserBootstrap {
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL)
-    void parse(@Component Environment environment, @Component ModuleLoader loader, @Component PandaScript script, @Src("module") Snippet moduleSource) {
+    void parse(@Component Environment environment, @Component ModuleLoader loader, @Component PandaScript script, @Inter SourceLocation location, @Src("module") Snippet source) {
         if (script.select(ModuleStatement.class).size() > 0) {
             throw new PandaParserException("Script contains more than one declaration of the group");
         }
 
-        String moduleName = moduleSource.asSource();
+        String moduleName = source.asSource();
 
         Module module = environment.getModulePath().get(moduleName).orElseGet(() -> {
             return environment.getModulePath().include(new PandaModule(moduleName));
         });
 
-        ModuleStatement moduleStatement = new ModuleStatement(module);
+        ModuleStatement moduleStatement = new ModuleStatement(location, module);
         script.addStatement(moduleStatement);
         script.setModule(moduleStatement.getModule());
 

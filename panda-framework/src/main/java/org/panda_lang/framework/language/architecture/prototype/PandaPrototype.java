@@ -33,7 +33,7 @@ public class PandaPrototype extends AbstractPrototype {
         this(builder.module, builder.name, builder.associated);
     }
 
-    public synchronized void initialize() {
+    public synchronized void initialize() throws Exception {
         if (initialized) {
             return;
         }

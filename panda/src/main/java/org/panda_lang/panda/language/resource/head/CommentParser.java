@@ -42,7 +42,7 @@ public final class CommentParser implements ContextParser<CommentStatement>, Par
 
     @Override
     public CommentStatement parse(Context context) {
-        return new CommentStatement(context.getComponent(UniversalComponents.STREAM).read().getValue());
+        return new CommentStatement(context.getComponent(UniversalComponents.STREAM).read());
     }
 
     public static Snippet uncommented(Snippet source) {

@@ -16,12 +16,14 @@
 
 package org.panda_lang.framework.design.architecture.dynamic;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.design.runtime.Result;
+import org.panda_lang.framework.design.architecture.statement.FramedScope;
+import org.panda_lang.framework.design.runtime.MemoryContainer;
 
-public interface ControlledBlock extends Block {
+public interface Frame extends MemoryContainer {
 
-    @Nullable Result<?> controlledCall(ProcessStack stack, Object instance);
+    /**
+     * @return the proper scope
+     */
+    FramedScope getFrame();
 
 }

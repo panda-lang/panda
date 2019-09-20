@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.resource.scope.block.looping;
 
-import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
@@ -54,7 +54,7 @@ public class WhileParser extends BlockSubparserBootstrap {
             throw new PandaParserException("Loop requires boolean as an argument");
         }
 
-        return new BlockData(new WhileBlock(parent, expression));
+        return new BlockData(new WhileBlock(parent, content.getLocation(), expression));
     }
 
 }

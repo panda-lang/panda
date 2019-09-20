@@ -16,12 +16,13 @@
 
 package org.panda_lang.panda.language.architecture;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.Application;
 import org.panda_lang.framework.design.architecture.Environment;
 import org.panda_lang.framework.design.architecture.Script;
 import org.panda_lang.framework.design.runtime.Process;
-import org.panda_lang.panda.language.resource.head.MainFrame;
+import org.panda_lang.panda.language.resource.head.MainScope;
 import org.panda_lang.framework.language.runtime.PandaProcess;
 
 import java.util.ArrayList;
@@ -32,25 +33,25 @@ public class PandaApplication implements Application {
 
     private final Environment environment;
     private final List<Script> scripts = new ArrayList<>();
-    private MainFrame main;
+    private MainScope main;
 
     public PandaApplication(Environment environment) {
         this.environment = environment;
     }
 
     @Override
-    public void launch(String... args) {
+    public @Nullable Object launch(String... args) {
         if (main == null) {
             selectMain();
         }
 
         Process process = new PandaProcess(this, main, args);
-        process.execute();
+        return process.execute();
     }
 
     private void selectMain() {
-        List<MainFrame> mains = scripts.stream()
-                .map(applicationScript -> applicationScript.select(MainFrame.class))
+        List<MainScope> mains = scripts.stream()
+                .map(applicationScript -> applicationScript.select(MainScope.class))
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
 

@@ -52,7 +52,7 @@ public class PandaExpression implements Expression {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Object evaluate(ProcessStack stack, Object instance) {
+    public Object evaluate(ProcessStack stack, Object instance) throws Exception {
         return type == ExpressionValueType.KNOWN ? value : evaluator.evaluate(stack, instance);
     }
 

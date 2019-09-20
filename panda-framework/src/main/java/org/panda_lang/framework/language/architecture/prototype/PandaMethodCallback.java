@@ -17,22 +17,22 @@
 package org.panda_lang.framework.language.architecture.prototype;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.dynamic.LivingFrame;
+import org.panda_lang.framework.design.architecture.dynamic.Frame;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Result;
 import org.panda_lang.framework.language.architecture.parameter.ParameterUtils;
 
-public class PandaMethodCallback implements PrototypeExecutableCallback<LivingFrame> {
+public class PandaMethodCallback implements PrototypeExecutableCallback<Frame> {
 
-    private final MethodFrame scope;
+    private final MethodScope scope;
 
-    public PandaMethodCallback(MethodFrame scope) {
+    public PandaMethodCallback(MethodScope scope) {
         this.scope = scope;
     }
 
     @Override
-    public @Nullable Object invoke(ProcessStack stack, @Nullable LivingFrame instance, Object[] arguments) {
-        MethodFrame.MethodLivingFrame scopeInstance = scope.revive(stack, instance);
+    public @Nullable Object invoke(ProcessStack stack, @Nullable Frame instance, Object[] arguments) throws Exception {
+        MethodScope.MethodFrame scopeInstance = scope.revive(stack, instance);
         ParameterUtils.assignValues(scopeInstance, arguments);
         Result<?> result = stack.call(scopeInstance, scopeInstance);
 

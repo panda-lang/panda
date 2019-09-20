@@ -16,13 +16,12 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.assignation.variable;
 
-import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.runtime.MemoryContainer;
+import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.utilities.commons.function.ThrowingBiFunction;
 
-import java.util.function.BiFunction;
-
-final class FieldAccessorFunction implements BiFunction<ProcessStack, Object, MemoryContainer> {
+final class FieldAccessorFunction implements ThrowingBiFunction<ProcessStack, Object, MemoryContainer, Exception> {
 
     private final Expression instanceExpression;
 
@@ -31,7 +30,7 @@ final class FieldAccessorFunction implements BiFunction<ProcessStack, Object, Me
     }
 
     @Override
-    public MemoryContainer apply(ProcessStack stack, Object instance) {
+    public MemoryContainer apply(ProcessStack stack, Object instance) throws Exception {
         return (MemoryContainer) instanceExpression.evaluate(stack, instance);
     }
 

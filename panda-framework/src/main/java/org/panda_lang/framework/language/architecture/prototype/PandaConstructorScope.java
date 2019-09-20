@@ -16,32 +16,33 @@
 
 package org.panda_lang.framework.language.architecture.prototype;
 
-import org.panda_lang.framework.design.architecture.dynamic.LivingFrame;
+import org.panda_lang.framework.design.architecture.dynamic.Frame;
 import org.panda_lang.framework.design.architecture.parameter.Parameter;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.language.architecture.statement.ParametrizedAbstractFrame;
-import org.panda_lang.framework.language.architecture.statement.ParametrizedLivingFrame;
+import org.panda_lang.framework.language.architecture.statement.ParametrizedAbstractScope;
+import org.panda_lang.framework.language.architecture.statement.ParametrizedFrame;
 
 import java.util.List;
 
-public class PandaConstructorFrame extends ParametrizedAbstractFrame {
+public class PandaConstructorScope extends ParametrizedAbstractScope {
 
-    public PandaConstructorFrame(List<Parameter> parameters) {
-        super(parameters);
+    public PandaConstructorScope(SourceLocation location, List<Parameter> parameters) {
+        super(location, parameters);
     }
 
     @Override
-    public ConstructorLivingFrame revive(ProcessStack stack, Object instance) {
-        return new ConstructorLivingFrame(this, (LivingFrame) instance);
+    public ConstructorFrame revive(ProcessStack stack, Object instance) {
+        return new ConstructorFrame(this, (Frame) instance);
     }
 
     public List<Parameter> getParameters() {
         return parameters;
     }
 
-    public static class ConstructorLivingFrame extends ParametrizedLivingFrame<PandaConstructorFrame> {
+    public static class ConstructorFrame extends ParametrizedFrame<PandaConstructorScope> {
 
-        public ConstructorLivingFrame(PandaConstructorFrame scope, LivingFrame instance) {
+        public ConstructorFrame(PandaConstructorScope scope, Frame instance) {
             super(scope, instance);
         }
 

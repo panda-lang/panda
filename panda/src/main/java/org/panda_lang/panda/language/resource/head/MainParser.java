@@ -20,11 +20,13 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.Script;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Component;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Inter;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Local;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.Delegation;
@@ -49,12 +51,12 @@ public final class MainParser extends ParserBootstrap {
     }
 
     @Autowired(order = 1, delegation = Delegation.NEXT_DEFAULT)
-    void createScope(LocalData localData, @Component Script script) {
-        script.addStatement(localData.allocated(new MainFrame()));
+    void createScope(LocalData localData, @Component Script script, @Inter SourceLocation location) {
+        script.addStatement(localData.allocated(new MainScope(location)));
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_AFTER)
-    void parseScope(Context context, @Local MainFrame main, @Src("body") @Nullable Snippet body) throws Exception {
+    void parseScope(Context context, @Local MainScope main, @Src("body") @Nullable Snippet body) throws Exception {
         SCOPE_PARSER.parse(context.fork(), main, body);
     }
 

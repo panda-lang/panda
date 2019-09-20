@@ -46,19 +46,15 @@ import java.util.HashMap;
 public class OperationExpressionBenchmark {
 
     private Expression expression;
-    private Number integer;
-    private Number integer2;
 
     @Setup
     public void setup() {
         ExpressionParser parser = new PandaExpressionParser(PandaExpressionUtils.collectSubparsers());
         this.expression = parser.parse(ExpressionContextUtils.createFakeContext((context -> new HashMap<>())), PandaLexerUtils.convert("1 + 2")).getExpression();
-        this.integer = 1;
-        this.integer2 = 2;
     }
 
     @Benchmark
-    public void testPandaOperation(Blackhole blackhole) {
+    public void testPandaOperation(Blackhole blackhole) throws Exception {
         blackhole.consume(expression.evaluate(null, null));
     }
 

@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.resource.scope.block.looping;
 
-import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
@@ -60,7 +60,7 @@ public class ForEachParser extends BlockSubparserBootstrap {
                     .build();
         }
 
-        ForEachBlock forEach = new ForEachBlock(parent, parser.parse(context, elements[1]).getExpression());
+        ForEachBlock forEach = new ForEachBlock(parent, content.getLocation(), parser.parse(context, elements[1]).getExpression());
         VariableDataInitializer dataInitializer = new VariableDataInitializer(context, forEach);
         VariableData variableData = dataInitializer.createVariableData(elements[0], true, true);
         forEach.addVariable(new PandaVariable(forEach.getValuePointer(), variableData));

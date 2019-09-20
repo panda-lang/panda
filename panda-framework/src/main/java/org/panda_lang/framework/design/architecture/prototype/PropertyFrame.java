@@ -14,16 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.architecture.dynamic;
+package org.panda_lang.framework.design.architecture.prototype;
 
-import org.panda_lang.framework.design.architecture.dynamic.Block;
-import org.panda_lang.framework.design.architecture.dynamic.Scope;
-import org.panda_lang.framework.language.architecture.statement.AbstractScope;
+import org.panda_lang.framework.design.architecture.dynamic.Frame;
 
-public abstract class AbstractBlock extends AbstractScope implements Block {
+public interface PropertyFrame extends Frame {
 
-    protected AbstractBlock(Scope parent) {
-        super(parent);
-    }
+    Frame getInstance();
 
 }

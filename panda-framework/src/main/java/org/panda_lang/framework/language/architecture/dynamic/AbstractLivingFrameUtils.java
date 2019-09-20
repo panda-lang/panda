@@ -20,7 +20,7 @@ public final class AbstractLivingFrameUtils {
 
     private AbstractLivingFrameUtils() { }
 
-    public static Object[] extractMemory(AbstractLivingFrame<?> livingFrame) {
+    public static Object[] extractMemory(AbstractFrame<?> livingFrame) {
         return livingFrame.localMemory;
     }
 

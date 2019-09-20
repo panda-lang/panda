@@ -38,7 +38,7 @@ final class ArrayInstanceExpression extends AbstractDynamicExpression {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Object evaluate(ProcessStack stack, Object instance) {
+    public Object evaluate(ProcessStack stack, Object instance) throws Exception {
         int[] capacitiesValues = new int[capacities.length];
 
         for (int index = 0; index < capacitiesValues.length; index++) {

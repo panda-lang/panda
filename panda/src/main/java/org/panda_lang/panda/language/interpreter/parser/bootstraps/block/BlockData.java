@@ -16,19 +16,19 @@
 
 package org.panda_lang.panda.language.interpreter.parser.bootstraps.block;
 
-import org.panda_lang.framework.design.architecture.dynamic.Block;
+import org.panda_lang.framework.design.architecture.statement.Scope;
 
 public class BlockData {
 
-    private final Block block;
+    private final Scope block;
     private final boolean unlisted;
 
-    public BlockData(Block block, boolean unlisted) {
+    public BlockData(Scope block, boolean unlisted) {
         this.block = block;
         this.unlisted = unlisted;
     }
 
-    public BlockData(Block block) {
+    public BlockData(Scope block) {
         this(block, false);
     }
 
@@ -36,7 +36,7 @@ public class BlockData {
         return unlisted;
     }
 
-    public Block getBlock() {
+    public Scope getBlock() {
         return block;
     }
 

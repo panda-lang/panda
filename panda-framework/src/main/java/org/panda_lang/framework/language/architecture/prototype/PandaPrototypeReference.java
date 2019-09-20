@@ -18,6 +18,7 @@ package org.panda_lang.framework.language.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.utilities.commons.function.ThrowingRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,10 @@ public class PandaPrototypeReference extends AbstractPrototypeMetadata implement
     public synchronized Prototype fetch() {
         if (!initialized) {
             initialized = true;
-            initializers.forEach(Runnable::run);
+
+            for (Runnable initializer : initializers) {
+                initializer.run();
+            }
         }
 
         return prototype;

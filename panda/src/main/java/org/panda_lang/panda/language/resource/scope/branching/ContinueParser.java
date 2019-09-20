@@ -16,19 +16,19 @@
 
 package org.panda_lang.panda.language.resource.scope.branching;
 
-import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapComponents;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Component;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Inter;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.interceptors.LinearPatternInterceptor;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
-import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 
 @Registrable(pipeline = UniversalPipelines.SCOPE_LABEL)
 public class ContinueParser extends ParserBootstrap {
@@ -42,8 +42,8 @@ public class ContinueParser extends ParserBootstrap {
     }
 
     @Autowired
-    void parseContinue(@Component(BootstrapComponents.CURRENT_SOURCE_LABEL) Snippet source, @Component Scope scope) {
-        BranchingUtils.parseBranchingStatement(source, scope, Continue::new);
+    void parseContinue(@Component Scope block, @Inter SourceLocation location) {
+        block.addStatement(new Continue(location));
     }
 
 }

@@ -26,11 +26,11 @@ import org.panda_lang.framework.design.runtime.MemoryContainer;
 
 public interface Accessor<T extends Variable> {
 
-    MemoryContainer fetchMemoryContainer(ProcessStack stack, Object instance);
+    MemoryContainer fetchMemoryContainer(ProcessStack stack, Object instance) throws Exception;
 
     Assigner<T> toAssigner(boolean initialize, Expression value);
 
-    @Nullable <R> R getValue(ProcessStack stack, Object instance);
+    @Nullable <R> R getValue(ProcessStack stack, Object instance) throws Exception;
 
     default PrototypeReference getTypeReference() {
         return getVariable().getType();

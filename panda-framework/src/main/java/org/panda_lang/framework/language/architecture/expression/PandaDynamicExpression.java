@@ -30,7 +30,7 @@ public class PandaDynamicExpression extends AbstractDynamicExpression {
     }
 
     @Override
-    public <T> T evaluate(ProcessStack stack, Object instance) {
+    public <T> T evaluate(ProcessStack stack, Object instance) throws Exception {
         return evaluator.evaluate(stack, instance);
     }
 

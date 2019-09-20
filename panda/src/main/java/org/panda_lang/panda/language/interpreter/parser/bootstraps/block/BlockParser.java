@@ -17,18 +17,9 @@
 package org.panda_lang.panda.language.interpreter.parser.bootstraps.block;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.dynamic.Block;
+import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.language.interpreter.parser.PandaPriorities;
-import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
-import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.ParserBootstrap;
-import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Local;
-import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.LocalData;
 import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.HandleResult;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
@@ -37,9 +28,18 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipe
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.language.interpreter.parser.ScopeParser;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaChannel;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
-import org.panda_lang.framework.language.interpreter.parser.ScopeParser;
+import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.language.interpreter.parser.PandaPriorities;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.ParserBootstrap;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Local;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.LocalData;
+import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 
 import java.util.function.Supplier;
 
@@ -104,7 +104,7 @@ public class BlockParser extends ParserBootstrap {
     }
 
     @Autowired(order = 2)
-    void parseContent(@Local Context blockContext, @Local Block block, @Nullable @Src("body") Snippet body) throws Exception {
+    void parseContent(@Local Context blockContext, @Local Scope block, @Nullable @Src("body") Snippet body) throws Exception {
         if (body != null) {
             CONTAINER_PARSER.parse(blockContext, block, body);
         }

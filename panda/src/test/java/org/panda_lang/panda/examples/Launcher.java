@@ -17,12 +17,12 @@
 package org.panda_lang.panda.examples;
 
 import org.junit.jupiter.api.Assertions;
-import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.PandaFactory;
-import org.panda_lang.panda.bootstrap.PandaApplicationBootstrap;
 import org.panda_lang.framework.PandaFramework;
 import org.panda_lang.framework.PandaFrameworkLogger;
 import org.panda_lang.framework.design.architecture.Application;
+import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.PandaFactory;
+import org.panda_lang.panda.bootstrap.PandaApplicationBootstrap;
 import org.panda_lang.utilities.commons.TimeUtils;
 
 import java.util.Optional;
@@ -41,10 +41,17 @@ public final class Launcher {
             PandaFramework.getLogger().debug("[PandaApp] Launching application...");
             long initTime = System.nanoTime();
 
-            application.launch();
+            Object result = application.launch();
 
             long uptime = System.nanoTime() - initTime;
-            PandaFramework.getLogger().debug("[PandaApp] Done (" + TimeUtils.toMilliseconds(uptime) + ")");
+            String uptimeValue = " (" + TimeUtils.toMilliseconds(uptime) + ")";
+
+            if (result instanceof Integer) {
+                PandaFramework.getLogger().debug("[PandaApp] Done, process finished with exit code " + result + uptimeValue);
+                return;
+            }
+
+            PandaFramework.getLogger().debug("[PandaApp] Done" + uptimeValue);
         });
     }
 

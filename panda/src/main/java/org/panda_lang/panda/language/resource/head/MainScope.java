@@ -16,16 +16,21 @@
 
 package org.panda_lang.panda.language.resource.head;
 
-import org.panda_lang.framework.design.architecture.dynamic.LivingFrame;
+import org.panda_lang.framework.design.architecture.dynamic.Frame;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.language.architecture.dynamic.AbstractLivingFrame;
-import org.panda_lang.framework.language.architecture.statement.AbstractFrame;
+import org.panda_lang.framework.language.architecture.dynamic.AbstractFrame;
+import org.panda_lang.framework.language.architecture.statement.AbstractFramedScope;
 
-public final class MainFrame extends AbstractFrame {
+public final class MainScope extends AbstractFramedScope {
+
+    public MainScope(SourceLocation location) {
+        super(location);
+    }
 
     @Override
-    public LivingFrame revive(ProcessStack stack, Object instance) {
-        return new MainLivingFrame(this);
+    public Frame revive(ProcessStack stack, Object instance) {
+        return new MainFrame(this);
     }
 
     @Override
@@ -33,9 +38,9 @@ public final class MainFrame extends AbstractFrame {
         return "main scope";
     }
 
-    public static final class MainLivingFrame extends AbstractLivingFrame<MainFrame> {
+    public static final class MainFrame extends AbstractFrame<MainScope> {
 
-        public MainLivingFrame(MainFrame main) {
+        public MainFrame(MainScope main) {
             super(main);
         }
 

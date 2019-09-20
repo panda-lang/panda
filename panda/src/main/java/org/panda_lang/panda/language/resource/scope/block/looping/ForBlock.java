@@ -17,29 +17,30 @@
 package org.panda_lang.panda.language.resource.scope.block.looping;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.dynamic.ControlledBlock;
-import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.architecture.dynamic.ControlledScope;
+import org.panda_lang.framework.design.architecture.statement.Scope;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Result;
 import org.panda_lang.framework.design.runtime.Status;
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.language.architecture.dynamic.AbstractBlock;
+import org.panda_lang.framework.language.architecture.statement.AbstractScope;
 
-class ForBlock extends AbstractBlock implements ControlledBlock {
+class ForBlock extends AbstractScope implements ControlledScope, Scope {
 
     private final Expression conditionExpression;
     private final @Nullable Expression initializationStatement;
     private final @Nullable Expression postExpression;
 
-    ForBlock(Scope parent, @Nullable Expression initializationStatement, Expression conditionExpression, @Nullable Expression postExpression) {
-        super(parent);
+    ForBlock(Scope parent, SourceLocation location, @Nullable Expression initializationStatement, Expression conditionExpression, @Nullable Expression postExpression) {
+        super(parent, location);
         this.initializationStatement = initializationStatement;
         this.conditionExpression = conditionExpression;
         this.postExpression = postExpression;
     }
 
     @Override
-    public @Nullable Result<?> controlledCall(ProcessStack stack, Object instance) {
+    public @Nullable Result<?> controlledCall(ProcessStack stack, Object instance) throws Exception {
         if (initializationStatement != null) {
             initializationStatement.evaluate(stack, instance);
         }
@@ -61,7 +62,7 @@ class ForBlock extends AbstractBlock implements ControlledBlock {
         return null;
     }
 
-    private @Nullable Object evaluate(ProcessStack stack, Object instance, @Nullable Expression expression) {
+    private @Nullable Object evaluate(ProcessStack stack, Object instance, @Nullable Expression expression) throws Exception {
         return expression != null ? expression.evaluate(stack, instance) : null;
     }
 

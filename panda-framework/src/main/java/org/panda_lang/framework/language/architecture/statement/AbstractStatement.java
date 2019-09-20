@@ -21,9 +21,9 @@ import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 
 public abstract class AbstractStatement implements Statement {
 
-    protected SourceLocation location;
+    protected final SourceLocation location;
 
-    public void setLocation(SourceLocation location) {
+    protected AbstractStatement(SourceLocation location) {
         this.location = location;
     }
 

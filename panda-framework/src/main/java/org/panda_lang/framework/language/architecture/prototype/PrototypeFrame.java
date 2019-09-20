@@ -16,67 +16,8 @@
 
 package org.panda_lang.framework.language.architecture.prototype;
 
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
-import org.panda_lang.framework.design.architecture.statement.Frame;
-import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.language.architecture.dynamic.AbstractLivingFrame;
-import org.panda_lang.framework.language.architecture.statement.AbstractFrame;
+import org.panda_lang.framework.design.architecture.dynamic.Frame;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
-public class PrototypeFrame extends AbstractFrame implements Frame {
-
-    private final Prototype prototype;
-
-    public PrototypeFrame(Prototype prototype) {
-        this.prototype = prototype;
-    }
-
-    @Override
-    public ClassPrototypeLivingFrame revive(ProcessStack stack, Object instance) {
-        if (prototype instanceof PandaPrototype) {
-            ((PandaPrototype) prototype).initialize();
-        }
-
-        ClassPrototypeLivingFrame classInstance = new ClassPrototypeLivingFrame(this, prototype);
-
-        for (PrototypeField field : prototype.getFields().getProperties()) {
-            if (!field.hasDefaultValue() || field.isStatic()) {
-                continue;
-            }
-
-            Expression expression = field.getDefaultValue();
-            classInstance.set(field.getFieldIndex(), expression.evaluate(stack, classInstance));
-        }
-
-        return classInstance;
-    }
-
-    public Prototype getPrototype() {
-        return prototype;
-    }
-
-    public static class ClassPrototypeLivingFrame extends AbstractLivingFrame<PrototypeFrame> {
-
-        private static final AtomicInteger idAssigner = new AtomicInteger();
-
-        private final int id;
-        private final Prototype prototype;
-
-        public ClassPrototypeLivingFrame(PrototypeFrame frame, Prototype classPrototype) {
-            super(frame, classPrototype.getFields().getProperties().size());
-
-            this.id = idAssigner.getAndIncrement();
-            this.prototype = classPrototype;
-        }
-
-        @Override
-        public String toString() {
-            return prototype.getName() + "#" + String.format("%06X", id & 0xFFFFF);
-        }
-
-    }
+public interface PrototypeFrame extends Frame {
 
 }

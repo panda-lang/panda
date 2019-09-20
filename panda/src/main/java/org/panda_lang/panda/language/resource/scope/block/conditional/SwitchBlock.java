@@ -16,13 +16,14 @@
 
 package org.panda_lang.panda.language.resource.scope.block.conditional;
 
-import org.panda_lang.framework.design.architecture.dynamic.Scope;
-import org.panda_lang.framework.language.architecture.dynamic.AbstractBlock;
+import org.panda_lang.framework.design.architecture.statement.Scope;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.language.architecture.statement.AbstractScope;
 
-class SwitchBlock extends AbstractBlock {
+class SwitchBlock extends AbstractScope implements Scope {
 
-    protected SwitchBlock(Scope parent) {
-        super(parent);
+    protected SwitchBlock(Scope parent, SourceLocation location) {
+        super(parent, location);
     }
 
 }

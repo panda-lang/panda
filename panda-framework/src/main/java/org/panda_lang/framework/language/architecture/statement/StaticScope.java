@@ -16,26 +16,26 @@
 
 package org.panda_lang.framework.language.architecture.statement;
 
-import org.panda_lang.framework.design.architecture.dynamic.LivingFrame;
+import org.panda_lang.framework.design.architecture.dynamic.Frame;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.language.architecture.dynamic.AbstractLivingFrame;
+import org.panda_lang.framework.language.architecture.dynamic.AbstractFrame;
 
 import java.util.Map;
 
-public final class StaticFrame extends AbstractFrame {
+public final class StaticScope extends AbstractFramedScope {
 
     private final Map<VariableData, Object> variables;
 
-    public StaticFrame(Map<VariableData, Object> variables) {
+    public StaticScope(Map<VariableData, Object> variables) {
         super(null);
         this.variables = variables;
         variables.forEach((data, value) -> createVariable(data));
     }
 
     @Override
-    public final LivingFrame revive(ProcessStack parentStack, Object instance) {
-        LivingFrame frame = new StaticLivingFrame(this);
+    public final Frame revive(ProcessStack parentStack, Object instance) {
+        Frame frame = new StaticFrame(this);
 
         for (Map.Entry<VariableData, Object> entry : variables.entrySet()) {
             //noinspection OptionalGetWithoutIsPresent
@@ -45,9 +45,9 @@ public final class StaticFrame extends AbstractFrame {
         return frame;
     }
 
-    private static final class StaticLivingFrame extends AbstractLivingFrame<StaticFrame> {
+    private static final class StaticFrame extends AbstractFrame<StaticScope> {
 
-        protected StaticLivingFrame(StaticFrame scope) {
+        protected StaticFrame(StaticScope scope) {
             super(scope);
         }
 

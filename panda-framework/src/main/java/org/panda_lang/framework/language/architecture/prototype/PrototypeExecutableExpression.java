@@ -17,14 +17,13 @@
 package org.panda_lang.framework.language.architecture.prototype;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.PandaFrameworkException;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
+import org.panda_lang.framework.design.architecture.expression.ExpressionValueType;
 import org.panda_lang.framework.design.architecture.parameter.Arguments;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeExecutable;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.expression.ExpressionValueType;
-import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
 
 public final class PrototypeExecutableExpression implements Expression {
 
@@ -44,18 +43,14 @@ public final class PrototypeExecutableExpression implements Expression {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Object evaluate(ProcessStack stack, Object instance) {
+    public Object evaluate(ProcessStack stack, Object instance) throws Exception {
         Object[] values = ExpressionUtils.getValues(stack, instance, arguments);
 
         if (instanceExpression != null) {
             instance = instanceExpression.evaluate(stack, instance);
         }
 
-        try {
-            return executable.invoke(stack, instance, values);
-        } catch (Exception e) {
-            throw new PandaFrameworkException("Internal error: " + e.getMessage(), e);
-        }
+        return executable.invoke(stack, instance, values);
     }
 
     @Override

@@ -33,13 +33,13 @@ class OperationExpressionTest {
     private static final ExpressionParser PARSER = new PandaExpressionParser(PandaExpressionUtils.collectSubparsers());
 
     @Test
-    void testMathOperation() {
+    void testMathOperation() throws Exception {
         Expression expression = PARSER.parse(ExpressionContextUtils.createFakeContext((context -> new HashMap<>())), PandaLexerUtils.convert("1 + 2")).getExpression();
         Assertions.assertEquals((Object) 3, expression.evaluate(null, null));
     }
 
     @Test
-    void test100M() {
+    void test100M() throws Exception {
         Expression expression = PARSER.parse(ExpressionContextUtils.createFakeContext((context -> new HashMap<>())), PandaLexerUtils.convert("1 + 1")).getExpression();
         long time = System.nanoTime();
 

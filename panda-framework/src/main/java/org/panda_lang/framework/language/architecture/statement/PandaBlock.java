@@ -14,10 +14,15 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.architecture.dynamic;
+package org.panda_lang.framework.language.architecture.statement;
 
-import org.panda_lang.framework.design.architecture.statement.Statement;
+import org.panda_lang.framework.design.architecture.statement.Scope;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 
-public interface ExecutableStatement extends Executable, Statement {
+public final class PandaBlock extends AbstractScope {
+
+    public PandaBlock(Scope parent, SourceLocation location) {
+        super(parent, location);
+    }
 
 }

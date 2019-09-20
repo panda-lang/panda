@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.language.interpreter.parser;
 
-import org.panda_lang.framework.design.architecture.dynamic.Scope;
+import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
@@ -27,15 +27,15 @@ import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 
 public class ScopeParser implements Parser {
 
-    public Scope parse(Context context, Scope scope, Snippet body) throws Exception {
+    public Scope parse(Context context, Scope block, Snippet body) throws Exception {
         Context delegatedContext = context.fork()
                 .withComponent(UniversalComponents.STREAM, new PandaSourceStream(body))
-                .withComponent(UniversalComponents.SCOPE, scope);
+                .withComponent(UniversalComponents.SCOPE, block);
 
         PipelineParser<?> pipelineParser = new PipelineParser<>(UniversalPipelines.SCOPE, delegatedContext);
         pipelineParser.parse(delegatedContext, false);
 
-        return scope;
+        return block;
     }
 
 }

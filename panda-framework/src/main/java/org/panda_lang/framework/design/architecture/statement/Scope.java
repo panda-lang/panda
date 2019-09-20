@@ -14,25 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.architecture.dynamic;
-
-import org.panda_lang.framework.design.architecture.statement.Cell;
-import org.panda_lang.framework.design.architecture.statement.Frame;
-import org.panda_lang.framework.design.architecture.statement.Statement;
-import org.panda_lang.framework.design.architecture.statement.Variable;
-import org.panda_lang.framework.design.architecture.statement.VariableData;
+package org.panda_lang.framework.design.architecture.statement;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface Scope extends Statement {
-
-    /**
-     * Reserve empty cell in the scope
-     *
-     * @return an empty cell
-     */
-    Cell reserveCell();
 
     /**
      * Add given statement to the current scope
@@ -99,6 +86,6 @@ public interface Scope extends Statement {
      *
      * @return the parent frame
      */
-    Frame getFrame();
+    FramedScope getScope();
 
 }
