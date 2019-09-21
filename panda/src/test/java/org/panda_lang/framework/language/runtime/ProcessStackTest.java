@@ -39,10 +39,10 @@ class ProcessStackTest {
         main.addStatement(block);
 
         // ~StackOverflowError
-        for (int i = 0; i < 1024; i++) {
+        for (int i = 0; i < 32; i++) {
             Scope subBlock = new ScopeStub(block);
 
-            for (int j = 0; j < 1024; j++) {
+            for (int j = 0; j < 32; j++) {
                 subBlock.addStatement(new ExecutableStub(null));
             }
 
