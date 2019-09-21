@@ -2,9 +2,8 @@ module example-test
 
 require 'current_test_required'
 
-import org.panda_lang.panda.PandaConstants
-
 import java.lang.System
+import org.panda_lang.panda.PandaConstants
 import org.panda_lang.utilities.commons.StringUtils
 
 class Console {

@@ -50,18 +50,19 @@ public class ConditionalBlockParser extends BlockSubparserBootstrap {
     @Autowired
     BlockData parse(
             Context context,
-            @Component Context parentContext, @Component Scope parent,
-            @Inter ExtractorResult result, @Inter SourceLocation location,
+            @Inter ExtractorResult result,
+            @Inter SourceLocation location,
+            @Component Scope parent,
+            @Component(BlockComponents.PREVIOUS_BLOCK_LABEL) Block previousBlock,
             @Src("condition") @Nullable Expression condition
     ) {
         if (result.hasIdentifier("else")) {
             ElseBlock elseBlock = new ElseBlock(parent, location);
-            Block previousBlock = parentContext.getComponent(BlockComponents.PREVIOUS_BLOCK);
 
             if (!(previousBlock instanceof ConditionalBlock)) {
                 throw PandaParserFailure.builder("The Else-block without associated If-block", context)
                         .withSourceFragment()
-                            .ofOriginals(parentContext)
+                            .ofOriginals(context)
                             .create()
                         .build();
             }
@@ -75,7 +76,7 @@ public class ConditionalBlockParser extends BlockSubparserBootstrap {
         if (condition == null) {
             throw PandaParserFailure.builder("Empty condition", context)
                     .withSourceFragment()
-                        .ofOriginals(parentContext)
+                        .ofOriginals(context)
                         .create()
                     .build();
         }
@@ -87,12 +88,10 @@ public class ConditionalBlockParser extends BlockSubparserBootstrap {
         }
 
         if (result.hasIdentifier("elseif")) {
-            Block previousBlock = parentContext.getComponent(BlockComponents.PREVIOUS_BLOCK);
-
             if (!(previousBlock instanceof ConditionalBlock)) {
                 throw PandaParserFailure.builder("The If-Else-block without associated If-block", context)
                         .withSourceFragment()
-                            .ofOriginals(parentContext)
+                            .ofOriginals(context)
                             .create()
                         .build();
             }
