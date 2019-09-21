@@ -20,7 +20,6 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.Application;
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
 import org.panda_lang.framework.design.architecture.statement.FramedScope;
-import org.panda_lang.framework.design.architecture.statement.Statement;
 import org.panda_lang.framework.design.runtime.Process;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Result;
@@ -47,20 +46,17 @@ public class PandaProcess implements Process {
             Result<?> result = stack.call(instance, instance);
             return result != null ? result.getResult() : null;
         } catch (Exception e) {
-            //application.getEnvironment().getMessenger().send(e);
-
-            System.out.println(e.getClass().getName() + ": " + e.getMessage());
-
-            for (Statement statement : stack.getLivingFramesOnStack()) {
-                System.out.println("  at " + statement.getSourceLocation() + " // " + statement.getClass().getSimpleName());
-            }
-
+            application.getEnvironment().getMessenger().send(new PandaProcessFailure(stack, e));
             return -1;
         }
     }
 
     public String[] getParameters() {
         return parameters;
+    }
+
+    public Application getApplication() {
+        return application;
     }
 
 }

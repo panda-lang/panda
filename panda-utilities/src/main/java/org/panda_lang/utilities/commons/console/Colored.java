@@ -38,8 +38,8 @@ public class Colored {
         return prefix + text + Effect.RESET;
     }
 
-    public static Colored on(String text) {
-        return new Colored(text);
+    public static Colored on(Object text) {
+        return new Colored(text.toString());
     }
 
 }

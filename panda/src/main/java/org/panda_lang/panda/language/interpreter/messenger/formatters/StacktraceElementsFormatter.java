@@ -26,12 +26,12 @@ import org.panda_lang.utilities.commons.StringUtils;
 
 import java.util.Optional;
 
-public final class StacktraceFormatter implements MessengerDataFormatter<StackTraceElement[]> {
+public final class StacktraceElementsFormatter implements MessengerDataFormatter<StackTraceElement[]> {
 
     @Override
     public void onInitialize(MessengerTypeFormatter<StackTraceElement[]> typeFormatter) {
         typeFormatter
-                .register("{{stacktrace}}", (messengerFormatter, stackTraceElements) -> {
+                .register("{{stacktrace-elements.default}}", (messengerFormatter, stackTraceElements) -> {
                     StringBuilder stacktrace = new StringBuilder();
 
                     for (StackTraceElement element : stackTraceElements) {
@@ -42,7 +42,7 @@ public final class StacktraceFormatter implements MessengerDataFormatter<StackTr
 
                     return stacktrace.toString();
                 })
-                .register("{{stacktrace-last}}", (messengerFormatter, stackTraceElements) -> {
+                .register("{{stacktrace-elements.last}}", (messengerFormatter, stackTraceElements) -> {
                     Optional<StackTraceElement> lastElement = ArrayUtils.get(stackTraceElements, 0);
 
                     if (!lastElement.isPresent()) {
@@ -52,7 +52,7 @@ public final class StacktraceFormatter implements MessengerDataFormatter<StackTr
                     StackTraceElement element = lastElement.get();
                     return PackageUtils.getShortenPackage(element.getClassName()) + " (" + element.getFileName() + ":" + element.getLineNumber() + ")";
                 })
-                .register("{{stacktrace-simple}}", (messengerFormatter, stackTraceElements) -> {
+                .register("{{stacktrace-elements.trimmed}}", (messengerFormatter, stackTraceElements) -> {
                     StringBuilder stacktrace = new StringBuilder();
 
                     for (StackTraceElement element : stackTraceElements) {

@@ -1,9 +1,9 @@
 
-&b- - ~ ~< Messenger :: Exception >~ ~ - -&r
+&b- - ~ ~< Exception >~ ~ - -&r
 
 Caused by: {{message}}
 
-Stacktrace: {{stacktrace}}
+Stacktrace: {{stacktrace-elements.default}}
 
 Environment: {{environment}}
 
