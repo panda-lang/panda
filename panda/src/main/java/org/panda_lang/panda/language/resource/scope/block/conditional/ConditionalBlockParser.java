@@ -17,10 +17,18 @@
 package org.panda_lang.panda.language.resource.scope.block.conditional;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.statement.Block;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockComponents;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockData;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockSubparserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Component;
@@ -28,13 +36,6 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annot
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
-import org.panda_lang.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
-import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockComponents;
-import org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockData;
-import org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockSubparserBootstrap;
-import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 
 @Registrable(pipeline = PandaPipelines.BLOCK_LABEL)
 public class ConditionalBlockParser extends BlockSubparserBootstrap {
@@ -55,7 +56,7 @@ public class ConditionalBlockParser extends BlockSubparserBootstrap {
     ) {
         if (result.hasIdentifier("else")) {
             ElseBlock elseBlock = new ElseBlock(parent, location);
-            Scope previousBlock = parentContext.getComponent(BlockComponents.PREVIOUS_BLOCK);
+            Block previousBlock = parentContext.getComponent(BlockComponents.PREVIOUS_BLOCK);
 
             if (!(previousBlock instanceof ConditionalBlock)) {
                 throw PandaParserFailure.builder("The Else-block without associated If-block", context)
@@ -86,7 +87,7 @@ public class ConditionalBlockParser extends BlockSubparserBootstrap {
         }
 
         if (result.hasIdentifier("elseif")) {
-            Scope previousBlock = parentContext.getComponent(BlockComponents.PREVIOUS_BLOCK);
+            Block previousBlock = parentContext.getComponent(BlockComponents.PREVIOUS_BLOCK);
 
             if (!(previousBlock instanceof ConditionalBlock)) {
                 throw PandaParserFailure.builder("The If-Else-block without associated If-block", context)
