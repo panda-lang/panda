@@ -53,6 +53,19 @@ public class PandaProcessStack implements ProcessStack {
     }
 
     @Override
+    public @Nullable Result<?> call(Object instance, Scope scope) throws Exception {
+        for (Cell cell : scope.getCells()) {
+            Result<?> result = call(instance, cell.getStatement());
+
+            if (result != null) {
+                return result;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
     public @Nullable Result<?> call(Object instance, Statement statement) throws Exception {
         stack.push(statement);
         Result<?> result = callInternal(instance, statement);
@@ -76,13 +89,7 @@ public class PandaProcessStack implements ProcessStack {
                 return ((ControlledScope) statement).controlledCall(this, instance);
             }
 
-            for (Cell cell : ((Scope) statement).getCells()) {
-                Result<?> result = call(instance, cell.getStatement());
-
-                if (result != null) {
-                    return result;
-                }
-            }
+            return call(instance, (Scope) statement);
         }
 
         return null;

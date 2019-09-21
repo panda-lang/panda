@@ -18,11 +18,14 @@ package org.panda_lang.framework.design.runtime;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
+import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.Statement;
 
 public interface ProcessStack {
 
     @Nullable Result<?> call(Object instance, Frame frame) throws Exception;
+
+    @Nullable Result<?> call(Object instance, Scope scope) throws Exception;
 
     @Nullable Result<?> call(Object instance, Statement statement) throws Exception;
 

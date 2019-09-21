@@ -36,11 +36,11 @@ import java.util.Optional;
 public class VariableDataInitializer {
 
     private final Context context;
-    private final Scope block;
+    private final Scope scope;
 
-    public VariableDataInitializer(Context context, Scope block) {
+    public VariableDataInitializer(Context context, Scope scope) {
         this.context = context;
-        this.block = block;
+        this.scope = scope;
     }
 
     public VariableData createVariableData(Snippetable source) {
@@ -83,7 +83,7 @@ public class VariableDataInitializer {
 
         String variableName = nameSource.asSource();
 
-        if (block.getVariable(variableName).isPresent()) {
+        if (scope.getVariable(variableName).isPresent()) {
             throw PandaParserFailure.builder("Variable name is already used in the scope '" + variableName + "'", context)
                     .withStreamOrigin(name)
                     .build();
