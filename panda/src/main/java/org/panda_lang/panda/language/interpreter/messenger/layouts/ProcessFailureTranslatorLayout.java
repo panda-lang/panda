@@ -17,17 +17,17 @@
 package org.panda_lang.panda.language.interpreter.messenger.layouts;
 
 import org.panda_lang.framework.design.interpreter.messenger.MessengerLevel;
-import org.panda_lang.panda.language.interpreter.messenger.PandaTranslatorLayout;
 import org.panda_lang.framework.design.interpreter.source.Source;
-import org.panda_lang.framework.language.interpreter.lexer.PandaLexerException;
 import org.panda_lang.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
+import org.panda_lang.framework.language.runtime.PandaProcessFailure;
+import org.panda_lang.panda.language.interpreter.messenger.PandaTranslatorLayout;
 
-public final class PandaLexerFailureTranslatorLayout implements PandaTranslatorLayout<PandaLexerException> {
+public final class ProcessFailureTranslatorLayout implements PandaTranslatorLayout<PandaProcessFailure> {
 
     @Override
     public boolean isInterrupting() {
-        return true;
+        return false;
     }
 
     @Override
@@ -42,12 +42,12 @@ public final class PandaLexerFailureTranslatorLayout implements PandaTranslatorL
 
     @Override
     public Source getTemplateSource() {
-        return new PandaSource(PandaURLSource.fromResource("/default-lexer-failure-template.messenger"));
+        return new PandaSource(PandaURLSource.fromResource("/default-process-failure-template.messenger"));
     }
 
     @Override
-    public Class<PandaLexerException> getType() {
-        return PandaLexerException.class;
+    public Class<PandaProcessFailure> getType() {
+        return PandaProcessFailure.class;
     }
 
 }

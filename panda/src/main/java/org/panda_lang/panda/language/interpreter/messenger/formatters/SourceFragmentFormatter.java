@@ -29,9 +29,15 @@ public final class SourceFragmentFormatter implements MessengerDataFormatter<Sou
     @Override
     public void onInitialize(MessengerTypeFormatter<SourceFragment> typeFormatter) {
         typeFormatter
-                .register("{{location}}", (formatter, fragment) -> fragment.getLocation())
-                .register("{{line}}", (formatter, fragment) -> fragment.getLine() < 0 ? "?" : fragment.getLine() + 1)
-                .register("{{index}}", (formatter, fragment) -> fragment.getIndicatedFragment().getLocation().getIndex())
+                .register("{{location}}", (formatter, fragment) -> {
+                    return fragment.getLocation();
+                })
+                .register("{{line}}", (formatter, fragment) -> {
+                    return fragment.getLine() < 0 ? "?" : fragment.getLine() + 1;
+                })
+                .register("{{index}}", (formatter, fragment) -> {
+                    return fragment.getIndicatedFragment().getLocation().getIndex();
+                })
                 .register("{{source}}", (formatter, fragment) -> {
                     String source = getCurrentLine(fragment).toString();
                     String element = fragment.getIndicatedFragment().toString();

@@ -26,7 +26,7 @@ import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
 
 import java.util.Map;
 
-public class ExceptionTranslatorLayout implements PandaTranslatorLayout<Throwable> {
+public final class ExceptionTranslatorLayout implements PandaTranslatorLayout<Throwable> {
 
     private String location;
     private SourceStream source;
@@ -55,7 +55,7 @@ public class ExceptionTranslatorLayout implements PandaTranslatorLayout<Throwabl
 
     @Override
     public String getPrefix() {
-        return "[Exception] #!# ";
+        return " #!# ";
     }
 
     @Override

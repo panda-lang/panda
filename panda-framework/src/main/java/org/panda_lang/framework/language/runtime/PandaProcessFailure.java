@@ -14,16 +14,26 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.interpreter.parser;
+package org.panda_lang.framework.language.runtime;
 
-import org.panda_lang.framework.design.interpreter.source.SourceFragment;
+import org.panda_lang.framework.design.runtime.ProcessStack;
 
-public interface ParserFailure {
+public final class PandaProcessFailure {
 
-    Context getContext();
+    private final ProcessStack stack;
+    private final Exception exception;
 
-    SourceFragment getSourceFragment();
+    public PandaProcessFailure(ProcessStack stack, Exception exception) {
+        this.stack = stack;
+        this.exception = exception;
+    }
 
-    String getNote();
+    public Exception getException() {
+        return exception;
+    }
+
+    public ProcessStack getStack() {
+        return stack;
+    }
 
 }

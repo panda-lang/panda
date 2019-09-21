@@ -17,18 +17,18 @@
 package org.panda_lang.panda.language.interpreter.messenger.formatters;
 
 import org.panda_lang.framework.design.interpreter.messenger.MessengerTypeFormatter;
-import org.panda_lang.panda.language.interpreter.messenger.MessengerDataFormatter;
+import org.panda_lang.framework.design.interpreter.parser.ParserFailure;
 import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.framework.design.interpreter.parser.generation.Generation;
 import org.panda_lang.framework.design.interpreter.parser.generation.GenerationCycle;
-import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.panda.language.interpreter.messenger.MessengerDataFormatter;
 
 import java.util.Optional;
 
-public final class ParserFailureFormatter implements MessengerDataFormatter<PandaParserFailure> {
+public final class ParserFailureFormatter implements MessengerDataFormatter<ParserFailure> {
 
     @Override
-    public void onInitialize(MessengerTypeFormatter<PandaParserFailure> typeFormatter) {
+    public void onInitialize(MessengerTypeFormatter<ParserFailure> typeFormatter) {
         typeFormatter
                 .register("{{note}}", (formatter, failure) -> failure.getNote())
                 .register("{{cycle}}", (formatter, failure) -> {
@@ -45,8 +45,8 @@ public final class ParserFailureFormatter implements MessengerDataFormatter<Pand
     }
 
     @Override
-    public Class<PandaParserFailure> getType() {
-        return PandaParserFailure.class;
+    public Class<ParserFailure> getType() {
+        return ParserFailure.class;
     }
 
 }

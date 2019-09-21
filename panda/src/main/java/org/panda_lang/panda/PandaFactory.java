@@ -16,22 +16,24 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.bootstrap.PandaBootstrap;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.framework.language.resource.syntax.PandaSyntax;
+import org.panda_lang.panda.bootstrap.PandaBootstrap;
 import org.panda_lang.panda.language.interpreter.messenger.formatters.EnvironmentFormatter;
 import org.panda_lang.panda.language.interpreter.messenger.formatters.ParserFailureFormatter;
+import org.panda_lang.panda.language.interpreter.messenger.formatters.ProcessFailureFormatter;
 import org.panda_lang.panda.language.interpreter.messenger.formatters.SourceFragmentFormatter;
-import org.panda_lang.panda.language.interpreter.messenger.formatters.StacktraceFormatter;
+import org.panda_lang.panda.language.interpreter.messenger.formatters.StacktraceElementsFormatter;
 import org.panda_lang.panda.language.interpreter.messenger.formatters.ThrowableFormatter;
 import org.panda_lang.panda.language.interpreter.messenger.layouts.ExceptionTranslatorLayout;
 import org.panda_lang.panda.language.interpreter.messenger.layouts.InterpreterFailureTranslatorLayout;
 import org.panda_lang.panda.language.interpreter.messenger.layouts.PandaLexerFailureTranslatorLayout;
 import org.panda_lang.panda.language.interpreter.messenger.layouts.ParserFailureTranslatorLayout;
+import org.panda_lang.panda.language.interpreter.messenger.layouts.ProcessFailureTranslatorLayout;
 import org.panda_lang.panda.language.interpreter.messenger.mappers.StacktraceMapper;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.language.resource.PandaParsers;
 import org.panda_lang.panda.language.resource.expression.subparsers.assignation.AssignationParsers;
-import org.panda_lang.framework.language.resource.syntax.PandaSyntax;
 
 public final class PandaFactory {
 
@@ -42,9 +44,12 @@ public final class PandaFactory {
 
                 // initialize messenger
                 .initializeMessenger()
-                    .withLayouts(PandaLexerFailureTranslatorLayout.class, InterpreterFailureTranslatorLayout.class, ParserFailureTranslatorLayout.class, ExceptionTranslatorLayout.class)
-                    .withDataFormatters(EnvironmentFormatter.class, SourceFragmentFormatter.class)
-                    .withDataFormatters(ThrowableFormatter.class, ParserFailureFormatter.class, StacktraceFormatter.class)
+                    .withLayout(ExceptionTranslatorLayout.class)
+                    .withLayouts(PandaLexerFailureTranslatorLayout.class, InterpreterFailureTranslatorLayout.class, ParserFailureTranslatorLayout.class)
+                    .withLayout(ProcessFailureTranslatorLayout.class)
+                    .withDataFormatters(EnvironmentFormatter.class, ThrowableFormatter.class, StacktraceElementsFormatter.class)
+                    .withDataFormatters(SourceFragmentFormatter.class, ParserFailureFormatter.class)
+                    .withDataFormatter(ProcessFailureFormatter.class)
                     .withDataMapper(new StacktraceMapper())
                     .collect()
 

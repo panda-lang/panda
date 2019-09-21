@@ -29,7 +29,7 @@ import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
 import java.util.Map;
 import java.util.Optional;
 
-public class ParserFailureTranslatorLayout implements PandaTranslatorLayout<PandaParserFailure> {
+public final class ParserFailureTranslatorLayout implements PandaTranslatorLayout<PandaParserFailure> {
 
     @Override
     public void onHandle(MessengerFormatter formatter, PandaParserFailure element, Map<String, Object> context) {
@@ -52,7 +52,7 @@ public class ParserFailureTranslatorLayout implements PandaTranslatorLayout<Pand
 
     @Override
     public String getPrefix() {
-        return "[InterpreterFailure] #!# ";
+        return " #!# ";
     }
 
     @Override

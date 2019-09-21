@@ -1,5 +1,5 @@
 
-&b- - ~ ~< Messenger :: Severe Failure >~ ~ - -&r
+&b- - ~ ~< Severe Failure >~ ~ - -&r
 
 Caused by: {{message}}
 
@@ -15,13 +15,7 @@ Source:
 Location:
   Panda: {{location}} at line {{line}}:{{index}}
 
-Details:
-  Framework: {{stacktrace-last}}
-% cycle %
-  Generation: {{cycle}}
-% end %
-
-Stack: {{stacktrace-simple}}
+Stack: {{stacktrace-elements.trimmed}}
 
 Environment: {{environment}}
 
