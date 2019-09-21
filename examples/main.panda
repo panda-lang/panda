@@ -9,7 +9,7 @@ main {
 
 class App {
 
-    hidden static String version = "indev-19.8.24"
+    hidden static String version = "indev-19.9.21"
 
     constructor () {
         Console.print(getVersion())
