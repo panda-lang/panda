@@ -46,13 +46,13 @@ public final class LateDeclarationParser extends ParserBootstrap {
     }
 
     @Autowired
-    void parse(Context context, @Inter ExtractorResult result, @Component Scope parent, @Src("type") Snippetable type, @Src("name") Snippetable name) {
+    void parse(Context context, @Inter ExtractorResult result, @Component Scope scope, @Src("type") Snippetable type, @Src("name") Snippetable name) {
         boolean mutable = result.hasIdentifier(Keywords.MUT.getValue());
         boolean nillable = result.hasIdentifier(Keywords.NIL.getValue());
 
-        VariableDataInitializer dataInitializer = new VariableDataInitializer(context, parent);
+        VariableDataInitializer dataInitializer = new VariableDataInitializer(context, scope);
         VariableData variableData = dataInitializer.createVariableData(type, name, mutable, nillable);
-        parent.createVariable(variableData);
+        scope.createVariable(variableData);
     }
 
 }

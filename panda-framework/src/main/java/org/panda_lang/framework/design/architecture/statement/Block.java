@@ -14,15 +14,8 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.architecture.statement;
+package org.panda_lang.framework.design.architecture.statement;
 
-import org.panda_lang.framework.design.architecture.statement.Scope;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
-
-public final class PandaBlock extends AbstractBlock {
-
-    public PandaBlock(Scope parent, SourceLocation location) {
-        super(parent, location);
-    }
+public interface Block extends Scope {
 
 }
