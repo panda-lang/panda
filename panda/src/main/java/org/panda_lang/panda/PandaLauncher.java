@@ -43,6 +43,7 @@ public final class PandaLauncher {
         Collection<File> files = FileUtils.findFilesByExtension(System.getProperty("user.dir"), ".panda");
 
         // TODO: find panda.json
+        throw new RuntimeException("Not implemented");
     }
 
 }

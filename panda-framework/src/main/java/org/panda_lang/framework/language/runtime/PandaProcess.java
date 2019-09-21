@@ -52,7 +52,7 @@ public class PandaProcess implements Process {
             System.out.println(e.getClass().getName() + ": " + e.getMessage());
 
             for (Statement statement : stack.getLivingFramesOnStack()) {
-                System.out.println("  " + statement.getSourceLocation() + " // " + statement.getClass().getSimpleName());
+                System.out.println("  at " + statement.getSourceLocation() + " // " + statement.getClass().getSimpleName());
             }
 
             return -1;

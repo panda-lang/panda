@@ -30,7 +30,7 @@ class Test {
     hidden Int index = 1
 
     constructor(String message2) {
-        // throw new RuntimeException("Stack test")
+        throw new RuntimeException("Stack test")
 
         Console.print(message2)
         this.testField = this
