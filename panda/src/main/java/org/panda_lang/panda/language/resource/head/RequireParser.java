@@ -18,26 +18,24 @@ package org.panda_lang.panda.language.resource.head;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.Environment;
-import org.panda_lang.panda.language.architecture.PandaScript;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
-import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.ParserBootstrap;
-import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.TokenHandler;
 import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
-import org.panda_lang.panda.language.interpreter.parser.PandaComponents;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
 import org.panda_lang.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.ParserBootstrap;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.TokenHandler;
+import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 
 import java.io.File;
 import java.util.Objects;
@@ -78,9 +76,6 @@ public final class RequireParser extends ParserBootstrap {
 
         ModuleLoader loader = context.getComponent(UniversalComponents.MODULE_LOADER);
         loader.load(module.get());
-
-        PandaScript script = context.getComponent(PandaComponents.PANDA_SCRIPT);
-        script.addStatement(new ImportStatement(require.getLocation(), module.get()));
     }
 
     private void parseFile(Context context, Snippet requiredFile) {

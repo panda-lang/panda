@@ -18,7 +18,6 @@ package org.panda_lang.framework.language.interpreter.parser;
 
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.component.Component;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,9 +36,7 @@ public class PandaContext implements Context {
 
     @Override
     public PandaContext fork() {
-        PandaContext parserInfo = new PandaContext(new HashMap<>(components));
-        parserInfo.withComponent(UniversalComponents.PARENT_DATA, this);
-        return parserInfo;
+        return new PandaContext(new HashMap<>(components));
     }
 
     @Override

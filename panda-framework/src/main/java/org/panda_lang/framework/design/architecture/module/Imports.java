@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.bootstraps.block;
+package org.panda_lang.framework.design.architecture.module;
 
-import org.panda_lang.framework.design.architecture.statement.Block;
-import org.panda_lang.framework.design.interpreter.parser.component.Component;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
 
-public final class BlockComponents {
+import java.util.Optional;
+import java.util.function.Supplier;
 
-    public static final String PREVIOUS_BLOCK_LABEL = "block-previous";
-    public static final Component<Block> PREVIOUS_BLOCK = Component.of(PREVIOUS_BLOCK_LABEL, Block.class);
+public interface Imports {
 
-    private BlockComponents() { }
+    boolean importReference(String name, Supplier<PrototypeReference> supplier);
+
+    Optional<PrototypeReference> forName(String name);
 
 }

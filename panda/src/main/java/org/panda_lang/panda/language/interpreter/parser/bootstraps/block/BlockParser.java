@@ -17,6 +17,8 @@
 package org.panda_lang.panda.language.interpreter.parser.bootstraps.block;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.architecture.statement.Block;
+import org.panda_lang.framework.design.architecture.statement.Cell;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
@@ -36,6 +38,7 @@ import org.panda_lang.panda.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Component;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Local;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.LocalData;
@@ -63,7 +66,7 @@ public class BlockParser extends ParserBootstrap {
     }
 
     @Autowired(order = 1)
-    void parse(Context context, LocalData local, @Src("*declaration") Snippet declaration) throws Exception {
+    void parse(Context context, LocalData local, @Component Scope parent, @Src("*declaration") Snippet declaration) throws Exception {
         SourceStream declarationStream = new PandaSourceStream(declaration);
         Channel channel = new PandaChannel();
 
@@ -82,8 +85,17 @@ public class BlockParser extends ParserBootstrap {
                     .build();
         });
 
+
         Context delegatedContext = local.allocated(context.fork())
                 .withComponent(PipelineComponents.CHANNEL, channel);
+
+        if (!parent.getCells().isEmpty()) {
+            Cell cell = parent.getCells().get(parent.getCells().size() - 1);
+
+            if (cell.isBlock()) {
+                delegatedContext.withComponent(BlockComponents.PREVIOUS_BLOCK, (Block) cell.getStatement());
+            }
+        }
 
         BlockData blockData = blockParser.parse(delegatedContext, declaration);
 
@@ -100,7 +112,6 @@ public class BlockParser extends ParserBootstrap {
         }
 
         context.getComponent(UniversalComponents.SCOPE).addStatement(blockData.getBlock());
-        context.withComponent(BlockComponents.PREVIOUS_BLOCK, blockData.getBlock());
     }
 
     @Autowired(order = 2)

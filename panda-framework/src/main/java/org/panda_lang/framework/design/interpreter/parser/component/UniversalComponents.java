@@ -22,7 +22,6 @@ import org.panda_lang.framework.design.architecture.Script;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.Interpretation;
-import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.framework.design.interpreter.parser.generation.Generation;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
@@ -57,7 +56,6 @@ public final class UniversalComponents {
 
     public static final Component<Scope> SCOPE = Component.of("scope", Scope.class);
 
-
-    public static final Component<Context> PARENT_DATA = Component.of("parent-data", Context.class);
+    private UniversalComponents() { }
 
 }
