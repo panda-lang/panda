@@ -30,32 +30,74 @@ import org.panda_lang.framework.design.interpreter.source.SourceSet;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 
+/**
+ * The most common components available in the context
+ */
 public final class Components {
 
+    /**
+     * Represents the interpretation process
+     */
     public static final ContextComponent<Interpretation> INTERPRETATION = ContextComponent.of("interpretation", Interpretation.class);
 
+    /**
+     * Represents the application environment
+     */
     public static final ContextComponent<Environment> ENVIRONMENT = ContextComponent.of("environment", Environment.class);
 
+    /**
+     * Represents the generation
+     */
     public static final ContextComponent<Generation> GENERATION = ContextComponent.of("generation", Generation.class);
 
+    /**
+     * Represents the pipeline path with all registered pipelines
+     */
     public static final ContextComponent<PipelinePath> PIPELINE = ContextComponent.of("pipeline-path", PipelinePath.class);
 
+    /**
+     * Represents the main expression parser with all registered subparsers
+     */
     public static final ContextComponent<ExpressionParser> EXPRESSION = ContextComponent.of("expression-parser", ExpressionParser.class);
 
+    /**
+     * Represents the application module loader
+     */
     public static final ContextComponent<ModuleLoader> MODULE_LOADER = ContextComponent.of("module-loader", ModuleLoader.class);
 
+    /**
+     * Represents the current application
+     */
     public static final ContextComponent<Application> APPLICATION = ContextComponent.of("application", Application.class);
 
+    /**
+     * Represents all sources to parse
+     */
     public static final ContextComponent<SourceSet> SOURCES = ContextComponent.of("source-set", SourceSet.class);
 
+    /**
+     * Represents the current script
+     */
     public static final ContextComponent<Script> SCRIPT = ContextComponent.of("script", Script.class);
 
+    /**
+     * Represents the current source of script
+     */
     public static final ContextComponent<Snippet> SOURCE = ContextComponent.of("source", Snippet.class);
 
+    /**
+     * Represents imports assigned to the current script
+     */
     public static final ContextComponent<Imports> IMPORTS = ContextComponent.of("imports", Imports.class);
 
+    /**
+     * Represents the current stream of source
+     */
     public static final ContextComponent<SourceStream> STREAM = ContextComponent.of("source-stream", SourceStream.class);
 
+    /**
+     * Represents the current scope
+     */
     public static final ContextComponent<Scope> SCOPE = ContextComponent.of("scope", Scope.class);
 
     private Components() { }

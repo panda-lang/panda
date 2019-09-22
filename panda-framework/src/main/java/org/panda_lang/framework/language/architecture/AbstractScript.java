@@ -63,11 +63,6 @@ public abstract class AbstractScript implements Script {
     }
 
     @Override
-    public List<? extends Statement> getStatements() {
-        return statements;
-    }
-
-    @Override
     public ModuleLoader getModuleLoader() {
         return loader;
     }
