@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.resource.scope.branching;
 
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
@@ -30,7 +30,7 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handl
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.interceptors.LinearPatternInterceptor;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 
-@Registrable(pipeline = UniversalPipelines.SCOPE_LABEL)
+@Registrable(pipeline = Pipelines.SCOPE_LABEL)
 public class BreakParser extends ParserBootstrap {
 
     @Override

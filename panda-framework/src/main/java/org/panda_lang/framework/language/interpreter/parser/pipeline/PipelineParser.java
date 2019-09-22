@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.interpreter.Interpretation;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.HandleResult;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserPipeline;
@@ -30,7 +30,6 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineCompo
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaChannel;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 
 import java.util.function.Supplier;
@@ -41,11 +40,11 @@ public final class PipelineParser<T extends ContextParser> implements Parser {
     private final SourceStream stream;
 
     public PipelineParser(PipelineComponent<T> component, Context context) {
-        this(context.getComponent(UniversalComponents.PIPELINE).getPipeline(component), context);
+        this(context.getComponent(Components.PIPELINE).getPipeline(component), context);
     }
 
     public PipelineParser(ParserPipeline<T> pipeline, Context context) {
-        this(pipeline, context.getComponent(UniversalComponents.STREAM));
+        this(pipeline, context.getComponent(Components.STREAM));
     }
 
     public PipelineParser(ParserPipeline<T> pipeline, SourceStream stream) {
@@ -62,7 +61,7 @@ public final class PipelineParser<T extends ContextParser> implements Parser {
      * @throws Exception if something happen in subparser
      */
     public @Nullable T parse(Context context, boolean fork) throws Exception {
-        Interpretation interpretation = context.getComponent(UniversalComponents.INTERPRETATION);
+        Interpretation interpretation = context.getComponent(Components.INTERPRETATION);
 
         while (stream.hasUnreadSource() && interpretation.isHealthy()) {
             Channel channel = new PandaChannel();

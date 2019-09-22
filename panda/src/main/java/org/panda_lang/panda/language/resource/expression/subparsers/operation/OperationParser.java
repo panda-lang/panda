@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.resource.expression.subparsers.operation;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.pattern.progressive.ProgressivePatternResult;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
@@ -36,7 +36,7 @@ public final class OperationParser implements Parser {
     }
 
     public Expression parse(Context context, ExpressionContext expressionContext, Snippet source, ProgressivePatternResult result) {
-        Expression expression = parse(context, Operation.of(context.getComponent(UniversalComponents.EXPRESSION), context, expressionContext, result));
+        Expression expression = parse(context, Operation.of(context.getComponent(Components.EXPRESSION), context, expressionContext, result));
 
         if (expression == null) {
             throw PandaParserFailure.builder("Unknown operation", context)

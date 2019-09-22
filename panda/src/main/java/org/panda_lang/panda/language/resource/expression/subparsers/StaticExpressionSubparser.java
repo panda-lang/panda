@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.resource.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
@@ -47,7 +47,7 @@ public final class StaticExpressionSubparser implements PartialResultSubparser {
                 return null;
             }
 
-            ModuleLoader loader = context.getContext().getComponent(UniversalComponents.MODULE_LOADER);
+            ModuleLoader loader = context.getContext().getComponent(Components.MODULE_LOADER);
 
             return loader.forName(token.getValue())
                     .map(reference -> ExpressionResult.of(new StaticExpression(reference)))

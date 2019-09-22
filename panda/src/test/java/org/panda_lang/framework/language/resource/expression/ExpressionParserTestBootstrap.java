@@ -21,7 +21,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.design.architecture.expression.Expression;
@@ -55,7 +55,7 @@ class ExpressionParserTestBootstrap {
     protected static Context prepareData() {
         return ExpressionContextUtils.createFakeContext(context -> new HashMap<VariableData, Object>() {{
             put(new PandaVariableData(PandaTypes.STRING.getReference(), "variable"), null);
-            put(new PandaVariableData(PandaTypes.STRING.toArray(context.getComponent(UniversalComponents.MODULE_LOADER)), "array"), null);
+            put(new PandaVariableData(PandaTypes.STRING.toArray(context.getComponent(Components.MODULE_LOADER)), "array"), null);
             put(new PandaVariableData(PandaTypes.INT.getReference(), "i", true, false), null);
         }});
     }
@@ -73,8 +73,8 @@ class ExpressionParserTestBootstrap {
     protected static void parse(String source) {
         SourceStream stream = new PandaSourceStream(PandaLexerUtils.convert(source));
 
-        DATA.withComponent(UniversalComponents.SOURCE, stream.toSnippet());
-        DATA.withComponent(UniversalComponents.STREAM, stream);
+        DATA.withComponent(Components.SOURCE, stream.toSnippet());
+        DATA.withComponent(Components.STREAM, stream);
 
         Expression expression = PARSER.parse(DATA, stream).getExpression();
 

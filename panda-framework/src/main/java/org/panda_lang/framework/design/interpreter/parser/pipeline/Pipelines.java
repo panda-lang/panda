@@ -16,23 +16,44 @@
 
 package org.panda_lang.framework.design.interpreter.parser.pipeline;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.stream.Collectors;
+import org.panda_lang.framework.design.interpreter.parser.ContextParser;
 
-public interface Pipelines {
+public final class Pipelines implements PipelinesComponents {
 
-    default Collection<PipelineComponent<?>> collectPipelineComponents() {
-        return Arrays.stream(this.getClass().getFields())
-                .filter(field -> PipelineComponent.class.isAssignableFrom(field.getType()))
-                .map(field -> {
-                    try {
-                        return (PipelineComponent<?>) field.get(this);
-                    } catch (IllegalAccessException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
-                .collect(Collectors.toList());
-    }
+    /**
+     * Text representation of {@link Pipelines#ALL}
+     */
+    public static final String ALL_LABEL = "all";
+    /**
+     * All pipelines
+     */
+    public static final PipelineComponent<ContextParser> ALL = PipelineComponent.of(Pipelines.class, ALL_LABEL, ContextParser.class);
+
+    /**
+     * Text representation of {@link Pipelines#HEAD}
+     */
+    public static final String HEAD_LABEL = "head";
+    /**
+     * Head pipeline
+     */
+    public static final PipelineComponent<ContextParser> HEAD = PipelineComponent.of(Pipelines.class, HEAD_LABEL, ContextParser.class);
+
+    /**
+     * Text representation of {@link Pipelines#PROTOTYPE}
+     */
+    public static final String PROTOTYPE_LABEL = "prototype";
+    /**
+     * Class prototype parsers, used by prototype parser
+     */
+    public static final PipelineComponent<ContextParser> PROTOTYPE = PipelineComponent.of(Pipelines.class, PROTOTYPE_LABEL, ContextParser.class);
+
+    /**
+     * Text representation of {@link Pipelines#SCOPE}
+     */
+    public static final String SCOPE_LABEL = "scope";
+    /**
+     * Container parsers
+     */
+    public static final PipelineComponent<ContextParser> SCOPE = PipelineComponent.of(Pipelines.class, SCOPE_LABEL, ContextParser.class);
 
 }

@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.architecture.statement.PandaBlock;
@@ -39,7 +39,7 @@ import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 import org.panda_lang.framework.language.interpreter.parser.ScopeParser;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 
-@Registrable(pipeline = UniversalPipelines.SCOPE_LABEL)
+@Registrable(pipeline = Pipelines.SCOPE_LABEL)
 public final class TryCatchParser extends ParserBootstrap {
 
     private static final ScopeParser SCOPE_PARSER = new ScopeParser();

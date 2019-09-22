@@ -16,14 +16,14 @@
 
 package org.panda_lang.framework.design.architecture.prototype;
 
-import org.panda_lang.framework.design.interpreter.parser.component.Component;
+import org.panda_lang.framework.design.interpreter.parser.ContextComponent;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeScope;
 
 public final class PrototypeComponents {
 
-    public static final Component<Prototype> CLASS_PROTOTYPE = Component.of("panda-class-prototype", Prototype.class);
+    public static final ContextComponent<Prototype> CLASS_PROTOTYPE = ContextComponent.of("panda-class-prototype", Prototype.class);
 
-    public static final Component<PrototypeScope> CLASS_FRAME = Component.of("panda-class-frame", PrototypeScope.class);
+    public static final ContextComponent<PrototypeScope> CLASS_FRAME = ContextComponent.of("panda-class-frame", PrototypeScope.class);
 
     private PrototypeComponents() { }
 

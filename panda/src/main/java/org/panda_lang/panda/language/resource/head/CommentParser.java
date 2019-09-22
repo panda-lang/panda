@@ -18,11 +18,11 @@ package org.panda_lang.panda.language.resource.head;
 
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.ContextParser;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
@@ -32,7 +32,7 @@ import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
 import java.util.ArrayList;
 import java.util.List;
 
-@Registrable(pipeline = UniversalPipelines.ALL_LABEL)
+@Registrable(pipeline = Pipelines.ALL_LABEL)
 public final class CommentParser implements ContextParser<CommentStatement>, ParserHandler {
 
     @Override
@@ -42,7 +42,7 @@ public final class CommentParser implements ContextParser<CommentStatement>, Par
 
     @Override
     public CommentStatement parse(Context context) {
-        return new CommentStatement(context.getComponent(UniversalComponents.STREAM).read());
+        return new CommentStatement(context.getComponent(Components.STREAM).read());
     }
 
     public static Snippet uncommented(Snippet source) {

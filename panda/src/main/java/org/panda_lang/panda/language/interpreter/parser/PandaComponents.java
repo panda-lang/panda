@@ -18,16 +18,16 @@ package org.panda_lang.panda.language.interpreter.parser;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.language.architecture.PandaScript;
-import org.panda_lang.framework.design.interpreter.parser.component.Component;
+import org.panda_lang.framework.design.interpreter.parser.ContextComponent;
 
 /**
  * Default list of names used by {@link org.panda_lang.framework.design.interpreter.parser.Context} for components
  */
 public final class PandaComponents {
 
-    public static final Component<Panda> PANDA = Component.of("panda", Panda.class);
+    public static final ContextComponent<Panda> PANDA = ContextComponent.of("panda", Panda.class);
 
-    public static final Component<PandaScript> PANDA_SCRIPT = Component.of("panda-script", PandaScript.class);
+    public static final ContextComponent<PandaScript> PANDA_SCRIPT = ContextComponent.of("panda-script", PandaScript.class);
 
     private PandaComponents() { }
 

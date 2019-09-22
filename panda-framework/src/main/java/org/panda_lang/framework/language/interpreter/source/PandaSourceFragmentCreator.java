@@ -17,7 +17,7 @@
 package org.panda_lang.framework.language.interpreter.source;
 
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.source.SourceFragment;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
@@ -34,15 +34,15 @@ public final class PandaSourceFragmentCreator<T> {
     }
 
     public PandaSourceFragmentCreator<T> ofStreamOrigin(Context context, Snippetable indicated) {
-        return of(context.getComponent(UniversalComponents.STREAM).getOriginalSource(), indicated);
+        return of(context.getComponent(Components.STREAM).getOriginalSource(), indicated);
     }
 
     public PandaSourceFragmentCreator<T> ofOriginals(Context context) {
-        return ofOriginalSource(context, context.getComponent(UniversalComponents.STREAM).getOriginalSource());
+        return ofOriginalSource(context, context.getComponent(Components.STREAM).getOriginalSource());
     }
 
     public PandaSourceFragmentCreator<T> ofOriginalSource(Context context, Snippetable indicated) {
-        return of(context.getComponent(UniversalComponents.SOURCE), indicated);
+        return of(context.getComponent(Components.SOURCE), indicated);
     }
 
     public PandaSourceFragmentCreator<T> of(Snippetable fragment, Snippetable indicatedFragment) {

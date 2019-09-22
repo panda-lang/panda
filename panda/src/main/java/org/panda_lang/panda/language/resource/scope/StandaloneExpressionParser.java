@@ -24,21 +24,21 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.Boots
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Component;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParserSettings;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Inter;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 
-@Registrable(pipeline = UniversalPipelines.SCOPE_LABEL, priority = PandaPriorities.CONTAINER_EXPRESSION)
+@Registrable(pipeline = Pipelines.SCOPE_LABEL, priority = PandaPriorities.CONTAINER_EXPRESSION)
 public final class StandaloneExpressionParser extends ParserBootstrap {
 
     private static final ExpressionParserSettings SETTINGS = ExpressionParserSettings.create().onlyStandalone();
@@ -47,7 +47,7 @@ public final class StandaloneExpressionParser extends ParserBootstrap {
 
     @Override
     protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
-        this.expressionParser = context.getComponent(UniversalComponents.EXPRESSION);
+        this.expressionParser = context.getComponent(Components.EXPRESSION);
         return initializer;
     }
 

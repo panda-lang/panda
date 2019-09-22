@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.architecture.prototype.PrototypeReference
 import org.panda_lang.framework.design.architecture.parameter.Parameter;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SnippetUtils;
@@ -69,7 +69,7 @@ public class ParameterParser implements Parser {
             boolean varargs = end + 1 < source.size();
 
             if (varargs) {
-                reference = reference.toArray(context.getComponent(UniversalComponents.MODULE_LOADER));
+                reference = reference.toArray(context.getComponent(Components.MODULE_LOADER));
             }
 
             Parameter parameter = new PandaParameter(index, reference, name.getValue(), varargs, false);

@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.resource.head;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.Script;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
@@ -37,7 +37,7 @@ import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 import org.panda_lang.framework.language.interpreter.parser.ScopeParser;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 
-@Registrable(pipeline = UniversalPipelines.HEAD_LABEL)
+@Registrable(pipeline = Pipelines.HEAD_LABEL)
 public final class MainParser extends ParserBootstrap {
 
     private static final ScopeParser SCOPE_PARSER = new ScopeParser();

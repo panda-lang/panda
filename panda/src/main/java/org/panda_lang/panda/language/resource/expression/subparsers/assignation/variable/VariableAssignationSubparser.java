@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.resource.expression.subparsers.assignation
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
@@ -53,7 +53,7 @@ public final class VariableAssignationSubparser extends AssignationSubparserBoot
 
     @Override
     protected Object customHandle(ParserHandler handler, Context context, Channel channel, Snippet source) {
-        ExpressionParser parser = context.getComponent(UniversalComponents.EXPRESSION);
+        ExpressionParser parser = context.getComponent(Components.EXPRESSION);
 
         try {
             SourceStream stream = new PandaSourceStream(source);

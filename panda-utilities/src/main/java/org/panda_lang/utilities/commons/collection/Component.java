@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.interpreter.parser.component;
+package org.panda_lang.utilities.commons.collection;
 
 import org.panda_lang.framework.PandaFrameworkException;
 
 import java.util.Map;
 import java.util.function.Supplier;
 
-public abstract class AbstractComponent<R> {
+public abstract class Component<R> {
 
     private final String name;
     private final Class<R> type;
 
-    protected AbstractComponent(String name, Class<R> type) {
+    protected Component(String name, Class<R> type) {
         this.name = name;
         this.type = type;
     }
@@ -48,7 +48,7 @@ public abstract class AbstractComponent<R> {
         TYPE existingComponent = components.get(name);
 
         if (existingComponent != null) {
-            throw new PandaFrameworkException("Component '" + name + "' already exists (type: " + ((AbstractComponent) existingComponent).getType() + ")");
+            throw new PandaFrameworkException("Component '" + name + "' already exists (type: " + ((Component) existingComponent).getType() + ")");
         }
 
         TYPE component = supplier.get();

@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.resource.scope.block.looping;
 
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
@@ -66,7 +66,7 @@ public final class ForParser extends BlockSubparserBootstrap {
         }
 
         Scope forBlock = new PandaBlock(parent, location);
-        Context delegatedContext = context.fork().withComponent(UniversalComponents.SCOPE, forBlock);
+        Context delegatedContext = context.fork().withComponent(Components.SCOPE, forBlock);
 
         Snippet initializationSource = forEachElements[0];
         Expression initialization = null;

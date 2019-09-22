@@ -39,13 +39,6 @@ public interface Script {
     void addStatement(Statement statement);
 
     /**
-     * Get script content
-     *
-     * @return list of the statement declarations
-     */
-    List<? extends Statement> getStatements();
-
-    /**
      * Get module loader used by script
      *
      * @return the module loader
@@ -64,6 +57,6 @@ public interface Script {
      *
      * @return the script name, e.g. name of file or generated name
      */
-    String getScriptName();
+    String getName();
 
 }

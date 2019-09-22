@@ -22,7 +22,7 @@ import org.panda_lang.framework.design.architecture.parameter.Parameter;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractFrame;
@@ -47,7 +47,7 @@ import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 
 import java.util.List;
 
-@Registrable(pipeline = UniversalPipelines.PROTOTYPE_LABEL)
+@Registrable(pipeline = Pipelines.PROTOTYPE_LABEL)
 public class ConstructorParser extends ParserBootstrap {
 
     private static final ParameterParser PARAMETER_PARSER = new ParameterParser();

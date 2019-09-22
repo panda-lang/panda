@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.interpreter.messenger.formatters;
 
 import org.panda_lang.framework.design.interpreter.messenger.MessengerTypeFormatter;
 import org.panda_lang.framework.design.interpreter.parser.ParserFailure;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.generation.Generation;
 import org.panda_lang.framework.design.interpreter.parser.generation.GenerationCycle;
 import org.panda_lang.panda.language.interpreter.messenger.MessengerDataFormatter;
@@ -32,7 +32,7 @@ public final class ParserFailureFormatter implements MessengerDataFormatter<Pars
         typeFormatter
                 .register("{{note}}", (formatter, failure) -> failure.getNote())
                 .register("{{cycle}}", (formatter, failure) -> {
-                    Generation generation = failure.getContext().getComponent(UniversalComponents.GENERATION);
+                    Generation generation = failure.getContext().getComponent(Components.GENERATION);
                     Optional<GenerationCycle> cycleValue = generation.getCurrentCycle();
 
                     if (!cycleValue.isPresent()) {

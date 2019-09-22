@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeComponents;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.statement.Variable;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
@@ -67,7 +67,7 @@ public final class VariableExpressionSubparser implements ExpressionSubparser {
             }
 
             String name = token.getValue();
-            Optional<Variable> variableValue = context.getContext().getComponent(UniversalComponents.SCOPE).getVariable(name);
+            Optional<Variable> variableValue = context.getContext().getComponent(Components.SCOPE).getVariable(name);
 
             if (variableValue.isPresent()) {
                 Variable variable = variableValue.get();

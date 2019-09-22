@@ -21,8 +21,8 @@ import org.panda_lang.framework.design.architecture.Environment;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.framework.design.interpreter.parser.Components;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
@@ -41,7 +41,7 @@ import java.io.File;
 import java.util.Objects;
 import java.util.Optional;
 
-@Registrable(pipeline = UniversalPipelines.HEAD_LABEL)
+@Registrable(pipeline = Pipelines.HEAD_LABEL)
 public final class RequireParser extends ParserBootstrap {
 
     @Override
@@ -62,7 +62,7 @@ public final class RequireParser extends ParserBootstrap {
     }
 
     private void parseModule(Context context, Snippet require) {
-        Environment environment = context.getComponent(UniversalComponents.ENVIRONMENT);
+        Environment environment = context.getComponent(Components.ENVIRONMENT);
 
         String moduleName = require.asSource();
         Optional<Module> module = environment.getModulePath().get(moduleName);
@@ -74,7 +74,7 @@ public final class RequireParser extends ParserBootstrap {
                     .build();
         }
 
-        ModuleLoader loader = context.getComponent(UniversalComponents.MODULE_LOADER);
+        ModuleLoader loader = context.getComponent(Components.MODULE_LOADER);
         loader.load(module.get());
     }
 
@@ -88,7 +88,7 @@ public final class RequireParser extends ParserBootstrap {
                     .build();
         }
 
-        File file = new File(context.getComponent(UniversalComponents.ENVIRONMENT).getDirectory(), token.getValue() + ".panda");
+        File file = new File(context.getComponent(Components.ENVIRONMENT).getDirectory(), token.getValue() + ".panda");
 
         if (!file.exists()) {
             throw PandaParserFailure.builder("File " + file + " does not exist", context)
@@ -97,7 +97,7 @@ public final class RequireParser extends ParserBootstrap {
                     .build();
         }
 
-        context.getComponent(UniversalComponents.SOURCES).addSource(PandaURLSource.fromFile(file));
+        context.getComponent(Components.SOURCES).addSource(PandaURLSource.fromFile(file));
     }
 
 }

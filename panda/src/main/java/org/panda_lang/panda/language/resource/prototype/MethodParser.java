@@ -24,8 +24,8 @@ import org.panda_lang.framework.design.architecture.prototype.PrototypeVisibilit
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.framework.design.architecture.parameter.Parameter;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.framework.design.interpreter.parser.Components;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.architecture.prototype.MethodScope;
@@ -50,7 +50,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-@Registrable(pipeline = UniversalPipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_METHOD)
+@Registrable(pipeline = Pipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_METHOD)
 public class MethodParser extends ParserBootstrap {
 
     private static final ParameterParser PARAMETER_PARSER = new ParameterParser();
@@ -76,7 +76,7 @@ public class MethodParser extends ParserBootstrap {
         PrototypeReference returnType = PandaTypes.VOID.getReference();
 
         if (signature.size() > 1) {
-            ModuleLoader registry = context.getComponent(UniversalComponents.MODULE_LOADER);
+            ModuleLoader registry = context.getComponent(Components.MODULE_LOADER);
             Optional<PrototypeReference> reference = registry.forName(signature.subSource(0, signature.size() - 1).asSource());
 
             if (!reference.isPresent()) {
@@ -93,7 +93,7 @@ public class MethodParser extends ParserBootstrap {
         List<Parameter> parameters = PARAMETER_PARSER.parse(context, parametersSource);
 
         MethodScope methodScope = local.allocated(new MethodScope(signature.getLocation(), parameters));
-        context.withComponent(UniversalComponents.SCOPE, methodScope);
+        context.withComponent(Components.SCOPE, methodScope);
         Prototype prototype = context.getComponent(PrototypeComponents.CLASS_PROTOTYPE);
 
         PrototypeMethod prototypeMethod = PandaMethod.builder()

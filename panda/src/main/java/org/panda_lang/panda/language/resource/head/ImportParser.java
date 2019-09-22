@@ -25,7 +25,7 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annot
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Component;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.TokenHandler;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 import org.panda_lang.framework.language.architecture.prototype.generator.ClassPrototypeGeneratorManager;
@@ -35,7 +35,7 @@ import org.panda_lang.utilities.commons.ClassUtils;
 
 import java.util.Optional;
 
-@Registrable(pipeline = UniversalPipelines.HEAD_LABEL)
+@Registrable(pipeline = Pipelines.HEAD_LABEL)
 public final class ImportParser extends ParserBootstrap {
 
     @Override

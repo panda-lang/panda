@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.InterceptorData;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.LocalData;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.generation.Generation;
 import org.panda_lang.framework.design.interpreter.parser.generation.GenerationCycle;
 import org.panda_lang.framework.design.interpreter.parser.generation.GenerationPhase;
@@ -100,7 +100,7 @@ final class BootstrapTaskScheduler<T> {
     }
 
     private @Nullable T delegateMethod(Context context, GenerationTask<T> callback, BootstrapMethod method) throws Exception {
-        Generation generation = context.getComponent(UniversalComponents.GENERATION);
+        Generation generation = context.getComponent(Components.GENERATION);
 
         GenerationCycle cycle = generation.getCycle(method.getCycle());
         GenerationPhase phase = cycle.currentPhase();

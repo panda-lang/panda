@@ -27,7 +27,7 @@ public class PandaScript extends AbstractScript {
 
     @Override
     public String toString() {
-        return getScriptName();
+        return getName();
     }
 
 }

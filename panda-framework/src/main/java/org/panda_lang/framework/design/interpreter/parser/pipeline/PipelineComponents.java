@@ -16,10 +16,10 @@
 
 package org.panda_lang.framework.design.interpreter.parser.pipeline;
 
-import org.panda_lang.framework.design.interpreter.parser.component.Component;
+import org.panda_lang.framework.design.interpreter.parser.ContextComponent;
 
 public final class PipelineComponents {
 
-    public static final Component<Channel> CHANNEL = Component.of("channel", Channel.class);
+    public static final ContextComponent<Channel> CHANNEL = ContextComponent.of("channel", Channel.class);
 
 }
