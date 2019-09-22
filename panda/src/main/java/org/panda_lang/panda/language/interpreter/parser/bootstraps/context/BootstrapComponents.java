@@ -16,12 +16,12 @@
 
 package org.panda_lang.panda.language.interpreter.parser.bootstraps.context;
 
-import org.panda_lang.framework.design.interpreter.parser.component.Component;
+import org.panda_lang.framework.design.interpreter.parser.ContextComponent;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 
 public final class BootstrapComponents {
 
     public static final String CURRENT_SOURCE_LABEL = "bootstrap-current-source";
-    public static final Component<Snippet> CURRENT_SOURCE = Component.of(CURRENT_SOURCE_LABEL, Snippet.class);
+    public static final ContextComponent<Snippet> CURRENT_SOURCE = ContextComponent.of(CURRENT_SOURCE_LABEL, Snippet.class);
 
 }

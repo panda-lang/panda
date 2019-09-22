@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.architecture.prototype.PrototypeReference
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
 import org.panda_lang.framework.design.interpreter.pattern.descriptive.extractor.ExtractorUtils;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
@@ -89,7 +89,7 @@ public class VariableDataInitializer {
                     .build();
         }
 
-        ModuleLoader loader = context.getComponent(UniversalComponents.MODULE_LOADER);
+        ModuleLoader loader = context.getComponent(Components.MODULE_LOADER);
         Optional<PrototypeReference> prototype = loader.forName(type.toSnippet().asSource());
 
         if (!prototype.isPresent()) {

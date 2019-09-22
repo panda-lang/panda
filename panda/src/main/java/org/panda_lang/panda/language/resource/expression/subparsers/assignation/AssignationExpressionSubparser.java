@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.resource.expression.subparsers.assignation
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
@@ -83,9 +83,9 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
             Context assignationContext = context.fork()
                     .withComponent(PipelineComponents.CHANNEL, new PandaChannel())
                     .withComponent(AssignationComponents.CONTEXT, expressionContext)
-                    .withComponent(AssignationComponents.SCOPE, context.getComponent(UniversalComponents.SCOPE));
+                    .withComponent(AssignationComponents.SCOPE, context.getComponent(Components.SCOPE));
 
-            HandleResult<AssignationSubparser> handleResult = context.getComponent(UniversalComponents.PIPELINE)
+            HandleResult<AssignationSubparser> handleResult = context.getComponent(Components.PIPELINE)
                     .getPipeline(PandaPipelines.ASSIGNER)
                     .handle(assignationContext, assignationContext.getComponent(PipelineComponents.CHANNEL), declaration);
 

@@ -17,7 +17,7 @@
 package org.panda_lang.framework.design.interpreter.pattern.descriptive;
 
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.pattern.descriptive.wildcard.reader.defaults.ExpressionWildcardReader;
 
 public class PandaDescriptivePattern {
@@ -33,7 +33,7 @@ public class PandaDescriptivePattern {
 
     public DescriptivePattern build(Context context) {
         return builder.build()
-                .addWildcardReader(new ExpressionWildcardReader(context.getComponent(UniversalComponents.EXPRESSION)));
+                .addWildcardReader(new ExpressionWildcardReader(context.getComponent(Components.EXPRESSION)));
     }
 
     public static PandaDescriptivePattern builder() {

@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeComponents;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
@@ -52,7 +52,7 @@ public class ClassPrototypeParserUtils {
     }
 
     private static void readExtends(Context context, Snippet classDeclaration, Prototype prototype) {
-        ModuleLoader loader = context.getComponent(UniversalComponents.MODULE_LOADER);
+        ModuleLoader loader = context.getComponent(Components.MODULE_LOADER);
 
         for (int i = 2; i < classDeclaration.size(); i++) {
             TokenRepresentation classNameToken = classDeclaration.get(i);

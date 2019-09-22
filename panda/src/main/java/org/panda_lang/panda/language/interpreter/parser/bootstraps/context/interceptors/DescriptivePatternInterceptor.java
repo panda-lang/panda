@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapContent;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInterceptor;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.InterceptorData;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.pattern.descriptive.PandaDescriptivePattern;
 import org.panda_lang.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
 import org.panda_lang.framework.design.interpreter.pattern.descriptive.DescriptivePatternMapping;
@@ -50,8 +50,8 @@ public class DescriptivePatternInterceptor implements BootstrapInterceptor {
     @Override
     public InterceptorData handle(InterceptorData interceptorData, Context context) {
         if (pattern != null) {
-            Snippet currentSource = context.getComponent(UniversalComponents.STREAM).toSnippet();
-            ExtractorResult result = pattern.extract(context, context.getComponent(UniversalComponents.STREAM));
+            Snippet currentSource = context.getComponent(Components.STREAM).toSnippet();
+            ExtractorResult result = pattern.extract(context, context.getComponent(Components.STREAM));
 
             if (!result.isMatched()) {
                 PandaFramework.getLogger().error("Bootstrap parser: " + bootstrap.getPattern().orElse("<null pattern>").toString());

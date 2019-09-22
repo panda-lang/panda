@@ -21,12 +21,12 @@ import org.panda_lang.framework.design.architecture.statement.Block;
 import org.panda_lang.framework.design.architecture.statement.Cell;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.HandleResult;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponents;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
@@ -46,7 +46,7 @@ import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 
 import java.util.function.Supplier;
 
-@Registrable(pipeline = UniversalPipelines.SCOPE_LABEL, priority = PandaPriorities.CONTAINER_BLOCK)
+@Registrable(pipeline = Pipelines.SCOPE_LABEL, priority = PandaPriorities.CONTAINER_BLOCK)
 public class BlockParser extends ParserBootstrap {
 
     private static final ScopeParser CONTAINER_PARSER = new ScopeParser();
@@ -58,7 +58,7 @@ public class BlockParser extends ParserBootstrap {
 
     @Override
     protected Boolean customHandle(ParserHandler handler, Context context, Channel channel, Snippet source) {
-        HandleResult<BlockSubparser> result = context.getComponent(UniversalComponents.PIPELINE)
+        HandleResult<BlockSubparser> result = context.getComponent(Components.PIPELINE)
                 .getPipeline(PandaPipelines.BLOCK)
                 .handle(context, channel, source);
 
@@ -71,7 +71,7 @@ public class BlockParser extends ParserBootstrap {
         Channel channel = new PandaChannel();
 
         HandleResult<BlockSubparser> handleResult = context
-                .getComponent(UniversalComponents.PIPELINE)
+                .getComponent(Components.PIPELINE)
                 .getPipeline(PandaPipelines.BLOCK)
                 .handle(context, channel, declarationStream.toSnippet());
 
@@ -111,7 +111,7 @@ public class BlockParser extends ParserBootstrap {
             return;
         }
 
-        context.getComponent(UniversalComponents.SCOPE).addStatement(blockData.getBlock());
+        context.getComponent(Components.SCOPE).addStatement(blockData.getBlock());
     }
 
     @Autowired(order = 2)

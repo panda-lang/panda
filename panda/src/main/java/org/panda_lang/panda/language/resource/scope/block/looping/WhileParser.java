@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.resource.scope.block.looping;
 
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
@@ -48,7 +48,7 @@ public class WhileParser extends BlockSubparserBootstrap {
 
     @Autowired
     BlockData parseWhile(Context context, @Component Scope parent, @Src("content") Snippet content) {
-        Expression expression = context.getComponent(UniversalComponents.EXPRESSION).parse(context, content).getExpression();
+        Expression expression = context.getComponent(Components.EXPRESSION).parse(context, content).getExpression();
 
         if (!PandaTypes.BOOLEAN.isAssignableFrom(expression.getReturnType())) {
             throw new PandaParserException("Loop requires boolean as an argument");

@@ -17,12 +17,12 @@
 package org.panda_lang.panda.language.interpreter.parser.bootstraps.block;
 
 import org.panda_lang.framework.design.architecture.statement.Block;
-import org.panda_lang.framework.design.interpreter.parser.component.Component;
+import org.panda_lang.framework.design.interpreter.parser.ContextComponent;
 
 public final class BlockComponents {
 
     public static final String PREVIOUS_BLOCK_LABEL = "block-previous";
-    public static final Component<Block> PREVIOUS_BLOCK = Component.of(PREVIOUS_BLOCK_LABEL, Block.class);
+    public static final ContextComponent<Block> PREVIOUS_BLOCK = ContextComponent.of(PREVIOUS_BLOCK_LABEL, Block.class);
 
     private BlockComponents() { }
 

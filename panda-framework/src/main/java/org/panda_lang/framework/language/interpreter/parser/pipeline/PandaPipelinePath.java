@@ -17,11 +17,11 @@
 package org.panda_lang.framework.language.interpreter.parser.pipeline;
 
 import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.parser.component.AbstractComponent;
+import org.panda_lang.utilities.commons.collection.Component;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.utilities.commons.StreamUtils;
 
 import java.util.Collection;
@@ -33,7 +33,7 @@ public class PandaPipelinePath implements PipelinePath {
     private final Map<PipelineComponent<?>, ParserPipeline<?>> pipelines = new HashMap<>(3);
 
     public PandaPipelinePath() {
-        pipelines.put(UniversalPipelines.ALL, new PandaParserPipeline<>(UniversalPipelines.ALL.getName()));
+        pipelines.put(Pipelines.ALL, new PandaParserPipeline<>(Pipelines.ALL.getName()));
     }
 
     @Override
@@ -41,7 +41,7 @@ public class PandaPipelinePath implements PipelinePath {
         ParserPipeline<P> pipeline = getPipeline(component);
 
         if (pipeline == null) {
-            pipelines.put(component, new PandaParserPipeline<>(pipelines.get(UniversalPipelines.ALL), component.getName()));
+            pipelines.put(component, new PandaParserPipeline<>(pipelines.get(Pipelines.ALL), component.getName()));
             pipeline = getPipeline(component);
         }
 
@@ -66,7 +66,7 @@ public class PandaPipelinePath implements PipelinePath {
 
     @Override
     public Collection<String> names() {
-        return StreamUtils.map(pipelines.keySet(), AbstractComponent::getName);
+        return StreamUtils.map(pipelines.keySet(), Component::getName);
     }
 
 }

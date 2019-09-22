@@ -14,22 +14,24 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.interpreter.parser.component;
+package org.panda_lang.framework.design.interpreter.parser;
+
+import org.panda_lang.utilities.commons.collection.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Component<T> extends AbstractComponent<T> {
+public class ContextComponent<T> extends Component<T> {
 
-    private static final Map<String, Component<?>> COMPONENTS = new HashMap<>();
+    private static final Map<String, ContextComponent<?>> COMPONENTS = new HashMap<>();
 
-    private Component(String name, Class<T> type) {
+    private ContextComponent(String name, Class<T> type) {
         super(name, type);
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> Component<T> of(String name, Class<T> type) {
-        return (Component<T>) ofComponents(COMPONENTS, name, () -> new Component<>(name, type));
+    public static <T> ContextComponent<T> of(String name, Class<T> type) {
+        return (ContextComponent<T>) ofComponents(COMPONENTS, name, () -> new ContextComponent<>(name, type));
     }
 
 }

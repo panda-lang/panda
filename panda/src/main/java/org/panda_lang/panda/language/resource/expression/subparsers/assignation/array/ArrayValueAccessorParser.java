@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.resource.expression.subparsers.assignation
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
@@ -48,14 +48,14 @@ public final class ArrayValueAccessorParser implements Parser {
         }
 
         Snippet instanceSource = source.subSource(0, source.size() - 1);
-        ExpressionParser parser = context.getComponent(UniversalComponents.EXPRESSION);
+        ExpressionParser parser = context.getComponent(Components.EXPRESSION);
         Expression instance = parser.parse(context, instanceSource).getExpression();
 
         return parse(context, source, instance, section);
     }
 
     public ArrayAccessor parse(Context context, Snippetable source, Expression instance, Section indexSource) {
-        ExpressionParser parser = context.getComponent(UniversalComponents.EXPRESSION);
+        ExpressionParser parser = context.getComponent(Components.EXPRESSION);
         Expression index = parser.parse(context, indexSource.getContent()).getExpression();
 
         if (!PandaTypes.INT.isAssignableFrom(index.getReturnType())) {

@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.resource.expression.subparsers.assignation
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.architecture.expression.Expression;
@@ -30,7 +30,7 @@ public abstract class AssignationSubparserBootstrap extends ParserBootstrap<@Nul
     @Override
     public final @Nullable ExpressionResult parseAssignment(Context context, Snippet declaration, Expression expression) throws Exception {
         context.withComponent(AssignationComponents.EXPRESSION, expression);
-        context.withComponent(UniversalComponents.STREAM, new PandaSourceStream(declaration));
+        context.withComponent(Components.STREAM, new PandaSourceStream(declaration));
         return parse(context);
     }
 

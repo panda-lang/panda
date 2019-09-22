@@ -17,20 +17,20 @@
 package org.panda_lang.panda.language.resource.expression.subparsers.assignation;
 
 import org.panda_lang.framework.design.architecture.statement.Scope;
-import org.panda_lang.framework.design.interpreter.parser.component.Component;
+import org.panda_lang.framework.design.interpreter.parser.ContextComponent;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 
 public final class AssignationComponents {
 
     public static final String CONTEXT_LABEL = "context";
-    public static final Component<ExpressionContext> CONTEXT = Component.of(CONTEXT_LABEL, ExpressionContext.class);
+    public static final ContextComponent<ExpressionContext> CONTEXT = ContextComponent.of(CONTEXT_LABEL, ExpressionContext.class);
 
     public static final String SCOPE_LABEL = "assignation-scope";
-    public static final Component<Scope> SCOPE = Component.of(SCOPE_LABEL, Scope.class);
+    public static final ContextComponent<Scope> SCOPE = ContextComponent.of(SCOPE_LABEL, Scope.class);
 
     public static final String EXPRESSION_LABEL = "assignation-expression";
-    public static final Component<Expression> EXPRESSION = Component.of(EXPRESSION_LABEL, Expression.class);
+    public static final ContextComponent<Expression> EXPRESSION = ContextComponent.of(EXPRESSION_LABEL, Expression.class);
 
     private AssignationComponents() { }
 

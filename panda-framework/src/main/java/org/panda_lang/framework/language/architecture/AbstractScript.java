@@ -78,7 +78,7 @@ public abstract class AbstractScript implements Script {
     }
 
     @Override
-    public String getScriptName() {
+    public String getName() {
         return scriptName;
     }
 

@@ -22,14 +22,14 @@ import org.junit.jupiter.api.Test;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinesComponents;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.interpreter.parser.PandaContext;
 import org.panda_lang.framework.language.interpreter.token.PandaTokenRepresentation;
 
 import java.util.Arrays;
 
-class PandaPipelinePathTest implements Pipelines {
+class PandaPipelinePathTest implements PipelinesComponents {
 
     private static final PipelineComponent<?> TEST_COMPONENT = PipelineComponent.of(PandaPipelinePathTest.class, "test", Parser.class);
     private static final PipelineComponent<?> ANOTHER_TEST_COMPONENT = PipelineComponent.of(PandaPipelinePathTest.class, "another-test", Parser.class);

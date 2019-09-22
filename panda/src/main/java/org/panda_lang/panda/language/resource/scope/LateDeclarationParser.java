@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.resource.scope;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.panda.language.architecture.statement.VariableConstants;
@@ -35,7 +35,7 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handl
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 
-@Registrable(pipeline = UniversalPipelines.SCOPE_LABEL, priority = PandaPriorities.CONTAINER_LATE_DECLARATION)
+@Registrable(pipeline = Pipelines.SCOPE_LABEL, priority = PandaPriorities.CONTAINER_LATE_DECLARATION)
 public final class LateDeclarationParser extends ParserBootstrap {
 
     @Override

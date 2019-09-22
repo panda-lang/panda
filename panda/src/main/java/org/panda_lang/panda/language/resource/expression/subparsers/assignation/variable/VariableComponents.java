@@ -16,13 +16,13 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.assignation.variable;
 
-import org.panda_lang.framework.design.interpreter.parser.component.Component;
+import org.panda_lang.framework.design.interpreter.parser.ContextComponent;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 
 public class VariableComponents {
 
-    public static Component<Expression> INSTANCE_EXPRESSION = Component.of("panda-variable-instance-expression", Expression.class);
+    public static ContextComponent<Expression> INSTANCE_EXPRESSION = ContextComponent.of("panda-variable-instance-expression", Expression.class);
 
-    public static Component<String> INSTANCE_FIELD = Component.of("panda-variable-instance-field", String.class);
+    public static ContextComponent<String> INSTANCE_FIELD = ContextComponent.of("panda-variable-instance-field", String.class);
 
 }

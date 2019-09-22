@@ -17,14 +17,14 @@
 package org.panda_lang.panda.language.interpreter.parser;
 
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinesComponents;
 import org.panda_lang.panda.language.resource.expression.subparsers.assignation.AssignationSubparser;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockSubparser;
 
 /**
  * Used by {@link org.panda_lang.panda.language.interpreter.parser.loader.Registrable}
  */
-public final class PandaPipelines implements Pipelines {
+public final class PandaPipelines implements PipelinesComponents {
 
     /**
      * Text representation of {@link PandaPipelines#BLOCK}

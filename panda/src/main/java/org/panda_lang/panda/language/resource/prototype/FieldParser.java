@@ -29,7 +29,7 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annot
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Local;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.LocalData;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.pattern.descriptive.DescriptiveContentBuilder;
 import org.panda_lang.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
@@ -42,7 +42,7 @@ import org.panda_lang.framework.language.interpreter.parser.generation.Generatio
 import org.panda_lang.framework.design.architecture.prototype.PrototypeComponents;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 
-@Registrable(pipeline = UniversalPipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_FIELD)
+@Registrable(pipeline = Pipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_FIELD)
 public class FieldParser extends ParserBootstrap {
 
     @Override

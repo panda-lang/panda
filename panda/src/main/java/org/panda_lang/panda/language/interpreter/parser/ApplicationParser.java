@@ -24,8 +24,8 @@ import org.panda_lang.framework.design.interpreter.Interpretation;
 import org.panda_lang.framework.design.interpreter.lexer.Lexer;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.framework.design.interpreter.parser.Components;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.Source;
 import org.panda_lang.framework.design.interpreter.source.SourceSet;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
@@ -66,14 +66,14 @@ public class ApplicationParser implements Parser {
                 .build();
 
         Context context = new PandaContext()
-                .withComponent(UniversalComponents.APPLICATION, application)
-                .withComponent(UniversalComponents.ENVIRONMENT, environment)
-                .withComponent(UniversalComponents.INTERPRETATION, interpretation)
-                .withComponent(UniversalComponents.GENERATION, generation)
-                .withComponent(UniversalComponents.MODULE_LOADER, loader)
-                .withComponent(UniversalComponents.PIPELINE, resources.getPipelinePath())
-                .withComponent(UniversalComponents.EXPRESSION, resources.getExpressionSubparsers().toParser())
-                .withComponent(UniversalComponents.SOURCES, sources);
+                .withComponent(Components.APPLICATION, application)
+                .withComponent(Components.ENVIRONMENT, environment)
+                .withComponent(Components.INTERPRETATION, interpretation)
+                .withComponent(Components.GENERATION, generation)
+                .withComponent(Components.MODULE_LOADER, loader)
+                .withComponent(Components.PIPELINE, resources.getPipelinePath())
+                .withComponent(Components.EXPRESSION, resources.getExpressionSubparsers().toParser())
+                .withComponent(Components.SOURCES, sources);
 
         for (Source current : sources) {
             PandaScript script = new PandaScript(current.getTitle(), new PandaModuleLoader(loader));
@@ -84,13 +84,13 @@ public class ApplicationParser implements Parser {
                 SourceStream sourceStream = new PandaSourceStream(snippet);
 
                 Context delegatedContext = context.fork()
-                        .withComponent(UniversalComponents.SOURCE, snippet)
-                        .withComponent(UniversalComponents.STREAM, sourceStream)
-                        .withComponent(UniversalComponents.MODULE_LOADER, script.getModuleLoader())
-                        .withComponent(UniversalComponents.SCRIPT, script)
+                        .withComponent(Components.SOURCE, snippet)
+                        .withComponent(Components.STREAM, sourceStream)
+                        .withComponent(Components.MODULE_LOADER, script.getModuleLoader())
+                        .withComponent(Components.SCRIPT, script)
                         .withComponent(PandaComponents.PANDA_SCRIPT, script);
 
-                PipelineParser<?> parser = new PipelineParser<>(UniversalPipelines.HEAD, delegatedContext);
+                PipelineParser<?> parser = new PipelineParser<>(Pipelines.HEAD, delegatedContext);
                 interpretation.execute(() -> parser.parse(delegatedContext, true));
             });
         }

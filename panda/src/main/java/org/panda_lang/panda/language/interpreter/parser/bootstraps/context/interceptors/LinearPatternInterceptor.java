@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapContent;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInterceptor;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.InterceptorData;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.framework.design.interpreter.pattern.linear.LinearPattern;
 import org.panda_lang.framework.design.interpreter.pattern.linear.LinearPatternMapping;
@@ -48,10 +48,10 @@ public class LinearPatternInterceptor implements BootstrapInterceptor {
     @Override
     public InterceptorData handle(InterceptorData interceptorData, Context context) {
         if (pattern != null) {
-            SourceStream stream = context.getComponent(UniversalComponents.STREAM);
+            SourceStream stream = context.getComponent(Components.STREAM);
             Snippet currentSource = stream.toSnippet();
 
-            ExpressionParser expressionParser = context.getComponent(UniversalComponents.EXPRESSION);
+            ExpressionParser expressionParser = context.getComponent(Components.EXPRESSION);
             LinearPatternResult result = pattern.match(stream, source -> expressionParser.parse(context, source).getExpression());
 
             if (!result.isMatched()) {

@@ -17,16 +17,16 @@
 package org.panda_lang.framework.language.interpreter.parser;
 
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.component.Component;
+import org.panda_lang.framework.design.interpreter.parser.ContextComponent;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class PandaContext implements Context {
 
-    private final Map<Component<?>, Object> components;
+    private final Map<ContextComponent<?>, Object> components;
 
-    private PandaContext(Map<Component<?>, Object> components) {
+    private PandaContext(Map<ContextComponent<?>, Object> components) {
         this.components = components;
     }
 
@@ -40,7 +40,7 @@ public class PandaContext implements Context {
     }
 
     @Override
-    public <T> PandaContext withComponent(Component<T> component, T value) {
+    public <T> PandaContext withComponent(ContextComponent<T> component, T value) {
         this.components.put(component, value);
         return this;
     }
@@ -51,12 +51,12 @@ public class PandaContext implements Context {
      */
     @Override
     @SuppressWarnings({ "unchecked" })
-    public <T> T getComponent(Component<T> componentName) {
+    public <T> T getComponent(ContextComponent<T> componentName) {
         return (T) components.get(componentName);
     }
 
     @Override
-    public Map<? extends Component<?>, ? extends Object> getComponents() {
+    public Map<? extends ContextComponent<?>, ? extends Object> getComponents() {
         return new HashMap<>(components);
     }
 

@@ -16,8 +16,6 @@
 
 package org.panda_lang.framework.design.interpreter.parser;
 
-import org.panda_lang.framework.design.interpreter.parser.component.Component;
-
 import java.util.Map;
 
 public interface Context {
@@ -30,17 +28,17 @@ public interface Context {
     /**
      * @param componentName a name of the specified component
      */
-    <T> Context withComponent(Component<T> componentName, T component);
+    <T> Context withComponent(ContextComponent<T> componentName, T component);
 
     /***
      * @param componentName a name of the specified component
      * @return selected component
      */
-    <T> T getComponent(Component<T> componentName);
+    <T> T getComponent(ContextComponent<T> componentName);
 
     /**
      * @return all components stored in the current parser data
      */
-    Map<? extends Component<?>, ? extends Object> getComponents();
+    Map<? extends ContextComponent<?>, ? extends Object> getComponents();
 
 }

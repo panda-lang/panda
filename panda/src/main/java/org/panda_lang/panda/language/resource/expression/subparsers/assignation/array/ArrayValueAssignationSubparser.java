@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.resource.expression.subparsers.assignation
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
@@ -67,7 +67,7 @@ public final class ArrayValueAssignationSubparser extends AssignationSubparserBo
         }
 
         SourceStream expressionSource = new PandaSourceStream(source.subSource(0, source.size() - 1));
-        Optional<ExpressionTransaction> expressionTransactionValue = context.getComponent(UniversalComponents.EXPRESSION).parseSilently(context, expressionSource);
+        Optional<ExpressionTransaction> expressionTransactionValue = context.getComponent(Components.EXPRESSION).parseSilently(context, expressionSource);
 
         if (!expressionTransactionValue.isPresent()) {
             return false;

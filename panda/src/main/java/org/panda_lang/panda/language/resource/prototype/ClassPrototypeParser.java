@@ -23,8 +23,8 @@ import org.panda_lang.framework.design.architecture.prototype.PrototypeComponent
 import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.framework.design.interpreter.parser.Components;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SnippetUtils;
@@ -49,7 +49,7 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 
-@Registrable(pipeline = UniversalPipelines.HEAD_LABEL)
+@Registrable(pipeline = Pipelines.HEAD_LABEL)
 public class ClassPrototypeParser extends ParserBootstrap {
 
     private static final ClassPrototypeTypeGenerator GENERATOR = new ClassPrototypeTypeGenerator();
@@ -81,7 +81,7 @@ public class ClassPrototypeParser extends ParserBootstrap {
         PrototypeScope scope = new PrototypeScope(location, prototype);
 
         context
-                .withComponent(UniversalComponents.SCOPE, scope)
+                .withComponent(Components.SCOPE, scope)
                 .withComponent(PrototypeComponents.CLASS_FRAME, scope)
                 .withComponent(PrototypeComponents.CLASS_PROTOTYPE, prototype);
     }
@@ -100,9 +100,9 @@ public class ClassPrototypeParser extends ParserBootstrap {
         }
 
         Context bodyContext = context.fork()
-                .withComponent(UniversalComponents.STREAM, new PandaSourceStream(body));
+                .withComponent(Components.STREAM, new PandaSourceStream(body));
 
-        PipelineParser<?> parser = new PipelineParser<>(UniversalPipelines.PROTOTYPE, bodyContext);
+        PipelineParser<?> parser = new PipelineParser<>(Pipelines.PROTOTYPE, bodyContext);
         parser.parse(bodyContext, false);
     }
 

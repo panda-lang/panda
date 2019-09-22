@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.InterceptorData;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.LocalData;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.utilities.commons.StackUtils;
@@ -39,7 +39,7 @@ final class BootstrapContextParser<T> implements ContextParser<T> {
 
     @Override
     public final T parse(Context context) throws Exception {
-        SourceStream stream = context.getComponent(UniversalComponents.STREAM);
+        SourceStream stream = context.getComponent(Components.STREAM);
         Snippet source = stream.toSnippet();
         int length = stream.getUnreadLength();
 

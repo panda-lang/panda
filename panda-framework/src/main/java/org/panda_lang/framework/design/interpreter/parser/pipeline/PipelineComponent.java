@@ -18,18 +18,18 @@ package org.panda_lang.framework.design.interpreter.parser.pipeline;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.parser.component.AbstractComponent;
+import org.panda_lang.utilities.commons.collection.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class PipelineComponent<P extends Parser> extends AbstractComponent<P> {
+public class PipelineComponent<P extends Parser> extends Component<P> {
 
     private static final Map<String, PipelineComponent<? extends Parser>> COMPONENTS = new HashMap<>();
 
-    private final Class<? extends Pipelines> container;
+    private final Class<? extends PipelinesComponents> container;
 
-    private PipelineComponent(Class<? extends Pipelines> container, String name, Class<P> type) {
+    private PipelineComponent(Class<? extends PipelinesComponents> container, String name, Class<P> type) {
         super(name, type);
         this.container = container;
     }
@@ -40,7 +40,7 @@ public class PipelineComponent<P extends Parser> extends AbstractComponent<P> {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends Parser> PipelineComponent<T> of(Class<? extends Pipelines> container, String name, Class<T> type) {
+    public static <T extends Parser> PipelineComponent<T> of(Class<? extends PipelinesComponents> container, String name, Class<T> type) {
         return (PipelineComponent<T>) ofComponents(COMPONENTS, name, () -> new PipelineComponent<>(container, name, type));
     }
 

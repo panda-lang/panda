@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.architecture.module.ModulePath;
 import org.panda_lang.framework.design.architecture.statement.FramedScope;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.language.architecture.module.PandaModuleLoader;
 import org.panda_lang.framework.language.architecture.module.PandaModulePath;
 import org.panda_lang.framework.language.architecture.statement.StaticScope;
@@ -50,15 +50,15 @@ public class ExpressionContextUtils {
      */
     public static Context createFakeContext(Function<Context, Map<VariableData, Object>> variablesSupplier) {
         Context context = new PandaContext();
-        context.withComponent(UniversalComponents.EXPRESSION, new PandaExpressionParser(PandaExpressionUtils.collectSubparsers()));
+        context.withComponent(Components.EXPRESSION, new PandaExpressionParser(PandaExpressionUtils.collectSubparsers()));
 
         ModulePath path = new PandaModulePath();
         ModuleLoader loader = new PandaModuleLoader(new PandaTypes().fill(path));
         loader.load(path.getDefaultModule());
-        context.withComponent(UniversalComponents.MODULE_LOADER, loader);
+        context.withComponent(Components.MODULE_LOADER, loader);
 
         FramedScope scope = new StaticScope(variablesSupplier.apply(context));
-        context.withComponent(UniversalComponents.SCOPE, scope);
+        context.withComponent(Components.SCOPE, scope);
 
         return context;
     }

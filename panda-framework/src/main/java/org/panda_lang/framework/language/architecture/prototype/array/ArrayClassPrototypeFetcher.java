@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMetadata;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.StringUtils;
 
@@ -39,7 +39,7 @@ public class ArrayClassPrototypeFetcher {
     }
 
     public static Optional<PrototypeReference> fetch(Context context, String type) {
-        return fetch(context.getComponent(UniversalComponents.MODULE_LOADER), type);
+        return fetch(context.getComponent(Components.MODULE_LOADER), type);
     }
 
     public static Optional<PrototypeReference> fetch(ModuleLoader loader, String type) {

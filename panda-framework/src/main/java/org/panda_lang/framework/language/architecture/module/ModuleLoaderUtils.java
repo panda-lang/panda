@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 
@@ -36,7 +36,7 @@ public final class ModuleLoaderUtils {
     }
 
     public static Optional<PrototypeReference> getReferenceOrOptional(Context context, String className) {
-        return context.getComponent(UniversalComponents.MODULE_LOADER).forName(className);
+        return context.getComponent(Components.MODULE_LOADER).forName(className);
     }
 
     public static PrototypeReference getReferenceOrThrow(Context context, String className, @Nullable Snippet source) {
@@ -56,7 +56,7 @@ public final class ModuleLoaderUtils {
     }
 
     static PrototypeReference getReferenceOrThrow(Context context, Function<ModuleLoader, Optional<PrototypeReference>> mapper, String message, Snippet source) {
-        Optional<PrototypeReference> reference = mapper.apply(context.getComponent(UniversalComponents.MODULE_LOADER));
+        Optional<PrototypeReference> reference = mapper.apply(context.getComponent(Components.MODULE_LOADER));
 
         if (!reference.isPresent()) {
             throw PandaParserFailure.builder(message, context)
