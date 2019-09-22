@@ -16,8 +16,6 @@
 
 package org.panda_lang.utilities.commons.collection;
 
-import org.panda_lang.framework.PandaFrameworkException;
-
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -48,7 +46,7 @@ public abstract class Component<R> {
         TYPE existingComponent = components.get(name);
 
         if (existingComponent != null) {
-            throw new PandaFrameworkException("Component '" + name + "' already exists (type: " + ((Component) existingComponent).getType() + ")");
+            throw new RuntimeException("Component '" + name + "' already exists (type: " + ((Component) existingComponent).getType() + ")");
         }
 
         TYPE component = supplier.get();
