@@ -59,10 +59,7 @@ public final class ArrayValueAccessorParser implements Parser {
         Expression index = parser.parse(context, indexSource.getContent()).getExpression();
 
         if (!PandaTypes.INT.isAssignableFrom(index.getReturnType())) {
-            throw PandaParserFailure.builder("The specified index is not an integer", context)
-                    .withStreamOrigin(source)
-                    .withNote("Change array index to expression that returns int")
-                    .build();
+            throw new PandaParserFailure(context, source, "The specified index is not an integer", "Change array index to expression that returns int");
         }
 
         return of(context, source, instance, index);
@@ -70,17 +67,13 @@ public final class ArrayValueAccessorParser implements Parser {
 
     public ArrayAccessor of(Context context, Snippetable source, Expression instance, Expression index) {
         if (!instance.getReturnType().isArray()) {
-            throw PandaParserFailure.builder("Cannot use index on non-array type (" + instance.getReturnType() + ")", context)
-                    .withStreamOrigin(source)
-                    .build();
+            throw new PandaParserFailure(context, source, "Cannot use index on non-array type (" + instance.getReturnType() + ")");
         }
 
         ArrayPrototype arrayPrototype = (ArrayPrototype) instance.getReturnType();
 
         if (arrayPrototype == null) {
-            throw PandaParserFailure.builder("Cannot locate array class", context)
-                    .withStreamOrigin(source)
-                    .build();
+            throw new PandaParserFailure(context, source, "Cannot locate array class");
         }
 
         return new ArrayAccessor(instance, index);

@@ -18,16 +18,10 @@ package org.panda_lang.framework.design.interpreter.source;
 
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 
-public interface SourceFragment {
+public interface IndicatedSource {
 
-    Snippet getIndicatedFragment();
+    Snippet getIndicated();
 
-    Snippet getFragment();
-
-    int getIndex();
-
-    int getLine();
-
-    String getLocation();
+    Snippet getSource();
 
 }

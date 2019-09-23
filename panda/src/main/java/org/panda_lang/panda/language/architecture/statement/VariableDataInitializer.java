@@ -61,9 +61,7 @@ public class VariableDataInitializer {
         Snippet declarationSource = declaration.toSnippet();
 
         if (declarationSource.size() < 2) {
-            throw PandaParserFailure.builder("Lack of data", context)
-                    .withStreamOrigin(declarationSource)
-                    .build();
+            throw new PandaParserFailure(context, declarationSource, "Lack of data");
         }
 
         Snippet type = declarationSource.subSource(0, declarationSource.size() - 1);
@@ -76,26 +74,20 @@ public class VariableDataInitializer {
         Snippet nameSource = name.toSnippet();
 
         if (nameSource.size() > 1) {
-            throw PandaParserFailure.builder("Variable name has to be singe word", context)
-                    .withStreamOrigin(name)
-                    .build();
+            throw new PandaParserFailure(context, name, "Variable name has to be singe word");
         }
 
         String variableName = nameSource.asSource();
 
         if (scope.getVariable(variableName).isPresent()) {
-            throw PandaParserFailure.builder("Variable name is already used in the scope '" + variableName + "'", context)
-                    .withStreamOrigin(name)
-                    .build();
+            throw new PandaParserFailure(context, name, "Variable name is already used in the scope '" + variableName + "'");
         }
 
         ModuleLoader loader = context.getComponent(Components.MODULE_LOADER);
         Optional<PrototypeReference> prototype = loader.forName(type.toSnippet().asSource());
 
         if (!prototype.isPresent()) {
-            throw PandaParserFailure.builder("Cannot recognize variable type: " + type, context)
-                    .withStreamOrigin(type)
-                    .build();
+            throw new PandaParserFailure(context, type, "Cannot recognize variable type: " + type);
         }
 
         return new PandaVariableData(prototype.get(), nameSource.asSource(), mutable, nillable);

@@ -22,7 +22,7 @@ import org.panda_lang.panda.bootstrap.PandaBootstrap;
 import org.panda_lang.panda.language.interpreter.messenger.formatters.EnvironmentFormatter;
 import org.panda_lang.panda.language.interpreter.messenger.formatters.ParserFailureFormatter;
 import org.panda_lang.panda.language.interpreter.messenger.formatters.ProcessFailureFormatter;
-import org.panda_lang.panda.language.interpreter.messenger.formatters.SourceFragmentFormatter;
+import org.panda_lang.panda.language.interpreter.messenger.formatters.IndicatedSourceFormatter;
 import org.panda_lang.panda.language.interpreter.messenger.formatters.StacktraceElementsFormatter;
 import org.panda_lang.panda.language.interpreter.messenger.formatters.ThrowableFormatter;
 import org.panda_lang.panda.language.interpreter.messenger.layouts.ExceptionTranslatorLayout;
@@ -48,7 +48,7 @@ public final class PandaFactory {
                     .withLayouts(PandaLexerFailureTranslatorLayout.class, InterpreterFailureTranslatorLayout.class, ParserFailureTranslatorLayout.class)
                     .withLayout(ProcessFailureTranslatorLayout.class)
                     .withDataFormatters(EnvironmentFormatter.class, ThrowableFormatter.class, StacktraceElementsFormatter.class)
-                    .withDataFormatters(SourceFragmentFormatter.class, ParserFailureFormatter.class)
+                    .withDataFormatters(IndicatedSourceFormatter.class, ParserFailureFormatter.class)
                     .withDataFormatter(ProcessFailureFormatter.class)
                     .withDataMapper(new StacktraceMapper())
                     .collect()

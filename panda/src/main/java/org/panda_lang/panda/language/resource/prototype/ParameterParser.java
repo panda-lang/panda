@@ -54,9 +54,7 @@ public class ParameterParser implements Parser {
             Token name = source.getLast();
 
             if (name == null) {
-                throw PandaParserFailure.builder("Missing parameter at " + index + " position", context)
-                        .withStreamOrigin(snippet)
-                        .build();
+                throw new PandaParserFailure(context, snippet, "Missing parameter at " + index + " position");
             }
 
             int end = source.size() - 1;

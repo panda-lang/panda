@@ -54,10 +54,7 @@ public class ForEachParser extends BlockSubparserBootstrap {
         Snippet[] elements = content.split(Operators.COLON);
 
         if (elements.length != 2) {
-            throw PandaParserFailure.builder("Invalid amount of statements in for each loop declaration", context)
-                    .withStreamOrigin(content)
-                    .withNote("The statement should look like: foreach (<value> : <source>)")
-                    .build();
+            throw new PandaParserFailure(context, content, "Invalid amount of statements in for each loop declaration", "The statement should look like: foreach (<value> : <source>)");
         }
 
         ForEachBlock forEach = new ForEachBlock(parent, content.getLocation(), parser.parse(context, elements[1]).getExpression());

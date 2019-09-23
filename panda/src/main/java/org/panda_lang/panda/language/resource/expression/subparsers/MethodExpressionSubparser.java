@@ -17,8 +17,9 @@
 package org.panda_lang.panda.language.resource.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.parameter.Arguments;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
@@ -27,15 +28,14 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionS
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
-import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.language.architecture.expression.StaticExpression;
+import org.panda_lang.framework.language.architecture.expression.ThisExpression;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeExecutableExpression;
-import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
-import org.panda_lang.framework.language.architecture.expression.StaticExpression;
-import org.panda_lang.framework.language.architecture.expression.ThisExpression;
 import org.panda_lang.utilities.commons.ObjectUtils;
 
 import java.util.Optional;
@@ -121,19 +121,19 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
             Optional<Arguments<PrototypeMethod>> adjustedArguments = instance.getReturnType().getMethods().getAdjustedArguments(methodName.getValue(), arguments);
 
             if (!adjustedArguments.isPresent()) {
-                throw PandaParserFailure.builder("Class " + instance.getReturnType().getName() + " does not have method '" + methodName + "' with these parameters", context.getContext())
-                        .withStreamOrigin(argumentsSource)
-                        .withNote("Change arguments or add a new method with the provided types of parameters")
-                        .build();
+                throw new PandaExpressionParserFailure(context, argumentsSource,
+                        "Class " + instance.getReturnType().getName() + " does not have method '" + methodName + "' with these parameters",
+                        "Change arguments or add a new method with the provided types of parameters"
+                );
             }
 
             PrototypeMethod method = adjustedArguments.get().getExecutable();
 
             if (!method.isStatic() && instance instanceof StaticExpression) {
-                throw PandaParserFailure.builder("Cannot invoke non-static method on static context", context.getContext())
-                        .withStreamOrigin(methodName)
-                        .withNote("Call method using class instance or add missing 'static' keyword to the '" + methodName.getValue() + "'method signature")
-                        .build();
+                throw new PandaExpressionParserFailure(context, methodName,
+                        "Cannot invoke non-static method on static context",
+                        "Call method using class instance or add missing 'static' keyword to the '" + methodName.getValue() + "'method signature"
+                );
             }
 
             return new PrototypeExecutableExpression(instance, adjustedArguments.get());

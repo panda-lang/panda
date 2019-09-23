@@ -59,10 +59,10 @@ public final class ForParser extends BlockSubparserBootstrap {
         Snippet[] forEachElements = content.split(Separators.SEMICOLON);
 
         if (forEachElements.length != 3) {
-            throw PandaParserFailure.builder("Invalid amount of statements in for loop declaration", context)
-                    .withStreamOrigin(content)
-                    .withNote("The statement should look like: for (<initialization>; <termination>; <increment>)")
-                    .build();
+            throw new PandaParserFailure(context, content,
+                    "Invalid amount of statements in for loop declaration",
+                    "The statement should look like: for (<initialization>; <termination>; <increment>)"
+            );
         }
 
         Scope forBlock = new PandaBlock(parent, location);

@@ -18,20 +18,22 @@ package org.panda_lang.framework.design.interpreter;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.PandaFrameworkException;
-import org.panda_lang.framework.design.interpreter.source.SourceFragment;
+import org.panda_lang.framework.design.Failure;
+import org.panda_lang.framework.design.interpreter.source.IndicatedSource;
 
 /**
  * InterpreterFailures are dedicated exceptions thrown by the Panda Framework.
  * It contains extra data about the error and may be used to enhance logging/tooling.
  */
-public abstract class InterpreterFailure extends PandaFrameworkException {
+public abstract class InterpreterFailure extends PandaFrameworkException implements Failure {
 
     protected InterpreterFailure(String message) {
         super(message);
     }
 
+    @Override
     public abstract @Nullable String getNote();
 
-    public abstract SourceFragment getSourceFragment();
+    public abstract IndicatedSource getIndicatedSource();
 
 }

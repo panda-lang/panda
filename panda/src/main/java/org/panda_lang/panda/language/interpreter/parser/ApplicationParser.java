@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.interpreter.parser;
 
 import org.panda_lang.framework.design.architecture.Environment;
+import org.panda_lang.framework.language.architecture.module.PandaImports;
 import org.panda_lang.panda.language.architecture.PandaApplication;
 import org.panda_lang.panda.language.architecture.PandaScript;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
@@ -84,11 +85,13 @@ public class ApplicationParser implements Parser {
                 SourceStream sourceStream = new PandaSourceStream(snippet);
 
                 Context delegatedContext = context.fork()
-                        .withComponent(Components.SOURCE, snippet)
-                        .withComponent(Components.STREAM, sourceStream)
                         .withComponent(Components.MODULE_LOADER, script.getModuleLoader())
                         .withComponent(Components.SCRIPT, script)
-                        .withComponent(PandaComponents.PANDA_SCRIPT, script);
+                        .withComponent(PandaComponents.PANDA_SCRIPT, script)
+                        .withComponent(Components.IMPORTS, new PandaImports())
+                        .withComponent(Components.SOURCE, snippet)
+                        .withComponent(Components.STREAM, sourceStream)
+                        .withComponent(Components.CURRENT_SOURCE, snippet);
 
                 PipelineParser<?> parser = new PipelineParser<>(Pipelines.HEAD, delegatedContext);
                 interpretation.execute(() -> parser.parse(delegatedContext, true));

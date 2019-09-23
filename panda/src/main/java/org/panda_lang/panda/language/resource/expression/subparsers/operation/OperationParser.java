@@ -17,14 +17,14 @@
 package org.panda_lang.panda.language.resource.expression.subparsers.operation;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.interpreter.parser.Components;
+import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.pattern.progressive.ProgressivePatternResult;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers.ConcatenationOperatorSubparser;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers.LogicalOperatorSubparser;
 import org.panda_lang.panda.language.resource.expression.subparsers.operation.subparsers.MathOperationSubparser;
@@ -39,9 +39,7 @@ public final class OperationParser implements Parser {
         Expression expression = parse(context, Operation.of(context.getComponent(Components.EXPRESSION), context, expressionContext, result));
 
         if (expression == null) {
-            throw PandaParserFailure.builder("Unknown operation", context)
-                    .withStreamOrigin(source)
-                    .build();
+            throw new PandaExpressionParserFailure(expressionContext, source, "Unknown operation");
         }
 
         return expression;

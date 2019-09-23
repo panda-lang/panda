@@ -65,9 +65,7 @@ public final class VariableAssignationSubparser extends AssignationSubparserBoot
             }
 
             if (!(transaction.getExpression() instanceof AccessorExpression)) {
-                return PandaParserFailure.builder("Expression is not accessor", context)
-                        .withStreamOrigin(source)
-                        .build();
+                throw new PandaParserFailure(context, source, "Expression is not accessor");
             }
 
             channel.put("accessor", transaction.getExpression());

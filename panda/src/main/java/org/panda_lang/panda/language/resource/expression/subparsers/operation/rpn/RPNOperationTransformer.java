@@ -47,9 +47,7 @@ class RPNOperationTransformer {
             Operator operator = element.getOperator();
 
             if (!priorities.containsKey(operator)) {
-                throw PandaParserFailure.builder("Unexpected or unsupported operator " + operator, context)
-                        .withStreamOrigin(element.getOperatorRepresentation())
-                        .build();
+                throw new PandaParserFailure(context, element.getOperatorRepresentation(), "Unexpected or unsupported operator " + operator);
             }
 
             if (operators.size() != 0 && compare(operators.peek(), operator)) {

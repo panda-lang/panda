@@ -16,76 +16,42 @@
 
 package org.panda_lang.framework.language.interpreter.parser;
 
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.ParserFailure;
-import org.panda_lang.framework.design.interpreter.source.SourceFragment;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.language.interpreter.PandaInterpreterFailure;
-import org.panda_lang.framework.language.interpreter.source.PandaSourceFragmentCreator;
+import org.panda_lang.framework.language.interpreter.source.PandaIndicatedSource;
 
 public class PandaParserFailure extends PandaInterpreterFailure implements ParserFailure {
 
     private final Context context;
 
-    protected PandaParserFailure(PandaParserFailureBuilder builder) {
-        super(builder.message, builder.fragment, builder.note);
-        this.context = builder.context;
+    public PandaParserFailure(Context context, Snippetable source, Snippetable indicated, String message, @Nullable String note) {
+        super(new PandaIndicatedSource(source, indicated), message, note);
+        this.context = context;
+    }
+
+    public PandaParserFailure(Context context, Snippetable indicated, String message, @Nullable String note) {
+        this(context, context.getComponent(Components.CURRENT_SOURCE), indicated, message, note);
+    }
+
+    public PandaParserFailure(Context context, Snippetable indicated, String message) {
+        this(context, indicated, message, null);
+    }
+
+    public PandaParserFailure(Context context, String message, @Nullable String note) {
+        this(context, context.getComponent(Components.CURRENT_SOURCE), message, note);
+    }
+
+    public PandaParserFailure(Context context, String message) {
+        this(context, message, null);
     }
 
     @Override
     public Context getContext() {
         return context;
-    }
-
-    public static PandaParserFailureBuilder builder(String message, Context context) {
-        return new PandaParserFailureBuilder(message, context);
-    }
-
-    public static class PandaParserFailureBuilder {
-
-        private final String message;
-        private final Context context;
-        private SourceFragment fragment;
-        private String note;
-
-        private PandaParserFailureBuilder(String message, Context context) {
-            this.message = message;
-            this.context = context;
-        }
-
-        public PandaParserFailureBuilder withSourceFragment(SourceFragment fragment) {
-            this.fragment = fragment;
-            return this;
-        }
-
-        public PandaParserFailureBuilder withSource(Snippetable source, Snippetable indicated) {
-            return withSourceFragment()
-                    .of(source, indicated)
-                    .create();
-        }
-
-        public PandaParserFailureBuilder withStreamOrigin(Snippetable indicated) {
-            return withSourceFragment()
-                    .ofStreamOrigin(context, indicated)
-                    .create();
-        }
-
-        public PandaSourceFragmentCreator<PandaParserFailureBuilder> withSourceFragment() {
-            return new PandaSourceFragmentCreator<>(source -> {
-                this.fragment = source;
-                return this;
-            });
-        }
-
-        public PandaParserFailureBuilder withNote(String note) {
-            this.note = note;
-            return this;
-        }
-
-        public PandaParserFailure build() {
-            return new PandaParserFailure(this);
-        }
-
     }
 
 }
