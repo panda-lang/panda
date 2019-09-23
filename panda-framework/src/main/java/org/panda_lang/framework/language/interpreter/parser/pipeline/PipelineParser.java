@@ -18,10 +18,10 @@ package org.panda_lang.framework.language.interpreter.parser.pipeline;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.Interpretation;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.HandleResult;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserPipeline;
@@ -66,6 +66,11 @@ public final class PipelineParser<T extends ContextParser> implements Parser {
         while (stream.hasUnreadSource() && interpretation.isHealthy()) {
             Channel channel = new PandaChannel();
             Snippet source = stream.toSnippet();
+
+            Context delegatedContext = (fork ? context.fork() : context)
+                    .withComponent(Components.CURRENT_SOURCE, source)
+                    .withComponent(PipelineComponents.CHANNEL, channel);
+
             HandleResult<T> result = pipeline.handle(context, channel, source);
 
             ContextParser parser = result.getParser().orElseThrow((Supplier<? extends Exception>) () -> {
@@ -73,21 +78,14 @@ public final class PipelineParser<T extends ContextParser> implements Parser {
                     throw result.getFailure().get();
                 }
 
-                throw PandaParserFailure.builder("Unrecognized syntax", context)
-                        .withSource(stream.getOriginalSource(), source)
-                        .build();
+                throw new PandaParserFailure(delegatedContext, "Unrecognized syntax");
             });
-
-            Context delegatedContext = (fork ? context.fork() : context)
-                    .withComponent(PipelineComponents.CHANNEL, channel);
 
             int sourceLength = stream.getUnreadLength();
             parser.parse(delegatedContext);
 
             if (sourceLength == stream.getUnreadLength()) {
-                throw PandaParserFailure.builder(parser.getClass().getSimpleName() + " did nothing with the current source", context)
-                        .withSource(stream.getOriginalSource(), source)
-                        .build();
+                throw new PandaParserFailure(delegatedContext, parser.getClass().getSimpleName() + " did nothing with the current source");
             }
 
             if (stream.hasUnreadSource() && stream.getCurrent().contentEquals(Separators.SEMICOLON)) {

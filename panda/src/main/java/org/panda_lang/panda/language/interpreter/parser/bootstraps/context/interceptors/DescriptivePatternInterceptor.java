@@ -57,10 +57,10 @@ public class DescriptivePatternInterceptor implements BootstrapInterceptor {
                 PandaFramework.getLogger().error("Bootstrap parser: " + bootstrap.getPattern().orElse("<null pattern>").toString());
                 PandaFramework.getLogger().error("Source: " + currentSource.toString());
 
-                throw PandaParserFailure.builder("Interceptor could not match token pattern, error: " + result.getErrorMessage(), context)
-                        .withStreamOrigin(currentSource)
-                        .withNote("Compare your source with required pattern: " + bootstrap.getPattern().orElse("<null pattern>").toString())
-                        .build();
+                throw new PandaParserFailure(context, currentSource,
+                        "Interceptor could not match token pattern, error: " + result.getErrorMessage(),
+                        "Compare your source with required pattern: " + bootstrap.getPattern().orElse("<null pattern>").toString()
+                );
             }
 
             interceptorData.addElement(currentSource.getLocation());

@@ -68,10 +68,7 @@ public final class RequireParser extends ParserBootstrap {
         Optional<Module> module = environment.getModulePath().get(moduleName);
 
         if (!module.isPresent()) {
-            throw PandaParserFailure.builder("Unknown module " + moduleName, context)
-                    .withStreamOrigin(require)
-                    .withNote("Make sure that the name does not have a typo and module is added to the module path")
-                    .build();
+            throw new PandaParserFailure(context, require, "Unknown module " + moduleName, "Make sure that the name does not have a typo and module is added to the module path");
         }
 
         ModuleLoader loader = context.getComponent(Components.MODULE_LOADER);
@@ -79,22 +76,16 @@ public final class RequireParser extends ParserBootstrap {
     }
 
     private void parseFile(Context context, Snippet requiredFile) {
-        TokenRepresentation token = requiredFile.getFirst();
+        TokenRepresentation fileToken = requiredFile.getFirst();
 
-        if (!TokenUtils.hasName(token, "String")) {
-            throw PandaParserFailure.builder("Invalid token ", context)
-                    .withStreamOrigin(token)
-                    .withNote("You should use string sequence to import file")
-                    .build();
+        if (!TokenUtils.hasName(fileToken, "String")) {
+            throw new PandaParserFailure(context, fileToken, "Invalid token", "You should use string sequence to import file");
         }
 
-        File file = new File(context.getComponent(Components.ENVIRONMENT).getDirectory(), token.getValue() + ".panda");
+        File file = new File(context.getComponent(Components.ENVIRONMENT).getDirectory(), fileToken.getValue() + ".panda");
 
         if (!file.exists()) {
-            throw PandaParserFailure.builder("File " + file + " does not exist", context)
-                    .withStreamOrigin(token)
-                    .withNote("Make sure that the path does not have a typo")
-                    .build();
+            throw new PandaParserFailure(context, fileToken, "File " + file + " does not exist", "Make sure that the path does not have a typo");
         }
 
         context.getComponent(Components.SOURCES).addSource(PandaURLSource.fromFile(file));

@@ -58,9 +58,7 @@ public class ClassPrototypeParserUtils {
             TokenRepresentation classNameToken = classDeclaration.get(i);
 
             if (classNameToken == null) {
-                throw PandaParserFailure.builder("Declaration token not found", context)
-                        .withSource(classDeclaration, classDeclaration)
-                        .build();
+                throw new PandaParserFailure(context, classDeclaration, "Declaration token not found");
             }
             else if (classNameToken.getType() == TokenType.SEPARATOR) {
                 continue;
@@ -68,15 +66,15 @@ public class ClassPrototypeParserUtils {
             else if (classNameToken.getType() == TokenType.UNKNOWN) {
                 Optional<PrototypeReference> extendedPrototype = loader.forName(classNameToken.getValue());
 
-                if (!extendedPrototype.isPresent()) {
-                    throw PandaParserFailure.builder("Class " + classNameToken.getValue() + " not found", context)
-                            .withSource(classDeclaration, classDeclaration)
-                            .withNote("Make sure that the name does not have a typo and module which should contain that class is imported")
-                            .build();
+                if (extendedPrototype.isPresent()) {
+                    prototype.addExtended(extendedPrototype.get());
+                    continue;
                 }
 
-                prototype.addExtended(extendedPrototype.get());
-                continue;
+                throw new PandaParserFailure(context, classDeclaration,
+                        "Class " + classNameToken.getValue() + " not found",
+                        "Make sure that the name does not have a typo and module which should contain that class is imported"
+                );
             }
 
             break;

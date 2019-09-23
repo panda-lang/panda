@@ -82,11 +82,7 @@ class PandaLexerWorker {
             boolean extracted = extractor.extract(builder);
 
             if (!extracted) {
-                throw PandaLexerException.builder("Unknown token")
-                        .withLocation(new PandaSourceLocation(source, line, lineTokens.size()))
-                        .withToken(tokenPreview)
-                        .withLine(linePreview.toString())
-                        .build();
+                throw new PandaLexerException(linePreview, tokenPreview, new PandaSourceLocation(source, line, lineTokens.size()), "Unknown token", null);
             }
 
             return;

@@ -56,16 +56,11 @@ public final class ArgumentsParser implements Parser {
                 TokenRepresentation comma = source.read();
 
                 if (!Separators.COMMA.equals(comma.getToken())) {
-                    throw PandaParserFailure.builder("Illegal token", context)
-                            .withSource(snippet, comma)
-                            .withNote("Remove highlighted comma")
-                            .build();
+                    throw new PandaParserFailure(context, snippet, comma, "Illegal token", "Remove highlighted comma");
                 }
 
                 if (!source.hasUnreadSource()) {
-                    throw PandaParserFailure.builder("Arguments cannot end with a comma", context)
-                            .withSource(source, comma)
-                            .build();
+                    throw new PandaParserFailure(context, source, comma, "Arguments cannot end with a comma", "Remove the comma at the end of arguments");
                 }
             }
         }

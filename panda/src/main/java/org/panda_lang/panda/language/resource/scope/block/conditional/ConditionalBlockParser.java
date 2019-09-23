@@ -54,17 +54,13 @@ public class ConditionalBlockParser extends BlockSubparserBootstrap {
             @Inter SourceLocation location,
             @Component Scope parent,
             @Component(BlockComponents.PREVIOUS_BLOCK_LABEL) Block previousBlock,
-            @Src("condition") @Nullable Expression condition
-    ) {
+            @Src("condition") @Nullable Expression condition) {
+
         if (result.hasIdentifier("else")) {
             ElseBlock elseBlock = new ElseBlock(parent, location);
 
             if (!(previousBlock instanceof ConditionalBlock)) {
-                throw PandaParserFailure.builder("The Else-block without associated If-block", context)
-                        .withSourceFragment()
-                            .ofOriginals(context)
-                            .create()
-                        .build();
+                throw new PandaParserFailure(context, "The Else-block without associated If-block");
             }
 
             ConditionalBlock conditionalBlock = (ConditionalBlock) previousBlock;
@@ -74,11 +70,7 @@ public class ConditionalBlockParser extends BlockSubparserBootstrap {
         }
 
         if (condition == null) {
-            throw PandaParserFailure.builder("Empty condition", context)
-                    .withSourceFragment()
-                        .ofOriginals(context)
-                        .create()
-                    .build();
+            throw new PandaParserFailure(context, "Empty condition");
         }
 
         ConditionalBlock conditionalBlock = new ConditionalBlock(parent, location, condition);
@@ -89,11 +81,7 @@ public class ConditionalBlockParser extends BlockSubparserBootstrap {
 
         if (result.hasIdentifier("elseif")) {
             if (!(previousBlock instanceof ConditionalBlock)) {
-                throw PandaParserFailure.builder("The If-Else-block without associated If-block", context)
-                        .withSourceFragment()
-                            .ofOriginals(context)
-                            .create()
-                        .build();
+                throw new PandaParserFailure(context, "The If-Else-block without associated If-block");
             }
 
             ConditionalBlock previousConditionalBlock = (ConditionalBlock) previousBlock;
@@ -101,11 +89,7 @@ public class ConditionalBlockParser extends BlockSubparserBootstrap {
             return new BlockData(previousBlock, true);
         }
 
-       throw PandaParserFailure.builder("Unrecognized condition type", context)
-               .withSourceFragment()
-                    .ofOriginals(context)
-                    .create()
-               .build();
+        throw new PandaParserFailure(context, "Unrecognized condition type");
     }
 
 }

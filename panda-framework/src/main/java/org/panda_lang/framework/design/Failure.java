@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.interpreter.parser;
+package org.panda_lang.framework.design;
 
-import org.panda_lang.framework.design.Failure;
+public interface Failure {
 
-public interface ParserFailure extends Failure {
-
-    Context getContext();
+    String getNote();
 
 }

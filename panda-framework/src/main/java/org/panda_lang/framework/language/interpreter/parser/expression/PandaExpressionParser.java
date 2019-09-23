@@ -117,7 +117,7 @@ public class PandaExpressionParser implements ExpressionParser {
         PandaExpressionParserWorker worker = new PandaExpressionParserWorker(subparsers);
 
         if (!source.hasUnreadSource()) {
-            throw new PandaExpressionParserFailure("Expression expected", expressionContext, source);
+            throw new PandaExpressionParserFailure(expressionContext, source, "Expression expected");
         }
 
         for (TokenRepresentation representation : expressionContext.getSynchronizedSource()) {
@@ -132,19 +132,19 @@ public class PandaExpressionParser implements ExpressionParser {
         // if something went wrong
         if (worker.hasError()) {
             transaction.rollback();
-            throw new PandaExpressionParserFailure(worker.getError().getErrorMessage(), expressionContext, worker.getError().getSource());
+            throw new PandaExpressionParserFailure(expressionContext, worker.getError().getSource(), worker.getError().getErrorMessage());
         }
 
         // if context does not contain any results
         if (!expressionContext.hasResults()) {
             transaction.rollback();
-            throw new PandaExpressionParserFailure("Unknown expression", expressionContext, source.toSnippet());
+            throw new PandaExpressionParserFailure(expressionContext, source.toSnippet(), "Unknown expression");
         }
 
         // if worker couldn't prepare the final result
         if (expressionContext.getResults().size() > 1) {
             transaction.rollback();
-            throw new PandaExpressionParserFailure("Source contains " + expressionContext.getResults().size() + " expressions", expressionContext, source.toSnippet());
+            throw new PandaExpressionParserFailure(expressionContext, source.toSnippet(), "Source contains " + expressionContext.getResults().size() + " expressions");
         }
 
         source.read(worker.getLastSucceededRead());
@@ -164,7 +164,7 @@ public class PandaExpressionParser implements ExpressionParser {
 
         if (settings.isStandaloneOnly() && worker.getLastCategory() != ExpressionCategory.STANDALONE) {
             transaction.rollback();
-            throw new PandaExpressionParserFailure("Invalid category of expression", expressionContext, source.toSnippet());
+            throw new PandaExpressionParserFailure(expressionContext, source.toSnippet(), "Invalid category of expression");
         }
 
         return transaction.withExpression(expressionContext.getResults().pop());

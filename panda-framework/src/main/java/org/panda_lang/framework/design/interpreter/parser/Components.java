@@ -91,6 +91,11 @@ public final class Components {
     public static final ContextComponent<Imports> IMPORTS = ContextComponent.of("imports", Imports.class);
 
     /**
+     * Represents the currently parsed source
+     */
+    public static final ContextComponent<Snippet> CURRENT_SOURCE = ContextComponent.of("current-source", Snippet.class);
+
+    /**
      * Represents the current stream of source
      */
     public static final ContextComponent<SourceStream> STREAM = ContextComponent.of("source-stream", SourceStream.class);

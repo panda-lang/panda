@@ -16,15 +16,10 @@
 
 package org.panda_lang.framework.language.architecture.prototype;
 
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.utilities.commons.ClassUtils;
 
 import java.util.Collection;
-import java.util.Optional;
 
 public final class PandaClassPrototypeUtils {
 
@@ -32,22 +27,6 @@ public final class PandaClassPrototypeUtils {
 
     public static boolean isAssignableFrom(Class<?> from, Class<?> to) {
         return from != null && to != null && (from == to || ClassUtils.isAssignableFrom(from, to));
-    }
-
-    public static boolean hasCommonClasses(Collection<Class<?>> fromClasses, Collection<Class<?>> toClasses) {
-        for (Class<?> from : fromClasses) {
-            for (Class<?> to : toClasses) {
-                if (from == to) {
-                    return true;
-                }
-
-                if (isAssignableFrom(from, to)) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 
     public static boolean hasCommonPrototypes(Collection<? extends PrototypeReference> fromPrototypes, Collection<? extends PrototypeReference> toPrototypes) {
@@ -64,27 +43,6 @@ public final class PandaClassPrototypeUtils {
         }
 
         return false;
-    }
-
-    public static Prototype[] toTypes(Context context, ModuleLoader loader, Class<?>... types) {
-        Prototype[] prototypes = new Prototype[types.length];
-
-        for (int i = 0; i < types.length; i++) {
-            Optional<PrototypeReference> reference = loader.forName(types[i].getCanonicalName());
-
-            if (reference.isPresent()) {
-                prototypes[i] = reference.get().fetch();
-                continue;
-            }
-
-            throw PandaParserFailure.builder("Unknown type " + types[i], context)
-                    .withSourceFragment()
-                        .ofOriginals(context)
-                        .create()
-                    .build();
-        }
-
-        return prototypes;
     }
 
 }

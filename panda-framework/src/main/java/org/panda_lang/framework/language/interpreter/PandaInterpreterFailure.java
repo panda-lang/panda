@@ -18,17 +18,21 @@ package org.panda_lang.framework.language.interpreter;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.InterpreterFailure;
-import org.panda_lang.framework.design.interpreter.source.SourceFragment;
+import org.panda_lang.framework.design.interpreter.source.IndicatedSource;
 
 public class PandaInterpreterFailure extends InterpreterFailure {
 
-    private final SourceFragment sourceFragment;
+    private final IndicatedSource indicatedSource;
     private final String note;
 
-    public PandaInterpreterFailure(String message, SourceFragment fragment, @Nullable String note) {
+    public PandaInterpreterFailure(IndicatedSource indicatedSource, String message, @Nullable String note) {
         super(message);
-        this.sourceFragment = fragment;
+        this.indicatedSource = indicatedSource;
         this.note = note;
+    }
+
+    public PandaInterpreterFailure(IndicatedSource indicatedSource, String message) {
+        this(indicatedSource, message, null);
     }
 
     @Override
@@ -37,8 +41,8 @@ public class PandaInterpreterFailure extends InterpreterFailure {
     }
 
     @Override
-    public SourceFragment getSourceFragment() {
-        return sourceFragment;
+    public IndicatedSource getIndicatedSource() {
+        return indicatedSource;
     }
 
 }

@@ -31,37 +31,15 @@ public final class ModuleLoaderUtils {
 
     private ModuleLoaderUtils() { }
 
-    public static @Nullable PrototypeReference getReferenceOrNull(Context context, String className) {
-        return getReferenceOrOptional(context, className).orElse(null);
-    }
-
-    public static Optional<PrototypeReference> getReferenceOrOptional(Context context, String className) {
-        return context.getComponent(Components.MODULE_LOADER).forName(className);
-    }
-
     public static PrototypeReference getReferenceOrThrow(Context context, String className, @Nullable Snippet source) {
-        return getReferenceOrThrow(context, className, "Unknown type " + className, source);
-    }
-
-    public static PrototypeReference getReferenceOrThrow(Context context, String className, String message, @Nullable Snippet source) {
         return getReferenceOrThrow(context, loader -> loader.forName(className), "Unknown type " + className, source);
-    }
-
-    public static PrototypeReference getReferenceOrThrow(Context context, Class<?> type, @Nullable Snippet source) {
-        return getReferenceOrThrow(context, type, "Unknown type " + type, source);
-    }
-
-    public static PrototypeReference getReferenceOrThrow(Context context, Class<?> type, String message, @Nullable Snippet source) {
-        return getReferenceOrThrow(context, loader -> loader.forName(type.getCanonicalName()), message, source);
     }
 
     static PrototypeReference getReferenceOrThrow(Context context, Function<ModuleLoader, Optional<PrototypeReference>> mapper, String message, Snippet source) {
         Optional<PrototypeReference> reference = mapper.apply(context.getComponent(Components.MODULE_LOADER));
 
         if (!reference.isPresent()) {
-            throw PandaParserFailure.builder(message, context)
-                    .withStreamOrigin(source)
-                    .build();
+            throw new PandaParserFailure(context, source, message);
         }
 
         return reference.get();

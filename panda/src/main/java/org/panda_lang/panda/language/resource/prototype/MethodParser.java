@@ -80,10 +80,7 @@ public class MethodParser extends ParserBootstrap {
             Optional<PrototypeReference> reference = registry.forName(signature.subSource(0, signature.size() - 1).asSource());
 
             if (!reference.isPresent()) {
-                throw PandaParserFailure.builder("Unknown type", context)
-                        .withStreamOrigin(signature)
-                        .withNote("Make sure that the name does not have a typo and module which should contain that class is imported")
-                        .build();
+                throw new PandaParserFailure(context, signature, "Unknown type", "Make sure that the name does not have a typo and module which should contain that class is imported");
             }
 
             returnType = reference.get();

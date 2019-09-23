@@ -25,18 +25,14 @@ import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 public class VariableAssignerUtils {
 
     public static Assigner<Variable> of(Context context, Variable variable, boolean initialize, Expression expression) {
-        if (!variable.getType().isAssignableFrom(expression.getReturnType())) {
-            String message = "Cannot assign " + expression.getReturnType().getName() + " to " + variable.getType().getName() + " variable";
-
-            throw PandaParserFailure.builder(message, context)
-                    .withSourceFragment()
-                        .ofOriginals(context)
-                        .create()
-                    .withNote("Change variable type or ensure the expression has compatible return type")
-                    .build();
+        if (variable.getType().isAssignableFrom(expression.getReturnType())) {
+            return new VariableAccessor(variable).toAssigner(initialize, expression);
         }
 
-        return new VariableAccessor(variable).toAssigner(initialize, expression);
+        throw new PandaParserFailure(context,
+                "Cannot assign " + expression.getReturnType().getName() + " to " + variable.getType().getName() + " variable",
+                "Change variable type or ensure the expression has compatible return type"
+        );
     }
 
 }

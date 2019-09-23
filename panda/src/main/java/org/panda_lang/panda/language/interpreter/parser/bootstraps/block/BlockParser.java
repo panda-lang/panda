@@ -80,9 +80,7 @@ public class BlockParser extends ParserBootstrap {
                 throw handleResult.getFailure().get();
             }
 
-            throw PandaParserFailure.builder("Unknown block", context)
-                    .withStreamOrigin(declaration)
-                    .build();
+            throw new PandaParserFailure(context, declaration, "Unknown block");
         });
 
 
@@ -100,9 +98,7 @@ public class BlockParser extends ParserBootstrap {
         BlockData blockData = blockParser.parse(delegatedContext, declaration);
 
         if (blockData == null || blockData.getBlock() == null) {
-            throw PandaParserFailure.builder(blockParser.getClass().getSimpleName() + " cannot parse current block", context)
-                    .withStreamOrigin(declaration)
-                    .build();
+            throw new PandaParserFailure(context, declaration, blockParser.getClass().getSimpleName() + " cannot parse current block");
         }
 
         local.allocated(blockData.getBlock());
