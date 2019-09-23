@@ -63,4 +63,9 @@ public final class PrototypeExecutableExpression implements Expression {
         return ExpressionValueType.UNKNOWN;
     }
 
+    @Override
+    public String toString() {
+        return executable +  " -> " + getReturnType().getName();
+    }
+
 }

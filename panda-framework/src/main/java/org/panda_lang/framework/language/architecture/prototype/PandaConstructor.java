@@ -27,6 +27,11 @@ public class PandaConstructor extends PandaPrototypeExecutable implements Protot
         super(builder);
     }
 
+    @Override
+    public String toString() {
+        return getName();
+    }
+
     public static PandaConstructorBuilder builder() {
         return new PandaConstructorBuilder();
     }

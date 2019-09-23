@@ -47,6 +47,11 @@ public class PandaMethod extends PandaPrototypeExecutable implements PrototypeMe
         return isStatic;
     }
 
+    @Override
+    public String toString() {
+        return "method " + getPrototype().getName() + "#" + getName();
+    }
+
     public static PandaMethodBuilder builder() {
         return new PandaMethodBuilder();
     }

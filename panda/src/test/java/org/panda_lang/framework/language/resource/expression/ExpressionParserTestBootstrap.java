@@ -23,6 +23,7 @@ import org.panda_lang.framework.design.architecture.statement.VariableData;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.language.architecture.statement.PandaVariableData;
@@ -70,10 +71,12 @@ class ExpressionParserTestBootstrap {
         System.out.println(source + ": " + message);
     }
 
-    protected static void parse(String source) {
-        SourceStream stream = new PandaSourceStream(PandaLexerUtils.convert(source));
+    protected static void parse(String src) {
+        Snippet source = PandaLexerUtils.convert(src);
+        SourceStream stream = new PandaSourceStream(source);
 
-        DATA.withComponent(Components.SOURCE, stream.toSnippet());
+        DATA.withComponent(Components.SOURCE, source);
+        DATA.withComponent(Components.CURRENT_SOURCE, source);
         DATA.withComponent(Components.STREAM, stream);
 
         Expression expression = PARSER.parse(DATA, stream).getExpression();
