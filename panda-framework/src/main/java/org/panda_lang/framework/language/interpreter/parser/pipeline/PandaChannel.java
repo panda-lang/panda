@@ -26,15 +26,15 @@ public final class PandaChannel implements Channel {
     private final Map<String, Object> map = new HashMap<>(1);
 
     @Override
-    public Channel put(String key, Object value) {
-        map.put(key, value);
+    public Channel put(String identifier, Object value) {
+        map.put(identifier, value);
         return this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T> T get(String key, Class<T> type) {
-        return (T) map.get(key);
+    public <T> T get(String identifier, Class<T> type) {
+        return (T) map.get(identifier);
     }
 
 }

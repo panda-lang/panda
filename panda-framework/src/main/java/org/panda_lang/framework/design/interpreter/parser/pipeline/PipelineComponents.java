@@ -16,10 +16,23 @@
 
 package org.panda_lang.framework.design.interpreter.parser.pipeline;
 
-import org.panda_lang.framework.design.interpreter.parser.ContextComponent;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
-public final class PipelineComponents {
+public interface PipelineComponents {
 
-    public static final ContextComponent<Channel> CHANNEL = ContextComponent.of("channel", Channel.class);
+    default Collection<PipelineComponent<?>> collectPipelineComponents() {
+        return Arrays.stream(this.getClass().getFields())
+                .filter(field -> PipelineComponent.class.isAssignableFrom(field.getType()))
+                .map(field -> {
+                    try {
+                        return (PipelineComponent<?>) field.get(this);
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .collect(Collectors.toList());
+    }
 
 }

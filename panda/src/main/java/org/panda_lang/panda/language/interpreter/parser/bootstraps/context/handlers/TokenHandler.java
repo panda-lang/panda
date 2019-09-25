@@ -18,12 +18,12 @@ package org.panda_lang.panda.language.interpreter.parser.bootstraps.context.hand
 
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.utilities.commons.ArrayUtils;
 
-public class TokenHandler implements ParserHandler {
+public class TokenHandler implements Handler {
 
     private final Token[] tokens;
 

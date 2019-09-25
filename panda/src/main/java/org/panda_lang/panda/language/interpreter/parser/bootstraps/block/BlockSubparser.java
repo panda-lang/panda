@@ -18,10 +18,10 @@ package org.panda_lang.panda.language.interpreter.parser.bootstraps.block;
 
 import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 
-public interface BlockSubparser extends Parser, ParserHandler {
+public interface BlockSubparser extends Parser, Handler {
 
     BlockData parse(Context context, Snippet declaration) throws Exception;
 

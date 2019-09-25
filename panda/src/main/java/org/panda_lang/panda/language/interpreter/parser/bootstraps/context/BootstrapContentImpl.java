@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.interpreter.parser.bootstraps.context;
 
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 
 import java.util.Optional;
 
@@ -26,11 +26,11 @@ class BootstrapContentImpl implements BootstrapContent {
     private final String name;
     private final Object instance;
     private final Context context;
-    private final ParserHandler handler;
+    private final Handler handler;
     private final BootstrapInterceptor interceptor;
     private final Object pattern;
 
-    BootstrapContentImpl(String name, Object instance, Context context, ParserHandler handler, BootstrapInterceptor interceptor, Object pattern) {
+    BootstrapContentImpl(String name, Object instance, Context context, Handler handler, BootstrapInterceptor interceptor, Object pattern) {
         this.name = name;
         this.instance = instance;
         this.context = context;
@@ -45,7 +45,7 @@ class BootstrapContentImpl implements BootstrapContent {
     }
 
     @Override
-    public Optional<ParserHandler> getHandler() {
+    public Optional<Handler> getHandler() {
         return Optional.ofNullable(handler);
     }
 

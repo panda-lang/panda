@@ -24,8 +24,7 @@ import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.HandleResult;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponents;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
@@ -33,7 +32,7 @@ import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.ScopeParser;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaChannel;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
-import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.ParserBootstrap;
@@ -57,9 +56,9 @@ public class BlockParser extends ParserBootstrap {
     }
 
     @Override
-    protected Boolean customHandle(ParserHandler handler, Context context, Channel channel, Snippet source) {
+    protected Boolean customHandle(Handler handler, Context context, Channel channel, Snippet source) {
         HandleResult<BlockSubparser> result = context.getComponent(Components.PIPELINE)
-                .getPipeline(PandaPipelines.BLOCK)
+                .getPipeline(PandaPipeline.BLOCK)
                 .handle(context, channel, source);
 
         return result.isFound();
@@ -72,7 +71,7 @@ public class BlockParser extends ParserBootstrap {
 
         HandleResult<BlockSubparser> handleResult = context
                 .getComponent(Components.PIPELINE)
-                .getPipeline(PandaPipelines.BLOCK)
+                .getPipeline(PandaPipeline.BLOCK)
                 .handle(context, channel, declarationStream.toSnippet());
 
         BlockSubparser blockParser = handleResult.getParser().orElseThrow((Supplier<? extends Exception>) () -> {
@@ -85,7 +84,7 @@ public class BlockParser extends ParserBootstrap {
 
 
         Context delegatedContext = local.allocated(context.fork())
-                .withComponent(PipelineComponents.CHANNEL, channel);
+                .withComponent(Components.CHANNEL, channel);
 
         if (!parent.getCells().isEmpty()) {
             Cell cell = parent.getCells().get(parent.getCells().size() - 1);

@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.resource.scope.block.looping;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
-import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Component;
@@ -37,7 +37,7 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockSu
 import org.panda_lang.framework.language.resource.PandaTypes;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 
-@Registrable(pipeline = PandaPipelines.BLOCK_LABEL)
+@Registrable(pipeline = PandaPipeline.BLOCK_LABEL)
 public class LoopParser extends BlockSubparserBootstrap {
 
     @Override

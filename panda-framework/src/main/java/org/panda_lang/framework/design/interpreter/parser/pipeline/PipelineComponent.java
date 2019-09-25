@@ -27,9 +27,9 @@ public class PipelineComponent<P extends Parser> extends Component<P> {
 
     private static final Map<String, PipelineComponent<? extends Parser>> COMPONENTS = new HashMap<>();
 
-    private final Class<? extends PipelinesComponents> container;
+    private final Class<? extends PipelineComponents> container;
 
-    private PipelineComponent(Class<? extends PipelinesComponents> container, String name, Class<P> type) {
+    private PipelineComponent(Class<? extends PipelineComponents> container, String name, Class<P> type) {
         super(name, type);
         this.container = container;
     }
@@ -40,7 +40,7 @@ public class PipelineComponent<P extends Parser> extends Component<P> {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends Parser> PipelineComponent<T> of(Class<? extends PipelinesComponents> container, String name, Class<T> type) {
+    public static <T extends Parser> PipelineComponent<T> of(Class<? extends PipelineComponents> container, String name, Class<T> type) {
         return (PipelineComponent<T>) ofComponents(COMPONENTS, name, () -> new PipelineComponent<>(container, name, type));
     }
 

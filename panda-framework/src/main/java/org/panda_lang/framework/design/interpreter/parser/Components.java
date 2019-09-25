@@ -25,6 +25,7 @@ import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.Interpretation;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.framework.design.interpreter.parser.generation.Generation;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.framework.design.interpreter.source.SourceSet;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
@@ -99,6 +100,11 @@ public final class Components {
      * Represents the current stream of source
      */
     public static final ContextComponent<SourceStream> STREAM = ContextComponent.of("source-stream", SourceStream.class);
+
+    /**
+     * Represents the channel between handler and parser
+     */
+    public static final ContextComponent<Channel> CHANNEL = ContextComponent.of("channel", Channel.class);
 
     /**
      * Represents the current scope

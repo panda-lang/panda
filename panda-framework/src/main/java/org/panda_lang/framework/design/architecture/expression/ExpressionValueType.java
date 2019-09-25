@@ -18,7 +18,13 @@ package org.panda_lang.framework.design.architecture.expression;
 
 public enum ExpressionValueType {
 
-    KNOWN,
-    UNKNOWN
+    /**
+     * Represents expressions that value is already known
+     */
+    CONST,
+    /**
+     * Represents expressions that value requires evaluation
+     */
+    DYNAMIC
 
 }

@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.interpreter.parser.bootstraps.context;
 
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 
 import java.util.Optional;
 
@@ -35,7 +35,7 @@ public interface BootstrapContent {
      *
      * @return the parser handler
      */
-    Optional<ParserHandler> getHandler();
+    Optional<Handler> getHandler();
 
     /**
      * Get pattern object

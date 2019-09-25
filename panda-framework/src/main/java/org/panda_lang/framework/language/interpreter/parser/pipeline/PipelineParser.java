@@ -24,9 +24,8 @@ import org.panda_lang.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.HandleResult;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserPipeline;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipeline;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponents;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
@@ -36,18 +35,18 @@ import java.util.function.Supplier;
 
 public final class PipelineParser<T extends ContextParser> implements Parser {
 
-    private final ParserPipeline<T> pipeline;
+    private final Pipeline<T> pipeline;
     private final SourceStream stream;
 
     public PipelineParser(PipelineComponent<T> component, Context context) {
         this(context.getComponent(Components.PIPELINE).getPipeline(component), context);
     }
 
-    public PipelineParser(ParserPipeline<T> pipeline, Context context) {
+    public PipelineParser(Pipeline<T> pipeline, Context context) {
         this(pipeline, context.getComponent(Components.STREAM));
     }
 
-    public PipelineParser(ParserPipeline<T> pipeline, SourceStream stream) {
+    public PipelineParser(Pipeline<T> pipeline, SourceStream stream) {
         this.pipeline = pipeline;
         this.stream = stream;
     }
@@ -69,7 +68,7 @@ public final class PipelineParser<T extends ContextParser> implements Parser {
 
             Context delegatedContext = (fork ? context.fork() : context)
                     .withComponent(Components.CURRENT_SOURCE, source)
-                    .withComponent(PipelineComponents.CHANNEL, channel);
+                    .withComponent(Components.CHANNEL, channel);
 
             HandleResult<T> result = pipeline.handle(context, channel, source);
 

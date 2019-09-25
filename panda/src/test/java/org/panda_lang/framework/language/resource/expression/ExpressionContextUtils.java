@@ -34,7 +34,9 @@ import org.panda_lang.panda.language.resource.expression.PandaExpressionUtils;
 import java.util.Map;
 import java.util.function.Function;
 
-public class ExpressionContextUtils {
+public final class ExpressionContextUtils {
+
+    private ExpressionContextUtils() { }
 
     /**
      * Create the fake parser context, which contains:

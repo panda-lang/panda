@@ -32,11 +32,11 @@ public class PandaExpression implements Expression {
     private final Object value;
 
     public PandaExpression(Prototype returnType, Object value) {
-        this(ExpressionValueType.KNOWN, returnType, null, value);
+        this(ExpressionValueType.CONST, returnType, null, value);
     }
 
     public PandaExpression(DynamicExpression expression) {
-        this(ExpressionValueType.UNKNOWN, expression.getReturnType(), expression, null);
+        this(ExpressionValueType.DYNAMIC, expression.getReturnType(), expression, null);
     }
 
     protected PandaExpression(ExpressionValueType type, Prototype returnType, ExpressionEvaluator evaluator, Object value) {
@@ -53,7 +53,7 @@ public class PandaExpression implements Expression {
     @Override
     @SuppressWarnings("unchecked")
     public Object evaluate(ProcessStack stack, Object instance) throws Exception {
-        return type == ExpressionValueType.KNOWN ? value : evaluator.evaluate(stack, instance);
+        return type == ExpressionValueType.CONST ? value : evaluator.evaluate(stack, instance);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class PandaExpression implements Expression {
     @Override
     public String toString() {
         String s = type.name() + ":" + (returnType != null ? returnType.getName() : "any");
-        return ExpressionValueType.KNOWN == type ? s + ":" + value : s;
+        return ExpressionValueType.CONST == type ? s + ":" + value : s;
     }
 
 }

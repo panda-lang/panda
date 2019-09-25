@@ -25,7 +25,7 @@ import org.panda_lang.framework.language.architecture.statement.PandaVariable;
 import org.panda_lang.panda.language.architecture.statement.VariableDataInitializer;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockData;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockSubparserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
@@ -39,7 +39,7 @@ import org.panda_lang.framework.language.resource.PandaTypes;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.framework.language.resource.syntax.operator.Operators;
 
-@Registrable(pipeline = PandaPipelines.BLOCK_LABEL)
+@Registrable(pipeline = PandaPipeline.BLOCK_LABEL)
 public class ForEachParser extends BlockSubparserBootstrap {
     @Override
     protected BootstrapInitializer<BlockData> initialize(Context context, BootstrapInitializer<BlockData> initializer) {

@@ -21,8 +21,8 @@ import org.panda_lang.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.DescriptivePatternHandler;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.interceptors.DescriptivePatternInterceptor;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserRepresentation;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
+import org.panda_lang.framework.design.interpreter.parser.ParserRepresentation;
 import org.panda_lang.utilities.commons.ReflectionUtils;
 
 import java.lang.reflect.Method;
@@ -35,7 +35,7 @@ public class BootstrapInitializer<T> {
     protected Object instance;
 
     protected String pipeline;
-    protected ParserHandler handler;
+    protected Handler handler;
     protected int priority;
 
     protected Object pattern;
@@ -64,7 +64,7 @@ public class BootstrapInitializer<T> {
         return this;
     }
 
-    public BootstrapInitializer<T> handler(ParserHandler handler) {
+    public BootstrapInitializer<T> handler(Handler handler) {
         this.handler = handler;
         return this;
     }
