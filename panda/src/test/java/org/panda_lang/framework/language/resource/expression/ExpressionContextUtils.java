@@ -22,6 +22,7 @@ import org.panda_lang.framework.design.architecture.statement.FramedScope;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Components;
+import org.panda_lang.framework.language.architecture.module.PandaImports;
 import org.panda_lang.framework.language.architecture.module.PandaModuleLoader;
 import org.panda_lang.framework.language.architecture.module.PandaModulePath;
 import org.panda_lang.framework.language.architecture.statement.StaticScope;
@@ -57,6 +58,7 @@ public class ExpressionContextUtils {
         loader.load(PandaTypes.MODULE);
 
         context.withComponent(Components.MODULE_LOADER, loader);
+        context.withComponent(Components.IMPORTS, new PandaImports(loader, PandaTypes.MODULE));
 
         FramedScope scope = new StaticScope(variablesSupplier.apply(context));
         context.withComponent(Components.SCOPE, scope);
