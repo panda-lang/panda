@@ -16,20 +16,19 @@
 
 package org.panda_lang.framework.design.architecture.module;
 
-public interface LivingModule extends Module {
+import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.utilities.commons.function.CachedSupplier;
 
-    /**
-     * Get the loader used to load this living module
-     *
-     * @return the loader
-     */
-    ModuleLoader getModuleLoader();
+import java.util.Collection;
+import java.util.Map;
+import java.util.function.Supplier;
 
-    /**
-     * Get the primary module
-     *
-     * @return the primary module
-     */
-    Module getModule();
+public interface ReferencesMap extends Map<String, CachedSupplier<PrototypeReference>>, ModuleResource {
+
+    boolean put(String name, Class<?> type, CachedSupplier<PrototypeReference> referenceSupplier);
+
+    int countUsedPrototypes();
+
+    Collection<Entry<String, Supplier<PrototypeReference>>> getReferences();
 
 }

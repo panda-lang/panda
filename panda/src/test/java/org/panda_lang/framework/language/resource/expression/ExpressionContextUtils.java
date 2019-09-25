@@ -52,9 +52,10 @@ public class ExpressionContextUtils {
         Context context = new PandaContext();
         context.withComponent(Components.EXPRESSION, new PandaExpressionParser(PandaExpressionUtils.collectSubparsers()));
 
-        ModulePath path = new PandaModulePath();
-        ModuleLoader loader = new PandaModuleLoader(new PandaTypes().fill(path));
-        loader.load(path.getDefaultModule());
+        ModulePath path = new PandaModulePath(PandaTypes.MODULE);
+        ModuleLoader loader = new PandaModuleLoader(path);
+        loader.load(PandaTypes.MODULE);
+
         context.withComponent(Components.MODULE_LOADER, loader);
 
         FramedScope scope = new StaticScope(variablesSupplier.apply(context));

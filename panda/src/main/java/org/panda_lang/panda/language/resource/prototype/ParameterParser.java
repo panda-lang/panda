@@ -17,15 +17,15 @@
 package org.panda_lang.panda.language.resource.prototype;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.module.Imports;
 import org.panda_lang.framework.design.architecture.parameter.Parameter;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.parser.Components;
-import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SnippetUtils;
-import org.panda_lang.framework.language.architecture.module.ModuleLoaderUtils;
+import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.language.architecture.parameter.PandaParameter;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
@@ -34,6 +34,7 @@ import org.panda_lang.utilities.commons.ArrayUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class ParameterParser implements Parser {
 
@@ -63,7 +64,14 @@ public class ParameterParser implements Parser {
                 end -= 3;
             }
 
-            PrototypeReference reference = ModuleLoaderUtils.getReferenceOrThrow(context, source.subSource(0, end).asSource(), source);
+            Imports imports = context.getComponent(Components.IMPORTS);
+            Optional<PrototypeReference> referenceValue = imports.forName(source.subSource(0, end).asSource());
+
+            if (!referenceValue.isPresent()) {
+                throw new PandaParserFailure(context, source.subSource(0, end), "Unknown type", "Make sure that type is imported");
+            }
+
+            PrototypeReference reference = referenceValue.get();
             boolean varargs = end + 1 < source.size();
 
             if (varargs) {

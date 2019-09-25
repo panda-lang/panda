@@ -30,7 +30,7 @@ import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.language.architecture.module.ModuleLoaderUtils;
+import org.panda_lang.framework.language.architecture.module.PandaImportsUtils;
 import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeExecutableExpression;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
@@ -120,7 +120,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             }
 
             // parse constructor call
-            Prototype type = ModuleLoaderUtils.getReferenceOrThrow(context.getContext(), typeSource.asSource(), typeSource).fetch();
+            Prototype type = PandaImportsUtils.getReferenceOrThrow(context.getContext(), typeSource.asSource(), typeSource).fetch();
             return parseDefault(context, type, section.getContent());
         }
 
@@ -162,7 +162,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             String baseClassName = typeSource.subSource(0, typeSource.size() - sections.size()).asSource();
             String endTypeName = baseClassName + StringUtils.repeated(sections.size(), "[]");
 
-            ArrayPrototype instanceType = (ArrayPrototype) ModuleLoaderUtils.getReferenceOrThrow(context.getContext(), endTypeName, typeSource).fetch();
+            ArrayPrototype instanceType = (ArrayPrototype) PandaImportsUtils.getReferenceOrThrow(context.getContext(), endTypeName, typeSource).fetch();
             ArrayPrototype baseType = instanceType;
 
             for (int declaredCapacities = 0; declaredCapacities < capacities.size() - 1; declaredCapacities++) {

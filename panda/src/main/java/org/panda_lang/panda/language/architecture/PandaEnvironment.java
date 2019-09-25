@@ -16,16 +16,16 @@
 
 package org.panda_lang.panda.language.architecture;
 
-import org.panda_lang.framework.design.interpreter.messenger.Messenger;
-import org.panda_lang.framework.language.interpreter.messenger.PandaMessenger;
-import org.panda_lang.panda.Panda;
 import org.panda_lang.framework.design.architecture.Environment;
 import org.panda_lang.framework.design.architecture.module.ModulePath;
-import org.panda_lang.panda.PandaException;
-import org.panda_lang.panda.language.interpreter.PandaInterpreter;
+import org.panda_lang.framework.design.interpreter.messenger.Messenger;
 import org.panda_lang.framework.design.resource.Resources;
 import org.panda_lang.framework.language.architecture.module.PandaModulePath;
+import org.panda_lang.framework.language.interpreter.messenger.PandaMessenger;
 import org.panda_lang.framework.language.resource.PandaTypes;
+import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.PandaException;
+import org.panda_lang.panda.language.interpreter.PandaInterpreter;
 
 import java.io.File;
 
@@ -41,14 +41,11 @@ public class PandaEnvironment implements Environment {
         this.panda = panda;
         this.workingDirectory = workingDirectory;
         this.messenger = new PandaMessenger();
-        this.modulePath = new PandaModulePath();
+        this.modulePath = new PandaModulePath(PandaTypes.MODULE);
     }
 
     public void initialize() {
         this.getResources().getMessengerInitializer().onInitialize(messenger);
-
-        PandaTypes types = new PandaTypes();
-        types.fill(modulePath);
 
         this.interpreter = PandaInterpreter.builder()
                 .environment(this)

@@ -18,6 +18,7 @@ package org.panda_lang.panda.language.interpreter.parser;
 
 import org.panda_lang.framework.design.architecture.Environment;
 import org.panda_lang.framework.language.architecture.module.PandaImports;
+import org.panda_lang.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.language.architecture.PandaApplication;
 import org.panda_lang.panda.language.architecture.PandaScript;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
@@ -88,7 +89,7 @@ public class ApplicationParser implements Parser {
                         .withComponent(Components.MODULE_LOADER, script.getModuleLoader())
                         .withComponent(Components.SCRIPT, script)
                         .withComponent(PandaComponents.PANDA_SCRIPT, script)
-                        .withComponent(Components.IMPORTS, new PandaImports())
+                        .withComponent(Components.IMPORTS, new PandaImports(loader, PandaTypes.MODULE))
                         .withComponent(Components.SOURCE, snippet)
                         .withComponent(Components.STREAM, sourceStream)
                         .withComponent(Components.CURRENT_SOURCE, snippet);

@@ -18,10 +18,11 @@ package org.panda_lang.panda.language.resource.head;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.Environment;
+import org.panda_lang.framework.design.architecture.module.Imports;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Components;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
@@ -33,6 +34,7 @@ import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Component;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
@@ -52,16 +54,16 @@ public final class RequireParser extends ParserBootstrap {
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL)
-    void parse(Context context, @Src("require") @Nullable Snippet require, @Src("requiredFile") @Nullable Snippet requiredFile) {
+    void parse(Context context, @Component Imports imports, @Src("require") @Nullable Snippet require, @Src("requiredFile") @Nullable Snippet requiredFile) {
         if (require != null) {
-            parseModule(context, require);
+            parseModule(context, imports, require);
             return;
         }
 
-        parseFile(context, Objects.requireNonNull(requiredFile));
+        parseFile(context, imports, Objects.requireNonNull(requiredFile));
     }
 
-    private void parseModule(Context context, Snippet require) {
+    private void parseModule(Context context, Imports imports, Snippet require) {
         Environment environment = context.getComponent(Components.ENVIRONMENT);
 
         String moduleName = require.asSource();
@@ -75,7 +77,7 @@ public final class RequireParser extends ParserBootstrap {
         loader.load(module.get());
     }
 
-    private void parseFile(Context context, Snippet requiredFile) {
+    private void parseFile(Context context, Imports imports, Snippet requiredFile) {
         TokenRepresentation fileToken = requiredFile.getFirst();
 
         if (!TokenUtils.hasName(fileToken, "String")) {

@@ -17,19 +17,41 @@
 package org.panda_lang.framework.design.architecture.module;
 
 import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
-import org.panda_lang.utilities.commons.StreamUtils;
 
+import java.util.Collection;
+import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.function.Supplier;
 
-public interface Module {
+public interface Module extends ModuleResource {
 
     /**
      * Add a reference of prototype to the module
      *
-     * @param reference the reference to add
-     * @return the reference instance
+     * @param referenceSupplier the reference to add
      */
-    PrototypeReference add(PrototypeReference reference);
+    void add(String name, Class<?> associatedClass, Supplier<PrototypeReference> referenceSupplier);
+
+    /**
+     * Add submodule to the module
+     *
+     * @param submodule the submodule to add
+     */
+    void addSubmodule(Module submodule);
+
+    /**
+     * Count initialized references
+     *
+     * @return the amount of used prototypes
+     */
+    int countUsedPrototypes();
+
+    /**
+     * Count all references
+     *
+     * @return the amount of references
+     */
+    int countReferences();
 
     /**
      * Check if the module contains prototype associated with the specified class
@@ -38,54 +60,8 @@ public interface Module {
      * @return true if module contains reference associated with the provided class
      */
     default boolean hasPrototype(Class<?> clazz) {
-        return this.hasPrototype(clazz.getCanonicalName());
+        return forName(clazz.getSimpleName()).isPresent();
     }
-
-    /**
-     * Check if the module contains prototype with the given name
-     *
-     * @param name the name to check
-     * @return true if module contains that reference
-     */
-    default boolean hasPrototype(String name) {
-        return get(name).isPresent();
-    }
-
-    /**
-     * Get prototype associated with the given class
-     *
-     * @param clazz the class to search for
-     * @return the reference associated with the class
-     */
-    default Optional<PrototypeReference> getAssociatedWith(Class<?> clazz) {
-        return StreamUtils.findFirst(getReferences(), reference -> reference.getAssociatedClass() == clazz);
-    }
-
-    /**
-     * Get prototype by name
-     *
-     * @param className the name to search for
-     * @return the reference with the given name
-     */
-    default Optional<PrototypeReference> get(String className) {
-        return StreamUtils.findFirst(getReferences(), reference -> className.equals(reference.getName()));
-    }
-
-    /**
-     * Count initialized references
-     *
-     * @return the amount of used prototypes
-     */
-    default int getAmountOfUsedPrototypes() {
-        return StreamUtils.count(getReferences(), PrototypeReference::isInitialized);
-    }
-
-    /**
-     * Count all references
-     *
-     * @return the amount of references
-     */
-    int getAmountOfReferences();
 
     /**
      * Get all references.
@@ -93,7 +69,21 @@ public interface Module {
      *
      * @return the iterable that contains all references
      */
-    Iterable<PrototypeReference> getReferences();
+    Collection<Entry<String, Supplier<PrototypeReference>>> getReferences();
+
+    /**
+     * Get all submodules
+     *
+     * @return the collection of submodules
+     */
+    Collection<? extends Module> getSubmodules();
+
+    /**
+     * Get parent module
+     *
+     * @return the parent module
+     */
+    Optional<Module> getParent();
 
     /**
      * Get name of module

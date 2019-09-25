@@ -77,7 +77,7 @@ public class ClassPrototypeParser extends ParserBootstrap {
                 .build();
 
         prototype.addExtended(PandaTypes.OBJECT.getReference());
-        module.add(prototype.getReference());
+        module.add(className, prototype.getAssociatedClass(), prototype::getReference);
         PrototypeScope scope = new PrototypeScope(location, prototype);
 
         context
