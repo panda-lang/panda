@@ -16,10 +16,23 @@
 
 package org.panda_lang.framework.design.architecture.module;
 
+/**
+ * Representation of module loaded by the {@link org.panda_lang.framework.design.architecture.module.ModuleLoader}
+ */
 public interface LoadedModule extends ModuleResource {
 
+    /**
+     * Get the loaded module
+     *
+     * @return the loaded module
+     */
     Module getModule();
 
+    /**
+     * Get the loader used to load this module
+     *
+     * @return the module loader
+     */
     ModuleLoader getModuleLoader();
 
 }

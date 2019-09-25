@@ -43,7 +43,7 @@ public final class StaticExpression implements Expression {
 
     @Override
     public ExpressionValueType getType() {
-        return ExpressionValueType.KNOWN;
+        return ExpressionValueType.CONST;
     }
 
     @Override

@@ -24,7 +24,7 @@ import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
@@ -32,7 +32,7 @@ import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.panda.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.panda.language.architecture.dynamic.assigner.AssignerExpression;
 import org.panda_lang.panda.language.architecture.statement.VariableDataInitializer;
-import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Component;
@@ -44,7 +44,7 @@ import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import java.util.Objects;
 import java.util.Optional;
 
-@Registrable(pipeline = PandaPipelines.ASSIGNER_LABEL, priority = AssignationPriorities.VARIABLE_DECLARATION)
+@Registrable(pipeline = PandaPipeline.ASSIGNER_LABEL, priority = AssignationPriorities.VARIABLE_DECLARATION)
 public final class VariableDeclarationSubparser extends AssignationSubparserBootstrap {
 
     @Override
@@ -53,7 +53,7 @@ public final class VariableDeclarationSubparser extends AssignationSubparserBoot
     }
 
     @Override
-    protected Object customHandle(ParserHandler handler, Context context, Channel channel, Snippet source) {
+    protected Object customHandle(Handler handler, Context context, Channel channel, Snippet source) {
         if (source.size() < 2) {
             return false;
         }

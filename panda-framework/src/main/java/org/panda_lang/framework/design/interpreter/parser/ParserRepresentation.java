@@ -14,19 +14,35 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.interpreter.parser.pipeline;
+package org.panda_lang.framework.design.interpreter.parser;
 
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 
-public interface ParserHandler {
+public interface ParserRepresentation<P> {
 
     /**
-     * Handle source
-     *
-     * @param source source
-     * @return returns true if parsers fits to source
+     * Add 1 to number of use. It's used to optimization process of parsing.
      */
-    Object handle(Context context, Channel channel, Snippet source);
+    void increaseUsages();
+
+    /**
+     * @return amount of usages
+     */
+    int getUsages();
+
+    /**
+     * @return priority
+     */
+    double getPriority();
+
+    /**
+     * @return associated handler
+     */
+    Handler getHandler();
+
+    /**
+     * @return associated parser
+     */
+    P getParser();
 
 }

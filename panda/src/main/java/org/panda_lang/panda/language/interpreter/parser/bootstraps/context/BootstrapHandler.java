@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.interpreter.parser.bootstraps.context;
 
-import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 
-public interface BootstrapHandler extends ParserHandler {
+public interface BootstrapHandler extends Handler {
 
     void initialize(BootstrapContent content);
 

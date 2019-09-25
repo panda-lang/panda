@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.interpreter.parser.loader;
 
 import org.panda_lang.framework.design.interpreter.parser.ContextParser;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -29,7 +29,7 @@ import java.lang.annotation.Target;
 public @interface Registrable {
 
     /**
-     * Default pipelines: {@link org.panda_lang.panda.language.interpreter.parser.PandaPipelines}
+     * Default pipelines: {@link org.panda_lang.panda.language.interpreter.parser.PandaPipeline}
      *
      * @return the array of pipelines
      */
@@ -44,7 +44,7 @@ public @interface Registrable {
 
     Class<? extends ContextParser> parserClass() default ContextParser.class;
 
-    Class<? extends ParserHandler> handlerClass() default ParserHandler.class;
+    Class<? extends Handler> handlerClass() default Handler.class;
 
 }
 

@@ -33,7 +33,7 @@ final class PandaReferencesMap extends HashMap<String, CachedSupplier<PrototypeR
 
     @Override
     public boolean put(String name, Class<?> type, CachedSupplier<PrototypeReference> referenceSupplier) {
-        if (associatedClasses.containsKey(type)) {
+        if (associatedClasses.containsKey(type) || containsKey(name)) {
             return false;
         }
 

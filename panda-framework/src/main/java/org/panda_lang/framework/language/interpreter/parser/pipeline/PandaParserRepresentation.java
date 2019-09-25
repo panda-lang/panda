@@ -17,19 +17,19 @@
 package org.panda_lang.framework.language.interpreter.parser.pipeline;
 
 import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserRepresentation;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
+import org.panda_lang.framework.design.interpreter.parser.ParserRepresentation;
 
 public class PandaParserRepresentation<P extends Parser> implements ParserRepresentation<P> {
 
     private final P parser;
-    private final ParserHandler handler;
+    private final Handler handler;
     private final double priority;
     private int usages;
 
-    public PandaParserRepresentation(P parser, ParserHandler parserHandler, double priority) {
+    public PandaParserRepresentation(P parser, Handler handler, double priority) {
         this.parser = parser;
-        this.handler = parserHandler;
+        this.handler = handler;
         this.priority = priority;
     }
 
@@ -49,7 +49,7 @@ public class PandaParserRepresentation<P extends Parser> implements ParserRepres
     }
 
     @Override
-    public ParserHandler getHandler() {
+    public Handler getHandler() {
         return handler;
     }
 

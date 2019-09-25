@@ -23,12 +23,33 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.function.Supplier;
 
+/**
+ * Custom implementation of map to store references with support for associated classes and {@link org.panda_lang.framework.design.architecture.module.ModuleResource}
+ */
 public interface ReferencesMap extends Map<String, CachedSupplier<PrototypeReference>>, ModuleResource {
 
+    /**
+     * Add reference to the map
+     *
+     * @param name the name of prototype
+     * @param type the associated class
+     * @param referenceSupplier the prototype supplier
+     * @return false if name or type is already stored, otherwise true
+     */
     boolean put(String name, Class<?> type, CachedSupplier<PrototypeReference> referenceSupplier);
 
+    /**
+     * Count used prototypes
+     *
+     * @return the amount of used prototypes
+     */
     int countUsedPrototypes();
 
+    /**
+     * Get collection of entries that contains prototype references
+     *
+     * @return the collection of references
+     */
     Collection<Entry<String, Supplier<PrototypeReference>>> getReferences();
 
 }

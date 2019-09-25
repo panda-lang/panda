@@ -30,7 +30,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionP
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Inter;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
@@ -52,7 +52,7 @@ public final class StandaloneExpressionParser extends ParserBootstrap {
     }
 
     @Override
-    protected Object customHandle(ParserHandler handler, Context context, Channel channel, Snippet source) {
+    protected Object customHandle(Handler handler, Context context, Channel channel, Snippet source) {
         SourceStream stream = new PandaSourceStream(source);
 
         try {

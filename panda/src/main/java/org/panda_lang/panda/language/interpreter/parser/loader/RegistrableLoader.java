@@ -20,8 +20,8 @@ import org.panda_lang.panda.PandaException;
 import org.panda_lang.framework.PandaFramework;
 import org.panda_lang.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserRepresentation;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
+import org.panda_lang.framework.design.interpreter.parser.ParserRepresentation;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaParserRepresentation;
@@ -80,7 +80,7 @@ public final class RegistrableLoader {
             }
 
             Parser parser = createParserInstance(clazz, registrable.parserClass());
-            ParserHandler handler = createHandlerInstance(parser, registrable.handlerClass());
+            Handler handler = createHandlerInstance(parser, registrable.handlerClass());
             ParserRepresentation<Parser> representation = new PandaParserRepresentation<>(parser, handler, registrable.priority());
 
             for (String target : registrable.pipeline()) {
@@ -113,12 +113,12 @@ public final class RegistrableLoader {
         throw new PandaException("Cannot create parser instance (source: " + currentClass + ")");
     }
 
-    private ParserHandler createHandlerInstance(Parser currentParser, Class<? extends ParserHandler> handlerClass) throws IllegalAccessException, InstantiationException {
-        if (handlerClass != ParserHandler.class) {
+    private Handler createHandlerInstance(Parser currentParser, Class<? extends Handler> handlerClass) throws IllegalAccessException, InstantiationException {
+        if (handlerClass != Handler.class) {
             return handlerClass.newInstance();
         }
-        else if (ParserHandler.class.isAssignableFrom(currentParser.getClass())) {
-            return (ParserHandler) currentParser;
+        else if (Handler.class.isAssignableFrom(currentParser.getClass())) {
+            return (Handler) currentParser;
         }
 
         throw new PandaException("Cannot create parser handler instance (source: " + currentParser.getClass() + ")");

@@ -22,7 +22,7 @@ import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockData;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockSubparserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
@@ -35,7 +35,7 @@ import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 import org.panda_lang.framework.language.resource.PandaTypes;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 
-@Registrable(pipeline = PandaPipelines.BLOCK_LABEL)
+@Registrable(pipeline = PandaPipeline.BLOCK_LABEL)
 public class WhileParser extends BlockSubparserBootstrap {
 
     @Override

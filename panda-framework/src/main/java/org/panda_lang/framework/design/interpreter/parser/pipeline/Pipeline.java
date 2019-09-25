@@ -18,11 +18,12 @@ package org.panda_lang.framework.design.interpreter.parser.pipeline;
 
 import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.ParserRepresentation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 
 import java.util.Collection;
 
-public interface ParserPipeline<P extends Parser> {
+public interface Pipeline<P extends Parser> {
 
     /**
      * Search for the parser through the pipeline with untouched source

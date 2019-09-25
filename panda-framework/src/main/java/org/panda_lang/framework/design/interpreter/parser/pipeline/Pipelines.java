@@ -18,7 +18,7 @@ package org.panda_lang.framework.design.interpreter.parser.pipeline;
 
 import org.panda_lang.framework.design.interpreter.parser.ContextParser;
 
-public final class Pipelines implements PipelinesComponents {
+public final class Pipelines implements PipelineComponents {
 
     /**
      * Text representation of {@link Pipelines#ALL}

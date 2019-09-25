@@ -60,7 +60,7 @@ public final class PrototypeExecutableExpression implements Expression {
 
     @Override
     public ExpressionValueType getType() {
-        return ExpressionValueType.UNKNOWN;
+        return ExpressionValueType.DYNAMIC;
     }
 
     @Override

@@ -18,10 +18,10 @@ package org.panda_lang.panda.language.interpreter.parser.bootstraps.context.hand
 
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 
-public class EmptyHandler implements ParserHandler {
+public class EmptyHandler implements Handler {
 
     @Override
     public Boolean handle(Context context, Channel channel, Snippet source) {

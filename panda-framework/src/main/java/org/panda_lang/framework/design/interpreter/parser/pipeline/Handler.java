@@ -16,31 +16,17 @@
 
 package org.panda_lang.framework.design.interpreter.parser.pipeline;
 
-public interface ParserRepresentation<P> {
+import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+
+public interface Handler {
 
     /**
-     * Add 1 to number of use. It's used to optimization process of parsing.
+     * Handle source
+     *
+     * @param source source
+     * @return returns true if parsers fits to source
      */
-    void increaseUsages();
-
-    /**
-     * @return amount of usages
-     */
-    int getUsages();
-
-    /**
-     * @return priority
-     */
-    double getPriority();
-
-    /**
-     * @return associated handler
-     */
-    ParserHandler getHandler();
-
-    /**
-     * @return associated parser
-     */
-    P getParser();
+    Object handle(Context context, Channel channel, Snippet source);
 
 }

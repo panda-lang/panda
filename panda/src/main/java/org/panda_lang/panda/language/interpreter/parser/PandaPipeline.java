@@ -17,31 +17,31 @@
 package org.panda_lang.panda.language.interpreter.parser;
 
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinesComponents;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponents;
 import org.panda_lang.panda.language.resource.expression.subparsers.assignation.AssignationSubparser;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockSubparser;
 
 /**
  * Used by {@link org.panda_lang.panda.language.interpreter.parser.loader.Registrable}
  */
-public final class PandaPipelines implements PipelinesComponents {
+public final class PandaPipeline implements PipelineComponents {
 
     /**
-     * Text representation of {@link PandaPipelines#BLOCK}
+     * Text representation of {@link PandaPipeline#BLOCK}
      */
     public static final String BLOCK_LABEL = "block";
     /**
      * Class prototype parsers, used by {@link org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockParser}
      */
-    public static final PipelineComponent<BlockSubparser> BLOCK = PipelineComponent.of(PandaPipelines.class, BLOCK_LABEL, BlockSubparser.class);
+    public static final PipelineComponent<BlockSubparser> BLOCK = PipelineComponent.of(PandaPipeline.class, BLOCK_LABEL, BlockSubparser.class);
 
     /**
-     * Text representation of {@link PandaPipelines#ASSIGNER}
+     * Text representation of {@link PandaPipeline#ASSIGNER}
      */
     public static final String ASSIGNER_LABEL = "assignation";
     /**
      * Assigner parsers, used by {@link org.panda_lang.panda.language.resource.expression.subparsers.assignation.AssignationExpressionSubparser}
      */
-    public static final PipelineComponent<AssignationSubparser> ASSIGNER = PipelineComponent.of(PandaPipelines.class, ASSIGNER_LABEL, AssignationSubparser.class);
+    public static final PipelineComponent<AssignationSubparser> ASSIGNER = PipelineComponent.of(PandaPipeline.class, ASSIGNER_LABEL, AssignationSubparser.class);
 
 }

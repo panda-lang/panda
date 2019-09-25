@@ -25,7 +25,7 @@ import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.language.architecture.statement.PandaBlock;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockData;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockSubparserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
@@ -41,7 +41,7 @@ import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.framework.language.architecture.expression.PandaExpression;
 
-@Registrable(pipeline = PandaPipelines.BLOCK_LABEL)
+@Registrable(pipeline = PandaPipeline.BLOCK_LABEL)
 public final class ForParser extends BlockSubparserBootstrap {
 
     private static final Expression DEFAULT_CONDITION = new PandaExpression(PandaTypes.BOOLEAN, true);

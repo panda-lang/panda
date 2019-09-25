@@ -19,7 +19,7 @@ package org.panda_lang.panda.bootstrap;
 import org.panda_lang.framework.PandaFramework;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinesComponents;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponents;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaPipelinePath;
 
 import java.util.Collection;
@@ -34,10 +34,10 @@ public class PipelinePandaBootstrap implements PandaBootstrapElement {
     }
 
     @SafeVarargs
-    public final PipelinePandaBootstrap usePipelines(Class<? extends PipelinesComponents>... componentsClasses) {
-        for (Class<? extends PipelinesComponents> componentClass : componentsClasses) {
+    public final PipelinePandaBootstrap usePipelines(Class<? extends PipelineComponents>... componentsClasses) {
+        for (Class<? extends PipelineComponents> componentClass : componentsClasses) {
             try {
-                PipelinesComponents pipelines = componentClass.newInstance();
+                PipelineComponents pipelines = componentClass.newInstance();
                 Collection<PipelineComponent<?>> components = pipelines.collectPipelineComponents();
 
                 for (PipelineComponent<?> component : components) {

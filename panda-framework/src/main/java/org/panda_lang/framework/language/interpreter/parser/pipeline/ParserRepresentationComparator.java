@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.language.interpreter.parser.pipeline;
 
-import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserRepresentation;
+import org.panda_lang.framework.design.interpreter.parser.ParserRepresentation;
 
 import java.util.Comparator;
 

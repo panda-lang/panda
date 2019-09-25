@@ -20,14 +20,14 @@ import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapContent;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapHandler;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
 import org.panda_lang.framework.design.interpreter.pattern.descriptive.PandaDescriptivePattern;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 
 import java.util.Objects;
 
-public class DescriptivePatternHandler implements BootstrapHandler, ParserHandler {
+public class DescriptivePatternHandler implements BootstrapHandler, Handler {
 
     private DescriptivePattern pattern;
 

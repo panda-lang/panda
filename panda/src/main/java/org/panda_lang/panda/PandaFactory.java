@@ -31,7 +31,7 @@ import org.panda_lang.panda.language.interpreter.messenger.layouts.PandaLexerFai
 import org.panda_lang.panda.language.interpreter.messenger.layouts.ParserFailureTranslatorLayout;
 import org.panda_lang.panda.language.interpreter.messenger.layouts.ProcessFailureTranslatorLayout;
 import org.panda_lang.panda.language.interpreter.messenger.mappers.StacktraceMapper;
-import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.resource.PandaParsers;
 import org.panda_lang.panda.language.resource.expression.subparsers.assignation.AssignationParsers;
 
@@ -55,7 +55,7 @@ public final class PandaFactory {
 
                 // load pipelines
                 .initializePipelines()
-                    .usePipelines(Pipelines.class, PandaPipelines.class)
+                    .usePipelines(Pipelines.class, PandaPipeline.class)
                     .collect()
 
                 // load parsers and expressions subparsers

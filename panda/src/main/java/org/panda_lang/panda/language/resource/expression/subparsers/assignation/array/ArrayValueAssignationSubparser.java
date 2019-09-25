@@ -22,13 +22,13 @@ import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.panda.language.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Component;
@@ -42,7 +42,7 @@ import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 
 import java.util.Optional;
 
-@Registrable(pipeline = PandaPipelines.ASSIGNER_LABEL, priority = AssignationPriorities.ARRAY_ASSIGNATION)
+@Registrable(pipeline = PandaPipeline.ASSIGNER_LABEL, priority = AssignationPriorities.ARRAY_ASSIGNATION)
 public final class ArrayValueAssignationSubparser extends AssignationSubparserBootstrap {
 
     private static final ArrayValueAccessorParser PARSER = new ArrayValueAccessorParser();
@@ -53,7 +53,7 @@ public final class ArrayValueAssignationSubparser extends AssignationSubparserBo
     }
 
     @Override
-    protected Boolean customHandle(ParserHandler handler, Context context, Channel channel, Snippet source) {
+    protected Boolean customHandle(Handler handler, Context context, Channel channel, Snippet source) {
         TokenRepresentation sectionRepresentation = source.getLast();
 
         if (sectionRepresentation == null || sectionRepresentation.getType() != TokenType.SECTION) {

@@ -17,12 +17,28 @@
 package org.panda_lang.framework.design.interpreter.parser.pipeline;
 
 /**
- * The
+ * The communication channel between {@link Handler} and parser.
+ * In some cases, it may be helpful to reuse some already processed data from handler.
  */
 public interface Channel {
 
-    Channel put(String key, Object value);
+    /**
+     * Put some data in the channel
+     *
+     * @param identifier the identifier (key) of data
+     * @param value the value to add
+     * @return the channel instance
+     */
+    Channel put(String identifier, Object value);
 
-    <T> T get(String key, Class<T> type);
+    /**
+     * Get data from the channel
+     *
+     * @param identifier the identifier of value to get
+     * @param type the class of the data
+     * @param <T> the type
+     * @return the data
+     */
+    <T> T get(String identifier, Class<T> type);
 
 }

@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Registrable(pipeline = Pipelines.ALL_LABEL)
-public final class CommentParser implements ContextParser<CommentStatement>, ParserHandler {
+public final class CommentParser implements ContextParser<CommentStatement>, Handler {
 
     @Override
     public Boolean handle(Context context, Channel channel, Snippet source) {

@@ -18,7 +18,7 @@ package org.panda_lang.framework.language.interpreter.parser.pipeline;
 
 import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.utilities.commons.collection.Component;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.ParserPipeline;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipeline;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
@@ -30,18 +30,18 @@ import java.util.Map;
 
 public class PandaPipelinePath implements PipelinePath {
 
-    private final Map<PipelineComponent<?>, ParserPipeline<?>> pipelines = new HashMap<>(3);
+    private final Map<PipelineComponent<?>, Pipeline<?>> pipelines = new HashMap<>(3);
 
     public PandaPipelinePath() {
-        pipelines.put(Pipelines.ALL, new PandaParserPipeline<>(Pipelines.ALL.getName()));
+        pipelines.put(Pipelines.ALL, new PandaPipeline<>(Pipelines.ALL.getName()));
     }
 
     @Override
-    public <P extends Parser> ParserPipeline<P> createPipeline(PipelineComponent<P> component) {
-        ParserPipeline<P> pipeline = getPipeline(component);
+    public <P extends Parser> Pipeline<P> createPipeline(PipelineComponent<P> component) {
+        Pipeline<P> pipeline = getPipeline(component);
 
         if (pipeline == null) {
-            pipelines.put(component, new PandaParserPipeline<>(pipelines.get(Pipelines.ALL), component.getName()));
+            pipelines.put(component, new PandaPipeline<>(pipelines.get(Pipelines.ALL), component.getName()));
             pipeline = getPipeline(component);
         }
 
@@ -55,13 +55,13 @@ public class PandaPipelinePath implements PipelinePath {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <P extends Parser> ParserPipeline<P> getPipeline(PipelineComponent<P> component) {
-        return (ParserPipeline<P>) pipelines.get(component);
+    public <P extends Parser> Pipeline<P> getPipeline(PipelineComponent<P> component) {
+        return (Pipeline<P>) pipelines.get(component);
     }
 
     @Override
     public long getTotalHandleTime() {
-        return StreamUtils.sumLongs(pipelines.values(), ParserPipeline::getHandleTime);
+        return StreamUtils.sumLongs(pipelines.values(), Pipeline::getHandleTime);
     }
 
     @Override
