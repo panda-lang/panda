@@ -45,7 +45,6 @@ public class ResourcesIterable<T> implements Iterable<T> {
                 .toArray((IntFunction<Iterator<T>[]>) Iterator[]::new);
 
         private int selected;
-        private int index;
 
         public ResourceIterator() {
             this.selectNext();
@@ -73,7 +72,6 @@ public class ResourcesIterable<T> implements Iterable<T> {
 
                 if (iterator.hasNext()) {
                     selected = i;
-                    index = 0;
                     break;
                 }
             }

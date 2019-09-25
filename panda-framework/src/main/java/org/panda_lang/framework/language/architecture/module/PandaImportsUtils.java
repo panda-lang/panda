@@ -17,26 +17,26 @@
 package org.panda_lang.framework.language.architecture.module;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.framework.design.architecture.module.Imports;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
-import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Components;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 
 import java.util.Optional;
 import java.util.function.Function;
 
-public final class ModuleLoaderUtils {
+public final class PandaImportsUtils {
 
-    private ModuleLoaderUtils() { }
+    private PandaImportsUtils() { }
 
     public static PrototypeReference getReferenceOrThrow(Context context, String className, @Nullable Snippet source) {
         return getReferenceOrThrow(context, loader -> loader.forName(className), "Unknown type " + className, source);
     }
 
-    static PrototypeReference getReferenceOrThrow(Context context, Function<ModuleLoader, Optional<PrototypeReference>> mapper, String message, Snippet source) {
-        Optional<PrototypeReference> reference = mapper.apply(context.getComponent(Components.MODULE_LOADER));
+    static PrototypeReference getReferenceOrThrow(Context context, Function<Imports, Optional<PrototypeReference>> mapper, String message, Snippet source) {
+        Optional<PrototypeReference> reference = mapper.apply(context.getComponent(Components.IMPORTS));
 
         if (!reference.isPresent()) {
             throw new PandaParserFailure(context, source, message);

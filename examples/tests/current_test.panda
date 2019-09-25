@@ -160,7 +160,7 @@ class TestArray {
         this.getArray()[test.index] = "Hello Array"
         array[6] = String.valueOf(this)
 
-        Console.print("Value at array[test.index]", this.getArray()[test.index])
+        Console.print("Value at array[test.index]: " + this.getArray()[test.index])
     }
 
     method String[] getArray() {
