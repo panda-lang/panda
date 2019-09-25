@@ -16,7 +16,11 @@
 
 package org.panda_lang.framework.language.architecture.module;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.Imports;
+import org.panda_lang.framework.design.architecture.module.LoadedModule;
+import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
 
 import java.util.HashMap;
@@ -26,7 +30,26 @@ import java.util.function.Supplier;
 
 public final class PandaImports implements Imports {
 
+    private final ModuleLoader loader;
+    private final Map<String, LoadedModule> importedModules = new HashMap<>();
     private final Map<String, Supplier<PrototypeReference>> importedReferences = new HashMap<>();
+
+    public PandaImports(ModuleLoader loader) {
+        this.loader = loader;
+    }
+
+    public PandaImports(ModuleLoader loader, Module... modules) {
+        this(loader);
+
+        for (Module module : modules) {
+            importModule(module);
+        }
+    }
+
+    @Override
+    public void importModule(Module module) {
+        importedModules.computeIfAbsent(module.getName(), name -> loader.loadIfAbsent(module));
+    }
 
     @Override
     public boolean importReference(String name, Supplier<PrototypeReference> supplier) {
@@ -38,9 +61,39 @@ public final class PandaImports implements Imports {
         return true;
     }
 
+    /**
+     * Imports does not support this method
+     *
+     * @param associatedClass the class associated with prototype to search for
+     * @return always empty optional
+     */
     @Override
-    public Optional<PrototypeReference> forName(String name) {
-        return Optional.ofNullable(importedReferences.get(name)).map(Supplier::get);
+    public Optional<PrototypeReference> forClass(@Nullable Class<?> associatedClass) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<PrototypeReference> forName(CharSequence name) {
+        Supplier<PrototypeReference> localReference = importedReferences.get(name.toString());
+
+        if (localReference != null) {
+            return Optional.of(localReference.get());
+        }
+
+        for (LoadedModule value : importedModules.values()) {
+            Optional<PrototypeReference> reference = value.forName(name);
+
+            if (reference.isPresent()) {
+                return reference;
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    @Override
+    public ModuleLoader getModuleLoader() {
+        return loader;
     }
 
 }
