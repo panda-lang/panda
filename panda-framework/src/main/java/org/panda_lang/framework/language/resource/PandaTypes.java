@@ -16,21 +16,22 @@
 
 package org.panda_lang.framework.language.resource;
 
+import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.module.ModulePath;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
 import org.panda_lang.framework.language.architecture.module.PandaModule;
-import org.panda_lang.framework.language.architecture.prototype.array.PandaArray;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
+import org.panda_lang.framework.language.architecture.prototype.array.PandaArray;
 import org.panda_lang.framework.language.architecture.prototype.generator.ClassPrototypeGeneratorManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public final class PandaTypes {
 
-    private static final Module MODULE = new PandaModule(null);
+    public static final Module MODULE = new PandaModule("panda");
 
     public static final Prototype VOID = PandaPrototype.of(MODULE, void.class, "void").fetch();
     public static final Prototype BOOLEAN = PandaPrototype.of(MODULE, Boolean.class, "Boolean").fetch();
@@ -59,16 +60,12 @@ public final class PandaTypes {
         of(StringBuilder.class);
     }
 
-    public ModulePath fill(ModulePath modulePath) {
-        MODULE.getReferences().forEach(reference -> {
-            modulePath.getDefaultModule().add(reference);
-        });
-
-        return modulePath;
-    }
-
     private static PrototypeReference of(Class<?> clazz) {
-        return ClassPrototypeGeneratorManager.getInstance().generate(MODULE, clazz, clazz.getSimpleName());
+        ClassPrototypeGeneratorManager.getInstance().generate(MODULE, clazz, clazz.getSimpleName());
+
+        return MODULE.forName(clazz.getSimpleName()).orElseThrow((Supplier<? extends PandaFrameworkException>) () -> {
+            throw new PandaFrameworkException("Cannot generate type for " + clazz.getName() + " class");
+        });
     }
 
 }

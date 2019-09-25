@@ -16,36 +16,91 @@
 
 package org.panda_lang.framework.language.architecture.module;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.architecture.module.ReferencesMap;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.language.architecture.prototype.array.ArrayClassPrototypeFetcher;
+import org.panda_lang.framework.language.architecture.prototype.array.PandaArray;
+import org.panda_lang.utilities.commons.function.CachedSupplier;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 public class PandaModule implements Module {
 
     protected final String name;
-    protected final Collection<PrototypeReference> references;
+    protected final Module parent;
+    protected final Collection<Module> submodules;
+    protected final ReferencesMap references;
+
+    public PandaModule(@Nullable Module parent, String name) {
+        this.name = name;
+        this.parent = parent;
+        this.submodules = new ArrayList<>();
+        this.references = new PandaReferencesMap();
+    }
 
     public PandaModule(String name) {
-        this.name = name;
-        this.references = new ArrayList<>();
+        this(null, name);
     }
 
     @Override
-    public PrototypeReference add(PrototypeReference reference) {
-        this.references.add(reference);
-        return reference;
+    public void add(String name, Class<?> associatedClass, Supplier<PrototypeReference> reference) {
+        this.references.put(name, associatedClass, new CachedSupplier<>(reference));
     }
 
     @Override
-    public int getAmountOfReferences() {
+    public void addSubmodule(Module submodule) {
+        submodules.add(submodule);
+    }
+
+    @Override
+    public int countUsedPrototypes() {
+        return references.countUsedPrototypes();
+    }
+
+    @Override
+    public int countReferences() {
         return references.size();
     }
 
     @Override
-    public Iterable<PrototypeReference> getReferences() {
-        return references;
+    public Optional<PrototypeReference> forClass(Class<?> associatedClass) {
+        return references.forClass(associatedClass);
+    }
+
+    @Override
+    public Optional<PrototypeReference> forName(CharSequence prototypeName) {
+        if (name.endsWith(PandaArray.IDENTIFIER)) {
+            return ArrayClassPrototypeFetcher.fetch(this, name);
+        }
+
+        return references.forName(prototypeName);
+    }
+
+    @Override
+    public Collection<Entry<String, Supplier<PrototypeReference>>> getReferences() {
+        Collection<Entry<String, Supplier<PrototypeReference>>> entries = references.getReferences();
+
+        for (Module submodule : getSubmodules()) {
+            entries.addAll(submodule.getReferences());
+        }
+
+        return entries;
+    }
+
+    @Override
+    public Collection<Module> getSubmodules() {
+        return submodules;
+    }
+
+    @Override
+    public Optional<Module> getParent() {
+        return Optional.ofNullable(parent);
     }
 
     @Override
@@ -55,7 +110,7 @@ public class PandaModule implements Module {
 
     @Override
     public String toString() {
-        return this.getName() + "[" + references.size() + "]";
+        return (parent != null ? parent.toString() + ":" : "") + name;
     }
 
 }

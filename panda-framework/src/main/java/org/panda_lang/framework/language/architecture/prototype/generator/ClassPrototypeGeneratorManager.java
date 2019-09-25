@@ -17,15 +17,14 @@
 package org.panda_lang.framework.language.architecture.prototype.generator;
 
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
 
 public class ClassPrototypeGeneratorManager {
 
     private static final ClassPrototypeGeneratorManager INSTANCE = new ClassPrototypeGeneratorManager();
     private static final ClassPrototypeGenerator GENERATOR = new ClassPrototypeGenerator();
 
-    public PrototypeReference generate(Module module, Class<?> clazz, String name) {
-        return GENERATOR.generate(module, clazz, name);
+    public void generate(Module module, Class<?> clazz, String name) {
+        GENERATOR.generate(module, clazz, name);
     }
 
     public static ClassPrototypeGeneratorManager getInstance() {

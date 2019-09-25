@@ -57,7 +57,10 @@ public class PandaPrototype extends AbstractPrototype {
                 .associated(type)
                 .build();
 
-        return module.add(new PandaPrototypeReference(prototype));
+        PandaPrototypeReference reference = new PandaPrototypeReference(prototype);
+        module.add(name, type, () -> reference);
+
+        return reference;
     }
 
     public static <T> PandaClassPrototypeBuilder<?, ?> builder() {

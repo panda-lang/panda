@@ -35,7 +35,7 @@ import org.panda_lang.framework.design.interpreter.pattern.descriptive.extractor
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.language.architecture.module.ModuleLoaderUtils;
+import org.panda_lang.framework.language.architecture.module.PandaImportsUtils;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototypeField;
 import org.panda_lang.panda.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
@@ -62,7 +62,7 @@ public class FieldParser extends ParserBootstrap {
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
     void parse(Context context, LocalData local, @Inter ExtractorResult result, @Src("type") Snippet type, @Src("name") Snippet name) {
-        PrototypeReference returnType = ModuleLoaderUtils.getReferenceOrThrow(context, type.asSource(), type);
+        PrototypeReference returnType = PandaImportsUtils.getReferenceOrThrow(context, type.asSource(), type);
 
         PrototypeVisibility visibility = PrototypeVisibility.LOCAL;
         visibility = result.hasIdentifier("p") ? PrototypeVisibility.PUBLIC : visibility;

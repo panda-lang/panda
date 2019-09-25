@@ -67,7 +67,7 @@ abstract class AbstractPrototypeMetadata implements PrototypeMetadata {
 
     @Override
     public PrototypeReference toArray(ModuleLoader loader) {
-        return ArrayClassPrototypeFetcher.getArrayOf(loader, this, 1);
+        return ArrayClassPrototypeFetcher.getArrayOf(getModule(), this, 1);
     }
 
     @Override

@@ -16,54 +16,31 @@
 
 package org.panda_lang.framework.design.architecture.module;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.utilities.commons.StreamUtils;
 
 import java.util.Collection;
 import java.util.Optional;
 
 /**
- *
- * ModulePath is collection of all available modules. Content:
- *
- * <ul>
- *     <li>default module = language core prototypes like numbers, strings, object</li>
- *     <li>all available modules</li>
- * </ul>
- *
+ * ModulePath is collection of all available modules
  */
 public interface ModulePath {
-
-    /**
-     * Constant that represents default module. The value of constant is null,
-     * because default module does not have a name.
-     */
-    String DEFAULT_MODULE = null;
 
     /**
      * Add module to the path
      *
      * @param module the module to add
-     * @return the path instance
+     * @return the module instance
      */
     Module include(Module module);
-
-    /**
-     * Check if the path contains module with the given name
-     *
-     * @param name the name to check
-     * @return true if path contains that module
-     */
-    boolean hasModule(@Nullable String name);
 
     /**
      * Count used prototypes
      *
      * @return the amount of used prototypes
      */
-    default int getAmountOfUsedPrototypes() {
-        return StreamUtils.sum(getModules(), Module::getAmountOfUsedPrototypes);
+    default int countUsedPrototypes() {
+        return StreamUtils.sum(getModules(), Module::countUsedPrototypes);
     }
 
     /**
@@ -71,28 +48,17 @@ public interface ModulePath {
      *
      * @return the amount of references
      */
-    default int getAmountOfReferences() {
-        return StreamUtils.sum(getModules(), Module::getAmountOfReferences);
+    default int countReferences() {
+        return StreamUtils.sum(getModules(), Module::countReferences);
     }
 
     /**
-     * Get default module
-     *
-     * @return the default module
-     *
-     * @see org.panda_lang.framework.design.architecture.module.ModulePath#DEFAULT_MODULE
-     */
-    default Module getDefaultModule() {
-        return get(DEFAULT_MODULE).orElseThrow(() -> new PandaParserException(getClass() + " does not have default module"));
-    }
-
-    /**
-     * Get module
+     * Get module with the given name
      *
      * @param name the name of module
      * @return the module
      */
-    Optional<Module> get(@Nullable String name);
+    Optional<Module> get(String name);
 
     /**
      * Get all modules

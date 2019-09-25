@@ -16,7 +16,6 @@
 
 package org.panda_lang.framework.language.architecture.module;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModulePath;
 
@@ -31,22 +30,20 @@ public class PandaModulePath implements ModulePath {
 
     public PandaModulePath() {
         this.modules = new HashMap<>();
-        this.initialize();
     }
 
-    private void initialize() {
-        this.include(new PandaModule(ModulePath.DEFAULT_MODULE));
+    public PandaModulePath(Module... modules) {
+        this();
+
+        for (Module module : modules) {
+            include(module);
+        }
     }
 
     @Override
     public Module include(Module module) {
         modules.put(module.getName(), module);
         return module;
-    }
-
-    @Override
-    public boolean hasModule(@Nullable String name) {
-        return modules.containsKey(name);
     }
 
     @Override

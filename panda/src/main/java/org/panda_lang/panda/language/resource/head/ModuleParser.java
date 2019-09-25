@@ -17,11 +17,17 @@
 package org.panda_lang.panda.language.resource.head;
 
 import org.panda_lang.framework.design.architecture.Environment;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
-import org.panda_lang.panda.language.architecture.PandaScript;
+import org.panda_lang.framework.design.architecture.module.Imports;
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.language.architecture.module.PandaModule;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
+import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.panda.language.architecture.PandaScript;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
@@ -29,13 +35,7 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annot
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Inter;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.TokenHandler;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
-import org.panda_lang.framework.language.architecture.module.PandaModule;
-import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
-import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 
 @Registrable(pipeline = Pipelines.HEAD_LABEL)
 public final class ModuleParser extends ParserBootstrap {
@@ -48,7 +48,7 @@ public final class ModuleParser extends ParserBootstrap {
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL)
-    void parse(@Component Environment environment, @Component ModuleLoader loader, @Component PandaScript script, @Inter SourceLocation location, @Src("module") Snippet source) {
+    void parse(@Component Environment environment, @Component Imports imports, @Component PandaScript script, @Inter SourceLocation location, @Src("module") Snippet source) {
         if (script.select(ModuleStatement.class).size() > 0) {
             throw new PandaParserException("Script contains more than one declaration of the group");
         }
@@ -61,9 +61,8 @@ public final class ModuleParser extends ParserBootstrap {
 
         ModuleStatement moduleStatement = new ModuleStatement(location, module);
         script.addStatement(moduleStatement);
-        script.setModule(moduleStatement.getModule());
-
-        loader.load(moduleStatement.getModule());
+        script.setModule(module);
+        imports.importModule(module);
     }
 
 }

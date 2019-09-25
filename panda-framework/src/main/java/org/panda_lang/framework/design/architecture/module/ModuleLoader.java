@@ -16,22 +16,12 @@
 
 package org.panda_lang.framework.design.architecture.module;
 
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
-
-import java.util.Collection;
 import java.util.Optional;
 
 /**
- * ModuleLoader stores all imported modules wrapped into {@link org.panda_lang.framework.design.architecture.module.LivingModule}. Content:
- *
- * <ul>
- *     <li>creates local module - associated with loader module for local imports</li>
- *     <li>includes default module by default into local module</li>
- *     <li>keeps imported modules as living modules</li>
- * </ul>
- *
+ * ModuleLoader stores all imported modules wrapped into {@link org.panda_lang.framework.design.architecture.module.LoadedModule}
  */
-public interface ModuleLoader {
+public interface ModuleLoader extends ModuleResource {
 
     /**
      * Include module
@@ -39,48 +29,23 @@ public interface ModuleLoader {
      * @param module the module to include
      * @return the loader instance
      */
-    ModuleLoader load(Module module);
+    boolean load(Module module);
 
     /**
-     * Get reference using the given name
+     * Get loaded module of the given module or load if not loaded
      *
-     * @param name the name to search
-     * @return the found (or not) prototype reference wrapped into optional
+     * @param module the module to search for
+     * @return loaded module
      */
-    Optional<PrototypeReference> forName(String name);
+    LoadedModule loadIfAbsent(Module module);
 
     /**
-     * Get reference using the associated class
-     *
-     * @param associated the associated class to compare
-     * @return the found (or not) prototype reference wrapped into optional
-     */
-    Optional<PrototypeReference> forAssociated(Class<?> associated);
-
-    /**
-     * Get living module using the given name
+     * Get loaded module with given name
      *
      * @param name the name to search for
-     * @return the found (or not) living module
+     * @return the loaded module, otherwise empty optional
      */
-    Optional<LivingModule> get(String name);
-
-    /**
-     * Collect all names of imported modules
-     *
-     * @return the collection of names
-     */
-    Collection<String> getNames();
-
-    /**
-     * Get local module. The local module contains loaded {@link ModulePath#getDefaultModule()} by default,
-     * it's also intended for non-exposed module metadata like local imports.
-     *
-     * @return the default module
-     *
-     * @see org.panda_lang.framework.design.architecture.module.ModulePath#DEFAULT_MODULE
-     */
-    LivingModule getLocalModule();
+    Optional<LoadedModule> get(String name);
 
     /**
      * Get parent loader

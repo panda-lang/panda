@@ -18,10 +18,10 @@ package org.panda_lang.framework.language.architecture.prototype.generator;
 
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 import org.panda_lang.utilities.commons.ReflectionUtils;
@@ -30,77 +30,70 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.function.Supplier;
 
 final class ClassPrototypeGenerator {
 
     protected static boolean locked;
 
-    protected PrototypeReference generate(Module module, Class<?> type, String name) {
+    protected void generate(Module module, Class<?> type, String name) {
         boolean bypass = !locked;
 
         if (bypass) {
             locked = true;
         }
 
-        Prototype prototype = PandaPrototype.builder()
-                .module(module)
-                .name(name)
-                .associated(type)
-                .build();
+        module.add(name, type, () -> {
+            Prototype prototype = PandaPrototype.builder()
+                    .module(module)
+                    .name(name)
+                    .associated(type)
+                    .build();
 
-        prototype.getReference().addInitializer(() -> {
-            if (!Modifier.isPublic(type.getModifiers())) {
-                return;
-            }
-
-            for (Field field : type.getFields()) {
-                if (!Modifier.isPublic(field.getModifiers())) {
-                    continue;
+            prototype.getReference().addInitializer(() -> {
+                if (!Modifier.isPublic(type.getModifiers())) {
+                    return;
                 }
 
-                ClassPrototypeFieldGenerator generator = new ClassPrototypeFieldGenerator(this, prototype, field);
-                PrototypeField prototypeField = generator.generate();
-                prototype.getFields().declare(prototypeField);
-            }
+                for (Field field : type.getFields()) {
+                    if (!Modifier.isPublic(field.getModifiers())) {
+                        continue;
+                    }
 
-            for (Constructor<?> constructor : ReflectionUtils.getByModifier(type.getConstructors(), Modifier.PUBLIC)) {
-                ClassPrototypeConstructorGenerator generator = new ClassPrototypeConstructorGenerator(this, prototype, constructor);
-                PrototypeConstructor prototypeField = generator.generate();
-                prototype.getConstructors().declare(prototypeField);
-            }
+                    ClassPrototypeFieldGenerator generator = new ClassPrototypeFieldGenerator(this, prototype, field);
+                    PrototypeField prototypeField = generator.generate();
+                    prototype.getFields().declare(prototypeField);
+                }
 
-            for (Method method : ReflectionUtils.getByModifier(type.getMethods(), Modifier.PUBLIC)) {
-                ClassPrototypeMethodGenerator generator = new ClassPrototypeMethodGenerator(this, prototype, method);
-                PrototypeMethod prototypeMethod = generator.generate();
-                prototype.getMethods().declare(prototypeMethod);
-            }
+                for (Constructor<?> constructor : ReflectionUtils.getByModifier(type.getConstructors(), Modifier.PUBLIC)) {
+                    ClassPrototypeConstructorGenerator generator = new ClassPrototypeConstructorGenerator(this, prototype, constructor);
+                    PrototypeConstructor prototypeField = generator.generate();
+                    prototype.getConstructors().declare(prototypeField);
+                }
 
-            if (bypass) {
-                locked = false;
-            }
+                for (Method method : ReflectionUtils.getByModifier(type.getMethods(), Modifier.PUBLIC)) {
+                    ClassPrototypeMethodGenerator generator = new ClassPrototypeMethodGenerator(this, prototype, method);
+                    PrototypeMethod prototypeMethod = generator.generate();
+                    prototype.getMethods().declare(prototypeMethod);
+                }
+
+                if (bypass) {
+                    locked = false;
+                }
+            });
+
+            return prototype.getReference();
         });
-
-        return module.add(prototype.getReference());
     }
 
     protected PrototypeReference computeIfAbsent(Module module, Class<?> type) {
-        PrototypeReference reference = (module == null || !module.hasPrototype(type))
-                ? generate(module, type, type.getCanonicalName())
-                : module.getAssociatedWith(type).orElse(null);
-
-        if (reference == null) {
-            throw new PandaRuntimeException("Cannot prepare class: " + type);
-        }
-
-        if (module == null) {
-            throw new PandaRuntimeException("Cannot find module of prototype: " + reference);
-        }
-
         if (!module.hasPrototype(type)) {
-            module.add(reference);
+            generate(module, type, type.getSimpleName());
         }
 
-        return reference;
+        return module.forName(type.getSimpleName()).orElseThrow((Supplier<? extends PandaRuntimeException>) () -> {
+            throw new PandaRuntimeException("Cannot prepare class: " + type);
+        });
     }
 
 }
