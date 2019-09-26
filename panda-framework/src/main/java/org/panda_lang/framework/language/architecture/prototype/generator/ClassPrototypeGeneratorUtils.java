@@ -17,35 +17,25 @@
 package org.panda_lang.framework.language.architecture.prototype.generator;
 
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
 import org.panda_lang.framework.language.architecture.parameter.PandaParameter;
 
 import java.lang.reflect.Parameter;
 
-public class ClassPrototypeGeneratorUtils {
+public final class ClassPrototypeGeneratorUtils {
 
     private static final ClassPrototypeGenerator GENERATOR = new ClassPrototypeGenerator();
+
+    private ClassPrototypeGeneratorUtils() { }
 
     public static PandaParameter[] toParameters(Module module, Parameter[] parameters) {
         PandaParameter[] mappedParameters = new PandaParameter[parameters.length];
 
         for (int index = 0; index < parameters.length; index++) {
             Parameter parameter = parameters[index];
-            mappedParameters[index] = new PandaParameter(index, GENERATOR.computeIfAbsent(module, parameter.getType()), parameter.getName(), parameter.isVarArgs(), false);
+            mappedParameters[index] = new PandaParameter(index, GENERATOR.findOrGenerate(module, parameter.getType()), parameter.getName(), parameter.isVarArgs(), false);
         }
 
         return mappedParameters;
-    }
-
-    public static PrototypeReference[] toTypes(Module module, Class<?>... types) {
-        ClassPrototypeGenerator generator = new ClassPrototypeGenerator();
-        PrototypeReference[] references = new PrototypeReference[types.length];
-
-        for (int i = 0; i < types.length; i++) {
-            references[i] = generator.computeIfAbsent(module, types[i]);
-        }
-
-        return references;
     }
 
 }

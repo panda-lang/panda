@@ -16,7 +16,6 @@
 
 package org.panda_lang.framework.language.resource;
 
-import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
@@ -27,7 +26,6 @@ import org.panda_lang.framework.language.architecture.prototype.generator.ClassP
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 public final class PandaTypes {
 
@@ -61,11 +59,9 @@ public final class PandaTypes {
     }
 
     private static PrototypeReference of(Class<?> clazz) {
-        ClassPrototypeGeneratorManager.getInstance().generate(MODULE, clazz, clazz.getSimpleName());
-
-        return MODULE.forName(clazz.getSimpleName()).orElseThrow((Supplier<? extends PandaFrameworkException>) () -> {
-            throw new PandaFrameworkException("Cannot generate type for " + clazz.getName() + " class");
-        });
+        PrototypeReference reference = ClassPrototypeGeneratorManager.getInstance().generate(MODULE, clazz, clazz.getSimpleName());
+        MODULE.add(reference. getName(), reference.getAssociatedClass(), () -> reference);
+        return reference;
     }
 
 }

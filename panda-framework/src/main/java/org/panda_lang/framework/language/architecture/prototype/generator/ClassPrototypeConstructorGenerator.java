@@ -42,7 +42,7 @@ final class ClassPrototypeConstructorGenerator {
         java.lang.reflect.Parameter[] parameters = constructor.getParameters();
 
         for (int index = 0; index < parameters.length; index++) {
-            PrototypeReference reference = generator.computeIfAbsent(prototype.getModule(), constructor.getParameterTypes()[index]);
+            PrototypeReference reference = generator.findOrGenerate(prototype.getModule(), constructor.getParameterTypes()[index]);
             java.lang.reflect.Parameter parameter = parameters[index];
 
             prototypeParameters[index] = new PandaParameter(index, reference, parameter.getName(), parameter.isVarArgs(), false);

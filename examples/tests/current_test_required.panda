@@ -1,5 +1,7 @@
 module example-test
 
+export org.panda_lang.utilities.commons.StringUtils
+
 class Required {
 
     method hello() {
