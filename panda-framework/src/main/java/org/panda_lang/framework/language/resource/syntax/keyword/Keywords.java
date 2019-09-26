@@ -41,6 +41,8 @@ public final class Keywords {
 
     public static final Keyword ELSE = new Keyword("else");
 
+    public static final Keyword EXPORT = new Keyword("export");
+
     public static final Keyword EXTENDS = new Keyword("extends");
 
     public static final Keyword FOREACH = new Keyword("foreach");

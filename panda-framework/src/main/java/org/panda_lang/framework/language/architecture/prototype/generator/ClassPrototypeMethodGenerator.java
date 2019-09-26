@@ -46,7 +46,7 @@ final class ClassPrototypeMethodGenerator {
     }
 
     protected PrototypeMethod generate() {
-        PrototypeReference returnType = generator.computeIfAbsent(prototype.getModule(), method.getReturnType());
+        PrototypeReference returnType = generator.findOrGenerate(prototype.getModule(), method.getReturnType());
         Parameter[] mappedParameters = ClassPrototypeGeneratorUtils.toParameters(prototype.getModule(), method.getParameters());
         boolean isVoid = returnType.getName().equals("void");
 

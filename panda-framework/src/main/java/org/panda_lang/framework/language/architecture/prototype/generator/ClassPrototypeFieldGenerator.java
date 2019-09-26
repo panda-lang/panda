@@ -43,7 +43,7 @@ final class ClassPrototypeFieldGenerator {
     }
 
     protected PrototypeField generate() {
-        PrototypeReference returnType = generator.computeIfAbsent(prototype.getModule(), field.getType());
+        PrototypeReference returnType = generator.findOrGenerate(prototype.getModule(), field.getType());
 
         PrototypeField prototypeField = PandaPrototypeField.builder()
                 .prototype(prototype.getReference())

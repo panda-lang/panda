@@ -36,59 +36,57 @@ final class ClassPrototypeGenerator {
 
     protected static boolean locked;
 
-    protected void generate(Module module, Class<?> type, String name) {
+    protected PrototypeReference generate(Module module, Class<?> type, String name) {
         boolean bypass = !locked;
 
         if (bypass) {
             locked = true;
         }
 
-        module.add(name, type, () -> {
-            Prototype prototype = PandaPrototype.builder()
-                    .module(module)
-                    .name(name)
-                    .associated(type)
-                    .build();
+        Prototype prototype = PandaPrototype.builder()
+                .module(module)
+                .name(name)
+                .associated(type)
+                .build();
 
-            prototype.getReference().addInitializer(() -> {
-                if (!Modifier.isPublic(type.getModifiers())) {
-                    return;
+        prototype.getReference().addInitializer(() -> {
+            if (!Modifier.isPublic(type.getModifiers())) {
+                return;
+            }
+
+            for (Field field : type.getFields()) {
+                if (!Modifier.isPublic(field.getModifiers())) {
+                    continue;
                 }
 
-                for (Field field : type.getFields()) {
-                    if (!Modifier.isPublic(field.getModifiers())) {
-                        continue;
-                    }
+                ClassPrototypeFieldGenerator generator = new ClassPrototypeFieldGenerator(this, prototype, field);
+                PrototypeField prototypeField = generator.generate();
+                prototype.getFields().declare(prototypeField);
+            }
 
-                    ClassPrototypeFieldGenerator generator = new ClassPrototypeFieldGenerator(this, prototype, field);
-                    PrototypeField prototypeField = generator.generate();
-                    prototype.getFields().declare(prototypeField);
-                }
+            for (Constructor<?> constructor : ReflectionUtils.getByModifier(type.getConstructors(), Modifier.PUBLIC)) {
+                ClassPrototypeConstructorGenerator generator = new ClassPrototypeConstructorGenerator(this, prototype, constructor);
+                PrototypeConstructor prototypeField = generator.generate();
+                prototype.getConstructors().declare(prototypeField);
+            }
 
-                for (Constructor<?> constructor : ReflectionUtils.getByModifier(type.getConstructors(), Modifier.PUBLIC)) {
-                    ClassPrototypeConstructorGenerator generator = new ClassPrototypeConstructorGenerator(this, prototype, constructor);
-                    PrototypeConstructor prototypeField = generator.generate();
-                    prototype.getConstructors().declare(prototypeField);
-                }
+            for (Method method : ReflectionUtils.getByModifier(type.getMethods(), Modifier.PUBLIC)) {
+                ClassPrototypeMethodGenerator generator = new ClassPrototypeMethodGenerator(this, prototype, method);
+                PrototypeMethod prototypeMethod = generator.generate();
+                prototype.getMethods().declare(prototypeMethod);
+            }
 
-                for (Method method : ReflectionUtils.getByModifier(type.getMethods(), Modifier.PUBLIC)) {
-                    ClassPrototypeMethodGenerator generator = new ClassPrototypeMethodGenerator(this, prototype, method);
-                    PrototypeMethod prototypeMethod = generator.generate();
-                    prototype.getMethods().declare(prototypeMethod);
-                }
-
-                if (bypass) {
-                    locked = false;
-                }
-            });
-
-            return prototype.getReference();
+            if (bypass) {
+                locked = false;
+            }
         });
+
+        return prototype.getReference();
     }
 
-    protected PrototypeReference computeIfAbsent(Module module, Class<?> type) {
+    protected PrototypeReference findOrGenerate(Module module, Class<?> type) {
         if (!module.hasPrototype(type)) {
-            generate(module, type, type.getSimpleName());
+            return generate(module, type, type.getSimpleName());
         }
 
         return module.forName(type.getSimpleName()).orElseThrow((Supplier<? extends PandaRuntimeException>) () -> {

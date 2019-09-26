@@ -16,12 +16,12 @@
 
 package org.panda_lang.panda.language.resource.head;
 
-import org.panda_lang.framework.design.architecture.module.Imports;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.panda.language.architecture.PandaScript;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
@@ -31,19 +31,19 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handl
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 
 @Registrable(pipeline = Pipelines.HEAD_LABEL)
-public final class ImportParser extends ParserBootstrap {
+public final class ExportParser extends ParserBootstrap {
 
     @Override
     protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
         return initializer
-                .handler(new TokenHandler(Keywords.IMPORT))
-                .pattern("import <class:condition token {type:unknown}, token {value:_}, token {value:.}>");
+                .handler(new TokenHandler(Keywords.EXPORT))
+                .pattern("export <class:condition token {type:unknown}, token {value:_}, token {value:.}>");
     }
 
     @Autowired
-    void parseImport(Context context, @Component Imports imports, @Src("class") Snippet className) {
+    void parseImport(Context context, @Component PandaScript script, @Src("class") Snippet className) {
         PrototypeReference reference = ConveyanceUtils.fetchReference(context, className);
-        imports.importReference(reference.getName(), () -> reference);
+        script.getModule().add(reference.getName(), reference.getAssociatedClass(), () -> reference);
     }
 
 }
