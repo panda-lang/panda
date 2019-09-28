@@ -21,15 +21,15 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-final class AttentiveContentReaderTest {
+final class SectionStringTest {
 
-    private static final String CONTENT = "Test|Bracket(|)|String\"|\"|Test";
+    private static final String CONTENT = "Test|Bracket(|)|String'|'|Test";
     private static final char SEPARATOR = '|';
 
     @Test
-    void testAttentiveContentReader() {
-        AttentiveContentReader attentiveContentReader = new AttentiveContentReader(CONTENT);
-        List<String> selected = attentiveContentReader.select(SEPARATOR);
+    void split() {
+        SectionString sectionString = SectionString.of(CONTENT).build();
+        List<String> selected = sectionString.split(SEPARATOR);
 
         Assertions.assertNotNull(selected);
         Assertions.assertEquals(4, selected.size());
@@ -37,7 +37,7 @@ final class AttentiveContentReaderTest {
         Assertions.assertAll(
                 () -> Assertions.assertEquals("Test", selected.get(0)),
                 () -> Assertions.assertEquals("Bracket(|)", selected.get(1)),
-                () -> Assertions.assertEquals("String\"|\"", selected.get(2)),
+                () -> Assertions.assertEquals("String'|'", selected.get(2)),
                 () -> Assertions.assertEquals("Test", selected.get(3))
         );
     }

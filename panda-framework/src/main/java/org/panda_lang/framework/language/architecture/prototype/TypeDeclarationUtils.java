@@ -14,22 +14,22 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.expression.subparsers.assignation.variable;
+package org.panda_lang.framework.language.architecture.prototype;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public final class VariableDeclarationUtils {
+public final class TypeDeclarationUtils {
+
+    private TypeDeclarationUtils() { }
 
     public static Optional<Snippet> readType(Snippet source) {
         Snippet type = new PandaSnippet();
@@ -81,22 +81,6 @@ public final class VariableDeclarationUtils {
         }
 
         return Optional.of(type.reversed());
-    }
-
-    public static List<Section> getArraySections(Snippet type) {
-        List<Section> sections = new ArrayList<>();
-
-        for (int index = type.size() - 1; index >= 0; index--) {
-            TokenRepresentation representation = type.get(index);
-
-            if (representation.getType() != TokenType.SECTION) {
-                break;
-            }
-
-            sections.add(representation.toToken());
-        }
-
-        return sections;
     }
 
     public static boolean isArray(Snippet type) {

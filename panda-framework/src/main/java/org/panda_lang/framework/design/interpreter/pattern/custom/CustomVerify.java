@@ -14,21 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.utilities.commons.text;
+package org.panda_lang.framework.design.interpreter.pattern.custom;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+public interface CustomVerify<T> {
 
-final class BracketContentReaderTest {
-
-    private static final String CONTENT = "(Test (A[B{C\"D\"E}F]G) Test) EoT";
-
-    @Test
-    void testBracketContentReader() {
-        BracketContentReader bracketContentReader = new BracketContentReader(CONTENT);
-        String content = bracketContentReader.read();
-
-        Assertions.assertEquals("Test (A[B{C\"D\"E}F]G) Test", content);
-    }
+    boolean verify(T content);
 
 }

@@ -79,9 +79,13 @@ public final class Keywords {
 
     public static final Keyword NIL = new Keyword("nil");
 
+    public static final Keyword PUBLIC = new Keyword("public");
+
     public static final Keyword RETURN = new Keyword("return");
 
     public static final Keyword REQUIRE = new Keyword("require");
+
+    public static final Keyword SHARED = new Keyword("shared");
 
     public static final Keyword STATIC = new Keyword("static");
 

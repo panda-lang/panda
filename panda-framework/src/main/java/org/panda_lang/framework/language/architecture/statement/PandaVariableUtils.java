@@ -45,10 +45,10 @@ public final class PandaVariableUtils {
 
         char[] chars = token.getValue().toCharArray();
 
-        for (int i = 1; i < token.getValue().toCharArray().length; i++) {
-            char c = chars[i];
+        for (int index = 1; index < token.getValue().toCharArray().length; index++) {
+            char character = chars[index];
 
-            if (!CharacterUtils.belongsTo(c, ALLOWED)) {
+            if (!CharacterUtils.belongsTo(character, ALLOWED)) {
                 return false;
             }
         }

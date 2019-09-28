@@ -14,22 +14,23 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.architecture.prototype;
+package org.panda_lang.framework.design.interpreter.pattern.linear;
 
-public enum PrototypeVisibility {
+import org.jetbrains.annotations.Nullable;
 
-    PUBLIC(0),
-    SHARED(1),
-    LOCAL(2);
+final class UnitElement extends LinearPatternElement {
 
-    private final int modifier;
-
-    PrototypeVisibility(int modifier) {
-        this.modifier = modifier;
+    UnitElement(@Nullable String identifier, String unit, boolean optional) {
+        super(unit, identifier, optional);
     }
 
-    public int getModifier() {
-        return modifier;
+    @Override
+    public boolean isUnit() {
+        return true;
+    }
+
+    public String getUnit() {
+        return getValue();
     }
 
 }

@@ -83,7 +83,7 @@ class LinearPatternMatcher {
         }
 
         if (element.isSection()) {
-            SectionLinearPatternElement sectionElement = (SectionLinearPatternElement) element;
+            SectionElement sectionElement = (SectionElement) element;
             TokenRepresentation next = content.next();
 
             if (next.getType() != TokenType.SECTION) {
@@ -105,15 +105,15 @@ class LinearPatternMatcher {
         }
 
         if (element.isWildcard()) {
-            WildcardLinearPatternElement wildcard = (WildcardLinearPatternElement) element;
+            WildcardElement wildcard = (WildcardElement) element;
 
             Object value = null;
 
-            if (wildcard.getType() == WildcardLinearPatternElement.Type.DEFAULT) {
+            if (wildcard.getType() == WildcardElement.Type.DEFAULT) {
                 value = content.next();
             }
 
-            if (wildcard.getType() == WildcardLinearPatternElement.Type.EXPRESSION) {
+            if (wildcard.getType() == WildcardElement.Type.EXPRESSION) {
                 value = matcher.apply(content);
             }
 

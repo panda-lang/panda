@@ -17,28 +17,24 @@
 package org.panda_lang.framework.design.interpreter.pattern.linear;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.language.resource.syntax.separator.Separator;
 
-final class WildcardLinearPatternElement extends LinearPatternElement {
+final class SectionElement extends LinearPatternElement {
 
-    enum Type {
-        DEFAULT,
-        EXPRESSION
-    }
+    private final Separator separator;
 
-    private final Type type;
-
-    WildcardLinearPatternElement(Type type, @Nullable String identifier, boolean optional) {
-        super("*", identifier, optional);
-        this.type = type;
+    public SectionElement(Separator separator, String value, @Nullable String identifier, boolean optional) {
+        super(value, identifier, optional);
+        this.separator = separator;
     }
 
     @Override
-    public boolean isWildcard() {
+    boolean isSection() {
         return true;
     }
 
-    public Type getType() {
-        return type;
+    public Separator getSeparator() {
+        return separator;
     }
 
 }

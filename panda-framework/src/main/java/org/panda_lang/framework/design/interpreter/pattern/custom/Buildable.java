@@ -14,22 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.architecture.prototype;
+package org.panda_lang.framework.design.interpreter.pattern.custom;
 
-public enum PrototypeVisibility {
+public interface Buildable<T> {
 
-    PUBLIC(0),
-    SHARED(1),
-    LOCAL(2);
-
-    private final int modifier;
-
-    PrototypeVisibility(int modifier) {
-        this.modifier = modifier;
-    }
-
-    public int getModifier() {
-        return modifier;
-    }
+    CustomPatternElement build();
 
 }

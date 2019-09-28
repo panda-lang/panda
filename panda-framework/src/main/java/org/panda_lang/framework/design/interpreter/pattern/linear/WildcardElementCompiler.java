@@ -29,13 +29,13 @@ final class WildcardElementCompiler implements LinearPatternElementCompiler {
     @Override
     public LinearPatternElement compile(LinearPatternCompiler compiler, @Nullable String identifier, String content, boolean optional) {
         if (!content.contains("=")) {
-            return new WildcardLinearPatternElement(WildcardLinearPatternElement.Type.DEFAULT, identifier, optional);
+            return new WildcardElement(WildcardElement.Type.DEFAULT, identifier, optional);
         }
 
         String data = StringUtils.splitFirst(content, "=")[1];
 
         if (data.equals("expression")) {
-            return new WildcardLinearPatternElement(WildcardLinearPatternElement.Type.EXPRESSION, identifier, optional);
+            return new WildcardElement(WildcardElement.Type.EXPRESSION, identifier, optional);
         }
 
         return null;

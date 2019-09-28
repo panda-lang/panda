@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.interpreter.pattern.linear;
+package org.panda_lang.framework.design.interpreter.pattern.custom.verifiers;
 
-import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.interpreter.pattern.custom.CustomVerify;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenType;
 
-class UnitLinearPatternElement extends LinearPatternElement {
+public final class TokenTypeVerifier implements CustomVerify<TokenRepresentation> {
 
-    UnitLinearPatternElement(@Nullable String identifier, String unit, boolean optional) {
-        super(unit, identifier, optional);
+    private final TokenType type;
+
+    public TokenTypeVerifier(TokenType type) {
+        this.type = type;
     }
 
     @Override
-    public boolean isUnit() {
-        return true;
-    }
-
-    public String getUnit() {
-        return getValue();
+    public boolean verify(TokenRepresentation content) {
+        return content.getType() == type;
     }
 
 }

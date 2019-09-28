@@ -14,29 +14,27 @@
  * limitations under the License.
  */
 
-package org.panda_lang.utilities.commons.text;
+package org.panda_lang.framework.design.interpreter.pattern.lexical;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.utilities.commons.CharacterUtils;
 import org.panda_lang.utilities.commons.iterable.CharArrayDistributor;
+import org.panda_lang.utilities.commons.text.SectionString.SectionStack;
 
 import java.util.Stack;
 
-public class BracketContentReader {
-
-    protected static final char[] OPENING_SEQUENCE = "({[<\"".toCharArray();
-    protected static final char[] CLOSING_SEQUENCE = ")}]>\"".toCharArray();
+final class LexicalPatternCompilerReader extends SectionStack {
 
     private final CharArrayDistributor distributor;
     private char[] openingSequence = OPENING_SEQUENCE;
     private char[] closingSequence = CLOSING_SEQUENCE;
     private char[] escape = new char[0];
 
-    public BracketContentReader(CharArrayDistributor distributor) {
+    public LexicalPatternCompilerReader(CharArrayDistributor distributor) {
         this.distributor = distributor;
     }
 
-    public BracketContentReader(String expression) {
+    public LexicalPatternCompilerReader(String expression) {
         this(new CharArrayDistributor(expression));
     }
 
@@ -84,27 +82,6 @@ public class BracketContentReader {
 
     public void setClosingSequence(char[] closingSequence) {
         this.closingSequence = closingSequence;
-    }
-
-    protected static void verifySequences(Stack<Character> sequences, char[] escape, char[] openingSequence, char[] closingSequence, char previous, char current) {
-        if (CharacterUtils.belongsTo(previous, escape)) {
-            return;
-        }
-
-        if (sequences.size() > 0 && CharacterUtils.belongsTo(current, closingSequence)) {
-            char leftCurrent = openingSequence[CharacterUtils.getIndex(closingSequence, current)];
-
-            if (sequences.peek() != leftCurrent) {
-                return;
-            }
-
-            sequences.pop();
-            return;
-        }
-
-        if (CharacterUtils.belongsTo(current, openingSequence)) {
-            sequences.push(current);
-        }
     }
 
 }
