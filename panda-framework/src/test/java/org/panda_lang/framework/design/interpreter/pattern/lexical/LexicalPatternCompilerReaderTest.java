@@ -14,22 +14,21 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.architecture.prototype;
+package org.panda_lang.framework.design.interpreter.pattern.lexical;
 
-public enum PrototypeVisibility {
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-    PUBLIC(0),
-    SHARED(1),
-    LOCAL(2);
+final class LexicalPatternCompilerReaderTest {
 
-    private final int modifier;
+    private static final String CONTENT = "(Test (A[B{C\"D\"E}F]G) Test) EoT";
 
-    PrototypeVisibility(int modifier) {
-        this.modifier = modifier;
-    }
+    @Test
+    void testBracketContentReader() {
+        LexicalPatternCompilerReader bracketContentReader = new LexicalPatternCompilerReader(CONTENT);
+        String content = bracketContentReader.read();
 
-    public int getModifier() {
-        return modifier;
+        Assertions.assertEquals("Test (A[B{C\"D\"E}F]G) Test", content);
     }
 
 }

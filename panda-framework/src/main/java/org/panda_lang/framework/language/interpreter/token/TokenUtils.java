@@ -73,4 +73,14 @@ public final class TokenUtils {
         return false;
     }
 
+    public static boolean valueEquals(Token token, String... contents) {
+        for (String content : contents) {
+            if (token.getValue().equals(content)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }

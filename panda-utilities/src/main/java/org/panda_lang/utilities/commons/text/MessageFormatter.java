@@ -22,7 +22,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public class MessageFormatter {
+public final class MessageFormatter {
 
     private final Map<String, Supplier<?>> placeholders;
 

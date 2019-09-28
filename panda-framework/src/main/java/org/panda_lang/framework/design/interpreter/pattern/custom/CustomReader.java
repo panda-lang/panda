@@ -14,22 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.architecture.prototype;
+package org.panda_lang.framework.design.interpreter.pattern.custom;
 
-public enum PrototypeVisibility {
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 
-    PUBLIC(0),
-    SHARED(1),
-    LOCAL(2);
+public interface CustomReader<T> {
 
-    private final int modifier;
-
-    PrototypeVisibility(int modifier) {
-        this.modifier = modifier;
-    }
-
-    public int getModifier() {
-        return modifier;
-    }
+    @Nullable T read(SynchronizedSource source);
 
 }

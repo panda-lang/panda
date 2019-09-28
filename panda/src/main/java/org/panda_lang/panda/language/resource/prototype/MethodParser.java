@@ -55,21 +55,30 @@ public class MethodParser extends ParserBootstrap {
     private static final ParameterParser PARAMETER_PARSER = new ParameterParser();
     private static final ScopeParser SCOPE_PARSER = new ScopeParser();
 
-    private static final String VISIBILITY = "v";
+    private static final String PUBLIC = "p";
+    private static final String SHARED = "s";
     private static final String LOCAL = "l";
-    private static final String STATIC = "s";
 
     @Override
     protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
-        return initializer.pattern("v:[(l:local|h:hidden)] s:[static] method <*signature> parameters:~( body:~{");
+        return initializer.pattern("(p:public|s:shared|l:local) static:[static] <*signature> parameters:~( body:~{");
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
     boolean parse(Context context, LocalData local, @Inter ExtractorResult result, @Src("*signature") Snippet signature, @Src("parameters") Snippet parametersSource) {
-        PrototypeVisibility visibility = PrototypeVisibility.PUBLIC;
+        PrototypeVisibility visibility;
 
-        if (result.hasIdentifier(VISIBILITY)) {
-            visibility = result.hasIdentifier(LOCAL) ? PrototypeVisibility.LOCAL : PrototypeVisibility.HIDDEN;
+        if (result.hasIdentifier(PUBLIC)) {
+            visibility = PrototypeVisibility.PUBLIC;
+        }
+        else if (result.hasIdentifier(SHARED)) {
+            visibility = PrototypeVisibility.SHARED;
+        }
+        else if (result.hasIdentifier(LOCAL)) {
+            visibility = PrototypeVisibility.LOCAL;
+        }
+        else {
+            throw new PandaParserFailure(context, "Unknown visibility modifier", "Make sure that the visibility modifier is declared");
         }
 
         PrototypeReference returnType = PandaTypes.VOID.getReference();
@@ -97,7 +106,7 @@ public class MethodParser extends ParserBootstrap {
                 .name(method)
                 .visibility(visibility)
                 .returnType(returnType)
-                .isStatic(result.hasIdentifier(STATIC))
+                .isStatic(result.hasIdentifier("static"))
                 .methodBody(new PandaMethodCallback(methodScope))
                 .build();
 

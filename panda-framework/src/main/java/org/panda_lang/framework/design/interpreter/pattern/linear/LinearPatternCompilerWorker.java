@@ -71,7 +71,7 @@ final class LinearPatternCompilerWorker {
             }
         }
 
-        return new UnitLinearPatternElement(identifier, content, optional);
+        return new UnitElement(identifier, content, optional);
     }
 
 }

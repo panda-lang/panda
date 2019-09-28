@@ -38,9 +38,9 @@ public class ParameterUtils {
     public static Prototype[] toTypes(Expression... expressions) {
         Prototype[] prototypes = new Prototype[expressions.length];
 
-        for (int i = 0; i < prototypes.length; i++) {
-            Expression expression = expressions[i];
-            prototypes[i] = expression.getReturnType();
+        for (int index = 0; index < prototypes.length; index++) {
+            Expression expression = expressions[index];
+            prototypes[index] = expression.getReturnType();
         }
 
         return prototypes;

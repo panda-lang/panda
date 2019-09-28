@@ -17,25 +17,25 @@
 package org.panda_lang.panda.language.resource.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.parameter.Arguments;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
-import org.panda_lang.framework.design.architecture.parameter.Arguments;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.language.architecture.module.PandaImportsUtils;
-import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeExecutableExpression;
+import org.panda_lang.framework.language.architecture.prototype.TypeDeclarationUtils;
+import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.framework.language.resource.PandaTypes;
-import org.panda_lang.panda.language.resource.expression.subparsers.assignation.variable.VariableDeclarationUtils;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
@@ -87,7 +87,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             }
 
             // read type
-            Optional<Snippet> typeValue = VariableDeclarationUtils.readType(source.getAvailableSource());
+            Optional<Snippet> typeValue = TypeDeclarationUtils.readType(source.getAvailableSource());
 
             if (!typeValue.isPresent()) {
                 return null;
@@ -98,7 +98,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             source.setIndex(source.getIndex() + typeSource.size());
 
             // parse if type is array
-            if (VariableDeclarationUtils.isArray(typeSource)) {
+            if (TypeDeclarationUtils.isArray(typeSource)) {
                 return parseArray(context, typeSource);
             }
 
@@ -134,7 +134,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
         }
 
         private ExpressionResult parseArray(ExpressionContext context, Snippet typeSource) {
-            List<Section> sections = VariableDeclarationUtils.getArraySections(typeSource);
+            List<Section> sections = getArraySections(typeSource);
             List<Expression> capacities = new ArrayList<>();
 
             for (Section section : sections) {
@@ -176,6 +176,22 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             }
 
             return ExpressionResult.of(new ArrayInstanceExpression(instanceType, baseType.getType().fetch(), capacities.toArray(new Expression[0])).toExpression());
+        }
+
+        private List<Section> getArraySections(Snippet type) {
+            List<Section> sections = new ArrayList<>();
+
+            for (int index = type.size() - 1; index >= 0; index--) {
+                TokenRepresentation representation = type.get(index);
+
+                if (representation.getType() != TokenType.SECTION) {
+                    break;
+                }
+
+                sections.add(representation.toToken());
+            }
+
+            return sections;
         }
 
     }

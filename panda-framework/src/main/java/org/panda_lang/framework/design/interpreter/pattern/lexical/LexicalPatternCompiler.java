@@ -29,8 +29,7 @@ import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.CharacterUtils;
 import org.panda_lang.utilities.commons.StringUtils;
 import org.panda_lang.utilities.commons.iterable.CharArrayDistributor;
-import org.panda_lang.utilities.commons.text.AttentiveContentReader;
-import org.panda_lang.utilities.commons.text.BracketContentReader;
+import org.panda_lang.utilities.commons.text.SectionString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +48,7 @@ public class LexicalPatternCompiler {
         StringBuilder unitBuilder = new StringBuilder();
 
         CharArrayDistributor distributor = new CharArrayDistributor(pattern.toCharArray());
-        BracketContentReader contentReader = new BracketContentReader(distributor);
+        LexicalPatternCompilerReader contentReader = new LexicalPatternCompilerReader(distributor);
 
         while (distributor.hasNext()) {
             char currentChar = distributor.next();
@@ -171,10 +170,11 @@ public class LexicalPatternCompiler {
     }
 
     private LexicalPatternElement compileVariant(String pattern) {
-        AttentiveContentReader contentReader = new AttentiveContentReader(pattern);
-        contentReader.setEscapeCharacters(new char[] { escapeCharacter, '~' });
+        SectionString sectionString = SectionString.of(pattern)
+                .withEscapeCharacters(escapeCharacter, '~')
+                .build();
 
-        List<String> variants = contentReader.select('|');
+        List<String> variants = sectionString.split('|');
         List<LexicalPatternElement> elements = new ArrayList<>(variants.size());
 
         for (String variant : variants) {
@@ -198,10 +198,10 @@ public class LexicalPatternCompiler {
             identifier = pattern.substring(lastIndex == -1 ? 0 : lastIndex + 1, pattern.length() - 1);
         }
         else {
-            AttentiveContentReader contentReader = new AttentiveContentReader(pattern);
+            SectionString contentReader = SectionString.of(pattern).build();
             //contentReader.setEscapeCharacters(new char[] { escapeCharacter, '~' });
 
-            List<String> variants = contentReader.select(':');
+            List<String> variants = contentReader.split(':');
 
             if (variants.size() < 2) {
                 return null;

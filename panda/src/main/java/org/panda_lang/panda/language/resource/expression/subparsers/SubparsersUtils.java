@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.panda.language.resource.expression.subparsers.assignation.variable.VariableDeclarationUtils;
+import org.panda_lang.framework.language.architecture.prototype.TypeDeclarationUtils;
 import org.panda_lang.utilities.commons.function.Produce;
 
 import java.util.Optional;
@@ -31,7 +31,7 @@ final class SubparsersUtils {
     private SubparsersUtils() { }
 
     protected static Produce<PrototypeReference, ExpressionResult> readType(ExpressionContext context) {
-        Optional<Snippet> typeSource = VariableDeclarationUtils.readType(context.getSynchronizedSource().getAvailableSource());
+        Optional<Snippet> typeSource = TypeDeclarationUtils.readType(context.getSynchronizedSource().getAvailableSource());
 
         if (!typeSource.isPresent()) {
             return new Produce<>(() -> ExpressionResult.error("Cannot read type", context.getSynchronizedSource().getAvailableSource()));
