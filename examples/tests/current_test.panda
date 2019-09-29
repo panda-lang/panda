@@ -139,7 +139,7 @@ main {
     }
 }
 
-local class TestArray {
+shared class TestArray {
 
     shared String[] array
 

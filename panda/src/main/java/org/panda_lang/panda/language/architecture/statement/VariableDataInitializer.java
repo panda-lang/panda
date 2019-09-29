@@ -23,6 +23,7 @@ import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
+import org.panda_lang.framework.language.architecture.prototype.VisibilityComparator;
 import org.panda_lang.framework.language.architecture.statement.PandaVariableData;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 
@@ -71,6 +72,7 @@ public class VariableDataInitializer {
             throw new PandaParserFailure(context, type, "Cannot recognize variable type: " + type);
         }
 
+        VisibilityComparator.requireAccess(prototype.get(), context, type);
         return new PandaVariableData(prototype.get(), nameSource.asSource(), mutable, nillable);
     }
 

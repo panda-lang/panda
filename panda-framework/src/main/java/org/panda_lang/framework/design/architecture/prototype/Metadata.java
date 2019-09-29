@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 
 import java.util.Collection;
 
-public interface Metadata {
+public interface Metadata extends Property {
 
     Reference toArray(ModuleLoader moduleLoader);
 

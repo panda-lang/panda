@@ -22,6 +22,7 @@ import org.panda_lang.framework.design.architecture.module.LoadedModule;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -69,7 +70,7 @@ public final class PandaImports implements Imports {
      */
     @Override
     public Optional<Reference> forClass(@Nullable Class<?> associatedClass) {
-        return Optional.empty();
+        throw new PandaRuntimeException("Not supported");
     }
 
     @Override
