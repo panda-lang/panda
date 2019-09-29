@@ -22,9 +22,8 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.Boots
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.InterceptorData;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.framework.design.interpreter.pattern.linear.LinearPattern;
-import org.panda_lang.framework.design.interpreter.pattern.linear.LinearPatternMapping;
-import org.panda_lang.framework.design.interpreter.pattern.linear.LinearPatternResult;
+import org.panda_lang.framework.language.interpreter.pattern.linear.LinearPattern;
+import org.panda_lang.framework.language.interpreter.pattern.linear.LinearPatternResult;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
@@ -59,7 +58,6 @@ public class LinearPatternInterceptor implements BootstrapInterceptor {
             }
 
             interceptorData.addElement(currentSource.getLocation());
-            interceptorData.addElement(new LinearPatternMapping(result));
             interceptorData.addElement(result);
         }
 

@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers.operation;
 
-import org.panda_lang.framework.design.interpreter.pattern.progressive.ProgressivePattern;
-import org.panda_lang.framework.design.interpreter.pattern.progressive.ProgressivePatternElement;
-import org.panda_lang.framework.design.interpreter.pattern.progressive.ProgressivePatternResult;
+import org.panda_lang.framework.language.interpreter.pattern.progressive.ProgressivePattern;
+import org.panda_lang.framework.language.interpreter.pattern.progressive.ProgressivePatternElement;
+import org.panda_lang.framework.language.interpreter.pattern.progressive.ProgressivePatternResult;
 import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.resource.syntax.operator.OperatorFamilies;

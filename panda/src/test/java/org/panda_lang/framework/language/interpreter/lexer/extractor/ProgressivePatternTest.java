@@ -18,8 +18,8 @@ package org.panda_lang.framework.language.interpreter.lexer.extractor;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.panda_lang.framework.design.interpreter.pattern.progressive.ProgressivePattern;
-import org.panda_lang.framework.design.interpreter.pattern.progressive.ProgressivePatternResult;
+import org.panda_lang.framework.language.interpreter.pattern.progressive.ProgressivePattern;
+import org.panda_lang.framework.language.interpreter.pattern.progressive.ProgressivePatternResult;
 import org.panda_lang.framework.design.interpreter.source.Source;
 import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.design.interpreter.token.Snippet;

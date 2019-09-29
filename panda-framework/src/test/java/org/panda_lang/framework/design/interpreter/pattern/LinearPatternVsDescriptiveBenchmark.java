@@ -23,8 +23,8 @@ import org.openjdk.jmh.annotations.Warmup;
 import org.openjdk.jmh.infra.Blackhole;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
-import org.panda_lang.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
-import org.panda_lang.framework.design.interpreter.pattern.linear.LinearPattern;
+import org.panda_lang.framework.language.interpreter.pattern.descriptive.DescriptivePattern;
+import org.panda_lang.framework.language.interpreter.pattern.linear.LinearPattern;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.lexer.PandaLexerUtils;
 

@@ -18,10 +18,10 @@ package org.panda_lang.panda.language.interpreter.parser.bootstraps.context.inte
 
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.pattern.custom.CustomPattern;
-import org.panda_lang.framework.design.interpreter.pattern.custom.CustomPatternData;
-import org.panda_lang.framework.design.interpreter.pattern.custom.Result;
-import org.panda_lang.framework.design.interpreter.pattern.custom.UniversalData;
+import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
+import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPatternData;
+import org.panda_lang.framework.language.interpreter.pattern.custom.Result;
+import org.panda_lang.framework.language.interpreter.pattern.custom.UniversalData;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
