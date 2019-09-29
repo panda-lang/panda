@@ -20,18 +20,19 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.statement.Block;
 import org.panda_lang.framework.design.architecture.statement.Cell;
 import org.panda_lang.framework.design.architecture.statement.Scope;
-import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Components;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.HandleResult;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.framework.design.interpreter.pattern.custom.CustomPattern;
+import org.panda_lang.framework.design.interpreter.pattern.custom.elements.ContentBeforeElement;
+import org.panda_lang.framework.design.interpreter.pattern.custom.elements.SectionElement;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.ScopeParser;
-import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaChannel;
-import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
+import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
@@ -41,9 +42,8 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annot
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Local;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.LocalData;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.interceptors.CustomPatternInterceptor;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
-
-import java.util.function.Supplier;
 
 @Registrable(pipeline = Pipelines.SCOPE_LABEL, priority = PandaPriorities.CONTAINER_BLOCK)
 public class BlockParser extends ParserBootstrap {
@@ -52,7 +52,12 @@ public class BlockParser extends ParserBootstrap {
 
     @Override
     protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
-        return initializer.pattern("<*declaration> body:~{");
+        return initializer
+                .interceptor(new CustomPatternInterceptor())
+                .pattern(CustomPattern.of(
+                        ContentBeforeElement.create("declaration").before(Separators.BRACE_LEFT),
+                        SectionElement.create("body")
+                ));
     }
 
     @Override
@@ -61,30 +66,14 @@ public class BlockParser extends ParserBootstrap {
                 .getPipeline(PandaPipeline.BLOCK)
                 .handle(context, channel, source);
 
-        return result.isFound();
+        channel.put("result", result.getParser().orElse(null));
+        return result.getParser().isPresent();
     }
 
     @Autowired(order = 1)
-    void parse(Context context, LocalData local, @Component Scope parent, @Src("*declaration") Snippet declaration) throws Exception {
-        SourceStream declarationStream = new PandaSourceStream(declaration);
-        Channel channel = new PandaChannel();
-
-        HandleResult<BlockSubparser> handleResult = context
-                .getComponent(Components.PIPELINE)
-                .getPipeline(PandaPipeline.BLOCK)
-                .handle(context, channel, declarationStream.toSnippet());
-
-        BlockSubparser blockParser = handleResult.getParser().orElseThrow((Supplier<? extends Exception>) () -> {
-            if (handleResult.getFailure().isPresent()) {
-                throw handleResult.getFailure().get();
-            }
-
-            throw new PandaParserFailure(context, declaration, "Unknown block");
-        });
-
-
-        Context delegatedContext = local.allocated(context.fork())
-                .withComponent(Components.CHANNEL, channel);
+    void parse(Context context, LocalData local, @Component Channel channel, @Component Scope parent, @Src("declaration") Snippet declaration) throws Exception {
+        BlockSubparser blockParser = channel.get("result", BlockSubparser.class);
+        Context delegatedContext = local.allocated(context.fork()).withComponent(Components.CHANNEL, channel);
 
         if (!parent.getCells().isEmpty()) {
             Cell cell = parent.getCells().get(parent.getCells().size() - 1);

@@ -16,6 +16,7 @@
 
 package org.panda_lang.framework.design.interpreter.pattern.custom;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
@@ -36,8 +37,16 @@ public final class CustomPattern {
         return match(new PandaSourceStream(source));
     }
 
+    public Result match(Snippet source, @Nullable CustomPatternData data) {
+        return match(new PandaSourceStream(source), data);
+    }
+
     public Result match(SourceStream source) {
-        CustomPatternMatcher matcher = new CustomPatternMatcher(this);
+        return match(source, null);
+    }
+
+    public Result match(SourceStream source, @Nullable CustomPatternData data) {
+        CustomPatternMatcher matcher = new CustomPatternMatcher(this, data);
         return matcher.match(source);
     }
 
@@ -45,7 +54,7 @@ public final class CustomPattern {
         return elements;
     }
 
-    public static CustomPattern of(Buildable... elements) {
+    public static CustomPattern of(Buildable<?>... elements) {
         return new CustomPattern(Arrays.stream(elements)
                 .map(Buildable::build)
                 .collect(Collectors.toList()));

@@ -16,38 +16,42 @@
 
 package org.panda_lang.framework.design.interpreter.pattern.custom.elements;
 
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
-import org.panda_lang.framework.design.interpreter.pattern.custom.AbstractCustomPatternElement;
-import org.panda_lang.framework.design.interpreter.pattern.custom.CustomPatternElement;
+import org.panda_lang.framework.design.interpreter.pattern.custom.CustomPatternElementBuilder;
+import org.panda_lang.framework.design.interpreter.pattern.custom.UniversalData;
+import org.panda_lang.framework.design.interpreter.token.SourceStream;
+import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 
-public final class ExpressionElement extends AbstractCustomPatternElement {
+public final class ExpressionElement extends CustomPatternElementBuilder<ExpressionTransaction, ExpressionElement> {
 
-    private ExpressionElement(AbstractCustomPatternElementBuilder builder) {
-        super(builder);
+    private @Nullable ExpressionParser customParser;
+
+    private ExpressionElement(String id) {
+        super(id);
+
+        super.custom((data, source) -> {
+            SourceStream stream = new PandaSourceStream(source.getAvailableSource());
+            Context context = data.get(UniversalData.CONTEXT);
+
+            ExpressionParser parser = customParser != null ? customParser : context.getComponent(Components.EXPRESSION);
+            ExpressionTransaction expressionTransaction = parser.parse(context, stream);
+
+            source.next(stream.getReadLength());
+            return expressionTransaction;
+        });
     }
 
-    public static ExpressionElementBuilder create(String id) {
-        return new ExpressionElementBuilder(id);
+    public ExpressionElement parser(ExpressionParser parser) {
+        this.customParser = parser;
+        return this;
     }
 
-    private static final class ExpressionElementBuilder extends AbstractCustomPatternElementBuilder<ExpressionTransaction, ExpressionElementBuilder> {
-
-        private ExpressionElementBuilder(String id) {
-            super(id);
-        }
-
-        public ExpressionElementBuilder parser(ExpressionParser parser, Context context) {
-            super.custom(source -> parser.parseSilently(context, source.getAvailableSource()).orElse(null));
-            return this;
-        }
-
-        @Override
-        public CustomPatternElement build() {
-            return new ExpressionElement(this);
-        }
-
+    public static ExpressionElement create(String id) {
+        return new ExpressionElement(id);
     }
 
 }

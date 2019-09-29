@@ -21,13 +21,10 @@ import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
-import org.panda_lang.framework.design.interpreter.pattern.descriptive.extractor.ExtractorUtils;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.language.architecture.statement.PandaVariableData;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -40,20 +37,6 @@ public class VariableDataInitializer {
     public VariableDataInitializer(Context context, Scope scope) {
         this.context = context;
         this.scope = scope;
-    }
-
-    public VariableData createVariableData(Snippetable source) {
-        return createVariableData(VariableConstants.DECLARATION_PATTERN.extract(context, source.toSnippet()));
-    }
-
-    public VariableData createVariableData(ExtractorResult result) {
-        Snippet type = ExtractorUtils.getWildcard(result, "type");
-        Snippet name = ExtractorUtils.getWildcard(result, "name");
-
-        boolean mutable = result.hasIdentifier(Keywords.MUT.getValue());
-        boolean nillable = result.hasIdentifier(Keywords.NIL.getValue());
-
-        return createVariableData(type, name, mutable, nillable);
     }
 
     public VariableData createVariableData(Snippetable declaration, boolean mutable, boolean nillable) {

@@ -16,49 +16,30 @@
 
 package org.panda_lang.framework.design.interpreter.pattern.custom.elements;
 
-import org.panda_lang.framework.design.interpreter.pattern.custom.AbstractCustomPatternElement;
-import org.panda_lang.framework.design.interpreter.pattern.custom.CustomPatternElement;
+import org.panda_lang.framework.design.interpreter.pattern.custom.CustomPatternElementBuilder;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.language.architecture.prototype.TypeDeclarationUtils;
-import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
 
 import java.util.Optional;
 
-public final class TypeElement extends AbstractCustomPatternElement {
+public final class TypeElement extends CustomPatternElementBuilder<Snippetable, TypeElement> {
 
-    private TypeElement(TypeElementBuilder builder) {
-        super(builder);
+    private TypeElement(String id) {
+        super(id);
     }
 
-    public static TypeElementBuilder create(String id) {
-        return new TypeElementBuilder(id);
-    }
+    public static TypeElement create(String id) {
+        return new TypeElement(id).custom((data, source) -> {
+            Optional<Snippet> type = TypeDeclarationUtils.readType(source.getAvailableSource());
 
-    public static final class TypeElementBuilder extends AbstractCustomPatternElementBuilder<Snippet, TypeElementBuilder> {
+            if (!type.isPresent()) {
+                return null;
+            }
 
-        private TypeElementBuilder(String id) {
-            super(id);
-
-            super.custom((source, current) -> {
-                Snippet typeSource = new PandaSnippet(current);
-                typeSource.addTokens(source.getAvailableSource());
-
-                Optional<Snippet> type = TypeDeclarationUtils.readType(typeSource);
-
-                if (!type.isPresent()) {
-                    return null;
-                }
-
-                source.next(type.get().size() - 1);
-                return type.get();
-            });
-        }
-
-        @Override
-        public CustomPatternElement build() {
-            return new TypeElement(this);
-        }
-
+            source.next(type.get().size());
+            return type.get();
+        });
     }
 
 }

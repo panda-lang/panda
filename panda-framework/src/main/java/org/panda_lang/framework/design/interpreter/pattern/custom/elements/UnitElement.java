@@ -16,36 +16,23 @@
 
 package org.panda_lang.framework.design.interpreter.pattern.custom.elements;
 
-import org.panda_lang.framework.design.interpreter.pattern.custom.AbstractCustomPatternElement;
-import org.panda_lang.framework.design.interpreter.pattern.custom.CustomPatternElement;
+import org.panda_lang.framework.design.interpreter.pattern.custom.CustomPatternElementBuilder;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 
-public final class UnitElement extends AbstractCustomPatternElement {
+public final class UnitElement extends CustomPatternElementBuilder<TokenRepresentation, UnitElement> {
 
-    private UnitElement(UnitElementBuilder builder) {
-        super(builder);
+    private UnitElement(String id) {
+        super(id);
     }
 
-    public static UnitElementBuilder create(String id) {
-        return new UnitElementBuilder(id);
+    public UnitElement content(String token) {
+        super.custom((data, source) -> source.next().getValue().equals(token) ? source.getCurrent() : null);
+        return this;
     }
 
-    public static final class UnitElementBuilder extends AbstractCustomPatternElementBuilder<TokenRepresentation, UnitElementBuilder> {
 
-        public UnitElementBuilder(String id) {
-            super(id);
-        }
-
-        public UnitElementBuilder content(String token) {
-            super.custom((source, current) -> current.getValue().equals(token) ? current : null);
-            return this;
-        }
-
-        @Override
-        public CustomPatternElement build() {
-            return new UnitElement(this);
-        }
-
+    public static UnitElement create(String id) {
+        return new UnitElement(id);
     }
 
 }

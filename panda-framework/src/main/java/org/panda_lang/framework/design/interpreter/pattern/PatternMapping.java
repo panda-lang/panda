@@ -18,6 +18,6 @@ package org.panda_lang.framework.design.interpreter.pattern;
 
 public interface PatternMapping {
 
-    Object get(String name);
+    <T> T get(String name);
 
 }

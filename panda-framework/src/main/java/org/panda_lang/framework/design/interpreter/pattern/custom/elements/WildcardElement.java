@@ -16,32 +16,17 @@
 
 package org.panda_lang.framework.design.interpreter.pattern.custom.elements;
 
-import org.panda_lang.framework.design.interpreter.pattern.custom.AbstractCustomPatternElement;
-import org.panda_lang.framework.design.interpreter.pattern.custom.CustomPatternElement;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.pattern.custom.CustomPatternElementBuilder;
+import org.panda_lang.framework.design.interpreter.token.Snippetable;
 
-public final class WildcardElement extends AbstractCustomPatternElement {
+public final class WildcardElement extends CustomPatternElementBuilder<Snippetable, WildcardElement> {
 
-    private WildcardElement(WildcardElementBuilder builder) {
-        super(builder);
+    public WildcardElement(String id) {
+        super(id);
     }
 
-    public static WildcardElementBuilder create(String id) {
-        return new WildcardElementBuilder(id);
-    }
-
-    public static class WildcardElementBuilder extends AbstractCustomPatternElementBuilder<TokenRepresentation, WildcardElementBuilder> {
-
-        protected WildcardElementBuilder(String id) {
-            super(id);
-            super.custom(((source, current) -> current));
-        }
-
-        @Override
-        public CustomPatternElement build() {
-            return new WildcardElement(this);
-        }
-
+    public static WildcardElement create(String id) {
+        return new WildcardElement(id).custom(((data, source) -> source.next()));
     }
 
 }

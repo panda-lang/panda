@@ -20,9 +20,16 @@ import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
+import org.panda_lang.framework.design.interpreter.pattern.custom.CustomPattern;
+import org.panda_lang.framework.design.interpreter.pattern.custom.Result;
+import org.panda_lang.framework.design.interpreter.pattern.custom.elements.KeywordElement;
+import org.panda_lang.framework.design.interpreter.pattern.custom.elements.TypeElement;
+import org.panda_lang.framework.design.interpreter.pattern.custom.elements.WildcardElement;
+import org.panda_lang.framework.design.interpreter.pattern.custom.verifiers.NextTokenTypeVerifier;
+import org.panda_lang.framework.design.interpreter.pattern.custom.verifiers.TokenTypeVerifier;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
-import org.panda_lang.panda.language.architecture.statement.VariableConstants;
+import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.architecture.statement.VariableDataInitializer;
 import org.panda_lang.panda.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
@@ -32,8 +39,8 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annot
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Inter;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.TokenHandler;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.interceptors.CustomPatternInterceptor;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
-import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 
 @Registrable(pipeline = Pipelines.SCOPE_LABEL, priority = PandaPriorities.CONTAINER_LATE_DECLARATION)
 public final class LateDeclarationParser extends ParserBootstrap {
@@ -42,16 +49,20 @@ public final class LateDeclarationParser extends ParserBootstrap {
     protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.LATE))
-                .pattern("late " + VariableConstants.DECLARATION);
+                .interceptor(new CustomPatternInterceptor())
+                .pattern(CustomPattern.of(
+                        KeywordElement.create(Keywords.LATE),
+                        KeywordElement.create(Keywords.MUT).optional(),
+                        KeywordElement.create(Keywords.NIL).optional(),
+                        TypeElement.create("type").optional().verify(new NextTokenTypeVerifier(TokenType.UNKNOWN)),
+                        WildcardElement.create("name").verify(new TokenTypeVerifier(TokenType.UNKNOWN))
+                ));
     }
 
     @Autowired
-    void parse(Context context, @Inter ExtractorResult result, @Component Scope scope, @Src("type") Snippetable type, @Src("name") Snippetable name) {
-        boolean mutable = result.hasIdentifier(Keywords.MUT.getValue());
-        boolean nillable = result.hasIdentifier(Keywords.NIL.getValue());
-
+    void parse(Context context, @Inter Result result, @Component Scope scope, @Src("type") Snippetable type, @Src("name") Snippetable name) {
         VariableDataInitializer dataInitializer = new VariableDataInitializer(context, scope);
-        VariableData variableData = dataInitializer.createVariableData(type, name, mutable, nillable);
+        VariableData variableData = dataInitializer.createVariableData(type, name, result.has(Keywords.MUT.getValue()), result.has(Keywords.NIL.getValue()));
         scope.createVariable(variableData);
     }
 

@@ -18,24 +18,38 @@ package org.panda_lang.framework.design.interpreter.pattern.custom;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.panda_lang.framework.design.interpreter.parser.Components;
+import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
+import org.panda_lang.framework.design.interpreter.pattern.custom.elements.ExpressionElement;
+import org.panda_lang.framework.design.interpreter.pattern.custom.elements.KeywordElement;
 import org.panda_lang.framework.design.interpreter.pattern.custom.elements.SectionElement;
-import org.panda_lang.framework.design.interpreter.pattern.custom.verifiers.TokenTypeVerifier;
+import org.panda_lang.framework.design.interpreter.pattern.custom.elements.SubPatternElement;
 import org.panda_lang.framework.design.interpreter.pattern.custom.elements.TypeElement;
 import org.panda_lang.framework.design.interpreter.pattern.custom.elements.UnitElement;
 import org.panda_lang.framework.design.interpreter.pattern.custom.elements.VariantElement;
 import org.panda_lang.framework.design.interpreter.pattern.custom.elements.WildcardElement;
+import org.panda_lang.framework.design.interpreter.pattern.custom.verifiers.NextTokenTypeVerifier;
+import org.panda_lang.framework.design.interpreter.pattern.custom.verifiers.TokenTypeVerifier;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.interpreter.lexer.PandaLexerUtils;
+import org.panda_lang.framework.language.interpreter.parser.PandaContext;
+import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParser;
+import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
+
+import java.util.Collections;
 
 class CustomPatternTest {
 
+    private static final Context CONTEXT = new PandaContext().withComponent(Components.EXPRESSION, new PandaExpressionParser(Collections::emptyList));
+
     @Test
-    void testCustomPattern() {
+    void method() {
         CustomPattern customPattern = CustomPattern.of(
                 VariantElement.create("visibility").content("public", "shared", "local"),
-                UnitElement.create("isStatic").content("static").optional(true),
-                TypeElement.create("type").optional(true),
+                UnitElement.create("isStatic").content("static").optional(),
+                TypeElement.create("type").optional().verify(new NextTokenTypeVerifier(TokenType.UNKNOWN)),
                 WildcardElement.create("name").verify(new TokenTypeVerifier(TokenType.UNKNOWN)),
                 SectionElement.create("parameters"),
                 SectionElement.create("body")
@@ -48,15 +62,51 @@ class CustomPatternTest {
         Assertions.assertEquals(PandaLexerUtils.convert("shared static String[] of(String a, Int[] b) { /* content */ }"), result.getSource());
 
         Assertions.assertAll(
-                () -> Assertions.assertEquals("shared", result.getValue("visibility").toString()),
+                () -> Assertions.assertEquals("shared", result.get("visibility").toString()),
                 () -> Assertions.assertTrue(result.has("isStatic")),
-                () -> Assertions.assertEquals("String [  ]", result.getValue("type").toString()),
-                () -> Assertions.assertEquals("of", result.getValue("name").toString()),
-                () -> Assertions.assertEquals("String a , Int [  ] b", result.getValue("parameters").toString()),
-                () -> Assertions.assertEquals("/* content */", result.getValue("body").toString())
+                () -> Assertions.assertEquals("String [  ]", result.get("type").toString()),
+                () -> Assertions.assertEquals("of", result.get("name").toString()),
+                () -> Assertions.assertEquals("String a , Int [  ] b", result.get("parameters").toString()),
+                () -> Assertions.assertEquals("/* content */", result.get("body").toString())
+        );
+    }
+
+    @Test
+    void field() {
+        Context fakeContext = new PandaContext();
+        fakeContext.withComponent(Components.EXPRESSION, new PandaExpressionParser(Collections::emptyList));
+
+        CustomPattern pattern = CustomPattern.of(
+                VariantElement.create("visibility").content(Keywords.PUBLIC.getValue(), Keywords.SHARED.getValue(), Keywords.LOCAL.getValue()),
+                KeywordElement.create(Keywords.STATIC).optional(),
+                KeywordElement.create(Keywords.MUT).optional(),
+                KeywordElement.create(Keywords.NIL).optional(),
+                TypeElement.create("type").optional().verify(new NextTokenTypeVerifier(TokenType.UNKNOWN)),
+                WildcardElement.create("name").verify(new TokenTypeVerifier(TokenType.UNKNOWN)),
+                SubPatternElement.create("assign").optional().of(
+                        UnitElement.create("operator").content("="),
+                        ExpressionElement.create("assignation").map(ExpressionTransaction::getExpression)
+                )
         );
 
+        Result result = pattern.match(PandaLexerUtils.convert("local mut Test testField"));
+        Assertions.assertTrue(result.isMatched());
+    }
 
+    @Test
+    void condition() {
+        CustomPattern pattern = CustomPattern.of(
+                VariantElement.create("variant").content(
+                        SubPatternElement.create("with-condition").of(
+                                VariantElement.create("type").content("if", "else if"),
+                                SectionElement.create("section")
+                        ),
+                        KeywordElement.create(Keywords.ELSE)
+                )
+        );
+
+        Result result = pattern.match(PandaLexerUtils.convert("if ( )"));
+        Assertions.assertTrue(result.isMatched());
     }
 
 }

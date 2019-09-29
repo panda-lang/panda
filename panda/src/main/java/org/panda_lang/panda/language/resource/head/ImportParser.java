@@ -20,6 +20,9 @@ import org.panda_lang.framework.design.architecture.module.Imports;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.framework.design.interpreter.pattern.custom.CustomPattern;
+import org.panda_lang.framework.design.interpreter.pattern.custom.elements.ImportElement;
+import org.panda_lang.framework.design.interpreter.pattern.custom.elements.KeywordElement;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
@@ -28,6 +31,7 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annot
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Component;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.TokenHandler;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.interceptors.CustomPatternInterceptor;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 
 @Registrable(pipeline = Pipelines.HEAD_LABEL)
@@ -37,7 +41,11 @@ public final class ImportParser extends ParserBootstrap {
     protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.IMPORT))
-                .pattern("import <class:condition token {type:unknown}, token {value:_}, token {value:.}>");
+                .interceptor(new CustomPatternInterceptor())
+                .pattern(CustomPattern.of(
+                        KeywordElement.create(Keywords.IMPORT),
+                        ImportElement.create("class").javaClass()
+                ));
     }
 
     @Autowired

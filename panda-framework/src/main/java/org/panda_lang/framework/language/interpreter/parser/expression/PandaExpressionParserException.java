@@ -14,18 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers;
+package org.panda_lang.framework.language.interpreter.parser.expression;
 
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
 
-public class EmptyHandler implements Handler {
+public final class PandaExpressionParserException extends PandaParserException {
 
-    @Override
-    public Boolean handle(Context context, Channel channel, Snippet source) {
-        return false;
+    public PandaExpressionParserException(String message) {
+        super(message);
     }
 
 }

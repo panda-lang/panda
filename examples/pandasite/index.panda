@@ -1,7 +1,7 @@
 module awesomeness
 
 class Panda {
-    method void hello(String name) {
+    shared hello(String name) {
         Console.print("Hey, " + name + ". You're finally awake ฅ^•ﻌ•^ฅ ")
     }
 }

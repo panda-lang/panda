@@ -14,17 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.bootstraps.context.interceptors;
+package org.panda_lang.framework.design.interpreter.pattern.custom;
 
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInterceptor;
-import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.InterceptorData;
+public final class UniversalData {
 
-public class EmptyInterceptor implements BootstrapInterceptor {
+    public static final String CONTEXT = "context";
 
-    @Override
-    public InterceptorData handle(InterceptorData interceptorData, Context context) {
-        return interceptorData;
-    }
+    private UniversalData() { }
 
 }

@@ -24,13 +24,24 @@ import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeVisibility;
 import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.framework.design.interpreter.pattern.descriptive.DescriptiveContentBuilder;
-import org.panda_lang.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
+import org.panda_lang.framework.design.interpreter.pattern.custom.CustomPattern;
+import org.panda_lang.framework.design.interpreter.pattern.custom.Result;
+import org.panda_lang.framework.design.interpreter.pattern.custom.elements.ExpressionElement;
+import org.panda_lang.framework.design.interpreter.pattern.custom.elements.KeywordElement;
+import org.panda_lang.framework.design.interpreter.pattern.custom.elements.SubPatternElement;
+import org.panda_lang.framework.design.interpreter.pattern.custom.elements.TypeElement;
+import org.panda_lang.framework.design.interpreter.pattern.custom.elements.UnitElement;
+import org.panda_lang.framework.design.interpreter.pattern.custom.elements.VariantElement;
+import org.panda_lang.framework.design.interpreter.pattern.custom.elements.WildcardElement;
+import org.panda_lang.framework.design.interpreter.pattern.custom.verifiers.NextTokenTypeVerifier;
+import org.panda_lang.framework.design.interpreter.pattern.custom.verifiers.TokenTypeVerifier;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.architecture.module.PandaImportsUtils;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototypeField;
-import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.PandaPriorities;
@@ -41,51 +52,36 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annot
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Local;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.LocalData;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.CustomPatternHandler;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.interceptors.CustomPatternInterceptor;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 
 @Registrable(pipeline = Pipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_FIELD)
 public class FieldParser extends ParserBootstrap {
 
-    private static final String PUBLIC = "p";
-    private static final String SHARED = "s";
-    private static final String LOCAL = "l";
-
     @Override
     protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
         return initializer
-                .pattern(DescriptiveContentBuilder.create()
-                        .element("(p:public|s:shared|l:local)")
-                        .optional(Keywords.STATIC.getValue(), Keywords.STATIC.getValue())
-                        .optional(Keywords.MUT.getValue(), Keywords.MUT.getValue())
-                        .optional(Keywords.NIL.getValue(), Keywords.NIL.getValue())
-                        .element("<type:reader type> <name:condition token {type:unknown}>")
-                        .optional("= <assignation:reader expression>")
-                        .optional(";")
-                        .build()
-                );
+                .handler(new CustomPatternHandler())
+                .interceptor(new CustomPatternInterceptor())
+                .pattern(CustomPattern.of(
+                        VariantElement.create("visibility").content(Keywords.PUBLIC.getValue(), Keywords.SHARED.getValue(), Keywords.LOCAL.getValue()),
+                        KeywordElement.create(Keywords.STATIC).optional(),
+                        KeywordElement.create(Keywords.MUT).optional(),
+                        KeywordElement.create(Keywords.NIL).optional(),
+                        TypeElement.create("type").optional().verify(new NextTokenTypeVerifier(TokenType.UNKNOWN)),
+                        WildcardElement.create("name").verify(new TokenTypeVerifier(TokenType.UNKNOWN)),
+                        SubPatternElement.create("assign").optional().of(
+                                UnitElement.create("operator").content("="),
+                                ExpressionElement.create("assignation").map(ExpressionTransaction::getExpression)
+                        )
+                ));
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
-    void parse(Context context, LocalData local, @Inter ExtractorResult result, @Src("type") Snippet type, @Src("name") Snippet name) {
+    void parse(Context context, LocalData local, @Inter Result result, @Src("type") Snippet type, @Src("name") TokenRepresentation name) {
         PrototypeReference returnType = PandaImportsUtils.getReferenceOrThrow(context, type.asSource(), type);
-        PrototypeVisibility visibility;
-
-        if (result.hasIdentifier(PUBLIC)) {
-            visibility = PrototypeVisibility.PUBLIC;
-        }
-        else if (result.hasIdentifier(SHARED)) {
-            visibility = PrototypeVisibility.SHARED;
-        }
-        else if (result.hasIdentifier(LOCAL)) {
-            visibility = PrototypeVisibility.LOCAL;
-        }
-        else {
-            throw new PandaParserFailure(context, "Unknown visibility modifier", "Make sure that the visibility modifier is declared");
-        }
-
-        boolean isStatic = result.hasIdentifier(Keywords.STATIC.getValue());
-        boolean mutable = result.hasIdentifier(Keywords.MUT.getValue());
-        boolean nillable = result.hasIdentifier(Keywords.NIL.getValue());
+        PrototypeVisibility visibility = PrototypeVisibility.valueOf(result.get("visibility").toString().toUpperCase());
 
         Prototype prototype = context.getComponent(PrototypeComponents.CLASS_PROTOTYPE);
         int fieldIndex = prototype.getFields().getProperties().size();
@@ -94,11 +90,11 @@ public class FieldParser extends ParserBootstrap {
                 .prototype(prototype.getReference())
                 .returnType(returnType)
                 .fieldIndex(fieldIndex)
-                .name(name.asSource())
+                .name(name.getValue())
                 .visibility(visibility)
-                .isStatic(isStatic)
-                .mutable(mutable)
-                .nillable(nillable)
+                .isStatic(result.has("static"))
+                .mutable(result.has("mut"))
+                .nillable(result.has("nil"))
                 .build();
 
         prototype.getFields().declare(field);

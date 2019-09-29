@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.architecture.statement;
+package org.panda_lang.framework.design.interpreter.pattern.custom.elements;
 
-import org.panda_lang.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
+import org.panda_lang.framework.language.resource.syntax.keyword.Keyword;
 
-public final class VariableConstants {
+public final class KeywordElement {
 
-    public static final String DECLARATION = "mut:[mut] nil:[nil] <type:reader type> <name:condition token {type:unknown}>";
+    private KeywordElement() { }
 
-    public static final DescriptivePattern DECLARATION_PATTERN = DescriptivePattern.builder()
-            .compile(DECLARATION)
-            .build();
+    public static UnitElement create(Keyword keyword) {
+        return UnitElement.create(keyword.getValue()).content(keyword.getValue());
+    }
 
 }
