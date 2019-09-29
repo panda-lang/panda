@@ -22,6 +22,7 @@ import org.panda_lang.framework.design.architecture.prototype.Property;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.source.Source;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 
@@ -38,10 +39,10 @@ public final class VisibilityComparator {
     }
 
     public static Optional<String> canAccess(Property requested, Context context) {
-        return canAccess(requested, context.getComponent(Components.SCRIPT).getModule(), context.getComponent(PrototypeComponents.PROTOTYPE));
+        return canAccess(requested, context.getComponent(Components.SCRIPT).getModule(), context.getComponent(Components.CURRENT_SOURCE).getLocation().getSource());
     }
 
-    public static Optional<String> canAccess(Property requested, Module currentModule, @Nullable Property currentPrototype) {
+    public static Optional<String> canAccess(Property requested, Module currentModule, @Nullable Source currentSource) {
         if (requested.getVisibility() == Visibility.PUBLIC) {
             return Optional.empty();
         }
@@ -56,11 +57,11 @@ public final class VisibilityComparator {
             return Optional.of("Cannot access the property '" + requested + "' outside of the '" + requestedModule.getName() + "' module or its submodules");
         }
 
-        if (requested.getPrototype().equals(currentPrototype)) {
+        if (requested.getPrototype().getSource().equals(currentSource)) {
             return Optional.empty();
         }
 
-        return Optional.of("Cannot access the property '" + requested + "' outside of the " + requested.getPrototype().getName() + " prototype or its inheritors");
+        return Optional.of("Cannot access the property '" + requested + "' outside of the " + requested.getPrototype().getSource().getId() + " source");
     }
 
 }

@@ -34,7 +34,7 @@ public final class IndicatedSourceFormatter implements MessengerDataFormatter<In
                     return indicatedSource.getIndicated().getLocation();
                 })
                 .register("{{line}}", (formatter, indicatedSource) -> {
-                    return indicatedSource.getIndicated().getLocation().getLine() < 0 ? "?" : indicatedSource.getIndicated().getLocation().getLine() + 1;
+                    return indicatedSource.getIndicated().getLocation().getLine() < 0 ? "?" : indicatedSource.getIndicated().getLocation().getDisplayLine();
                 })
                 .register("{{index}}", (formatter, indicatedSource) -> {
                     return indicatedSource.getIndicated().getLocation().getIndex();

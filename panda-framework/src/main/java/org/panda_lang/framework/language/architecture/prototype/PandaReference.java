@@ -29,7 +29,7 @@ public class PandaReference extends AbstractPrototypeMetadata implements Referen
     private boolean initialized;
 
     protected PandaReference(Prototype prototype) {
-        super(prototype.getName(), prototype.getModule(), prototype.getAssociatedClass(), prototype.getVisibility());
+        super(prototype.getName(), prototype.getModule(), prototype.getSource(), prototype.getAssociatedClass(), prototype.getVisibility());
         this.prototype = prototype;
     }
 

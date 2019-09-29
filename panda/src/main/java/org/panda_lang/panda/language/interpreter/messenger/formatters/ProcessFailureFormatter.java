@@ -39,8 +39,8 @@ public final class ProcessFailureFormatter implements MessengerDataFormatter<Pan
                     for (Statement statement : runtimeException.getStack().getLivingFramesOnStack()) {
                         SourceLocation location = statement.getSourceLocation();
 
-                        message.append("  at ").append(location.getSource().getTitle()).append(" [")
-                                .append(Colored.on(location.getLine() + 1).effect(Effect.RED))
+                        message.append("  at ").append(location.getSource().getId()).append(" [")
+                                .append(Colored.on(location.getDisplayLine()).effect(Effect.RED))
                                 .append(":")
                                 .append(Colored.on(location.getIndex()).effect(Effect.RED)).append("]")
                                 .append(System.lineSeparator());

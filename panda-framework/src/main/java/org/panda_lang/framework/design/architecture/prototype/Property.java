@@ -16,6 +16,8 @@
 
 package org.panda_lang.framework.design.architecture.prototype;
 
+import org.panda_lang.framework.design.architecture.module.Module;
+
 public interface Property {
 
     /**
@@ -31,6 +33,15 @@ public interface Property {
      * @return the prototype
      */
     Prototype getPrototype();
+
+    /**
+     * Get module of property
+     *
+     * @return the module
+     */
+    default Module getModule() {
+        return getPrototype().getModule();
+    }
 
     /**
      * Get name of prototype

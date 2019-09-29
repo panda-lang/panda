@@ -24,6 +24,7 @@ import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
+import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 import org.panda_lang.utilities.commons.ReflectionUtils;
 
@@ -45,8 +46,9 @@ final class ClassPrototypeGenerator {
         }
 
         Prototype prototype = PandaPrototype.builder()
-                .module(module)
                 .name(name)
+                .module(module)
+                .source(new PandaClassSource(type))
                 .associated(type)
                 .visibility(Visibility.PUBLIC)
                 .build();

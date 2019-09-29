@@ -14,40 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.interpreter.source;
+package org.panda_lang.framework.language.interpreter.source;
 
-public interface SourceLocation {
+public final class PandaClassSource extends PandaSource {
 
-    int UNKNOWN_LOCATION = -3;
-
-    /**
-     * Get indicated index
-     *
-     * @return the index
-     */
-    int getIndex();
-
-    /**
-     * Get readable indicated line
-     *
-     * @return the display line
-     */
-    default int getDisplayLine() {
-        return getLine() + 1;
+    public PandaClassSource(Class<?> clazz) {
+        super("java://" + clazz.getName(), "", true);
     }
 
-    /**
-     * Get indicated line
-     *
-     * @return the line
-     */
-    int getLine();
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof PandaClassSource) {
+            return ((PandaClassSource) obj).getId().equals(getId());
+        }
 
-    /**
-     * Get source info
-     *
-     * @return the source
-     */
-    Source getSource();
-
+        return super.equals(obj);
+    }
 }

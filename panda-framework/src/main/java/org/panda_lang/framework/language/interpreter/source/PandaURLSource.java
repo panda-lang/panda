@@ -41,6 +41,11 @@ public final class PandaURLSource implements Source {
     }
 
     @Override
+    public boolean isVirtual() {
+        return false;
+    }
+
+    @Override
     public String getContent() {
         try (InputStream inputStream = this.location.openStream()) {
             return IOUtils.convertStreamToString(inputStream);
@@ -54,7 +59,7 @@ public final class PandaURLSource implements Source {
     }
 
     @Override
-    public String getTitle() {
+    public String getId() {
         return FileUtils.getName(location.getPath());
     }
 
