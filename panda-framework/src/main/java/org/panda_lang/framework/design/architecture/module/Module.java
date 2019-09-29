@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.design.architecture.module;
 
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 
 import java.util.Collection;
 import java.util.Map.Entry;
@@ -30,7 +30,7 @@ public interface Module extends ModuleResource {
      *
      * @param referenceSupplier the reference to add
      */
-    void add(String name, Class<?> associatedClass, Supplier<PrototypeReference> referenceSupplier);
+    void add(String name, Class<?> associatedClass, Supplier<Reference> referenceSupplier);
 
     /**
      * Add submodule to the module
@@ -69,7 +69,7 @@ public interface Module extends ModuleResource {
      *
      * @return the iterable that contains all references
      */
-    Collection<Entry<String, Supplier<PrototypeReference>>> getReferences();
+    Collection<Entry<String, Supplier<Reference>>> getReferences();
 
     /**
      * Get all submodules

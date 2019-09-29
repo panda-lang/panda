@@ -16,8 +16,8 @@
 
 package org.panda_lang.framework.language.architecture.prototype;
 
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeVisibility;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeExecutable;
 import org.panda_lang.framework.design.architecture.parameter.Parameter;
 import org.panda_lang.framework.design.runtime.ProcessStack;
@@ -30,9 +30,9 @@ public abstract class PandaPrototypeExecutable implements PrototypeExecutable {
 
     private final String name;
     private final Parameter[] parameters;
-    private final PrototypeReference returnType;
-    private final PrototypeVisibility visibility;
-    private final PrototypeReference prototype;
+    private final Reference returnType;
+    private final Visibility visibility;
+    private final Reference prototype;
     private final PrototypeExecutableCallback callback;
 
     protected PandaPrototypeExecutable(PandaParametrizedExecutableBuilder builder) {
@@ -51,20 +51,20 @@ public abstract class PandaPrototypeExecutable implements PrototypeExecutable {
     }
 
     @Override
-    public PrototypeReference getPrototype() {
+    public Reference getReference() {
         return prototype;
     }
 
     @Override
-    public PrototypeVisibility getVisibility() {
+    public Visibility getVisibility() {
         return visibility;
     }
 
     @Override
-    public PrototypeReference[] getParameterTypes() {
+    public Reference[] getParameterTypes() {
         return Arrays.stream(getParameters())
                 .map(Parameter::getType)
-                .toArray(PrototypeReference[]::new);
+                .toArray(Reference[]::new);
     }
 
     @Override
@@ -73,7 +73,7 @@ public abstract class PandaPrototypeExecutable implements PrototypeExecutable {
     }
 
     @Override
-    public PrototypeReference getReturnType() {
+    public Reference getReturnType() {
         return returnType;
     }
 
@@ -85,18 +85,18 @@ public abstract class PandaPrototypeExecutable implements PrototypeExecutable {
     public abstract static class PandaParametrizedExecutableBuilder<T extends PandaParametrizedExecutableBuilder> {
 
         protected String name;
-        protected PrototypeReference returnType;
-        protected PrototypeReference prototype;
+        protected Reference returnType;
+        protected Reference prototype;
         protected PrototypeExecutableCallback callback;
-        protected PrototypeVisibility visibility = PrototypeVisibility.PUBLIC;
+        protected Visibility visibility = Visibility.PUBLIC;
         protected Parameter[] parameters = ParameterUtils.PARAMETERLESS;
 
-        public T type(PrototypeReference reference) {
+        public T type(Reference reference) {
             prototype(reference).returnType(reference);
             return returnThis();
         }
 
-        public T prototype(PrototypeReference reference) {
+        public T prototype(Reference reference) {
             this.prototype = reference;
             return returnThis();
         }
@@ -116,12 +116,12 @@ public abstract class PandaPrototypeExecutable implements PrototypeExecutable {
             return returnThis();
         }
 
-        public T returnType(PrototypeReference returnType) {
+        public T returnType(Reference returnType) {
             this.returnType = returnType;
             return returnThis();
         }
 
-        public T visibility(PrototypeVisibility visibility) {
+        public T visibility(Visibility visibility) {
             this.visibility = visibility;
             return returnThis();
         }

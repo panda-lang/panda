@@ -17,16 +17,17 @@
 package org.panda_lang.framework.language.architecture.prototype.array;
 
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
 import org.panda_lang.framework.language.resource.PandaTypes;
 
 public class ArrayPrototype extends PandaPrototype {
 
-    private final PrototypeReference type;
+    private final Reference type;
 
-    public ArrayPrototype(Module module, Class<?> associated, PrototypeReference type) {
-        super(module, associated.getSimpleName(), associated);
+    public ArrayPrototype(Module module, Class<?> associated, Reference type) {
+        super(module, associated.getSimpleName(), associated, Visibility.PUBLIC);
 
         this.type = type;
         super.extended.add(PandaTypes.ARRAY.getReference());
@@ -37,7 +38,7 @@ public class ArrayPrototype extends PandaPrototype {
         return true;
     }
 
-    public PrototypeReference getType() {
+    public Reference getType() {
         return type;
     }
 

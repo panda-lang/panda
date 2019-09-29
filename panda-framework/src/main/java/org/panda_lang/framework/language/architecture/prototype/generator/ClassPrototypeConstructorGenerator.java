@@ -17,7 +17,7 @@
 package org.panda_lang.framework.language.architecture.prototype.generator;
 
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
 import org.panda_lang.framework.design.architecture.parameter.Parameter;
 import org.panda_lang.framework.language.architecture.prototype.PandaConstructor;
@@ -42,7 +42,7 @@ final class ClassPrototypeConstructorGenerator {
         java.lang.reflect.Parameter[] parameters = constructor.getParameters();
 
         for (int index = 0; index < parameters.length; index++) {
-            PrototypeReference reference = generator.findOrGenerate(prototype.getModule(), constructor.getParameterTypes()[index]);
+            Reference reference = generator.findOrGenerate(prototype.getModule(), constructor.getParameterTypes()[index]);
             java.lang.reflect.Parameter parameter = parameters[index];
 
             prototypeParameters[index] = new PandaParameter(index, reference, parameter.getName(), parameter.isVarArgs(), false);

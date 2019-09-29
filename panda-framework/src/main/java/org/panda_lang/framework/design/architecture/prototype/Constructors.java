@@ -16,16 +16,21 @@
 
 package org.panda_lang.framework.design.architecture.prototype;
 
-public interface Prototype extends Metadata, Property {
+import org.panda_lang.framework.design.architecture.parameter.Arguments;
+import org.panda_lang.framework.design.architecture.expression.Expression;
 
-    boolean isArray();
+import java.util.Optional;
 
-    Methods getMethods();
+public interface Constructors extends Declarations<PrototypeConstructor> {
 
-    Fields getFields();
+    /**
+     * Adjust property to the given arguments
+     *
+     * @param arguments arguments to match and adjust
+     * @return the adjusted executable
+     */
+    Optional<Arguments<PrototypeConstructor>> getAdjustedConstructor(Expression[] arguments);
 
-    Constructors getConstructors();
-
-    Reference getReference();
+    Optional<PrototypeConstructor> getConstructor(Prototype[] types);
 
 }

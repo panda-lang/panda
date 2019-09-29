@@ -19,10 +19,10 @@ package org.panda_lang.panda.language.resource.prototype;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.parameter.Parameter;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeComponents;
+import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeVisibility;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
@@ -62,7 +62,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Registrable(pipeline = Pipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_METHOD)
-public class MethodParser extends ParserBootstrap {
+public final class MethodParser extends ParserBootstrap {
 
     private static final ParameterParser PARAMETER_PARSER = new ParameterParser();
     private static final ScopeParser SCOPE_PARSER = new ScopeParser();
@@ -84,11 +84,11 @@ public class MethodParser extends ParserBootstrap {
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
     boolean parse(Context context, LocalData local, @Inter Result result, @Nullable @Src("type") Snippet type) {
-        PrototypeVisibility visibility = PrototypeVisibility.valueOf(result.get("visibility").toString().toUpperCase());
-        PrototypeReference returnType = PandaTypes.VOID.getReference();
+        Visibility visibility = Visibility.valueOf(result.get("visibility").toString().toUpperCase());
+        Reference returnType = PandaTypes.VOID.getReference();
 
         if (type != null) {
-            Optional<PrototypeReference> reference = context.getComponent(Components.IMPORTS).forName(type.asSource());
+            Optional<Reference> reference = context.getComponent(Components.IMPORTS).forName(type.asSource());
 
             if (!reference.isPresent()) {
                 throw new PandaParserFailure(context, type, "Unknown type", "Make sure that the name does not have a typo and module which should contain that class is imported");

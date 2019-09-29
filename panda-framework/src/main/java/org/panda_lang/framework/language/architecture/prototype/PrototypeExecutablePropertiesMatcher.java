@@ -23,7 +23,7 @@ import org.panda_lang.framework.design.architecture.parameter.Arguments;
 import org.panda_lang.framework.design.architecture.parameter.Parameter;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeExecutable;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.expression.AbstractDynamicExpression;
 import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
@@ -33,7 +33,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public final class PrototypeExecutablePropertiesMatcher<T extends PrototypeExecutable> {
+final class PrototypeExecutablePropertiesMatcher<T extends PrototypeExecutable> {
 
     public Optional<Arguments<T>> match(Collection<T> collection, Prototype[] requiredTypes, @Nullable Expression[] arguments) {
         for (T executable : collection) {
@@ -74,7 +74,7 @@ public final class PrototypeExecutablePropertiesMatcher<T extends PrototypeExecu
             }
 
             // varargs parameter has to be array
-            PrototypeReference type = ((ArrayPrototype) parameter.getType().fetch()).getType();
+            Reference type = ((ArrayPrototype) parameter.getType().fetch()).getType();
             varArgs++;
 
             // read vararg

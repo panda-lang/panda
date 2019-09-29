@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.language.interpreter.pattern.descriptive.extractor;
 
-import org.panda_lang.framework.design.interpreter.pattern.MatcherResult;
+import org.panda_lang.framework.design.interpreter.pattern.PatternResult;
 import org.panda_lang.framework.design.interpreter.pattern.PatternMapping;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
@@ -24,7 +24,7 @@ import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExtractorResult implements MatcherResult, PatternMapping {
+public class ExtractorResult implements PatternResult, PatternMapping {
 
     private Snippet source;
     private final String errorMessage;

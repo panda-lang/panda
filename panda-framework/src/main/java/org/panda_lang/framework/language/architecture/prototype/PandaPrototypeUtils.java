@@ -16,22 +16,38 @@
 
 package org.panda_lang.framework.language.architecture.prototype;
 
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.utilities.commons.ClassUtils;
 
 import java.util.Collection;
 
-public final class PandaClassPrototypeUtils {
+public final class PandaPrototypeUtils {
 
-    private PandaClassPrototypeUtils() { }
+    private PandaPrototypeUtils() { }
+
+    public static Reference of(Module module, Class<?> type, String name) {
+        PandaPrototype prototype = PandaPrototype.builder()
+                .module(module)
+                .name(name)
+                .associated(type)
+                .visibility(Visibility.PUBLIC)
+                .build();
+
+        PandaReference reference = new PandaReference(prototype);
+        module.add(name, type, () -> reference);
+
+        return reference;
+    }
 
     public static boolean isAssignableFrom(Class<?> from, Class<?> to) {
         return from != null && to != null && (from == to || ClassUtils.isAssignableFrom(from, to));
     }
 
-    public static boolean hasCommonPrototypes(Collection<? extends PrototypeReference> fromPrototypes, Collection<? extends PrototypeReference> toPrototypes) {
-        for (PrototypeReference from : fromPrototypes) {
-            for (PrototypeReference to : toPrototypes) {
+    public static boolean hasCommonPrototypes(Collection<? extends Reference> fromPrototypes, Collection<? extends Reference> toPrototypes) {
+        for (Reference from : fromPrototypes) {
+            for (Reference to : toPrototypes) {
                 if (from.equals(to)) {
                     return true;
                 }

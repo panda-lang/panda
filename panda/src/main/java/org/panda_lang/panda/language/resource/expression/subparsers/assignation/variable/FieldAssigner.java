@@ -58,7 +58,7 @@ public class FieldAssigner extends AbstractAssigner<PrototypeField> {
 
     @Override
     public String toString() {
-        return accessor.getVariable().getPrototype().getName() + "assigner@f_memory[" + accessor.getMemoryPointer() + "] << " + valueExpression;
+        return accessor.getVariable().getReference().getName() + "assigner@f_memory[" + accessor.getMemoryPointer() + "] << " + valueExpression;
     }
 
 }

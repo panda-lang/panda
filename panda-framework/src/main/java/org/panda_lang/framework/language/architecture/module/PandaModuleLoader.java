@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.architecture.module.LoadedModule;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.module.ModulePath;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 import org.panda_lang.utilities.commons.StringUtils;
 
@@ -81,9 +81,9 @@ public class PandaModuleLoader implements ModuleLoader {
     }
 
     @Override
-    public Optional<PrototypeReference> forClass(Class<?> associatedClass) {
+    public Optional<Reference> forClass(Class<?> associatedClass) {
         for (LoadedModule loadedModule : loadedModules.values()) {
-            Optional<PrototypeReference> prototypeReference = loadedModule.forClass(associatedClass);
+            Optional<Reference> prototypeReference = loadedModule.forClass(associatedClass);
 
             if (prototypeReference.isPresent()) {
                 return prototypeReference;
@@ -94,7 +94,7 @@ public class PandaModuleLoader implements ModuleLoader {
     }
 
     @Override
-    public Optional<PrototypeReference> forName(CharSequence prototypeName) {
+    public Optional<Reference> forName(CharSequence prototypeName) {
         String name = prototypeName.toString();
         String[] path = StringUtils.split(name, "::");
 

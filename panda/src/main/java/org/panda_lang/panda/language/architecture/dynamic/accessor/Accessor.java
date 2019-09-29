@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.architecture.dynamic.accessor;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.language.architecture.dynamic.assigner.Assigner;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.runtime.ProcessStack;
@@ -32,7 +32,7 @@ public interface Accessor<T extends Variable> {
 
     @Nullable <R> R getValue(ProcessStack stack, Object instance) throws Exception;
 
-    default PrototypeReference getTypeReference() {
+    default Reference getTypeReference() {
         return getVariable().getType();
     }
 

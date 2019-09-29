@@ -16,14 +16,14 @@
 
 package org.panda_lang.framework.language.interpreter.pattern.linear;
 
-import org.panda_lang.framework.design.interpreter.pattern.MatcherResult;
+import org.panda_lang.framework.design.interpreter.pattern.PatternResult;
 import org.panda_lang.framework.design.interpreter.pattern.PatternMapping;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 
 import java.util.List;
 import java.util.Map;
 
-public class LinearPatternResult implements MatcherResult, PatternMapping {
+public class LinearPatternResult implements PatternResult, PatternMapping {
 
     protected static final LinearPatternResult NOT_MATCHED = new LinearPatternResult();
 

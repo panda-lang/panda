@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.resource.Syntax;
 import org.panda_lang.framework.language.resource.PandaLanguage;
 import org.panda_lang.framework.language.resource.PandaResources;
 
-public class PandaBootstrap {
+public final class PandaBootstrap {
 
     protected final Panda.PandaBuilder panda = Panda.PandaBuilder.builder();
     protected final PandaLanguage.PandaLanguageBuilder language = PandaLanguage.builder();

@@ -17,13 +17,13 @@
 package org.panda_lang.framework.language.interpreter.pattern.progressive;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.interpreter.pattern.MatcherResult;
+import org.panda_lang.framework.design.interpreter.pattern.PatternResult;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProgressivePatternResult implements MatcherResult {
+public class ProgressivePatternResult implements PatternResult {
 
     private final Snippet source;
     private final List<ProgressivePatternElement> elements;

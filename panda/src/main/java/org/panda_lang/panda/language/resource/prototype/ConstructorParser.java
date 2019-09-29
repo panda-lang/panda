@@ -28,7 +28,7 @@ import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractFrame;
 import org.panda_lang.framework.language.architecture.parameter.ParameterUtils;
 import org.panda_lang.framework.language.architecture.prototype.PandaConstructor;
-import org.panda_lang.framework.language.architecture.prototype.PandaConstructorScope;
+import org.panda_lang.framework.language.architecture.prototype.PandaConstructor.PandaConstructorScope;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeScope;
 import org.panda_lang.framework.language.interpreter.parser.ScopeParser;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
@@ -48,7 +48,7 @@ import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 import java.util.List;
 
 @Registrable(pipeline = Pipelines.PROTOTYPE_LABEL)
-public class ConstructorParser extends ParserBootstrap {
+public final class ConstructorParser extends ParserBootstrap {
 
     private static final ParameterParser PARAMETER_PARSER = new ParameterParser();
     private static final ScopeParser SCOPE_PARSER = new ScopeParser();

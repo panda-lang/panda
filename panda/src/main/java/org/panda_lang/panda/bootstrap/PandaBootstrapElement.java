@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.bootstrap;
 
-public interface PandaBootstrapElement {
+interface PandaBootstrapElement {
 
     PandaBootstrap collect();
 

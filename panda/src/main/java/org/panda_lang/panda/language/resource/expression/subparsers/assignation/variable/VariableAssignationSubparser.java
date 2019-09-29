@@ -32,7 +32,7 @@ import org.panda_lang.panda.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.panda.language.architecture.dynamic.accessor.AccessorExpression;
 import org.panda_lang.panda.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.panda.language.architecture.dynamic.assigner.AssignerExpression;
-import org.panda_lang.framework.language.architecture.prototype.PandaConstructorScope;
+import org.panda_lang.framework.language.architecture.prototype.PandaConstructor.PandaConstructorScope;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;

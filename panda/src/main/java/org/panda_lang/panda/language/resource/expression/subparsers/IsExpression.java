@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.resource.expression.subparsers;
 
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.language.resource.PandaTypes;
@@ -26,9 +26,9 @@ import org.panda_lang.framework.language.architecture.expression.DynamicExpressi
 final class IsExpression implements DynamicExpression {
 
     private final Expression value;
-    private final PrototypeReference requestedTypeReference;
+    private final Reference requestedTypeReference;
 
-    IsExpression(Expression value, PrototypeReference requestedTypeReference) {
+    IsExpression(Expression value, Reference requestedTypeReference) {
         this.value = value;
         this.requestedTypeReference = requestedTypeReference;
     }

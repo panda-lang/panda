@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.resource.head;
 
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
@@ -31,7 +31,7 @@ final class ConveyanceUtils {
 
     private ConveyanceUtils() { }
 
-    protected static PrototypeReference fetchReference(Context context, Snippet classNameSource) {
+    protected static Reference fetchReference(Context context, Snippet classNameSource) {
         Optional<Class<?>> importedClass = ClassUtils.forName(classNameSource.asSource());
 
         if (!importedClass.isPresent()) {

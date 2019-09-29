@@ -19,10 +19,10 @@ package org.panda_lang.panda.language.resource.prototype;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeComponents;
+import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeVisibility;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
@@ -57,7 +57,7 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.inter
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 
 @Registrable(pipeline = Pipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_FIELD)
-public class FieldParser extends ParserBootstrap {
+public final class FieldParser extends ParserBootstrap {
 
     @Override
     protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
@@ -80,8 +80,8 @@ public class FieldParser extends ParserBootstrap {
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
     void parse(Context context, LocalData local, @Inter Result result, @Src("type") Snippet type, @Src("name") TokenRepresentation name) {
-        PrototypeReference returnType = PandaImportsUtils.getReferenceOrThrow(context, type.asSource(), type);
-        PrototypeVisibility visibility = PrototypeVisibility.valueOf(result.get("visibility").toString().toUpperCase());
+        Reference returnType = PandaImportsUtils.getReferenceOrThrow(context, type.asSource(), type);
+        Visibility visibility = Visibility.valueOf(result.get("visibility").toString().toUpperCase());
 
         Prototype prototype = context.getComponent(PrototypeComponents.CLASS_PROTOTYPE);
         int fieldIndex = prototype.getFields().getProperties().size();

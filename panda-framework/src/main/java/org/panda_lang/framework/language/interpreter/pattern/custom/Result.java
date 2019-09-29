@@ -16,13 +16,13 @@
 
 package org.panda_lang.framework.language.interpreter.pattern.custom;
 
-import org.panda_lang.framework.design.interpreter.pattern.MatcherResult;
+import org.panda_lang.framework.design.interpreter.pattern.PatternResult;
 import org.panda_lang.framework.design.interpreter.pattern.PatternMapping;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 
 import java.util.Map;
 
-public final class Result implements MatcherResult, PatternMapping {
+public final class Result implements PatternResult, PatternMapping {
 
     public static final Result NOT_MATCHED = new Result(null, null);
 

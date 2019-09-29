@@ -16,29 +16,27 @@
 
 package org.panda_lang.framework.design.architecture.prototype;
 
-import java.util.List;
-
-public interface PrototypeProperties<T extends PrototypeExecutable> {
+public interface Property {
 
     /**
-     * Declare a new property
+     * Get visibility of executable
      *
-     * @param property the property to add
+     * @return the visibility
      */
-    void declare(T property);
+    Visibility getVisibility();
 
     /**
-     * Get all properties of the T type
+     * Get associated prototype
      *
-     * @return list of properties
+     * @return the prototype
      */
-    List<? extends T> getProperties();
+    Prototype getPrototype();
 
     /**
-     * Get amount of properties
+     * Get name of prototype
      *
-     * @return the amount of properties
+     * @return the name
      */
-    int size();
+    String getName();
 
 }

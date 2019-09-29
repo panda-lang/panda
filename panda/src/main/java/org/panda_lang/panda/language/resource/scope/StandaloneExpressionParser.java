@@ -38,7 +38,7 @@ import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 
-@Registrable(pipeline = Pipelines.SCOPE_LABEL, priority = PandaPriorities.CONTAINER_EXPRESSION)
+@Registrable(pipeline = Pipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_EXPRESSION)
 public final class StandaloneExpressionParser extends ParserBootstrap {
 
     private static final ExpressionParserSettings SETTINGS = ExpressionParserSettings.create().onlyStandalone();

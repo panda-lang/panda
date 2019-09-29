@@ -17,25 +17,24 @@
 package org.panda_lang.framework.language.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
-import org.panda_lang.utilities.commons.function.ThrowingRunnable;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PandaPrototypeReference extends AbstractPrototypeMetadata implements PrototypeReference {
+public class PandaReference extends AbstractPrototypeMetadata implements Reference {
 
     private final Prototype prototype;
-    private final List<Runnable> initializers = new ArrayList<>(0);
+    private final List<Runnable> initializers = new ArrayList<>(1);
     private boolean initialized;
 
-    protected PandaPrototypeReference(Prototype prototype) {
-        super(prototype.getName(), prototype.getModule(), prototype.getAssociatedClass());
+    protected PandaReference(Prototype prototype) {
+        super(prototype.getName(), prototype.getModule(), prototype.getAssociatedClass(), prototype.getVisibility());
         this.prototype = prototype;
     }
 
     @Override
-    public PrototypeReference addInitializer(Runnable runnable) {
+    public Reference addInitializer(Runnable runnable) {
         initializers.add(runnable);
         return this;
     }

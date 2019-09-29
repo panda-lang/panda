@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 import org.panda_lang.utilities.commons.ReflectionUtils;
@@ -36,7 +36,7 @@ final class ClassPrototypeGenerator {
 
     protected static boolean locked;
 
-    protected PrototypeReference generate(Module module, Class<?> type, String name) {
+    protected Reference generate(Module module, Class<?> type, String name) {
         boolean bypass = !locked;
 
         if (bypass) {
@@ -84,7 +84,7 @@ final class ClassPrototypeGenerator {
         return prototype.getReference();
     }
 
-    protected PrototypeReference findOrGenerate(Module module, Class<?> type) {
+    protected Reference findOrGenerate(Module module, Class<?> type) {
         if (!module.hasPrototype(type)) {
             return generate(module, type, type.getSimpleName());
         }

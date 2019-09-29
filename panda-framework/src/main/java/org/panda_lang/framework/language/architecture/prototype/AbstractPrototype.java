@@ -19,10 +19,11 @@ package org.panda_lang.framework.language.architecture.prototype;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructors;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeFields;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeMethods;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.prototype.Constructors;
+import org.panda_lang.framework.design.architecture.prototype.Fields;
+import org.panda_lang.framework.design.architecture.prototype.Methods;
+import org.panda_lang.framework.design.architecture.prototype.Visibility;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,14 +31,14 @@ import java.util.Objects;
 
 abstract class AbstractPrototype extends AbstractPrototypeMetadata implements Prototype {
 
-    protected final PrototypeReference reference = new PandaPrototypeReference(this);
-    protected final Collection<PrototypeReference> extended = new ArrayList<>(1);
-    protected final PrototypeConstructors constructors = new PandaConstructors();
-    protected final PrototypeFields fields = new PandaFields();
-    protected final PrototypeMethods methods = new PandaMethods();
+    protected final Reference reference = new PandaReference(this);
+    protected final Collection<Reference> extended = new ArrayList<>(1);
+    protected final Constructors constructors = new PandaConstructors();
+    protected final Fields fields = new PandaFields();
+    protected final Methods methods = new PandaMethods();
 
-    public AbstractPrototype(Module module, String name, Class<?> associated) {
-        super(name, module, associated);
+    public AbstractPrototype(Module module, String name, Class<?> associated, Visibility visibility) {
+        super(name, module, associated, visibility);
     }
 
     @Override
@@ -46,23 +47,28 @@ abstract class AbstractPrototype extends AbstractPrototypeMetadata implements Pr
     }
 
     @Override
-    public PrototypeMethods getMethods() {
+    public Methods getMethods() {
         return methods;
     }
 
     @Override
-    public PrototypeFields getFields() {
+    public Fields getFields() {
         return fields;
     }
 
     @Override
-    public PrototypeConstructors getConstructors() {
+    public Constructors getConstructors() {
         return constructors;
     }
 
     @Override
-    public PrototypeReference getReference() {
+    public Reference getReference() {
         return reference;
+    }
+
+    @Override
+    public Prototype getPrototype() {
+        return this;
     }
 
     @Override

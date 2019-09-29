@@ -33,7 +33,7 @@ import org.panda_lang.utilities.commons.TimeUtils;
 
 import java.util.Optional;
 
-public class PandaInterpreter implements Interpreter {
+public final class PandaInterpreter implements Interpreter {
 
     private final Environment environment;
     private final Language language;
@@ -79,6 +79,29 @@ public class PandaInterpreter implements Interpreter {
 
     public static PandaInterpreterBuilder builder() {
         return new PandaInterpreterBuilder();
+    }
+
+    public static final class PandaInterpreterBuilder {
+
+        protected Environment environment;
+        protected Language elements;
+
+        private PandaInterpreterBuilder() { }
+
+        public PandaInterpreterBuilder environment(Environment environment) {
+            this.environment = environment;
+            return this;
+        }
+
+        public PandaInterpreterBuilder elements(Language elements) {
+            this.elements = elements;
+            return this;
+        }
+
+        public PandaInterpreter build() {
+            return new PandaInterpreter(this);
+        }
+
     }
 
 }

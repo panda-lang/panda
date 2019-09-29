@@ -16,12 +16,14 @@
 
 package org.panda_lang.framework.design.architecture.prototype;
 
-public interface PrototypeReference extends PrototypeMetadata {
+import org.jetbrains.annotations.Nullable;
 
-    PrototypeReference addInitializer(Runnable runnable);
+public interface Fields extends Declarations<PrototypeField> {
 
-    Prototype fetch();
+    int getIndexOfField(PrototypeField field);
 
-    boolean isInitialized();
+    @Nullable PrototypeField getField(int fieldId);
+
+    @Nullable PrototypeField getField(String fieldName);
 
 }

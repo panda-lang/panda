@@ -19,30 +19,41 @@ package org.panda_lang.framework.design.architecture.prototype;
 import org.panda_lang.framework.design.architecture.parameter.Parameter;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 
-public interface PrototypeExecutable {
+/**
+ * PrototypeExecutable is equivalent to {@link java.lang.reflect.Executable}
+ */
+public interface PrototypeExecutable extends Property {
 
+    /**
+     * Invoke the executable
+     *
+     * @param stack the current process stack
+     * @param instance the current instance
+     * @param arguments arguments to use
+     * @param <T> type of expected result
+     * @return the result of executable
+     * @throws Exception if something happen
+     */
     <T> T invoke(ProcessStack stack, Object instance, Object... arguments) throws Exception;
+
+    @Override
+    default Prototype getPrototype() {
+        return getReference().fetch();
+    }
 
     /**
      * Get associated prototype
      *
      * @return the associated prototype
      */
-    PrototypeReference getPrototype();
-
-    /**
-     * Get visibility of executable
-     *
-     * @return the visibility
-     */
-    PrototypeVisibility getVisibility();
+    Reference getReference();
 
     /**
      * Get type references of executable's parameters
      *
      * @return array of used by parameter types
      */
-    PrototypeReference[] getParameterTypes();
+    Reference[] getParameterTypes();
 
     /**
      * Get parameters used by executable
@@ -56,13 +67,6 @@ public interface PrototypeExecutable {
      *
      * @return the return type reference
      */
-    PrototypeReference getReturnType();
-
-    /**
-     * Get name of prototype
-     *
-     * @return the name
-     */
-    String getName();
+    Reference getReturnType();
 
 }

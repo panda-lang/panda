@@ -27,7 +27,7 @@ import org.panda_lang.utilities.commons.function.ThrowingSupplier;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class PandaInterpretation implements Interpretation {
+public final class PandaInterpretation implements Interpretation {
 
     private final Language language;
     private final Environment environment;

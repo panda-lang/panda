@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.design.architecture.prototype;
 
-public enum PrototypeVisibility {
+public enum Visibility {
 
     PUBLIC(0),
     SHARED(1),
@@ -24,7 +24,7 @@ public enum PrototypeVisibility {
 
     private final int modifier;
 
-    PrototypeVisibility(int modifier) {
+    Visibility(int modifier) {
         this.modifier = modifier;
     }
 
