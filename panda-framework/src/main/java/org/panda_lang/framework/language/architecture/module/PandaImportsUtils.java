@@ -18,7 +18,7 @@ package org.panda_lang.framework.language.architecture.module;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.Imports;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
@@ -31,12 +31,12 @@ public final class PandaImportsUtils {
 
     private PandaImportsUtils() { }
 
-    public static PrototypeReference getReferenceOrThrow(Context context, String className, @Nullable Snippet source) {
+    public static Reference getReferenceOrThrow(Context context, String className, @Nullable Snippet source) {
         return getReferenceOrThrow(context, loader -> loader.forName(className), "Unknown type " + className, source);
     }
 
-    static PrototypeReference getReferenceOrThrow(Context context, Function<Imports, Optional<PrototypeReference>> mapper, String message, Snippet source) {
-        Optional<PrototypeReference> reference = mapper.apply(context.getComponent(Components.IMPORTS));
+    static Reference getReferenceOrThrow(Context context, Function<Imports, Optional<Reference>> mapper, String message, Snippet source) {
+        Optional<Reference> reference = mapper.apply(context.getComponent(Components.IMPORTS));
 
         if (!reference.isPresent()) {
             throw new PandaParserFailure(context, source, message);

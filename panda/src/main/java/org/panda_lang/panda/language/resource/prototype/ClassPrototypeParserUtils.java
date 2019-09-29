@@ -18,8 +18,8 @@ package org.panda_lang.panda.language.resource.prototype;
 
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeComponents;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.token.Token;
@@ -31,7 +31,9 @@ import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 
 import java.util.Optional;
 
-public class ClassPrototypeParserUtils {
+final class ClassPrototypeParserUtils {
+
+    private ClassPrototypeParserUtils() { }
 
     public static void readDeclaration(Context context, Snippet classDeclaration) {
         Prototype classPrototype = context.getComponent(PrototypeComponents.CLASS_PROTOTYPE);
@@ -64,7 +66,7 @@ public class ClassPrototypeParserUtils {
                 continue;
             }
             else if (classNameToken.getType() == TokenType.UNKNOWN) {
-                Optional<PrototypeReference> extendedPrototype = loader.forName(classNameToken.getValue());
+                Optional<Reference> extendedPrototype = loader.forName(classNameToken.getValue());
 
                 if (extendedPrototype.isPresent()) {
                     prototype.addExtended(extendedPrototype.get());

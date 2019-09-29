@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.design.architecture.module;
 
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 
 import java.util.Optional;
 
@@ -28,7 +28,7 @@ public interface ModuleResource {
      * @param associatedClass the class associated with prototype to search for
      * @return the reference
      */
-    Optional<PrototypeReference> forClass(Class<?> associatedClass);
+    Optional<Reference> forClass(Class<?> associatedClass);
 
     /**
      * Find reference using the given name
@@ -36,6 +36,6 @@ public interface ModuleResource {
      * @param prototypeName the name to search for
      * @return the reference
      */
-    Optional<PrototypeReference> forName(CharSequence prototypeName);
+    Optional<Reference> forName(CharSequence prototypeName);
 
 }

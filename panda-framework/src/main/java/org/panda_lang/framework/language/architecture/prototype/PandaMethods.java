@@ -18,7 +18,7 @@ package org.panda_lang.framework.language.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeMethods;
+import org.panda_lang.framework.design.architecture.prototype.Methods;
 import org.panda_lang.framework.design.architecture.parameter.Arguments;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.language.architecture.parameter.ParameterUtils;
@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-final class PandaMethods implements PrototypeMethods {
+final class PandaMethods implements Methods {
 
     private static final PrototypeExecutablePropertiesMatcher<PrototypeMethod> MATCHER = new PrototypeExecutablePropertiesMatcher<>();
 

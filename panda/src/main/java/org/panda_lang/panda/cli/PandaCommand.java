@@ -25,7 +25,7 @@ import java.io.File;
 import java.util.Optional;
 
 @CommandLine.Command(name = "panda", version = "Panda " + PandaConstants.VERSION)
-public class PandaCommand implements Runnable {
+public final class PandaCommand implements Runnable {
 
     private final PandaCLI cli;
 

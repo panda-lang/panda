@@ -28,26 +28,20 @@ public final class PandaPriorities {
      */
     public static final int PROTOTYPE_FIELD = 2;
 
-
     /**
      * Used by {@link org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockParser}
      */
-    public static final int CONTAINER_BLOCK = 1;
+    public static final int SCOPE_BLOCK = 1;
 
     /**
      * Used by {@link org.panda_lang.panda.language.resource.scope.LateDeclarationParser}
      */
-    public static final int CONTAINER_LATE_DECLARATION = 4;
+    public static final int SCOPE_LATE_DECLARATION = 4;
 
     /**
      * Used by {@link org.panda_lang.panda.language.resource.scope.StandaloneExpressionParser}
      */
-    public static final int CONTAINER_EXPRESSION = 5;
-
-    /**
-     * Used by {@link org.panda_lang.panda.language.resource.expression.subparsers.assignation.AssignationExpressionSubparser}
-     */
-    public static final int CONTAINER_ASSIGNATION = 6;
+    public static final int SCOPE_EXPRESSION = 5;
 
     private PandaPriorities() { }
 

@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.expression.AbstractDynamicExpression;
 import org.panda_lang.framework.language.architecture.expression.PandaExpression;
@@ -43,7 +43,7 @@ final class ClassPrototypeFieldGenerator {
     }
 
     protected PrototypeField generate() {
-        PrototypeReference returnType = generator.findOrGenerate(prototype.getModule(), field.getType());
+        Reference returnType = generator.findOrGenerate(prototype.getModule(), field.getType());
 
         PrototypeField prototypeField = PandaPrototypeField.builder()
                 .prototype(prototype.getReference())

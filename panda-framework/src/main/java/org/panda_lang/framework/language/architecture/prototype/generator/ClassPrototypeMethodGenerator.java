@@ -17,7 +17,7 @@
 package org.panda_lang.framework.language.architecture.prototype.generator;
 
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.framework.design.architecture.parameter.Parameter;
 import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
@@ -46,7 +46,7 @@ final class ClassPrototypeMethodGenerator {
     }
 
     protected PrototypeMethod generate() {
-        PrototypeReference returnType = generator.findOrGenerate(prototype.getModule(), method.getReturnType());
+        Reference returnType = generator.findOrGenerate(prototype.getModule(), method.getReturnType());
         Parameter[] mappedParameters = ClassPrototypeGeneratorUtils.toParameters(prototype.getModule(), method.getParameters());
         boolean isVoid = returnType.getName().equals("void");
 

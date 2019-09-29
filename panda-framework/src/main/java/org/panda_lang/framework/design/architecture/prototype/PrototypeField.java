@@ -37,7 +37,7 @@ public interface PrototypeField extends PrototypeExecutable, Variable {
 
     int getFieldIndex();
 
-    default PrototypeReference getType() {
+    default Reference getType() {
         return getReturnType();
     }
 

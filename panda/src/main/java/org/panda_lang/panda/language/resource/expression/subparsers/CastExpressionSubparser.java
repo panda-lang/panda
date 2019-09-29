@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.resource.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
@@ -52,7 +52,7 @@ public class CastExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            Produce<PrototypeReference, ExpressionResult> result = SubparsersUtils.readType(context);
+            Produce<Reference, ExpressionResult> result = SubparsersUtils.readType(context);
 
             if (result.hasError()) {
                 return result.getError();

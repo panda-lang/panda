@@ -22,7 +22,7 @@ import org.panda_lang.framework.design.architecture.Application;
 import java.io.File;
 import java.util.Optional;
 
-public class PandaApplicationBootstrap {
+public final class PandaApplicationBootstrap {
 
     protected final Panda panda;
     protected String main;

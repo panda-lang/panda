@@ -16,27 +16,12 @@
 
 package org.panda_lang.framework.design.architecture.prototype;
 
-import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
+public interface Reference extends Metadata {
 
-import java.util.Collection;
+    Prototype fetch();
 
-public interface PrototypeMetadata {
+    Reference addInitializer(Runnable runnable);
 
-    PrototypeReference toArray(ModuleLoader moduleLoader);
-
-    PrototypeMetadata addExtended(PrototypeReference reference);
-
-    boolean isClassOf(String className);
-
-    boolean isAssignableFrom(PrototypeMetadata prototype);
-
-    Collection<? extends PrototypeReference> getExtended();
-
-    Class<?> getAssociatedClass();
-
-    Module getModule();
-
-    String getName();
+    boolean isInitialized();
 
 }

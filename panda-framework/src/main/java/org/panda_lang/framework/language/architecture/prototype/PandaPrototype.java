@@ -16,21 +16,21 @@
 
 package org.panda_lang.framework.language.architecture.prototype;
 
-import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
+import org.panda_lang.framework.design.architecture.prototype.Visibility;
 
 public class PandaPrototype extends AbstractPrototype {
 
     private boolean initialized;
 
-    protected PandaPrototype(Module module, String className, Class<?> associated) {
-        super(module, className, associated);
+    protected PandaPrototype(Module module, String className, Class<?> associated, Visibility visibility) {
+        super(module, className, associated, visibility);
     }
 
-    protected PandaPrototype(PandaClassPrototypeBuilder<?, ?> builder) {
-        this(builder.module, builder.name, builder.associated);
+    protected PandaPrototype(PandaPrototypeBuilder<?, ?> builder) {
+        this(builder.module, builder.name, builder.associated, builder.visibility);
     }
 
     public synchronized void initialize() throws Exception {
@@ -50,21 +50,60 @@ public class PandaPrototype extends AbstractPrototype {
         }
     }
 
-    public static PrototypeReference of(Module module, Class<?> type, String name) {
-        PandaPrototype prototype = builder()
-                .module(module)
-                .name(name)
-                .associated(type)
-                .build();
-
-        PandaPrototypeReference reference = new PandaPrototypeReference(prototype);
-        module.add(name, type, () -> reference);
-
-        return reference;
+    public static <T> PandaPrototypeBuilder<?, ?> builder() {
+        return new PandaPrototypeBuilder<>();
     }
 
-    public static <T> PandaClassPrototypeBuilder<?, ?> builder() {
-        return new PandaClassPrototypeBuilder<>();
+    public static class PandaPrototypeBuilder<BUILDER extends PandaPrototypeBuilder<BUILDER, ?>, TYPE extends PandaPrototype> {
+
+        protected String name;
+        protected Module module;
+        protected Class<?> associated;
+        protected Visibility visibility;
+
+        protected PandaPrototypeBuilder() {
+            this.associated = Object.class;
+        }
+
+        public BUILDER name(String name) {
+            this.name = name;
+            return getThis();
+        }
+
+        public BUILDER module(Module module) {
+            this.module = module;
+            return getThis();
+        }
+
+        public BUILDER associated(Class associated) {
+            this.associated = associated;
+
+            if (name == null) {
+                this.name = associated.getCanonicalName();
+            }
+
+            return getThis();
+        }
+
+        public BUILDER visibility(Visibility visibility) {
+            this.visibility = visibility;
+            return getThis();
+        }
+
+        @SuppressWarnings("unchecked")
+        public TYPE build() {
+            if (name == null) {
+                throw new IllegalArgumentException("ClassPrototype name is not defined");
+            }
+
+            return (TYPE) new PandaPrototype(this);
+        }
+
+        @SuppressWarnings("unchecked")
+        protected BUILDER getThis() {
+            return (BUILDER) this;
+        }
+
     }
 
 }

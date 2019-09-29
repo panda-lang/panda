@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.architecture.module.Imports;
 import org.panda_lang.framework.design.architecture.module.LoadedModule;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +32,7 @@ public final class PandaImports implements Imports {
 
     private final ModuleLoader loader;
     private final Map<String, LoadedModule> importedModules = new HashMap<>();
-    private final Map<String, Supplier<PrototypeReference>> importedReferences = new HashMap<>();
+    private final Map<String, Supplier<Reference>> importedReferences = new HashMap<>();
 
     public PandaImports(ModuleLoader loader) {
         this.loader = loader;
@@ -52,7 +52,7 @@ public final class PandaImports implements Imports {
     }
 
     @Override
-    public boolean importReference(String name, Supplier<PrototypeReference> supplier) {
+    public boolean importReference(String name, Supplier<Reference> supplier) {
         if (importedReferences.containsKey(name)) {
             return false;
         }
@@ -68,20 +68,20 @@ public final class PandaImports implements Imports {
      * @return always empty optional
      */
     @Override
-    public Optional<PrototypeReference> forClass(@Nullable Class<?> associatedClass) {
+    public Optional<Reference> forClass(@Nullable Class<?> associatedClass) {
         return Optional.empty();
     }
 
     @Override
-    public Optional<PrototypeReference> forName(CharSequence name) {
-        Supplier<PrototypeReference> localReference = importedReferences.get(name.toString());
+    public Optional<Reference> forName(CharSequence name) {
+        Supplier<Reference> localReference = importedReferences.get(name.toString());
 
         if (localReference != null) {
             return Optional.of(localReference.get());
         }
 
         for (LoadedModule value : importedModules.values()) {
-            Optional<PrototypeReference> reference = value.forName(name);
+            Optional<Reference> reference = value.forName(name);
 
             if (reference.isPresent()) {
                 return reference;

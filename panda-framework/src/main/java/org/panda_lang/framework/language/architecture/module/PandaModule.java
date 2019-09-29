@@ -19,7 +19,7 @@ package org.panda_lang.framework.language.architecture.module;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ReferencesMap;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.language.architecture.prototype.array.ArrayClassPrototypeFetcher;
 import org.panda_lang.framework.language.architecture.prototype.array.PandaArray;
 import org.panda_lang.utilities.commons.function.CachedSupplier;
@@ -49,7 +49,7 @@ public class PandaModule implements Module {
     }
 
     @Override
-    public void add(String name, Class<?> associatedClass, Supplier<PrototypeReference> reference) {
+    public void add(String name, Class<?> associatedClass, Supplier<Reference> reference) {
         this.references.put(name, associatedClass, new CachedSupplier<>(reference));
     }
 
@@ -69,12 +69,12 @@ public class PandaModule implements Module {
     }
 
     @Override
-    public Optional<PrototypeReference> forClass(Class<?> associatedClass) {
+    public Optional<Reference> forClass(Class<?> associatedClass) {
         return references.forClass(associatedClass);
     }
 
     @Override
-    public Optional<PrototypeReference> forName(CharSequence prototypeName) {
+    public Optional<Reference> forName(CharSequence prototypeName) {
         if (name.endsWith(PandaArray.IDENTIFIER)) {
             return ArrayClassPrototypeFetcher.fetch(this, name);
         }
@@ -83,8 +83,8 @@ public class PandaModule implements Module {
     }
 
     @Override
-    public Collection<Entry<String, Supplier<PrototypeReference>>> getReferences() {
-        Collection<Entry<String, Supplier<PrototypeReference>>> entries = references.getReferences();
+    public Collection<Entry<String, Supplier<Reference>>> getReferences() {
+        Collection<Entry<String, Supplier<Reference>>> entries = references.getReferences();
 
         for (Module submodule : getSubmodules()) {
             entries.addAll(submodule.getReferences());

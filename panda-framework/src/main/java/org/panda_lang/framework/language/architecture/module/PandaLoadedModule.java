@@ -19,7 +19,7 @@ package org.panda_lang.framework.language.architecture.module;
 import org.panda_lang.framework.design.architecture.module.LoadedModule;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.language.architecture.prototype.array.ArrayClassPrototypeFetcher;
 import org.panda_lang.framework.language.architecture.prototype.array.PandaArray;
 
@@ -36,7 +36,7 @@ public final class PandaLoadedModule implements LoadedModule {
     }
 
     @Override
-    public Optional<PrototypeReference> forClass(Class<?> associatedClass) {
+    public Optional<Reference> forClass(Class<?> associatedClass) {
         if (associatedClass.isArray()) {
             ArrayClassPrototypeFetcher.fetch(module, associatedClass);
         }
@@ -45,7 +45,7 @@ public final class PandaLoadedModule implements LoadedModule {
     }
 
     @Override
-    public Optional<PrototypeReference> forName(CharSequence prototypeName) {
+    public Optional<Reference> forName(CharSequence prototypeName) {
         String name = prototypeName.toString();
 
         if (name.endsWith(PandaArray.IDENTIFIER)) {

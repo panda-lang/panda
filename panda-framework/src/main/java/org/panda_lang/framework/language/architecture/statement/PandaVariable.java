@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.language.architecture.statement;
 
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
 
@@ -25,7 +25,7 @@ public class PandaVariable extends PandaVariableData implements Variable {
     protected final int pointer;
     protected boolean initialized;
 
-    public PandaVariable(int pointer, PrototypeReference type, String name, boolean mutable, boolean nillable) {
+    public PandaVariable(int pointer, Reference type, String name, boolean mutable, boolean nillable) {
         super(type, name, mutable, nillable);
 
         if (pointer < 0) {

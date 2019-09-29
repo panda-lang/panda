@@ -24,7 +24,7 @@ import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaPipeli
 
 import java.util.Collection;
 
-public class PipelinePandaBootstrap implements PandaBootstrapElement {
+public final class PipelinePandaBootstrap implements PandaBootstrapElement {
 
     private final PandaBootstrap bootstrap;
     private final PipelinePath path = new PandaPipelinePath();

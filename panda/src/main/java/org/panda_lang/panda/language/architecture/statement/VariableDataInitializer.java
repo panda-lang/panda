@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.architecture.statement;
 
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
 import org.panda_lang.framework.design.interpreter.parser.Components;
@@ -65,7 +65,7 @@ public class VariableDataInitializer {
             throw new PandaParserFailure(context, name, "Variable name is already used in the scope '" + variableName + "'");
         }
 
-        Optional<PrototypeReference> prototype = context.getComponent(Components.IMPORTS).forName(type.toSnippet().asSource());
+        Optional<Reference> prototype = context.getComponent(Components.IMPORTS).forName(type.toSnippet().asSource());
 
         if (!prototype.isPresent()) {
             throw new PandaParserFailure(context, type, "Cannot recognize variable type: " + type);

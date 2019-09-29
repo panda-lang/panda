@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
-public class ParsersPandaBootstrap implements PandaBootstrapElement {
+public final class ParsersPandaBootstrap implements PandaBootstrapElement {
 
     private final PandaBootstrap bootstrap;
     private final RegistrableLoader registrationLoader = new RegistrableLoader();

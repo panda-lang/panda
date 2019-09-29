@@ -19,7 +19,7 @@ package org.panda_lang.panda.cli;
 import org.panda_lang.panda.Panda;
 import picocli.CommandLine;
 
-public class PandaCLI {
+public final class PandaCLI {
 
     private final Panda panda;
 

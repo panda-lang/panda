@@ -16,21 +16,29 @@
 
 package org.panda_lang.framework.design.architecture.prototype;
 
-import org.panda_lang.framework.design.architecture.parameter.Arguments;
-import org.panda_lang.framework.design.architecture.expression.Expression;
+import java.util.List;
 
-import java.util.Optional;
-
-public interface PrototypeConstructors extends PrototypeProperties<PrototypeConstructor> {
+public interface Declarations<T extends PrototypeExecutable> {
 
     /**
-     * Adjust property to the given arguments
+     * Declare a new property
      *
-     * @param arguments arguments to match and adjust
-     * @return the adjusted executable
+     * @param property the property to add
      */
-    Optional<Arguments<PrototypeConstructor>> getAdjustedConstructor(Expression[] arguments);
+    void declare(T property);
 
-    Optional<PrototypeConstructor> getConstructor(Prototype[] types);
+    /**
+     * Get all properties of the T type
+     *
+     * @return list of properties
+     */
+    List<? extends T> getProperties();
+
+    /**
+     * Get amount of properties
+     *
+     * @return the amount of properties
+     */
+    int size();
 
 }

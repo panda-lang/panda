@@ -45,8 +45,8 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.interceptors.CustomPatternInterceptor;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 
-@Registrable(pipeline = Pipelines.SCOPE_LABEL, priority = PandaPriorities.CONTAINER_BLOCK)
-public class BlockParser extends ParserBootstrap {
+@Registrable(pipeline = Pipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_BLOCK)
+public final class BlockParser extends ParserBootstrap {
 
     private static final ScopeParser CONTAINER_PARSER = new ScopeParser();
 

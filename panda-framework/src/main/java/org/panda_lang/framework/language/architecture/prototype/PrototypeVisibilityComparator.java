@@ -14,16 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.architecture.prototype;
+package org.panda_lang.framework.language.architecture.prototype;
 
-import org.jetbrains.annotations.Nullable;
+public final class PrototypeVisibilityComparator {
 
-public interface PrototypeFields extends PrototypeProperties<PrototypeField> {
-
-    int getIndexOfField(PrototypeField field);
-
-    @Nullable PrototypeField getField(int fieldId);
-
-    @Nullable PrototypeField getField(String fieldName);
+    public static boolean compare() {
+        return false;
+    }
 
 }

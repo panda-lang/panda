@@ -18,7 +18,7 @@ package org.panda_lang.panda.bootstrap;
 
 import org.panda_lang.panda.PandaException;
 
-public class PandaBootstrapException extends PandaException {
+public final class PandaBootstrapException extends PandaException {
 
     public PandaBootstrapException(String message) {
         super(message);

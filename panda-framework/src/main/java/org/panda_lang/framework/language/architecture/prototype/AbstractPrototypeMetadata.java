@@ -18,29 +18,31 @@ package org.panda_lang.framework.language.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeMetadata;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.prototype.Metadata;
+import org.panda_lang.framework.design.architecture.prototype.Visibility;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.language.architecture.prototype.array.ArrayClassPrototypeFetcher;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-abstract class AbstractPrototypeMetadata implements PrototypeMetadata {
+abstract class AbstractPrototypeMetadata implements Metadata {
 
     protected final String name;
     protected final Module module;
     protected final Class<?> associated;
-    protected final Collection<PrototypeReference> extended;
+    protected final Visibility visibility;
+    protected final Collection<Reference> extended = new ArrayList<>(1);
 
-    protected AbstractPrototypeMetadata(String name, Module module, Class<?> associated) {
+    protected AbstractPrototypeMetadata(String name, Module module, Class<?> associated, Visibility visibility) {
         this.name = name;
         this.module = module;
         this.associated = associated;
-        this.extended = new ArrayList<>(1);
+        this.visibility = visibility;
     }
 
     @Override
-    public PrototypeMetadata addExtended(PrototypeReference reference) {
+    public Metadata addExtended(Reference reference) {
         extended.add(reference);
         return this;
     }
@@ -55,24 +57,29 @@ abstract class AbstractPrototypeMetadata implements PrototypeMetadata {
     }
 
     @Override
-    public boolean isAssignableFrom(PrototypeMetadata prototype) { // this (Panda Class | Java Class) isAssociatedWith
+    public boolean isAssignableFrom(Metadata prototype) { // this (Panda Class | Java Class) isAssociatedWith
         if (prototype == null) {
             return true;
         }
 
         return prototype.equals(this)
-                || PandaClassPrototypeUtils.isAssignableFrom(associated, prototype.getAssociatedClass())
-                || PandaClassPrototypeUtils.hasCommonPrototypes(extended, prototype.getExtended());
+                || PandaPrototypeUtils.isAssignableFrom(associated, prototype.getAssociatedClass())
+                || PandaPrototypeUtils.hasCommonPrototypes(extended, prototype.getExtended());
     }
 
     @Override
-    public PrototypeReference toArray(ModuleLoader loader) {
+    public Reference toArray(ModuleLoader loader) {
         return ArrayClassPrototypeFetcher.getArrayOf(getModule(), this, 1);
     }
 
     @Override
-    public Collection<PrototypeReference> getExtended() {
+    public Collection<Reference> getExtended() {
         return extended;
+    }
+
+    @Override
+    public Visibility getVisibility() {
+        return visibility;
     }
 
     @Override

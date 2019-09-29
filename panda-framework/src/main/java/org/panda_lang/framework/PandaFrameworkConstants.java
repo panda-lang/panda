@@ -18,11 +18,11 @@ package org.panda_lang.framework;
 
 public final class PandaFrameworkConstants {
 
-    private PandaFrameworkConstants() { }
-
     /**
      * Current version of the Panda Framework
      */
     public static final String VERSION = "indev-19.9.21";
+
+    private PandaFrameworkConstants() { }
 
 }

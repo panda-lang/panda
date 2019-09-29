@@ -27,15 +27,6 @@ public final class PandaFrameworkLogger {
     private PandaFrameworkLogger() { }
 
     /**
-     * Set logger used by the framework
-     *
-     * @param logger the logger to use
-     */
-    public static void setLogger(Logger logger) {
-        PANDA_FRAMEWORK_LOGGER = logger;
-    }
-
-    /**
      * Print current JVM startup time.
      * The method should be called as fast as it is possible.
      */
@@ -43,6 +34,15 @@ public final class PandaFrameworkLogger {
         PandaFramework.getLogger().debug("");
         PandaFramework.getLogger().debug("JVM launch time: " + TimeUtils.getJVMUptime() + "ms (｡•́︿•̀｡)");
         PandaFramework.getLogger().debug("");
+    }
+
+    /**
+     * Set logger used by the framework
+     *
+     * @param logger the logger to use
+     */
+    public static void setLogger(Logger logger) {
+        PANDA_FRAMEWORK_LOGGER = logger;
     }
 
 }

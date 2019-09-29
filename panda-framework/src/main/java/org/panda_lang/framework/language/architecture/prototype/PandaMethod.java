@@ -49,7 +49,7 @@ public class PandaMethod extends PandaPrototypeExecutable implements PrototypeMe
 
     @Override
     public String toString() {
-        return "method " + getPrototype().getName() + "#" + getName();
+        return "method " + getReference().getName() + "#" + getName();
     }
 
     public static PandaMethodBuilder builder() {

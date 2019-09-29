@@ -16,10 +16,17 @@
 
 package org.panda_lang.framework.language.architecture.prototype;
 
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.dynamic.Frame;
+import org.panda_lang.framework.design.architecture.parameter.Parameter;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.language.architecture.statement.ParametrizedAbstractScope;
+import org.panda_lang.framework.language.architecture.statement.ParametrizedFrame;
 
 import java.lang.reflect.Constructor;
+import java.util.List;
 
 public class PandaConstructor extends PandaPrototypeExecutable implements PrototypeConstructor {
 
@@ -40,12 +47,37 @@ public class PandaConstructor extends PandaPrototypeExecutable implements Protot
 
         private PandaConstructorBuilder() { }
 
-        public PandaConstructorBuilder constructor(PrototypeReference reference, Constructor<?> constructor) {
+        public PandaConstructorBuilder constructor(Reference reference, Constructor<?> constructor) {
             return type(reference).name("constructor " + reference.getName());
         }
 
         public PandaConstructor build() {
             return new PandaConstructor(this);
+        }
+
+    }
+
+    public static class PandaConstructorScope extends ParametrizedAbstractScope {
+
+        public PandaConstructorScope(SourceLocation location, List<Parameter> parameters) {
+            super(location, parameters);
+        }
+
+        @Override
+        public ConstructorFrame revive(ProcessStack stack, Object instance) {
+            return new ConstructorFrame(this, (Frame) instance);
+        }
+
+        public List<Parameter> getParameters() {
+            return parameters;
+        }
+
+    }
+
+    public static class ConstructorFrame extends ParametrizedFrame<PandaConstructorScope> {
+
+        public ConstructorFrame(PandaConstructorScope scope, Frame instance) {
+            super(scope, instance);
         }
 
     }

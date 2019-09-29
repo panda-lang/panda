@@ -42,7 +42,7 @@ import org.panda_lang.framework.language.interpreter.source.PandaSourceSet;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PipelineParser;
 
-public class ApplicationParser implements Parser {
+public final class ApplicationParser implements Parser {
 
     private final Interpretation interpretation;
 

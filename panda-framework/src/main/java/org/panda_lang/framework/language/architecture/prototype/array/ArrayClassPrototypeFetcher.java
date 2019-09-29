@@ -18,8 +18,8 @@ package org.panda_lang.framework.language.architecture.prototype.array;
 
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeMetadata;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.prototype.Metadata;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.StringUtils;
 
@@ -30,38 +30,38 @@ import java.util.function.Supplier;
 
 public class ArrayClassPrototypeFetcher {
 
-    private static final Map<String, PrototypeReference> ARRAY_PROTOTYPES = new HashMap<>();
+    private static final Map<String, Reference> ARRAY_PROTOTYPES = new HashMap<>();
 
-    public static Optional<PrototypeReference> fetch(Module module, Class<?> type) {
+    public static Optional<Reference> fetch(Module module, Class<?> type) {
         return fetch(module, type.getSimpleName());
     }
 
-    public static Optional<PrototypeReference> fetch(Module module, String type) {
-        PrototypeReference cached = ARRAY_PROTOTYPES.get(type);
+    public static Optional<Reference> fetch(Module module, String type) {
+        Reference cached = ARRAY_PROTOTYPES.get(type);
 
         if (cached != null) {
             return Optional.of(cached);
         }
 
-        Optional<PrototypeReference> baseReferenceValue = module.forName(StringUtils.replace(type, PandaArray.IDENTIFIER, StringUtils.EMPTY));
+        Optional<Reference> baseReferenceValue = module.forName(StringUtils.replace(type, PandaArray.IDENTIFIER, StringUtils.EMPTY));
 
         if (!baseReferenceValue.isPresent()) {
             return Optional.empty();
         }
 
-        PrototypeReference baseReference = baseReferenceValue.get();
+        Reference baseReference = baseReferenceValue.get();
         int dimensions = StringUtils.countOccurrences(type, PandaArray.IDENTIFIER);
 
-        PrototypeReference array = getArrayOf(module, baseReference, dimensions);
+        Reference array = getArrayOf(module, baseReference, dimensions);
         baseReference.getModule().add(type, array.getAssociatedClass(), () -> array);
         return Optional.of(array);
     }
 
-    public static PrototypeReference getArrayOf(Module module, PrototypeMetadata prototype, int dimensions) {
+    public static Reference getArrayOf(Module module, Metadata prototype, int dimensions) {
         Class<?> arrayType = ArrayUtils.getDimensionalArrayType(prototype.getAssociatedClass(), dimensions);
         Class<?> arrayClass = ArrayUtils.getArrayClass(arrayType);
 
-        PrototypeReference type;
+        Reference type;
 
         if (arrayType.isArray()) {
             type = fetch(module, arrayType).orElseThrow((Supplier<PandaFrameworkException>) () -> {

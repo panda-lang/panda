@@ -17,7 +17,7 @@
 package org.panda_lang.framework.language.architecture.module;
 
 import org.panda_lang.framework.design.architecture.module.ReferencesMap;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.utilities.commons.function.CachedSupplier;
 
 import java.util.Collection;
@@ -27,12 +27,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-final class PandaReferencesMap extends HashMap<String, CachedSupplier<PrototypeReference>> implements ReferencesMap {
+final class PandaReferencesMap extends HashMap<String, CachedSupplier<Reference>> implements ReferencesMap {
 
     private final Map<Class<?>, String> associatedClasses = new HashMap<>();
 
     @Override
-    public boolean put(String name, Class<?> type, CachedSupplier<PrototypeReference> referenceSupplier) {
+    public boolean put(String name, Class<?> type, CachedSupplier<Reference> referenceSupplier) {
         if (associatedClasses.containsKey(type) || containsKey(name)) {
             return false;
         }
@@ -46,7 +46,7 @@ final class PandaReferencesMap extends HashMap<String, CachedSupplier<PrototypeR
     public int countUsedPrototypes() {
         int sum = 0;
 
-        for (Entry<String, CachedSupplier<PrototypeReference>> reference : entrySet()) {
+        for (Entry<String, CachedSupplier<Reference>> reference : entrySet()) {
             if (reference.getValue().isInitialized() && reference.getValue().get().isInitialized()) {
                 sum++;
             }
@@ -56,7 +56,7 @@ final class PandaReferencesMap extends HashMap<String, CachedSupplier<PrototypeR
     }
 
     @Override
-    public Optional<PrototypeReference> forClass(Class<?> associatedClass) {
+    public Optional<Reference> forClass(Class<?> associatedClass) {
         String prototypeName = associatedClasses.get(associatedClass);
 
         if (prototypeName == null) {
@@ -67,8 +67,8 @@ final class PandaReferencesMap extends HashMap<String, CachedSupplier<PrototypeR
     }
 
     @Override
-    public Optional<PrototypeReference> forName(CharSequence prototypeName) {
-        Supplier<PrototypeReference> prototypeReferenceSupplier = get(prototypeName.toString());
+    public Optional<Reference> forName(CharSequence prototypeName) {
+        Supplier<Reference> prototypeReferenceSupplier = get(prototypeName.toString());
 
         if (prototypeReferenceSupplier == null) {
             return Optional.empty();
@@ -79,9 +79,9 @@ final class PandaReferencesMap extends HashMap<String, CachedSupplier<PrototypeR
 
     @Override
     @SuppressWarnings("unchecked")
-    public Collection<Entry<String, Supplier<PrototypeReference>>> getReferences() {
+    public Collection<Entry<String, Supplier<Reference>>> getReferences() {
         Object sharedSet = entrySet(); // due to javac 1.8 bug
-        return new HashSet<>((Collection<? extends Entry<String, Supplier<PrototypeReference>>>) sharedSet);
+        return new HashSet<>((Collection<? extends Entry<String, Supplier<Reference>>>) sharedSet);
     }
 
 }

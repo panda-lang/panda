@@ -18,7 +18,7 @@ package org.panda_lang.framework.language.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructors;
+import org.panda_lang.framework.design.architecture.prototype.Constructors;
 import org.panda_lang.framework.design.architecture.parameter.Arguments;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.language.architecture.parameter.ParameterUtils;
@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-final class PandaConstructors implements PrototypeConstructors {
+final class PandaConstructors implements Constructors {
 
     private static final PrototypeExecutablePropertiesMatcher<PrototypeConstructor> MATCHER = new PrototypeExecutablePropertiesMatcher<>();
 

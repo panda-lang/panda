@@ -18,9 +18,9 @@ package org.panda_lang.framework.language.resource;
 
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.language.architecture.module.PandaModule;
-import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
+import org.panda_lang.framework.language.architecture.prototype.PandaPrototypeUtils;
 import org.panda_lang.framework.language.architecture.prototype.array.PandaArray;
 import org.panda_lang.framework.language.architecture.prototype.generator.ClassPrototypeGeneratorManager;
 
@@ -31,18 +31,18 @@ public final class PandaTypes {
 
     public static final Module MODULE = new PandaModule("panda");
 
-    public static final Prototype VOID = PandaPrototype.of(MODULE, void.class, "void").fetch();
-    public static final Prototype BOOLEAN = PandaPrototype.of(MODULE, Boolean.class, "Boolean").fetch();
-    public static final Prototype CHAR = PandaPrototype.of(MODULE, Character.class, "Char").fetch();
-    public static final Prototype BYTE = PandaPrototype.of(MODULE, Byte.class, "Byte").fetch();
-    public static final Prototype SHORT = PandaPrototype.of(MODULE, Short.class, "Short").fetch();
-    public static final Prototype INT = PandaPrototype.of(MODULE, Integer.class, "Int").fetch();
-    public static final Prototype LONG = PandaPrototype.of(MODULE, Long.class, "Long").fetch();
-    public static final Prototype FLOAT = PandaPrototype.of(MODULE, Float.class, "Float").fetch();
-    public static final Prototype DOUBLE = PandaPrototype.of(MODULE, Double.class, "Double").fetch();
+    public static final Prototype VOID = PandaPrototypeUtils.of(MODULE, void.class, "void").fetch();
+    public static final Prototype BOOLEAN = PandaPrototypeUtils.of(MODULE, Boolean.class, "Boolean").fetch();
+    public static final Prototype CHAR = PandaPrototypeUtils.of(MODULE, Character.class, "Char").fetch();
+    public static final Prototype BYTE = PandaPrototypeUtils.of(MODULE, Byte.class, "Byte").fetch();
+    public static final Prototype SHORT = PandaPrototypeUtils.of(MODULE, Short.class, "Short").fetch();
+    public static final Prototype INT = PandaPrototypeUtils.of(MODULE, Integer.class, "Int").fetch();
+    public static final Prototype LONG = PandaPrototypeUtils.of(MODULE, Long.class, "Long").fetch();
+    public static final Prototype FLOAT = PandaPrototypeUtils.of(MODULE, Float.class, "Float").fetch();
+    public static final Prototype DOUBLE = PandaPrototypeUtils.of(MODULE, Double.class, "Double").fetch();
 
-    public static final Prototype OBJECT = PandaPrototype.of(MODULE, Object.class, "Object").fetch();
-    public static final Prototype ARRAY = PandaPrototype.of(MODULE, PandaArray.class, "Array").fetch();
+    public static final Prototype OBJECT = PandaPrototypeUtils.of(MODULE, Object.class, "Object").fetch();
+    public static final Prototype ARRAY = PandaPrototypeUtils.of(MODULE, PandaArray.class, "Array").fetch();
 
     public static final Prototype STRING = of(String.class).fetch();
     public static final Prototype NUMBER = of(Number.class).fetch();
@@ -58,8 +58,8 @@ public final class PandaTypes {
         of(StringBuilder.class);
     }
 
-    private static PrototypeReference of(Class<?> clazz) {
-        PrototypeReference reference = ClassPrototypeGeneratorManager.getInstance().generate(MODULE, clazz, clazz.getSimpleName());
+    private static Reference of(Class<?> clazz) {
+        Reference reference = ClassPrototypeGeneratorManager.getInstance().generate(MODULE, clazz, clazz.getSimpleName());
         MODULE.add(reference. getName(), reference.getAssociatedClass(), () -> reference);
         return reference;
     }

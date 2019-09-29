@@ -42,7 +42,7 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handl
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.interceptors.CustomPatternInterceptor;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 
-@Registrable(pipeline = Pipelines.SCOPE_LABEL, priority = PandaPriorities.CONTAINER_LATE_DECLARATION)
+@Registrable(pipeline = Pipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_LATE_DECLARATION)
 public final class LateDeclarationParser extends ParserBootstrap {
 
     @Override

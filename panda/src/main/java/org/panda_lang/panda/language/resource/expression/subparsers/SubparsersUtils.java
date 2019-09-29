@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.resource.expression.subparsers;
 
-import org.panda_lang.framework.design.architecture.prototype.PrototypeReference;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
@@ -30,14 +30,14 @@ final class SubparsersUtils {
 
     private SubparsersUtils() { }
 
-    protected static Produce<PrototypeReference, ExpressionResult> readType(ExpressionContext context) {
+    protected static Produce<Reference, ExpressionResult> readType(ExpressionContext context) {
         Optional<Snippet> typeSource = TypeDeclarationUtils.readType(context.getSynchronizedSource().getAvailableSource());
 
         if (!typeSource.isPresent()) {
             return new Produce<>(() -> ExpressionResult.error("Cannot read type", context.getSynchronizedSource().getAvailableSource()));
         }
 
-        Optional<PrototypeReference> typeReference = context.getContext().getComponent(Components.IMPORTS).forName(typeSource.get().asSource());
+        Optional<Reference> typeReference = context.getContext().getComponent(Components.IMPORTS).forName(typeSource.get().asSource());
 
         if (!typeReference.isPresent()) {
             return new Produce<>(() -> ExpressionResult.error("Unknown type", context.getSynchronizedSource().getAvailableSource()));

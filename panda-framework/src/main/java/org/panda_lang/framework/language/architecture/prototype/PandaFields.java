@@ -18,12 +18,12 @@ package org.panda_lang.framework.language.architecture.prototype;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeFields;
+import org.panda_lang.framework.design.architecture.prototype.Fields;
 
 import java.util.ArrayList;
 import java.util.List;
 
-final class PandaFields implements PrototypeFields {
+final class PandaFields implements Fields {
 
     private final List<PrototypeField> fields = new ArrayList<>();
 
