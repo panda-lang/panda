@@ -15,9 +15,9 @@ class Foo extends Test {
 
 class Test {
 
-    local mut Test testField
+    public Int index = 1
+    shared mut Test testField
     local Double double = 1.5D
-    local Int index = 1
 
     constructor(String message2) {
         Console.print(message2)
@@ -31,7 +31,7 @@ class Test {
         // empty constructor
     }
 
-    local echo(Object message3) {
+    shared echo(Object message3) {
         Console.print(message3)
     }
 
@@ -40,7 +40,7 @@ class Test {
         return
     }
 
-    local Test getTestField() {
+    shared Test getTestField() {
         return this.testField
     }
 
@@ -141,13 +141,13 @@ main {
 
 local class TestArray {
 
-    local String[] array
+    shared String[] array
 
     constructor(Int size) {
         this.array = new String[size];
     }
 
-    local modify(Test test) {
+    shared modify(Test test) {
         this.getArray()[test.index] = "Hello Array"
         array[6] = String.valueOf(this)
 

@@ -21,9 +21,9 @@ import org.panda_lang.framework.design.interpreter.parser.ContextComponent;
 
 public final class PrototypeComponents {
 
-    public static final ContextComponent<Prototype> CLASS_PROTOTYPE = ContextComponent.of("panda-class-prototype", Prototype.class);
+    public static final ContextComponent<Prototype> PROTOTYPE = ContextComponent.of("prototype", Prototype.class);
 
-    public static final ContextComponent<PrototypeScope> CLASS_FRAME = ContextComponent.of("panda-class-frame", PrototypeScope.class);
+    public static final ContextComponent<PrototypeScope> CLASS_FRAME = ContextComponent.of("class-frame", PrototypeScope.class);
 
     private PrototypeComponents() { }
 

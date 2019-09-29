@@ -36,7 +36,7 @@ final class ClassPrototypeParserUtils {
     private ClassPrototypeParserUtils() { }
 
     public static void readDeclaration(Context context, Snippet classDeclaration) {
-        Prototype classPrototype = context.getComponent(PrototypeComponents.CLASS_PROTOTYPE);
+        Prototype classPrototype = context.getComponent(PrototypeComponents.PROTOTYPE);
         Token next = classDeclaration.get(1);
 
         if (next == null || next.getType() != TokenType.KEYWORD) {

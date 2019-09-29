@@ -83,7 +83,7 @@ public final class FieldParser extends ParserBootstrap {
         Reference returnType = PandaImportsUtils.getReferenceOrThrow(context, type.asSource(), type);
         Visibility visibility = Visibility.valueOf(result.get("visibility").toString().toUpperCase());
 
-        Prototype prototype = context.getComponent(PrototypeComponents.CLASS_PROTOTYPE);
+        Prototype prototype = context.getComponent(PrototypeComponents.PROTOTYPE);
         int fieldIndex = prototype.getFields().getProperties().size();
 
         PrototypeField field = PandaPrototypeField.builder()

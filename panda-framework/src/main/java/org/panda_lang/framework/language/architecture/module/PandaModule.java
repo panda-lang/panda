@@ -69,6 +69,23 @@ public class PandaModule implements Module {
     }
 
     @Override
+    public boolean isSubmodule(Module module) {
+        Optional<Module> parentModule = module.getParent();
+
+        while (parentModule.isPresent()) {
+            Module parent = parentModule.get();
+
+            if (parent.equals(this)) {
+                return true;
+            }
+
+            parentModule = parent.getParent();
+        }
+
+        return false;
+    }
+
+    @Override
     public Optional<Reference> forClass(Class<?> associatedClass) {
         return references.forClass(associatedClass);
     }
