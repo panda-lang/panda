@@ -31,6 +31,7 @@ import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.architecture.expression.StaticExpression;
 import org.panda_lang.framework.language.architecture.expression.ThisExpression;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeExecutableExpression;
+import org.panda_lang.framework.language.architecture.prototype.VisibilityComparator;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.framework.language.interpreter.token.TokenUtils;
@@ -133,6 +134,15 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
                 throw new PandaExpressionParserFailure(context, methodName,
                         "Cannot invoke non-static method on static context",
                         "Call method using class instance or add missing 'static' keyword to the '" + methodName.getValue() + "'method signature"
+                );
+            }
+
+            Optional<String> issue = VisibilityComparator.canAccess(method, context.getContext());
+
+            if (issue.isPresent()) {
+                throw new PandaExpressionParserFailure(context, methodName,
+                        issue.get(),
+                        "You may want to change the architecture of your application or you can just simply hack it"
                 );
             }
 

@@ -47,7 +47,7 @@ public final class ThisExpression implements DynamicExpression {
     }
 
     public static Expression of(Context context) {
-        return of(context.getComponent(PrototypeComponents.CLASS_PROTOTYPE));
+        return of(context.getComponent(PrototypeComponents.PROTOTYPE));
     }
 
 }

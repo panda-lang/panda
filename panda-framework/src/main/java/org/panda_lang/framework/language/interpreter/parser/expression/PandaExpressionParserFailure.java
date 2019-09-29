@@ -24,13 +24,13 @@ public class PandaExpressionParserFailure extends PandaParserFailure {
 
     private final String expressionMessage;
 
-    public PandaExpressionParserFailure(ExpressionContext context, Snippetable source, String prefix, String message) {
-        super(context.getContext(), source, prefix + message);
+    public PandaExpressionParserFailure(ExpressionContext context, Snippetable indicated, String message, String note) {
+        super(context.getContext(), indicated, message, note);
         this.expressionMessage = message;
     }
 
     public PandaExpressionParserFailure(ExpressionContext context, Snippetable indicated, String message) {
-        this(context, indicated, "Cannot parse the expression: ", message);
+        this(context, indicated, message, null);
     }
 
     @Override

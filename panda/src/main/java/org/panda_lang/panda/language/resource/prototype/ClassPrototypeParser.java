@@ -104,7 +104,7 @@ public final class ClassPrototypeParser extends ParserBootstrap {
 
         context.withComponent(Components.SCOPE, scope)
                 .withComponent(PrototypeComponents.CLASS_FRAME, scope)
-                .withComponent(PrototypeComponents.CLASS_PROTOTYPE, prototype);
+                .withComponent(PrototypeComponents.PROTOTYPE, prototype);
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
@@ -127,7 +127,7 @@ public final class ClassPrototypeParser extends ParserBootstrap {
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
     void parseAfter(Context context) {
-        Prototype prototype = context.getComponent(PrototypeComponents.CLASS_PROTOTYPE);
+        Prototype prototype = context.getComponent(PrototypeComponents.PROTOTYPE);
         PrototypeScope scope = context.getComponent(PrototypeComponents.CLASS_FRAME);
 
         if (!prototype.getConstructors().getProperties().isEmpty()) {

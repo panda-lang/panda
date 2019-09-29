@@ -102,7 +102,7 @@ public final class MethodParser extends ParserBootstrap {
 
         MethodScope methodScope = local.allocated(new MethodScope(name.getLocation(), parameters));
         context.withComponent(Components.SCOPE, methodScope);
-        Prototype prototype = context.getComponent(PrototypeComponents.CLASS_PROTOTYPE);
+        Prototype prototype = context.getComponent(PrototypeComponents.PROTOTYPE);
 
         PrototypeMethod prototypeMethod = PandaMethod.builder()
                 .prototype(prototype.getReference())

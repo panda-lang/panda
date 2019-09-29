@@ -54,6 +54,14 @@ public interface Module extends ModuleResource {
     int countReferences();
 
     /**
+     * Check if the given module is submodule of the current module
+     *
+     * @param module the module to check
+     * @return true if module is submodule, otherwise false
+     */
+    boolean isSubmodule(Module module);
+
+    /**
      * Check if the module contains prototype associated with the specified class
      *
      * @param clazz the class to check
