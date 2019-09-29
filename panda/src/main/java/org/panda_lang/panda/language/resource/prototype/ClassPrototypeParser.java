@@ -49,14 +49,14 @@ import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.framework.language.resource.PandaTypes;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.architecture.PandaScript;
-import org.panda_lang.panda.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Component;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Inter;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.Delegation;
-import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.TokenHandler;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.CustomPatternHandler;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.interceptors.CustomPatternInterceptor;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 
@@ -68,10 +68,10 @@ public final class ClassPrototypeParser extends ParserBootstrap {
     @Override
     protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
         return initializer
-                .handler(new TokenHandler(Keywords.CLASS))
+                .handler(new CustomPatternHandler())
                 .interceptor(new CustomPatternInterceptor())
                 .pattern(CustomPattern.of(
-                        VariantElement.create("visibility").content(Keywords.PUBLIC.getValue(), Keywords.SHARED.getValue(), Keywords.LOCAL.getValue()),
+                        VariantElement.create("visibility").content(Keywords.PUBLIC.getValue(), Keywords.SHARED.getValue(), Keywords.LOCAL.getValue()).optional(),
                         KeywordElement.create(Keywords.CLASS),
                         WildcardElement.create("name").verify(new TokenTypeVerifier(TokenType.UNKNOWN)),
                         SubPatternElement.create("extended").optional().of(
@@ -83,15 +83,19 @@ public final class ClassPrototypeParser extends ParserBootstrap {
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL)
-    void parse(Context context, @Inter SourceLocation location, @Inter Result result, @Src("name") String className) throws Exception {
-        PandaScript script = context.getComponent(PandaComponents.PANDA_SCRIPT);
+    void parse(Context context, @Inter SourceLocation location, @Inter Result result, @Component PandaScript script, @Src("name") String className) throws Exception {
         Module module = script.getModule();
+        Visibility visibility = Visibility.LOCAL;
+
+        if (result.has("visibility")) {
+            visibility = Visibility.valueOf(result.get("visibility").toString().toUpperCase());
+        }
 
         Prototype prototype = PandaPrototype.builder()
                 .module(module)
                 .associated(GENERATOR.generateType(className))
                 .name(className)
-                .visibility(Visibility.valueOf(result.get("visibility").toString().toUpperCase()))
+                .visibility(visibility)
                 .build();
 
         prototype.addExtended(PandaTypes.OBJECT.getReference());
