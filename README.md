@@ -2,7 +2,7 @@
 
 <p align="center">
    <a href="https://travis-ci.org/panda-lang/panda"><img src="https://travis-ci.org/panda-lang/panda.svg?branch=master" alt="Build Status"></a>
-   <a href="https://ci.appveyor.com/project/panda-lang/panda/branch/master"><img src="https://ci.appveyor.com/api/projects/status/whatvc77sgtjb1ip?svg=true"></a>
+   <a href="https://ci.appveyor.com/project/panda-lang/panda/branch/master"><img src="https://ci.appveyor.com/api/projects/status/whatvc77sgtjb1ip/branch/master?svg=true"></a>
    <a href="https://www.codefactor.io/repository/github/panda-lang/panda"><img src="https://www.codefactor.io/repository/github/panda-lang/panda/badge" alt="CodeFactor"></a>
     
   <hr>
