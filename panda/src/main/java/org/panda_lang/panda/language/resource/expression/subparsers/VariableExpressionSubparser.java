@@ -17,8 +17,8 @@
 package org.panda_lang.panda.language.resource.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.interpreter.parser.Components;
@@ -28,11 +28,13 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionS
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
-import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.language.interpreter.token.TokenUtils;
-import org.panda_lang.panda.language.resource.expression.subparsers.number.NumberUtils;
-import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.framework.language.architecture.expression.ThisExpression;
+import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
+import org.panda_lang.framework.language.architecture.prototype.VisibilityComparator;
+import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParserFailure;
+import org.panda_lang.framework.language.interpreter.token.TokenUtils;
+import org.panda_lang.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.panda.language.resource.expression.subparsers.number.NumberUtils;
 
 import java.util.Optional;
 
@@ -75,7 +77,7 @@ public final class VariableExpressionSubparser implements ExpressionSubparser {
             }
 
             if (context.hasResults()) {
-                ExpressionResult result = fromInstance(context.peekExpression(), name)
+                ExpressionResult result = fromInstance(context, context.peekExpression(), token)
                         .orElseGet(() -> ExpressionResult.error("Cannot find field called '" + name + "'", token));
 
                 if (result.isPresent()) {
@@ -85,25 +87,34 @@ public final class VariableExpressionSubparser implements ExpressionSubparser {
                 return result;
             }
 
-            Prototype prototype = context.getContext().getComponent(PrototypeComponents.CLASS_PROTOTYPE);
+            Prototype prototype = context.getContext().getComponent(PrototypeComponents.PROTOTYPE);
 
             if (prototype != null) {
-                return fromInstance(ThisExpression.of(prototype), name).orElseGet(() -> ExpressionResult.error("Cannot find class/variable '" + name + "'", token));
+                return fromInstance(context, ThisExpression.of(prototype), token).orElseGet(() -> {
+                    return ExpressionResult.error("Cannot find class/variable '" + name + "'", token);
+                });
             }
 
             // return ExpressionResult.error("Cannot find variable or field called '" + name + "'", token);
             return null;
         }
 
-        private Optional<ExpressionResult> fromInstance(Expression instance, String name) {
+        private Optional<ExpressionResult> fromInstance(ExpressionContext context, Expression instance, TokenRepresentation name) {
             Prototype prototype = instance.getReturnType();
-            PrototypeField field = prototype.getFields().getField(name);
+            PrototypeField field = prototype.getFields().getField(name.getValue());
 
             if (field != null) {
-                return Optional.of(ExpressionResult.of(new FieldExpression(instance, field).toExpression()));
+                Optional<String> issue = VisibilityComparator.canAccess(field, context.getContext());
+
+                if (issue.isPresent()) {
+                    throw new PandaExpressionParserFailure(context, name,
+                            issue.get(),
+                            "You may want to change the architecture of your application or you can just simply hack it"
+                    );
+                }
             }
 
-            return Optional.empty();
+            return Optional.ofNullable(field).map(property -> ExpressionResult.of(new FieldExpression(instance, field).toExpression()));
         }
 
     }
