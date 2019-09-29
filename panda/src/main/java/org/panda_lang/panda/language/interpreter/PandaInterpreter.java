@@ -23,7 +23,7 @@ import org.panda_lang.panda.language.architecture.PandaApplication;
 import org.panda_lang.framework.design.interpreter.Interpretation;
 import org.panda_lang.framework.design.interpreter.Interpreter;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerLevel;
-import org.panda_lang.framework.design.interpreter.pattern.descriptive.extractor.ExtractorWorker;
+import org.panda_lang.framework.language.interpreter.pattern.descriptive.extractor.ExtractorWorker;
 import org.panda_lang.framework.design.interpreter.source.Source;
 import org.panda_lang.framework.design.resource.Language;
 import org.panda_lang.framework.language.interpreter.PandaInterpretation;
