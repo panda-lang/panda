@@ -22,10 +22,20 @@ import org.panda_lang.framework.design.architecture.prototype.Property;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.token.Snippetable;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 
 import java.util.Optional;
 
 public final class VisibilityComparator {
+
+    public static final String NOTE_MESSAGE = "You may want to change the architecture of your application or you can just simply hack it";
+
+    public static void requireAccess(Property requested, Context context, Snippetable source) {
+        canAccess(requested, context).ifPresent(message -> {
+            throw new PandaParserFailure(context, source, message, NOTE_MESSAGE);
+        });
+    }
 
     public static Optional<String> canAccess(Property requested, Context context) {
         return canAccess(requested, context.getComponent(Components.SCRIPT).getModule(), context.getComponent(PrototypeComponents.PROTOTYPE));

@@ -28,12 +28,14 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SnippetUtils;
+import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.architecture.prototype.PandaConstructor;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeScope;
 import org.panda_lang.framework.language.architecture.prototype.generator.ClassPrototypeTypeGenerator;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PipelineParser;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
@@ -61,7 +63,7 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.inter
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 
 @Registrable(pipeline = Pipelines.HEAD_LABEL)
-public final class ClassPrototypeParser extends ParserBootstrap {
+public final class PrototypeParser extends ParserBootstrap {
 
     private static final ClassPrototypeTypeGenerator GENERATOR = new ClassPrototypeTypeGenerator();
 
@@ -85,10 +87,14 @@ public final class ClassPrototypeParser extends ParserBootstrap {
     @Autowired(cycle = GenerationCycles.TYPES_LABEL)
     void parse(Context context, @Inter SourceLocation location, @Inter Result result, @Component PandaScript script, @Src("name") String className) throws Exception {
         Module module = script.getModule();
-        Visibility visibility = Visibility.LOCAL;
+        Visibility visibility = Visibility.SHARED;
 
         if (result.has("visibility")) {
             visibility = Visibility.valueOf(result.get("visibility").toString().toUpperCase());
+        }
+
+        if (visibility == Visibility.LOCAL) {
+            throw new PandaParserFailure(context, result.get("visibility", Snippetable.class), "Local visibility of prototypes is not supported yet");
         }
 
         Prototype prototype = PandaPrototype.builder()
@@ -110,7 +116,7 @@ public final class ClassPrototypeParser extends ParserBootstrap {
     @Autowired(cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
     void parseDeclaration(Context context, @Src("declaration") Snippet declaration) {
         if (declaration != null) {
-            ClassPrototypeParserUtils.readDeclaration(context, declaration);
+            PrototypeParserUtils.readDeclaration(context, declaration);
         }
     }
 

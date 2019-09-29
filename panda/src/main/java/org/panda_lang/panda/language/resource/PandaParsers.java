@@ -29,7 +29,7 @@ import org.panda_lang.panda.language.resource.head.ImportParser;
 import org.panda_lang.panda.language.resource.head.MainParser;
 import org.panda_lang.panda.language.resource.head.ModuleParser;
 import org.panda_lang.panda.language.resource.head.RequireParser;
-import org.panda_lang.panda.language.resource.prototype.ClassPrototypeParser;
+import org.panda_lang.panda.language.resource.prototype.PrototypeParser;
 import org.panda_lang.panda.language.resource.prototype.ConstructorParser;
 import org.panda_lang.panda.language.resource.prototype.FieldParser;
 import org.panda_lang.panda.language.resource.prototype.MethodParser;
@@ -67,7 +67,7 @@ public final class PandaParsers extends Parsers {
             ModuleParser.class,
 
             // prototype
-            ClassPrototypeParser.class,
+            PrototypeParser.class,
             ConstructorParser.class,
             FieldParser.class,
             MethodParser.class,

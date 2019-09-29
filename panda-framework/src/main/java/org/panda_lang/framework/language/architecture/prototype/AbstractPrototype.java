@@ -83,7 +83,7 @@ abstract class AbstractPrototype extends AbstractPrototypeMetadata implements Pr
 
     @Override
     public String toString() {
-        return "ClassPrototype::" + name;
+        return "prototype " + name;
     }
 
 }

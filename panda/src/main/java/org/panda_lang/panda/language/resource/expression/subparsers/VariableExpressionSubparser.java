@@ -107,10 +107,7 @@ public final class VariableExpressionSubparser implements ExpressionSubparser {
                 Optional<String> issue = VisibilityComparator.canAccess(field, context.getContext());
 
                 if (issue.isPresent()) {
-                    throw new PandaExpressionParserFailure(context, name,
-                            issue.get(),
-                            "You may want to change the architecture of your application or you can just simply hack it"
-                    );
+                    throw new PandaExpressionParserFailure(context, name, issue.get(), VisibilityComparator.NOTE_MESSAGE);
                 }
             }
 

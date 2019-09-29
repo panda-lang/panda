@@ -31,9 +31,9 @@ import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 
 import java.util.Optional;
 
-final class ClassPrototypeParserUtils {
+final class PrototypeParserUtils {
 
-    private ClassPrototypeParserUtils() { }
+    private PrototypeParserUtils() { }
 
     public static void readDeclaration(Context context, Snippet classDeclaration) {
         Prototype classPrototype = context.getComponent(PrototypeComponents.PROTOTYPE);

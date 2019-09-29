@@ -58,6 +58,11 @@ public class PandaReference extends AbstractPrototypeMetadata implements Referen
     }
 
     @Override
+    public Prototype getPrototype() {
+        return prototype;
+    }
+
+    @Override
     public Class<?> getAssociatedClass() {
         return prototype.getAssociatedClass();
     }
@@ -65,6 +70,11 @@ public class PandaReference extends AbstractPrototypeMetadata implements Referen
     @Override
     public String getName() {
         return prototype.getName();
+    }
+
+    @Override
+    public String toString() {
+        return prototype.toString();
     }
 
 }
