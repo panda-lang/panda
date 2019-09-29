@@ -37,7 +37,7 @@ import java.lang.System
 
 class Matmul {
 
-    local Double[][] matgen(Int n) {
+    shared Double[][] matgen(Int n) {
         Double[][] a = new Double[n][n]
         Double tmp = 1.0 / n / n
 
@@ -50,7 +50,7 @@ class Matmul {
         return a
     }
 
-    local Double[][] matmul(Double[][] a, Double[][] b) {
+    shared Double[][] matmul(Double[][] a, Double[][] b) {
         Int m = a.size()
         Int n = a[0].size()
         Int p = b[0].size()

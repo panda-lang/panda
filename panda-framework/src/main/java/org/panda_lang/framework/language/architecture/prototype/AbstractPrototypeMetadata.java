@@ -21,6 +21,7 @@ import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.prototype.Metadata;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.interpreter.source.Source;
 import org.panda_lang.framework.language.architecture.prototype.array.ArrayClassPrototypeFetcher;
 
 import java.util.ArrayList;
@@ -30,13 +31,15 @@ abstract class AbstractPrototypeMetadata implements Metadata {
 
     protected final String name;
     protected final Module module;
+    protected final Source source;
     protected final Class<?> associated;
     protected final Visibility visibility;
     protected final Collection<Reference> extended = new ArrayList<>(1);
 
-    protected AbstractPrototypeMetadata(String name, Module module, Class<?> associated, Visibility visibility) {
+    protected AbstractPrototypeMetadata(String name, Module module, Source source, Class<?> associated, Visibility visibility) {
         this.name = name;
         this.module = module;
+        this.source = source;
         this.associated = associated;
         this.visibility = visibility;
     }
@@ -85,6 +88,11 @@ abstract class AbstractPrototypeMetadata implements Metadata {
     @Override
     public Class<?> getAssociatedClass() {
         return associated;
+    }
+
+    @Override
+    public Source getSource() {
+        return source;
     }
 
     @Override

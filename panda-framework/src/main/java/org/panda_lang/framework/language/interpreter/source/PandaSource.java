@@ -18,18 +18,29 @@ package org.panda_lang.framework.language.interpreter.source;
 
 import org.panda_lang.framework.design.interpreter.source.Source;
 
-public final class PandaSource implements Source {
+public class PandaSource implements Source {
 
     private final String title;
     private final String content;
+    private final boolean virtual;
 
     public PandaSource(PandaURLSource codeSource) {
-        this(codeSource.getLocation().getPath(), codeSource.getContent());
+        this(codeSource.getLocation().getPath(), codeSource.getContent(), false);
     }
 
     public PandaSource(Object title, String content) {
+        this(title, content, true);
+    }
+
+    public PandaSource(Object title, String content, boolean virtual) {
         this.title = title.toString();
         this.content = content;
+        this.virtual = virtual;
+    }
+
+    @Override
+    public boolean isVirtual() {
+        return virtual;
     }
 
     @Override
@@ -38,7 +49,7 @@ public final class PandaSource implements Source {
     }
 
     @Override
-    public String getTitle() {
+    public String getId() {
         return this.title;
     }
 

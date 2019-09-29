@@ -23,12 +23,14 @@ import org.panda_lang.framework.design.architecture.statement.VariableData;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.language.architecture.module.PandaImports;
+import org.panda_lang.framework.language.architecture.module.PandaModule;
 import org.panda_lang.framework.language.architecture.module.PandaModuleLoader;
 import org.panda_lang.framework.language.architecture.module.PandaModulePath;
 import org.panda_lang.framework.language.architecture.statement.StaticScope;
 import org.panda_lang.framework.language.interpreter.parser.PandaContext;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.framework.language.resource.PandaTypes;
+import org.panda_lang.panda.language.architecture.PandaScript;
 import org.panda_lang.panda.language.resource.expression.PandaExpressionUtils;
 
 import java.util.Map;
@@ -59,6 +61,10 @@ public final class ExpressionContextUtils {
         ModuleLoader loader = new PandaModuleLoader(path);
         loader.load(PandaTypes.MODULE);
 
+        PandaScript script = new PandaScript("fake-script", loader);
+        script.setModule(new PandaModule("fake-module"));
+
+        context.withComponent(Components.SCRIPT, script);
         context.withComponent(Components.MODULE_LOADER, loader);
         context.withComponent(Components.IMPORTS, new PandaImports(loader, PandaTypes.MODULE));
 

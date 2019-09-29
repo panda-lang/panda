@@ -16,8 +16,8 @@
 
 package org.panda_lang.framework.design.architecture.prototype;
 
-import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.framework.design.interpreter.source.Source;
 
 import java.util.Collection;
 
@@ -33,12 +33,8 @@ public interface Metadata extends Property {
 
     Collection<? extends Reference> getExtended();
 
-    Visibility getVisibility();
-
     Class<?> getAssociatedClass();
 
-    Module getModule();
-
-    String getName();
+    Source getSource();
 
 }

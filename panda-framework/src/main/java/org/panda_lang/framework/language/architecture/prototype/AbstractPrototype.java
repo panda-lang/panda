@@ -24,6 +24,7 @@ import org.panda_lang.framework.design.architecture.prototype.Constructors;
 import org.panda_lang.framework.design.architecture.prototype.Fields;
 import org.panda_lang.framework.design.architecture.prototype.Methods;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
+import org.panda_lang.framework.design.interpreter.source.Source;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,8 +38,8 @@ abstract class AbstractPrototype extends AbstractPrototypeMetadata implements Pr
     protected final Fields fields = new PandaFields();
     protected final Methods methods = new PandaMethods();
 
-    public AbstractPrototype(Module module, String name, Class<?> associated, Visibility visibility) {
-        super(name, module, associated, visibility);
+    public AbstractPrototype(Module module, String name, Source source, Class<?> associated, Visibility visibility) {
+        super(name, module, source, associated, visibility);
     }
 
     @Override

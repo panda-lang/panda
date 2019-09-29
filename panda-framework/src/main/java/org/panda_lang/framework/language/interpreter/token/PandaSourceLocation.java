@@ -48,7 +48,7 @@ public final class PandaSourceLocation implements SourceLocation {
 
     @Override
     public String toString() {
-        return source.getTitle() + " [" + (line + 1) + ":" + position + "]";
+        return source.getId() + " [" + (line + 1) + ":" + position + "]";
     }
 
 }

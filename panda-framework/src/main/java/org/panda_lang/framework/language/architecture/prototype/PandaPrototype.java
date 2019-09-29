@@ -20,17 +20,18 @@ import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
+import org.panda_lang.framework.design.interpreter.source.Source;
 
 public class PandaPrototype extends AbstractPrototype {
 
     private boolean initialized;
 
-    protected PandaPrototype(Module module, String className, Class<?> associated, Visibility visibility) {
-        super(module, className, associated, visibility);
+    protected PandaPrototype(Module module, String className, Source source, Class<?> associated, Visibility visibility) {
+        super(module, className, source, associated, visibility);
     }
 
     protected PandaPrototype(PandaPrototypeBuilder<?, ?> builder) {
-        this(builder.module, builder.name, builder.associated, builder.visibility);
+        this(builder.module, builder.name, builder.source, builder.associated, builder.visibility);
     }
 
     public synchronized void initialize() throws Exception {
@@ -58,6 +59,7 @@ public class PandaPrototype extends AbstractPrototype {
 
         protected String name;
         protected Module module;
+        protected Source source;
         protected Class<?> associated;
         protected Visibility visibility;
 
@@ -72,6 +74,11 @@ public class PandaPrototype extends AbstractPrototype {
 
         public BUILDER module(Module module) {
             this.module = module;
+            return getThis();
+        }
+
+        public BUILDER source(Source source) {
+            this.source = source;
             return getThis();
         }
 

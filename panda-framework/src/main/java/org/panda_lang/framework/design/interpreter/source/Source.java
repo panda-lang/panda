@@ -22,13 +22,24 @@ package org.panda_lang.framework.design.interpreter.source;
 public interface Source {
 
     /**
-     * @return source
+     * Check if source is virtual
+     *
+     * @return true if virtual
+     */
+    boolean isVirtual();
+
+    /**
+     * Get content of source
+     *
+     * @return the content
      */
     String getContent();
 
     /**
+     * Get source identifier
+     *
      * @return e.g. a name of file or generated name
      */
-    String getTitle();
+    String getId();
 
 }

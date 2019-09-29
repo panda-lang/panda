@@ -98,9 +98,10 @@ public final class PrototypeParser extends ParserBootstrap {
         }
 
         Prototype prototype = PandaPrototype.builder()
-                .module(module)
-                .associated(GENERATOR.generateType(className))
                 .name(className)
+                .module(module)
+                .source(location.getSource())
+                .associated(GENERATOR.generateType(className))
                 .visibility(visibility)
                 .build();
 

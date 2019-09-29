@@ -78,7 +78,7 @@ public final class ApplicationParser implements Parser {
                 .withComponent(Components.SOURCES, sources);
 
         for (Source current : sources) {
-            PandaScript script = new PandaScript(current.getTitle(), new PandaModuleLoader(loader));
+            PandaScript script = new PandaScript(current.getId(), new PandaModuleLoader(loader));
             application.addScript(script);
 
             interpretation.execute(() -> {
