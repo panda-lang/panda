@@ -17,28 +17,29 @@
 package org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers;
 
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapHandler;
-import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapContent;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
-import org.panda_lang.framework.design.interpreter.pattern.linear.LinearPattern;
+import org.panda_lang.framework.design.interpreter.pattern.custom.CustomPattern;
+import org.panda_lang.framework.design.interpreter.pattern.custom.CustomPatternData;
+import org.panda_lang.framework.design.interpreter.pattern.custom.UniversalData;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapContent;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.BootstrapHandler;
 
-public class LinearPatternHandler implements BootstrapHandler {
+public final class CustomPatternHandler implements BootstrapHandler {
 
-    private LinearPattern pattern;
+    private CustomPattern pattern;
 
     @Override
     public void initialize(BootstrapContent content) {
-        if (!content.getPattern().isPresent()) {
-            return;
-        }
-
-        this.pattern = LinearPattern.compile(content.getPattern().get().toString());
+        this.pattern = (CustomPattern) content.getPattern().get();
     }
 
     @Override
-    public Boolean handle(Context context, Channel channel, Snippet source) {
-        return pattern.match(source).isMatched();
+    public Object handle(Context context, Channel channel, Snippet source) {
+        return pattern
+                .match(new PandaSourceStream(source), new CustomPatternData().with(UniversalData.CONTEXT, context))
+                .isMatched();
     }
 
 }

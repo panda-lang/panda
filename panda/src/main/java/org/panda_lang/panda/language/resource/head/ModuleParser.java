@@ -21,6 +21,9 @@ import org.panda_lang.framework.design.architecture.module.Imports;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.framework.design.interpreter.pattern.custom.CustomPattern;
+import org.panda_lang.framework.design.interpreter.pattern.custom.elements.ImportElement;
+import org.panda_lang.framework.design.interpreter.pattern.custom.elements.UnitElement;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.architecture.module.PandaModule;
@@ -35,6 +38,7 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annot
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Inter;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.TokenHandler;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.interceptors.CustomPatternInterceptor;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 
 @Registrable(pipeline = Pipelines.HEAD_LABEL)
@@ -44,7 +48,11 @@ public final class ModuleParser extends ParserBootstrap {
     protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.MODULE))
-                .pattern("module <module:condition token {type:unknown}, token {value:-}, token {value:.}>");
+                .interceptor(new CustomPatternInterceptor())
+                .pattern(CustomPattern.of(
+                        UnitElement.create("").content(Keywords.MODULE.getValue()),
+                        ImportElement.create("module").pandaModule()
+                ));
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL)

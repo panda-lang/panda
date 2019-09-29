@@ -4,7 +4,7 @@ export org.panda_lang.utilities.commons.StringUtils
 
 class Required {
 
-    method hello() {
+    local hello() {
         Console.print("Required print")
 
         // Imported by current_test.panda java class should not be visible

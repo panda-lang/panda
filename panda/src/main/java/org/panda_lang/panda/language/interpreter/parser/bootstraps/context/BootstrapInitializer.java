@@ -18,11 +18,9 @@ package org.panda_lang.panda.language.interpreter.parser.bootstraps.context;
 
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.ContextParser;
-import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.DescriptivePatternHandler;
-import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.interceptors.DescriptivePatternInterceptor;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.parser.ParserRepresentation;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Autowired;
 import org.panda_lang.utilities.commons.ReflectionUtils;
 
 import java.lang.reflect.Method;
@@ -95,14 +93,6 @@ public class BootstrapInitializer<T> {
 
         if (layers.isEmpty() && instance != null) {
             layers(instance.getClass());
-        }
-
-        if (interceptor == null) {
-            interceptor(new DescriptivePatternInterceptor());
-        }
-
-        if (handler == null && pattern != null) {
-            handler = new DescriptivePatternHandler();
         }
 
         if (layers.isEmpty()) {

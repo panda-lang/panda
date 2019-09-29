@@ -16,37 +16,62 @@
 
 package org.panda_lang.framework.design.interpreter.pattern.custom.elements;
 
-import org.panda_lang.framework.design.interpreter.pattern.custom.AbstractCustomPatternElement;
-import org.panda_lang.framework.design.interpreter.pattern.custom.CustomPatternElement;
-import org.panda_lang.framework.design.interpreter.token.Token;
+import org.panda_lang.framework.PandaFrameworkException;
+import org.panda_lang.framework.design.interpreter.pattern.custom.Buildable;
+import org.panda_lang.framework.design.interpreter.pattern.custom.CustomPattern;
+import org.panda_lang.framework.design.interpreter.pattern.custom.CustomPatternElementBuilder;
+import org.panda_lang.framework.design.interpreter.pattern.custom.CustomReader;
+import org.panda_lang.framework.design.interpreter.pattern.custom.Result;
 import org.panda_lang.framework.language.interpreter.token.TokenUtils;
 
-public final class VariantElement extends AbstractCustomPatternElement {
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
-    private VariantElement(VariantElementBuilder builder) {
-        super(builder);
+public final class VariantElement extends CustomPatternElementBuilder<Object, VariantElement> {
+
+    public VariantElement(String id) {
+        super(id);
     }
 
-    public static VariantElementBuilder create(String id) {
-        return new VariantElementBuilder(id);
+    public VariantElement content(String... variants) {
+        super.custom((data, source) -> TokenUtils.valueEquals(source.next(), variants) ? source.getCurrent() : null);
+        return this;
     }
 
-    public static final class VariantElementBuilder extends AbstractCustomPatternElementBuilder<Token, VariantElementBuilder> {
+    public VariantElement content(Buildable<?>... elements) {
+        List<CustomReader<Result>> readers = Arrays.stream(elements)
+                .map(CustomPattern::of)
+                .map(SubPatternElement::createReader)
+                .collect(Collectors.toList());
 
-        public VariantElementBuilder(String id) {
-            super(id);
-        }
+        super.custom((data, source) -> {
+            PandaFrameworkException cachedException = null;
 
-        public VariantElementBuilder content(String... variants) {
-            super.custom((source, current) -> TokenUtils.valueEquals(current, variants) ? current : null);
-            return this;
-        }
+            for (CustomReader<Result> reader : readers) {
+                try {
+                    Result result = reader.read(data, source);
 
-        @Override
-        public CustomPatternElement build() {
-            return new VariantElement(this);
-        }
+                    if (result != null) {
+                        return result;
+                    }
+                } catch (PandaFrameworkException e) {
+                    cachedException = e;
+                }
+            }
 
+            if (cachedException != null) {
+                throw cachedException;
+            }
+
+            return null;
+        });
+
+        return this;
+    }
+
+    public static VariantElement create(String id) {
+        return new VariantElement(id);
     }
 
 }

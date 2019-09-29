@@ -16,46 +16,35 @@
 
 package org.panda_lang.framework.design.interpreter.pattern.custom;
 
-import org.panda_lang.framework.design.interpreter.pattern.MatcherResult;
+import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.interpreter.pattern.PatternMapping;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
 
+import java.util.HashMap;
 import java.util.Map;
 
-public final class Result implements MatcherResult, PatternMapping {
+public final class CustomPatternData implements PatternMapping {
 
-    public static final Result NOT_MATCHED = new Result(null, null);
+    private Map<String, Object> data = new HashMap<>();
 
-    private final Snippet source;
-    protected final Map<String, Object> results;
-
-    public Result(Snippet source, Map<String, Object> results) {
-        this.source = source;
-        this.results = results;
+    public CustomPatternData with(String id, Object value) {
+        this.data.put(id, value);
+        return this;
     }
 
     public boolean has(String id) {
-        return results.containsKey(id);
-    }
-
-    @Override
-    public boolean isMatched() {
-        return results != null;
-    }
-
-    public <T> T get(String id, @SuppressWarnings("unused") Class<T> type) {
-        return get(id);
+        return data.containsKey(id);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T> T get(String id) {
-        return (T) results.get(id);
-    }
+        T value = (T) data.get(id);
 
-    @Override
-    public Snippet getSource() {
-        return source;
+        if (value == null) {
+            throw new PandaFrameworkException("Cannot find custom pattern data with id: " + id);
+        }
+
+        return value;
     }
 
 }

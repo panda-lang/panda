@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.design.interpreter.pattern.custom.elements;
 
-import org.panda_lang.framework.design.interpreter.pattern.custom.CustomPatternElement;
+import org.panda_lang.framework.design.interpreter.pattern.custom.Buildable;
 import org.panda_lang.framework.design.interpreter.pattern.custom.verifiers.TokenTypeVerifier;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
@@ -25,11 +25,10 @@ public final class SectionElement {
 
     private SectionElement() { }
 
-    public static CustomPatternElement create(String id) {
+    public static Buildable<?> create(String id) {
         return WildcardElement.create(id)
                 .verify(new TokenTypeVerifier(TokenType.SECTION))
-                .map(token -> token.toToken(Section.class).getContent())
-                .build();
+                .map(snippetable -> snippetable.toSnippet().getFirst().toToken(Section.class).getContent());
     }
 
 }

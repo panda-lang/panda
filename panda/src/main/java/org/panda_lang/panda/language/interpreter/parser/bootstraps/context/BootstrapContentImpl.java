@@ -41,7 +41,7 @@ class BootstrapContentImpl implements BootstrapContent {
 
     @Override
     public Optional<BootstrapInterceptor> getInterceptor() {
-        return Optional.of(interceptor);
+        return Optional.ofNullable(interceptor);
     }
 
     @Override

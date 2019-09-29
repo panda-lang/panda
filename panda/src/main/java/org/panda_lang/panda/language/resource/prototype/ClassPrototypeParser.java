@@ -22,21 +22,28 @@ import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeComponents;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
-import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Components;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.framework.design.interpreter.pattern.custom.CustomPattern;
+import org.panda_lang.framework.design.interpreter.pattern.custom.elements.KeywordElement;
+import org.panda_lang.framework.design.interpreter.pattern.custom.elements.SectionElement;
+import org.panda_lang.framework.design.interpreter.pattern.custom.elements.SubPatternElement;
+import org.panda_lang.framework.design.interpreter.pattern.custom.elements.TypeElement;
+import org.panda_lang.framework.design.interpreter.pattern.custom.elements.WildcardElement;
+import org.panda_lang.framework.design.interpreter.pattern.custom.verifiers.TokenTypeVerifier;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SnippetUtils;
+import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.architecture.prototype.PandaConstructor;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
-import org.panda_lang.framework.language.architecture.prototype.generator.ClassPrototypeTypeGenerator;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeScope;
-import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.framework.language.architecture.prototype.generator.ClassPrototypeTypeGenerator;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
+import org.panda_lang.framework.language.interpreter.parser.pipeline.PipelineParser;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.framework.language.resource.PandaTypes;
-import org.panda_lang.framework.language.interpreter.parser.pipeline.PipelineParser;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.architecture.PandaScript;
 import org.panda_lang.panda.language.interpreter.parser.PandaComponents;
@@ -47,6 +54,7 @@ import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annot
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.data.Delegation;
 import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.handlers.TokenHandler;
+import org.panda_lang.panda.language.interpreter.parser.bootstraps.context.interceptors.CustomPatternInterceptor;
 import org.panda_lang.panda.language.interpreter.parser.loader.Registrable;
 
 @Registrable(pipeline = Pipelines.HEAD_LABEL)
@@ -58,17 +66,22 @@ public class ClassPrototypeParser extends ParserBootstrap {
     protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.CLASS))
-                .pattern("class <name> [extends <inherited>] body:~{");
+                .interceptor(new CustomPatternInterceptor())
+                .pattern(CustomPattern.of(
+                        KeywordElement.create(Keywords.CLASS),
+                        WildcardElement.create("name").verify(new TokenTypeVerifier(TokenType.UNKNOWN)),
+                        SubPatternElement.create("extended").optional().of(
+                                KeywordElement.create(Keywords.EXTENDS),
+                                TypeElement.create("inherited")
+                        ),
+                        SectionElement.create("body")
+                ));
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL)
     void parse(Context context, @Inter SourceLocation location, @Src("name") String className) throws Exception {
         PandaScript script = context.getComponent(PandaComponents.PANDA_SCRIPT);
         Module module = script.getModule();
-
-        if (className == null) {
-            throw new PandaParserException("Class name cannot be null");
-        }
 
         Prototype prototype = PandaPrototype.builder()
                 .module(module)
@@ -80,8 +93,7 @@ public class ClassPrototypeParser extends ParserBootstrap {
         module.add(className, prototype.getAssociatedClass(), prototype::getReference);
         PrototypeScope scope = new PrototypeScope(location, prototype);
 
-        context
-                .withComponent(Components.SCOPE, scope)
+        context.withComponent(Components.SCOPE, scope)
                 .withComponent(PrototypeComponents.CLASS_FRAME, scope)
                 .withComponent(PrototypeComponents.CLASS_PROTOTYPE, prototype);
     }
@@ -99,9 +111,7 @@ public class ClassPrototypeParser extends ParserBootstrap {
             return;
         }
 
-        Context bodyContext = context.fork()
-                .withComponent(Components.STREAM, new PandaSourceStream(body));
-
+        Context bodyContext = context.fork().withComponent(Components.STREAM, new PandaSourceStream(body));
         PipelineParser<?> parser = new PipelineParser<>(Pipelines.PROTOTYPE, bodyContext);
         parser.parse(bodyContext, false);
     }

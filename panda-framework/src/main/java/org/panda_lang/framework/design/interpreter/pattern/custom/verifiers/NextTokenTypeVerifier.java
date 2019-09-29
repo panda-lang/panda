@@ -17,23 +17,23 @@
 package org.panda_lang.framework.design.interpreter.pattern.custom.verifiers;
 
 import org.panda_lang.framework.design.interpreter.pattern.custom.CustomVerify;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 
 import java.util.Map;
 
-public final class TokenTypeVerifier implements CustomVerify<TokenRepresentation> {
+public final class NextTokenTypeVerifier implements CustomVerify<Snippetable> {
 
     private final TokenType type;
 
-    public TokenTypeVerifier(TokenType type) {
+    public NextTokenTypeVerifier(TokenType type) {
         this.type = type;
     }
 
     @Override
-    public boolean verify(Map<String, Object> results, SynchronizedSource source, TokenRepresentation content) {
-        return content.getType() == type;
+    public boolean verify(Map<String, Object> results, SynchronizedSource source, Snippetable content) {
+        return source.hasNext() && source.getNext().getType() == type;
     }
 
 }

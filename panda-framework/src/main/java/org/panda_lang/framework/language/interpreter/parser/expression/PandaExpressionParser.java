@@ -46,10 +46,6 @@ public class PandaExpressionParser implements ExpressionParser {
     private int call;
 
     public PandaExpressionParser(ExpressionSubparsers subparsers) {
-        if (subparsers.getSubparsers().size() < 2) {
-            throw new IllegalArgumentException("Expression parser does not support less than 2 subparsers");
-        }
-
         this.subparsers = subparsers.getSubparsers().stream()
                 .map(ExpressionSubparserRepresentation::new)
                 .collect(Collectors.toList());
@@ -111,14 +107,13 @@ public class PandaExpressionParser implements ExpressionParser {
     }
 
     public ExpressionTransaction parse(Context context, SourceStream source, ExpressionParserSettings settings, @Nullable BiConsumer<ExpressionContext, PandaExpressionParserWorker> visitor) {
-        long uptime = System.nanoTime();
+        if (!source.hasUnreadSource()) {
+            throw new PandaExpressionParserException("Expression expected");
+        }
 
+        long uptime = System.nanoTime();
         PandaExpressionContext expressionContext = new PandaExpressionContext(this, context, source);
         PandaExpressionParserWorker worker = new PandaExpressionParserWorker(subparsers);
-
-        if (!source.hasUnreadSource()) {
-            throw new PandaExpressionParserFailure(expressionContext, source, "Expression expected");
-        }
 
         for (TokenRepresentation representation : expressionContext.getSynchronizedSource()) {
             if (!worker.next(expressionContext, representation)) {
