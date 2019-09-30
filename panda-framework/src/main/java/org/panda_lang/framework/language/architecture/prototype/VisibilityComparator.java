@@ -32,10 +32,11 @@ public final class VisibilityComparator {
 
     public static final String NOTE_MESSAGE = "You may want to change the architecture of your application or you can just simply hack it";
 
-    public static void requireAccess(Property requested, Context context, Snippetable source) {
+    public static boolean requireAccess(Property requested, Context context, Snippetable source) {
         canAccess(requested, context).ifPresent(message -> {
             throw new PandaParserFailure(context, source, message, NOTE_MESSAGE);
         });
+        return true;
     }
 
     public static Optional<String> canAccess(Property requested, Context context) {

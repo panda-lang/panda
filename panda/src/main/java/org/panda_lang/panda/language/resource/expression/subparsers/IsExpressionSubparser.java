@@ -23,6 +23,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionR
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.language.architecture.prototype.VisibilityComparator;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.utilities.commons.function.Produce;
 
@@ -57,6 +58,7 @@ public final class IsExpressionSubparser implements ExpressionSubparser {
                 return result.getError();
             }
 
+            VisibilityComparator.requireAccess(result.getResult(), context.getContext(), token);
             return ExpressionResult.of(new IsExpression(context.popExpression(), result.getResult()).toExpression());
         }
 
