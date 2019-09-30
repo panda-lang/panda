@@ -24,6 +24,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionS
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.architecture.expression.StaticExpression;
+import org.panda_lang.framework.language.architecture.prototype.VisibilityComparator;
 import org.panda_lang.framework.language.interpreter.parser.expression.PartialResultSubparser;
 
 public final class StaticExpressionSubparser implements PartialResultSubparser {
@@ -48,6 +49,7 @@ public final class StaticExpressionSubparser implements PartialResultSubparser {
 
             return context.getContext().getComponent(Components.IMPORTS)
                     .forName(token.getValue())
+                    .filter(reference -> VisibilityComparator.requireAccess(reference, context.getContext(), token))
                     .map(reference -> ExpressionResult.of(new StaticExpression(reference)))
                     .orElse(null);
         }

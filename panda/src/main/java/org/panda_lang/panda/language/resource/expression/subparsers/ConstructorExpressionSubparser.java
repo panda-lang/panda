@@ -33,6 +33,7 @@ import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.architecture.module.PandaImportsUtils;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeExecutableExpression;
 import org.panda_lang.framework.language.architecture.prototype.TypeDeclarationUtils;
+import org.panda_lang.framework.language.architecture.prototype.VisibilityComparator;
 import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.framework.language.resource.PandaTypes;
@@ -121,6 +122,8 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
 
             // parse constructor call
             Prototype type = PandaImportsUtils.getReferenceOrThrow(context.getContext(), typeSource.asSource(), typeSource).fetch();
+            VisibilityComparator.requireAccess(type, context.getContext(), typeSource);
+
             return parseDefault(context, type, section.getContent());
         }
 

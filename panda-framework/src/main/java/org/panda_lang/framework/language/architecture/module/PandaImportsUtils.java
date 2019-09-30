@@ -32,7 +32,7 @@ public final class PandaImportsUtils {
     private PandaImportsUtils() { }
 
     public static Reference getReferenceOrThrow(Context context, String className, @Nullable Snippet source) {
-        return getReferenceOrThrow(context, loader -> loader.forName(className), "Unknown type " + className, source);
+        return getReferenceOrThrow(context, imports -> imports.forName(className), "Unknown type " + className, source);
     }
 
     static Reference getReferenceOrThrow(Context context, Function<Imports, Optional<Reference>> mapper, String message, Snippet source) {
