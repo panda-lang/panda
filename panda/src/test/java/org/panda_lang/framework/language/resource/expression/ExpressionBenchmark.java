@@ -30,7 +30,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionP
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParser;
-import org.panda_lang.panda.language.resource.expression.PandaExpressionUtils;
+import org.panda_lang.panda.language.interpreter.parser.expression.PandaExpressionUtils;
 import org.panda_lang.panda.util.BenchmarkUtils;
 
 @Fork(value = 1)

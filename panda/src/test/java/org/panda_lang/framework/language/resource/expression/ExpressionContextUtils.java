@@ -31,7 +31,7 @@ import org.panda_lang.framework.language.interpreter.parser.PandaContext;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.language.architecture.PandaScript;
-import org.panda_lang.panda.language.resource.expression.PandaExpressionUtils;
+import org.panda_lang.panda.language.interpreter.parser.expression.PandaExpressionUtils;
 
 import java.util.Map;
 import java.util.function.Function;

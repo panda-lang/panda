@@ -25,7 +25,7 @@ import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.statement.AbstractScope;
 import org.panda_lang.framework.language.architecture.statement.AbstractStatement;
-import org.panda_lang.panda.language.resource.head.MainScope;
+import org.panda_lang.panda.language.interpreter.parser.head.MainScope;
 
 class ProcessStackTest {
 
