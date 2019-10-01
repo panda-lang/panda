@@ -19,27 +19,27 @@ package org.panda_lang.panda.language.interpreter.parser;
 public final class PandaPriorities {
 
     /**
-     * Used by {@link org.panda_lang.panda.language.resource.prototype.MethodParser}
+     * Used by {@link org.panda_lang.panda.language.interpreter.parser.prototype.MethodParser}
      */
     public static final int PROTOTYPE_METHOD = 1;
 
     /**
-     * Used by {@link org.panda_lang.panda.language.resource.prototype.FieldParser}
+     * Used by {@link org.panda_lang.panda.language.interpreter.parser.prototype.FieldParser}
      */
     public static final int PROTOTYPE_FIELD = 2;
 
     /**
-     * Used by {@link org.panda_lang.panda.language.interpreter.parser.bootstraps.block.BlockParser}
+     * Used by {@link org.panda_lang.panda.language.interpreter.bootstraps.block.BlockParser}
      */
     public static final int SCOPE_BLOCK = 1;
 
     /**
-     * Used by {@link org.panda_lang.panda.language.resource.scope.LateDeclarationParser}
+     * Used by {@link org.panda_lang.panda.language.interpreter.parser.scope.LateDeclarationParser}
      */
     public static final int SCOPE_LATE_DECLARATION = 4;
 
     /**
-     * Used by {@link org.panda_lang.panda.language.resource.scope.StandaloneExpressionParser}
+     * Used by {@link org.panda_lang.panda.language.interpreter.parser.scope.StandaloneExpressionParser}
      */
     public static final int SCOPE_EXPRESSION = 5;
 

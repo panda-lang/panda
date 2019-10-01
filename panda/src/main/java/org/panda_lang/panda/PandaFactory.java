@@ -32,8 +32,8 @@ import org.panda_lang.panda.language.interpreter.messenger.layouts.ParserFailure
 import org.panda_lang.panda.language.interpreter.messenger.layouts.ProcessFailureTranslatorLayout;
 import org.panda_lang.panda.language.interpreter.messenger.mappers.StacktraceMapper;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
-import org.panda_lang.panda.language.resource.PandaParsers;
-import org.panda_lang.panda.language.resource.expression.subparsers.assignation.AssignationParsers;
+import org.panda_lang.panda.language.interpreter.parser.PandaParsers;
+import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.assignation.AssignationParsers;
 
 public final class PandaFactory {
 
