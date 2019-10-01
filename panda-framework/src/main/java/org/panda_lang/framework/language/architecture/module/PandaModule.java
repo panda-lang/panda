@@ -24,8 +24,9 @@ import org.panda_lang.framework.language.architecture.prototype.array.ArrayClass
 import org.panda_lang.framework.language.architecture.prototype.array.PandaArray;
 import org.panda_lang.utilities.commons.function.CachedSupplier;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -34,13 +35,13 @@ public class PandaModule implements Module {
 
     protected final String name;
     protected final Module parent;
-    protected final Collection<Module> submodules;
+    protected final Map<String, Module> submodules;
     protected final ReferencesMap references;
 
     public PandaModule(@Nullable Module parent, String name) {
         this.name = name;
         this.parent = parent;
-        this.submodules = new ArrayList<>();
+        this.submodules = new HashMap<>();
         this.references = new PandaReferencesMap();
     }
 
@@ -55,7 +56,7 @@ public class PandaModule implements Module {
 
     @Override
     public void addSubmodule(Module submodule) {
-        submodules.add(submodule);
+        submodules.put(submodule.getName(), submodule);
     }
 
     @Override
@@ -111,8 +112,13 @@ public class PandaModule implements Module {
     }
 
     @Override
+    public Optional<Module> getSubmodule(String name) {
+        return Optional.ofNullable(submodules.get(name));
+    }
+
+    @Override
     public Collection<Module> getSubmodules() {
-        return submodules;
+        return submodules.values();
     }
 
     @Override

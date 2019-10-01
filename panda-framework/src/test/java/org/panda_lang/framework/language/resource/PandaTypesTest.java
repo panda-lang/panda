@@ -39,7 +39,6 @@ class PandaTypesTest {
         Assertions.assertEquals("String", PandaTypes.STRING.getName());
         Assertions.assertEquals("Number", PandaTypes.NUMBER.getName());
         Assertions.assertEquals("Iterable", PandaTypes.ITERABLE.getName());
-        Assertions.assertEquals("List", PandaTypes.LIST.getName());
     }
 
 }
