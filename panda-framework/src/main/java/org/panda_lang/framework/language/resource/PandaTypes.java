@@ -24,12 +24,9 @@ import org.panda_lang.framework.language.architecture.prototype.PandaPrototypeUt
 import org.panda_lang.framework.language.architecture.prototype.array.PandaArray;
 import org.panda_lang.framework.language.architecture.prototype.generator.ClassPrototypeGeneratorManager;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public final class PandaTypes {
 
-    public static final Module MODULE = new PandaModule("panda");
+    public static final Module MODULE = new PandaModule("panda-core");
 
     public static final Prototype VOID = PandaPrototypeUtils.of(MODULE, void.class, "void").fetch();
     public static final Prototype BOOLEAN = PandaPrototypeUtils.of(MODULE, Boolean.class, "Boolean").fetch();
@@ -47,16 +44,6 @@ public final class PandaTypes {
     public static final Prototype STRING = of(String.class).fetch();
     public static final Prototype NUMBER = of(Number.class).fetch();
     public static final Prototype ITERABLE = of(Iterable.class).fetch();
-    public static final Prototype LIST = of(List.class).fetch();
-
-    public static final Prototype THROWABLE = of(Throwable.class).fetch();
-    public static final Prototype EXCEPTION = of(Exception.class).fetch();
-    public static final Prototype RUNTIME_EXCEPTION = of(RuntimeException.class).fetch();
-
-    static {
-        of(ArrayList.class);
-        of(StringBuilder.class);
-    }
 
     private static Reference of(Class<?> clazz) {
         Reference reference = ClassPrototypeGeneratorManager.getInstance().generate(MODULE, clazz, clazz.getSimpleName());

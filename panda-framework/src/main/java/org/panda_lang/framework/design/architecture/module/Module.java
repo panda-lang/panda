@@ -80,6 +80,14 @@ public interface Module extends ModuleResource {
     Collection<Entry<String, Supplier<Reference>>> getReferences();
 
     /**
+     * Get submodule with the given name
+     *
+     * @param name the name to search for
+     * @return the submodule
+     */
+    Optional<Module> getSubmodule(String name);
+
+    /**
      * Get all submodules
      *
      * @return the collection of submodules
