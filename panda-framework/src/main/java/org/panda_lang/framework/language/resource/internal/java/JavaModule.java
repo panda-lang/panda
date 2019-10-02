@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.resource;
+package org.panda_lang.framework.language.resource.internal.java;
 
-import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
-import org.panda_lang.framework.language.architecture.module.PandaModule;
+import org.panda_lang.framework.language.architecture.module.PandaLazyModule;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototypeUtils;
-import org.panda_lang.framework.language.architecture.prototype.array.PandaArray;
-import org.panda_lang.framework.language.architecture.prototype.generator.ClassPrototypeGeneratorManager;
+import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
 
-public final class PandaTypes {
+import java.util.Optional;
 
-    public static final Module MODULE = new PandaModule("panda-core");
+public final class JavaModule implements InternalModuleInfo {
+
+    private static final PandaLazyModule MODULE = new PandaLazyModule("java");
 
     public static final Prototype VOID = PandaPrototypeUtils.of(MODULE, void.class, "void").fetch();
     public static final Prototype BOOLEAN = PandaPrototypeUtils.of(MODULE, Boolean.class, "Boolean").fetch();
@@ -37,18 +36,34 @@ public final class PandaTypes {
     public static final Prototype LONG = PandaPrototypeUtils.of(MODULE, Long.class, "Long").fetch();
     public static final Prototype FLOAT = PandaPrototypeUtils.of(MODULE, Float.class, "Float").fetch();
     public static final Prototype DOUBLE = PandaPrototypeUtils.of(MODULE, Double.class, "Double").fetch();
+    public static final Prototype OBJECT = PandaPrototypeUtils.generateOf(MODULE, Object.class).fetch();
+    public static final Prototype STRING = PandaPrototypeUtils.generateOf(MODULE, String.class).fetch();
+    public static final Prototype NUMBER = PandaPrototypeUtils.generateOf(MODULE, Number.class).fetch();
 
-    public static final Prototype OBJECT = PandaPrototypeUtils.of(MODULE, Object.class, "Object").fetch();
-    public static final Prototype ARRAY = PandaPrototypeUtils.of(MODULE, PandaArray.class, "Array").fetch();
+    @Override
+    public String[] getNames() {
+        return new String[] {
+                "Throwable",
+                "Exception",
+                "RuntimeException",
+                "StringBuilder",
+                "System"
+        };
+    }
 
-    public static final Prototype STRING = of(String.class).fetch();
-    public static final Prototype NUMBER = of(Number.class).fetch();
-    public static final Prototype ITERABLE = of(Iterable.class).fetch();
+    @Override
+    public String getPackageName() {
+        return "java.lang";
+    }
 
-    private static Reference of(Class<?> clazz) {
-        Reference reference = ClassPrototypeGeneratorManager.getInstance().generate(MODULE, clazz, clazz.getSimpleName());
-        MODULE.add(reference. getName(), reference.getAssociatedClass(), () -> reference);
-        return reference;
+    @Override
+    public Optional<PandaLazyModule> getCustomModule() {
+        return Optional.of(MODULE);
+    }
+
+    @Override
+    public String getModule() {
+        return "java";
     }
 
 }

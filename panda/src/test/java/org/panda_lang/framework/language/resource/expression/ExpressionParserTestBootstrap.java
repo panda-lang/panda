@@ -31,7 +31,7 @@ import org.panda_lang.framework.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
-import org.panda_lang.framework.language.resource.PandaTypes;
+import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 import org.panda_lang.panda.language.interpreter.parser.expression.PandaExpressionUtils;
 import org.panda_lang.utilities.commons.StringUtils;
 
@@ -55,9 +55,9 @@ class ExpressionParserTestBootstrap {
 
     protected static Context prepareData() {
         return ExpressionContextUtils.createFakeContext(context -> new HashMap<VariableData, Object>() {{
-            put(new PandaVariableData(PandaTypes.STRING.getReference(), "variable"), null);
-            put(new PandaVariableData(PandaTypes.STRING.toArray(context.getComponent(Components.MODULE_LOADER)), "array"), null);
-            put(new PandaVariableData(PandaTypes.INT.getReference(), "i", true, false), null);
+            put(new PandaVariableData(JavaModule.STRING.getReference(), "variable"), null);
+            put(new PandaVariableData(JavaModule.STRING.toArray(context.getComponent(Components.MODULE_LOADER)), "array"), null);
+            put(new PandaVariableData(JavaModule.INT.getReference(), "i", true, false), null);
         }});
     }
 

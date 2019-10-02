@@ -18,7 +18,6 @@ package org.panda_lang.framework.language.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.language.resource.PandaTypes;
 
 public class PandaMethod extends PandaPrototypeExecutable implements PrototypeMethod {
 
@@ -35,11 +34,6 @@ public class PandaMethod extends PandaPrototypeExecutable implements PrototypeMe
     @SuppressWarnings({ "unchecked" })
     public Object invoke(ProcessStack stack, Object instance, Object... parameters) throws Exception {
         return methodBody.invoke(stack, instance, parameters);
-    }
-
-    @Override
-    public boolean isVoid() {
-        return PandaTypes.VOID.isAssignableFrom(getReturnType());
     }
 
     @Override

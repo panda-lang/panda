@@ -14,31 +14,22 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.internal.java;
+package org.panda_lang.framework.language.resource.internal;
 
-import org.panda_lang.panda.language.resource.internal.InternalModuleInfo;
+import org.panda_lang.framework.language.architecture.module.PandaLazyModule;
 
-public final class JavaModule implements InternalModuleInfo {
+import java.util.Optional;
 
-    @Override
-    public String[] getNames() {
-        return new String[] {
-                "Throwable",
-                "Exception",
-                "RuntimeException",
+public interface InternalModuleInfo {
 
-                "StringBuilder"
-        };
+    String[] getNames();
+
+    String getPackageName();
+
+    default Optional<PandaLazyModule> getCustomModule() {
+        return Optional.empty();
     }
 
-    @Override
-    public String getPackageName() {
-        return "java.lang";
-    }
-
-    @Override
-    public String getModule() {
-        return "java";
-    }
+    String getModule();
 
 }

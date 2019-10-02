@@ -36,7 +36,7 @@ import org.panda_lang.framework.language.architecture.prototype.TypeDeclarationU
 import org.panda_lang.framework.language.architecture.prototype.VisibilityComparator;
 import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
-import org.panda_lang.framework.language.resource.PandaTypes;
+import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
@@ -151,7 +151,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
                 context.commit(capacityTransaction::rollback);
                 Expression capacity = capacityTransaction.getExpression();
 
-                if (!PandaTypes.INT.isAssignableFrom(capacity.getReturnType())) {
+                if (!JavaModule.INT.isAssignableFrom(capacity.getReturnType())) {
                     return ExpressionResult.error("Capacity has to be Int", content);
                 }
 

@@ -23,7 +23,7 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public interface Module extends ModuleResource {
+public interface Module extends Modules, ModuleResource {
 
     /**
      * Add a reference of prototype to the module
@@ -31,13 +31,6 @@ public interface Module extends ModuleResource {
      * @param referenceSupplier the reference to add
      */
     void add(String name, Class<?> associatedClass, Supplier<Reference> referenceSupplier);
-
-    /**
-     * Add submodule to the module
-     *
-     * @param submodule the submodule to add
-     */
-    void addSubmodule(Module submodule);
 
     /**
      * Count initialized references
@@ -78,21 +71,6 @@ public interface Module extends ModuleResource {
      * @return the iterable that contains all references
      */
     Collection<Entry<String, Supplier<Reference>>> getReferences();
-
-    /**
-     * Get submodule with the given name
-     *
-     * @param name the name to search for
-     * @return the submodule
-     */
-    Optional<Module> getSubmodule(String name);
-
-    /**
-     * Get all submodules
-     *
-     * @return the collection of submodules
-     */
-    Collection<? extends Module> getSubmodules();
 
     /**
      * Get parent module

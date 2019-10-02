@@ -18,29 +18,30 @@ package org.panda_lang.panda.language.interpreter.parser.head;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.Environment;
+import org.panda_lang.framework.design.architecture.module.Imports;
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.ImportElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.KeywordElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.VariantElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.WildcardElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.TokenTypeVerifier;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
+import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
+import org.panda_lang.framework.language.interpreter.pattern.custom.elements.ImportElement;
+import org.panda_lang.framework.language.interpreter.pattern.custom.elements.KeywordElement;
+import org.panda_lang.framework.language.interpreter.pattern.custom.elements.VariantElement;
+import org.panda_lang.framework.language.interpreter.pattern.custom.elements.WildcardElement;
+import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.TokenTypeVerifier;
 import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
 import org.panda_lang.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.Component;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.interceptors.CustomPatternInterceptor;
@@ -68,16 +69,16 @@ public final class RequireParser extends ParserBootstrap {
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL)
-    void parse(Context context, @Src("required") @Nullable Snippetable require, @Src("requiredFile") @Nullable TokenRepresentation requiredFile) {
+    void parse(Context context, @Component Imports imports, @Src("required") @Nullable Snippetable require, @Src("requiredFile") @Nullable TokenRepresentation requiredFile) {
         if (require != null) {
-            parseModule(context, require.toSnippet());
+            parseModule(context, imports, require.toSnippet());
             return;
         }
 
         parseFile(context, Objects.requireNonNull(requiredFile));
     }
 
-    private void parseModule(Context context, Snippet require) {
+    private void parseModule(Context context, Imports imports, Snippet require) {
         Environment environment = context.getComponent(Components.ENVIRONMENT);
 
         String moduleName = require.asSource();
@@ -87,8 +88,7 @@ public final class RequireParser extends ParserBootstrap {
             throw new PandaParserFailure(context, require, "Unknown module " + moduleName, "Make sure that the name does not have a typo and module is added to the module path");
         }
 
-        ModuleLoader loader = context.getComponent(Components.MODULE_LOADER);
-        loader.load(module.get());
+        imports.importModule(module.get());
     }
 
     private void parseFile(Context context, TokenRepresentation requiredFile) {

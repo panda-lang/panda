@@ -17,30 +17,30 @@
 package org.panda_lang.panda.language.interpreter.parser;
 
 import org.panda_lang.framework.design.architecture.Environment;
-import org.panda_lang.framework.language.architecture.module.PandaImports;
-import org.panda_lang.framework.language.resource.PandaTypes;
-import org.panda_lang.panda.language.architecture.PandaApplication;
-import org.panda_lang.panda.language.architecture.PandaScript;
+import org.panda_lang.framework.design.architecture.module.Imports;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.interpreter.Interpretation;
 import org.panda_lang.framework.design.interpreter.lexer.Lexer;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.Source;
 import org.panda_lang.framework.design.interpreter.source.SourceSet;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.design.resource.Resources;
+import org.panda_lang.framework.language.architecture.module.PandaImports;
 import org.panda_lang.framework.language.architecture.module.PandaModuleLoader;
 import org.panda_lang.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.framework.language.interpreter.parser.PandaContext;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.interpreter.parser.generation.PandaGeneration;
+import org.panda_lang.framework.language.interpreter.parser.pipeline.PipelineParser;
 import org.panda_lang.framework.language.interpreter.source.PandaSourceSet;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
-import org.panda_lang.framework.language.interpreter.parser.pipeline.PipelineParser;
+import org.panda_lang.panda.language.architecture.PandaApplication;
+import org.panda_lang.panda.language.architecture.PandaScript;
 
 public final class ApplicationParser implements Parser {
 
@@ -85,11 +85,15 @@ public final class ApplicationParser implements Parser {
                 Snippet snippet = lexer.convert(current);
                 SourceStream sourceStream = new PandaSourceStream(snippet);
 
+                Imports imports = new PandaImports(loader);
+                imports.importModule("java");
+                imports.importModule("panda");
+
                 Context delegatedContext = context.fork()
                         .withComponent(Components.MODULE_LOADER, script.getModuleLoader())
                         .withComponent(Components.SCRIPT, script)
                         .withComponent(PandaComponents.PANDA_SCRIPT, script)
-                        .withComponent(Components.IMPORTS, new PandaImports(loader, PandaTypes.MODULE))
+                        .withComponent(Components.IMPORTS, imports)
                         .withComponent(Components.SOURCE, snippet)
                         .withComponent(Components.STREAM, sourceStream)
                         .withComponent(Components.CURRENT_SOURCE, snippet);

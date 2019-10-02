@@ -2,10 +2,11 @@ module example-test
 
 require 'current_test_required'
 
-import java.lang.System
+require java:collections // import submodules by default? :thinking:
+
 import org.panda_lang.panda.PandaConstants
 
-class Foo extends Test {
+shared class Foo extends Test {
 
     shared static anotherEcho(String message1) {
         Console.print(message1)

@@ -17,6 +17,7 @@
 package org.panda_lang.framework.language.architecture.module;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Imports;
 import org.panda_lang.framework.design.architecture.module.LoadedModule;
 import org.panda_lang.framework.design.architecture.module.Module;
@@ -45,6 +46,17 @@ public final class PandaImports implements Imports {
         for (Module module : modules) {
             importModule(module);
         }
+    }
+
+    @Override
+    public void importModule(String name) {
+        Optional<Module> module = loader.getPath().get(name);
+
+        if (!module.isPresent()) {
+            throw new PandaFrameworkException("Module " + name + " does not exist");
+        }
+
+        importModule(module.get());
     }
 
     @Override

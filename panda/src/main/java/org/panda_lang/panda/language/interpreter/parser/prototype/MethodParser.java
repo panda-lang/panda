@@ -19,13 +19,22 @@ package org.panda_lang.panda.language.interpreter.parser.prototype;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.parameter.Parameter;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.language.architecture.prototype.MethodScope;
+import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
+import org.panda_lang.framework.language.architecture.prototype.PandaMethodCallback;
+import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.language.interpreter.parser.ScopeParser;
+import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
 import org.panda_lang.framework.language.interpreter.pattern.custom.Result;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.SectionElement;
@@ -35,17 +44,7 @@ import org.panda_lang.framework.language.interpreter.pattern.custom.elements.Var
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.WildcardElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.NextTokenTypeVerifier;
 import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.TokenTypeVerifier;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.design.interpreter.token.TokenType;
-import org.panda_lang.framework.language.architecture.prototype.MethodScope;
-import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
-import org.panda_lang.framework.language.architecture.prototype.PandaMethodCallback;
-import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.framework.language.interpreter.parser.ScopeParser;
-import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
-import org.panda_lang.framework.language.resource.PandaTypes;
-import org.panda_lang.panda.language.interpreter.parser.PandaPriorities;
+import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.Autowired;
@@ -56,6 +55,7 @@ import org.panda_lang.panda.language.interpreter.bootstraps.context.data.Delegat
 import org.panda_lang.panda.language.interpreter.bootstraps.context.data.LocalData;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.handlers.CustomPatternHandler;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.interceptors.CustomPatternInterceptor;
+import org.panda_lang.panda.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 
 import java.util.List;
@@ -85,7 +85,7 @@ public final class MethodParser extends ParserBootstrap {
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
     boolean parse(Context context, LocalData local, @Inter Result result, @Nullable @Src("type") Snippet type) {
         Visibility visibility = Visibility.valueOf(result.get("visibility").toString().toUpperCase());
-        Reference returnType = PandaTypes.VOID.getReference();
+        Reference returnType = JavaModule.VOID.getReference();
 
         if (type != null) {
             Optional<Reference> reference = context.getComponent(Components.IMPORTS).forName(type.asSource());

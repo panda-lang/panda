@@ -16,16 +16,19 @@
 
 package org.panda_lang.panda.language.interpreter.parser.scope.block.looping;
 
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.statement.Scope;
-import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Components;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.language.architecture.expression.PandaExpression;
 import org.panda_lang.framework.language.architecture.statement.PandaBlock;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
+import org.panda_lang.framework.language.resource.internal.java.JavaModule;
+import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.interpreter.bootstraps.block.BlockData;
 import org.panda_lang.panda.language.interpreter.bootstraps.block.BlockSubparserBootstrap;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.BootstrapInitializer;
@@ -35,16 +38,13 @@ import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.
 import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.interceptors.LinearPatternInterceptor;
+import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
-import org.panda_lang.framework.language.resource.PandaTypes;
-import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.framework.language.resource.syntax.separator.Separators;
-import org.panda_lang.framework.language.architecture.expression.PandaExpression;
 
 @RegistrableParser(pipeline = PandaPipeline.BLOCK_LABEL)
 public final class ForParser extends BlockSubparserBootstrap {
 
-    private static final Expression DEFAULT_CONDITION = new PandaExpression(PandaTypes.BOOLEAN, true);
+    private static final Expression DEFAULT_CONDITION = new PandaExpression(JavaModule.BOOLEAN, true);
 
     @Override
     protected BootstrapInitializer<BlockData> initialize(Context context, BootstrapInitializer<BlockData> initializer) {
