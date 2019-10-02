@@ -30,14 +30,28 @@ public final class JavaCollectionsModule implements InternalModuleInfo {
     public static final Prototype ITERABLE = PandaPrototypeUtils.generateOf(MODULE, Iterable.class).fetch();
 
     private static final String[] NAMES = new String[] {
-            "ArrayList",
             "Collection",
             "Comparator",
             "Deque",
             "Iterator",
             "List",
             "Map",
-            "Map$Entry"
+            "Map$Entry",
+
+            "ArrayDeque",
+            "ArrayList",
+            "HashMap",
+            "HashSet",
+            "Hashtable",
+            "IdentityHashMap",
+            "LinkedHashMap",
+            "LinkedHashSet",
+            "LinkedList",
+            "Stack",
+            "TreeMap",
+            "TreeSet",
+            "Vector",
+            "WeakHashMap"
     };
 
     @Override
