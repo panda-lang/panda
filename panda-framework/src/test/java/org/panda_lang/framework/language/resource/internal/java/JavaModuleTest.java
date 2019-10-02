@@ -35,6 +35,7 @@ class JavaModuleTest {
         Assertions.assertEquals("Object", JavaModule.OBJECT.getName());
         Assertions.assertEquals("String", JavaModule.STRING.getName());
         Assertions.assertEquals("Number", JavaModule.NUMBER.getName());
+        Assertions.assertEquals("Iterable", JavaModule.ITERABLE.getName());
     }
 
 }

@@ -18,11 +18,13 @@ package org.panda_lang.panda.language.resource.internal;
 
 import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
 import org.panda_lang.panda.language.resource.internal.java.JavaCollectionsModule;
+import org.panda_lang.panda.language.resource.internal.java.JavaExtensionModule;
 
 public final class PandaModules {
 
     @SuppressWarnings("unchecked")
     private static final Class<? extends InternalModuleInfo>[] MODULES = new Class[] {
+            JavaExtensionModule.class,
             JavaCollectionsModule.class
     };
 

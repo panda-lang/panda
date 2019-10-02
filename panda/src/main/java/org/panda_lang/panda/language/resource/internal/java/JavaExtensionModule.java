@@ -16,5 +16,32 @@
 
 package org.panda_lang.panda.language.resource.internal.java;
 
-public final class JavaUtilModule {
+import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
+
+public final class JavaExtensionModule implements InternalModuleInfo {
+
+    @Override
+    public String[] getNames() {
+        return new String[] {
+                "Class",
+                "Exception",
+                "Runtime",
+                "RuntimeException",
+                "Runnable",
+                "StringBuilder",
+                "System",
+                "Throwable"
+        };
+    }
+
+    @Override
+    public String getPackageName() {
+        return "java.lang";
+    }
+
+    @Override
+    public String getModule() {
+        return "java";
+    }
+
 }

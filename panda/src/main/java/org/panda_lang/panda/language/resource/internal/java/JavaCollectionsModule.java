@@ -16,18 +16,9 @@
 
 package org.panda_lang.panda.language.resource.internal.java;
 
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.language.architecture.module.PandaLazyModule;
-import org.panda_lang.framework.language.architecture.prototype.PandaPrototypeUtils;
 import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
 
-import java.util.Optional;
-
 public final class JavaCollectionsModule implements InternalModuleInfo {
-
-    private static final PandaLazyModule MODULE = new PandaLazyModule("collections");
-
-    public static final Prototype ITERABLE = PandaPrototypeUtils.generateOf(MODULE, Iterable.class).fetch();
 
     private static final String[] NAMES = new String[] {
             "Collection",
@@ -62,11 +53,6 @@ public final class JavaCollectionsModule implements InternalModuleInfo {
     @Override
     public String getPackageName() {
         return "java.util";
-    }
-
-    @Override
-    public Optional<PandaLazyModule> getCustomModule() {
-        return Optional.of(MODULE);
     }
 
     @Override
