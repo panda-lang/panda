@@ -30,8 +30,12 @@ public final class PandaPrototypeUtils {
     private PandaPrototypeUtils() { }
 
     public static Reference generateOf(Module module, Class<?> type) {
-        Reference reference = ClassPrototypeGeneratorManager.getInstance().generate(module, type, type.getSimpleName());
-        module.add(reference. getName(), reference.getAssociatedClass(), () -> reference);
+        return generateOf(module, type, type.getSimpleName());
+    }
+
+    public static Reference generateOf(Module module, Class<?> type, String name) {
+        Reference reference = ClassPrototypeGeneratorManager.getInstance().generate(module, type, name);
+        module.add(name, reference.getAssociatedClass(), () -> reference);
         return reference;
     }
 

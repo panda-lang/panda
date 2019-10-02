@@ -20,6 +20,7 @@ import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.language.architecture.module.PandaLazyModule;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototypeUtils;
 import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
+import org.panda_lang.utilities.commons.StringUtils;
 
 import java.util.Optional;
 
@@ -28,27 +29,22 @@ public final class JavaModule implements InternalModuleInfo {
     private static final PandaLazyModule MODULE = new PandaLazyModule("java");
 
     public static final Prototype VOID = PandaPrototypeUtils.of(MODULE, void.class, "void").fetch();
-    public static final Prototype BOOLEAN = PandaPrototypeUtils.of(MODULE, Boolean.class, "Boolean").fetch();
-    public static final Prototype CHAR = PandaPrototypeUtils.of(MODULE, Character.class, "Char").fetch();
-    public static final Prototype BYTE = PandaPrototypeUtils.of(MODULE, Byte.class, "Byte").fetch();
-    public static final Prototype SHORT = PandaPrototypeUtils.of(MODULE, Short.class, "Short").fetch();
-    public static final Prototype INT = PandaPrototypeUtils.of(MODULE, Integer.class, "Int").fetch();
-    public static final Prototype LONG = PandaPrototypeUtils.of(MODULE, Long.class, "Long").fetch();
-    public static final Prototype FLOAT = PandaPrototypeUtils.of(MODULE, Float.class, "Float").fetch();
-    public static final Prototype DOUBLE = PandaPrototypeUtils.of(MODULE, Double.class, "Double").fetch();
     public static final Prototype OBJECT = PandaPrototypeUtils.generateOf(MODULE, Object.class).fetch();
+    public static final Prototype INT = PandaPrototypeUtils.generateOf(MODULE, Integer.class, "Int").fetch();
+    public static final Prototype CHAR = PandaPrototypeUtils.generateOf(MODULE, Character.class, "Char").fetch();
+    public static final Prototype BOOLEAN = PandaPrototypeUtils.generateOf(MODULE, Boolean.class).fetch();
+    public static final Prototype BYTE = PandaPrototypeUtils.generateOf(MODULE, Byte.class).fetch();
+    public static final Prototype SHORT = PandaPrototypeUtils.generateOf(MODULE, Short.class).fetch();
+    public static final Prototype LONG = PandaPrototypeUtils.generateOf(MODULE, Long.class).fetch();
+    public static final Prototype FLOAT = PandaPrototypeUtils.generateOf(MODULE, Float.class).fetch();
+    public static final Prototype DOUBLE = PandaPrototypeUtils.generateOf(MODULE, Double.class).fetch();
     public static final Prototype STRING = PandaPrototypeUtils.generateOf(MODULE, String.class).fetch();
     public static final Prototype NUMBER = PandaPrototypeUtils.generateOf(MODULE, Number.class).fetch();
+    public static final Prototype ITERABLE = PandaPrototypeUtils.generateOf(MODULE, Iterable.class).fetch();
 
     @Override
     public String[] getNames() {
-        return new String[] {
-                "Throwable",
-                "Exception",
-                "RuntimeException",
-                "StringBuilder",
-                "System"
-        };
+        return StringUtils.EMPTY_ARRAY;
     }
 
     @Override
