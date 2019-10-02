@@ -14,24 +14,31 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.internal;
+package org.panda_lang.panda.language.resource.internal.java;
 
 import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
-import org.panda_lang.panda.language.resource.internal.java.JavaCollectionsModule;
-import org.panda_lang.panda.language.resource.internal.java.JavaExtensionModule;
-import org.panda_lang.panda.language.resource.internal.java.JavaUtilsModule;
 
-public final class PandaModules {
+public final class JavaUtilsModule implements InternalModuleInfo {
 
-    @SuppressWarnings("unchecked")
-    private static final Class<? extends InternalModuleInfo>[] MODULES = new Class[] {
-            JavaExtensionModule.class,
-            JavaUtilsModule.class,
-            JavaCollectionsModule.class
-    };
+    @Override
+    public String[] getNames() {
+        return new String[] {
+                "Arrays",
+                "Objects",
+                "Optional",
+                "Random",
+                "UUID"
+        };
+    }
 
-    public static Class<? extends InternalModuleInfo>[] getClasses() {
-        return MODULES;
+    @Override
+    public String getPackageName() {
+        return "java.util";
+    }
+
+    @Override
+    public String getModule() {
+        return "java";
     }
 
 }
