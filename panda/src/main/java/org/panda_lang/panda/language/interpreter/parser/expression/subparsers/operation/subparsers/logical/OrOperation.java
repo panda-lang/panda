@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.language.interpreter.parser.expression.subparsers.operation.subparsers.logical;
 
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.language.resource.PandaTypes;
+import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.operation.rpn.RPNOperationAction;
 import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.operation.rpn.RPNOperationSupplier;
 
@@ -47,7 +47,7 @@ public class OrOperation implements RPNOperationSupplier, RPNOperationAction<Boo
 
     @Override
     public Prototype requiredType() {
-        return PandaTypes.BOOLEAN;
+        return JavaModule.BOOLEAN;
     }
 
 }

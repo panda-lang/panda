@@ -25,23 +25,19 @@ import org.panda_lang.framework.language.architecture.prototype.array.PandaArray
 import org.panda_lang.utilities.commons.function.CachedSupplier;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class PandaModule implements Module {
+public class PandaModule extends PandaModules implements Module {
 
     protected final String name;
-    protected final Module parent;
-    protected final Map<String, Module> submodules;
     protected final ReferencesMap references;
+    protected Module parent;
 
     public PandaModule(@Nullable Module parent, String name) {
         this.name = name;
         this.parent = parent;
-        this.submodules = new HashMap<>();
         this.references = new PandaReferencesMap();
     }
 
@@ -52,11 +48,6 @@ public class PandaModule implements Module {
     @Override
     public void add(String name, Class<?> associatedClass, Supplier<Reference> reference) {
         this.references.put(name, associatedClass, new CachedSupplier<>(reference));
-    }
-
-    @Override
-    public void addSubmodule(Module submodule) {
-        submodules.put(submodule.getName(), submodule);
     }
 
     @Override
@@ -104,21 +95,11 @@ public class PandaModule implements Module {
     public Collection<Entry<String, Supplier<Reference>>> getReferences() {
         Collection<Entry<String, Supplier<Reference>>> entries = references.getReferences();
 
-        for (Module submodule : getSubmodules()) {
+        for (Module submodule : getModules()) {
             entries.addAll(submodule.getReferences());
         }
 
         return entries;
-    }
-
-    @Override
-    public Optional<Module> getSubmodule(String name) {
-        return Optional.ofNullable(submodules.get(name));
-    }
-
-    @Override
-    public Collection<Module> getSubmodules() {
-        return submodules.values();
     }
 
     @Override

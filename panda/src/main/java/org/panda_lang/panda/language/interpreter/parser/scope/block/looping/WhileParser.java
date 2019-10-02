@@ -22,6 +22,7 @@ import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.bootstraps.block.BlockData;
 import org.panda_lang.panda.language.interpreter.bootstraps.block.BlockSubparserBootstrap;
@@ -32,7 +33,6 @@ import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.
 import org.panda_lang.panda.language.interpreter.bootstraps.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.interceptors.LinearPatternInterceptor;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
-import org.panda_lang.framework.language.resource.PandaTypes;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 
 @RegistrableParser(pipeline = PandaPipeline.BLOCK_LABEL)
@@ -50,7 +50,7 @@ public class WhileParser extends BlockSubparserBootstrap {
     BlockData parseWhile(Context context, @Component Scope parent, @Src("content") Snippet content) {
         Expression expression = context.getComponent(Components.EXPRESSION).parse(context, content).getExpression();
 
-        if (!PandaTypes.BOOLEAN.isAssignableFrom(expression.getReturnType())) {
+        if (!JavaModule.BOOLEAN.isAssignableFrom(expression.getReturnType())) {
             throw new PandaParserException("Loop requires boolean as an argument");
         }
 

@@ -16,28 +16,28 @@
 
 package org.panda_lang.framework.language.architecture.module;
 
+import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModulePath;
 
-import java.util.Collection;
+import java.util.function.Supplier;
 
-public class PandaModulePath extends PandaModules implements ModulePath {
+public final class PandaModuleFactory {
 
-    public PandaModulePath() {
-        super();
+    private final ModulePath path;
+
+    public PandaModuleFactory(ModulePath path) {
+        this.path = path;
     }
 
-    public PandaModulePath(Module... modules) {
-        this();
-
-        for (Module module : modules) {
-            include(module);
-        }
+    public Module computeIfAbsent(String moduleQualifier) {
+        return PandaModulesUtils.fetch(path, moduleQualifier, true).orElseThrow((Supplier<? extends PandaFrameworkException>) () -> {
+            throw new PandaFrameworkException("Cannot fetch module " + moduleQualifier);
+        });
     }
 
-    @Override
-    public Collection<? extends Module> getModules() {
-        return this.modules.values();
+    public ModulePath getPath() {
+        return path;
     }
 
 }

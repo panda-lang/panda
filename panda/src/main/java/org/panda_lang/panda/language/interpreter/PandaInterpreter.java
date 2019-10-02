@@ -62,7 +62,6 @@ public final class PandaInterpreter implements Interpreter {
         PandaFramework.getLogger().debug("--- Parse details ");
         PandaFramework.getLogger().debug("• Amount of references: " + environment.getModulePath().countReferences());
         PandaFramework.getLogger().debug("• Amount of used prototypes: " + environment.getModulePath().countUsedPrototypes());
-        PandaFramework.getLogger().debug("• Descriptive Pattern Time: " + TimeUtils.toMilliseconds(ExtractorWorker.fullTime));
         PandaFramework.getLogger().debug("• Expression Parser Time: " + TimeUtils.toMilliseconds(PandaExpressionParser.time) + " (" +  PandaExpressionParser.amount + ")");
         PandaFramework.getLogger().debug("• Pipeline Handle Time: " + TimeUtils.toMilliseconds(environment.getResources().getPipelinePath().getTotalHandleTime()));
         PandaFramework.getLogger().debug("");

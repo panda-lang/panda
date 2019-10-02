@@ -19,6 +19,7 @@ package org.panda_lang.framework.language.architecture.prototype;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
+import org.panda_lang.framework.language.architecture.prototype.generator.ClassPrototypeGeneratorManager;
 import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
 import org.panda_lang.utilities.commons.ClassUtils;
 
@@ -27,6 +28,12 @@ import java.util.Collection;
 public final class PandaPrototypeUtils {
 
     private PandaPrototypeUtils() { }
+
+    public static Reference generateOf(Module module, Class<?> type) {
+        Reference reference = ClassPrototypeGeneratorManager.getInstance().generate(module, type, type.getSimpleName());
+        module.add(reference. getName(), reference.getAssociatedClass(), () -> reference);
+        return reference;
+    }
 
     public static Reference of(Module module, Class<?> type, String name) {
         PandaPrototype prototype = PandaPrototype.builder()

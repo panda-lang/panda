@@ -14,22 +14,21 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.internal;
+package org.panda_lang.framework.language.resource.internal;
 
-import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.language.resource.internal.java.JavaModule;
+import org.panda_lang.framework.language.resource.internal.panda.PandaModule;
 
-import java.util.Optional;
+public final class PandaFrameworkModules {
 
-public interface InternalModuleInfo {
+    @SuppressWarnings("unchecked")
+    private static final Class<? extends InternalModuleInfo>[] MODULES = new Class[] {
+            JavaModule.class,
+            PandaModule.class
+    };
 
-    String[] getNames();
-
-    String getPackageName();
-
-    default Optional<Module> getCustomModule() {
-        return Optional.empty();
+    public static Class<? extends InternalModuleInfo>[] getClasses() {
+        return MODULES;
     }
-
-    String getModule();
 
 }

@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.interpreter.parser.expression.subparsers.o
 
 import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.framework.language.resource.PandaTypes;
+import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 import org.panda_lang.framework.language.resource.syntax.operator.Operator;
 import org.panda_lang.framework.language.resource.syntax.operator.OperatorFamilies;
 import org.panda_lang.framework.language.resource.syntax.operator.OperatorUtils;
@@ -38,7 +38,7 @@ final class OperationUtils {
                 operator = Operators.ADDITION.equals(element.getOperator());
             }
             else if (!string && element.isExpression()) {
-                string = PandaTypes.STRING.isAssignableFrom(element.getExpression().getReturnType());
+                string = JavaModule.STRING.isAssignableFrom(element.getExpression().getReturnType());
             }
 
             if (operator && string) {
@@ -52,7 +52,7 @@ final class OperationUtils {
     static boolean isNumeric(Operation operation) {
         return verify(operation, null, element -> {
             if (element.isExpression()) {
-                return PandaTypes.NUMBER.isAssignableFrom(element.getExpression().getReturnType());
+                return JavaModule.NUMBER.isAssignableFrom(element.getExpression().getReturnType());
             }
 
             Operator operator = ObjectUtils.cast(Operator.class, element.getOperatorRepresentation().getToken());

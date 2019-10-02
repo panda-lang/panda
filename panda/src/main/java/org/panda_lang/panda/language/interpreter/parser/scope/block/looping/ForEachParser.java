@@ -35,9 +35,9 @@ import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.
 import org.panda_lang.panda.language.interpreter.bootstraps.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.interceptors.LinearPatternInterceptor;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
-import org.panda_lang.framework.language.resource.PandaTypes;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.framework.language.resource.syntax.operator.Operators;
+import org.panda_lang.panda.language.resource.internal.java.JavaCollectionsModule;
 
 @RegistrableParser(pipeline = PandaPipeline.BLOCK_LABEL)
 public class ForEachParser extends BlockSubparserBootstrap {
@@ -62,7 +62,7 @@ public class ForEachParser extends BlockSubparserBootstrap {
         VariableData variableData = dataInitializer.createVariableData(elements[0], true, true);
         forEach.addVariable(new PandaVariable(forEach.getValuePointer(), variableData));
 
-        if (!PandaTypes.ITERABLE.isAssignableFrom(forEach.getIterableExpression().getReturnType())) {
+        if (!JavaCollectionsModule.ITERABLE.isAssignableFrom(forEach.getIterableExpression().getReturnType())) {
             throw new PandaParserException("ForEach requires Iterable value");
         }
 

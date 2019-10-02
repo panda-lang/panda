@@ -23,6 +23,13 @@ import java.util.function.Supplier;
 public interface Imports extends ModuleResource {
 
     /**
+     * Import module using the given name
+     *
+     * @param name the name of module
+     */
+    void importModule(String name);
+
+    /**
      * Import module
      *
      * @param module the module to import

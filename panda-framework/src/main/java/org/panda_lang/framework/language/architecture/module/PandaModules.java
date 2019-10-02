@@ -17,27 +17,34 @@
 package org.panda_lang.framework.language.architecture.module;
 
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.module.ModulePath;
+import org.panda_lang.framework.design.architecture.module.Modules;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
-public class PandaModulePath extends PandaModules implements ModulePath {
+abstract class PandaModules implements Modules {
 
-    public PandaModulePath() {
-        super();
-    }
+    protected final Map<String, Module> modules = new HashMap<>();
 
-    public PandaModulePath(Module... modules) {
-        this();
-
-        for (Module module : modules) {
-            include(module);
-        }
+    @Override
+    public Module include(Module module) {
+        modules.put(module.getName(), module);
+        return module;
     }
 
     @Override
+    public Optional<Module> get(String moduleQualifier) {
+        if (!moduleQualifier.contains(":")) {
+            return Optional.ofNullable(modules.get(moduleQualifier));
+        }
+
+        return PandaModulesUtils.fetch(this, moduleQualifier, false);
+    }
+
     public Collection<? extends Module> getModules() {
-        return this.modules.values();
+        return modules.values();
     }
 
 }

@@ -24,7 +24,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionS
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.language.interpreter.parser.expression.ExpressionParserUtils;
 import org.panda_lang.framework.language.interpreter.token.TokenUtils;
-import org.panda_lang.framework.language.resource.PandaTypes;
+import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 
 public final class SequenceExpressionSubparser implements ExpressionSubparser {
 
@@ -43,7 +43,7 @@ public final class SequenceExpressionSubparser implements ExpressionSubparser {
         @Override
         public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
             if (TokenUtils.hasName(token, "String")) {
-                return ExpressionParserUtils.toExpressionResult(PandaTypes.STRING, token.getValue());
+                return ExpressionParserUtils.toExpressionResult(JavaModule.STRING, token.getValue());
             }
 
             return null;

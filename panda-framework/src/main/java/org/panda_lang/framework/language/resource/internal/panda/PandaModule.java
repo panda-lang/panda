@@ -14,40 +14,30 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.internal.java;
+package org.panda_lang.framework.language.resource.internal.panda;
 
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.language.architecture.module.PandaLazyModule;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototypeUtils;
+import org.panda_lang.framework.language.architecture.prototype.array.PandaArray;
 import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
 
 import java.util.Optional;
 
-public final class JavaCollectionsModule implements InternalModuleInfo {
+public final class PandaModule implements InternalModuleInfo {
 
-    private static final PandaLazyModule MODULE = new PandaLazyModule("collections");
+    private static final PandaLazyModule MODULE = new PandaLazyModule("panda");
 
-    public static final Prototype ITERABLE = PandaPrototypeUtils.generateOf(MODULE, Iterable.class).fetch();
-
-    private static final String[] NAMES = new String[] {
-            "ArrayList",
-            "Collection",
-            "Comparator",
-            "Deque",
-            "Iterator",
-            "List",
-            "Map",
-            "Map$Entry"
-    };
+    public static final Prototype ARRAY = PandaPrototypeUtils.of(MODULE, PandaArray.class, "Array").fetch();
 
     @Override
     public String[] getNames() {
-        return NAMES;
+        return new String[0];
     }
 
     @Override
     public String getPackageName() {
-        return "java.util";
+        return "org.panda_lang";
     }
 
     @Override
@@ -57,7 +47,7 @@ public final class JavaCollectionsModule implements InternalModuleInfo {
 
     @Override
     public String getModule() {
-        return "java:collections";
+        return "panda";
     }
 
 }

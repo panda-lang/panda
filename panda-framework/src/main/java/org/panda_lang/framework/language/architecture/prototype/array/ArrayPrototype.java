@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
 import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
-import org.panda_lang.framework.language.resource.PandaTypes;
+import org.panda_lang.framework.language.resource.internal.panda.PandaModule;
 
 public class ArrayPrototype extends PandaPrototype {
 
@@ -31,7 +31,7 @@ public class ArrayPrototype extends PandaPrototype {
         super(module, associated.getSimpleName(), new PandaClassSource(associated), associated, Visibility.PUBLIC);
 
         this.type = type;
-        super.extended.add(PandaTypes.ARRAY.getReference());
+        super.extended.add(PandaModule.ARRAY.getReference());
     }
 
     @Override

@@ -24,10 +24,10 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionS
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.language.architecture.expression.ThisExpression;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.framework.language.interpreter.parser.expression.ExpressionParserUtils;
-import org.panda_lang.framework.language.resource.PandaTypes;
-import org.panda_lang.framework.language.architecture.expression.ThisExpression;
+import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 
 public final class LiteralExpressionSubparser implements ExpressionSubparser {
 
@@ -56,9 +56,9 @@ public final class LiteralExpressionSubparser implements ExpressionSubparser {
 
             switch (token.getValue()) {
                 case "true":
-                    return ExpressionParserUtils.toExpressionResult(PandaTypes.BOOLEAN, true);
+                    return ExpressionParserUtils.toExpressionResult(JavaModule.BOOLEAN, true);
                 case "false":
-                    return ExpressionParserUtils.toExpressionResult(PandaTypes.BOOLEAN, false);
+                    return ExpressionParserUtils.toExpressionResult(JavaModule.BOOLEAN, false);
                 case "null":
                     return ExpressionParserUtils.toExpressionResult(null, null);
                 case "this":

@@ -14,7 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.internal.panda;
+package org.panda_lang.framework.language.architecture.module;
 
-public final class PandaModule {
+import org.panda_lang.framework.design.architecture.module.Module;
+
+public final class PandaLazyModule extends PandaModule {
+
+    public PandaLazyModule(String name) {
+        super(name);
+    }
+
+    public void setParent(Module parent) {
+        super.parent = parent;
+    }
+
 }

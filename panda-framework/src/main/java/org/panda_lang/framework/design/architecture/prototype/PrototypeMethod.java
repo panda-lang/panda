@@ -19,13 +19,6 @@ package org.panda_lang.framework.design.architecture.prototype;
 public interface PrototypeMethod extends PrototypeExecutable {
 
     /**
-     * Check if method is void
-     *
-     * @return true if method is void
-     */
-    boolean isVoid();
-
-    /**
      * Check if method is static
      *
      * @return true if method is static

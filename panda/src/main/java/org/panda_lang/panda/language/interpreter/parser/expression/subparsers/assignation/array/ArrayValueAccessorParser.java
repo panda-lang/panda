@@ -28,7 +28,7 @@ import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.framework.language.resource.PandaTypes;
+import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 
@@ -58,7 +58,7 @@ public final class ArrayValueAccessorParser implements Parser {
         ExpressionParser parser = context.getComponent(Components.EXPRESSION);
         Expression index = parser.parse(context, indexSource.getContent()).getExpression();
 
-        if (!PandaTypes.INT.isAssignableFrom(index.getReturnType())) {
+        if (!JavaModule.INT.isAssignableFrom(index.getReturnType())) {
             throw new PandaParserFailure(context, source, "The specified index is not an integer", "Change array index to expression that returns int");
         }
 

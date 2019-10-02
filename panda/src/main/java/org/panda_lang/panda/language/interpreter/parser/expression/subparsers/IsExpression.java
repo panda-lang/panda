@@ -16,12 +16,12 @@
 
 package org.panda_lang.panda.language.interpreter.parser.expression.subparsers;
 
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.language.resource.PandaTypes;
 import org.panda_lang.framework.language.architecture.expression.DynamicExpression;
+import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 
 final class IsExpression implements DynamicExpression {
 
@@ -41,7 +41,7 @@ final class IsExpression implements DynamicExpression {
 
     @Override
     public Prototype getReturnType() {
-        return PandaTypes.BOOLEAN;
+        return JavaModule.BOOLEAN;
     }
 
 }

@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.expression.subparsers.operation.subparsers.logical;
+package org.panda_lang.framework.language.resource.internal.panda;
 
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.language.resource.internal.java.JavaModule;
-import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.operation.subparsers.number.NumberOperationAction;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-public abstract class ComparisonOperatorAction extends NumberOperationAction {
+final class PandaModuleTest {
 
-    @Override
-    public Prototype returnType() {
-        return JavaModule.BOOLEAN;
+    @Test
+    void testConstants() {
+        Assertions.assertEquals("Array", PandaModule.ARRAY.getName());
     }
 
 }

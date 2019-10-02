@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.interpreter.parser.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
@@ -24,12 +25,11 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionS
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
-import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.language.resource.PandaTypes;
-import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.assignation.array.ArrayAccessor;
-import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.assignation.array.ArrayValueAccessorParser;
+import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.assignation.array.ArrayAccessor;
+import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.assignation.array.ArrayValueAccessorParser;
 
 public final class ArrayValueExpressionSubparser implements ExpressionSubparser {
 
@@ -88,7 +88,7 @@ public final class ArrayValueExpressionSubparser implements ExpressionSubparser 
             Expression indexExpression = indexTransaction.getExpression();
 
             // require int as index
-            if (!PandaTypes.INT.isAssignableFrom(indexExpression.getReturnType())) {
+            if (!JavaModule.INT.isAssignableFrom(indexExpression.getReturnType())) {
                 return ExpressionResult.error("Index of array has to be Integer", section.getContent());
             }
 

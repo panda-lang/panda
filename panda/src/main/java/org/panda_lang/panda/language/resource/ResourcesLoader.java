@@ -16,24 +16,65 @@
 
 package org.panda_lang.panda.language.resource;
 
+import org.panda_lang.framework.PandaFrameworkException;
+import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModulePath;
-import org.panda_lang.panda.language.resource.internal.InternalModuleInfo;
+import org.panda_lang.framework.design.architecture.module.Modules;
+import org.panda_lang.framework.language.architecture.module.PandaLazyModule;
+import org.panda_lang.framework.language.architecture.module.PandaModuleFactory;
+import org.panda_lang.framework.language.architecture.prototype.generator.ClassPrototypeGeneratorManager;
+import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
+import org.panda_lang.framework.language.resource.internal.PandaFrameworkModules;
 import org.panda_lang.panda.language.resource.internal.PandaModules;
+
+import java.util.Optional;
 
 public final class ResourcesLoader {
 
-    public void load(ModulePath path) throws InstantiationException, IllegalAccessException {
+    public void load(ModulePath path) {
+        load(path, PandaFrameworkModules.getClasses());
         load(path, PandaModules.getClasses());
     }
 
-    public void load(ModulePath path, Class<? extends InternalModuleInfo>[] internalModuleInfoClasses) throws IllegalAccessException, InstantiationException {
-        for (int index = 0; index < internalModuleInfoClasses.length; index++) {
-            load(path, internalModuleInfoClasses[index].newInstance());
+    public void load(ModulePath path, Class<? extends InternalModuleInfo>[] internalModuleInfoClasses) {
+        PandaModuleFactory moduleFactory = new PandaModuleFactory(path);
+
+        for (Class<? extends InternalModuleInfo> internalModuleInfoClass : internalModuleInfoClasses) {
+            try {
+                load(moduleFactory, internalModuleInfoClass.newInstance());
+            } catch (Exception e) {
+                throw new PandaFrameworkException("Cannot load internal module", e);
+            }
         }
     }
 
-    private void load(ModulePath path, InternalModuleInfo internalModuleInfo) {
+    private void load(PandaModuleFactory factory, InternalModuleInfo internalModuleInfo) throws ClassNotFoundException {
+        Optional<PandaLazyModule> lazyModuleValue = internalModuleInfo.getCustomModule();
+        Module module;
 
+        if (lazyModuleValue.isPresent()) {
+            PandaLazyModule lazyModule = lazyModuleValue.get();
+            int lastIndexOf = internalModuleInfo.getModule().lastIndexOf(":");
+            Modules modules = factory.getPath();
+
+            if (lastIndexOf != -1) {
+                String parentQualifier = internalModuleInfo.getModule().substring(0, lastIndexOf);
+                Module parent = factory.computeIfAbsent(parentQualifier);
+                lazyModule.setParent(parent);
+                modules = parent;
+            }
+
+            modules.include(lazyModule);
+            module = lazyModule;
+        }
+        else {
+            module = factory.computeIfAbsent(internalModuleInfo.getModule());
+        }
+
+        for (String name : internalModuleInfo.getNames()) {
+            Class<?> type = Class.forName(internalModuleInfo.getPackageName() + "." + name);
+            module.add(type.getSimpleName(), type, () -> ClassPrototypeGeneratorManager.getInstance().generate(module, type, type.getSimpleName()));
+        }
     }
 
 }

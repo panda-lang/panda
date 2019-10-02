@@ -62,7 +62,7 @@ public final class ImportElement extends CustomPatternElementBuilder<Snippetable
     }
 
     public ImportElement pandaModule() {
-        return condition((previous, token) -> token.getType() == TokenType.UNKNOWN || token.contentEquals(Operators.SUBTRACTION));
+        return condition((previous, token) -> token.getType() == TokenType.UNKNOWN || token.contentEquals(Operators.SUBTRACTION) || token.equals(Operators.COLON));
     }
 
     public BiPredicate<Predicate<TokenRepresentation>, TokenRepresentation> getCondition() {

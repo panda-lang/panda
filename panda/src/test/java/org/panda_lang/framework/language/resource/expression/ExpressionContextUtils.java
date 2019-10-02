@@ -16,6 +16,7 @@
 
 package org.panda_lang.framework.language.resource.expression;
 
+import org.panda_lang.framework.design.architecture.module.Imports;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.module.ModulePath;
 import org.panda_lang.framework.design.architecture.statement.FramedScope;
@@ -29,9 +30,9 @@ import org.panda_lang.framework.language.architecture.module.PandaModulePath;
 import org.panda_lang.framework.language.architecture.statement.StaticScope;
 import org.panda_lang.framework.language.interpreter.parser.PandaContext;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParser;
-import org.panda_lang.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.language.architecture.PandaScript;
 import org.panda_lang.panda.language.interpreter.parser.expression.PandaExpressionUtils;
+import org.panda_lang.panda.language.resource.ResourcesLoader;
 
 import java.util.Map;
 import java.util.function.Function;
@@ -57,16 +58,21 @@ public final class ExpressionContextUtils {
         Context context = new PandaContext();
         context.withComponent(Components.EXPRESSION, new PandaExpressionParser(PandaExpressionUtils.collectSubparsers()));
 
-        ModulePath path = new PandaModulePath(PandaTypes.MODULE);
+        ModulePath path = new PandaModulePath();
+        ResourcesLoader resourcesLoader = new ResourcesLoader();
+        resourcesLoader.load(path);
+
         ModuleLoader loader = new PandaModuleLoader(path);
-        loader.load(PandaTypes.MODULE);
+        Imports imports = new PandaImports(loader);
+        imports.importModule("java");
+        imports.importModule("panda");
 
         PandaScript script = new PandaScript("fake-script", loader);
         script.setModule(new PandaModule("fake-module"));
 
         context.withComponent(Components.SCRIPT, script);
         context.withComponent(Components.MODULE_LOADER, loader);
-        context.withComponent(Components.IMPORTS, new PandaImports(loader, PandaTypes.MODULE));
+        context.withComponent(Components.IMPORTS, imports);
 
         FramedScope scope = new StaticScope(variablesSupplier.apply(context));
         context.withComponent(Components.SCOPE, scope);

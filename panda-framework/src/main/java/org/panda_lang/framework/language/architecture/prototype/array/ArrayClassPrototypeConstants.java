@@ -18,7 +18,7 @@ package org.panda_lang.framework.language.architecture.prototype.array;
 
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
-import org.panda_lang.framework.language.resource.PandaTypes;
+import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -27,7 +27,7 @@ final class ArrayClassPrototypeConstants {
 
     protected static final PrototypeMethod SIZE = PandaMethod.builder()
             .name("size")
-            .returnType(PandaTypes.INT.getReference())
+            .returnType(JavaModule.INT.getReference())
             .methodBody((branch, instance, arguments) -> {
                 return ((Object[]) Objects.requireNonNull(instance)).length;
             })
@@ -35,7 +35,7 @@ final class ArrayClassPrototypeConstants {
 
     protected static final PrototypeMethod TO_STRING = PandaMethod.builder()
             .name("toString")
-            .returnType(PandaTypes.STRING.getReference())
+            .returnType(JavaModule.STRING.getReference())
             .methodBody((branch, instance, arguments) -> {
                 return Arrays.toString((Object[]) instance);
             })

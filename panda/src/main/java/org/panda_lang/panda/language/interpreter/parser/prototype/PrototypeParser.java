@@ -46,7 +46,7 @@ import org.panda_lang.framework.language.interpreter.pattern.custom.elements.Var
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.WildcardElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.TokenTypeVerifier;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
-import org.panda_lang.framework.language.resource.PandaTypes;
+import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.architecture.PandaScript;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.BootstrapInitializer;
@@ -99,7 +99,7 @@ public final class PrototypeParser extends ParserBootstrap {
                 .visibility(visibility)
                 .build();
 
-        prototype.addExtended(PandaTypes.OBJECT.getReference());
+        prototype.addExtended(JavaModule.OBJECT.getReference());
         module.add(className, prototype.getAssociatedClass(), prototype::getReference);
         PrototypeScope scope = new PrototypeScope(location, prototype);
 

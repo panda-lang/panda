@@ -16,13 +16,13 @@
 
 package org.panda_lang.panda.language.interpreter.parser.expression.subparsers.number;
 
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.SourceParser;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.framework.language.resource.PandaTypes;
 import org.panda_lang.framework.language.architecture.expression.PandaExpression;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 import org.panda_lang.utilities.commons.StringUtils;
 
 public class NumberParser implements SourceParser<Expression> {
@@ -56,17 +56,17 @@ public class NumberParser implements SourceParser<Expression> {
 
         switch (numberType) {
             case BYTE:
-                return new PandaExpression(PandaTypes.BYTE, Byte.parseByte(number, radix));
+                return new PandaExpression(JavaModule.BYTE, Byte.parseByte(number, radix));
             case SHORT:
-                return new PandaExpression(PandaTypes.SHORT, Short.parseShort(number, radix));
+                return new PandaExpression(JavaModule.SHORT, Short.parseShort(number, radix));
             case INT:
-                return new PandaExpression(PandaTypes.INT, Integer.parseInt(number, radix));
+                return new PandaExpression(JavaModule.INT, Integer.parseInt(number, radix));
             case LONG:
-                return new PandaExpression(PandaTypes.LONG, Long.parseLong(number, radix));
+                return new PandaExpression(JavaModule.LONG, Long.parseLong(number, radix));
             case FLOAT:
-                return new PandaExpression(PandaTypes.FLOAT, Float.parseFloat(number));
+                return new PandaExpression(JavaModule.FLOAT, Float.parseFloat(number));
             case DOUBLE:
-                return new PandaExpression(PandaTypes.DOUBLE, Double.parseDouble(number));
+                return new PandaExpression(JavaModule.DOUBLE, Double.parseDouble(number));
             default:
                 throw new PandaParserException("Unknown number type: " + numberType);
         }
