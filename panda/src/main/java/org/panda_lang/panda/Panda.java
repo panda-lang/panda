@@ -22,6 +22,7 @@ import org.panda_lang.framework.design.resource.Language;
 import org.panda_lang.framework.design.resource.Resources;
 import org.panda_lang.framework.language.resource.PandaLanguage;
 import org.panda_lang.framework.language.resource.PandaResources;
+import org.panda_lang.panda.language.interpreter.PandaFileLoader;
 import org.panda_lang.panda.util.embed.PandaEngineFactoryConstants;
 
 /**
@@ -36,7 +37,7 @@ public final class Panda implements FrameworkController {
     private final Resources resources;
 
     private final PandaCLI cli;
-    private final PandaLoader loader;
+    private final PandaFileLoader loader;
 
     private Panda(PandaBuilder builder) {
         if (builder.language == null) {
@@ -51,7 +52,7 @@ public final class Panda implements FrameworkController {
         this.resources = builder.resources;
 
         this.cli = new PandaCLI(this);
-        this.loader = new PandaLoader(this);
+        this.loader = new PandaFileLoader(this);
     }
 
     /**
@@ -68,7 +69,7 @@ public final class Panda implements FrameworkController {
      *
      * @return the panda loader
      */
-    public PandaLoader getLoader() {
+    public PandaFileLoader getLoader() {
         return loader;
     }
 
