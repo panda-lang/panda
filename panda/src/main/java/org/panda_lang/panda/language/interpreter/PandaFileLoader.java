@@ -14,39 +14,38 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda;
+package org.panda_lang.panda.language.interpreter;
 
 import org.panda_lang.framework.design.architecture.Application;
-import org.panda_lang.panda.language.architecture.PandaEnvironment;
-import org.panda_lang.panda.language.interpreter.PandaInterpreter;
 import org.panda_lang.framework.design.interpreter.source.Source;
 import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
+import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.language.architecture.PandaEnvironment;
 
 import java.io.File;
 import java.util.Optional;
 
-public final class PandaLoader {
+public final class PandaFileLoader {
 
     private final Panda panda;
 
-    public PandaLoader(Panda panda) {
+    public PandaFileLoader(Panda panda) {
         this.panda = panda;
     }
 
-    public Optional<Application> load(String main, File workingDirectory) {
-        return load(PandaURLSource.fromFile(new File(workingDirectory, main)), workingDirectory);
+    public Optional<Application> load(String script, File workingDirectory) {
+        return load(PandaURLSource.fromFile(new File(workingDirectory, script)), workingDirectory);
     }
 
-    public Optional<Application> load(File main, File workingDirectory) {
-        return load(PandaURLSource.fromFile(main), workingDirectory);
+    public Optional<Application> load(File script, File workingDirectory) {
+        return load(PandaURLSource.fromFile(script), workingDirectory);
     }
 
-    public Optional<Application> load(Source main, File workingDirectory) {
+    public Optional<Application> load(Source script, File workingDirectory) {
         PandaEnvironment environment = new PandaEnvironment(panda, workingDirectory);
         environment.initialize();
 
-        PandaInterpreter interpreter = environment.getInterpreter();
-        return interpreter.interpret(main);
+        return environment.getInterpreter().interpret(script);
     }
 
 }

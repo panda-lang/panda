@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda;
 
+import org.panda_lang.panda.language.interpreter.PandaFileLoader;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.FileUtils;
 
@@ -26,7 +27,7 @@ public final class PandaLauncher {
 
     private PandaLauncher() { }
 
-    public static void main(String[] args) {
+    public static void main(String... args) {
         PandaFactory pandaFactory = new PandaFactory();
         Panda panda = pandaFactory.createPanda();
 
@@ -39,7 +40,7 @@ public final class PandaLauncher {
     }
 
     private static void loadDefault(Panda panda, String... args) {
-        PandaLoader pandaLoader = panda.getLoader();
+        PandaFileLoader pandaFileLoader = panda.getLoader();
         Collection<File> files = FileUtils.findFilesByExtension(System.getProperty("user.dir"), ".panda");
 
         // TODO: find panda.json
