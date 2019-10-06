@@ -16,22 +16,19 @@
 
 package org.panda_lang.panda.pmm;
 
-import org.hjson.JsonValue;
-import org.panda_lang.utilities.commons.FileUtils;
+import org.junit.jupiter.api.Test;
+import org.panda_lang.framework.language.interpreter.messenger.PandaMessenger;
 
 import java.io.File;
-import java.io.IOException;
 
-final class ModuleDocumentFile {
+class PandaModulesManagerTest {
 
-    private final File document;
+    private static final File DIRECTORY = new File("../examples/pmm/");
+    private static final PandaModulesManager MANAGER = new PandaModulesManager(new PandaMessenger(), DIRECTORY);
 
-    ModuleDocumentFile(File document) {
-        this.document = document;
-    }
-
-    ModuleDocument getContent() throws IOException {
-        return new ModuleDocument(document, JsonValue.readHjson(FileUtils.getContentOfFile(document)).asObject());
+    @Test
+    void install() throws Exception {
+        MANAGER.install(new File(DIRECTORY, "panda.hjson"));
     }
 
 }

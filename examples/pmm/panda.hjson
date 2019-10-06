@@ -1,0 +1,12 @@
+name: panda-module-manager-test
+version: 1.0.0
+owner: dzikoysk
+
+scripts: {
+    main: panda.app
+}
+
+dependencies: [
+    github:dzikoysk/panda-dependency@1.0.1
+]
+

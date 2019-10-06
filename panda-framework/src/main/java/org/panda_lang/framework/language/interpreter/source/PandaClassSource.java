@@ -22,12 +22,4 @@ public final class PandaClassSource extends PandaSource {
         super("java://" + clazz.getName(), "", true);
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof PandaClassSource) {
-            return ((PandaClassSource) obj).getId().equals(getId());
-        }
-
-        return super.equals(obj);
-    }
 }

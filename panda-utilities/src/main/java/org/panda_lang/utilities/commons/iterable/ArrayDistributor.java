@@ -24,7 +24,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> {
+public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> { // lgtm [java/iterator-implements-iterable]
 
     private final T[] array;
     private int index;
