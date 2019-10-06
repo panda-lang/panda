@@ -17,6 +17,7 @@
 package org.panda_lang.utilities.commons.console;
 
 import org.panda_lang.utilities.commons.StringUtils;
+import org.panda_lang.utilities.commons.text.ContentJoiner;
 
 public class Colored {
 
@@ -35,7 +36,9 @@ public class Colored {
 
     @Override
     public String toString() {
-        return prefix + text + Effect.RESET;
+        return ContentJoiner.on(prefix)
+                .join(text.split(System.lineSeparator()), line -> line + Effect.RESET)
+                .toString();
     }
 
     public static Colored on(Object text) {
