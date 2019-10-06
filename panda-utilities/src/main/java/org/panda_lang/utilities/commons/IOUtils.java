@@ -101,7 +101,7 @@ public final class IOUtils {
         return null;
     }
 
-    public static void close(Closeable closeable) {
+    public static void close(@Nullable Closeable closeable) {
         if (closeable == null) {
             return;
         }

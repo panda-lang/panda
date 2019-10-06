@@ -34,7 +34,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.function.Supplier;
 
-final class ClassPrototypeGenerator {
+final class PrototypeGenerator {
 
     protected static boolean locked;
 
@@ -63,19 +63,19 @@ final class ClassPrototypeGenerator {
                     continue;
                 }
 
-                ClassPrototypeFieldGenerator generator = new ClassPrototypeFieldGenerator(this, prototype, field);
+                FieldGenerator generator = new FieldGenerator(this, prototype, field);
                 PrototypeField prototypeField = generator.generate();
                 prototype.getFields().declare(prototypeField);
             }
 
             for (Constructor<?> constructor : ReflectionUtils.getByModifier(type.getConstructors(), Modifier.PUBLIC)) {
-                ClassPrototypeConstructorGenerator generator = new ClassPrototypeConstructorGenerator(this, prototype, constructor);
+                ConstructorGenerator generator = new ConstructorGenerator(this, prototype, constructor);
                 PrototypeConstructor prototypeField = generator.generate();
                 prototype.getConstructors().declare(prototypeField);
             }
 
             for (Method method : ReflectionUtils.getByModifier(type.getMethods(), Modifier.PUBLIC)) {
-                ClassPrototypeMethodGenerator generator = new ClassPrototypeMethodGenerator(this, prototype, method);
+                MethodGenerator generator = new MethodGenerator(this, prototype, method);
                 PrototypeMethod prototypeMethod = generator.generate();
                 prototype.getMethods().declare(prototypeMethod);
             }

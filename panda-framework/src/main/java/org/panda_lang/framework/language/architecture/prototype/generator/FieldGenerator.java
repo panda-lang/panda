@@ -30,13 +30,13 @@ import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-final class ClassPrototypeFieldGenerator {
+final class FieldGenerator {
 
-    private final ClassPrototypeGenerator generator;
+    private final PrototypeGenerator generator;
     private final Prototype prototype;
     private final Field field;
 
-    ClassPrototypeFieldGenerator(ClassPrototypeGenerator generator, Prototype prototype, Field field) {
+    FieldGenerator(PrototypeGenerator generator, Prototype prototype, Field field) {
         this.generator = generator;
         this.prototype = prototype;
         this.field = field;

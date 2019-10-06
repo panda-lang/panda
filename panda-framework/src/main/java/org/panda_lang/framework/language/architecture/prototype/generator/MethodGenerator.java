@@ -29,13 +29,13 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.security.InvalidParameterException;
 
-final class ClassPrototypeMethodGenerator {
+final class MethodGenerator {
 
-    private final ClassPrototypeGenerator generator;
+    private final PrototypeGenerator generator;
     private final Prototype prototype;
     private final Method method;
 
-    ClassPrototypeMethodGenerator(ClassPrototypeGenerator generator, Prototype prototype, Method method) {
+    MethodGenerator(PrototypeGenerator generator, Prototype prototype, Method method) {
         if (method == null) {
             throw new InvalidParameterException("Method cannot be null");
         }
@@ -47,7 +47,7 @@ final class ClassPrototypeMethodGenerator {
 
     protected PrototypeMethod generate() {
         Reference returnType = generator.findOrGenerate(prototype.getModule(), method.getReturnType());
-        Parameter[] mappedParameters = ClassPrototypeGeneratorUtils.toParameters(prototype.getModule(), method.getParameters());
+        Parameter[] mappedParameters = PrototypeGeneratorUtils.toParameters(prototype.getModule(), method.getParameters());
         boolean isVoid = returnType.getName().equals("void");
 
         // TODO: Generate bytecode
@@ -77,7 +77,7 @@ final class ClassPrototypeMethodGenerator {
             }
 
             if (varargs != null) {
-                if (arguments.length < amountOfArgs - 1) {
+                if (arguments.length < amountOfArgs) {
                     throw new PandaRuntimeException("Varargs not allowed");
                 }
 

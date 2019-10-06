@@ -25,13 +25,13 @@ import org.panda_lang.framework.language.architecture.parameter.PandaParameter;
 
 import java.lang.reflect.Constructor;
 
-final class ClassPrototypeConstructorGenerator {
+final class ConstructorGenerator {
 
-    private final ClassPrototypeGenerator generator;
+    private final PrototypeGenerator generator;
     private final Prototype prototype;
     private final Constructor<?> constructor;
 
-    ClassPrototypeConstructorGenerator(ClassPrototypeGenerator generator, Prototype prototype, Constructor<?> constructor) {
+    ConstructorGenerator(PrototypeGenerator generator, Prototype prototype, Constructor<?> constructor) {
         this.generator = generator;
         this.prototype = prototype;
         this.constructor = constructor;

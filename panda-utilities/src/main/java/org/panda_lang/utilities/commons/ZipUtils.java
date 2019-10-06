@@ -35,6 +35,12 @@ public final class ZipUtils {
             String name, dir;
 
             while ((entry = zip.getNextEntry()) != null) {
+                File file = new File(target, entry.getName());
+
+                if (!file.toPath().normalize().startsWith(target.toPath())) {
+                    throw new IOException("Bad zip entry");
+                }
+
                 name = entry.getName();
 
                 if (entry.isDirectory()) {

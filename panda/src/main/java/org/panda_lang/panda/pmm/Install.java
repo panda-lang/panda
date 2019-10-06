@@ -18,6 +18,7 @@ package org.panda_lang.panda.pmm;
 
 import org.panda_lang.framework.design.interpreter.messenger.MessengerLevel;
 import org.panda_lang.utilities.commons.FileUtils;
+import org.panda_lang.utilities.commons.IOUtils;
 import org.panda_lang.utilities.commons.ZipUtils;
 import org.panda_lang.utilities.commons.function.ThrowingRunnable;
 
@@ -75,10 +76,16 @@ final class Install implements ThrowingRunnable<IOException> {
             return InstallStatus.SKIPPED;
         }
 
-        BufferedInputStream in = new BufferedInputStream(new URL(dependency.getAddress()).openStream());
-        ZipInputStream zipStream = new ZipInputStream(in);
-        ZipUtils.extract(zipStream, scopeDirectory);
-        return InstallStatus.INSTALLED;
+        BufferedInputStream in = null;
+
+        try {
+            in = new BufferedInputStream(new URL(dependency.getAddress()).openStream());
+            ZipInputStream zipStream = new ZipInputStream(in);
+            ZipUtils.extract(zipStream, scopeDirectory);
+            return InstallStatus.INSTALLED;
+        } finally {
+            IOUtils.close(in);
+        }
     }
 
     private void scan(Map<String, InstallStatus> statusMap, File scopeDirectory) {
