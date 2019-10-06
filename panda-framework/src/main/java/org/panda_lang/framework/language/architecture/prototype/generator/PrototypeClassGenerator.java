@@ -16,20 +16,21 @@
 
 package org.panda_lang.framework.language.architecture.prototype.generator;
 
-import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
+import javassist.ClassPool;
+import javassist.CtClass;
+import org.panda_lang.utilities.commons.ClassUtils;
 
-public class ClassPrototypeGeneratorManager {
+public class PrototypeClassGenerator {
 
-    private static final ClassPrototypeGeneratorManager INSTANCE = new ClassPrototypeGeneratorManager();
-    private static final ClassPrototypeGenerator GENERATOR = new ClassPrototypeGenerator();
+    private static final ClassPool POOL = ClassPool.getDefault();
 
-    public Reference generate(Module module, Class<?> clazz, String name) {
-        return GENERATOR.generate(module, clazz, name);
-    }
+    public Class<?> generateType(String className) throws Exception {
+        if (ClassUtils.exists(className)) {
+            return Class.forName(className);
+        }
 
-    public static ClassPrototypeGeneratorManager getInstance() {
-        return INSTANCE;
+        CtClass generatedClass = POOL.makeClass(className);
+        return generatedClass.toClass();
     }
 
 }

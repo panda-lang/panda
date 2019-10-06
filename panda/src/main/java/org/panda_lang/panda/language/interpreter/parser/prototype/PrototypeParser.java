@@ -33,7 +33,7 @@ import org.panda_lang.framework.language.architecture.prototype.PandaConstructor
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeScope;
-import org.panda_lang.framework.language.architecture.prototype.generator.ClassPrototypeTypeGenerator;
+import org.panda_lang.framework.language.architecture.prototype.generator.PrototypeClassGenerator;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PipelineParser;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
@@ -63,7 +63,7 @@ import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 @RegistrableParser(pipeline = Pipelines.HEAD_LABEL)
 public final class PrototypeParser extends ParserBootstrap {
 
-    private static final ClassPrototypeTypeGenerator GENERATOR = new ClassPrototypeTypeGenerator();
+    private static final PrototypeClassGenerator GENERATOR = new PrototypeClassGenerator();
 
     @Override
     protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {

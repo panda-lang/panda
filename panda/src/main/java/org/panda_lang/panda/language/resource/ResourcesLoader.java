@@ -22,7 +22,7 @@ import org.panda_lang.framework.design.architecture.module.ModulePath;
 import org.panda_lang.framework.design.architecture.module.Modules;
 import org.panda_lang.framework.language.architecture.module.PandaLazyModule;
 import org.panda_lang.framework.language.architecture.module.PandaModuleFactory;
-import org.panda_lang.framework.language.architecture.prototype.generator.ClassPrototypeGeneratorManager;
+import org.panda_lang.framework.language.architecture.prototype.generator.PrototypeGeneratorManager;
 import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
 import org.panda_lang.framework.language.resource.internal.PandaFrameworkModules;
 import org.panda_lang.panda.language.resource.internal.PandaModules;
@@ -73,7 +73,7 @@ public final class ResourcesLoader {
 
         for (String name : internalModuleInfo.getNames()) {
             Class<?> type = Class.forName(internalModuleInfo.getPackageName() + "." + name);
-            module.add(type.getSimpleName(), type, () -> ClassPrototypeGeneratorManager.getInstance().generate(module, type, type.getSimpleName()));
+            module.add(type.getSimpleName(), type, () -> PrototypeGeneratorManager.getInstance().generate(module, type, type.getSimpleName()));
         }
     }
 

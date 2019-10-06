@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.language.architecture.prototype.generator.ClassPrototypeGeneratorManager;
+import org.panda_lang.framework.language.architecture.prototype.generator.PrototypeGeneratorManager;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.utilities.commons.ClassUtils;
 
@@ -42,7 +42,7 @@ final class ConveyanceUtils {
         Class<?> clazz = importedClass.get();
         String className = clazz.getSimpleName();
 
-        return ClassPrototypeGeneratorManager.getInstance().generate(module, clazz, className);
+        return PrototypeGeneratorManager.getInstance().generate(module, clazz, className);
     }
 
 }

@@ -21,11 +21,11 @@ import org.panda_lang.framework.language.architecture.parameter.PandaParameter;
 
 import java.lang.reflect.Parameter;
 
-public final class ClassPrototypeGeneratorUtils {
+public final class PrototypeGeneratorUtils {
 
-    private static final ClassPrototypeGenerator GENERATOR = new ClassPrototypeGenerator();
+    private static final PrototypeGenerator GENERATOR = new PrototypeGenerator();
 
-    private ClassPrototypeGeneratorUtils() { }
+    private PrototypeGeneratorUtils() { }
 
     public static PandaParameter[] toParameters(Module module, Parameter[] parameters) {
         PandaParameter[] mappedParameters = new PandaParameter[parameters.length];
