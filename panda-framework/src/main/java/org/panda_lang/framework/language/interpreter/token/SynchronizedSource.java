@@ -89,7 +89,7 @@ public class SynchronizedSource implements Iterable<TokenRepresentation>, Iterat
     }
 
     /**
-     * Get previus token
+     * Get previous token
      *
      * @return the previous token or null if index is 0
      *
@@ -116,7 +116,7 @@ public class SynchronizedSource implements Iterable<TokenRepresentation>, Iterat
      * @return the current token
      */
     public TokenRepresentation getCurrent() {
-        return source.get(index - 1);
+        return index - 1 > -1 ? source.get(index - 1) : null;
     }
 
     /**

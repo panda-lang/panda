@@ -41,7 +41,7 @@ public final class ZipUtils {
                     throw new IOException("Bad zip entry");
                 }
 
-                name = entry.getName();
+                name = file.getName();
 
                 if (entry.isDirectory()) {
                     mkdirs(target, name);

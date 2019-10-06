@@ -16,21 +16,21 @@
 
 package org.panda_lang.framework.language.interpreter.pattern.custom.elements;
 
-import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPatternElementBuilder;
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPatternElementBuilder;
 import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.framework.language.resource.syntax.operator.Operators;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 
 import java.util.function.BiPredicate;
-import java.util.function.Predicate;
 
 public final class ImportElement extends CustomPatternElementBuilder<Snippetable, ImportElement> {
 
-    private BiPredicate<Predicate<TokenRepresentation>, TokenRepresentation> condition;
+    private BiPredicate<@Nullable TokenRepresentation, TokenRepresentation> condition = (previous, current) -> false;
 
     private ImportElement(String id) {
         super(id);
@@ -41,7 +41,7 @@ public final class ImportElement extends CustomPatternElementBuilder<Snippetable
             while (source.hasNext()) {
                 TokenRepresentation next = source.getNext();
 
-                if (!getCondition().test(null, next)) {
+                if (!condition.test(source.getCurrent(), next)) {
                     break;
                 }
 
@@ -52,21 +52,21 @@ public final class ImportElement extends CustomPatternElementBuilder<Snippetable
         });
     }
 
-    public ImportElement condition(BiPredicate<Predicate<TokenRepresentation>, TokenRepresentation> condition) {
-        this.condition = condition;
+    public ImportElement javaClass() {
+        this.condition = (previous, current) -> current.getType() == TokenType.UNKNOWN || current.contentEquals(Separators.PERIOD);
         return this;
     }
 
-    public ImportElement javaClass() {
-        return condition((previous, token) -> token.getType() == TokenType.UNKNOWN || token.contentEquals(Separators.PERIOD));
-    }
-
     public ImportElement pandaModule() {
-        return condition((previous, token) -> token.getType() == TokenType.UNKNOWN || token.contentEquals(Operators.SUBTRACTION) || token.equals(Operators.COLON));
-    }
+        this.condition = (previous, token) -> {
+            if (previous == null || previous.contentEquals(Operators.SUBTRACTION)) {
+                return token.getType() == TokenType.UNKNOWN || token.getType() == TokenType.KEYWORD;
+            }
 
-    public BiPredicate<Predicate<TokenRepresentation>, TokenRepresentation> getCondition() {
-        return condition;
+            return token.getType() == TokenType.UNKNOWN || token.contentEquals(Operators.SUBTRACTION) || token.equals(Operators.COLON);
+        };
+
+        return this;
     }
 
     public static ImportElement create(String id) {
