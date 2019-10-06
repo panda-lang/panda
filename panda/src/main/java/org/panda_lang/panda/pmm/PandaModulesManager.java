@@ -32,11 +32,17 @@ public final class PandaModulesManager {
     }
 
     public void install(File documentFile) throws IOException {
-        ModuleDocumentFile moduleDocumentFile = new ModuleDocumentFile(documentFile);
-        ModuleDocument document = moduleDocumentFile.getContent();
-
-        Install install = new Install(this, document);
+        Install install = new Install(this, new ModuleDocumentFile(documentFile).getContent());
         install.run();
+    }
+
+    public void run(File documentFile) throws IOException {
+        Run run = new Run(this, new ModuleDocumentFile(documentFile).getContent());
+        run.run();
+    }
+
+    protected File getWorkingDirectory() {
+        return workingDirectory;
     }
 
     protected Messenger getMessenger() {

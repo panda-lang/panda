@@ -27,8 +27,11 @@ class PandaModulesManagerTest {
     private static final PandaModulesManager MANAGER = new PandaModulesManager(new PandaMessenger(), DIRECTORY);
 
     @Test
-    void install() throws Exception {
-        MANAGER.install(new File(DIRECTORY, "panda.hjson"));
+    void test() throws Exception {
+        File document = new File(DIRECTORY, "panda.hjson");
+
+        MANAGER.install(document);
+        MANAGER.run(document);
     }
 
 }
