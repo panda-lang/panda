@@ -77,6 +77,10 @@ final class ClassPrototypeMethodGenerator {
             }
 
             if (varargs != null) {
+                if (arguments.length < amountOfArgs - 1) {
+                    throw new PandaRuntimeException("Varargs not allowed");
+                }
+
                 arguments[amountOfArgs - 1] = varargs;
             }
 

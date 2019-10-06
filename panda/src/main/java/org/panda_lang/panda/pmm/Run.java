@@ -16,22 +16,5 @@
 
 package org.panda_lang.panda.pmm;
 
-import org.hjson.JsonValue;
-import org.panda_lang.utilities.commons.FileUtils;
-
-import java.io.File;
-import java.io.IOException;
-
-final class ModuleDocumentFile {
-
-    private final File document;
-
-    ModuleDocumentFile(File document) {
-        this.document = document;
-    }
-
-    ModuleDocument getContent() throws IOException {
-        return new ModuleDocument(document, JsonValue.readHjson(FileUtils.getContentOfFile(document)).asObject());
-    }
-
+final class Run {
 }

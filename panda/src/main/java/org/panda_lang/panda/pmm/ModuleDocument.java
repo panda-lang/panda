@@ -17,13 +17,55 @@
 package org.panda_lang.panda.pmm;
 
 import org.hjson.JsonObject;
+import org.hjson.JsonValue;
+
+import java.io.File;
+import java.util.List;
+import java.util.stream.Collectors;
 
 final class ModuleDocument {
 
+    private final File document;
     private final JsonObject content;
 
-    ModuleDocument(JsonObject content) {
+    ModuleDocument(File document, JsonObject content) {
+        this.document = document;
         this.content = content;
+    }
+
+    private List<? extends String> getList(String name) {
+        return content.get(name).asArray().values().stream()
+                .map(JsonValue::asString)
+                .collect(Collectors.toList());
+    }
+
+    protected List<? extends String> getTestsDependencies() {
+        return getList("tests-dependencies");
+    }
+
+    protected List<? extends String> getDependencies() {
+        return getList("dependencies");
+    }
+
+    protected String getMainScript() {
+        JsonValue scripts = content.get("scripts");
+        return scripts == null ? null : scripts.asObject().getString("main", null);
+    }
+
+    protected String getOwner() {
+        return content.getString("owner", null);
+    }
+
+    protected String getVersion() {
+        return content.getString("version", null);
+    }
+
+    protected String getName() {
+        return content.getString("name", null);
+    }
+
+    protected File getDocument() {
+        return document;
     }
 
 }

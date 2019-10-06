@@ -16,23 +16,31 @@
 
 package org.panda_lang.panda.pmm;
 
+import org.panda_lang.framework.design.interpreter.messenger.Messenger;
+
 import java.io.File;
+import java.io.IOException;
 
 public final class PandaModulesManager {
 
+    private final Messenger messenger;
     private final File workingDirectory;
 
-    public PandaModulesManager(File workingDirectory) {
+    public PandaModulesManager(Messenger messenger, File workingDirectory) {
+        this.messenger = messenger;
         this.workingDirectory = workingDirectory;
     }
 
-    public void install(File document) {
-        Install install = new Install(this, new ModuleDocumentFile(document));
+    public void install(File documentFile) throws IOException {
+        ModuleDocumentFile moduleDocumentFile = new ModuleDocumentFile(documentFile);
+        ModuleDocument document = moduleDocumentFile.getContent();
+
+        Install install = new Install(this, document);
         install.run();
     }
 
-    protected File getWorkingDirectory() {
-        return workingDirectory;
+    protected Messenger getMessenger() {
+        return messenger;
     }
 
 }

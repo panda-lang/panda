@@ -1,0 +1,7 @@
+module panda-module-manager-test
+
+require panda-dependency
+
+main {
+    System.out.println(PandaDependency.getMessage())
+}

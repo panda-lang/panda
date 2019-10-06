@@ -57,17 +57,17 @@ public class PandaEnvironment implements Environment {
     }
 
     @Override
-    public ModulePath getModulePath() {
-        return modulePath;
-    }
-
-    @Override
     public PandaInterpreter getInterpreter() {
         if (interpreter == null) {
             throw new PandaException("Environment was not initialized");
         }
 
         return interpreter;
+    }
+
+    @Override
+    public ModulePath getModulePath() {
+        return modulePath;
     }
 
     @Override

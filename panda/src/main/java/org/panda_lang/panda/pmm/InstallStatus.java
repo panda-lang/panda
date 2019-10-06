@@ -16,22 +16,20 @@
 
 package org.panda_lang.panda.pmm;
 
-import org.hjson.JsonValue;
-import org.panda_lang.utilities.commons.FileUtils;
+enum InstallStatus {
 
-import java.io.File;
-import java.io.IOException;
+    INSTALLED("+"),
+    SKIPPED("~"),
+    REMOVED("-");
 
-final class ModuleDocumentFile {
+    private final String symbol;
 
-    private final File document;
-
-    ModuleDocumentFile(File document) {
-        this.document = document;
+    InstallStatus(String symbol) {
+        this.symbol = symbol;
     }
 
-    ModuleDocument getContent() throws IOException {
-        return new ModuleDocument(document, JsonValue.readHjson(FileUtils.getContentOfFile(document)).asObject());
+    protected String getSymbol() {
+        return symbol;
     }
 
 }
