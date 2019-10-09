@@ -16,6 +16,9 @@
 
 package org.panda_lang.panda.pmm;
 
+import org.hjson.JsonObject;
+import org.hjson.JsonValue;
+import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerLevel;
 import org.panda_lang.utilities.commons.FileUtils;
 import org.panda_lang.utilities.commons.IOUtils;
@@ -53,14 +56,13 @@ final class Install implements ThrowingRunnable<IOException> {
 
         for (String dependencyQualifier : document.getDependencies()) {
             Dependency dependency = Dependency.parseDependency(dependencyQualifier);
-            statusMap.put(dependency.getDirectoryName(), install(pandaModules, dependency));
+            statusMap.put(dependency.getName(), install(pandaModules, dependency));
         }
 
         File[] allModules = Objects.requireNonNull(pandaModules.listFiles());
 
         for (File moduleDirectory : allModules) {
-            File scopeDirectory = new File(pandaModules, moduleDirectory.getName());
-            scan(statusMap, scopeDirectory);
+            scan(statusMap, new File(pandaModules, moduleDirectory.getName()));
         }
 
         for (Entry<String, InstallStatus> entry : statusMap.entrySet()) {
@@ -71,9 +73,22 @@ final class Install implements ThrowingRunnable<IOException> {
     private InstallStatus install(File pandaModules, Dependency dependency) throws IOException {
         File scopeDirectory = new File(pandaModules, dependency.getScope());
         scopeDirectory.mkdir();
+        File moduleDirectory = new File(scopeDirectory, dependency.getName());
 
-        if (new File(scopeDirectory, dependency.getDirectoryName()).exists()) {
-            return InstallStatus.SKIPPED;
+        if (moduleDirectory.exists()) {
+            File moduleInfoFile = new File(moduleDirectory, "panda.hjson");
+
+            if (!moduleInfoFile.exists()) {
+                throw new PandaFrameworkException("Invalid module " + dependency.getName());
+            }
+
+            JsonObject moduleInfo = JsonValue.readHjson(FileUtils.getContentOfFile(moduleInfoFile)).asObject();
+
+            if (dependency.getVersion().equals(moduleInfo.getString("version", null))) {
+                return InstallStatus.SKIPPED;
+            }
+
+            FileUtils.delete(moduleDirectory);
         }
 
         BufferedInputStream in = null;
@@ -82,6 +97,10 @@ final class Install implements ThrowingRunnable<IOException> {
             in = new BufferedInputStream(new URL(dependency.getAddress()).openStream());
             ZipInputStream zipStream = new ZipInputStream(in);
             ZipUtils.extract(zipStream, scopeDirectory);
+
+            File extractedModule = new File(scopeDirectory, dependency.getName() + "-" + dependency.getVersion());
+            extractedModule.renameTo(moduleDirectory);
+
             return InstallStatus.INSTALLED;
         } finally {
             IOUtils.close(in);

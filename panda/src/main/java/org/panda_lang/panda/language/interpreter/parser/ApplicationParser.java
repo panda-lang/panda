@@ -83,7 +83,7 @@ public final class ApplicationParser implements Parser {
 
             interpretation.execute(() -> {
                 Snippet snippet = lexer.convert(current);
-                SourceStream sourceStream = new PandaSourceStream(snippet);
+                SourceStream stream = new PandaSourceStream(snippet);
 
                 Imports imports = new PandaImports(loader);
                 imports.importModule("java");
@@ -95,7 +95,7 @@ public final class ApplicationParser implements Parser {
                         .withComponent(PandaComponents.PANDA_SCRIPT, script)
                         .withComponent(Components.IMPORTS, imports)
                         .withComponent(Components.SOURCE, snippet)
-                        .withComponent(Components.STREAM, sourceStream)
+                        .withComponent(Components.STREAM, stream)
                         .withComponent(Components.CURRENT_SOURCE, snippet);
 
                 PipelineParser<?> parser = new PipelineParser<>(Pipelines.HEAD, delegatedContext);

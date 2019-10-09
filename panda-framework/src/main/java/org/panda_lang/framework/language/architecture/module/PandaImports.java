@@ -56,7 +56,7 @@ public final class PandaImports implements Imports {
             throw new PandaFrameworkException("Module " + name + " does not exist");
         }
 
-        importModule(module.get());
+        importedModules.put(name, loader.loadIfAbsent(module.get()));
     }
 
     @Override

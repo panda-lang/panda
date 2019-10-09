@@ -39,7 +39,8 @@ final class PandaModulesUtils {
             Module nextModule = modules.get(name).orElse(null);
 
             if (nextModule == null && compute) {
-                nextModule = modules.include(new PandaModule(module, name));
+                nextModule = new PandaModule(module, name);
+                modules.include(nextModule);
             }
 
             if (nextModule == null) {

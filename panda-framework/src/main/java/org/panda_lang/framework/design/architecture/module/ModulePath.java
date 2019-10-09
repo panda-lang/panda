@@ -16,38 +16,11 @@
 
 package org.panda_lang.framework.design.architecture.module;
 
-import org.panda_lang.utilities.commons.StreamUtils;
-
-import java.util.Collection;
-
 /**
  * ModulePath is collection of all available modules
  */
 public interface ModulePath extends Modules {
 
-    /**
-     * Count used prototypes
-     *
-     * @return the amount of used prototypes
-     */
-    default int countUsedPrototypes() {
-        return StreamUtils.sum(getModules(), Module::countUsedPrototypes);
-    }
-
-    /**
-     * Count all available references
-     *
-     * @return the amount of references
-     */
-    default int countReferences() {
-        return StreamUtils.sum(getModules(), Module::countReferences);
-    }
-
-    /**
-     * Get all modules
-     *
-     * @return the collection of available modules
-     */
-    Collection<? extends Module> getModules();
+    void include(String name, Runnable initialize);
 
 }

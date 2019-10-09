@@ -64,7 +64,9 @@ public final class ModuleParser extends ParserBootstrap {
         String moduleName = source.asSource();
 
         Module module = environment.getModulePath().get(moduleName).orElseGet(() -> {
-            return environment.getModulePath().include(new PandaModule(moduleName));
+            Module pandaModule = new PandaModule(moduleName);
+            environment.getModulePath().include(pandaModule);
+            return pandaModule;
         });
 
         ModuleStatement moduleStatement = new ModuleStatement(location, module);

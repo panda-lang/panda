@@ -19,25 +19,35 @@ package org.panda_lang.framework.language.architecture.module;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModulePath;
 
-import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public class PandaModulePath extends PandaModules implements ModulePath {
 
-    public PandaModulePath() {
-        super();
-    }
+    private final Map<String, Runnable> modules = new HashMap<>();
 
     public PandaModulePath(Module... modules) {
-        this();
-
         for (Module module : modules) {
             include(module);
         }
     }
 
     @Override
-    public Collection<? extends Module> getModules() {
-        return this.modules.values();
+    public void include(String name, Runnable initialize) {
+        modules.put(name, initialize);
+    }
+
+    @Override
+    public Optional<Module> get(String moduleQualifier) {
+        Runnable initialize = modules.get(moduleQualifier);
+
+        if (initialize != null) {
+            modules.remove(moduleQualifier);
+            initialize.run();
+        }
+
+        return super.get(moduleQualifier);
     }
 
 }
