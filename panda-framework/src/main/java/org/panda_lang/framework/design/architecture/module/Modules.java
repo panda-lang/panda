@@ -16,6 +16,8 @@
 
 package org.panda_lang.framework.design.architecture.module;
 
+import org.panda_lang.utilities.commons.StreamUtils;
+
 import java.util.Collection;
 import java.util.Optional;
 
@@ -25,9 +27,26 @@ public interface Modules {
      * Add module
      *
      * @param module the module to add
-     * @return the module instance
      */
-    Module include(Module module);
+    void include(Module module);
+
+    /**
+     * Count used prototypes
+     *
+     * @return the amount of used prototypes
+     */
+    default int countUsedPrototypes() {
+        return StreamUtils.sum(getModules(), Module::countUsedPrototypes);
+    }
+
+    /**
+     * Count all available references
+     *
+     * @return the amount of references
+     */
+    default int countReferences() {
+        return StreamUtils.sum(getModules(), Module::countReferences);
+    }
 
     /**
      * Get module with the given name
@@ -36,6 +55,13 @@ public interface Modules {
      * @return the module
      */
     Optional<Module> get(String moduleQualifier);
+
+    /**
+     * Get all names of modules
+     *
+     * @return the all names
+     */
+    Collection<? extends String> getNames();
 
     /**
      * Get all submodules

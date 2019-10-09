@@ -29,9 +29,8 @@ abstract class PandaModules implements Modules {
     protected final Map<String, Module> modules = new HashMap<>();
 
     @Override
-    public Module include(Module module) {
+    public void include(Module module) {
         modules.put(module.getName(), module);
-        return module;
     }
 
     @Override
@@ -43,6 +42,12 @@ abstract class PandaModules implements Modules {
         return PandaModulesUtils.fetch(this, moduleQualifier, false);
     }
 
+    @Override
+    public Collection<? extends String> getNames() {
+        return modules.keySet();
+    }
+
+    @Override
     public Collection<? extends Module> getModules() {
         return modules.values();
     }

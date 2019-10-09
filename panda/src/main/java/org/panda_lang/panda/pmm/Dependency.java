@@ -36,10 +36,6 @@ final class Dependency {
         return address;
     }
 
-    protected String getDirectoryName() {
-        return getName() + "-" + getVersion();
-    }
-
     protected String getVersion() {
         return version;
     }

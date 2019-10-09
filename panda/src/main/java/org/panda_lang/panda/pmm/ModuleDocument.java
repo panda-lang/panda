@@ -64,6 +64,10 @@ final class ModuleDocument {
         return content.getString("name", null);
     }
 
+    protected File getModulesDirectory() {
+        return new File(getDocument().getParent(), "panda_modules");
+    }
+
     protected File getDocument() {
         return document;
     }

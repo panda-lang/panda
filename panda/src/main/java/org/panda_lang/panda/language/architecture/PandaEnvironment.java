@@ -85,4 +85,8 @@ public class PandaEnvironment implements Environment {
         return workingDirectory;
     }
 
+    public Panda getPanda() {
+        return panda;
+    }
+
 }
