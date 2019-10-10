@@ -16,8 +16,6 @@
 
 package org.panda_lang.utilities.commons;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -29,10 +27,11 @@ public final class ZipUtils {
 
     private static final int  BUFFER_SIZE = 4096;
 
+    private ZipUtils() { }
+
     public static void extract(ZipInputStream zip, File target) throws IOException {
         try {
             ZipEntry entry;
-            String name, dir;
 
             while ((entry = zip.getNextEntry()) != null) {
                 File file = new File(target, entry.getName());
@@ -41,55 +40,25 @@ public final class ZipUtils {
                     throw new IOException("Bad zip entry");
                 }
 
-                name = entry.getName();
-
                 if (entry.isDirectory()) {
-                    mkdirs(target, name);
+                    file.mkdirs();
                     continue;
                 }
 
-                /* this part is necessary because file entry can come before
-                 * directory entry where is file located
-                 * i.e.:
-                 *   /foo/foo.txt
-                 *   /foo/
-                 */
-                dir = part(name);
+                byte[] buffer = new byte[BUFFER_SIZE];
+                file.getParentFile().mkdirs();
+                BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
+                int count;
 
-                if (dir != null) {
-                    mkdirs(target, dir);
+                while ((count = zip.read(buffer)) != -1) {
+                    out.write(buffer, 0, count);
                 }
 
-                extractFile(zip, target, name);
+                out.close();
             }
         } finally {
             zip.close();
         }
-    }
-
-    private static void extractFile(ZipInputStream zip, File target, String name) throws IOException{
-        byte[] buffer = new byte[BUFFER_SIZE];
-        BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(new File(target,name)));
-        int count;
-
-        while ((count = zip.read(buffer)) != -1) {
-            out.write(buffer, 0, count);
-        }
-
-        out.close();
-    }
-
-    private static void mkdirs(File target, String path) {
-        File d = new File(target, path);
-
-        if (!d.exists()) {
-            d.mkdirs();
-        }
-    }
-
-    private static @Nullable String part(String name) {
-        int s = name.lastIndexOf( File.separatorChar );
-        return s == -1 ? null : name.substring( 0, s );
     }
 
 }
