@@ -1,4 +1,4 @@
-module panda-module-manager-test
+module panda-module-manager
 
 require panda-dependency
 
