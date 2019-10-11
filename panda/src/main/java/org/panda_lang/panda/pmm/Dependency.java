@@ -50,7 +50,7 @@ final class Dependency {
 
     @Override
     public String toString() {
-        return scope + "/" + name + " (" + address + ")";
+        return scope + "/" + name + "@" + version;
     }
 
     protected static Dependency parseDependency(String qualifier) {

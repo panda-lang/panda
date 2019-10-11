@@ -20,7 +20,9 @@ import org.hjson.JsonObject;
 import org.hjson.JsonValue;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 final class ModuleDocument {
@@ -34,17 +36,25 @@ final class ModuleDocument {
     }
 
     private List<? extends String> getList(String name) {
-        return content.get(name).asArray().values().stream()
-                .map(JsonValue::asString)
+        return Optional.ofNullable(content.get(name))
+                .map(object -> object.asArray().values().stream()
+                        .map(JsonValue::asString)
+                        .collect(Collectors.toList()))
+                .orElseGet(ArrayList::new);
+    }
+
+    private List<Dependency> getDependencies(String name) {
+        return getList(name).stream()
+                .map(Dependency::parseDependency)
                 .collect(Collectors.toList());
     }
 
-    protected List<? extends String> getTestsDependencies() {
-        return getList("tests-dependencies");
+    protected List<Dependency> getTestsDependencies() {
+        return getDependencies("tests-dependencies");
     }
 
-    protected List<? extends String> getDependencies() {
-        return getList("dependencies");
+    protected List<Dependency> getDependencies() {
+        return getDependencies("dependencies");
     }
 
     protected String getMainScript() {

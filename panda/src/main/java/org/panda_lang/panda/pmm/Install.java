@@ -16,8 +16,6 @@
 
 package org.panda_lang.panda.pmm;
 
-import org.hjson.JsonObject;
-import org.hjson.JsonValue;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerLevel;
 import org.panda_lang.utilities.commons.FileUtils;
@@ -29,7 +27,10 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -53,10 +54,17 @@ final class Install implements ThrowingRunnable<IOException> {
         }
 
         Map<String, InstallStatus> statusMap = new HashMap<>();
+        Collection<Dependency> dependencies = new ArrayList<>(document.getDependencies());
 
-        for (String dependencyQualifier : document.getDependencies()) {
-            Dependency dependency = Dependency.parseDependency(dependencyQualifier);
-            statusMap.put(dependency.getName(), install(pandaModules, dependency));
+        while (!dependencies.isEmpty()) {
+            List<Dependency> dependenciesToLoad = new ArrayList<>();
+
+            for (Dependency dependency : dependencies) {
+                statusMap.put(dependency.getName(), install(pandaModules, dependency, dependenciesToLoad));
+            }
+
+            dependencies.clear();
+            dependencies.addAll(dependenciesToLoad);
         }
 
         File[] allModules = Objects.requireNonNull(pandaModules.listFiles());
@@ -70,21 +78,21 @@ final class Install implements ThrowingRunnable<IOException> {
         }
     }
 
-    private InstallStatus install(File pandaModules, Dependency dependency) throws IOException {
+    private InstallStatus install(File pandaModules, Dependency dependency, Collection<Dependency> dependenciesToLoad) throws IOException {
         File scopeDirectory = new File(pandaModules, dependency.getScope());
         scopeDirectory.mkdir();
+
         File moduleDirectory = new File(scopeDirectory, dependency.getName());
+        File moduleInfoFile = new File(moduleDirectory, "panda.hjson");
 
         if (moduleDirectory.exists()) {
-            File moduleInfoFile = new File(moduleDirectory, "panda.hjson");
-
             if (!moduleInfoFile.exists()) {
                 throw new PandaFrameworkException("Invalid module " + dependency.getName());
             }
 
-            JsonObject moduleInfo = JsonValue.readHjson(FileUtils.getContentOfFile(moduleInfoFile)).asObject();
+            ModuleDocument moduleInfo = new ModuleDocumentFile(moduleInfoFile).getContent();
 
-            if (dependency.getVersion().equals(moduleInfo.getString("version", null))) {
+            if (dependency.getVersion().equals(moduleInfo.getVersion())) {
                 return InstallStatus.SKIPPED;
             }
 
@@ -100,6 +108,9 @@ final class Install implements ThrowingRunnable<IOException> {
 
             File extractedModule = new File(scopeDirectory, dependency.getName() + "-" + dependency.getVersion());
             extractedModule.renameTo(moduleDirectory);
+
+            ModuleDocument moduleInfo = new ModuleDocumentFile(moduleInfoFile).getContent();
+            dependenciesToLoad.addAll(moduleInfo.getDependencies());
 
             return InstallStatus.INSTALLED;
         } finally {
