@@ -37,10 +37,11 @@ class ModuleDocumentTest {
                         "main: app.panda\n" +
                     "}\n" +
                     "dependencies: [\n" +
-                        "owner-one/dependency-one\n" +
+                        "github:owner-one/dependency-one@1.0.0\n" +
+                        "github:owner-three/dependency-three@1.0.0\n" +
                     "]\n" +
                     "tests-dependencies: [\n" +
-                        "owner-two/dependency-two\n" +
+                        "github:owner-two/dependency-two@1.0.0\n" +
                     "]\n";
 
         document = new ModuleDocument(new File("."), JsonValue.readHjson(value).asObject());
@@ -48,12 +49,12 @@ class ModuleDocumentTest {
 
     @Test
     void getTestsDependencies() {
-        Assertions.assertEquals("[owner-two/dependency-two]", document.getTestsDependencies().toString());
+        Assertions.assertEquals("[owner-two/dependency-two@1.0.0]", document.getTestsDependencies().toString());
     }
 
     @Test
     void getDependencies() {
-        Assertions.assertEquals("[owner-one/dependency-one]", document.getDependencies().toString());
+        Assertions.assertEquals("[owner-one/dependency-one@1.0.0, owner-three/dependency-three@1.0.0]", document.getDependencies().toString());
     }
 
     @Test
