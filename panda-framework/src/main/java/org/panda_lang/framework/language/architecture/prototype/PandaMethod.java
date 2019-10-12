@@ -19,7 +19,7 @@ package org.panda_lang.framework.language.architecture.prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 
-public class PandaMethod extends PandaPrototypeExecutable implements PrototypeMethod {
+public class PandaMethod extends PandaExecutableProperty implements PrototypeMethod {
 
     private final PrototypeExecutableCallback methodBody;
     private final boolean isStatic;
@@ -50,7 +50,7 @@ public class PandaMethod extends PandaPrototypeExecutable implements PrototypeMe
         return new PandaMethodBuilder();
     }
 
-    public static class PandaMethodBuilder extends PandaPrototypeExecutable.PandaParametrizedExecutableBuilder<PandaMethodBuilder> {
+    public static class PandaMethodBuilder extends PandaExecutableProperty.PandaParametrizedExecutableBuilder<PandaMethodBuilder> {
 
         protected PrototypeExecutableCallback methodBody;
         protected boolean isStatic;

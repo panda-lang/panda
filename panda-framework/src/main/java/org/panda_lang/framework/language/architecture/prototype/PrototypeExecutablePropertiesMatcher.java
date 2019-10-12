@@ -22,7 +22,7 @@ import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
 import org.panda_lang.framework.design.architecture.parameter.Arguments;
 import org.panda_lang.framework.design.architecture.parameter.Parameter;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeExecutable;
+import org.panda_lang.framework.design.architecture.prototype.ExecutableProperty;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.expression.AbstractDynamicExpression;
@@ -33,7 +33,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-final class PrototypeExecutablePropertiesMatcher<T extends PrototypeExecutable> {
+final class PrototypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
 
     public Optional<Arguments<T>> match(Collection<T> collection, Prototype[] requiredTypes, @Nullable Expression[] arguments) {
         for (T executable : collection) {
@@ -147,7 +147,7 @@ final class PrototypeExecutablePropertiesMatcher<T extends PrototypeExecutable> 
         return new ResultArguments<>(executable, fixedArguments);
     }
 
-    public static final class ResultArguments<R extends PrototypeExecutable> implements Arguments<R> {
+    public static final class ResultArguments<R extends ExecutableProperty> implements Arguments<R> {
 
         private final R executable;
         private final Expression[] arguments;

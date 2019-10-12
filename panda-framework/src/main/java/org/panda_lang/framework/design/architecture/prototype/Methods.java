@@ -22,7 +22,7 @@ import org.panda_lang.framework.design.architecture.expression.Expression;
 import java.util.Collection;
 import java.util.Optional;
 
-public interface Methods extends Declarations<PrototypeMethod> {
+public interface Methods extends Properties<PrototypeMethod> {
 
     /**
      * Check if the prototype has method with the given name

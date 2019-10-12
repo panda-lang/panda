@@ -18,7 +18,7 @@ package org.panda_lang.framework.design.architecture.prototype;
 
 import java.util.List;
 
-public interface Declarations<T extends PrototypeExecutable> {
+public interface Properties<T extends ExecutableProperty> {
 
     /**
      * Declare a new property

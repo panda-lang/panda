@@ -18,7 +18,7 @@ package org.panda_lang.framework.design.architecture.prototype;
 
 import org.jetbrains.annotations.Nullable;
 
-public interface Fields extends Declarations<PrototypeField> {
+public interface Fields extends Properties<PrototypeField> {
 
     int getIndexOfField(PrototypeField field);
 

@@ -28,7 +28,7 @@ import org.panda_lang.framework.language.architecture.statement.ParametrizedFram
 import java.lang.reflect.Constructor;
 import java.util.List;
 
-public class PandaConstructor extends PandaPrototypeExecutable implements PrototypeConstructor {
+public class PandaConstructor extends PandaExecutableProperty implements PrototypeConstructor {
 
     private PandaConstructor(PandaConstructorBuilder builder) {
         super(builder);

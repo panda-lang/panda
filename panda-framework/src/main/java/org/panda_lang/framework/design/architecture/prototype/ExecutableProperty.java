@@ -22,7 +22,7 @@ import org.panda_lang.framework.design.runtime.ProcessStack;
 /**
  * PrototypeExecutable is equivalent to {@link java.lang.reflect.Executable}
  */
-public interface PrototypeExecutable extends Property {
+public interface ExecutableProperty extends Property {
 
     /**
      * Invoke the executable

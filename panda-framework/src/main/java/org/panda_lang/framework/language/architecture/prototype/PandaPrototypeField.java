@@ -19,7 +19,7 @@ package org.panda_lang.framework.language.architecture.prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 
-public class PandaPrototypeField extends PandaPrototypeExecutable implements PrototypeField {
+public class PandaPrototypeField extends PandaExecutableProperty implements PrototypeField {
 
     private final int fieldIndex;
     private final boolean isStatic;
@@ -111,7 +111,7 @@ public class PandaPrototypeField extends PandaPrototypeExecutable implements Pro
         return new PandaPrototypeFieldBuilder();
     }
 
-    public static class PandaPrototypeFieldBuilder extends PandaPrototypeExecutable.PandaParametrizedExecutableBuilder<PandaPrototypeFieldBuilder> {
+    public static class PandaPrototypeFieldBuilder extends PandaExecutableProperty.PandaParametrizedExecutableBuilder<PandaPrototypeFieldBuilder> {
 
         protected int fieldIndex;
         protected boolean isStatic;

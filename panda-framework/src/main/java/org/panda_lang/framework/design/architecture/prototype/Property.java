@@ -18,6 +18,9 @@ package org.panda_lang.framework.design.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.module.Module;
 
+/**
+ * Element of property
+ */
 public interface Property {
 
     /**

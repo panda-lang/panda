@@ -21,19 +21,32 @@ import org.panda_lang.framework.design.interpreter.source.Source;
 
 import java.util.Collection;
 
-public interface Metadata extends Property {
+public interface Declaration extends Property {
 
+    /**
+     * Get reference to the array type of this type
+     *
+     * @param moduleLoader
+     * @return the reference to array type
+     */
     Reference toArray(ModuleLoader moduleLoader);
 
-    Metadata addExtended(Reference reference);
+    /**
+     * Inherit the given reference
+     *
+     * @param reference the reference to inherit from
+     */
+    void addSuper(Reference reference);
 
     boolean isClassOf(String className);
 
-    boolean isAssignableFrom(Metadata prototype);
+    boolean isAssignableFrom(Declaration prototype);
 
-    Collection<? extends Reference> getExtended();
+    Collection<? extends Reference> getSupers();
 
     Class<?> getAssociatedClass();
+
+    State getState();
 
     Source getSource();
 

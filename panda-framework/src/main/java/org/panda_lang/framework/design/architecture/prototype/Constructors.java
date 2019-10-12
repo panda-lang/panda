@@ -21,10 +21,10 @@ import org.panda_lang.framework.design.architecture.expression.Expression;
 
 import java.util.Optional;
 
-public interface Constructors extends Declarations<PrototypeConstructor> {
+public interface Constructors extends Properties<PrototypeConstructor> {
 
     /**
-     * Adjust property to the given arguments
+     * Adjust property to the given arguments (with varargs support)
      *
      * @param arguments arguments to match and adjust
      * @return the adjusted executable

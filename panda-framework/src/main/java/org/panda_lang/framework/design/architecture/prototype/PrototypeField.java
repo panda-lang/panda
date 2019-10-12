@@ -19,7 +19,7 @@ package org.panda_lang.framework.design.architecture.prototype;
 import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 
-public interface PrototypeField extends PrototypeExecutable, Variable {
+public interface PrototypeField extends ExecutableProperty, Variable {
 
     void setDefaultValue(Expression defaultValue);
 

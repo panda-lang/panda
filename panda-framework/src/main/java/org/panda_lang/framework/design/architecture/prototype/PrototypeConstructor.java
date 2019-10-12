@@ -16,6 +16,6 @@
 
 package org.panda_lang.framework.design.architecture.prototype;
 
-public interface PrototypeConstructor extends PrototypeExecutable {
+public interface PrototypeConstructor extends ExecutableProperty {
 
 }

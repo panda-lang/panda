@@ -99,7 +99,7 @@ public final class PrototypeParser extends ParserBootstrap {
                 .visibility(visibility)
                 .build();
 
-        prototype.addExtended(JavaModule.OBJECT.getReference());
+        prototype.addSuper(JavaModule.OBJECT.getReference());
         module.add(className, prototype.getAssociatedClass(), prototype::getReference);
         PrototypeScope scope = new PrototypeScope(location, prototype);
 
