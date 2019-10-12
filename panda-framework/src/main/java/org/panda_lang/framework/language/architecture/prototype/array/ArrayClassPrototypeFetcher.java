@@ -18,7 +18,7 @@ package org.panda_lang.framework.language.architecture.prototype.array;
 
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.prototype.Metadata;
+import org.panda_lang.framework.design.architecture.prototype.Declaration;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.StringUtils;
@@ -57,7 +57,7 @@ public class ArrayClassPrototypeFetcher {
         return Optional.of(array);
     }
 
-    public static Reference getArrayOf(Module module, Metadata prototype, int dimensions) {
+    public static Reference getArrayOf(Module module, Declaration prototype, int dimensions) {
         Class<?> arrayType = ArrayUtils.getDimensionalArrayType(prototype.getAssociatedClass(), dimensions);
         Class<?> arrayClass = ArrayUtils.getArrayClass(arrayType);
 

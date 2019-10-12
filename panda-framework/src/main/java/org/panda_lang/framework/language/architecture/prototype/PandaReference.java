@@ -22,14 +22,14 @@ import org.panda_lang.framework.design.architecture.prototype.Reference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PandaReference extends AbstractPrototypeMetadata implements Reference {
+public class PandaReference extends AbstractPrototypeDeclaration implements Reference {
 
     private final Prototype prototype;
     private final List<Runnable> initializers = new ArrayList<>(1);
     private boolean initialized;
 
     protected PandaReference(Prototype prototype) {
-        super(prototype.getName(), prototype.getModule(), prototype.getSource(), prototype.getAssociatedClass(), prototype.getVisibility());
+        super(prototype.getName(), prototype.getModule(), prototype.getSource(), prototype.getAssociatedClass(), prototype.getState(), prototype.getVisibility());
         this.prototype = prototype;
     }
 

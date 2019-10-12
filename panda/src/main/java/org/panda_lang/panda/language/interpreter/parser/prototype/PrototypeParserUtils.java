@@ -69,7 +69,7 @@ final class PrototypeParserUtils {
                 Optional<Reference> extendedPrototype = loader.forName(classNameToken.getValue());
 
                 if (extendedPrototype.isPresent()) {
-                    prototype.addExtended(extendedPrototype.get());
+                    prototype.addSuper(extendedPrototype.get());
                     continue;
                 }
 

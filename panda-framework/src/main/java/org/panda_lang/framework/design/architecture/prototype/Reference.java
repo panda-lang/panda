@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.design.architecture.prototype;
 
-public interface Reference extends Metadata {
+public interface Reference extends Declaration {
 
     Prototype fetch();
 

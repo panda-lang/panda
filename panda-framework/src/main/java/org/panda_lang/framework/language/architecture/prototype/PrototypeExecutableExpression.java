@@ -22,12 +22,12 @@ import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
 import org.panda_lang.framework.design.architecture.expression.ExpressionValueType;
 import org.panda_lang.framework.design.architecture.parameter.Arguments;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeExecutable;
+import org.panda_lang.framework.design.architecture.prototype.ExecutableProperty;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 
 public final class PrototypeExecutableExpression implements Expression {
 
-    private final PrototypeExecutable executable;
+    private final ExecutableProperty executable;
     private final Expression instanceExpression;
     private final Expression[] arguments;
 
@@ -35,7 +35,7 @@ public final class PrototypeExecutableExpression implements Expression {
         this(instance, arguments.getExecutable(), arguments.getArguments());
     }
 
-    public PrototypeExecutableExpression(@Nullable Expression instance, PrototypeExecutable executable, Expression[] arguments) {
+    public PrototypeExecutableExpression(@Nullable Expression instance, ExecutableProperty executable, Expression[] arguments) {
         this.executable = executable;
         this.instanceExpression = instance;
         this.arguments = arguments;

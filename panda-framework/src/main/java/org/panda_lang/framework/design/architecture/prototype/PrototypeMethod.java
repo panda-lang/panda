@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.design.architecture.prototype;
 
-public interface PrototypeMethod extends PrototypeExecutable {
+public interface PrototypeMethod extends ExecutableProperty {
 
     /**
      * Check if method is static

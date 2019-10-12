@@ -18,7 +18,7 @@ package org.panda_lang.framework.language.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeExecutable;
+import org.panda_lang.framework.design.architecture.prototype.ExecutableProperty;
 import org.panda_lang.framework.design.architecture.parameter.Parameter;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.parameter.ParameterUtils;
@@ -26,7 +26,7 @@ import org.panda_lang.framework.language.architecture.parameter.ParameterUtils;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class PandaPrototypeExecutable implements PrototypeExecutable {
+public abstract class PandaExecutableProperty implements ExecutableProperty {
 
     private final String name;
     private final Parameter[] parameters;
@@ -35,7 +35,7 @@ public abstract class PandaPrototypeExecutable implements PrototypeExecutable {
     private final Reference prototype;
     private final PrototypeExecutableCallback callback;
 
-    protected PandaPrototypeExecutable(PandaParametrizedExecutableBuilder builder) {
+    protected PandaExecutableProperty(PandaParametrizedExecutableBuilder builder) {
         this.name = builder.name;
         this.parameters = builder.parameters;
         this.returnType = builder.returnType;

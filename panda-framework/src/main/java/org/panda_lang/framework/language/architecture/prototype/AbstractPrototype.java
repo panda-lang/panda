@@ -19,6 +19,7 @@ package org.panda_lang.framework.language.architecture.prototype;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.Constructors;
 import org.panda_lang.framework.design.architecture.prototype.Fields;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
-abstract class AbstractPrototype extends AbstractPrototypeMetadata implements Prototype {
+abstract class AbstractPrototype extends AbstractPrototypeDeclaration implements Prototype {
 
     protected final Reference reference = new PandaReference(this);
     protected final Collection<Reference> extended = new ArrayList<>(1);
@@ -38,8 +39,8 @@ abstract class AbstractPrototype extends AbstractPrototypeMetadata implements Pr
     protected final Fields fields = new PandaFields();
     protected final Methods methods = new PandaMethods();
 
-    public AbstractPrototype(Module module, String name, Source source, Class<?> associated, Visibility visibility) {
-        super(name, module, source, associated, visibility);
+    public AbstractPrototype(Module module, String name, Source source, Class<?> associated, State state, Visibility visibility) {
+        super(name, module, source, associated, state, visibility);
     }
 
     @Override
