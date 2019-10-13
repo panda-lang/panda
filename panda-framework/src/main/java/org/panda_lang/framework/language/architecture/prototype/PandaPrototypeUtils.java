@@ -18,6 +18,7 @@ package org.panda_lang.framework.language.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.language.architecture.prototype.generator.PrototypeGeneratorManager;
 import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
@@ -45,6 +46,7 @@ public final class PandaPrototypeUtils {
                 .module(module)
                 .source(new PandaClassSource(type))
                 .associated(type)
+                .state(State.of(type))
                 .visibility(Visibility.PUBLIC)
                 .build();
 

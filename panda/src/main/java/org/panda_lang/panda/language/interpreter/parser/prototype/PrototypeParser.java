@@ -21,6 +21,7 @@ import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
+import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
@@ -96,6 +97,7 @@ public final class PrototypeParser extends ParserBootstrap {
                 .module(module)
                 .source(location.getSource())
                 .associated(GENERATOR.generateType(className))
+                .state(State.DEFAULT)
                 .visibility(visibility)
                 .build();
 
