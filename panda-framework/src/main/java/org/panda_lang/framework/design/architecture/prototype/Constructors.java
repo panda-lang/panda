@@ -31,6 +31,12 @@ public interface Constructors extends Properties<PrototypeConstructor> {
      */
     Optional<Arguments<PrototypeConstructor>> getAdjustedConstructor(Expression[] arguments);
 
+    /**
+     * Get constructor that fits to the given types
+     *
+     * @param types types to search for
+     * @return the result constructor
+     */
     Optional<PrototypeConstructor> getConstructor(Prototype[] types);
 
 }

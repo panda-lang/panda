@@ -50,7 +50,7 @@ public class PrototypeScope extends AbstractFramedScope implements FramedScope {
             }
 
             Expression expression = field.getDefaultValue();
-            classInstance.set(field.getFieldIndex(), expression.evaluate(stack, classInstance));
+            classInstance.set(field.getPointer(), expression.evaluate(stack, classInstance));
         }
 
         return classInstance;

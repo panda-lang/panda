@@ -16,12 +16,12 @@
 
 package org.panda_lang.framework.language.architecture.prototype;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.prototype.Fields;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 final class PandaFields implements Fields {
 
@@ -33,30 +33,25 @@ final class PandaFields implements Fields {
     }
 
     @Override
-    public int getIndexOfField(PrototypeField field) {
-        return fields.indexOf(field);
-    }
-
-    @Override
-    public @Nullable PrototypeField getField(int fieldId) {
+    public Optional<PrototypeField> getField(int index) {
         for (PrototypeField field : fields) {
-            if (field.getFieldIndex() == fieldId) {
-                return field;
+            if (field.getPointer() == index) {
+                return Optional.of(field);
             }
         }
 
-        return null;
+        return Optional.empty();
     }
 
     @Override
-    public @Nullable PrototypeField getField(String fieldName) {
+    public Optional<PrototypeField> getField(String name) {
         for (PrototypeField field : fields) {
-            if (field.getName().equals(fieldName)) {
-                return field;
+            if (field.getName().equals(name)) {
+                return Optional.of(field);
             }
         }
 
-        return null;
+        return Optional.empty();
     }
 
     @Override

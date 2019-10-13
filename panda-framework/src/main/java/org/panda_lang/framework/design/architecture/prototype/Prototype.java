@@ -18,14 +18,39 @@ package org.panda_lang.framework.design.architecture.prototype;
 
 public interface Prototype extends Type {
 
+    /**
+     * Check if the prototype represents array type
+     *
+     * @return true if the prototype represents array type, otherwise false
+     */
     boolean isArray();
 
+    /**
+     * Get methods that belongs to the prototype
+     *
+     * @return the methods
+     */
     Methods getMethods();
 
+    /**
+     * Get fields that belongs to the prototype
+     *
+     * @return the fields
+     */
     Fields getFields();
 
+    /**
+     * Get constructors that belongs to the prototype
+     *
+     * @return the constructors
+     */
     Constructors getConstructors();
 
+    /**
+     * Get the reference to this prototype
+     *
+     * @return the associated reference
+     */
     Reference getReference();
 
 }

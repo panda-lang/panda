@@ -21,11 +21,11 @@ import org.panda_lang.framework.design.architecture.prototype.PropertyFrame;
 import org.panda_lang.framework.design.architecture.statement.FramedScope;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractFrame;
 
-public class ParametrizedFrame<T extends FramedScope>  extends AbstractFrame<T> implements PropertyFrame {
+public class PandaPropertyFrame<T extends FramedScope>  extends AbstractFrame<T> implements PropertyFrame {
 
     private final Frame instance;
 
-    public ParametrizedFrame(T frame, Frame instance) {
+    public PandaPropertyFrame(T frame, Frame instance) {
         super(frame);
         this.instance = instance;
     }

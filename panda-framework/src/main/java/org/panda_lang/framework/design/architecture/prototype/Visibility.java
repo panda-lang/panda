@@ -16,10 +16,22 @@
 
 package org.panda_lang.framework.design.architecture.prototype;
 
+/**
+ * Visibility of prototype
+ */
 public enum Visibility {
 
+    /**
+     * May be accessed anywhere
+     */
     PUBLIC(0),
+    /**
+     * May be accessed from the associated module and its submodules
+     */
     SHARED(1),
+    /**
+     * May be accessed only from the same source file
+     */
     LOCAL(2);
 
     private final int modifier;
@@ -28,6 +40,11 @@ public enum Visibility {
         this.modifier = modifier;
     }
 
+    /**
+     * Numeric representation of visibility
+     *
+     * @return get modifier
+     */
     public int getModifier() {
         return modifier;
     }

@@ -20,6 +20,11 @@ import org.panda_lang.framework.design.architecture.dynamic.Frame;
 
 public interface PropertyFrame extends Frame {
 
+    /**
+     * Get the prototype instance of the current property
+     *
+     * @return the instance
+     */
     Frame getInstance();
 
 }
