@@ -21,6 +21,9 @@ import org.panda_lang.framework.design.interpreter.source.Source;
 
 import java.util.Collection;
 
+/**
+ * Basic set of data about type
+ */
 public interface Type extends Property {
 
     /**

@@ -101,17 +101,17 @@ public final class VariableExpressionSubparser implements ExpressionSubparser {
 
         private Optional<ExpressionResult> fromInstance(ExpressionContext context, Expression instance, TokenRepresentation name) {
             Prototype prototype = instance.getReturnType();
-            PrototypeField field = prototype.getFields().getField(name.getValue());
+            Optional<PrototypeField> fieldValue = prototype.getFields().getField(name.getValue());
 
-            if (field != null) {
-                Optional<String> issue = VisibilityComparator.canAccess(field, context.getContext());
+            if (fieldValue.isPresent()) {
+                Optional<String> issue = VisibilityComparator.canAccess(fieldValue.get(), context.getContext());
 
                 if (issue.isPresent()) {
                     throw new PandaExpressionParserFailure(context, name, issue.get(), VisibilityComparator.NOTE_MESSAGE);
                 }
             }
 
-            return Optional.ofNullable(field).map(property -> ExpressionResult.of(new FieldExpression(instance, field).toExpression()));
+            return fieldValue.map(property -> ExpressionResult.of(new FieldExpression(instance, property).toExpression()));
         }
 
     }

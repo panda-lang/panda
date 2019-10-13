@@ -16,10 +16,22 @@
 
 package org.panda_lang.framework.design.architecture.prototype;
 
+/**
+ * State of prototype
+ */
 public enum State {
 
+    /**
+     * Prototype cannot be instantiated but can be extended
+     */
     ABSTRACT,
+    /**
+     * Prototype can be instantiated and can be extended
+     */
     MUTABLE,
+    /**
+     * Prototype can be instantiated but can't be extended
+     */
     IMMUTABLE
 
 }

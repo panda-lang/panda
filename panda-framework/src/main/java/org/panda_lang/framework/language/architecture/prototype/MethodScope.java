@@ -20,12 +20,12 @@ import org.panda_lang.framework.design.architecture.dynamic.Frame;
 import org.panda_lang.framework.design.architecture.parameter.Parameter;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.language.architecture.statement.ParametrizedAbstractScope;
-import org.panda_lang.framework.language.architecture.statement.ParametrizedFrame;
+import org.panda_lang.framework.language.architecture.statement.AbstractPropertyFramedScope;
+import org.panda_lang.framework.language.architecture.statement.PandaPropertyFrame;
 
 import java.util.List;
 
-public class MethodScope extends ParametrizedAbstractScope {
+public class MethodScope extends AbstractPropertyFramedScope {
 
     public MethodScope(SourceLocation location, List<Parameter> parameters) {
         super(location, parameters);
@@ -36,7 +36,7 @@ public class MethodScope extends ParametrizedAbstractScope {
         return new MethodFrame(this, (Frame) instance);
     }
 
-    public static class MethodFrame extends ParametrizedFrame<MethodScope> {
+    public static class MethodFrame extends PandaPropertyFrame<MethodScope> {
 
         public MethodFrame(MethodScope method, Frame instance) {
             super(method, instance);

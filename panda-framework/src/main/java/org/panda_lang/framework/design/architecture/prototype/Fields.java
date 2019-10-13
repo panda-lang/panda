@@ -16,14 +16,24 @@
 
 package org.panda_lang.framework.design.architecture.prototype;
 
-import org.jetbrains.annotations.Nullable;
+import java.util.Optional;
 
 public interface Fields extends Properties<PrototypeField> {
 
-    int getIndexOfField(PrototypeField field);
+    /**
+     * Get field at the given position
+     *
+     * @param index the position to search for
+     * @return the result field
+     */
+    Optional<PrototypeField> getField(int index);
 
-    @Nullable PrototypeField getField(int fieldId);
-
-    @Nullable PrototypeField getField(String fieldName);
+    /**
+     * Get field with the given name
+     *
+     * @param name the name to search for
+     * @return the result field
+     */
+    Optional<PrototypeField> getField(String name);
 
 }

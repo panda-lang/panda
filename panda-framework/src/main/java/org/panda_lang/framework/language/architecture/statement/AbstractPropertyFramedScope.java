@@ -23,11 +23,11 @@ import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ParametrizedAbstractScope extends AbstractFramedScope {
+public abstract class AbstractPropertyFramedScope extends AbstractFramedScope {
 
     protected final List<Parameter> parameters;
 
-    public ParametrizedAbstractScope(SourceLocation location, List<Parameter> parameters) {
+    public AbstractPropertyFramedScope(SourceLocation location, List<Parameter> parameters) {
         super(location);
         this.parameters = parameters;
         addParameters(parameters);

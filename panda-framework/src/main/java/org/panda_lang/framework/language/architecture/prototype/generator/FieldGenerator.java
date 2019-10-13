@@ -51,6 +51,7 @@ final class FieldGenerator {
                 .fieldIndex(prototype.getFields().getProperties().size())
                 .name(field.getName())
                 .isStatic(Modifier.isStatic(field.getModifiers()))
+                .isNative(true)
                 .mutable(true)
                 .nillable(true)
                 .build();

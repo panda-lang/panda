@@ -22,8 +22,8 @@ import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.language.architecture.statement.ParametrizedAbstractScope;
-import org.panda_lang.framework.language.architecture.statement.ParametrizedFrame;
+import org.panda_lang.framework.language.architecture.statement.AbstractPropertyFramedScope;
+import org.panda_lang.framework.language.architecture.statement.PandaPropertyFrame;
 
 import java.lang.reflect.Constructor;
 import java.util.List;
@@ -57,7 +57,7 @@ public class PandaConstructor extends PandaExecutableProperty implements Prototy
 
     }
 
-    public static class PandaConstructorScope extends ParametrizedAbstractScope {
+    public static class PandaConstructorScope extends AbstractPropertyFramedScope {
 
         public PandaConstructorScope(SourceLocation location, List<Parameter> parameters) {
             super(location, parameters);
@@ -74,7 +74,7 @@ public class PandaConstructor extends PandaExecutableProperty implements Prototy
 
     }
 
-    public static class ConstructorFrame extends ParametrizedFrame<PandaConstructorScope> {
+    public static class ConstructorFrame extends PandaPropertyFrame<PandaConstructorScope> {
 
         public ConstructorFrame(PandaConstructorScope scope, Frame instance) {
             super(scope, instance);

@@ -24,7 +24,7 @@ import org.panda_lang.framework.language.architecture.dynamic.assigner.Assigner;
 public class FieldAccessor extends AbstractAccessor<PrototypeField> {
 
     public FieldAccessor(Expression instance, PrototypeField field) {
-        super(new FieldAccessorFunction(instance), field, field.getFieldIndex());
+        super(new FieldAccessorFunction(instance), field, field.getPointer());
     }
 
     @Override
