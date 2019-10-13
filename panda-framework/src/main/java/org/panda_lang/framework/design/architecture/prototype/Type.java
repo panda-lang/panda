@@ -21,12 +21,12 @@ import org.panda_lang.framework.design.interpreter.source.Source;
 
 import java.util.Collection;
 
-public interface Declaration extends Property {
+public interface Type extends Property {
 
     /**
      * Get reference to the array type of this type
      *
-     * @param moduleLoader
+     * @param moduleLoader the loader to use
      * @return the reference to array type
      */
     Reference toArray(ModuleLoader moduleLoader);
@@ -38,16 +38,40 @@ public interface Declaration extends Property {
      */
     void addSuper(Reference reference);
 
-    boolean isClassOf(String className);
+    /**
+     * Check if current declaration is assignable from the given declaration
+     *
+     * @param type to compare with
+     * @return true if this type is assignable from the given declaration, otherwise false
+     */
+    boolean isAssignableFrom(Type type);
 
-    boolean isAssignableFrom(Declaration prototype);
-
+    /**
+     * Get references to super types
+     *
+     * @return collection of supertypes
+     */
     Collection<? extends Reference> getSupers();
 
-    Class<?> getAssociatedClass();
-
+    /**
+     * Get state of type
+     *
+     * @return the state
+     */
     State getState();
 
+    /**
+     * Get Java class associated with the type
+     *
+     * @return the associated class
+     */
+    Class<?> getAssociatedClass();
+
+    /**
+     * Get source of declaration
+     *
+     * @return the declaration source
+     */
     Source getSource();
 
 }

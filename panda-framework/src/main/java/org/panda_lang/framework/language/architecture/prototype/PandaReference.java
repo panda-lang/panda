@@ -22,7 +22,7 @@ import org.panda_lang.framework.design.architecture.prototype.Reference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PandaReference extends AbstractPrototypeDeclaration implements Reference {
+public class PandaReference extends AbstractPrototypeType implements Reference {
 
     private final Prototype prototype;
     private final List<Runnable> initializers = new ArrayList<>(1);
@@ -34,8 +34,8 @@ public class PandaReference extends AbstractPrototypeDeclaration implements Refe
     }
 
     @Override
-    public Reference addInitializer(Runnable runnable) {
-        initializers.add(runnable);
+    public Reference addInitializer(Runnable initializer) {
+        initializers.add(initializer);
         return this;
     }
 

@@ -18,7 +18,7 @@ package org.panda_lang.framework.language.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.framework.design.architecture.prototype.Declaration;
+import org.panda_lang.framework.design.architecture.prototype.Type;
 import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
@@ -28,7 +28,7 @@ import org.panda_lang.framework.language.architecture.prototype.array.ArrayClass
 import java.util.ArrayList;
 import java.util.Collection;
 
-abstract class AbstractPrototypeDeclaration implements Declaration {
+abstract class AbstractPrototypeType implements Type {
 
     protected final String name;
     protected final Module module;
@@ -38,7 +38,7 @@ abstract class AbstractPrototypeDeclaration implements Declaration {
     protected final Visibility visibility;
     protected final Collection<Reference> supers = new ArrayList<>(1);
 
-    protected AbstractPrototypeDeclaration(String name, Module module, Source source, Class<?> associated, State state, Visibility visibility) {
+    protected AbstractPrototypeType(String name, Module module, Source source, Class<?> associated, State state, Visibility visibility) {
         this.name = name;
         this.module = module;
         this.source = source;
@@ -53,23 +53,14 @@ abstract class AbstractPrototypeDeclaration implements Declaration {
     }
 
     @Override
-    public boolean isClassOf(String className) {
-        if (this.getName().equals(className)) {
+    public boolean isAssignableFrom(Type type) { // this (Panda Class | Java Class) isAssociatedWith
+        if (type == null) {
             return true;
         }
 
-        return this.associated != null && this.associated.getSimpleName().equals(className);
-    }
-
-    @Override
-    public boolean isAssignableFrom(Declaration prototype) { // this (Panda Class | Java Class) isAssociatedWith
-        if (prototype == null) {
-            return true;
-        }
-
-        return prototype.equals(this)
-                || PandaPrototypeUtils.isAssignableFrom(associated, prototype.getAssociatedClass())
-                || PandaPrototypeUtils.hasCommonPrototypes(supers, prototype.getSupers());
+        return type.equals(this)
+                || PandaPrototypeUtils.isAssignableFrom(associated, type.getAssociatedClass())
+                || PandaPrototypeUtils.hasCommonPrototypes(supers, type.getSupers());
     }
 
     @Override

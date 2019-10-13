@@ -25,6 +25,7 @@ import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Result;
 import org.panda_lang.framework.language.architecture.statement.AbstractBlock;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 
 class ConditionalBlock extends AbstractBlock implements ControlledScope {
 
@@ -34,7 +35,7 @@ class ConditionalBlock extends AbstractBlock implements ControlledScope {
     public ConditionalBlock(Scope parent, SourceLocation location, Expression condition) {
         super(parent, location);
 
-        if (!condition.getReturnType().isClassOf("Boolean")) {
+        if (!JavaModule.BOOLEAN.isAssignableFrom(condition.getReturnType())) {
             throw new PandaParserException("Condition has to return boolean");
         }
 
