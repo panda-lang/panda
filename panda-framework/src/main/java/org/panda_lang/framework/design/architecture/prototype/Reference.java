@@ -16,12 +16,31 @@
 
 package org.panda_lang.framework.design.architecture.prototype;
 
-public interface Reference extends Declaration {
+/**
+ * The reference to prototype
+ */
+public interface Reference extends Type {
 
+    /**
+     * Get assigned prototype
+     *
+     * @return the prototype
+     */
     Prototype fetch();
 
-    Reference addInitializer(Runnable runnable);
+    /**
+     * Add initializer to the fetcher. If reference is already initialized, the initializer is executed immediately
+     *
+     * @param initializer the initializer to add
+     * @return current reference
+     */
+    Reference addInitializer(Runnable initializer);
 
+    /**
+     * Check if reference is already initialized
+     *
+     * @return true if initialized, otherwise false
+     */
     boolean isInitialized();
 
 }

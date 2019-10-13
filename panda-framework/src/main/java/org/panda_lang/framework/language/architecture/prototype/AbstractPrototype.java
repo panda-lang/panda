@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
-abstract class AbstractPrototype extends AbstractPrototypeDeclaration implements Prototype {
+abstract class AbstractPrototype extends AbstractPrototypeType implements Prototype {
 
     protected final Reference reference = new PandaReference(this);
     protected final Collection<Reference> extended = new ArrayList<>(1);

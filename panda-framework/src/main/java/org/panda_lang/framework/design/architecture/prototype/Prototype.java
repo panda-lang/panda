@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.design.architecture.prototype;
 
-public interface Prototype extends Declaration {
+public interface Prototype extends Type {
 
     boolean isArray();
 
