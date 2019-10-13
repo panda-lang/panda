@@ -26,6 +26,7 @@ import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.language.architecture.prototype.StateComparator;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 
@@ -69,6 +70,7 @@ final class PrototypeParserUtils {
                 Optional<Reference> extendedPrototype = loader.forName(classNameToken.getValue());
 
                 if (extendedPrototype.isPresent()) {
+                    StateComparator.requireInheritance(context, extendedPrototype.get(), classNameToken);
                     prototype.addSuper(extendedPrototype.get());
                     continue;
                 }

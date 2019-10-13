@@ -22,6 +22,7 @@ import org.panda_lang.framework.design.architecture.prototype.PrototypeConstruct
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
 import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
@@ -50,6 +51,7 @@ final class PrototypeGenerator {
                 .module(module)
                 .source(new PandaClassSource(type))
                 .associated(type)
+                .state(State.of(type))
                 .visibility(Visibility.PUBLIC)
                 .build();
 
