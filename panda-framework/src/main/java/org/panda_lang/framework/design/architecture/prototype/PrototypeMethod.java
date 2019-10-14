@@ -19,6 +19,13 @@ package org.panda_lang.framework.design.architecture.prototype;
 public interface PrototypeMethod extends ExecutableProperty {
 
     /**
+     * Check if method is abstract
+     *
+     * @return true if method is abstract, otherwise false
+     */
+    boolean isAbstract();
+
+    /**
      * Check if method is static
      *
      * @return true if method is static

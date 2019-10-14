@@ -16,11 +16,8 @@
 
 package org.panda_lang.panda.language.interpreter.parser.prototype;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.design.interpreter.parser.Components;
@@ -28,7 +25,6 @@ import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.SnippetUtils;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.architecture.prototype.PandaConstructor;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
@@ -106,7 +102,7 @@ public final class PrototypeParser extends ParserBootstrap {
         PrototypeScope scope = new PrototypeScope(location, prototype);
 
         context.withComponent(Components.SCOPE, scope)
-                .withComponent(PrototypeComponents.CLASS_FRAME, scope)
+                .withComponent(PrototypeComponents.PROTOTYPE_SCOPE, scope)
                 .withComponent(PrototypeComponents.PROTOTYPE, prototype);
     }
 
@@ -118,39 +114,22 @@ public final class PrototypeParser extends ParserBootstrap {
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.NEXT_AFTER)
-    void parseBody(Context context, @Nullable @Src("body") Snippet body) throws Exception {
-        if (SnippetUtils.isEmpty(body)) {
-            return;
-        }
-
+    void parseBody(Context context, @Src("body") Snippet body) throws Exception {
         Context bodyContext = context.fork().withComponent(Components.STREAM, new PandaSourceStream(body));
         PipelineParser<?> parser = new PipelineParser<>(Pipelines.PROTOTYPE, bodyContext);
         parser.parse(bodyContext, false);
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
-    void parseAfter(Context context) {
-        Prototype prototype = context.getComponent(PrototypeComponents.PROTOTYPE);
-        PrototypeScope scope = context.getComponent(PrototypeComponents.CLASS_FRAME);
-
+    void parseAfter(Context context, @Component Prototype prototype, @Component PrototypeScope scope) {
         if (!prototype.getConstructors().getProperties().isEmpty()) {
             return;
         }
 
-        for (PrototypeField field : prototype.getFields().getProperties()) {
-            if (!field.hasDefaultValue()) {
-                // assign
-            }
-        }
-
-        PrototypeConstructor defaultConstructor = PandaConstructor.builder()
+        prototype.getConstructors().declare(PandaConstructor.builder()
                 .type(prototype.getReference())
-                .callback((frame, instance, arguments) -> {
-                    return scope.revive(frame, instance);
-                })
-                .build();
-
-        prototype.getConstructors().declare(defaultConstructor);
+                .callback((frame, instance, arguments) -> scope.revive(frame, instance))
+                .build());
     }
 
 }

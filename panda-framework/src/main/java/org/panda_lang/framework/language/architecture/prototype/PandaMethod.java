@@ -22,11 +22,13 @@ import org.panda_lang.framework.design.runtime.ProcessStack;
 public class PandaMethod extends PandaExecutableProperty implements PrototypeMethod {
 
     private final PrototypeExecutableCallback methodBody;
+    private final boolean isAbstract;
     private final boolean isStatic;
 
     protected PandaMethod(PandaMethodBuilder builder) {
         super(builder);
         this.methodBody = builder.methodBody;
+        this.isAbstract = builder.isAbstract;
         this.isStatic = builder.isStatic;
     }
 
@@ -34,6 +36,11 @@ public class PandaMethod extends PandaExecutableProperty implements PrototypeMet
     @SuppressWarnings({ "unchecked" })
     public Object invoke(ProcessStack stack, Object instance, Object... parameters) throws Exception {
         return methodBody.invoke(stack, instance, parameters);
+    }
+
+    @Override
+    public boolean isAbstract() {
+        return isAbstract;
     }
 
     @Override
@@ -53,12 +60,18 @@ public class PandaMethod extends PandaExecutableProperty implements PrototypeMet
     public static class PandaMethodBuilder extends PandaExecutableProperty.PandaParametrizedExecutableBuilder<PandaMethodBuilder> {
 
         protected PrototypeExecutableCallback methodBody;
+        protected boolean isAbstract;
         protected boolean isStatic;
 
         private PandaMethodBuilder() { }
 
         public PandaMethodBuilder methodBody(PrototypeExecutableCallback callback) {
             this.methodBody = callback;
+            return this;
+        }
+
+        public PandaMethodBuilder isAbstract(boolean isAbstract) {
+            this.isAbstract = isAbstract;
             return this;
         }
 

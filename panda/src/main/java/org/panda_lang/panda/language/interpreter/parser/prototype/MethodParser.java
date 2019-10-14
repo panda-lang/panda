@@ -30,8 +30,6 @@ import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.architecture.prototype.MethodScope;
 import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
-import org.panda_lang.framework.language.architecture.prototype.PandaMethodCallback;
-import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.ScopeParser;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
@@ -48,6 +46,7 @@ import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.Component;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.Inter;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.Local;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.Src;
@@ -83,7 +82,7 @@ public final class MethodParser extends ParserBootstrap {
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
-    boolean parse(Context context, LocalData local, @Inter Result result, @Nullable @Src("type") Snippet type) {
+    boolean parse(Context context, LocalData local, @Component Prototype prototype, @Inter Result result, @Nullable @Src("type") Snippet type) {
         Visibility visibility = Visibility.valueOf(result.get("visibility").toString().toUpperCase());
         Reference returnType = JavaModule.VOID.getReference();
 
@@ -99,10 +98,7 @@ public final class MethodParser extends ParserBootstrap {
 
         TokenRepresentation name = result.get("name");
         List<Parameter> parameters = PARAMETER_PARSER.parse(context, result.get("parameters"));
-
         MethodScope methodScope = local.allocated(new MethodScope(name.getLocation(), parameters));
-        context.withComponent(Components.SCOPE, methodScope);
-        Prototype prototype = context.getComponent(PrototypeComponents.PROTOTYPE);
 
         PrototypeMethod prototypeMethod = PandaMethod.builder()
                 .prototype(prototype.getReference())
@@ -111,7 +107,7 @@ public final class MethodParser extends ParserBootstrap {
                 .visibility(visibility)
                 .returnType(returnType)
                 .isStatic(result.has("static"))
-                .methodBody(new PandaMethodCallback(methodScope))
+                .methodBody(methodScope.toCallback())
                 .build();
 
         prototype.getMethods().declare(prototypeMethod);
