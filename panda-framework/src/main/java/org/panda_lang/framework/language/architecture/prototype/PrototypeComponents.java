@@ -23,7 +23,7 @@ public final class PrototypeComponents {
 
     public static final ContextComponent<Prototype> PROTOTYPE = ContextComponent.of("prototype", Prototype.class);
 
-    public static final ContextComponent<PrototypeScope> CLASS_FRAME = ContextComponent.of("class-frame", PrototypeScope.class);
+    public static final ContextComponent<PrototypeScope> PROTOTYPE_SCOPE = ContextComponent.of("prototype-scope", PrototypeScope.class);
 
     private PrototypeComponents() { }
 

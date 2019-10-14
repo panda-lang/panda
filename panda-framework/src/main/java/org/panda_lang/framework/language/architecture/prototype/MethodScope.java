@@ -36,6 +36,10 @@ public class MethodScope extends AbstractPropertyFramedScope {
         return new MethodFrame(this, (Frame) instance);
     }
 
+    public PandaMethodCallback toCallback() {
+        return new PandaMethodCallback(this);
+    }
+
     public static class MethodFrame extends PandaPropertyFrame<MethodScope> {
 
         public MethodFrame(MethodScope method, Frame instance) {
