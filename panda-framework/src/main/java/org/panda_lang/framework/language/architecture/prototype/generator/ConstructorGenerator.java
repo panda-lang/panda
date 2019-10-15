@@ -54,8 +54,8 @@ final class ConstructorGenerator {
         return PandaConstructor.builder()
                 .name("constructor " + prototype.getName())
                 .parameters(prototypeParameters)
-                .prototype(prototype.getReference())
-                .returnType(prototype.getReference())
+                .prototype(prototype.toReference())
+                .returnType(prototype.toReference())
                 .callback((frame, instance, arguments) -> constructor.newInstance(arguments))
                 .build();
     }

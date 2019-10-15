@@ -17,6 +17,7 @@
 package org.panda_lang.framework.language.architecture.prototype.array;
 
 import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.architecture.prototype.Referencable;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
@@ -27,11 +28,11 @@ public class ArrayPrototype extends PandaPrototype {
 
     private final Reference type;
 
-    public ArrayPrototype(Module module, Class<?> associated, Reference type) {
-        super(module, associated.getSimpleName(), new PandaClassSource(associated), associated, type.getState(), Visibility.PUBLIC);
+    public ArrayPrototype(Module module, Class<?> associated, Referencable type) {
+        super(module, associated.getSimpleName(), new PandaClassSource(associated), associated, type.toReference().getState(), Visibility.PUBLIC);
 
-        this.type = type;
-        super.extended.add(PandaModule.ARRAY.getReference());
+        this.type = type.toReference();
+        super.extended.add(PandaModule.ARRAY.toReference());
     }
 
     @Override

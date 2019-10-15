@@ -84,7 +84,7 @@ public final class MethodParser extends ParserBootstrap {
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
     boolean parse(Context context, LocalData local, @Component Prototype prototype, @Inter Result result, @Nullable @Src("type") Snippet type) {
         Visibility visibility = Visibility.valueOf(result.get("visibility").toString().toUpperCase());
-        Reference returnType = JavaModule.VOID.getReference();
+        Reference returnType = JavaModule.VOID.toReference();
 
         if (type != null) {
             Optional<Reference> reference = context.getComponent(Components.IMPORTS).forName(type.asSource());
@@ -101,7 +101,7 @@ public final class MethodParser extends ParserBootstrap {
         MethodScope methodScope = local.allocated(new MethodScope(name.getLocation(), parameters));
 
         PrototypeMethod prototypeMethod = PandaMethod.builder()
-                .prototype(prototype.getReference())
+                .prototype(prototype.toReference())
                 .parameters(parameters.toArray(new Parameter[0]))
                 .name(name.getValue())
                 .visibility(visibility)

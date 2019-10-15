@@ -24,4 +24,8 @@ public class PandaParserException extends PandaFrameworkException {
         super(message);
     }
 
+    public PandaParserException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
 }

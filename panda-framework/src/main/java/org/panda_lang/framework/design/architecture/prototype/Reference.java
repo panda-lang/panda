@@ -19,7 +19,7 @@ package org.panda_lang.framework.design.architecture.prototype;
 /**
  * The reference to prototype
  */
-public interface Reference extends Type {
+public interface Reference extends Type, Referencable {
 
     /**
      * Get assigned prototype
@@ -42,5 +42,15 @@ public interface Reference extends Type {
      * @return true if initialized, otherwise false
      */
     boolean isInitialized();
+
+    /**
+     * Get the reference
+     *
+     * @return this reference
+     */
+    @Override
+    default Reference toReference() {
+        return this;
+    }
 
 }

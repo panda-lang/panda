@@ -64,7 +64,7 @@ abstract class AbstractPrototype extends AbstractPrototypeType implements Protot
     }
 
     @Override
-    public Reference getReference() {
+    public Reference toReference() {
         return reference;
     }
 

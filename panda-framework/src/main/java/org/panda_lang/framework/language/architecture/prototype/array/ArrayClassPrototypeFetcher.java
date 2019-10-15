@@ -75,12 +75,12 @@ public class ArrayClassPrototypeFetcher {
         }
 
         ArrayPrototype arrayPrototype = new ArrayPrototype(prototype.getModule(), arrayClass, type);
-        ARRAY_PROTOTYPES.put(prototype.getName() + dimensions, arrayPrototype.getReference());
+        ARRAY_PROTOTYPES.put(prototype.getName() + dimensions, arrayPrototype.toReference());
 
         arrayPrototype.getMethods().declare(ArrayClassPrototypeConstants.SIZE);
         arrayPrototype.getMethods().declare(ArrayClassPrototypeConstants.TO_STRING);
 
-        return arrayPrototype.getReference();
+        return arrayPrototype.toReference();
     }
 
 }

@@ -50,4 +50,9 @@ public final class PandaIndicatedSource implements IndicatedSource {
         return source;
     }
 
+    @Override
+    public String toString() {
+        return getIndicated().equals(getSource()) ? getIndicated().toString() : getIndicated() + " at " + getSource();
+    }
+
 }

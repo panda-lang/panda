@@ -16,34 +16,13 @@
 
 package org.panda_lang.framework.design.architecture.prototype;
 
-public interface Prototype extends Type, Referencable {
+public interface Referencable {
 
     /**
-     * Check if the prototype represents array type
+     * Get the reference to the prototype
      *
-     * @return true if the prototype represents array type, otherwise false
+     * @return the associated reference
      */
-    boolean isArray();
-
-    /**
-     * Get methods that belongs to the prototype
-     *
-     * @return the methods
-     */
-    Methods getMethods();
-
-    /**
-     * Get fields that belongs to the prototype
-     *
-     * @return the fields
-     */
-    Fields getFields();
-
-    /**
-     * Get constructors that belongs to the prototype
-     *
-     * @return the constructors
-     */
-    Constructors getConstructors();
+    Reference toReference();
 
 }

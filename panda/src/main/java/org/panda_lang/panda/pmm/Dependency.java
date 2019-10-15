@@ -42,10 +42,10 @@ final class Dependency {
         int length = Math.max(version.length(), anotherElements.length);
 
         for (int index = 0; index < length; index++) {
-            Integer thisUnit = Integer.parseInt(ArrayUtils.get(thisElements, index, "0"));
-            Integer anotherUnit = Integer.parseInt(ArrayUtils.get(anotherElements, index, "0"));
+            int thisUnit = Integer.parseInt(ArrayUtils.get(thisElements, index, "0"));
+            int anotherUnit = Integer.parseInt(ArrayUtils.get(anotherElements, index, "0"));
 
-            if (thisUnit.equals(anotherUnit)) {
+            if (thisUnit == anotherUnit) {
                 continue;
             }
 

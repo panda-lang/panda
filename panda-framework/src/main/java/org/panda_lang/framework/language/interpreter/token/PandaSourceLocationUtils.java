@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.architecture.dynamic;
+package org.panda_lang.framework.language.interpreter.token;
 
-import org.panda_lang.framework.design.architecture.statement.FramedScope;
-import org.panda_lang.framework.design.runtime.MemoryContainer;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.language.interpreter.source.PandaSource;
 
-public interface Frame extends MemoryContainer {
+public final class PandaSourceLocationUtils {
 
-    /**
-     * @return the proper scope
-     */
-    FramedScope getScope();
+    private PandaSourceLocationUtils() { }
+
+    public static SourceLocation unknownLocation(String id) {
+        return new PandaSourceLocation(new PandaSource(id, "", true), 0, 0);
+    }
 
 }

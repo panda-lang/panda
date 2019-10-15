@@ -62,28 +62,28 @@ public final class ConstructorParser extends ParserBootstrap {
     }
 
     @Autowired(order = 1)
-    void parse(Context context, LocalData local, @Inter SourceLocation location, @Component PrototypeScope classScope, @Src("parameters") @Nullable Snippet parametersSource) {
-        Prototype prototype = classScope.getPrototype();
+    void parse(Context context, LocalData local, @Inter SourceLocation location, @Component PrototypeScope prototypeScope, @Src("parameters") @Nullable Snippet parametersSource) {
+        Prototype prototype = prototypeScope.getPrototype();
         List<Parameter> parameters = PARAMETER_PARSER.parse(context, parametersSource);
 
         PandaConstructorScope constructorScope = local.allocated(new PandaConstructorScope(location, parameters));
         constructorScope.addParameters(parameters);
 
         PrototypeConstructor constructor = PandaConstructor.builder()
-                .type(prototype.getReference())
+                .type(prototype.toReference())
                 .parameters(parameters)
                 .callback((stack, instance, arguments) -> {
-                    Frame classInstance = classScope.revive(stack, instance);
+                    Frame prototypeInstance = prototypeScope.revive(stack, instance);
 
-                    AbstractFrame constructorInstance = constructorScope.revive(stack, classInstance);
+                    AbstractFrame constructorInstance = constructorScope.revive(stack, prototypeInstance);
                     ParameterUtils.assignValues(constructorInstance, arguments);
 
-                    stack.call(classInstance, constructorInstance);
-                    return classInstance;
+                    stack.call(prototypeInstance, constructorInstance);
+                    return prototypeInstance;
                 })
                 .build();
 
-        classScope.getPrototype().getConstructors().declare(constructor);
+        prototypeScope.getPrototype().getConstructors().declare(constructor);
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)

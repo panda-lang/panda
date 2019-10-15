@@ -30,6 +30,7 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.HandleResult;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaChannel;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
@@ -104,7 +105,8 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
             } catch (PandaExpressionParserFailure e) {
                 return ExpressionResult.error("Cannot parse assigned expression - " + e.getExpressionMessage(), expressionSource.getOriginalSource());
             } catch (Exception e) {
-                return ExpressionResult.error("Cannot parse assigned expression - " + e.getMessage(), expressionSource.getOriginalSource());
+                throw new PandaParserException("Cannot parser assigned expression", e);
+                //return ExpressionResult.error("Cannot parse assigned expression - " + e.getMessage(), expressionSource.getOriginalSource());
             }
         }
 
