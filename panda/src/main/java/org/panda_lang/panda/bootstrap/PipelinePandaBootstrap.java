@@ -50,6 +50,7 @@ public final class PipelinePandaBootstrap implements PandaBootstrapElement {
 
         PandaFramework.getLogger().debug("--- Loading pipelines");
         PandaFramework.getLogger().debug("Pipelines: (" + path.names().size() + ") " + path.names());
+        PandaFramework.getLogger().debug("");
 
         return this;
     }

@@ -46,7 +46,6 @@ final class Install implements ThrowingRunnable<IOException> {
     }
 
     public void run() throws IOException {
-        manager.getMessenger().sendMessage(MessengerLevel.DEBUG, "");
         manager.getMessenger().sendMessage(MessengerLevel.DEBUG, "--- Installing dependencies");
 
         Dependency documentDependency = document.toDependency();

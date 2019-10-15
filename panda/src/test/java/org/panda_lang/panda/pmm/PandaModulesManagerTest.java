@@ -17,6 +17,7 @@
 package org.panda_lang.panda.pmm;
 
 import org.junit.jupiter.api.Test;
+import org.panda_lang.framework.PandaFrameworkLogger;
 import org.panda_lang.framework.language.interpreter.messenger.PandaMessenger;
 
 import java.io.File;
@@ -28,6 +29,7 @@ class PandaModulesManagerTest {
 
     @Test
     void test() throws Exception {
+        PandaFrameworkLogger.printJVMUptime();
         File document = new File(DIRECTORY, "panda.hjson");
 
         MANAGER.install(document);
