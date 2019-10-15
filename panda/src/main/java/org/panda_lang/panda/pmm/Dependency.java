@@ -17,6 +17,10 @@
 package org.panda_lang.panda.pmm;
 
 import org.panda_lang.framework.PandaFrameworkException;
+import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.StringUtils;
+
+import java.util.Objects;
 
 final class Dependency {
 
@@ -25,11 +29,34 @@ final class Dependency {
     private final String version;
     private final String address;
 
-    private Dependency(String scope, String name, String version, String address) {
+    protected Dependency(String scope, String name, String version, String address) {
         this.scope = scope;
         this.name = name;
         this.version = version;
         this.address = address;
+    }
+
+    protected boolean hasHigherVersion(String anotherVersion) {
+        String[] thisElements = StringUtils.split(version, ".");
+        String[] anotherElements = StringUtils.split(anotherVersion, ".");
+        int length = Math.max(version.length(), anotherElements.length);
+
+        for (int index = 0; index < length; index++) {
+            Integer thisUnit = Integer.parseInt(ArrayUtils.get(thisElements, index, "0"));
+            Integer anotherUnit = Integer.parseInt(ArrayUtils.get(anotherElements, index, "0"));
+
+            if (thisUnit.equals(anotherUnit)) {
+                continue;
+            }
+
+            return thisUnit > anotherUnit;
+        }
+
+        return false;
+    }
+
+    protected String getIdentifier() {
+        return getScope() + "/" + getName();
     }
 
     protected String getAddress() {
@@ -46,6 +73,25 @@ final class Dependency {
 
     protected String getScope() {
         return scope;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Dependency that = (Dependency) o;
+        return getScope().equals(that.getScope()) && getName().equals(that.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getScope(), getName());
     }
 
     @Override

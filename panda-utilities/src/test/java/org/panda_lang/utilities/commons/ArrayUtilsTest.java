@@ -94,4 +94,9 @@ final class ArrayUtilsTest {
         );
     }
 
+    @Test
+    void getWithDefaultValue() {
+        Assertions.assertEquals("a", ArrayUtils.get(EMPTY_ARRAY, Integer.MAX_VALUE, "a"));
+    }
+
 }

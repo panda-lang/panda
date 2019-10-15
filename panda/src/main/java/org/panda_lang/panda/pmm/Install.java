@@ -32,7 +32,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.zip.ZipInputStream;
 
@@ -47,20 +46,36 @@ final class Install implements ThrowingRunnable<IOException> {
     }
 
     public void run() throws IOException {
+        manager.getMessenger().sendMessage(MessengerLevel.DEBUG, "");
+        manager.getMessenger().sendMessage(MessengerLevel.DEBUG, "--- Installing dependencies");
+
+        Dependency documentDependency = document.toDependency();
         File pandaModules = new File(document.getDocument().getParentFile(), "panda_modules");
 
         if (!pandaModules.exists()) {
             pandaModules.mkdir();
         }
 
-        Map<String, InstallStatus> statusMap = new HashMap<>();
+        Map<String, Dependency> dependencyMap = new HashMap<>();
         Collection<Dependency> dependencies = new ArrayList<>(document.getDependencies());
 
         while (!dependencies.isEmpty()) {
             List<Dependency> dependenciesToLoad = new ArrayList<>();
 
             for (Dependency dependency : dependencies) {
-                statusMap.put(dependency.getName(), install(pandaModules, dependency, dependenciesToLoad));
+                if (documentDependency.equals(dependency)) {
+                    manager.getMessenger().sendMessage(MessengerLevel.WARNING, "Module contains circular dependency to itself");
+                    continue;
+                }
+
+                String name = dependency.getName();
+
+                if (dependencyMap.containsKey(name) && dependencyMap.get(name).hasHigherVersion(dependency.getVersion())) {
+                    continue;
+                }
+
+                install(pandaModules, dependency, dependenciesToLoad);
+                dependencyMap.put(name, dependency);
             }
 
             dependencies.clear();
@@ -70,15 +85,13 @@ final class Install implements ThrowingRunnable<IOException> {
         File[] allModules = Objects.requireNonNull(pandaModules.listFiles());
 
         for (File moduleDirectory : allModules) {
-            scan(statusMap, new File(pandaModules, moduleDirectory.getName()));
+            scan(dependencyMap, new File(pandaModules, moduleDirectory.getName()));
         }
 
-        for (Entry<String, InstallStatus> entry : statusMap.entrySet()) {
-            manager.getMessenger().sendMessage(MessengerLevel.INFO, entry.getValue().getSymbol() + " " + entry.getKey());
-        }
+        manager.getMessenger().sendMessage(MessengerLevel.DEBUG, "");
     }
 
-    private InstallStatus install(File pandaModules, Dependency dependency, Collection<Dependency> dependenciesToLoad) throws IOException {
+    private void install(File pandaModules, Dependency dependency, Collection<Dependency> dependenciesToLoad) throws IOException {
         File scopeDirectory = new File(pandaModules, dependency.getScope());
         scopeDirectory.mkdir();
 
@@ -93,7 +106,8 @@ final class Install implements ThrowingRunnable<IOException> {
             ModuleDocument moduleInfo = new ModuleDocumentFile(moduleInfoFile).getContent();
 
             if (dependency.getVersion().equals(moduleInfo.getVersion())) {
-                return InstallStatus.SKIPPED;
+                log(InstallStatus.SKIPPED, dependency);
+                return;
             }
 
             FileUtils.delete(moduleDirectory);
@@ -111,24 +125,27 @@ final class Install implements ThrowingRunnable<IOException> {
 
             ModuleDocument moduleInfo = new ModuleDocumentFile(moduleInfoFile).getContent();
             dependenciesToLoad.addAll(moduleInfo.getDependencies());
-
-            return InstallStatus.INSTALLED;
+            log(InstallStatus.INSTALLED, dependency);
         } finally {
             IOUtils.close(in);
         }
     }
 
-    private void scan(Map<String, InstallStatus> statusMap, File scopeDirectory) {
+    private void scan(Map<String, Dependency> dependenciesMap, File scopeDirectory) {
         File[] modules = Objects.requireNonNull(scopeDirectory.listFiles());
 
         for (File module : modules) {
-            if (statusMap.containsKey(module.getName())) {
+            if (dependenciesMap.containsKey(module.getName())) {
                 continue;
             }
 
             FileUtils.delete(module);
-            statusMap.put(module.getName(), InstallStatus.REMOVED);
+            log(InstallStatus.REMOVED, dependenciesMap.remove(module.getName()));
         }
+    }
+
+    private void log(InstallStatus status, Dependency dependency) {
+        manager.getMessenger().sendMessage(MessengerLevel.DEBUG, status.getSymbol() + " " + dependency.toString());
     }
 
 }
