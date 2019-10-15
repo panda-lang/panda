@@ -19,7 +19,6 @@ package org.panda_lang.framework.language.interpreter.source;
 import org.panda_lang.framework.PandaFramework;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.interpreter.source.Source;
-import org.panda_lang.utilities.commons.FileUtils;
 import org.panda_lang.utilities.commons.IOUtils;
 
 import java.io.File;
@@ -60,7 +59,7 @@ public final class PandaURLSource implements Source {
 
     @Override
     public String getId() {
-        return FileUtils.getName(location.getPath());
+        return new File(location.getFile()).getAbsolutePath();
     }
 
     public static PandaURLSource fromResource(String resourcePath) {

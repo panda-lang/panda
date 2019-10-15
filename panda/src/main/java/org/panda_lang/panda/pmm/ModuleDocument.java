@@ -35,6 +35,10 @@ final class ModuleDocument {
         this.content = content;
     }
 
+    protected Dependency toDependency() {
+        return new Dependency(getOwner(), getName(), getVersion(), "");
+    }
+
     private List<? extends String> getList(String name) {
         return Optional.ofNullable(content.get(name))
                 .map(object -> object.asArray().values().stream()

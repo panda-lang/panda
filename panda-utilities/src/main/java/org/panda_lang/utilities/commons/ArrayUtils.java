@@ -200,6 +200,19 @@ public final class ArrayUtils {
     }
 
     /**
+     * Get element of array at the given position without risk of {@link java.lang.ArrayIndexOutOfBoundsException}
+     *
+     * @param array the array to process
+     * @param index the index of element to get
+     * @param defaultValue the default value to return when there is no such an index in the array
+     * @param <T>   type of the array
+     * @return the element at the index position, null if the index is less than 0 or greater than the size of the specified array
+     */
+    public static <T> T get(T[] array, int index, T defaultValue) {
+        return index > -1 && index < array.length ? array[index] : defaultValue;
+    }
+
+    /**
      * Return array of the specified elements using varargs parameter
      *
      * @param elements elements in array
