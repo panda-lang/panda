@@ -29,6 +29,9 @@ import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Result;
 import org.panda_lang.utilities.commons.collection.FixedStack;
 import org.panda_lang.utilities.commons.collection.IStack;
+import org.panda_lang.utilities.commons.function.ThrowingSupplier;
+
+import java.util.function.Supplier;
 
 public class PandaProcessStack implements ProcessStack {
 
@@ -43,10 +46,15 @@ public class PandaProcessStack implements ProcessStack {
 
     @Override
     public @Nullable Result<?> call(Object instance, Frame frame) throws Exception {
+        return call(instance, frame, () -> call(frame, frame.getScope()));
+    }
+
+    @Override
+    public @Nullable Result<?> call(Object instance, Frame frame, ThrowingSupplier<Result<?>, Exception> resultSupplier) throws Exception {
         Frame cachedFrame = currentFrame;
         this.currentFrame = frame;
 
-        Result<?> result = call(frame, frame.getFrame());
+        Result<?> result = resultSupplier.get();
 
         this.currentFrame = cachedFrame;
         return result;

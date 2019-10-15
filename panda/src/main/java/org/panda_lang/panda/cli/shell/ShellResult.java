@@ -14,16 +14,23 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.architecture.dynamic;
+package org.panda_lang.panda.cli.shell;
 
-import org.panda_lang.framework.design.architecture.statement.FramedScope;
-import org.panda_lang.framework.design.runtime.MemoryContainer;
+public final class ShellResult {
 
-public interface Frame extends MemoryContainer {
+    private final Object result;
 
-    /**
-     * @return the proper scope
-     */
-    FramedScope getScope();
+    ShellResult(Object result) {
+        this.result = result;
+    }
+
+    public Object getResult() {
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "> " + result;
+    }
 
 }

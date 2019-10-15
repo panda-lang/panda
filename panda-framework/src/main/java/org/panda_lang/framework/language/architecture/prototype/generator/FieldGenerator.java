@@ -46,7 +46,7 @@ final class FieldGenerator {
         Reference returnType = generator.findOrGenerate(prototype.getModule(), field.getType());
 
         PrototypeField prototypeField = PandaPrototypeField.builder()
-                .prototype(prototype.getReference())
+                .prototype(prototype.toReference())
                 .returnType(returnType)
                 .fieldIndex(prototype.getFields().getProperties().size())
                 .name(field.getName())

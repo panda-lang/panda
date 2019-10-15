@@ -20,10 +20,13 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.Statement;
+import org.panda_lang.utilities.commons.function.ThrowingSupplier;
 
 public interface ProcessStack {
 
     @Nullable Result<?> call(Object instance, Frame frame) throws Exception;
+
+    @Nullable Result<?> call(Object instance, Frame frame, ThrowingSupplier<Result<?>, Exception> resultSupplier) throws Exception;
 
     @Nullable Result<?> call(Object instance, Scope scope) throws Exception;
 

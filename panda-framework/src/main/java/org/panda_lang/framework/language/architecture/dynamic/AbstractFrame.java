@@ -61,7 +61,7 @@ public abstract class AbstractFrame<T extends FramedScope> implements Frame {
     }
 
     @Override
-    public T getFrame() {
+    public T getScope() {
         return frame;
     }
 

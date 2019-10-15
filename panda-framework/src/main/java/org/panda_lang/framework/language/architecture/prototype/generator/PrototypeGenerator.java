@@ -55,7 +55,7 @@ final class PrototypeGenerator {
                 .visibility(Visibility.PUBLIC)
                 .build();
 
-        prototype.getReference().addInitializer(() -> {
+        prototype.toReference().addInitializer(() -> {
             if (!Modifier.isPublic(type.getModifiers())) {
                 return;
             }
@@ -87,7 +87,7 @@ final class PrototypeGenerator {
             }
         });
 
-        return prototype.getReference();
+        return prototype.toReference();
     }
 
     protected Reference findOrGenerate(Module module, Class<?> type) {

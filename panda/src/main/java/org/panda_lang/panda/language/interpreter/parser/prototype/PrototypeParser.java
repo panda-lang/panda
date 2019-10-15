@@ -97,12 +97,12 @@ public final class PrototypeParser extends ParserBootstrap {
                 .visibility(visibility)
                 .build();
 
-        prototype.addSuper(JavaModule.OBJECT.getReference());
-        module.add(className, prototype.getAssociatedClass(), prototype::getReference);
-        PrototypeScope scope = new PrototypeScope(location, prototype);
+        prototype.addSuper(JavaModule.OBJECT.toReference());
+        module.add(className, prototype.getAssociatedClass(), prototype::toReference);
+        PrototypeScope prototypeScope = new PrototypeScope(location, prototype);
 
-        context.withComponent(Components.SCOPE, scope)
-                .withComponent(PrototypeComponents.PROTOTYPE_SCOPE, scope)
+        context.withComponent(Components.SCOPE, prototypeScope)
+                .withComponent(PrototypeComponents.PROTOTYPE_SCOPE, prototypeScope)
                 .withComponent(PrototypeComponents.PROTOTYPE, prototype);
     }
 
@@ -127,7 +127,7 @@ public final class PrototypeParser extends ParserBootstrap {
         }
 
         prototype.getConstructors().declare(PandaConstructor.builder()
-                .type(prototype.getReference())
+                .type(prototype.toReference())
                 .callback((frame, instance, arguments) -> scope.revive(frame, instance))
                 .build());
     }

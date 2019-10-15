@@ -14,16 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.architecture.dynamic;
+package org.panda_lang.framework.language.runtime;
 
-import org.panda_lang.framework.design.architecture.statement.FramedScope;
-import org.panda_lang.framework.design.runtime.MemoryContainer;
+public final class PandaProcessStackConstants {
 
-public interface Frame extends MemoryContainer {
-
-    /**
-     * @return the proper scope
-     */
-    FramedScope getScope();
+    public static final int DEFAULT_STACK_SIZE = 1024;
 
 }

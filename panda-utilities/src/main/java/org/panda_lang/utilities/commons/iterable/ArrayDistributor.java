@@ -46,8 +46,8 @@ public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> { // lgtm [
     public void reverse() {
         T[] copy = Arrays.copyOf(array, array.length);
 
-        for (int i = 0, j = array.length - 1; i < array.length; i++, j--) {
-            array[i] = copy[j];
+        for (int next = 0, j = array.length - 1; next < array.length; next++, j--) {
+            array[next] = copy[j];
         }
     }
 
@@ -113,13 +113,13 @@ public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> { // lgtm [
     }
 
     public @Nullable T getPrevious(int t) {
-        int i = index - t;
-        return i > -1 && i < array.length ? array[i] : null;
+        int previousIndex = index - t;
+        return previousIndex > -1 && previousIndex < array.length ? array[previousIndex] : null;
     }
 
     public @Nullable T getPrevious() {
-        int i = index - 1;
-        return i > -1 && i - 1 < array.length ? array[i] : null;
+        int previousIndex = index - 1;
+        return previousIndex > -1 && previousIndex < array.length ? array[previousIndex] : null;
     }
 
     public @Nullable T getLast() {

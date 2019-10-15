@@ -87,7 +87,7 @@ public final class FieldParser extends ParserBootstrap {
         int fieldIndex = prototype.getFields().getProperties().size();
 
         PrototypeField field = PandaPrototypeField.builder()
-                .prototype(prototype.getReference())
+                .prototype(prototype.toReference())
                 .returnType(returnType)
                 .fieldIndex(fieldIndex)
                 .name(name.getValue())

@@ -16,10 +16,11 @@
 
 package org.panda_lang.framework.language.architecture.prototype;
 
+import org.panda_lang.framework.design.architecture.parameter.Parameter;
+import org.panda_lang.framework.design.architecture.prototype.ExecutableProperty;
+import org.panda_lang.framework.design.architecture.prototype.Referencable;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
-import org.panda_lang.framework.design.architecture.prototype.ExecutableProperty;
-import org.panda_lang.framework.design.architecture.parameter.Parameter;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.parameter.ParameterUtils;
 
@@ -116,8 +117,8 @@ public abstract class PandaExecutableProperty implements ExecutableProperty {
             return returnThis();
         }
 
-        public T returnType(Reference returnType) {
-            this.returnType = returnType;
+        public T returnType(Referencable returnType) {
+            this.returnType = returnType.toReference();
             return returnThis();
         }
 
