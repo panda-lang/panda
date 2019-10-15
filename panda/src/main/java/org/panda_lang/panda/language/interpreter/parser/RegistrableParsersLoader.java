@@ -60,7 +60,10 @@ public final class RegistrableParsersLoader {
                 .map(clazz -> (Class<? extends Parser>) clazz)
                 .collect(Collectors.toList());
 
-        return loadParsers(path, loaded);
+        loadParsers(path, loaded);
+        PandaFramework.getLogger().debug("");
+
+        return path;
     }
 
     public PipelinePath loadParsers(PipelinePath path, Collection<Class<? extends Parser>> parsers) {

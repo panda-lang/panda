@@ -58,7 +58,6 @@ public final class PandaInterpreter implements Interpreter {
 
         String parseTime = TimeUtils.toMilliseconds(System.nanoTime() - uptime);
 
-        PandaFramework.getLogger().debug("");
         PandaFramework.getLogger().debug("--- Interpretation of " + source.getId() + " details ");
         PandaFramework.getLogger().debug("• Parse time: " + parseTime);
         PandaFramework.getLogger().debug("• Amount of references: " + environment.getModulePath().countReferences());
