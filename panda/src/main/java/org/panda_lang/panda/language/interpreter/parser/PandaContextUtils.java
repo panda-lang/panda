@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parser;
 
+import org.panda_lang.framework.design.FrameworkController;
 import org.panda_lang.framework.design.architecture.module.Imports;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.module.ModulePath;
@@ -29,7 +30,6 @@ import org.panda_lang.framework.language.interpreter.parser.PandaContext;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.interpreter.parser.generation.PandaGeneration;
-import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.language.architecture.PandaScript;
 import org.panda_lang.panda.language.interpreter.parser.expression.PandaExpressionUtils;
 import org.panda_lang.panda.language.resource.ResourcesLoader;
@@ -38,7 +38,7 @@ public final class PandaContextUtils {
 
     private PandaContextUtils() { }
 
-    public static Context createStubContext(Panda panda) {
+    public static Context createStubContext(FrameworkController frameworkController) {
         Context context = new PandaContext();
         context.withComponent(Components.EXPRESSION, new PandaExpressionParser(PandaExpressionUtils.collectSubparsers()));
 
@@ -58,7 +58,7 @@ public final class PandaContextUtils {
                 .withComponent(Components.SCRIPT, script)
                 .withComponent(Components.MODULE_LOADER, loader)
                 .withComponent(Components.IMPORTS, imports)
-                .withComponent(Components.PIPELINE, panda.getResources().getPipelinePath())
+                .withComponent(Components.PIPELINE, frameworkController.getResources().getPipelinePath())
                 .withComponent(Components.GENERATION, new PandaGeneration().initialize(GenerationCycles.getValues()));
     }
 

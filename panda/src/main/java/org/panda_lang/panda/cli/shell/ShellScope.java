@@ -24,6 +24,8 @@ import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.statement.AbstractPropertyFramedScope;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +34,7 @@ import java.util.Map.Entry;
 final class ShellScope extends AbstractPropertyFramedScope {
 
     private final Map<Integer, Object> defaultValues = new HashMap<>();
+    private final Collection<ShellVariableChangeListener> variableChangeListeners = new ArrayList<>(1);
 
     ShellScope(SourceLocation location, List<Parameter> parameters) {
         super(location, parameters);
@@ -48,8 +51,16 @@ final class ShellScope extends AbstractPropertyFramedScope {
         return frame;
     }
 
+    protected void addVariableChangeListener(ShellVariableChangeListener variableChangeListener) {
+        variableChangeListeners.add(variableChangeListener);
+    }
+
     protected void setDefaultValue(Variable variable, @Nullable Object defaultValue) {
         defaultValues.put(variable.getPointer(), defaultValue);
+    }
+
+    protected Collection<ShellVariableChangeListener> getVariableChangeListeners() {
+        return variableChangeListeners;
     }
 
 }

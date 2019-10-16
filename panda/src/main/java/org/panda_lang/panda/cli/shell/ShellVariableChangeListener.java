@@ -16,27 +16,11 @@
 
 package org.panda_lang.panda.cli.shell;
 
-import org.panda_lang.framework.PandaFramework;
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.architecture.statement.Variable;
 
-import java.util.Collection;
+public interface ShellVariableChangeListener {
 
-public final class ShellUtils {
-
-    private ShellUtils() { }
-
-    /**
-     * Print results using {@link org.panda_lang.framework.PandaFramework#getLogger()}
-     *
-     * @param results the results to print
-     */
-    public static void print(Collection<ShellResult> results) {
-        for (ShellResult result : results) {
-            String[] lines = result.toString().split(System.lineSeparator());
-
-            for (String line : lines) {
-                PandaFramework.getLogger().info(line);
-            }
-        }
-    }
+    void onChange(Variable variable, @Nullable Object previous, @Nullable Object current);
 
 }
