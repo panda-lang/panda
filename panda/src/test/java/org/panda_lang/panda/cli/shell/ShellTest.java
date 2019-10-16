@@ -17,13 +17,17 @@
 package org.panda_lang.panda.cli.shell;
 
 import org.junit.jupiter.api.Test;
+import org.panda_lang.framework.language.architecture.parameter.PandaParameter;
 import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
 import org.panda_lang.framework.language.architecture.statement.PandaVariableData;
 import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
+import org.panda_lang.panda.language.interpreter.parser.prototype.ParameterParser;
 
 class ShellTest {
+
+    private static final ParameterParser PARAMETER_PARSER = new ParameterParser();
 
     @Test
     void test() throws Exception {
@@ -32,16 +36,26 @@ class ShellTest {
 
         Shell shell = Shell.creator(panda)
                 .define(PandaMethod.builder()
-                        .parameters()
+                        .name("sqrt")
+                        .parameters(new PandaParameter(0, JavaModule.DOUBLE, "i", false, false))
+                        .methodBody((stack, instance, arguments) -> Math.sqrt(((Number) arguments[0]).doubleValue()))
+                        .returnType(JavaModule.DOUBLE)
                         .build())
                 .variable(new PandaVariableData(JavaModule.INT, "i", true, false), 5)
                 .create();
 
-        System.out.println(shell.evaluate("i"));
-        System.out.println(shell.evaluate("i = 4"));
+        ShellUtils.print(shell.evaluate("i"));
+        ShellUtils.print(shell.evaluate("i = 4"));
 
         shell.regenerate();
-        System.out.println(shell.evaluate("i"));
+        ShellUtils.print(shell.evaluate("i"));
+        ShellUtils.print(shell.evaluate("String text = 'hello'; 'second expression'"));
+
+        ShellUtils.print(shell.evaluate("!! vars"));
+        ShellUtils.print(shell.evaluate("!! source"));
+
+        ShellUtils.print(shell.evaluate("Double double = 9.86960440109"));
+        ShellUtils.print(shell.evaluate("sqrt(double)"));
     }
 
 }

@@ -16,16 +16,16 @@
 
 package org.panda_lang.framework.language.architecture.parameter;
 
-import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.parameter.Parameter;
+import org.panda_lang.framework.design.architecture.prototype.Referencable;
 import org.panda_lang.framework.language.architecture.statement.PandaVariable;
 
 public class PandaParameter extends PandaVariable implements Parameter {
 
     private final boolean varargs;
 
-    public PandaParameter(int parameterIndex, Reference reference, String name, boolean varargs, boolean nillable) {
-        super(parameterIndex, reference, name, false, nillable);
+    public PandaParameter(int parameterIndex, Referencable referencable, String name, boolean varargs, boolean nillable) {
+        super(parameterIndex, referencable.toReference(), name, false, nillable);
         this.varargs = varargs;
     }
 
