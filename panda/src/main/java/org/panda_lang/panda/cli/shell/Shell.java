@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.cli.shell;
 
+import org.panda_lang.framework.design.FrameworkController;
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.statement.Variable;
@@ -31,7 +32,6 @@ import org.panda_lang.framework.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.framework.language.runtime.PandaProcessStack;
 import org.panda_lang.framework.language.runtime.PandaProcessStackConstants;
-import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.cli.shell.ShellResult.Type;
 import org.panda_lang.utilities.commons.function.ThrowingFunction;
 
@@ -40,6 +40,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.function.Supplier;
 
+/**
+ * Interactive shell
+ */
 public final class Shell {
 
     private final Context context;
@@ -58,6 +61,24 @@ public final class Shell {
         this.regenerate();
     }
 
+    /**
+     * Regenerate shell and cleanup cache
+     *
+     * @throws Exception if something happen
+     */
+    public void regenerate() throws Exception {
+        this.history = new StringBuilder();
+        this.stack = new PandaProcessStack(processSupplier.get(), PandaProcessStackConstants.DEFAULT_STACK_SIZE);
+        this.instance = context.getComponent(Components.SCOPE).getScope().revive(stack, instanceSupplier.apply(stack));
+    }
+
+    /**
+     * Evaluate the given source
+     *
+     * @param source the source to evaluate
+     * @return collection of shell results
+     * @throws Exception if something happen
+     */
     public Collection<ShellResult> evaluate(String source) throws Exception {
         return source.startsWith("!!") ? Collections.singletonList(evaluateCommand(source)) : evaluateSource(source);
     }
@@ -105,14 +126,14 @@ public final class Shell {
         return new ShellResult(Type.PANDA, result != null ? result.getResult() : null);
     }
 
-    public void regenerate() throws Exception {
-        this.history = new StringBuilder();
-        this.stack = new PandaProcessStack(processSupplier.get(), PandaProcessStackConstants.DEFAULT_STACK_SIZE);
-        this.instance = context.getComponent(Components.SCOPE).getScope().revive(stack, instanceSupplier.apply(stack));
-    }
-
-    public static ShellCreator creator(Panda panda) {
-        return new ShellCreator(panda);
+    /**
+     * Initiate shell creator
+     *
+     * @param frameworkController the framework controller that contains required resources
+     * @return a shell creator instance
+     */
+    public static ShellCreator creator(FrameworkController frameworkController) {
+        return new ShellCreator(frameworkController);
     }
 
 }

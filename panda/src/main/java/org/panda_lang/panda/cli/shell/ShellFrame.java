@@ -37,7 +37,12 @@ final class ShellFrame implements Frame, PropertyFrame {
 
     @Override
     public <T> @Nullable T set(int pointer, @Nullable T value) {
-        memory.put(pointer, value);
+        Object previous = memory.put(pointer, value);
+
+        for (ShellVariableChangeListener variableChangeListener : scope.getVariableChangeListeners()) {
+            variableChangeListener.onChange(scope.getVariables().get(pointer), previous, value);
+        }
+
         return value;
     }
 

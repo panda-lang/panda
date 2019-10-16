@@ -18,10 +18,22 @@ package org.panda_lang.panda.cli.shell;
 
 import org.panda_lang.utilities.commons.ArrayUtils;
 
+/**
+ * Result of evaluation
+ */
 public final class ShellResult {
 
+    /**
+     * Type of result
+     */
     public enum Type {
+        /**
+         * Represents value returned by shell
+         */
         SHELL,
+        /**
+         * Represents value returned by evaluation of panda expression
+         */
         PANDA
     }
 
@@ -33,14 +45,29 @@ public final class ShellResult {
         this.result = result;
     }
 
+    /**
+     * Check if result is array
+     *
+     * @return true if object is not null and its class represents array type
+     */
     public boolean isArray() {
         return ArrayUtils.isArray(result);
     }
 
+    /**
+     * Get result of evaluation
+     *
+     * @return the result
+     */
     public Object getResult() {
         return result;
     }
 
+    /**
+     * Get type of result
+     *
+     * @return the type
+     */
     public Type getType() {
         return type;
     }
