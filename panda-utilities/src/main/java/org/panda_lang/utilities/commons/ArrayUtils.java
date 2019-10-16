@@ -131,6 +131,16 @@ public final class ArrayUtils {
     }
 
     /**
+     * Check if the given object is array
+     *
+     * @param object the object to check
+     * @return true if object is not null and its class represents array, otherwise false
+     */
+    public static boolean isArray(@Nullable Object object) {
+        return object != null && object.getClass().isArray();
+    }
+
+    /**
      * Checks if the specified array is null or empty
      *
      * @param array the array to check

@@ -16,38 +16,22 @@
 
 package org.panda_lang.panda.cli.shell;
 
-import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.framework.PandaFramework;
 
-public final class ShellResult {
+import java.util.Collection;
 
-    public enum Type {
-        SHELL,
-        PANDA
-    }
+public final class ShellUtils {
 
-    private final Type type;
-    private final Object result;
+    private ShellUtils() { }
 
-    ShellResult(Type type, Object result) {
-        this.type = type;
-        this.result = result;
-    }
+    public static void print(Collection<ShellResult> results) {
+        for (ShellResult result : results) {
+            String[] lines = result.toString().split(System.lineSeparator());
 
-    public boolean isArray() {
-        return ArrayUtils.isArray(result);
-    }
-
-    public Object getResult() {
-        return result;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    @Override
-    public String toString() {
-        return (getType() == Type.PANDA ? "> " : "") + result;
+            for (String line : lines) {
+                PandaFramework.getLogger().info(line);
+            }
+        }
     }
 
 }
