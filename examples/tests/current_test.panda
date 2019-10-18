@@ -14,6 +14,10 @@ shared class Foo extends Test {
 
 }
 
+public interface Interface {
+
+}
+
 class Test {
 
     public Int index = 1

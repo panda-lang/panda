@@ -68,8 +68,8 @@ public final class PrototypeParser extends ParserBootstrap {
                 .handler(new CustomPatternHandler())
                 .interceptor(new CustomPatternInterceptor())
                 .pattern(CustomPattern.of(
-                        VariantElement.create("visibility").content(Keywords.PUBLIC.getValue(), Keywords.SHARED.getValue(), Keywords.LOCAL.getValue()).optional(),
-                        KeywordElement.create(Keywords.CLASS),
+                        VariantElement.create("visibility").content(Keywords.PUBLIC, Keywords.SHARED, Keywords.LOCAL).optional(),
+                        VariantElement.create("type").content(Keywords.CLASS, Keywords.INTERFACE),
                         WildcardElement.create("name").verify(new TokenTypeVerifier(TokenType.UNKNOWN)),
                         SubPatternElement.create("extended").optional().of(
                                 KeywordElement.create(Keywords.EXTENDS),

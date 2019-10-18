@@ -17,6 +17,7 @@
 package org.panda_lang.framework.language.interpreter.pattern.custom.elements;
 
 import org.panda_lang.framework.PandaFrameworkException;
+import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.language.interpreter.pattern.custom.Buildable;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPatternElementBuilder;
@@ -32,6 +33,12 @@ public final class VariantElement extends CustomPatternElementBuilder<Object, Va
 
     public VariantElement(String id) {
         super(id);
+    }
+
+    public VariantElement content(Token... tokens) {
+        return content(Arrays.stream(tokens)
+                .map(Token::getValue)
+                .toArray(String[]::new));
     }
 
     public VariantElement content(String... variants) {
