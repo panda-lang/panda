@@ -38,13 +38,4 @@ public class PandaExpressionParserFailure extends PandaParserFailure {
         return expressionMessage;
     }
 
-    @Override
-    public String getMessage() {
-        return super.getMessage() + " (source: " + getIndicatedSource() + ")";
-    }
-
-    public String getExpressionMessage() {
-        return expressionMessage;
-    }
-
 }

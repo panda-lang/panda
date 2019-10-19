@@ -30,7 +30,7 @@ public final class StateComparator {
             return true;
         }
 
-        throw new PandaParserFailure(context, source, "Cannot create instance of abstract prototype");
+        throw new PandaParserFailure(context, source, "Cannot create instance of abstract type");
     }
 
     public static boolean requireInheritance(Context context, Type type, Snippetable source) {
@@ -38,7 +38,7 @@ public final class StateComparator {
             return true;
         }
 
-        throw new PandaParserFailure(context, source, "Cannot inherit final prototype");
+        throw new PandaParserFailure(context, source, "Cannot inherit final type");
     }
 
 }

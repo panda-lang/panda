@@ -77,12 +77,12 @@ public final class MethodParser extends ParserBootstrap {
                         TypeElement.create("type").optional().verify(new NextTokenTypeVerifier(TokenType.UNKNOWN)),
                         WildcardElement.create("name").verify(new TokenTypeVerifier(TokenType.UNKNOWN)),
                         SectionElement.create("parameters"),
-                        SectionElement.create("body")
+                        SectionElement.create("body").optional()
                 ));
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
-    boolean parse(Context context, LocalData local, @Component Prototype prototype, @Inter Result result, @Nullable @Src("type") Snippet type) {
+    boolean parse(Context context, LocalData local, @Component Prototype prototype, @Inter Result result, @Nullable @Src("type") Snippet type, @Nullable @Src("body") Snippet body) {
         Visibility visibility = Visibility.valueOf(result.get("visibility").toString().toUpperCase());
         Reference returnType = JavaModule.VOID.toReference();
 
@@ -104,6 +104,7 @@ public final class MethodParser extends ParserBootstrap {
                 .prototype(prototype.toReference())
                 .parameters(parameters.toArray(new Parameter[0]))
                 .name(name.getValue())
+                .isAbstract(body == null)
                 .visibility(visibility)
                 .returnType(returnType)
                 .isStatic(result.has("static"))
@@ -115,8 +116,10 @@ public final class MethodParser extends ParserBootstrap {
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
-    void parse(Context delegatedContext, @Local MethodScope methodScope, @Src("body") Snippet body) throws Exception {
-        SCOPE_PARSER.parse(delegatedContext, methodScope, body);
+    void parse(Context delegatedContext, @Local MethodScope methodScope, @Nullable @Src("body") Snippet body) throws Exception {
+        if (body != null) {
+            SCOPE_PARSER.parse(delegatedContext, methodScope, body);
+        }
     }
 
 }
