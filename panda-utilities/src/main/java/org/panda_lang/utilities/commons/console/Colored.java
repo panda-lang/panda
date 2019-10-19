@@ -22,22 +22,21 @@ import org.panda_lang.utilities.commons.text.ContentJoiner;
 public class Colored {
 
     private final String text;
-    private String prefix;
+    private String effect = StringUtils.EMPTY;
 
     private Colored(String text) {
         this.text = text;
-        this.prefix = StringUtils.EMPTY;
     }
 
     public Colored effect(Effect effect) {
-        this.prefix += effect.toString();
+        this.effect += effect.toString();
         return this;
     }
 
     @Override
     public String toString() {
-        return ContentJoiner.on(prefix)
-                .join(text.split(System.lineSeparator()), line -> line + Effect.RESET)
+        return ContentJoiner.on(StringUtils.EMPTY)
+                .join(text.split(System.lineSeparator()), line -> effect + line + Effect.RESET)
                 .toString();
     }
 
