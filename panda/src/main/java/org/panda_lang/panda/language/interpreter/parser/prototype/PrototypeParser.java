@@ -80,7 +80,7 @@ public final class PrototypeParser extends ParserBootstrap {
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL)
-    void parse(Context context, @Inter SourceLocation location, @Inter Result result, @Component PandaScript script, @Src("name") String className) throws Exception {
+    void parse(Context context, @Inter SourceLocation location, @Inter Result result, @Component PandaScript script, @Src("type") String type, @Src("name") String className) throws Exception {
         Module module = script.getModule();
         Visibility visibility = Visibility.LOCAL;
 
@@ -93,7 +93,7 @@ public final class PrototypeParser extends ParserBootstrap {
                 .module(module)
                 .source(location.getSource())
                 .associated(GENERATOR.generateType(className))
-                .state(State.DEFAULT)
+                .state(type.equals(Keywords.CLASS.getValue()) ? State.DEFAULT : State.ABSTRACT)
                 .visibility(visibility)
                 .build();
 
@@ -122,6 +122,10 @@ public final class PrototypeParser extends ParserBootstrap {
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
     void parseAfter(Context context, @Component Prototype prototype, @Component PrototypeScope scope) {
+        if (prototype.getState().isAbstract()) {
+            return;
+        }
+
         if (!prototype.getConstructors().getProperties().isEmpty()) {
             return;
         }

@@ -60,7 +60,7 @@ public final class IndicatedSourceFormatter implements MessengerDataFormatter<In
                     String source = getCurrentLine(fragment).toString();
                     String element = fragment.getIndicated().toString();
 
-                    return StringUtils.buildSpace(source.indexOf(element)) + "^";
+                    return StringUtils.buildSpace(source.indexOf(element)) + Colored.on("^").effect(Effect.BOLD);
                 });
     }
 
