@@ -63,6 +63,15 @@ public enum State {
     }
 
     /**
+     * Utility method to compare state with {@link org.panda_lang.framework.design.architecture.prototype.State#ABSTRACT}
+     *
+     * @return true if the current state represents abstract state
+     */
+    public boolean isAbstract() {
+        return this == ABSTRACT;
+    }
+
+    /**
      * Get state based on the given class (abstract/final/default)
      *
      * @param clazz the class to check
