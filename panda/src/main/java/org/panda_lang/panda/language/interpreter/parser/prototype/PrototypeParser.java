@@ -35,10 +35,10 @@ import org.panda_lang.framework.language.interpreter.parser.generation.Generatio
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PipelineParser;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
 import org.panda_lang.framework.language.interpreter.pattern.custom.Result;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.KeywordElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.SectionElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.SubPatternElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.TypeElement;
+import org.panda_lang.framework.language.interpreter.pattern.custom.elements.UnitElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.VariantElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.WildcardElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.TokenTypeVerifier;
@@ -72,7 +72,7 @@ public final class PrototypeParser extends ParserBootstrap {
                         VariantElement.create("type").content(Keywords.CLASS, Keywords.INTERFACE),
                         WildcardElement.create("name").verify(new TokenTypeVerifier(TokenType.UNKNOWN)),
                         SubPatternElement.create("extended").optional().of(
-                                KeywordElement.create(Keywords.EXTENDS),
+                                UnitElement.create("extends").content(":"),
                                 TypeElement.create("inherited")
                         ),
                         SectionElement.create("body")

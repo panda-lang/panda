@@ -19,7 +19,6 @@ package org.panda_lang.panda.language.interpreter.parser.prototype;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.parameter.Parameter;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.design.interpreter.parser.Components;
@@ -59,6 +58,7 @@ import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 @RegistrableParser(pipeline = Pipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_METHOD)
 public final class MethodParser extends ParserBootstrap {
@@ -72,7 +72,7 @@ public final class MethodParser extends ParserBootstrap {
                 .handler(new CustomPatternHandler())
                 .interceptor(new CustomPatternInterceptor())
                 .pattern(CustomPattern.of(
-                        VariantElement.create("visibility").content("public", "shared", "local"),
+                        VariantElement.create("visibility").content("public", "shared", "local").map(value -> Visibility.valueOf(value.toString().toUpperCase())),
                         UnitElement.create("static").content("static").optional(),
                         TypeElement.create("type").optional().verify(new NextTokenTypeVerifier(TokenType.UNKNOWN)),
                         WildcardElement.create("name").verify(new TokenTypeVerifier(TokenType.UNKNOWN)),
@@ -82,37 +82,32 @@ public final class MethodParser extends ParserBootstrap {
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
-    boolean parse(Context context, LocalData local, @Component Prototype prototype, @Inter Result result, @Nullable @Src("type") Snippet type, @Nullable @Src("body") Snippet body) {
-        Visibility visibility = Visibility.valueOf(result.get("visibility").toString().toUpperCase());
-        Reference returnType = JavaModule.VOID.toReference();
-
-        if (type != null) {
-            Optional<Reference> reference = context.getComponent(Components.IMPORTS).forName(type.asSource());
-
-            if (!reference.isPresent()) {
-                throw new PandaParserFailure(context, type, "Unknown type", "Make sure that the name does not have a typo and module which should contain that class is imported");
-            }
-
-            returnType = reference.get();
-        }
+    void parse(Context context, LocalData local, @Component Prototype prototype, @Inter Result result, @Nullable @Src("type") Snippet type, @Nullable @Src("body") Snippet body) {
+        Reference returnType = Optional.ofNullable(type)
+                .map(value ->  context.getComponent(Components.IMPORTS)
+                        .forName(type.asSource())
+                        .orElseThrow((Supplier<? extends PandaParserFailure>) () -> {
+                                throw new PandaParserFailure(context, type,
+                                        "Unknown type",
+                                        "Make sure that the name does not have a typo and module which should contain that class is imported"
+                                );
+                        }))
+                .orElseGet(JavaModule.VOID::toReference);
 
         TokenRepresentation name = result.get("name");
         List<Parameter> parameters = PARAMETER_PARSER.parse(context, result.get("parameters"));
         MethodScope methodScope = local.allocated(new MethodScope(name.getLocation(), parameters));
 
-        PrototypeMethod prototypeMethod = PandaMethod.builder()
+        prototype.getMethods().declare(PandaMethod.builder()
                 .prototype(prototype.toReference())
-                .parameters(parameters.toArray(new Parameter[0]))
+                .parameters(parameters)
                 .name(name.getValue())
                 .isAbstract(body == null)
-                .visibility(visibility)
+                .visibility(result.get("visibility"))
                 .returnType(returnType)
                 .isStatic(result.has("static"))
-                .methodBody(methodScope.toCallback())
-                .build();
-
-        prototype.getMethods().declare(prototypeMethod);
-        return true;
+                .methodBody(methodScope)
+                .build());
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)

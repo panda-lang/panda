@@ -43,8 +43,6 @@ public final class Keywords {
 
     public static final Keyword EXPORT = new Keyword("export");
 
-    public static final Keyword EXTENDS = new Keyword("extends");
-
     public static final Keyword FOREACH = new Keyword("foreach");
 
     public static final Keyword FOR = new Keyword("for");
@@ -69,13 +67,9 @@ public final class Keywords {
 
     public static final Keyword MAIN = new Keyword("main");
 
-    public static final Keyword METHOD = new Keyword("method");
-
     public static final Keyword MODULE = new Keyword("module");
 
     public static final Keyword MUT = new Keyword("mut");
-
-    public static final Keyword NATIVE = new Keyword("native");
 
     public static final Keyword NEW = new Keyword("new");
 

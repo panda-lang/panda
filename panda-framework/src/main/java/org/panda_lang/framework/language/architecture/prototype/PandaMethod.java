@@ -65,6 +65,10 @@ public class PandaMethod extends PandaExecutableProperty implements PrototypeMet
 
         private PandaMethodBuilder() { }
 
+        public PandaMethodBuilder methodBody(MethodScope scope) {
+            return methodBody(scope.toCallback());
+        }
+
         public PandaMethodBuilder methodBody(PrototypeExecutableCallback callback) {
             this.methodBody = callback;
             return this;
