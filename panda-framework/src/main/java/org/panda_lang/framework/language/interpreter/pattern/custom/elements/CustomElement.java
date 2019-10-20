@@ -17,22 +17,16 @@
 package org.panda_lang.framework.language.interpreter.pattern.custom.elements;
 
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPatternElementBuilder;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 
-public final class UnitElement extends CustomPatternElementBuilder<TokenRepresentation, UnitElement> {
+public final class CustomElement<T> extends CustomPatternElementBuilder<T, CustomElement<T>> {
 
-    private UnitElement(String id) {
+    public CustomElement(String id) {
         super(id);
     }
 
-    public UnitElement content(String value) {
-        super.custom((data, source) -> source.next().getValue().equals(value) ? source.getCurrent() : null);
-        return this;
-    }
-
-
-    public static UnitElement create(String id) {
-        return new UnitElement(id);
+    public static <T> CustomElement<T> create(String id) {
+        return new CustomElement<T>(id);
     }
 
 }
+

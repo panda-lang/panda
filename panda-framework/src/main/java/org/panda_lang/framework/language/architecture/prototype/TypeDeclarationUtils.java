@@ -21,6 +21,7 @@ import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
+import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 
@@ -30,6 +31,12 @@ import java.util.Optional;
 public final class TypeDeclarationUtils {
 
     private TypeDeclarationUtils() { }
+
+    public static Optional<Snippet> readType(SynchronizedSource source) {
+        Optional<Snippet> type = TypeDeclarationUtils.readType(source.getAvailableSource());
+        type.ifPresent(tokenRepresentations -> source.next(tokenRepresentations.size()));
+        return type;
+    }
 
     public static Optional<Snippet> readType(Snippet source) {
         Snippet type = new PandaSnippet();

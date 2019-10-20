@@ -130,7 +130,7 @@ main {
 
 }
 
-shared class Foo : Test {
+shared class Foo : Test, Object {
 
     shared static anotherEcho(String message1) {
         Console.print(message1)

@@ -25,6 +25,7 @@ import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.architecture.prototype.PandaConstructor;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
@@ -35,9 +36,9 @@ import org.panda_lang.framework.language.interpreter.parser.generation.Generatio
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PipelineParser;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
 import org.panda_lang.framework.language.interpreter.pattern.custom.Result;
+import org.panda_lang.framework.language.interpreter.pattern.custom.elements.CustomElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.SectionElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.SubPatternElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.TypeElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.UnitElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.VariantElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.WildcardElement;
@@ -57,6 +58,8 @@ import org.panda_lang.panda.language.interpreter.bootstraps.context.handlers.Cus
 import org.panda_lang.panda.language.interpreter.bootstraps.context.interceptors.CustomPatternInterceptor;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 
+import java.util.Collection;
+
 @RegistrableParser(pipeline = Pipelines.HEAD_LABEL)
 public final class PrototypeParser extends ParserBootstrap {
 
@@ -73,7 +76,7 @@ public final class PrototypeParser extends ParserBootstrap {
                         WildcardElement.create("name").verify(new TokenTypeVerifier(TokenType.UNKNOWN)),
                         SubPatternElement.create("extended").optional().of(
                                 UnitElement.create("extends").content(":"),
-                                TypeElement.create("inherited")
+                                CustomElement.create("inherited").custom((data, source) -> PrototypeParserUtils.readTypes(source))
                         ),
                         SectionElement.create("body")
                 ));
@@ -107,9 +110,13 @@ public final class PrototypeParser extends ParserBootstrap {
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
-    void parseDeclaration(Context context, @Src("declaration") Snippet declaration) {
-        if (declaration != null) {
-            PrototypeParserUtils.readDeclaration(context, declaration);
+    void parseDeclaration(Context context, @Component Prototype prototype, @Src("inherited") Collection<Snippetable> inherited) {
+        if (inherited == null) {
+            return;
+        }
+
+        for (Snippetable typeSource : inherited) {
+            PrototypeParserUtils.appendExtended(context, prototype, typeSource);
         }
     }
 

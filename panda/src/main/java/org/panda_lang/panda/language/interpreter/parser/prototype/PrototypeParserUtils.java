@@ -16,73 +16,64 @@
 
 package org.panda_lang.panda.language.interpreter.parser.prototype;
 
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
-import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Components;
-import org.panda_lang.framework.design.interpreter.token.Token;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.language.architecture.prototype.StateComparator;
-import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.framework.language.architecture.prototype.TypeDeclarationUtils;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
+import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
 
 final class PrototypeParserUtils {
 
     private PrototypeParserUtils() { }
 
-    public static void readDeclaration(Context context, Snippet classDeclaration) {
-        Prototype classPrototype = context.getComponent(PrototypeComponents.PROTOTYPE);
-        Token next = classDeclaration.get(1);
+    public static Collection<Snippetable> readTypes(SynchronizedSource source) {
+        Collection<Snippetable> types = new ArrayList<>(1);
 
-        if (next == null || next.getType() != TokenType.KEYWORD) {
-            throw new PandaParserException("Unknown element " + next);
-        }
-
-        switch (next.getValue()) {
-            case "implements": //temp
-            case "extends":
-                readExtends(context, classDeclaration, classPrototype);
-                break;
-            default:
-                throw new PandaParserException("Illegal keyword " + next);
-        }
-    }
-
-    private static void readExtends(Context context, Snippet classDeclaration, Prototype prototype) {
-        ModuleLoader loader = context.getComponent(Components.MODULE_LOADER);
-
-        for (int i = 2; i < classDeclaration.size(); i++) {
-            TokenRepresentation classNameToken = classDeclaration.get(i);
-
-            if (classNameToken == null) {
-                throw new PandaParserFailure(context, classDeclaration, "Declaration token not found");
-            }
-            else if (classNameToken.getType() == TokenType.SEPARATOR) {
-                continue;
-            }
-            else if (classNameToken.getType() == TokenType.UNKNOWN) {
-                Optional<Reference> extendedPrototype = loader.forName(classNameToken.getValue());
-
-                if (extendedPrototype.isPresent()) {
-                    StateComparator.requireInheritance(context, extendedPrototype.get(), classNameToken);
-                    prototype.addSuper(extendedPrototype.get());
-                    continue;
+        while (source.hasNext()) {
+            if (!types.isEmpty()) {
+                if (!source.getNext().equals(Separators.COMMA)) {
+                    break;
                 }
 
-                throw new PandaParserFailure(context, classDeclaration,
-                        "Class " + classNameToken.getValue() + " not found",
-                        "Make sure that the name does not have a typo and module which should contain that class is imported"
-                );
+                source.next();
             }
 
-            break;
+            Optional<Snippet> type = TypeDeclarationUtils.readType(source);
+
+            if (!type.isPresent()) {
+                break;
+            }
+
+            types.add(type.get());
         }
+
+        return types;
+    }
+
+    public static void appendExtended(Context context, Prototype prototype, Snippetable typeSource) {
+        String name = typeSource.toString();
+        Optional<Reference> extendedPrototype = context.getComponent(Components.IMPORTS).forName(name);
+
+        if (extendedPrototype.isPresent()) {
+            StateComparator.requireInheritance(context, extendedPrototype.get(), typeSource);
+            prototype.addSuper(extendedPrototype.get());
+            return;
+        }
+
+        throw new PandaParserFailure(context, typeSource,
+                "Type " + name + " not found",
+                "Make sure that the name does not have a typo and module which should contain that class is imported"
+        );
     }
 
 }
