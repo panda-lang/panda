@@ -11,7 +11,7 @@ local class TestArray {
     shared String[] array
 
     constructor(Int size) {
-        this.array = new String[size];
+        this.array = new String[size]
     }
 
     shared modify(Test test) {
@@ -126,11 +126,11 @@ main {
     }
 
     // Make sure that here is no way to create instance of interface
-    // Interface int = new Interface();
+    // Interface int = new Interface()
 
 }
 
-shared class Foo extends Test {
+shared class Foo : Test {
 
     shared static anotherEcho(String message1) {
         Console.print(message1)
