@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.interpreter.parser.prototype;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.Imports;
-import org.panda_lang.framework.design.architecture.parameter.Parameter;
+import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
@@ -26,7 +26,7 @@ import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SnippetUtils;
 import org.panda_lang.framework.design.interpreter.token.Token;
-import org.panda_lang.framework.language.architecture.parameter.PandaParameter;
+import org.panda_lang.framework.language.architecture.prototype.PandaPropertyParameter;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.utilities.commons.ArrayUtils;
@@ -38,13 +38,13 @@ import java.util.Optional;
 
 public final class ParameterParser implements Parser {
 
-    public List<Parameter> parse(Context context, @Nullable Snippet snippet) {
+    public List<PropertyParameter> parse(Context context, @Nullable Snippet snippet) {
         if (SnippetUtils.isEmpty(snippet)) {
             return Collections.emptyList();
         }
 
         Snippet[] parametersSource = snippet.split(Separators.COMMA);
-        List<Parameter> parameters = new ArrayList<>(parametersSource.length);
+        List<PropertyParameter> parameters = new ArrayList<>(parametersSource.length);
 
         if (ArrayUtils.isEmpty(parametersSource)) {
             return parameters;
@@ -78,7 +78,7 @@ public final class ParameterParser implements Parser {
                 reference = reference.toArray(context.getComponent(Components.MODULE_LOADER));
             }
 
-            Parameter parameter = new PandaParameter(index, reference, name.getValue(), varargs, false);
+            PropertyParameter parameter = new PandaPropertyParameter(index, reference, name.getValue(), varargs, false);
             parameters.add(parameter);
         }
 

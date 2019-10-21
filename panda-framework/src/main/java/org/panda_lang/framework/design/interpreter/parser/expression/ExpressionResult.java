@@ -18,6 +18,7 @@ package org.panda_lang.framework.design.interpreter.parser.expression;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 
@@ -29,9 +30,9 @@ public class ExpressionResult {
 
     private final @Nullable Expression value;
     private final @Nullable String errorMessage;
-    private final @Nullable TokenRepresentation source;
+    private final @Nullable Snippetable source;
 
-    ExpressionResult(@Nullable Expression value, TokenRepresentation source, String errorMessage) {
+    ExpressionResult(@Nullable Expression value, Snippetable source, String errorMessage) {
         this.value = value;
         this.source = source;
         this.errorMessage = errorMessage;
@@ -73,7 +74,7 @@ public class ExpressionResult {
         return errorMessage;
     }
 
-    public TokenRepresentation getSource() {
+    public Snippetable getSource() {
         return source;
     }
 
@@ -82,16 +83,14 @@ public class ExpressionResult {
         return error(message, context.getSynchronizedSource().getAvailableSource());
     }
 
-    public static ExpressionResult error(String message, Snippet source) {
-        if (source.isEmpty()) {
-            throw new IllegalArgumentException("Source cannot be empty");
+    public static ExpressionResult error(String message, Snippetable source) {
+        Snippet snippet = source.toSnippet();
+
+        if (snippet.isEmpty()) {
+            throw new IllegalArgumentException("Error source cannot be empty");
         }
 
-        return new ExpressionResult(message, source.getFirst());
-    }
-
-    public static ExpressionResult error(String message, TokenRepresentation source) {
-        return new ExpressionResult(message, source);
+        return new ExpressionResult(message, snippet.getFirst());
     }
 
     public static ExpressionResult of(Expression value) {

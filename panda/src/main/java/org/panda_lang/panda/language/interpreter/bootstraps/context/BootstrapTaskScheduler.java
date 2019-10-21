@@ -86,7 +86,7 @@ final class BootstrapTaskScheduler<T> {
                 throw e;
             }
             catch (Throwable throwable) {
-                throw new BootstrapException("Internal error: " + throwable.getMessage(), throwable);
+                throw new BootstrapException("Internal error: " + (throwable.getMessage() != null ? throwable.getMessage() : throwable.getClass()), throwable);
             }
 
             if (last && !methods.isEmpty()) {

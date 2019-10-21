@@ -18,7 +18,7 @@ package org.panda_lang.panda.cli.shell;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
-import org.panda_lang.framework.design.architecture.parameter.Parameter;
+import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
 import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
@@ -36,7 +36,7 @@ final class ShellScope extends AbstractPropertyFramedScope {
     private final Map<Integer, Object> defaultValues = new HashMap<>();
     private final Collection<ShellVariableChangeListener> variableChangeListeners = new ArrayList<>(1);
 
-    ShellScope(SourceLocation location, List<Parameter> parameters) {
+    ShellScope(SourceLocation location, List<PropertyParameter> parameters) {
         super(location, parameters);
     }
 

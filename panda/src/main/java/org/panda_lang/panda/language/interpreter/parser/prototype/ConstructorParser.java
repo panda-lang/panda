@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.interpreter.parser.prototype;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
-import org.panda_lang.framework.design.architecture.parameter.Parameter;
+import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
 import org.panda_lang.framework.design.interpreter.parser.Context;
@@ -26,7 +26,7 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractFrame;
-import org.panda_lang.framework.language.architecture.parameter.ParameterUtils;
+import org.panda_lang.framework.language.architecture.prototype.ParameterUtils;
 import org.panda_lang.framework.language.architecture.prototype.PandaConstructor;
 import org.panda_lang.framework.language.architecture.prototype.PandaConstructor.PandaConstructorScope;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeScope;
@@ -64,13 +64,14 @@ public final class ConstructorParser extends ParserBootstrap {
     @Autowired(order = 1)
     void parse(Context context, LocalData local, @Inter SourceLocation location, @Component PrototypeScope prototypeScope, @Src("parameters") @Nullable Snippet parametersSource) {
         Prototype prototype = prototypeScope.getPrototype();
-        List<Parameter> parameters = PARAMETER_PARSER.parse(context, parametersSource);
+        List<PropertyParameter> parameters = PARAMETER_PARSER.parse(context, parametersSource);
 
         PandaConstructorScope constructorScope = local.allocated(new PandaConstructorScope(location, parameters));
         constructorScope.addParameters(parameters);
 
         PrototypeConstructor constructor = PandaConstructor.builder()
                 .type(prototype.toReference())
+                .location(location)
                 .parameters(parameters)
                 .callback((stack, instance, arguments) -> {
                     Frame prototypeInstance = prototypeScope.revive(stack, instance);

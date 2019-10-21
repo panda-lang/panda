@@ -17,7 +17,6 @@
 package org.panda_lang.framework.design.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.framework.design.interpreter.source.Source;
 
 import java.util.Collection;
 
@@ -76,12 +75,5 @@ public interface Type extends Property {
      * @return the associated class
      */
     Class<?> getAssociatedClass();
-
-    /**
-     * Get source of declaration
-     *
-     * @return the declaration source
-     */
-    Source getSource();
 
 }

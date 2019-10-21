@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.language.architecture.statement;
 
-import org.panda_lang.framework.design.architecture.parameter.Parameter;
+import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
 import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 
@@ -25,25 +25,25 @@ import java.util.List;
 
 public abstract class AbstractPropertyFramedScope extends AbstractFramedScope {
 
-    protected final List<Parameter> parameters;
+    protected final List<PropertyParameter> parameters;
 
-    public AbstractPropertyFramedScope(SourceLocation location, List<Parameter> parameters) {
+    public AbstractPropertyFramedScope(SourceLocation location, List<PropertyParameter> parameters) {
         super(location);
         this.parameters = parameters;
         addParameters(parameters);
     }
 
-    public List<? extends Variable> addParameters(List<? extends Parameter> parameters) {
+    public List<? extends Variable> addParameters(List<? extends PropertyParameter> parameters) {
         List<Variable> variables = new ArrayList<>();
 
-        for (Parameter parameter : parameters) {
+        for (PropertyParameter parameter : parameters) {
             variables.add(createVariable(parameter));
         }
 
         return variables;
     }
 
-    public List<? extends Parameter> getParameters() {
+    public List<? extends PropertyParameter> getParameters() {
         return parameters;
     }
 

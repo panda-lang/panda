@@ -46,10 +46,11 @@ final class FieldGenerator {
         Reference returnType = generator.findOrGenerate(prototype.getModule(), field.getType());
 
         PrototypeField prototypeField = PandaPrototypeField.builder()
-                .prototype(prototype.toReference())
-                .returnType(returnType)
-                .fieldIndex(prototype.getFields().getProperties().size())
                 .name(field.getName())
+                .fieldIndex(prototype.getFields().getProperties().size())
+                .prototype(prototype.toReference())
+                .location(prototype.getLocation())
+                .returnType(returnType)
                 .isStatic(Modifier.isStatic(field.getModifiers()))
                 .isNative(true)
                 .mutable(true)

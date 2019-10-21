@@ -14,19 +14,23 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.architecture.parameter;
+package org.panda_lang.framework.language.architecture.prototype;
 
-import org.panda_lang.framework.design.architecture.parameter.Parameter;
+import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
 import org.panda_lang.framework.design.architecture.prototype.Referencable;
 import org.panda_lang.framework.language.architecture.statement.PandaVariable;
 
-public class PandaParameter extends PandaVariable implements Parameter {
+public class PandaPropertyParameter extends PandaVariable implements PropertyParameter {
 
     private final boolean varargs;
 
-    public PandaParameter(int parameterIndex, Referencable referencable, String name, boolean varargs, boolean nillable) {
+    public PandaPropertyParameter(int parameterIndex, Referencable referencable, String name, boolean varargs, boolean nillable) {
         super(parameterIndex, referencable.toReference(), name, false, nillable);
         this.varargs = varargs;
+    }
+
+    public PandaPropertyParameter(int parameterIndex, Referencable referencable, String name) {
+        this(parameterIndex, referencable, name, false, false);
     }
 
     @Override

@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.architecture.parameter;
+package org.panda_lang.framework.language.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.parameter.Parameter;
+import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractFrame;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractLivingFrameUtils;
@@ -25,7 +25,7 @@ import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 
 public class ParameterUtils {
 
-    public static final Parameter[] PARAMETERLESS = new Parameter[0];
+    public static final PropertyParameter[] PARAMETERLESS = new PropertyParameter[0];
 
     public static void assignValues(AbstractFrame<?> instance, Object[] parameterValues) {
         if (instance.getAmountOfVariables() < parameterValues.length) {

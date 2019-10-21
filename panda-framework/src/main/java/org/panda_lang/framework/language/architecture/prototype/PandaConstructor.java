@@ -17,7 +17,7 @@
 package org.panda_lang.framework.language.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
-import org.panda_lang.framework.design.architecture.parameter.Parameter;
+import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
@@ -28,7 +28,7 @@ import org.panda_lang.framework.language.architecture.statement.PandaPropertyFra
 import java.lang.reflect.Constructor;
 import java.util.List;
 
-public class PandaConstructor extends PandaExecutableProperty implements PrototypeConstructor {
+public class PandaConstructor extends AbstractExecutableProperty implements PrototypeConstructor {
 
     private PandaConstructor(PandaConstructorBuilder builder) {
         super(builder);
@@ -40,7 +40,7 @@ public class PandaConstructor extends PandaExecutableProperty implements Prototy
     }
 
     public static PandaConstructorBuilder builder() {
-        return new PandaConstructorBuilder();
+        return new PandaConstructorBuilder().name("constructor");
     }
 
     public static class PandaConstructorBuilder extends PandaParametrizedExecutableBuilder<PandaConstructorBuilder> {
@@ -59,7 +59,7 @@ public class PandaConstructor extends PandaExecutableProperty implements Prototy
 
     public static class PandaConstructorScope extends AbstractPropertyFramedScope {
 
-        public PandaConstructorScope(SourceLocation location, List<Parameter> parameters) {
+        public PandaConstructorScope(SourceLocation location, List<PropertyParameter> parameters) {
             super(location, parameters);
         }
 
@@ -68,7 +68,7 @@ public class PandaConstructor extends PandaExecutableProperty implements Prototy
             return new ConstructorFrame(this, (Frame) instance);
         }
 
-        public List<Parameter> getParameters() {
+        public List<PropertyParameter> getParameters() {
             return parameters;
         }
 

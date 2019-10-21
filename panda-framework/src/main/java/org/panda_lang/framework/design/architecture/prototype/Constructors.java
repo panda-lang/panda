@@ -16,7 +16,6 @@
 
 package org.panda_lang.framework.design.architecture.prototype;
 
-import org.panda_lang.framework.design.architecture.parameter.Arguments;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 
 import java.util.Optional;

@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.architecture.parameter;
+package org.panda_lang.framework.design.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.statement.Variable;
 
-public interface Parameter extends Variable {
+public interface PropertyParameter extends Variable {
 
     /**
      * Check if parameter is VarArgs

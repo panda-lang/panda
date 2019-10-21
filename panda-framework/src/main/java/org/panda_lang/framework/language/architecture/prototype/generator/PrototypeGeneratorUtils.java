@@ -17,7 +17,7 @@
 package org.panda_lang.framework.language.architecture.prototype.generator;
 
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.language.architecture.parameter.PandaParameter;
+import org.panda_lang.framework.language.architecture.prototype.PandaPropertyParameter;
 
 import java.lang.reflect.Parameter;
 
@@ -27,12 +27,12 @@ public final class PrototypeGeneratorUtils {
 
     private PrototypeGeneratorUtils() { }
 
-    public static PandaParameter[] toParameters(Module module, Parameter[] parameters) {
-        PandaParameter[] mappedParameters = new PandaParameter[parameters.length];
+    public static PandaPropertyParameter[] toParameters(Module module, Parameter[] parameters) {
+        PandaPropertyParameter[] mappedParameters = new PandaPropertyParameter[parameters.length];
 
         for (int index = 0; index < parameters.length; index++) {
             Parameter parameter = parameters[index];
-            mappedParameters[index] = new PandaParameter(index, GENERATOR.findOrGenerate(module, parameter.getType()), parameter.getName(), parameter.isVarArgs(), false);
+            mappedParameters[index] = new PandaPropertyParameter(index, GENERATOR.findOrGenerate(module, parameter.getType()), parameter.getName(), parameter.isVarArgs(), false);
         }
 
         return mappedParameters;

@@ -58,11 +58,11 @@ public final class VisibilityComparator {
             return Optional.of("Cannot access the property '" + requested + "' outside of the '" + requestedModule.getName() + "' module or its submodules");
         }
 
-        if (requested.getPrototype().getSource().equals(currentSource)) {
+        if (requested.getPrototype().getLocation().getSource().equals(currentSource)) {
             return Optional.empty();
         }
 
-        return Optional.of("Cannot access the property '" + requested + "' outside of the " + requested.getPrototype().getSource().getId() + " source");
+        return Optional.of("Cannot access the property '" + requested + "' outside of the " + requested.getPrototype().getLocation().getSource().getId() + " source");
     }
 
 }

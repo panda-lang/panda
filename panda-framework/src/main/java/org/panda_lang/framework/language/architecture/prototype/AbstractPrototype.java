@@ -18,20 +18,20 @@ package org.panda_lang.framework.language.architecture.prototype;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.State;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.Constructors;
 import org.panda_lang.framework.design.architecture.prototype.Fields;
 import org.panda_lang.framework.design.architecture.prototype.Methods;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
-import org.panda_lang.framework.design.interpreter.source.Source;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
-abstract class AbstractPrototype extends AbstractPrototypeType implements Prototype {
+abstract class AbstractPrototype extends AbstractType implements Prototype {
 
     protected final Reference reference = new PandaReference(this);
     protected final Collection<Reference> extended = new ArrayList<>(1);
@@ -39,7 +39,7 @@ abstract class AbstractPrototype extends AbstractPrototypeType implements Protot
     protected final Fields fields = new PandaFields();
     protected final Methods methods = new PandaMethods();
 
-    public AbstractPrototype(Module module, String name, Source source, Class<?> associated, String type, State state, Visibility visibility) {
+    public AbstractPrototype(Module module, String name, SourceLocation source, Class<?> associated, String type, State state, Visibility visibility) {
         super(name, module, source, associated, type, state, visibility);
     }
 
@@ -64,18 +64,18 @@ abstract class AbstractPrototype extends AbstractPrototypeType implements Protot
     }
 
     @Override
+    public Reference getReference() {
+        return reference;
+    }
+
+    @Override
     public Reference toReference() {
         return reference;
     }
 
     @Override
-    public Prototype getPrototype() {
-        return this;
-    }
-
-    @Override
     public int hashCode() {
-        return Objects.hashCode(name);
+        return Objects.hash(getModule(), getName());
     }
 
     @Override
@@ -85,7 +85,7 @@ abstract class AbstractPrototype extends AbstractPrototypeType implements Protot
 
     @Override
     public String toString() {
-        return "prototype " + name;
+        return "prototype " + getModule().getName() + "::" + getName();
     }
 
 }

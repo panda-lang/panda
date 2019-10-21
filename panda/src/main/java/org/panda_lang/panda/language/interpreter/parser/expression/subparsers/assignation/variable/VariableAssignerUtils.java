@@ -26,6 +26,10 @@ public class VariableAssignerUtils {
 
     public static Assigner<Variable> of(Context context, Variable variable, boolean initialize, Expression expression) {
         if (variable.getType().isAssignableFrom(expression.getReturnType())) {
+            if (initialize) {
+                variable.initialize();
+            }
+
             return new VariableAccessor(variable).toAssigner(initialize, expression);
         }
 

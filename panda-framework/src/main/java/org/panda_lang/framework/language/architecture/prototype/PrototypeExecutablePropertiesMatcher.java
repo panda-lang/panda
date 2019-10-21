@@ -19,8 +19,8 @@ package org.panda_lang.framework.language.architecture.prototype;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
-import org.panda_lang.framework.design.architecture.parameter.Arguments;
-import org.panda_lang.framework.design.architecture.parameter.Parameter;
+import org.panda_lang.framework.design.architecture.prototype.Arguments;
+import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.ExecutableProperty;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
@@ -48,7 +48,7 @@ final class PrototypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
     }
 
     private @Nullable Arguments<T> match(T executable, Prototype[] requiredTypes, @Nullable Expression[] arguments) {
-        Parameter[] parameters = executable.getParameters();
+        PropertyParameter[] parameters = executable.getParameters();
 
         // return result for parameterless executables
         if (parameters.length == 0) {
@@ -61,7 +61,7 @@ final class PrototypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
 
         // loop as long parameters and types are available
         for (; (index < parameters.length) && (required < requiredTypes.length); index++) {
-            Parameter parameter = parameters[index];
+            PropertyParameter parameter = parameters[index];
 
             if (!parameter.isVarargs()) {
                 target[required] = index;

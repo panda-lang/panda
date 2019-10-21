@@ -31,6 +31,10 @@ public final class PandaSourceLocation implements SourceLocation {
         this.position = position;
     }
 
+    public PandaSourceLocation(Source source) {
+        this(source, UNKNOWN_LOCATION, UNKNOWN_LOCATION);
+    }
+
     @Override
     public int getIndex() {
         return position;

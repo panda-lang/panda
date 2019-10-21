@@ -16,14 +16,15 @@
 
 package org.panda_lang.framework.language.architecture.prototype.generator;
 
+import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
-import org.panda_lang.framework.design.architecture.parameter.Parameter;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.language.architecture.prototype.PandaConstructor;
-import org.panda_lang.framework.language.architecture.parameter.PandaParameter;
+import org.panda_lang.framework.language.architecture.prototype.PandaPropertyParameter;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Parameter;
 
 final class ConstructorGenerator {
 
@@ -38,14 +39,14 @@ final class ConstructorGenerator {
     }
 
     protected PrototypeConstructor generate() {
-        Parameter[] prototypeParameters = new Parameter[constructor.getParameterCount()];
-        java.lang.reflect.Parameter[] parameters = constructor.getParameters();
+        PropertyParameter[] prototypeParameters = new PropertyParameter[constructor.getParameterCount()];
+        Parameter[] parameters = constructor.getParameters();
 
         for (int index = 0; index < parameters.length; index++) {
             Reference reference = generator.findOrGenerate(prototype.getModule(), constructor.getParameterTypes()[index]);
-            java.lang.reflect.Parameter parameter = parameters[index];
+            Parameter parameter = parameters[index];
 
-            prototypeParameters[index] = new PandaParameter(index, reference, parameter.getName(), parameter.isVarArgs(), false);
+            prototypeParameters[index] = new PandaPropertyParameter(index, reference, parameter.getName(), parameter.isVarArgs(), false);
         }
 
         // TODO: Generate bytecode
@@ -53,6 +54,7 @@ final class ConstructorGenerator {
 
         return PandaConstructor.builder()
                 .name("constructor " + prototype.getName())
+                .location(prototype.getLocation())
                 .parameters(prototypeParameters)
                 .prototype(prototype.toReference())
                 .returnType(prototype.toReference())

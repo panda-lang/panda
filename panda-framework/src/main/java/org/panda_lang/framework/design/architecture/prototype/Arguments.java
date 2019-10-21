@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.architecture.parameter;
+package org.panda_lang.framework.design.architecture.prototype;
 
-import org.panda_lang.framework.design.architecture.prototype.ExecutableProperty;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 
 public interface Arguments<T extends ExecutableProperty> {

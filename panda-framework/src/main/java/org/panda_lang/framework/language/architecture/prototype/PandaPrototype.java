@@ -22,12 +22,13 @@ import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.design.interpreter.source.Source;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 
 public class PandaPrototype extends AbstractPrototype {
 
     private boolean initialized;
 
-    protected PandaPrototype(Module module, String className, Source source, Class<?> associated, String type, State state, Visibility visibility) {
+    protected PandaPrototype(Module module, String className, SourceLocation source, Class<?> associated, String type, State state, Visibility visibility) {
         super(module, className, source, associated, type, state, visibility);
     }
 
@@ -60,7 +61,7 @@ public class PandaPrototype extends AbstractPrototype {
 
         protected String name;
         protected Module module;
-        protected Source source;
+        protected SourceLocation source;
         protected Class<?> associated;
         protected String type;
         protected State state;
@@ -80,7 +81,7 @@ public class PandaPrototype extends AbstractPrototype {
             return getThis();
         }
 
-        public BUILDER source(Source source) {
+        public BUILDER source(SourceLocation source) {
             this.source = source;
             return getThis();
         }
@@ -112,22 +113,6 @@ public class PandaPrototype extends AbstractPrototype {
 
         @SuppressWarnings("unchecked")
         public TYPE build() {
-            if (name == null) {
-                throw new IllegalArgumentException("Prototype name is not defined");
-            }
-
-            if (module == null) {
-                throw new IllegalArgumentException("Prototype needs module");
-            }
-
-            if (associated == null) {
-                throw new IllegalArgumentException("Prototype has to be associated with a java class");
-            }
-
-            if (type == null) {
-                throw new IllegalArgumentException("Prototype requires defined type");
-            }
-
             return (TYPE) new PandaPrototype(this);
         }
 
