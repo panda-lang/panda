@@ -44,7 +44,7 @@ public final class PandaPrototypeUtils {
         PandaPrototype prototype = PandaPrototype.builder()
                 .name(name)
                 .module(module)
-                .source(new PandaClassSource(type))
+                .source(new PandaClassSource(type).toLocation())
                 .associated(type)
                 .type(type.isInterface() ? "interface" : "class")
                 .state(State.of(type))

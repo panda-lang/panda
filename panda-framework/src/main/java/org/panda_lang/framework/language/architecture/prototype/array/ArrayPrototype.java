@@ -29,7 +29,7 @@ public class ArrayPrototype extends PandaPrototype {
     private final Reference type;
 
     public ArrayPrototype(Module module, Class<?> associated, Referencable type) {
-        super(module, associated.getSimpleName(), new PandaClassSource(associated), associated, type.toReference().getType(), type.toReference().getState(), Visibility.PUBLIC);
+        super(module, associated.getSimpleName(), new PandaClassSource(associated).toLocation(), associated, type.toReference().getType(), type.toReference().getState(), Visibility.PUBLIC);
 
         this.type = type.toReference();
         super.extended.add(PandaModule.ARRAY.toReference());

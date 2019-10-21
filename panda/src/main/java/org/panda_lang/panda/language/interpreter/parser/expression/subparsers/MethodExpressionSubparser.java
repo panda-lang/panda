@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.interpreter.parser.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.parameter.Arguments;
+import org.panda_lang.framework.design.architecture.prototype.Arguments;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;

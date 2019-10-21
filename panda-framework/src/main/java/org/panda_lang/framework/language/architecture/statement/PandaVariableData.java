@@ -43,7 +43,7 @@ public class PandaVariableData implements VariableData  {
     }
 
     public PandaVariableData(Referencable type, String name) {
-        this(type, name, false, false);
+        this(type, name, true, true);
     }
 
     @Override

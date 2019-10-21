@@ -17,13 +17,14 @@
 package org.panda_lang.panda.language.interpreter.parser.prototype;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.parameter.Parameter;
+import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
@@ -82,7 +83,7 @@ public final class MethodParser extends ParserBootstrap {
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
-    void parse(Context context, LocalData local, @Component Prototype prototype, @Inter Result result, @Nullable @Src("type") Snippet type, @Nullable @Src("body") Snippet body) {
+    void parse(Context context, LocalData local, @Component Prototype prototype, @Inter SourceLocation location, @Inter Result result, @Src("type") Snippet type, @Src("body") Snippet body) {
         Reference returnType = Optional.ofNullable(type)
                 .map(value ->  context.getComponent(Components.IMPORTS)
                         .forName(type.asSource())
@@ -95,13 +96,14 @@ public final class MethodParser extends ParserBootstrap {
                 .orElseGet(JavaModule.VOID::toReference);
 
         TokenRepresentation name = result.get("name");
-        List<Parameter> parameters = PARAMETER_PARSER.parse(context, result.get("parameters"));
+        List<PropertyParameter> parameters = PARAMETER_PARSER.parse(context, result.get("parameters"));
         MethodScope methodScope = local.allocated(new MethodScope(name.getLocation(), parameters));
 
         prototype.getMethods().declare(PandaMethod.builder()
                 .prototype(prototype.toReference())
                 .parameters(parameters)
                 .name(name.getValue())
+                .location(location)
                 .isAbstract(body == null)
                 .visibility(result.get("visibility"))
                 .returnType(returnType)

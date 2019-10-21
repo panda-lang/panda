@@ -16,10 +16,10 @@
 
 package org.panda_lang.framework.language.architecture.prototype.generator;
 
+import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
-import org.panda_lang.framework.design.architecture.parameter.Parameter;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeExecutableCallback;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
@@ -47,7 +47,7 @@ final class MethodGenerator {
 
     protected PrototypeMethod generate() {
         Reference returnType = generator.findOrGenerate(prototype.getModule(), method.getReturnType());
-        Parameter[] mappedParameters = PrototypeGeneratorUtils.toParameters(prototype.getModule(), method.getParameters());
+        PropertyParameter[] mappedParameters = PrototypeGeneratorUtils.toParameters(prototype.getModule(), method.getParameters());
         boolean isVoid = returnType.getName().equals("void");
 
         // TODO: Generate bytecode
@@ -94,10 +94,11 @@ final class MethodGenerator {
         };
 
         return PandaMethod.builder()
+                .name(method.getName())
                 .prototype(prototype.toReference())
                 .isStatic(Modifier.isStatic(method.getModifiers()))
                 .returnType(returnType)
-                .name(method.getName())
+                .location(prototype.getLocation())
                 .methodBody(methodBody)
                 .parameters(mappedParameters)
                 .build();

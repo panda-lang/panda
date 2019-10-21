@@ -20,7 +20,6 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Result;
-import org.panda_lang.framework.language.architecture.parameter.ParameterUtils;
 
 public class PandaMethodCallback implements PrototypeExecutableCallback<Frame> {
 

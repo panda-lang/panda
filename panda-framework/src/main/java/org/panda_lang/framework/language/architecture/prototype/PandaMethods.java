@@ -19,9 +19,8 @@ package org.panda_lang.framework.language.architecture.prototype;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.framework.design.architecture.prototype.Methods;
-import org.panda_lang.framework.design.architecture.parameter.Arguments;
+import org.panda_lang.framework.design.architecture.prototype.Arguments;
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.language.architecture.parameter.ParameterUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;

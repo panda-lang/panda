@@ -19,7 +19,7 @@ package org.panda_lang.framework.language.architecture.prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 
-public class PandaMethod extends PandaExecutableProperty implements PrototypeMethod {
+public class PandaMethod extends AbstractExecutableProperty implements PrototypeMethod {
 
     private final PrototypeExecutableCallback methodBody;
     private final boolean isAbstract;
@@ -57,7 +57,7 @@ public class PandaMethod extends PandaExecutableProperty implements PrototypeMet
         return new PandaMethodBuilder();
     }
 
-    public static class PandaMethodBuilder extends PandaExecutableProperty.PandaParametrizedExecutableBuilder<PandaMethodBuilder> {
+    public static class PandaMethodBuilder extends AbstractExecutableProperty.PandaParametrizedExecutableBuilder<PandaMethodBuilder> {
 
         protected PrototypeExecutableCallback methodBody;
         protected boolean isAbstract;

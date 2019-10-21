@@ -19,6 +19,7 @@ package org.panda_lang.panda.language.interpreter.parser.prototype;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
@@ -79,7 +80,7 @@ public final class FieldParser extends ParserBootstrap {
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
-    void parse(Context context, LocalData local, @Inter Result result, @Src("type") Snippet type, @Src("name") TokenRepresentation name) {
+    void parse(Context context, LocalData local, @Inter Result result, @Inter SourceLocation location, @Src("type") Snippet type, @Src("name") TokenRepresentation name) {
         Reference returnType = PandaImportsUtils.getReferenceOrThrow(context, type.asSource(), type);
         Visibility visibility = Visibility.valueOf(result.get("visibility").toString().toUpperCase());
 
@@ -87,10 +88,11 @@ public final class FieldParser extends ParserBootstrap {
         int fieldIndex = prototype.getFields().getProperties().size();
 
         PrototypeField field = PandaPrototypeField.builder()
+                .name(name.getValue())
                 .prototype(prototype.toReference())
                 .returnType(returnType)
                 .fieldIndex(fieldIndex)
-                .name(name.getValue())
+                .location(location)
                 .visibility(visibility)
                 .isStatic(result.has("static"))
                 .mutable(result.has("mut"))
@@ -109,6 +111,7 @@ public final class FieldParser extends ParserBootstrap {
         }
 
         field.setDefaultValue(assignationValue);
+        field.initialize();
     }
 
 }

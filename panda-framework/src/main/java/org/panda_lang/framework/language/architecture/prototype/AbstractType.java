@@ -18,35 +18,47 @@ package org.panda_lang.framework.language.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.framework.design.architecture.prototype.Type;
-import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.prototype.State;
+import org.panda_lang.framework.design.architecture.prototype.Type;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
-import org.panda_lang.framework.design.interpreter.source.Source;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.language.architecture.prototype.array.ArrayClassPrototypeFetcher;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-abstract class AbstractPrototypeType implements Type {
+abstract class AbstractType extends AbstractProperty implements Type {
 
-    protected final String name;
     protected final Module module;
-    protected final Source source;
     protected final Class<?> associated;
     protected final String type;
     protected final State state;
-    protected final Visibility visibility;
     protected final Collection<Reference> supers = new ArrayList<>(1);
 
-    protected AbstractPrototypeType(String name, Module module, Source source, Class<?> associated, String type, State state, Visibility visibility) {
-        this.name = name;
+    protected AbstractType(String name, Module module, SourceLocation location, Class<?> associated, String type, State state, Visibility visibility) {
+        super(name, location, visibility);
+
+        if (module == null) {
+            throw new IllegalArgumentException("Prototype needs module");
+        }
+
+        if (associated == null) {
+            throw new IllegalArgumentException("Prototype has to be associated with a java class");
+        }
+
+        if (type == null) {
+            throw new IllegalArgumentException("Prototype requires defined type");
+        }
+
+        if (state == null) {
+            throw new IllegalArgumentException("State of prototype is missing");
+        }
+
         this.module = module;
-        this.source = source;
         this.associated = associated;
         this.type = type;
         this.state = state;
-        this.visibility = visibility;
     }
 
     @Override
@@ -76,11 +88,6 @@ abstract class AbstractPrototypeType implements Type {
     }
 
     @Override
-    public Visibility getVisibility() {
-        return visibility;
-    }
-
-    @Override
     public State getState() {
         return state;
     }
@@ -96,18 +103,8 @@ abstract class AbstractPrototypeType implements Type {
     }
 
     @Override
-    public Source getSource() {
-        return source;
-    }
-
-    @Override
     public Module getModule() {
         return module;
-    }
-
-    @Override
-    public String getName() {
-        return name;
     }
 
 }

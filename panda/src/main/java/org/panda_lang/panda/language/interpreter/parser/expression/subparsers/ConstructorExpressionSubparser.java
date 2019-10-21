@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.interpreter.parser.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.parameter.Arguments;
+import org.panda_lang.framework.design.architecture.prototype.Arguments;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionCategory;
@@ -126,16 +126,17 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             VisibilityComparator.requireAccess(type, context.getContext(), typeSource);
             StateComparator.requireInstantiation(context.getContext(), type, typeSource);
 
-            return parseDefault(context, type, section.getContent());
+            return parseDefault(context, type, next);
         }
 
-        private ExpressionResult parseDefault(ExpressionContext context, Prototype type, Snippet argsSource) {
+        private ExpressionResult parseDefault(ExpressionContext context, Prototype type, TokenRepresentation section) {
+            Snippet argsSource = section.toToken(Section.class).getContent();
             Expression[] arguments = ARGUMENT_PARSER.parse(context, argsSource);
             Optional<Arguments<PrototypeConstructor>> adjustedConstructor = type.getConstructors().getAdjustedConstructor(arguments);
 
             return adjustedConstructor
                     .map(constructorArguments -> ExpressionResult.of(new PrototypeExecutableExpression(null, constructorArguments)))
-                    .orElseGet(() -> ExpressionResult.error(type.getName() + " does not have constructor with the required parameters: " + Arrays.toString(arguments), argsSource));
+                    .orElseGet(() -> ExpressionResult.error(type.getName() + " does not have constructor with the required parameters: " + Arrays.toString(arguments), section));
         }
 
         private ExpressionResult parseArray(ExpressionContext context, Snippet typeSource) {

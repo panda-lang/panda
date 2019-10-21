@@ -16,10 +16,17 @@
 
 package org.panda_lang.framework.language.interpreter.source;
 
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.language.interpreter.token.PandaSourceLocation;
+
 public final class PandaClassSource extends PandaSource {
 
     public PandaClassSource(Class<?> clazz) {
         super("java://" + clazz.getName(), "", true);
+    }
+
+    public SourceLocation toLocation() {
+        return new PandaSourceLocation(this);
     }
 
 }

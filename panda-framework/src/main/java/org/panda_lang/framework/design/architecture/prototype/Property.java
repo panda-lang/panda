@@ -17,6 +17,7 @@
 package org.panda_lang.framework.design.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 
 /**
  * Element of property
@@ -31,11 +32,20 @@ public interface Property {
     Visibility getVisibility();
 
     /**
-     * Get associated prototype
+     * Get prototype
      *
      * @return the prototype
      */
-    Prototype getPrototype();
+    default Prototype getPrototype() {
+        return getReference().fetch();
+    }
+
+    /**
+     * Get associated prototype
+     *
+     * @return the reference to prototype
+     */
+    Reference getReference();
 
     /**
      * Get module of property
@@ -43,8 +53,15 @@ public interface Property {
      * @return the module
      */
     default Module getModule() {
-        return getPrototype().getModule();
+        return getReference().getModule();
     }
+
+    /**
+     * Get location of property
+     *
+     * @return the location
+     */
+    SourceLocation getLocation();
 
     /**
      * Get name of prototype

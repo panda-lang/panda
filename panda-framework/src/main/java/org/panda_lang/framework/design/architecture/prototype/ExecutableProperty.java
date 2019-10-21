@@ -16,7 +16,6 @@
 
 package org.panda_lang.framework.design.architecture.prototype;
 
-import org.panda_lang.framework.design.architecture.parameter.Parameter;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 
 /**
@@ -36,17 +35,9 @@ public interface ExecutableProperty extends Property {
      */
     <T> T invoke(ProcessStack stack, Object instance, Object... arguments) throws Exception;
 
-    @Override
     default Prototype getPrototype() {
         return getReference().fetch();
     }
-
-    /**
-     * Get associated prototype
-     *
-     * @return the associated prototype
-     */
-    Reference getReference();
 
     /**
      * Get type references of executable's parameters
@@ -60,7 +51,7 @@ public interface ExecutableProperty extends Property {
      *
      * @return array of used parameters
      */
-    Parameter[] getParameters();
+    PropertyParameter[] getParameters();
 
     /**
      * Get return type of executable

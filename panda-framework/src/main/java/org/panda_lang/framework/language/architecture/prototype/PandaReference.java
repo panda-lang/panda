@@ -22,14 +22,14 @@ import org.panda_lang.framework.design.architecture.prototype.Reference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PandaReference extends AbstractPrototypeType implements Reference {
+public class PandaReference extends AbstractType implements Reference {
 
     private final Prototype prototype;
     private final List<Runnable> initializers = new ArrayList<>(1);
     private boolean initialized;
 
     protected PandaReference(Prototype prototype) {
-        super(prototype.getName(), prototype.getModule(), prototype.getSource(), prototype.getAssociatedClass(), prototype.getType(), prototype.getState(), prototype.getVisibility());
+        super(prototype.getName(), prototype.getModule(), prototype.getLocation(), prototype.getAssociatedClass(), prototype.getType(), prototype.getState(), prototype.getVisibility());
         this.prototype = prototype;
     }
 
@@ -55,8 +55,8 @@ public class PandaReference extends AbstractPrototypeType implements Reference {
     }
 
     @Override
-    public Prototype getPrototype() {
-        return prototype;
+    public Reference getReference() {
+        return this;
     }
 
     @Override

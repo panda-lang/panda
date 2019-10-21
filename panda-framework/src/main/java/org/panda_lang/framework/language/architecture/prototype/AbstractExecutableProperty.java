@@ -16,32 +16,30 @@
 
 package org.panda_lang.framework.language.architecture.prototype;
 
-import org.panda_lang.framework.design.architecture.parameter.Parameter;
+import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
 import org.panda_lang.framework.design.architecture.prototype.ExecutableProperty;
 import org.panda_lang.framework.design.architecture.prototype.Referencable;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.language.architecture.parameter.ParameterUtils;
 
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class PandaExecutableProperty implements ExecutableProperty {
+abstract class AbstractExecutableProperty extends AbstractProperty implements ExecutableProperty {
 
-    private final String name;
-    private final Parameter[] parameters;
+    private final Reference reference;
+    private final PropertyParameter[] parameters;
     private final Reference returnType;
-    private final Visibility visibility;
-    private final Reference prototype;
     private final PrototypeExecutableCallback callback;
 
-    protected PandaExecutableProperty(PandaParametrizedExecutableBuilder builder) {
-        this.name = builder.name;
+    protected AbstractExecutableProperty(PandaParametrizedExecutableBuilder builder) {
+        super(builder.name, builder.location, builder.visibility);
+
+        this.reference = builder.prototype;
         this.parameters = builder.parameters;
         this.returnType = builder.returnType;
-        this.visibility = builder.visibility;
-        this.prototype = builder.prototype;
         this.callback = builder.callback;
     }
 
@@ -52,24 +50,14 @@ public abstract class PandaExecutableProperty implements ExecutableProperty {
     }
 
     @Override
-    public Reference getReference() {
-        return prototype;
-    }
-
-    @Override
-    public Visibility getVisibility() {
-        return visibility;
-    }
-
-    @Override
     public Reference[] getParameterTypes() {
         return Arrays.stream(getParameters())
-                .map(Parameter::getType)
+                .map(PropertyParameter::getType)
                 .toArray(Reference[]::new);
     }
 
     @Override
-    public Parameter[] getParameters() {
+    public PropertyParameter[] getParameters() {
         return parameters;
     }
 
@@ -79,8 +67,8 @@ public abstract class PandaExecutableProperty implements ExecutableProperty {
     }
 
     @Override
-    public String getName() {
-        return name;
+    public Reference getReference() {
+        return reference;
     }
 
     public abstract static class PandaParametrizedExecutableBuilder<T extends PandaParametrizedExecutableBuilder> {
@@ -88,9 +76,10 @@ public abstract class PandaExecutableProperty implements ExecutableProperty {
         protected String name;
         protected Reference returnType;
         protected Reference prototype;
+        protected SourceLocation location;
         protected PrototypeExecutableCallback callback;
         protected Visibility visibility = Visibility.PUBLIC;
-        protected Parameter[] parameters = ParameterUtils.PARAMETERLESS;
+        protected PropertyParameter[] parameters = ParameterUtils.PARAMETERLESS;
 
         public T type(Reference reference) {
             prototype(reference).returnType(reference);
@@ -107,13 +96,18 @@ public abstract class PandaExecutableProperty implements ExecutableProperty {
             return returnThis();
         }
 
-        public T parameters(Parameter... parameters) {
+        public T location(SourceLocation location) {
+            this.location = location;
+            return returnThis();
+        }
+
+        public T parameters(PropertyParameter... parameters) {
             this.parameters = parameters;
             return returnThis();
         }
 
-        public T parameters(List<Parameter> parameters) {
-            this.parameters = parameters.toArray(new Parameter[0]);
+        public T parameters(List<PropertyParameter> parameters) {
+            this.parameters = parameters.toArray(new PropertyParameter[0]);
             return returnThis();
         }
 
@@ -138,4 +132,5 @@ public abstract class PandaExecutableProperty implements ExecutableProperty {
         }
 
     }
+
 }

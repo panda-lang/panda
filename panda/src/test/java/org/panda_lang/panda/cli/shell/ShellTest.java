@@ -18,7 +18,7 @@ package org.panda_lang.panda.cli.shell;
 
 import org.junit.jupiter.api.Test;
 import org.panda_lang.framework.PandaFramework;
-import org.panda_lang.framework.language.architecture.parameter.PandaParameter;
+import org.panda_lang.framework.language.architecture.prototype.PandaPropertyParameter;
 import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
 import org.panda_lang.framework.language.architecture.statement.PandaVariableData;
 import org.panda_lang.framework.language.resource.internal.java.JavaModule;
@@ -35,11 +35,11 @@ class ShellTest {
         Shell shell = Shell.creator(panda)
                 .define(PandaMethod.builder()
                         .name("sqrt")
-                        .parameters(new PandaParameter(0, JavaModule.DOUBLE, "i", false, false))
+                        .parameters(new PandaPropertyParameter(0, JavaModule.DOUBLE, "i"))
                         .methodBody((stack, instance, arguments) -> Math.sqrt(((Number) arguments[0]).doubleValue()))
                         .returnType(JavaModule.DOUBLE)
                         .build())
-                .variable(new PandaVariableData(JavaModule.INT, "i", true, false), 5)
+                .variable(new PandaVariableData(JavaModule.INT, "i"), 5)
                 .addVariableChangeListener((variable, previous, current) -> {
                     PandaFramework.getLogger().debug("// variable change :: " + variable.getName() + " = " + previous + " -> " + current);
                 })
