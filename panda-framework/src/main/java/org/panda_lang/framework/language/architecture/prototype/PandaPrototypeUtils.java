@@ -57,10 +57,6 @@ public final class PandaPrototypeUtils {
         return reference;
     }
 
-    public static boolean isAssignableFrom(Class<?> from, Class<?> to) {
-        return from != null && to != null && (from == to || ClassUtils.isAssignableFrom(from, to));
-    }
-
     public static boolean hasCommonPrototypes(Collection<? extends Reference> fromPrototypes, Collection<? extends Reference> toPrototypes) {
         for (Reference from : fromPrototypes) {
             for (Reference to : toPrototypes) {
@@ -75,6 +71,10 @@ public final class PandaPrototypeUtils {
         }
 
         return false;
+    }
+
+    public static boolean isAssignableFrom(Class<?> from, Class<?> to) {
+        return from != null && to != null && (from == to || ClassUtils.isAssignableFrom(from, to));
     }
 
 }

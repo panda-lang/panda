@@ -49,4 +49,14 @@ public enum Visibility {
         return modifier;
     }
 
+    /**
+     * Returns the enum constant of this type with the specified name
+     *
+     * @param visibility the char sequence that represents visibility
+     * @return the visibility
+     */
+    public static Visibility of(Object visibility) {
+        return valueOf(visibility.toString().toUpperCase());
+    }
+
 }

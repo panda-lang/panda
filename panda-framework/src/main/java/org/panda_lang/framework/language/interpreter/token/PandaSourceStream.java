@@ -79,6 +79,15 @@ public class PandaSourceStream implements SourceStream {
     }
 
     @Override
+    public boolean hasUnreadSource() {
+        return hasUnreadSource(1);
+    }
+
+    private boolean hasUnreadSource(int length) {
+        return (index + (length - 1)) < original.size();
+    }
+
+    @Override
     public TokenRepresentation getCurrent() {
         return original.get(index);
     }
@@ -91,15 +100,6 @@ public class PandaSourceStream implements SourceStream {
     @Override
     public Snippet toSnippet() {
         return original.subSource(index, original.size());
-    }
-
-    @Override
-    public boolean hasUnreadSource() {
-        return hasUnreadSource(1);
-    }
-
-    private boolean hasUnreadSource(int length) {
-        return (index + (length - 1)) < original.size();
     }
 
     @Override

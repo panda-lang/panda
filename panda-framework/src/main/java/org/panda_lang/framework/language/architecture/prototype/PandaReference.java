@@ -43,10 +43,7 @@ public class PandaReference extends AbstractPrototypeType implements Reference {
     public synchronized Prototype fetch() {
         if (!initialized) {
             initialized = true;
-
-            for (Runnable initializer : initializers) {
-                initializer.run();
-            }
+            initializers.forEach(Runnable::run);
         }
 
         return prototype;
