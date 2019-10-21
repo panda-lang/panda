@@ -18,6 +18,7 @@ package org.panda_lang.panda.language.interpreter.parser.prototype;
 
 import org.panda_lang.framework.design.architecture.Script;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.design.interpreter.parser.Components;
@@ -32,6 +33,7 @@ import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeScope;
 import org.panda_lang.framework.language.architecture.prototype.generator.PrototypeClassGenerator;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PipelineParser;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
@@ -88,7 +90,7 @@ public final class PrototypeParser extends ParserBootstrap {
         Prototype prototype = PandaPrototype.builder()
                 .name(name)
                 .module(script.getModule())
-                .source(location.getSource())
+                .source(location)
                 .associated(GENERATOR.generateType(name))
                 .type(result.get("type").toString())
                 .state(type.equals(Keywords.CLASS.getValue()) ? State.DEFAULT : State.ABSTRACT)
@@ -119,15 +121,28 @@ public final class PrototypeParser extends ParserBootstrap {
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
-    void parseAfter(Context context, @Component Prototype prototype, @Component PrototypeScope scope) {
-        if (prototype.getState().isAbstract() || !prototype.getConstructors().getProperties().isEmpty()) {
+    void verifyProperties(@Component Prototype prototype, @Component PrototypeScope scope) {
+        if (!prototype.getConstructors().getProperties().isEmpty()) {
             return;
         }
 
         prototype.getConstructors().declare(PandaConstructor.builder()
                 .type(prototype.toReference())
                 .callback((frame, instance, arguments) -> scope.revive(frame, instance))
+                .location(prototype.getLocation())
                 .build());
+    }
+
+    @Autowired(order = 2, cycle = GenerationCycles.CONTENT_LABEL, delegation = Delegation.CURRENT_AFTER)
+    void verifyContent(Context context, @Component Prototype prototype) {
+        for (PrototypeField field : prototype.getFields().getProperties()) {
+            if (field.isInitialized() || (field.isNillable() && field.isMutable())) {
+                field.initialize();
+                continue;
+            }
+
+            throw new PandaParserFailure(context, "Field " + field + " is not initialized");
+        }
     }
 
 }
