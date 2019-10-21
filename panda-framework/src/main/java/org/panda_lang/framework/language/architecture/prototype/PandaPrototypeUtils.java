@@ -46,6 +46,7 @@ public final class PandaPrototypeUtils {
                 .module(module)
                 .source(new PandaClassSource(type))
                 .associated(type)
+                .type(type.isInterface() ? "interface" : "class")
                 .state(State.of(type))
                 .visibility(Visibility.PUBLIC)
                 .build();

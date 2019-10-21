@@ -33,7 +33,7 @@ public final class ArrayAccessor implements DynamicExpression {
             throw new RuntimeException("Array required");
         }
 
-        this.type = ((ArrayPrototype) instanceExpression.getReturnType()).getType().fetch();
+        this.type = ((ArrayPrototype) instanceExpression.getReturnType()).getArrayType().fetch();
         this.instanceExpression = instanceExpression;
         this.indexExpression = indexExpression;
     }

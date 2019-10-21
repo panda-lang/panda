@@ -64,6 +64,13 @@ public interface Type extends Property {
     State getState();
 
     /**
+     * Get type of prototype
+     *
+     * @return the prototype type
+     */
+    String getType();
+
+    /**
      * Get Java class associated with the type
      *
      * @return the associated class

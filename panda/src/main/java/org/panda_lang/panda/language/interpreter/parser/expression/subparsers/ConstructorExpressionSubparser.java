@@ -171,7 +171,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             ArrayPrototype baseType = instanceType;
 
             for (int declaredCapacities = 0; declaredCapacities < capacities.size() - 1; declaredCapacities++) {
-                Prototype componentType = baseType.getType().fetch();
+                Prototype componentType = baseType.getArrayType().fetch();
 
                 if (!(componentType instanceof ArrayPrototype)) {
                     throw new RuntimeException("Should not happen");
@@ -180,7 +180,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
                 baseType = (ArrayPrototype) componentType;
             }
 
-            return ExpressionResult.of(new ArrayInstanceExpression(instanceType, baseType.getType().fetch(), capacities.toArray(new Expression[0])).toExpression());
+            return ExpressionResult.of(new ArrayInstanceExpression(instanceType, baseType.getArrayType().fetch(), capacities.toArray(new Expression[0])).toExpression());
         }
 
         private List<Section> getArraySections(Snippet type) {
