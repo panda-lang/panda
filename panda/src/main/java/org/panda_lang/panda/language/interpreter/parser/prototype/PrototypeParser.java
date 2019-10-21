@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parser.prototype;
 
-import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.architecture.Script;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
@@ -46,7 +46,6 @@ import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.To
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.language.architecture.PandaScript;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.Autowired;
@@ -83,41 +82,32 @@ public final class PrototypeParser extends ParserBootstrap {
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL)
-    void parse(Context context, @Inter SourceLocation location, @Inter Result result, @Component PandaScript script, @Src("type") String type, @Src("name") String className) throws Exception {
-        Module module = script.getModule();
-        Visibility visibility = Visibility.LOCAL;
-
-        if (result.has("visibility")) {
-            visibility = Visibility.valueOf(result.get("visibility").toString().toUpperCase());
-        }
+    void parse(Context context, @Inter SourceLocation location, @Inter Result result, @Component Script script, @Src("type") String type, @Src("name") String name) throws Exception {
+        Visibility visibility = result.has("visibility") ? Visibility.of(result.get("visibility")) : Visibility.LOCAL;
 
         Prototype prototype = PandaPrototype.builder()
-                .name(className)
-                .module(module)
+                .name(name)
+                .module(script.getModule())
                 .source(location.getSource())
-                .associated(GENERATOR.generateType(className))
+                .associated(GENERATOR.generateType(name))
                 .type(result.get("type").toString())
                 .state(type.equals(Keywords.CLASS.getValue()) ? State.DEFAULT : State.ABSTRACT)
                 .visibility(visibility)
                 .build();
 
-        prototype.addSuper(JavaModule.OBJECT.toReference());
-        module.add(className, prototype.getAssociatedClass(), prototype::toReference);
         PrototypeScope prototypeScope = new PrototypeScope(location, prototype);
-
         context.withComponent(Components.SCOPE, prototypeScope)
                 .withComponent(PrototypeComponents.PROTOTYPE_SCOPE, prototypeScope)
                 .withComponent(PrototypeComponents.PROTOTYPE, prototype);
+
+        prototype.addSuper(JavaModule.OBJECT.toReference());
+        prototype.getModule().add(name, prototype.getAssociatedClass(), prototype::toReference);
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
     void parseDeclaration(Context context, @Component Prototype prototype, @Src("inherited") Collection<Snippetable> inherited) {
-        if (inherited == null) {
-            return;
-        }
-
-        for (Snippetable typeSource : inherited) {
-            PrototypeParserUtils.appendExtended(context, prototype, typeSource);
+        if (inherited != null) {
+            inherited.forEach(typeSource -> PrototypeParserUtils.appendExtended(context, prototype, typeSource));
         }
     }
 
@@ -130,11 +120,7 @@ public final class PrototypeParser extends ParserBootstrap {
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
     void parseAfter(Context context, @Component Prototype prototype, @Component PrototypeScope scope) {
-        if (prototype.getState().isAbstract()) {
-            return;
-        }
-
-        if (!prototype.getConstructors().getProperties().isEmpty()) {
+        if (prototype.getState().isAbstract() || !prototype.getConstructors().getProperties().isEmpty()) {
             return;
         }
 

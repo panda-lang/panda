@@ -19,6 +19,7 @@ package org.panda_lang.panda.cli.shell;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.FrameworkController;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
@@ -52,6 +53,8 @@ public final class ShellCreator {
         Prototype prototype = PandaPrototype.builder()
                 .module(context.getComponent(Components.SCRIPT).getModule())
                 .name("ShellPrototype")
+                .state(State.FINAL)
+                .type("class")
                 .visibility(Visibility.PUBLIC)
                 .build();
         context.withComponent(PrototypeComponents.PROTOTYPE, prototype);
