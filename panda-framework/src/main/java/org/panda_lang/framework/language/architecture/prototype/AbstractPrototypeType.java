@@ -34,15 +34,17 @@ abstract class AbstractPrototypeType implements Type {
     protected final Module module;
     protected final Source source;
     protected final Class<?> associated;
+    protected final String type;
     protected final State state;
     protected final Visibility visibility;
     protected final Collection<Reference> supers = new ArrayList<>(1);
 
-    protected AbstractPrototypeType(String name, Module module, Source source, Class<?> associated, State state, Visibility visibility) {
+    protected AbstractPrototypeType(String name, Module module, Source source, Class<?> associated, String type, State state, Visibility visibility) {
         this.name = name;
         this.module = module;
         this.source = source;
         this.associated = associated;
+        this.type = type;
         this.state = state;
         this.visibility = visibility;
     }
@@ -81,6 +83,11 @@ abstract class AbstractPrototypeType implements Type {
     @Override
     public State getState() {
         return state;
+    }
+
+    @Override
+    public String getType() {
+        return type;
     }
 
     @Override

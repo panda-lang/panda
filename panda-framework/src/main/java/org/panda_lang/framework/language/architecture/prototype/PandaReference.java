@@ -29,7 +29,7 @@ public class PandaReference extends AbstractPrototypeType implements Reference {
     private boolean initialized;
 
     protected PandaReference(Prototype prototype) {
-        super(prototype.getName(), prototype.getModule(), prototype.getSource(), prototype.getAssociatedClass(), prototype.getState(), prototype.getVisibility());
+        super(prototype.getName(), prototype.getModule(), prototype.getSource(), prototype.getAssociatedClass(), prototype.getType(), prototype.getState(), prototype.getVisibility());
         this.prototype = prototype;
     }
 

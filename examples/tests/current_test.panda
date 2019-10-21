@@ -6,30 +6,11 @@ require java:collections // import submodules by default? :thinking:
 
 import org.panda_lang.panda.PandaConstants
 
-local class TestArray {
+public class Console {
 
-    shared String[] array
-
-    constructor(Int size) {
-        this.array = new String[size]
+    public static log(Object... values) {
+        System.out.println(StringUtils.toString(values))
     }
-
-    shared modify(Test test) {
-        this.getArray()[test.index] = "Hello Array"
-        array[6] = String.valueOf(this)
-
-        Console.print("Value at array[test.index]: " + this.getArray()[test.index])
-    }
-
-    local String[] getArray() {
-        return array
-    }
-
-}
-
-shared interface Interface {
-
-    shared static abstractMethod(String doSth)
 
 }
 
@@ -39,7 +20,7 @@ main {
 
     Test test = new Test('"Constructor"')
     test.echo("Method echo")
-    Console.print(test.getTestField().testField)
+    Console.log(test.getTestField().testField)
 
     mut nil Foo varFoo = null
     varFoo = new Foo()
@@ -51,14 +32,14 @@ main {
     Number math = (10.1 + (3 + 4.2 + i) * 2) - (2 / 1) /* expected: 24.5 */
     Boolean flag = i == 1
 
-    Console.print("Hello Panda", flag, varFoo, s, test, i)
-    Console.print(math)
+    Console.log("Hello Panda", flag, varFoo, s, test, i)
+    Console.log(math)
 
     if (!flag) {
-        Console.print("Nope")
+        Console.log("Nope")
     }
     else {
-        Console.print("Yay")
+        Console.log("Yay")
     }
 
     List list = new ArrayList()
@@ -80,24 +61,24 @@ main {
     }
 
     while (flag != false) {
-        Console.print(builder.toString())
+        Console.log(builder.toString())
         break
     }
 
     TestArray testArray = new TestArray(7);
     testArray.modify(test)
 
-    Console.print("Hello " + "Array " + testArray.array.toString())
-    Console.print("OR v AND: " + (false || false) + ", " + false || true, true && false, true && true)
-    Console.print("Compare: " + 1 > 2, 1 > 2, 1 < 2, 2 < 1)
+    Console.log("Hello " + "Array " + testArray.array.toString())
+    Console.log("OR v AND: " + (false || false) + ", " + false || true, true && false, true && true)
+    Console.log("Compare: " + 1 > 2, 1 > 2, 1 < 2, 2 < 1)
 
     mut Int creaseValue = 10
-    Console.print("Increase: " + creaseValue++, creaseValue++, ++creaseValue, ++creaseValue)
-    Console.print("Decrease: " + creaseValue--, creaseValue--, --creaseValue, --creaseValue)
+    Console.log("Increase: " + creaseValue++, creaseValue++, ++creaseValue, ++creaseValue)
+    Console.log("Decrease: " + creaseValue--, creaseValue--, --creaseValue, --creaseValue)
 
     creaseValue++
-    Console.print(creaseValue)
-    Console.print("Random",  (false || false) + ", " + false || true, true && false, true && true, (false || false) + ", " + false || true, true && false, true && true)
+    Console.log(creaseValue)
+    Console.log("Random",  (false || false) + ", " + false || true, true && false, true && true, (false || false) + ", " + false || true, true && false, true && true)
 
     Required required = new Required()
     required.hello()
@@ -105,24 +86,24 @@ main {
     try {
         throw new RuntimeException("Try")
     } catch (Exception e) {
-        Console.print(e.getMessage())
+        Console.log(e.getMessage())
     }
 
-    Console.print(PandaConstants.VERSION)
+    Console.log(PandaConstants.VERSION)
 
     for (mut Int index = 3; index != 0; index--) {
         if (index == 2) {
             continue
         }
 
-        Console.print("ForI: " + index)
+        Console.log("ForI: " + index)
     }
 
-    Console.print("Assignation: " + (Object assignation = 10))
+    Console.log("Assignation: " + (Object assignation = 10))
 
     if (assignation is Int) {
         Int castTest = assignation as Int
-        Console.print("Is int value: " + castTest)
+        Console.log("Is int value: " + castTest)
     }
 
     // Make sure that here is no way to create instance of interface
@@ -130,10 +111,16 @@ main {
 
 }
 
+shared interface Interface {
+
+    shared static abstractMethod(String doSth)
+
+}
+
 shared class Foo : Test, Object {
 
     shared static anotherEcho(String message1) {
-        Console.print(message1)
+        Console.log(message1)
     }
 
 }
@@ -145,7 +132,7 @@ class Test {
     local Double double = 1.5D
 
     constructor(String message2) {
-        Console.print(message2)
+        Console.log(message2)
         this.testField = this
         testField = this
         this.echo(String.valueOf(double))
@@ -157,7 +144,7 @@ class Test {
     }
 
     shared echo(Object message3) {
-        Console.print(message3)
+        Console.log(message3)
     }
 
     local testField() {
@@ -171,10 +158,23 @@ class Test {
 
 }
 
-public class Console {
+local class TestArray {
 
-    public static print(Object... values) {
-        System.out.println(StringUtils.toString(values))
+    shared String[] array
+
+    constructor(Int size) {
+        this.array = new String[size]
+    }
+
+    shared modify(Test test) {
+        this.getArray()[test.index] = "Hello Array"
+        array[6] = String.valueOf(this)
+
+        Console.log("Value at array[test.index]: " + this.getArray()[test.index])
+    }
+
+    local String[] getArray() {
+        return array
     }
 
 }

@@ -96,6 +96,7 @@ public final class PrototypeParser extends ParserBootstrap {
                 .module(module)
                 .source(location.getSource())
                 .associated(GENERATOR.generateType(className))
+                .type(result.get("type").toString())
                 .state(type.equals(Keywords.CLASS.getValue()) ? State.DEFAULT : State.ABSTRACT)
                 .visibility(visibility)
                 .build();

@@ -74,7 +74,7 @@ final class PrototypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
             }
 
             // varargs parameter has to be array
-            Reference type = ((ArrayPrototype) parameter.getType().fetch()).getType();
+            Reference type = ((ArrayPrototype) parameter.getType().fetch()).getArrayType();
             varArgs++;
 
             // read vararg
@@ -135,7 +135,7 @@ final class PrototypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
             Expression[] expressionsArray = expressions.toArray(new Expression[0]);
 
             // generate varargs array expression
-            fixedArguments[argumentIndex] = new AbstractDynamicExpression(((ArrayPrototype) parameters[argumentIndex].getType().fetch()).getType().fetch()) {
+            fixedArguments[argumentIndex] = new AbstractDynamicExpression(((ArrayPrototype) parameters[argumentIndex].getType().fetch()).getArrayType().fetch()) {
                 @Override
                 @SuppressWarnings("unchecked")
                 public Object evaluate(ProcessStack stack, Object instance) throws Exception {

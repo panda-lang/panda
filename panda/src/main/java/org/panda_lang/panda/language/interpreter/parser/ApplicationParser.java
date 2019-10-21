@@ -90,9 +90,9 @@ public final class ApplicationParser implements Parser {
                 imports.importModule("panda");
 
                 Context delegatedContext = context.fork()
-                        .withComponent(Components.MODULE_LOADER, script.getModuleLoader())
-                        .withComponent(Components.SCRIPT, script)
                         .withComponent(PandaComponents.PANDA_SCRIPT, script)
+                        .withComponent(Components.SCRIPT, script)
+                        .withComponent(Components.MODULE_LOADER, script.getModuleLoader())
                         .withComponent(Components.IMPORTS, imports)
                         .withComponent(Components.SOURCE, snippet)
                         .withComponent(Components.STREAM, stream)

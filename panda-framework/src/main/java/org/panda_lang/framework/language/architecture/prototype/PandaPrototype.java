@@ -27,12 +27,12 @@ public class PandaPrototype extends AbstractPrototype {
 
     private boolean initialized;
 
-    protected PandaPrototype(Module module, String className, Source source, Class<?> associated, State state, Visibility visibility) {
-        super(module, className, source, associated, state, visibility);
+    protected PandaPrototype(Module module, String className, Source source, Class<?> associated, String type, State state, Visibility visibility) {
+        super(module, className, source, associated, type, state, visibility);
     }
 
     protected PandaPrototype(PandaPrototypeBuilder<?, ?> builder) {
-        this(builder.module, builder.name, builder.source, builder.associated, builder.state, builder.visibility);
+        this(builder.module, builder.name, builder.source, builder.associated, builder.type, builder.state, builder.visibility);
     }
 
     public synchronized void initialize() throws Exception {
@@ -62,6 +62,7 @@ public class PandaPrototype extends AbstractPrototype {
         protected Module module;
         protected Source source;
         protected Class<?> associated;
+        protected String type;
         protected State state;
         protected Visibility visibility;
 
@@ -94,6 +95,11 @@ public class PandaPrototype extends AbstractPrototype {
             return getThis();
         }
 
+        public BUILDER type(String type) {
+            this.type = type;
+            return getThis();
+        }
+
         public BUILDER state(State state) {
             this.state = state;
             return getThis();
@@ -107,7 +113,19 @@ public class PandaPrototype extends AbstractPrototype {
         @SuppressWarnings("unchecked")
         public TYPE build() {
             if (name == null) {
-                throw new IllegalArgumentException("ClassPrototype name is not defined");
+                throw new IllegalArgumentException("Prototype name is not defined");
+            }
+
+            if (module == null) {
+                throw new IllegalArgumentException("Prototype needs module");
+            }
+
+            if (associated == null) {
+                throw new IllegalArgumentException("Prototype has to be associated with a java class");
+            }
+
+            if (type == null) {
+                throw new IllegalArgumentException("Prototype requires defined type");
             }
 
             return (TYPE) new PandaPrototype(this);

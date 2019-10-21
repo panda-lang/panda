@@ -39,8 +39,8 @@ abstract class AbstractPrototype extends AbstractPrototypeType implements Protot
     protected final Fields fields = new PandaFields();
     protected final Methods methods = new PandaMethods();
 
-    public AbstractPrototype(Module module, String name, Source source, Class<?> associated, State state, Visibility visibility) {
-        super(name, module, source, associated, state, visibility);
+    public AbstractPrototype(Module module, String name, Source source, Class<?> associated, String type, State state, Visibility visibility) {
+        super(name, module, source, associated, type, state, visibility);
     }
 
     @Override
