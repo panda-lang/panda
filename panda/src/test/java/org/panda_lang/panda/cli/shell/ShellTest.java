@@ -21,6 +21,7 @@ import org.panda_lang.framework.PandaFramework;
 import org.panda_lang.framework.language.architecture.prototype.PandaPropertyParameter;
 import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
 import org.panda_lang.framework.language.architecture.statement.PandaVariableData;
+import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
 import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
@@ -38,6 +39,7 @@ class ShellTest {
                         .parameters(new PandaPropertyParameter(0, JavaModule.DOUBLE, "i"))
                         .methodBody((stack, instance, arguments) -> Math.sqrt(((Number) arguments[0]).doubleValue()))
                         .returnType(JavaModule.DOUBLE)
+                        .location(new PandaClassSource(ShellTest.class).toLocation())
                         .build())
                 .variable(new PandaVariableData(JavaModule.INT, "i"), 5)
                 .addVariableChangeListener((variable, previous, current) -> {
