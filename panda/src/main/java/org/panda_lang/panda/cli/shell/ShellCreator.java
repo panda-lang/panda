@@ -30,6 +30,7 @@ import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeScope;
 import org.panda_lang.framework.language.architecture.statement.PandaVariableData;
+import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceLocationUtils;
 import org.panda_lang.framework.language.runtime.PandaProcess;
 import org.panda_lang.panda.language.interpreter.parser.PandaContextUtils;
@@ -53,6 +54,7 @@ public final class ShellCreator {
         Prototype prototype = PandaPrototype.builder()
                 .module(context.getComponent(Components.SCRIPT).getModule())
                 .name("ShellPrototype")
+                .source(new PandaClassSource(ShellCreator.class).toLocation())
                 .state(State.FINAL)
                 .type("class")
                 .visibility(Visibility.PUBLIC)
