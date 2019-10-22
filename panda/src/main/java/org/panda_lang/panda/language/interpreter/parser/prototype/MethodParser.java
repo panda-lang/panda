@@ -35,6 +35,7 @@ import org.panda_lang.framework.language.interpreter.parser.ScopeParser;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
 import org.panda_lang.framework.language.interpreter.pattern.custom.Result;
+import org.panda_lang.framework.language.interpreter.pattern.custom.elements.KeywordElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.SectionElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.TypeElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.UnitElement;
@@ -43,6 +44,7 @@ import org.panda_lang.framework.language.interpreter.pattern.custom.elements.Wil
 import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.NextTokenTypeVerifier;
 import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.TokenTypeVerifier;
 import org.panda_lang.framework.language.resource.internal.java.JavaModule;
+import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.Autowired;
@@ -73,6 +75,7 @@ public final class MethodParser extends ParserBootstrap {
                 .handler(new CustomPatternHandler())
                 .interceptor(new CustomPatternInterceptor())
                 .pattern(CustomPattern.of(
+                        KeywordElement.create(Keywords.OVERRIDE).optional(),
                         VariantElement.create("visibility").content("public", "shared", "local").map(value -> Visibility.valueOf(value.toString().toUpperCase())),
                         UnitElement.create("static").content("static").optional(),
                         TypeElement.create("type").optional().verify(new NextTokenTypeVerifier(TokenType.UNKNOWN)),
@@ -99,7 +102,7 @@ public final class MethodParser extends ParserBootstrap {
         List<PropertyParameter> parameters = PARAMETER_PARSER.parse(context, result.get("parameters"));
         MethodScope methodScope = local.allocated(new MethodScope(name.getLocation(), parameters));
 
-        prototype.getMethods().declare(PandaMethod.builder()
+        PandaMethod method = PandaMethod.builder()
                 .prototype(prototype.toReference())
                 .parameters(parameters)
                 .name(name.getValue())
@@ -109,7 +112,13 @@ public final class MethodParser extends ParserBootstrap {
                 .returnType(returnType)
                 .isStatic(result.has("static"))
                 .methodBody(methodScope)
-                .build());
+                .build();
+
+        if (prototype.getMethods().getMethod(method.getName(), method.getParameterTypes()).isPresent() && !result.has(Keywords.OVERRIDE.getValue())) {
+            throw new PandaParserFailure(context, name, "Overridden method does not contain 'override' modifier");
+        }
+
+        prototype.getMethods().declare(method);
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)

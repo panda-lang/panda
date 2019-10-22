@@ -69,7 +69,7 @@ public final class Shell {
     public void regenerate() throws Exception {
         this.history = new StringBuilder();
         this.stack = new PandaProcessStack(processSupplier.get(), PandaProcessStackConstants.DEFAULT_STACK_SIZE);
-        this.instance = context.getComponent(Components.SCOPE).getScope().revive(stack, instanceSupplier.apply(stack));
+        this.instance = context.getComponent(Components.SCOPE).getFramedScope().revive(stack, instanceSupplier.apply(stack));
     }
 
     /**

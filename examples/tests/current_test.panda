@@ -111,13 +111,13 @@ main {
 
 }
 
-shared interface Interface {
+shared interface EchoInterface {
 
-    shared static abstractMethod(String doSth)
+    shared static anotherEcho(String doSth)
 
 }
 
-shared class Foo : Test, Object {
+shared class Foo : Test, EchoInterface {
 
     shared static anotherEcho(String message1) {
         Console.log(message1)
@@ -128,28 +128,16 @@ shared class Foo : Test, Object {
 class Test {
 
     public Int index = 1
-    shared mut Test testField
-    local Double double = 1.5D
+    shared Test testField
+    local mut Double double = 1.5D
 
     constructor(String message2) {
         Console.log(message2)
         this.testField = this
-        testField = this
-        this.echo(String.valueOf(double))
-        echo(this)
-    }
-
-    constructor() {
-        // empty constructor
     }
 
     shared echo(Object message3) {
         Console.log(message3)
-    }
-
-    local testField() {
-        this.echo(this.getTestField())
-        return
     }
 
     shared Test getTestField() {

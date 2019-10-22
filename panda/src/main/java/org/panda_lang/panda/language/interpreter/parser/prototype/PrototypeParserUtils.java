@@ -66,7 +66,7 @@ final class PrototypeParserUtils {
 
         if (extendedPrototype.isPresent()) {
             StateComparator.requireInheritance(context, extendedPrototype.get(), typeSource);
-            prototype.addSuper(extendedPrototype.get());
+            prototype.addBase(extendedPrototype.get());
             return;
         }
 

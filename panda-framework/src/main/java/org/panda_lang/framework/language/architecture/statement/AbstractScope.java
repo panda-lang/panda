@@ -44,7 +44,7 @@ public abstract class AbstractScope extends AbstractStatement implements Scope {
     }
 
     protected AbstractScope(Scope parent, SourceLocation location) {
-        this(parent.getScope(), parent, location);
+        this(parent.getFramedScope(), parent, location);
     }
 
     @Override
@@ -54,7 +54,7 @@ public abstract class AbstractScope extends AbstractStatement implements Scope {
 
     @Override
     public Variable createVariable(VariableData variableData) {
-        return Lists.add(variables, new PandaVariable(getScope().allocate(), variableData));
+        return Lists.add(variables, new PandaVariable(getFramedScope().allocate(), variableData));
     }
 
     @Override
@@ -96,7 +96,7 @@ public abstract class AbstractScope extends AbstractStatement implements Scope {
     }
 
     @Override
-    public FramedScope getScope() {
+    public FramedScope getFramedScope() {
         return scope;
     }
 

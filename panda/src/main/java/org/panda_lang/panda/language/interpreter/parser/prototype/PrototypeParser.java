@@ -102,7 +102,7 @@ public final class PrototypeParser extends ParserBootstrap {
                 .withComponent(PrototypeComponents.PROTOTYPE_SCOPE, prototypeScope)
                 .withComponent(PrototypeComponents.PROTOTYPE, prototype);
 
-        prototype.addSuper(JavaModule.OBJECT.toReference());
+        prototype.addBase(JavaModule.OBJECT.toReference());
         prototype.getModule().add(name, prototype.getAssociatedClass(), prototype::toReference);
     }
 
@@ -122,6 +122,8 @@ public final class PrototypeParser extends ParserBootstrap {
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
     void verifyProperties(@Component Prototype prototype, @Component PrototypeScope scope) {
+
+
         if (!prototype.getConstructors().getProperties().isEmpty()) {
             return;
         }

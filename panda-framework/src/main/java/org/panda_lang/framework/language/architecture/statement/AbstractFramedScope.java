@@ -44,7 +44,7 @@ public abstract class AbstractFramedScope extends AbstractScope implements Frame
     }
 
     @Override
-    public FramedScope getScope() {
+    public FramedScope getFramedScope() {
         return this;
     }
 

@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.language.interpreter.parser.expression.subparsers;
 
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
@@ -36,20 +38,30 @@ public final class ArgumentsParser implements Parser {
 
     private static final Expression[] EMPTY = new Expression[0];
 
+    public Expression[] parse(Context context, Snippet snippet) {
+        return parse(context, null, snippet);
+    }
+
     public Expression[] parse(ExpressionContext expressionContext, Snippet snippet) {
+        return parse(expressionContext.getContext(), expressionContext, snippet);
+    }
+
+    private Expression[] parse(Context context, @Nullable ExpressionContext expressionContext, Snippet snippet) {
         if (snippet.isEmpty()) {
             return EMPTY;
         }
 
-        Context context = expressionContext.getContext();
-        ExpressionParser expressionParser = expressionContext.getParser();
-
+        ExpressionParser expressionParser = context.getComponent(Components.EXPRESSION);
         List<Expression> expressions = new ArrayList<>((snippet.size() - 1) / 2);
         SourceStream source = new PandaSourceStream(snippet);
 
         while (source.hasUnreadSource()) {
             ExpressionTransaction transaction = expressionParser.parse(context, source);
-            expressionContext.commit(transaction::rollback);
+
+            if (expressionContext != null) {
+                expressionContext.commit(transaction::rollback);
+            }
+
             expressions.add(transaction.getExpression());
 
             if (source.hasUnreadSource()) {

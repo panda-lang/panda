@@ -36,9 +36,9 @@ public interface Type extends Property {
     /**
      * Inherit the given reference
      *
-     * @param reference the reference to inherit from
+     * @param baseReference the reference to inherit from
      */
-    void addSuper(Reference reference);
+    void addBase(Reference baseReference);
 
     /**
      * Check if current declaration is assignable from the given declaration
@@ -53,7 +53,7 @@ public interface Type extends Property {
      *
      * @return collection of supertypes
      */
-    Collection<? extends Reference> getSupers();
+    Collection<? extends Reference> getBases();
 
     /**
      * Get state of type

@@ -86,6 +86,6 @@ public interface Scope extends Statement {
      *
      * @return the parent frame
      */
-    FramedScope getScope();
+    FramedScope getFramedScope();
 
 }
