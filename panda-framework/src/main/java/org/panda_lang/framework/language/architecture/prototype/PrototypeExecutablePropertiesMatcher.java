@@ -20,10 +20,10 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
 import org.panda_lang.framework.design.architecture.prototype.Arguments;
-import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.ExecutableProperty;
+import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.prototype.Type;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.expression.AbstractDynamicExpression;
 import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
@@ -35,7 +35,7 @@ import java.util.Optional;
 
 final class PrototypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
 
-    public Optional<Arguments<T>> match(Collection<T> collection, Prototype[] requiredTypes, @Nullable Expression[] arguments) {
+    public Optional<Arguments<T>> match(Collection<T> collection, Type[] requiredTypes, @Nullable Expression[] arguments) {
         for (T executable : collection) {
             Arguments<T> args = match(executable, requiredTypes, arguments);
 
@@ -47,7 +47,7 @@ final class PrototypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
         return Optional.empty();
     }
 
-    private @Nullable Arguments<T> match(T executable, Prototype[] requiredTypes, @Nullable Expression[] arguments) {
+    private @Nullable Arguments<T> match(T executable, Type[] requiredTypes, @Nullable Expression[] arguments) {
         PropertyParameter[] parameters = executable.getParameters();
 
         // return result for parameterless executables
@@ -79,7 +79,7 @@ final class PrototypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
 
             // read vararg
             while (required < requiredTypes.length) {
-                Prototype nextType = requiredTypes[required];
+                Type nextType = requiredTypes[required];
 
                 if (!type.isAssignableFrom(nextType)) {
                     break;

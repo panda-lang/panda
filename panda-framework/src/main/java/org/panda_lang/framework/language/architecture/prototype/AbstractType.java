@@ -34,7 +34,7 @@ abstract class AbstractType extends AbstractProperty implements Type {
     protected final Class<?> associated;
     protected final String type;
     protected final State state;
-    protected final Collection<Reference> supers = new ArrayList<>(1);
+    protected final Collection<Reference> bases = new ArrayList<>(1);
 
     protected AbstractType(String name, Module module, SourceLocation location, Class<?> associated, String type, State state, Visibility visibility) {
         super(name, location, visibility);
@@ -62,8 +62,8 @@ abstract class AbstractType extends AbstractProperty implements Type {
     }
 
     @Override
-    public void addSuper(Reference reference) {
-        supers.add(reference);
+    public void addBase(Reference baseReference) {
+        bases.add(baseReference);
     }
 
     @Override
@@ -74,7 +74,7 @@ abstract class AbstractType extends AbstractProperty implements Type {
 
         return type.equals(this)
                 || PandaPrototypeUtils.isAssignableFrom(associated, type.getAssociatedClass())
-                || PandaPrototypeUtils.hasCommonPrototypes(supers, type.getSupers());
+                || PandaPrototypeUtils.hasCommonPrototypes(bases, type.getBases());
     }
 
     @Override
@@ -83,8 +83,8 @@ abstract class AbstractType extends AbstractProperty implements Type {
     }
 
     @Override
-    public Collection<Reference> getSupers() {
-        return supers;
+    public Collection<Reference> getBases() {
+        return bases;
     }
 
     @Override

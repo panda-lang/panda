@@ -35,7 +35,7 @@ class ForEachBlock extends AbstractBlock implements ControlledScope {
     ForEachBlock(Scope parent, SourceLocation location, Expression iterableExpression) {
         super(parent, location);
         this.iterableExpression = iterableExpression;
-        this.valuePointer = getScope().allocate();
+        this.valuePointer = getFramedScope().allocate();
     }
 
     @Override

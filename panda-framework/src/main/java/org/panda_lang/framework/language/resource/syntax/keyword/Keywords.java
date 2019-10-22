@@ -27,6 +27,8 @@ public final class Keywords {
 
     public static final Keyword AS = new Keyword("as");
 
+    public static final Keyword BASE = new Keyword("base");
+
     public static final Keyword BREAK = new Keyword("break");
 
     public static final Keyword CASE = new Keyword("case");
@@ -74,6 +76,8 @@ public final class Keywords {
     public static final Keyword NEW = new Keyword("new");
 
     public static final Keyword NIL = new Keyword("nil");
+
+    public static final Keyword OVERRIDE = new Keyword("override");
 
     public static final Keyword PUBLIC = new Keyword("public");
 

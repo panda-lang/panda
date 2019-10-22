@@ -27,14 +27,11 @@ import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Objects;
 
 abstract class AbstractPrototype extends AbstractType implements Prototype {
 
     protected final Reference reference = new PandaReference(this);
-    protected final Collection<Reference> extended = new ArrayList<>(1);
     protected final Constructors constructors = new PandaConstructors();
     protected final Fields fields = new PandaFields();
     protected final Methods methods = new PandaMethods();

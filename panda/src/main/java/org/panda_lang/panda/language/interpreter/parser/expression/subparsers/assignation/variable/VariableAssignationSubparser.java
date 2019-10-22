@@ -78,7 +78,7 @@ public final class VariableAssignationSubparser extends AssignationSubparserBoot
     @Autowired
     ExpressionResult parse(@Component Channel channel, @Component Scope block, @Component Expression expression) {
         Accessor<?> accessor = channel.get("accessor", AccessorExpression.class).getAccessor();
-        boolean initialization = block.getScope() instanceof PandaConstructorScope;
+        boolean initialization = block.getFramedScope() instanceof PandaConstructorScope;
         Assigner<?> assigner = accessor.toAssigner(initialization, expression);
 
         if (initialization) {
