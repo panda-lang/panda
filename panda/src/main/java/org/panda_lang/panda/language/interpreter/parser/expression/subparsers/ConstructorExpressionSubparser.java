@@ -75,7 +75,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
         private static final ArgumentsParser ARGUMENT_PARSER = new ArgumentsParser();
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) throws Exception {
+        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
             // require 'new' keyword
             if (!token.contentEquals(Keywords.NEW)) {
                 return null;
@@ -168,7 +168,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             String baseClassName = typeSource.subSource(0, typeSource.size() - sections.size()).asSource();
             String endTypeName = baseClassName + StringUtils.repeated(sections.size(), "[]");
 
-            ArrayPrototype instanceType = (ArrayPrototype) PandaImportsUtils.getReferenceThrow(context.getContext(), endTypeName, typeSource);
+            ArrayPrototype instanceType = (ArrayPrototype) PandaImportsUtils.getReferenceThrow(context.getContext(), endTypeName, typeSource).fetch();
             ArrayPrototype baseType = instanceType;
 
             for (int declaredCapacities = 0; declaredCapacities < capacities.size() - 1; declaredCapacities++) {

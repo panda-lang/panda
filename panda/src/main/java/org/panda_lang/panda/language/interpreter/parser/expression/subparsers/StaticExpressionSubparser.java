@@ -26,9 +26,7 @@ import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.architecture.expression.StaticExpression;
 import org.panda_lang.framework.language.architecture.prototype.utils.VisibilityComparator;
-import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.expression.PartialResultSubparser;
-import org.panda_lang.utilities.commons.function.FunctionUtils;
 
 public final class StaticExpressionSubparser implements PartialResultSubparser {
 
@@ -52,9 +50,7 @@ public final class StaticExpressionSubparser implements PartialResultSubparser {
 
             return context.getContext().getComponent(Components.IMPORTS)
                     .forName(token.getValue())
-                    .map(FunctionUtils.map(Reference::fetch, exception -> {
-                        throw new PandaExpressionParserFailure(context, token, "Unknown type");
-                    }))
+                    .map(Reference::fetch)
                     .filter(reference -> VisibilityComparator.requireAccess(reference, context.getContext(), token))
                     .map(prototype -> ExpressionResult.of(new StaticExpression(prototype)))
                     .orElse(null);
