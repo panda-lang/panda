@@ -22,8 +22,8 @@ import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
-import org.panda_lang.framework.language.architecture.prototype.StateComparator;
-import org.panda_lang.framework.language.architecture.prototype.TypeDeclarationUtils;
+import org.panda_lang.framework.language.architecture.prototype.utils.StateComparator;
+import org.panda_lang.framework.language.architecture.prototype.utils.TypeDeclarationUtils;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
@@ -65,8 +65,8 @@ final class PrototypeParserUtils {
         Optional<Reference> extendedPrototype = context.getComponent(Components.IMPORTS).forName(name);
 
         if (extendedPrototype.isPresent()) {
-            StateComparator.requireInheritance(context, extendedPrototype.get(), typeSource);
-            prototype.addBase(extendedPrototype.get());
+            StateComparator.requireInheritance(context, extendedPrototype.get().fetch(), typeSource);
+            prototype.addBase(extendedPrototype.get().fetch());
             return;
         }
 

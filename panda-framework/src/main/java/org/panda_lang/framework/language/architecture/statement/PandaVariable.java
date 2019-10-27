@@ -25,8 +25,8 @@ public class PandaVariable extends PandaVariableData implements Variable {
     protected final int pointer;
     protected boolean initialized;
 
-    public PandaVariable(int pointer, Reference type, String name, boolean mutable, boolean nillable) {
-        super(type, name, mutable, nillable);
+    public PandaVariable(int pointer, Reference prototype, String name, boolean mutable, boolean nillable) {
+        super(prototype, name, mutable, nillable);
 
         if (pointer < 0) {
             throw new IllegalArgumentException("Invalid variable id");

@@ -14,20 +14,22 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.architecture.prototype;
+package org.panda_lang.framework.design.architecture.prototype;
 
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 
-public class PandaClass {
+public final class ReferenceFetchException extends PandaRuntimeException {
 
-    private final Prototype prototype;
-
-    protected PandaClass(Prototype prototype) {
-        this.prototype = prototype;
+    public ReferenceFetchException(String message, Throwable cause) {
+        super(message, cause);
     }
 
-    public Prototype getPrototype() {
-        return prototype;
+    public ReferenceFetchException(String message) {
+        super(message);
+    }
+
+    public ReferenceFetchException(Throwable cause) {
+        super(cause);
     }
 
 }

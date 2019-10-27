@@ -30,6 +30,7 @@ import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.architecture.prototype.PandaConstructor;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
+import org.panda_lang.framework.language.architecture.prototype.PandaReference;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeScope;
 import org.panda_lang.framework.language.architecture.prototype.generator.PrototypeClassGenerator;
@@ -90,7 +91,7 @@ public final class PrototypeParser extends ParserBootstrap {
         Prototype prototype = PandaPrototype.builder()
                 .name(name)
                 .module(script.getModule())
-                .source(location)
+                .location(location)
                 .associated(GENERATOR.generateType(name))
                 .type(result.get("type").toString())
                 .state(type.equals(Keywords.CLASS.getValue()) ? State.DEFAULT : State.ABSTRACT)
@@ -102,8 +103,8 @@ public final class PrototypeParser extends ParserBootstrap {
                 .withComponent(PrototypeComponents.PROTOTYPE_SCOPE, prototypeScope)
                 .withComponent(PrototypeComponents.PROTOTYPE, prototype);
 
-        prototype.addBase(JavaModule.OBJECT.toReference());
-        prototype.getModule().add(name, prototype.getAssociatedClass(), prototype::toReference);
+        prototype.addBase(JavaModule.OBJECT);
+        prototype.getModule().add(new PandaReference(name, prototype.getAssociatedClass(), reference -> prototype));
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
@@ -124,12 +125,12 @@ public final class PrototypeParser extends ParserBootstrap {
     void verifyProperties(@Component Prototype prototype, @Component PrototypeScope scope) {
 
 
-        if (!prototype.getConstructors().getProperties().isEmpty()) {
+        if (!prototype.getConstructors().getDeclaredProperties().isEmpty()) {
             return;
         }
 
         prototype.getConstructors().declare(PandaConstructor.builder()
-                .type(prototype.toReference())
+                .type(prototype)
                 .callback((frame, instance, arguments) -> scope.revive(frame, instance))
                 .location(prototype.getLocation())
                 .build());
@@ -137,7 +138,7 @@ public final class PrototypeParser extends ParserBootstrap {
 
     @Autowired(order = 2, cycle = GenerationCycles.CONTENT_LABEL, delegation = Delegation.CURRENT_AFTER)
     void verifyContent(Context context, @Component Prototype prototype) {
-        for (PrototypeField field : prototype.getFields().getProperties()) {
+        for (PrototypeField field : prototype.getFields().getDeclaredProperties()) {
             if (field.isInitialized() || (field.isNillable() && field.isMutable())) {
                 field.initialize();
                 continue;

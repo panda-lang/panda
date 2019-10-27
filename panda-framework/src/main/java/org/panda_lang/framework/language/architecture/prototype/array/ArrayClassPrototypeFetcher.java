@@ -18,7 +18,8 @@ package org.panda_lang.framework.language.architecture.prototype.array;
 
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.prototype.Type;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.prototype.Referencable;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.StringUtils;
@@ -30,17 +31,17 @@ import java.util.function.Supplier;
 
 public class ArrayClassPrototypeFetcher {
 
-    private static final Map<String, Reference> ARRAY_PROTOTYPES = new HashMap<>();
+    private static final Map<String, Referencable> ARRAY_PROTOTYPES = new HashMap<>();
 
     public static Optional<Reference> fetch(Module module, Class<?> type) {
         return fetch(module, type.getSimpleName());
     }
 
     public static Optional<Reference> fetch(Module module, String type) {
-        Reference cached = ARRAY_PROTOTYPES.get(type);
+        Referencable cached = ARRAY_PROTOTYPES.get(type);
 
         if (cached != null) {
-            return Optional.of(cached);
+            return Optional.of(cached.toReference());
         }
 
         Optional<Reference> baseReferenceValue = module.forName(StringUtils.replace(type, PandaArray.IDENTIFIER, StringUtils.EMPTY));
@@ -52,35 +53,34 @@ public class ArrayClassPrototypeFetcher {
         Reference baseReference = baseReferenceValue.get();
         int dimensions = StringUtils.countOccurrences(type, PandaArray.IDENTIFIER);
 
-        Reference array = getArrayOf(module, baseReference, dimensions);
-        baseReference.getModule().add(type, array.getAssociatedClass(), () -> array);
-        return Optional.of(array);
+        return Optional.of(getArrayOf(module, baseReference, dimensions).toReference());
     }
 
-    public static Reference getArrayOf(Module module, Type prototype, int dimensions) {
-        Class<?> arrayType = ArrayUtils.getDimensionalArrayType(prototype.getAssociatedClass(), dimensions);
-        Class<?> arrayClass = ArrayUtils.getArrayClass(arrayType);
+    public static Prototype getArrayOf(Module module, Referencable baseReferencable, int dimensions) {
+        Reference baseReference = baseReferencable.toReference();
+        Class<?> componentType = ArrayUtils.getDimensionalArrayType(baseReference.getAssociatedClass(), dimensions);
+        Class<?> arrayType = ArrayUtils.getArrayClass(componentType);
+        Reference componentReference;
 
-        Reference type;
-
-        if (arrayType.isArray()) {
-            type = fetch(module, arrayType).orElseThrow((Supplier<PandaFrameworkException>) () -> {
-                throw new PandaFrameworkException("Cannot fetch array class for array type " + arrayType);
+        if (componentType.isArray()) {
+            componentReference = fetch(module, componentType).orElseThrow((Supplier<PandaFrameworkException>) () -> {
+                throw new PandaFrameworkException("Cannot fetch array class for array type " + componentType);
             });
         }
         else {
-            type = module.forClass(arrayType).orElseThrow((Supplier<PandaFrameworkException>) () -> {
-                throw new PandaFrameworkException("Cannot fetch array class for " + arrayType);
+            componentReference = module.forClass(componentType).orElseThrow((Supplier<PandaFrameworkException>) () -> {
+                throw new PandaFrameworkException("Cannot fetch array class for " + componentType);
             });
         }
 
-        ArrayPrototype arrayPrototype = new ArrayPrototype(prototype.getModule(), arrayClass, type);
-        ARRAY_PROTOTYPES.put(prototype.getName() + dimensions, arrayPrototype.toReference());
+        ArrayPrototype arrayPrototype = new ArrayPrototype(module, arrayType, componentReference.fetch());
+        ARRAY_PROTOTYPES.put(baseReference.getName() + dimensions, arrayPrototype);
 
         arrayPrototype.getMethods().declare(ArrayClassPrototypeConstants.SIZE);
         arrayPrototype.getMethods().declare(ArrayClassPrototypeConstants.TO_STRING);
 
-        return arrayPrototype.toReference();
+        module.add(arrayPrototype);
+        return arrayPrototype;
     }
 
 }

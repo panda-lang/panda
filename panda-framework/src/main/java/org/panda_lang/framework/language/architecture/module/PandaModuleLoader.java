@@ -83,10 +83,10 @@ public class PandaModuleLoader implements ModuleLoader {
     @Override
     public Optional<Reference> forClass(Class<?> associatedClass) {
         for (LoadedModule loadedModule : loadedModules.values()) {
-            Optional<Reference> prototypeReference = loadedModule.forClass(associatedClass);
+            Optional<Reference> prototypePrototype = loadedModule.forClass(associatedClass);
 
-            if (prototypeReference.isPresent()) {
-                return prototypeReference;
+            if (prototypePrototype.isPresent()) {
+                return prototypePrototype;
             }
 
         }

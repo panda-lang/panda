@@ -16,7 +16,38 @@
 
 package org.panda_lang.framework.design.architecture.prototype;
 
-public interface Prototype extends Type, Referencable {
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
+
+import java.util.Collection;
+
+/**
+ * Basic set of static data about a type
+ */
+public interface Prototype extends Property, Referencable {
+
+    /**
+     * Get Prototype to the array type of this type
+     *
+     * @param moduleLoader the loader to use
+     * @return the Prototype to array type
+     */
+    Prototype toArray(ModuleLoader moduleLoader);
+
+    /**
+     * Inherit the given Prototype
+     *
+     * @param basePrototype the Prototype to inherit from
+     */
+    void addBase(Prototype basePrototype);
+
+    /**
+     * Check if current declaration is assignable from the given declaration
+     *
+     * @param prototype to compare with
+     * @return true if this type is assignable from the given declaration, otherwise false
+     */
+    boolean isAssignableFrom(@Nullable Prototype prototype);
 
     /**
      * Check if the prototype represents array type
@@ -45,5 +76,33 @@ public interface Prototype extends Type, Referencable {
      * @return the constructors
      */
     Constructors getConstructors();
+
+    /**
+     * Get Prototypes to super types
+     *
+     * @return collection of supertypes
+     */
+    Collection<? extends Prototype> getBases();
+
+    /**
+     * Get state of type
+     *
+     * @return the state
+     */
+    State getState();
+
+    /**
+     * Get type of prototype
+     *
+     * @return the prototype type
+     */
+    String getType();
+
+    /**
+     * Get Java class associated with the type
+     *
+     * @return the associated class
+     */
+    Class<?> getAssociatedClass();
 
 }

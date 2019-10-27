@@ -50,7 +50,7 @@ public class PandaMethod extends AbstractExecutableProperty implements Prototype
 
     @Override
     public String toString() {
-        return "method " + getReference().getName() + "#" + getName();
+        return "method " + getPrototype().getName() + "#" + getName();
     }
 
     public static PandaMethodBuilder builder() {

@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.interpreter.parser.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
@@ -24,7 +25,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionS
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.language.architecture.expression.PandaDynamicExpression;
-import org.panda_lang.framework.language.architecture.prototype.VisibilityComparator;
+import org.panda_lang.framework.language.architecture.prototype.utils.VisibilityComparator;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.utilities.commons.function.Produce;
 
@@ -48,7 +49,7 @@ public class CastExpressionSubparser implements ExpressionSubparser {
     private static final class CastWorker extends AbstractExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
+        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) throws Exception {
             if (!token.contentEquals(Keywords.AS) || !context.hasResults()) {
                 return null;
             }
@@ -59,8 +60,9 @@ public class CastExpressionSubparser implements ExpressionSubparser {
                 return result.getError();
             }
 
-            VisibilityComparator.requireAccess(result.getResult(), context.getContext(), token);
-            return ExpressionResult.of(new PandaDynamicExpression(result.getResult().fetch(), context.popExpression()).toExpression());
+            Prototype prototype = result.getResult().fetch();
+            VisibilityComparator.requireAccess(prototype, context.getContext(), token);
+            return ExpressionResult.of(new PandaDynamicExpression(prototype, context.popExpression()).toExpression());
         }
 
     }

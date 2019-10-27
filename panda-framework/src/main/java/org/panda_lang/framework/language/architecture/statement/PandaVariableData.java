@@ -23,7 +23,7 @@ import org.panda_lang.framework.design.architecture.statement.VariableData;
 public class PandaVariableData implements VariableData  {
 
     private final String name;
-    private final Referencable type;
+    private final Reference type;
     private final boolean mutable;
     private final boolean nillable;
 
@@ -37,7 +37,7 @@ public class PandaVariableData implements VariableData  {
         }
 
         this.name = name;
-        this.type = type;
+        this.type = type.toReference();
         this.mutable = mutable;
         this.nillable = nillable;
     }
@@ -58,7 +58,7 @@ public class PandaVariableData implements VariableData  {
 
     @Override
     public Reference getType() {
-        return type.toReference();
+        return type;
     }
 
     @Override

@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.interpreter.parser.expression.subparsers.assignation.array;
 
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.language.architecture.expression.DynamicExpression;
 
 public final class ArrayAssigner implements DynamicExpression {

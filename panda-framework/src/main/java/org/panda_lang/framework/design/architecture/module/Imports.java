@@ -18,8 +18,6 @@ package org.panda_lang.framework.design.architecture.module;
 
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 
-import java.util.function.Supplier;
-
 public interface Imports extends ModuleResource {
 
     /**
@@ -38,13 +36,13 @@ public interface Imports extends ModuleResource {
     void importModule(Module module);
 
     /**
-     * Import reference
+     * Import Prototype
      *
-     * @param name the reference to import
-     * @param supplier the reference supplier
+     * @param name the name of prototype to import as (may be different than prototype name)
+     * @param reference the reference to prototype
      * @return if prototype with the given name is already imported, the method will return false, otherwise true
      */
-    boolean importReference(String name, Supplier<Reference> supplier);
+    boolean importPrototype(String name, Reference reference);
 
     /**
      * Get the module loader used by current imports

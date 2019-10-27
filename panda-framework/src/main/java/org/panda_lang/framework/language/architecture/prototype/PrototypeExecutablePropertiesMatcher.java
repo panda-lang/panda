@@ -19,25 +19,30 @@ package org.panda_lang.framework.language.architecture.prototype;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
-import org.panda_lang.framework.design.architecture.prototype.Arguments;
+import org.panda_lang.framework.design.architecture.prototype.Adjustment;
 import org.panda_lang.framework.design.architecture.prototype.ExecutableProperty;
 import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
-import org.panda_lang.framework.design.architecture.prototype.Type;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.prototype.Referencable;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.expression.AbstractDynamicExpression;
 import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 final class PrototypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
 
-    public Optional<Arguments<T>> match(Collection<T> collection, Type[] requiredTypes, @Nullable Expression[] arguments) {
+    public Optional<Adjustment<T>> match(Collection<T> collection, Referencable[] requiredTypes, @Nullable Expression[] arguments) {
+        Prototype[] required = Arrays.stream(requiredTypes)
+                .map(referencable -> referencable.toReference().fetch())
+                .toArray(Prototype[]::new);
+
         for (T executable : collection) {
-            Arguments<T> args = match(executable, requiredTypes, arguments);
+            Adjustment<T> args = match(executable, required, arguments);
 
             if (args != null) {
                 return Optional.of(args);
@@ -47,12 +52,12 @@ final class PrototypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
         return Optional.empty();
     }
 
-    private @Nullable Arguments<T> match(T executable, Type[] requiredTypes, @Nullable Expression[] arguments) {
+    private @Nullable Adjustment<T> match(T executable, Prototype[] requiredTypes, @Nullable Expression[] arguments) {
         PropertyParameter[] parameters = executable.getParameters();
 
         // return result for parameterless executables
         if (parameters.length == 0) {
-            return requiredTypes.length == 0 ? new ResultArguments<>(executable, arguments) : null;
+            return requiredTypes.length == 0 ? new ResultAdjustment<>(executable, arguments) : null;
         }
 
         // map arguments into parameters
@@ -66,7 +71,7 @@ final class PrototypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
             if (!parameter.isVarargs()) {
                 target[required] = index;
 
-                if (!parameter.getType().isAssignableFrom(requiredTypes[required++])) {
+                if (!parameter.getType().fetch().isAssignableFrom(requiredTypes[required++])) {
                     return null;
                 }
 
@@ -74,12 +79,12 @@ final class PrototypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
             }
 
             // varargs parameter has to be array
-            Reference type = ((ArrayPrototype) parameter.getType().fetch()).getArrayType();
+            Prototype type = ((ArrayPrototype) parameter.getType()).getArrayType();
             varArgs++;
 
             // read vararg
             while (required < requiredTypes.length) {
-                Type nextType = requiredTypes[required];
+                Prototype nextType = requiredTypes[required];
 
                 if (!type.isAssignableFrom(nextType)) {
                     break;
@@ -97,12 +102,12 @@ final class PrototypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
 
         // return executable if only types was requested
         if (arguments == null) {
-            return new ResultArguments<>(executable, null);
+            return new ResultAdjustment<>(executable, null);
         }
 
         // return result without varargs mappings
         if (varArgs == 0) {
-            return new ResultArguments<>(executable, arguments);
+            return new ResultAdjustment<>(executable, arguments);
         }
 
         @SuppressWarnings("unchecked")
@@ -135,7 +140,7 @@ final class PrototypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
             Expression[] expressionsArray = expressions.toArray(new Expression[0]);
 
             // generate varargs array expression
-            fixedArguments[argumentIndex] = new AbstractDynamicExpression(((ArrayPrototype) parameters[argumentIndex].getType().fetch()).getArrayType().fetch()) {
+            fixedArguments[argumentIndex] = new AbstractDynamicExpression(((ArrayPrototype) parameters[argumentIndex].getType()).getArrayType().toReference()) {
                 @Override
                 @SuppressWarnings("unchecked")
                 public Object evaluate(ProcessStack stack, Object instance) throws Exception {
@@ -144,15 +149,15 @@ final class PrototypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
             }.toExpression();
         }
 
-        return new ResultArguments<>(executable, fixedArguments);
+        return new ResultAdjustment<>(executable, fixedArguments);
     }
 
-    public static final class ResultArguments<R extends ExecutableProperty> implements Arguments<R> {
+    public static final class ResultAdjustment<R extends ExecutableProperty> implements Adjustment<R> {
 
         private final R executable;
         private final Expression[] arguments;
 
-        private ResultArguments(R executable, @Nullable Expression[] arguments) {
+        private ResultAdjustment(R executable, @Nullable Expression[] arguments) {
             this.executable = executable;
             this.arguments = arguments;
         }

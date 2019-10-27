@@ -19,19 +19,25 @@ package org.panda_lang.framework.language.architecture.prototype;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
+import org.panda_lang.framework.design.architecture.prototype.Adjustment;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractExecutableStatement;
 
 public final class BaseConstructor extends AbstractExecutableStatement {
 
-    private final PandaConstructor constructor;
+    private final PrototypeConstructor constructor;
     private final Expression[] arguments;
 
-    public BaseConstructor(SourceLocation location, PandaConstructor constructor, Expression[] arguments) {
+    public BaseConstructor(SourceLocation location, PrototypeConstructor constructor, Expression[] arguments) {
         super(location);
         this.constructor = constructor;
         this.arguments = arguments;
+    }
+
+    public BaseConstructor(SourceLocation location, Adjustment<PrototypeConstructor> adjustment) {
+        this(location, adjustment.getExecutable(), adjustment.getArguments());
     }
 
     @Override

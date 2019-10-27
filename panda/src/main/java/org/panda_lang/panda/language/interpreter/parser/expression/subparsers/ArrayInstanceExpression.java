@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.language.interpreter.parser.expression.subparsers;
 
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
 import org.panda_lang.framework.language.architecture.expression.AbstractDynamicExpression;
+import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
 
 import java.lang.reflect.Array;
 

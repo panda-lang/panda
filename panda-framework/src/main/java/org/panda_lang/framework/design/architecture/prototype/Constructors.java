@@ -28,7 +28,7 @@ public interface Constructors extends Properties<PrototypeConstructor> {
      * @param arguments arguments to match and adjust
      * @return the adjusted executable
      */
-    Optional<Arguments<PrototypeConstructor>> getAdjustedConstructor(Expression[] arguments);
+    Optional<Adjustment<PrototypeConstructor>> getAdjustedConstructor(Expression[] arguments);
 
     /**
      * Get constructor that fits to the given types

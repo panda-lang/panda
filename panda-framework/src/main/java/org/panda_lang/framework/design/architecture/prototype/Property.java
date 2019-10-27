@@ -32,20 +32,11 @@ public interface Property {
     Visibility getVisibility();
 
     /**
-     * Get prototype
-     *
-     * @return the prototype
-     */
-    default Prototype getPrototype() {
-        return getReference().fetch();
-    }
-
-    /**
      * Get associated prototype
      *
-     * @return the reference to prototype
+     * @return the Prototype to prototype
      */
-    Reference getReference();
+    Prototype getPrototype();
 
     /**
      * Get module of property
@@ -53,7 +44,7 @@ public interface Property {
      * @return the module
      */
     default Module getModule() {
-        return getReference().getModule();
+        return getPrototype().getModule();
     }
 
     /**

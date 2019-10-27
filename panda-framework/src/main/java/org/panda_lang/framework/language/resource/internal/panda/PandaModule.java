@@ -18,9 +18,9 @@ package org.panda_lang.framework.language.resource.internal.panda;
 
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.language.architecture.module.PandaLazyModule;
-import org.panda_lang.framework.language.architecture.prototype.PandaPrototypeUtils;
 import org.panda_lang.framework.language.architecture.prototype.array.PandaArray;
 import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
+import org.panda_lang.framework.language.resource.internal.PandaResourcesUtils;
 
 import java.util.Optional;
 
@@ -28,7 +28,7 @@ public final class PandaModule implements InternalModuleInfo {
 
     private static final PandaLazyModule MODULE = new PandaLazyModule("panda");
 
-    public static final Prototype ARRAY = PandaPrototypeUtils.of(MODULE, PandaArray.class, "Array").fetch();
+    public static final Prototype ARRAY = PandaResourcesUtils.generate(MODULE, PandaArray.class, "Array");
 
     @Override
     public String[] getNames() {

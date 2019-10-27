@@ -40,12 +40,12 @@ public interface Modules {
     }
 
     /**
-     * Count all available references
+     * Count all available Prototypes
      *
-     * @return the amount of references
+     * @return the amount of Prototypes
      */
-    default int countReferences() {
-        return StreamUtils.sum(getModules(), Module::countReferences);
+    default int countPrototypes() {
+        return StreamUtils.sum(getModules(), Module::countPrototypes);
     }
 
     /**

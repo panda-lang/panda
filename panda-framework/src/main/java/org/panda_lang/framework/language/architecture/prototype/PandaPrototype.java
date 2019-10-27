@@ -16,41 +16,152 @@
 
 package org.panda_lang.framework.language.architecture.prototype;
 
-import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.framework.design.architecture.prototype.Constructors;
+import org.panda_lang.framework.design.architecture.prototype.Fields;
+import org.panda_lang.framework.design.architecture.prototype.Methods;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
-import org.panda_lang.framework.design.interpreter.source.Source;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.language.architecture.prototype.array.ArrayClassPrototypeFetcher;
 
-public class PandaPrototype extends AbstractPrototype {
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Objects;
 
-    private boolean initialized;
+public class PandaPrototype extends AbstractProperty implements Prototype {
 
-    protected PandaPrototype(Module module, String className, SourceLocation source, Class<?> associated, String type, State state, Visibility visibility) {
-        super(module, className, source, associated, type, state, visibility);
+    protected final Module module;
+    protected final Class<?> associated;
+    protected final String type;
+    protected final State state;
+    protected final Collection<Prototype> bases = new ArrayList<>(1);
+    protected final Fields fields = new PandaFields(this);
+    protected final Constructors constructors = new PandaConstructors(this);
+    protected final Methods methods = new PandaMethods(this);
+
+    public PandaPrototype(Module module, String name, SourceLocation location, Class<?> associated, String type, State state, Visibility visibility) {
+        super(name, location, visibility);
+
+        if (module == null) {
+            throw new IllegalArgumentException("Prototype needs module");
+        }
+
+        if (associated == null) {
+            throw new IllegalArgumentException("Prototype has to be associated with a java class");
+        }
+
+        if (type == null) {
+            throw new IllegalArgumentException("Prototype requires defined type");
+        }
+
+        if (state == null) {
+            throw new IllegalArgumentException("State of prototype is missing");
+        }
+
+        this.module = module;
+        this.associated = associated;
+        this.type = type;
+        this.state = state;
     }
 
     protected PandaPrototype(PandaPrototypeBuilder<?, ?> builder) {
-        this(builder.module, builder.name, builder.source, builder.associated, builder.type, builder.state, builder.visibility);
+        this(builder.module, builder.name, builder.location, builder.associated, builder.type, builder.state, builder.visibility);
     }
 
-    public synchronized void initialize() throws Exception {
-        if (initialized) {
-            return;
+    @Override
+    public void addBase(Prototype basePrototype) {
+        bases.add(basePrototype);
+    }
+
+    @Override
+    public Prototype toArray(ModuleLoader loader) {
+        return ArrayClassPrototypeFetcher.getArrayOf(getModule(), this, 1);
+    }
+
+    @Override
+    public Reference toReference() {
+        return new PandaStubReference(this);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getModule(), getName());
+    }
+
+    @Override
+    public boolean equals(@Nullable Object o) {
+        return this == o;
+    }
+
+    @Override
+    public boolean isAssignableFrom(@Nullable Prototype prototype) { // this (Panda Class | Java Class) isAssociatedWith
+        if (prototype == null) {
+            return true;
         }
 
-        this.initialized = true;
+        return prototype.equals(this)
+                || PandaPrototypeUtils.isAssignableFrom(associated, prototype.getAssociatedClass())
+                || PandaPrototypeUtils.hasCommonPrototypes(bases, prototype.getBases());
+    }
 
-        for (PrototypeField field : fields.getProperties()) {
-            if (!field.hasDefaultValue() || !field.isStatic()) {
-                continue;
-            }
+    @Override
+    public boolean isArray() {
+        return false;
+    }
 
-            Expression expression = field.getDefaultValue();
-            field.setStaticValue(expression.evaluate(null, null));
-        }
+    @Override
+    public Methods getMethods() {
+        return methods;
+    }
+
+    @Override
+    public Fields getFields() {
+        return fields;
+    }
+
+    @Override
+    public Constructors getConstructors() {
+        return constructors;
+    }
+
+    @Override
+    public Collection<Prototype> getBases() {
+        return bases;
+    }
+
+    @Override
+    public State getState() {
+        return state;
+    }
+
+    @Override
+    public String getType() {
+        return type;
+    }
+
+    @Override
+    public Class<?> getAssociatedClass() {
+        return associated;
+    }
+
+    @Override
+    public Module getModule() {
+        return module;
+    }
+
+    @Override
+    public Prototype getPrototype() {
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "prototype " + getModule().getName() + "::" + getName();
     }
 
     public static <T> PandaPrototypeBuilder<?, ?> builder() {
@@ -61,7 +172,7 @@ public class PandaPrototype extends AbstractPrototype {
 
         protected String name;
         protected Module module;
-        protected SourceLocation source;
+        protected SourceLocation location;
         protected Class<?> associated;
         protected String type;
         protected State state;
@@ -81,8 +192,8 @@ public class PandaPrototype extends AbstractPrototype {
             return getThis();
         }
 
-        public BUILDER source(SourceLocation source) {
-            this.source = source;
+        public BUILDER location(SourceLocation location) {
+            this.location = location;
             return getThis();
         }
 

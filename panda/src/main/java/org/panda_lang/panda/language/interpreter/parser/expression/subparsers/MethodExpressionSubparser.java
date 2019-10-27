@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.interpreter.parser.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.prototype.Arguments;
+import org.panda_lang.framework.design.architecture.prototype.Adjustment;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
@@ -31,7 +31,7 @@ import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.architecture.expression.StaticExpression;
 import org.panda_lang.framework.language.architecture.expression.ThisExpression;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeExecutableExpression;
-import org.panda_lang.framework.language.architecture.prototype.VisibilityComparator;
+import org.panda_lang.framework.language.architecture.prototype.utils.VisibilityComparator;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.framework.language.interpreter.token.TokenUtils;
@@ -119,7 +119,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
 
         private Expression parseMethod(ExpressionContext context, Expression instance, TokenRepresentation methodName, Snippet argumentsSource) {
             Expression[] arguments = ARGUMENT_PARSER.parse(context, argumentsSource);
-            Optional<Arguments<PrototypeMethod>> adjustedArguments = instance.getReturnType().getMethods().getAdjustedArguments(methodName.getValue(), arguments);
+            Optional<Adjustment<PrototypeMethod>> adjustedArguments = instance.getReturnType().getMethods().getAdjustedArguments(methodName.getValue(), arguments);
 
             if (!adjustedArguments.isPresent()) {
                 throw new PandaExpressionParserFailure(context, argumentsSource,

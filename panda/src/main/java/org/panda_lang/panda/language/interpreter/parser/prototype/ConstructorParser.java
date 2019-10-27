@@ -26,9 +26,9 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractFrame;
-import org.panda_lang.framework.language.architecture.prototype.ParameterUtils;
 import org.panda_lang.framework.language.architecture.prototype.PandaConstructor;
 import org.panda_lang.framework.language.architecture.prototype.PandaConstructor.PandaConstructorScope;
+import org.panda_lang.framework.language.architecture.prototype.ParameterUtils;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeScope;
 import org.panda_lang.framework.language.interpreter.parser.ScopeParser;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
@@ -70,7 +70,7 @@ public final class ConstructorParser extends ParserBootstrap {
         constructorScope.addParameters(parameters);
 
         PrototypeConstructor constructor = PandaConstructor.builder()
-                .type(prototype.toReference())
+                .type(prototype)
                 .location(location)
                 .parameters(parameters)
                 .callback((stack, instance, arguments) -> {

@@ -38,13 +38,9 @@ public class PrototypeScope extends AbstractFramedScope implements FramedScope {
 
     @Override
     public ClassPrototypeFrame revive(ProcessStack stack, Object instance) throws Exception {
-        if (prototype instanceof PandaPrototype) {
-            ((PandaPrototype) prototype).initialize();
-        }
-
         ClassPrototypeFrame classInstance = new ClassPrototypeFrame(this, prototype);
 
-        for (PrototypeField field : prototype.getFields().getProperties()) {
+        for (PrototypeField field : prototype.getFields().getDeclaredProperties()) {
             if (!field.hasDefaultValue() || field.isStatic()) {
                 continue;
             }
@@ -68,7 +64,7 @@ public class PrototypeScope extends AbstractFramedScope implements FramedScope {
         private final Prototype prototype;
 
         public ClassPrototypeFrame(PrototypeScope frame, Prototype classPrototype) {
-            super(frame, classPrototype.getFields().getProperties().size());
+            super(frame, classPrototype.getFields().getDeclaredProperties().size());
 
             this.id = idAssigner.getAndIncrement();
             this.prototype = classPrototype;

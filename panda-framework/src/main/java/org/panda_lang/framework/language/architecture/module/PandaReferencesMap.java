@@ -18,27 +18,25 @@ package org.panda_lang.framework.language.architecture.module;
 
 import org.panda_lang.framework.design.architecture.module.ReferencesMap;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
-import org.panda_lang.utilities.commons.function.CachedSupplier;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Supplier;
 
-final class PandaReferencesMap extends HashMap<String, CachedSupplier<Reference>> implements ReferencesMap {
+final class PandaReferencesMap extends HashMap<String, Reference> implements ReferencesMap {
 
     private final Map<Class<?>, String> associatedClasses = new HashMap<>();
 
     @Override
-    public boolean put(String name, Class<?> type, CachedSupplier<Reference> referenceSupplier) {
-        if (associatedClasses.containsKey(type) || containsKey(name)) {
+    public boolean put(Reference reference) {
+        if (associatedClasses.containsKey(reference.getAssociatedClass()) || containsKey(reference.getName())) {
             return false;
         }
 
-        super.put(name, referenceSupplier);
-        associatedClasses.put(type, name);
+        super.put(reference.getName(), reference);
+        associatedClasses.put(reference.getAssociatedClass(), reference.getName());
         return true;
     }
 
@@ -46,8 +44,8 @@ final class PandaReferencesMap extends HashMap<String, CachedSupplier<Reference>
     public int countUsedPrototypes() {
         int sum = 0;
 
-        for (Entry<String, CachedSupplier<Reference>> reference : entrySet()) {
-            if (reference.getValue().isInitialized() && reference.getValue().get().isInitialized()) {
+        for (Entry<String, Reference> entry : entrySet()) {
+            if (entry.getValue().isInitialized()) {
                 sum++;
             }
         }
@@ -68,20 +66,14 @@ final class PandaReferencesMap extends HashMap<String, CachedSupplier<Reference>
 
     @Override
     public Optional<Reference> forName(CharSequence prototypeName) {
-        Supplier<Reference> prototypeReferenceSupplier = get(prototypeName.toString());
-
-        if (prototypeReferenceSupplier == null) {
-            return Optional.empty();
-        }
-
-        return Optional.of(prototypeReferenceSupplier.get());
+        return Optional.ofNullable(get(prototypeName.toString()));
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public Collection<Entry<String, Supplier<Reference>>> getReferences() {
+    public Collection<Entry<String, Reference>> getPrototypes() {
         Object sharedSet = entrySet(); // due to javac 1.8 bug
-        return new HashSet<>((Collection<? extends Entry<String, Supplier<Reference>>>) sharedSet);
+        return new HashSet<>((Collection<? extends Entry<String, Reference>>) sharedSet);
     }
 
 }

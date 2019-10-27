@@ -25,7 +25,7 @@ public class PrototypeGeneratorManager {
     private static final PrototypeGenerator GENERATOR = new PrototypeGenerator();
 
     public Reference generate(Module module, Class<?> clazz, String name) {
-        return GENERATOR.generate(module, clazz, name);
+        return module.add(GENERATOR.generate(module, clazz, name));
     }
 
     public static PrototypeGeneratorManager getInstance() {

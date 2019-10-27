@@ -14,17 +14,23 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.expression.subparsers.operation.rpn;
+package org.panda_lang.framework.language.architecture.prototype;
 
-import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.prototype.ExecutableProperty;
+import org.panda_lang.framework.design.architecture.prototype.Properties;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 
-public interface RPNOperationSupplier {
+abstract class AbstractProperties<T extends ExecutableProperty> implements Properties<T> {
 
-    RPNOperationAction<?, ?, ?> of(Expression a, Expression b);
+    private final Prototype prototype;
 
-    Prototype returnType(Prototype a, Prototype b);
+    protected AbstractProperties(Prototype prototype) {
+        this.prototype = prototype;
+    }
 
-    Prototype requiredType();
+    @Override
+    public Prototype getPrototype() {
+        return prototype;
+    }
 
 }

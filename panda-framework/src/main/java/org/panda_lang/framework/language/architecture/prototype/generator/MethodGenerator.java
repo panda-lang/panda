@@ -19,7 +19,6 @@ package org.panda_lang.framework.language.architecture.prototype.generator;
 import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeExecutableCallback;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
@@ -46,10 +45,7 @@ final class MethodGenerator {
     }
 
     protected PrototypeMethod generate() {
-        Reference returnType = generator.findOrGenerate(prototype.getModule(), method.getReturnType());
         PropertyParameter[] mappedParameters = PrototypeGeneratorUtils.toParameters(prototype.getModule(), method.getParameters());
-        boolean isVoid = returnType.getName().equals("void");
-
         // TODO: Generate bytecode
         method.setAccessible(true);
 
@@ -65,7 +61,6 @@ final class MethodGenerator {
 
                 Class<?> last = method.getParameterTypes()[parameterCount - 1];
                 String lastName = last.getName();
-                System.out.println(last);
                 Class<?> rootLast = Class.forName(lastName.substring(2, lastName.length() - 1));
 
                 if (amountOfArgs + 1 != parameterCount || !last.isArray()) {
@@ -84,20 +79,14 @@ final class MethodGenerator {
                 arguments[amountOfArgs - 1] = varargs;
             }
 
-            Object returnValue = method.invoke(instance, arguments);
-
-            if (isVoid) {
-                return null;
-            }
-
-            return returnValue;
+            return method.invoke(instance, arguments);
         };
 
         return PandaMethod.builder()
                 .name(method.getName())
-                .prototype(prototype.toReference())
+                .prototype(prototype)
                 .isStatic(Modifier.isStatic(method.getModifiers()))
-                .returnType(returnType)
+                .returnType(generator.findOrGenerate(prototype.getModule(), method.getReturnType()))
                 .location(prototype.getLocation())
                 .methodBody(methodBody)
                 .parameters(mappedParameters)

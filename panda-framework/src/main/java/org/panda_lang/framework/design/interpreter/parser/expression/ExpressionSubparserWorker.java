@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 
 public interface ExpressionSubparserWorker {
 
-    @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token);
+    @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) throws Exception;
 
     ExpressionSubparser getSubparser();
 

@@ -20,7 +20,6 @@ import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.expression.AbstractDynamicExpression;
 import org.panda_lang.framework.language.architecture.expression.PandaExpression;
@@ -43,14 +42,12 @@ final class FieldGenerator {
     }
 
     protected PrototypeField generate() {
-        Reference returnType = generator.findOrGenerate(prototype.getModule(), field.getType());
-
         PrototypeField prototypeField = PandaPrototypeField.builder()
                 .name(field.getName())
-                .fieldIndex(prototype.getFields().getProperties().size())
-                .prototype(prototype.toReference())
+                .prototype(prototype)
                 .location(prototype.getLocation())
-                .returnType(returnType)
+                .fieldIndex(prototype.getFields().getDeclaredProperties().size())
+                .returnType(generator.findOrGenerate(prototype.getModule(), field.getType()))
                 .isStatic(Modifier.isStatic(field.getModifiers()))
                 .isNative(true)
                 .mutable(true)
@@ -60,7 +57,7 @@ final class FieldGenerator {
         // TODO: Generate bytecode
         field.setAccessible(true);
 
-        Expression fieldExpression = new PandaExpression(new AbstractDynamicExpression(returnType.fetch()) {
+        Expression fieldExpression = new PandaExpression(new AbstractDynamicExpression(prototypeField.getReturnType()) {
             @Override
             @SuppressWarnings("unchecked")
             public Object evaluate(ProcessStack flow, Object instance) {

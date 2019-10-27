@@ -17,26 +17,22 @@
 package org.panda_lang.framework.design.architecture.module;
 
 import org.panda_lang.framework.design.architecture.prototype.Reference;
-import org.panda_lang.utilities.commons.function.CachedSupplier;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.function.Supplier;
 
 /**
- * Custom implementation of map to store references with support for associated classes and {@link org.panda_lang.framework.design.architecture.module.ModuleResource}
+ * Custom implementation of map to store Prototypes with support for associated classes and {@link org.panda_lang.framework.design.architecture.module.ModuleResource}
  */
-public interface ReferencesMap extends Map<String, CachedSupplier<Reference>>, ModuleResource {
+public interface ReferencesMap extends Map<String, Reference>, ModuleResource {
 
     /**
-     * Add reference to the map
+     * Add reference to map
      *
-     * @param name the name of prototype
-     * @param type the associated class
-     * @param referenceSupplier the prototype supplier
-     * @return false if name or type is already stored, otherwise true
+     * @param reference the reference to add
+     * @return false if a name or type is already stored, otherwise true
      */
-    boolean put(String name, Class<?> type, CachedSupplier<Reference> referenceSupplier);
+    boolean put(Reference reference);
 
     /**
      * Count used prototypes
@@ -46,10 +42,10 @@ public interface ReferencesMap extends Map<String, CachedSupplier<Reference>>, M
     int countUsedPrototypes();
 
     /**
-     * Get collection of entries that contains prototype references
+     * Get collection of entries that contains prototypes
      *
-     * @return the collection of references
+     * @return the collection of Prototypes
      */
-    Collection<Entry<String, Supplier<Reference>>> getReferences();
+    Collection<Entry<String, Reference>> getPrototypes();
 
 }

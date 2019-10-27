@@ -45,7 +45,7 @@ public interface Methods extends Properties<PrototypeMethod> {
      * @param arguments arguments to match and adjust
      * @return the adjusted executable
      */
-    Optional<Arguments<PrototypeMethod>> getAdjustedArguments(String name, Expression[] arguments);
+    Optional<Adjustment<PrototypeMethod>> getAdjustedArguments(String name, Expression[] arguments);
 
     /**
      * Get method with the given name and types
@@ -54,6 +54,6 @@ public interface Methods extends Properties<PrototypeMethod> {
      * @param parameterTypes the parameter types to search for
      * @return the found method
      */
-    Optional<PrototypeMethod> getMethod(String name, Type... parameterTypes);
+    Optional<PrototypeMethod> getMethod(String name, Referencable... parameterTypes);
 
 }

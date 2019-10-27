@@ -18,7 +18,7 @@ package org.panda_lang.framework.language.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
 import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
@@ -47,8 +47,8 @@ public class PandaConstructor extends AbstractExecutableProperty implements Prot
 
         private PandaConstructorBuilder() { }
 
-        public PandaConstructorBuilder constructor(Reference reference, Constructor<?> constructor) {
-            return type(reference).name("constructor " + reference.getName());
+        public PandaConstructorBuilder constructor(Prototype prototype, Constructor<?> constructor) {
+            return type(prototype).name("constructor " + prototype.getName());
         }
 
         public PandaConstructor build() {

@@ -16,21 +16,25 @@
 
 package org.panda_lang.framework.language.architecture.prototype;
 
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.prototype.Adjustment;
+import org.panda_lang.framework.design.architecture.prototype.Constructors;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
-import org.panda_lang.framework.design.architecture.prototype.Constructors;
-import org.panda_lang.framework.design.architecture.prototype.Arguments;
-import org.panda_lang.framework.design.architecture.expression.Expression;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-final class PandaConstructors implements Constructors {
+final class PandaConstructors extends AbstractProperties<PrototypeConstructor> implements Constructors {
 
     private static final PrototypeExecutablePropertiesMatcher<PrototypeConstructor> MATCHER = new PrototypeExecutablePropertiesMatcher<>();
 
     private final List<PrototypeConstructor> constructors = new ArrayList<>(1);
+
+    PandaConstructors(Prototype prototype) {
+        super(prototype);
+    }
 
     @Override
     public void declare(PrototypeConstructor constructor) {
@@ -39,16 +43,16 @@ final class PandaConstructors implements Constructors {
 
     @Override
     public Optional<PrototypeConstructor> getConstructor(Prototype[] types) {
-        return MATCHER.match(constructors, types, null).map(Arguments::getExecutable);
+        return MATCHER.match(constructors, types, null).map(Adjustment::getExecutable);
     }
 
     @Override
-    public Optional<Arguments<PrototypeConstructor>> getAdjustedConstructor(Expression[] arguments) {
+    public Optional<Adjustment<PrototypeConstructor>> getAdjustedConstructor(Expression[] arguments) {
         return MATCHER.match(constructors, ParameterUtils.toTypes(arguments), arguments);
     }
 
     @Override
-    public List<? extends PrototypeConstructor> getProperties() {
+    public List<? extends PrototypeConstructor> getDeclaredProperties() {
         return constructors;
     }
 

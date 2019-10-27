@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.language.interpreter.parser.expression.subparsers;
 
-import org.panda_lang.framework.language.architecture.dynamic.accessor.Accessor;
-import org.panda_lang.framework.language.architecture.dynamic.accessor.AccessorExpression;
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.statement.Variable;
-import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.assignation.variable.VariableAccessor;
+import org.panda_lang.framework.language.architecture.dynamic.accessor.Accessor;
+import org.panda_lang.framework.language.architecture.dynamic.accessor.AccessorExpression;
 import org.panda_lang.framework.language.architecture.expression.DynamicExpression;
+import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.assignation.variable.VariableAccessor;
 
 final class VariableExpression implements DynamicExpression {
 
@@ -45,7 +45,7 @@ final class VariableExpression implements DynamicExpression {
 
     @Override
     public Prototype getReturnType() {
-        return accessor.getTypeReference().fetch();
+        return accessor.getTypePrototype();
     }
 
     @Override

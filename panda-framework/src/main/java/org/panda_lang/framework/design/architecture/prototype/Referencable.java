@@ -19,9 +19,9 @@ package org.panda_lang.framework.design.architecture.prototype;
 public interface Referencable {
 
     /**
-     * Get the reference to the prototype
+     * Fetch reference to prototype
      *
-     * @return the associated reference
+     * @return the reference
      */
     Reference toReference();
 

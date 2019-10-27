@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.interpreter.parser.prototype;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.prototype.Referencable;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
@@ -87,29 +87,30 @@ public final class MethodParser extends ParserBootstrap {
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
     void parse(Context context, LocalData local, @Component Prototype prototype, @Inter SourceLocation location, @Inter Result result, @Src("type") Snippet type, @Src("body") Snippet body) {
-        Reference returnType = Optional.ofNullable(type)
+        Referencable returnTypeReferencable = Optional.ofNullable(type)
                 .map(value ->  context.getComponent(Components.IMPORTS)
                         .forName(type.asSource())
+                        .map(reference -> (Referencable) reference)
                         .orElseThrow((Supplier<? extends PandaParserFailure>) () -> {
                                 throw new PandaParserFailure(context, type,
                                         "Unknown type",
                                         "Make sure that the name does not have a typo and module which should contain that class is imported"
                                 );
                         }))
-                .orElseGet(JavaModule.VOID::toReference);
+                .orElse(JavaModule.VOID);
 
         TokenRepresentation name = result.get("name");
         List<PropertyParameter> parameters = PARAMETER_PARSER.parse(context, result.get("parameters"));
         MethodScope methodScope = local.allocated(new MethodScope(name.getLocation(), parameters));
 
         PandaMethod method = PandaMethod.builder()
-                .prototype(prototype.toReference())
+                .prototype(prototype)
                 .parameters(parameters)
                 .name(name.getValue())
                 .location(location)
                 .isAbstract(body == null)
                 .visibility(result.get("visibility"))
-                .returnType(returnType)
+                .returnType(returnTypeReferencable.toReference().fetch())
                 .isStatic(result.has("static"))
                 .methodBody(methodScope)
                 .build();

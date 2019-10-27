@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.interpreter.parser.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
@@ -24,8 +25,10 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionS
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.architecture.expression.StaticExpression;
-import org.panda_lang.framework.language.architecture.prototype.VisibilityComparator;
+import org.panda_lang.framework.language.architecture.prototype.utils.VisibilityComparator;
+import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.expression.PartialResultSubparser;
+import org.panda_lang.utilities.commons.function.FunctionUtils;
 
 public final class StaticExpressionSubparser implements PartialResultSubparser {
 
@@ -49,8 +52,11 @@ public final class StaticExpressionSubparser implements PartialResultSubparser {
 
             return context.getContext().getComponent(Components.IMPORTS)
                     .forName(token.getValue())
+                    .map(FunctionUtils.map(Reference::fetch, exception -> {
+                        throw new PandaExpressionParserFailure(context, token, "Unknown type");
+                    }))
                     .filter(reference -> VisibilityComparator.requireAccess(reference, context.getContext(), token))
-                    .map(reference -> ExpressionResult.of(new StaticExpression(reference)))
+                    .map(prototype -> ExpressionResult.of(new StaticExpression(prototype)))
                     .orElse(null);
         }
 

@@ -25,7 +25,7 @@ import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 public class VariableAssignerUtils {
 
     public static Assigner<Variable> of(Context context, Variable variable, boolean initialize, Expression expression) {
-        if (variable.getType().isAssignableFrom(expression.getReturnType())) {
+        if (variable.getType().fetch().isAssignableFrom(expression.getReturnType())) {
             if (initialize) {
                 variable.initialize();
             }

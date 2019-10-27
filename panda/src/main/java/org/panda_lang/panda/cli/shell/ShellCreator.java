@@ -54,7 +54,7 @@ public final class ShellCreator {
         Prototype prototype = PandaPrototype.builder()
                 .module(context.getComponent(Components.SCRIPT).getModule())
                 .name("ShellPrototype")
-                .source(new PandaClassSource(ShellCreator.class).toLocation())
+                .location(new PandaClassSource(ShellCreator.class).toLocation())
                 .state(State.FINAL)
                 .type("class")
                 .visibility(Visibility.PUBLIC)

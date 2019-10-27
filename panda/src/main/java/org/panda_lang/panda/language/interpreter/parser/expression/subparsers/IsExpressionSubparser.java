@@ -17,13 +17,14 @@
 package org.panda_lang.panda.language.interpreter.parser.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.language.architecture.prototype.VisibilityComparator;
+import org.panda_lang.framework.language.architecture.prototype.utils.VisibilityComparator;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.utilities.commons.function.Produce;
 
@@ -47,7 +48,7 @@ public final class IsExpressionSubparser implements ExpressionSubparser {
     private static final class IsWorker extends AbstractExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
+        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) throws Exception {
             if (!context.hasResults() || !token.contentEquals(Keywords.IS)) {
                 return null;
             }
@@ -58,8 +59,9 @@ public final class IsExpressionSubparser implements ExpressionSubparser {
                 return result.getError();
             }
 
-            VisibilityComparator.requireAccess(result.getResult(), context.getContext(), token);
-            return ExpressionResult.of(new IsExpression(context.popExpression(), result.getResult()).toExpression());
+            Prototype prototype = result.getResult().fetch();
+            VisibilityComparator.requireAccess(prototype, context.getContext(), token);
+            return ExpressionResult.of(new IsExpression(context.popExpression(), prototype).toExpression());
         }
 
     }

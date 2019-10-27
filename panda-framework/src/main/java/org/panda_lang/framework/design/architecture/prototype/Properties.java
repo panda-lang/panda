@@ -28,17 +28,24 @@ public interface Properties<T extends ExecutableProperty> {
     void declare(T property);
 
     /**
-     * Get all properties of the T type
-     *
-     * @return list of properties
-     */
-    List<? extends T> getProperties();
-
-    /**
      * Get amount of properties
      *
      * @return the amount of properties
      */
     int size();
+
+    /**
+     * Get properties declared in this container
+     *
+     * @return list of properties
+     */
+    List<? extends T> getDeclaredProperties();
+
+    /**
+     * Get associated prototype
+     *
+     * @return the prototype
+     */
+    Prototype getPrototype();
 
 }

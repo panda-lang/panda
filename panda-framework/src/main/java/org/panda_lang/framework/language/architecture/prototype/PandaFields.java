@@ -17,15 +17,20 @@
 package org.panda_lang.framework.language.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.prototype.Fields;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-final class PandaFields implements Fields {
+final class PandaFields extends AbstractProperties<PrototypeField> implements Fields {
 
     private final List<PrototypeField> fields = new ArrayList<>();
+
+    PandaFields(Prototype prototype) {
+        super(prototype);
+    }
 
     @Override
     public void declare(PrototypeField field) {
@@ -55,7 +60,7 @@ final class PandaFields implements Fields {
     }
 
     @Override
-    public List<? extends PrototypeField> getProperties() {
+    public List<? extends PrototypeField> getDeclaredProperties() {
         return fields;
     }
 

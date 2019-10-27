@@ -16,38 +16,50 @@
 
 package org.panda_lang.framework.design.architecture.prototype;
 
+import java.util.function.Consumer;
+
 /**
- * The reference to prototype
+ * Reference to prototype
  */
-public interface Reference extends Type, Referencable {
+public interface Reference extends Referencable {
 
     /**
      * Get assigned prototype
      *
      * @return the prototype
+     * @throws org.panda_lang.framework.design.architecture.prototype.ReferenceFetchException if anything happen
      */
-    Prototype fetch();
+    Prototype fetch() throws ReferenceFetchException;
 
     /**
-     * Add initializer to the fetcher. If reference is already initialized, the initializer is executed immediately
+     * Add initializer to the fetcher. If Prototype is already initialized, the initializer is executed immediately
      *
      * @param initializer the initializer to add
-     * @return current reference
+     * @return current Prototype
      */
-    Reference addInitializer(Runnable initializer);
+    Reference addInitializer(Consumer<Prototype> initializer);
 
     /**
-     * Check if reference is already initialized
+     * Check if the reference is already initialized
      *
      * @return true if initialized, otherwise false
      */
     boolean isInitialized();
 
     /**
-     * Get the reference
+     * Get associated with prototype class
      *
-     * @return this reference
+     * @return the associated class
      */
+    Class<?> getAssociatedClass();
+
+    /**
+     * Get name of prototype
+     *
+     * @return the name
+     */
+    String getName();
+
     @Override
     default Reference toReference() {
         return this;

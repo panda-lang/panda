@@ -28,13 +28,12 @@ import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 public final class PandaImports implements Imports {
 
     private final ModuleLoader loader;
     private final Map<String, LoadedModule> importedModules = new HashMap<>();
-    private final Map<String, Supplier<Reference>> importedReferences = new HashMap<>();
+    private final Map<String, Reference> importedPrototypes = new HashMap<>();
 
     public PandaImports(ModuleLoader loader) {
         this.loader = loader;
@@ -65,12 +64,12 @@ public final class PandaImports implements Imports {
     }
 
     @Override
-    public boolean importReference(String name, Supplier<Reference> supplier) {
-        if (importedReferences.containsKey(name)) {
+    public boolean importPrototype(String name, Reference reference) {
+        if (importedPrototypes.containsKey(name)) {
             return false;
         }
 
-        importedReferences.put(name, supplier);
+        importedPrototypes.put(name, reference);
         return true;
     }
 
@@ -87,10 +86,10 @@ public final class PandaImports implements Imports {
 
     @Override
     public Optional<Reference> forName(CharSequence name) {
-        Supplier<Reference> localReference = importedReferences.get(name.toString());
+        Reference localPrototype = importedPrototypes.get(name.toString());
 
-        if (localReference != null) {
-            return Optional.of(localReference.get());
+        if (localPrototype != null) {
+            return Optional.of(localPrototype);
         }
 
         for (LoadedModule value : importedModules.values()) {
