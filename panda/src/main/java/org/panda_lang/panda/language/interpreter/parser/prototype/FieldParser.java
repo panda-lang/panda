@@ -19,14 +19,19 @@ package org.panda_lang.panda.language.interpreter.parser.prototype;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
-import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.language.architecture.module.PandaImportsUtils;
+import org.panda_lang.framework.language.architecture.prototype.PandaPrototypeField;
+import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
+import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
 import org.panda_lang.framework.language.interpreter.pattern.custom.Result;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.ExpressionElement;
@@ -38,14 +43,7 @@ import org.panda_lang.framework.language.interpreter.pattern.custom.elements.Var
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.WildcardElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.NextTokenTypeVerifier;
 import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.TokenTypeVerifier;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.design.interpreter.token.TokenType;
-import org.panda_lang.framework.language.architecture.module.PandaImportsUtils;
-import org.panda_lang.framework.language.architecture.prototype.PandaPrototypeField;
-import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.Autowired;
@@ -55,6 +53,7 @@ import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.
 import org.panda_lang.panda.language.interpreter.bootstraps.context.data.LocalData;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.handlers.CustomPatternHandler;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.interceptors.CustomPatternInterceptor;
+import org.panda_lang.panda.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 
 @RegistrableParser(pipeline = Pipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_FIELD)
@@ -80,16 +79,16 @@ public final class FieldParser extends ParserBootstrap {
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
-    void parse(Context context, LocalData local, @Inter Result result, @Inter SourceLocation location, @Src("type") Snippet type, @Src("name") TokenRepresentation name) {
-        Reference returnType = PandaImportsUtils.getReferenceOrThrow(context, type.asSource(), type);
+    void parse(Context context, LocalData local, @Inter Result result, @Inter SourceLocation location, @Src("type") Snippet type, @Src("name") TokenRepresentation name) throws Exception {
+        Prototype returnType = PandaImportsUtils.getReferenceThrow(context, type.asSource(), type).fetch();
         Visibility visibility = Visibility.valueOf(result.get("visibility").toString().toUpperCase());
 
         Prototype prototype = context.getComponent(PrototypeComponents.PROTOTYPE);
-        int fieldIndex = prototype.getFields().getProperties().size();
+        int fieldIndex = prototype.getFields().getDeclaredProperties().size();
 
         PrototypeField field = PandaPrototypeField.builder()
                 .name(name.getValue())
-                .prototype(prototype.toReference())
+                .prototype(prototype)
                 .returnType(returnType)
                 .fieldIndex(fieldIndex)
                 .location(location)

@@ -17,10 +17,11 @@
 package org.panda_lang.framework.language.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.prototype.Arguments;
+import org.panda_lang.framework.design.architecture.prototype.Adjustment;
 import org.panda_lang.framework.design.architecture.prototype.Methods;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
-import org.panda_lang.framework.design.architecture.prototype.Type;
+import org.panda_lang.framework.design.architecture.prototype.Referencable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,13 +32,14 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-final class PandaMethods implements Methods {
+final class PandaMethods extends AbstractProperties<PrototypeMethod> implements Methods {
 
     private static final PrototypeExecutablePropertiesMatcher<PrototypeMethod> MATCHER = new PrototypeExecutablePropertiesMatcher<>();
 
     private final Map<String, Collection<PrototypeMethod>> methodsMap;
 
-    public PandaMethods() {
+    PandaMethods(Prototype prototype) {
+        super(prototype);
         this.methodsMap = new HashMap<>();
     }
 
@@ -58,18 +60,18 @@ final class PandaMethods implements Methods {
     }
 
     @Override
-    public Optional<PrototypeMethod> getMethod(String name, Type... parameterTypes) {
+    public Optional<PrototypeMethod> getMethod(String name, Referencable... parameterTypes) {
         Collection<PrototypeMethod> methods = methodsMap.get(name);
 
         if (methods == null) {
             return Optional.empty();
         }
 
-        return MATCHER.match(methods, parameterTypes, null).map(Arguments::getExecutable);
+        return MATCHER.match(methods, parameterTypes, null).map(Adjustment::getExecutable);
     }
 
     @Override
-    public Optional<Arguments<PrototypeMethod>> getAdjustedArguments(String name, Expression[] arguments) {
+    public Optional<Adjustment<PrototypeMethod>> getAdjustedArguments(String name, Expression[] arguments) {
         Collection<PrototypeMethod> methods = methodsMap.get(name);
 
         if (methods == null) {
@@ -80,7 +82,7 @@ final class PandaMethods implements Methods {
     }
 
     @Override
-    public List<? extends PrototypeMethod> getProperties() {
+    public List<? extends PrototypeMethod> getDeclaredProperties() {
         return methodsMap.values().stream()
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());

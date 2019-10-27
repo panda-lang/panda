@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.architecture.prototype;
+package org.panda_lang.framework.language.architecture.prototype.utils;
 
-import org.panda_lang.framework.design.architecture.prototype.Type;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
@@ -25,16 +25,16 @@ public final class StateComparator {
 
     private StateComparator() { }
 
-    public static boolean requireInstantiation(Context context, Type type, Snippetable source) {
-        if (type.getState().canBeInstantiated()) {
+    public static boolean requireInstantiation(Context context, Prototype prototype, Snippetable source) {
+        if (prototype.getState().canBeInstantiated()) {
             return true;
         }
 
         throw new PandaParserFailure(context, source, "Cannot create instance of abstract type");
     }
 
-    public static boolean requireInheritance(Context context, Type type, Snippetable source) {
-        if (type.getState().canBeInherited()) {
+    public static boolean requireInheritance(Context context, Prototype prototype, Snippetable source) {
+        if (prototype.getState().canBeInherited()) {
             return true;
         }
 

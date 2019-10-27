@@ -17,6 +17,7 @@
 package org.panda_lang.framework.language.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
@@ -30,36 +31,25 @@ public final class PandaPrototypeUtils {
 
     private PandaPrototypeUtils() { }
 
-    public static Reference generateOf(Module module, Class<?> type) {
-        return generateOf(module, type, type.getSimpleName());
-    }
-
-    public static Reference generateOf(Module module, Class<?> type, String name) {
-        Reference reference = PrototypeGeneratorManager.getInstance().generate(module, type, name);
-        module.add(name, reference.getAssociatedClass(), () -> reference);
-        return reference;
-    }
-
     public static Reference of(Module module, Class<?> type, String name) {
-        PandaPrototype prototype = PandaPrototype.builder()
+        return module.add(PandaPrototype.builder()
                 .name(name)
                 .module(module)
-                .source(new PandaClassSource(type).toLocation())
                 .associated(type)
-                .type(type.isInterface() ? "interface" : "class")
-                .state(State.of(type))
                 .visibility(Visibility.PUBLIC)
-                .build();
-
-        PandaReference reference = new PandaReference(prototype);
-        module.add(name, type, () -> reference);
-
-        return reference;
+                .state(State.DEFAULT)
+                .type(type.isInterface() ? "interface" : "class")
+                .location(new PandaClassSource(type).toLocation())
+                .build()
+        ).toReference();
+    }
+    public static Reference generateOf(Module module, Class<?> type, String name) {
+        return PrototypeGeneratorManager.getInstance().generate(module, type, name);
     }
 
-    public static boolean hasCommonPrototypes(Collection<? extends Reference> fromPrototypes, Collection<? extends Reference> toPrototypes) {
-        for (Reference from : fromPrototypes) {
-            for (Reference to : toPrototypes) {
+    public static boolean hasCommonPrototypes(Collection<? extends Prototype> fromPrototypes, Collection<? extends Prototype> toPrototypes) {
+        for (Prototype from : fromPrototypes) {
+            for (Prototype to : toPrototypes) {
                 if (from.equals(to)) {
                     return true;
                 }

@@ -17,12 +17,12 @@
 package org.panda_lang.framework.language.architecture.dynamic.accessor;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.language.architecture.dynamic.assigner.Assigner;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
-import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.runtime.MemoryContainer;
+import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.language.architecture.dynamic.assigner.Assigner;
 
 public interface Accessor<T extends Variable> {
 
@@ -32,8 +32,8 @@ public interface Accessor<T extends Variable> {
 
     @Nullable <R> R getValue(ProcessStack stack, Object instance) throws Exception;
 
-    default Reference getTypeReference() {
-        return getVariable().getType();
+    default Prototype getTypePrototype() {
+        return getVariable().getType().fetch();
     }
 
     int getMemoryPointer();

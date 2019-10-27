@@ -17,8 +17,8 @@
 package org.panda_lang.panda.language.interpreter.parser.expression.subparsers.operation.subparsers.number;
 
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.operation.rpn.RPNOperationSupplier;
 import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.number.NumberPriorities;
+import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.operation.rpn.RPNOperationSupplier;
 
 public abstract class NumberOperation extends NumberPriorities implements RPNOperationSupplier {
 

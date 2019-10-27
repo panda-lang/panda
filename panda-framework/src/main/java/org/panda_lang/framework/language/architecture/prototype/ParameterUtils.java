@@ -16,9 +16,9 @@
 
 package org.panda_lang.framework.language.architecture.prototype;
 
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
 import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractFrame;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractLivingFrameUtils;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;

@@ -43,7 +43,7 @@ public class AssignerExpression extends PandaExpression {
 
         @Override
         public Prototype getReturnType() {
-            return assigner.getAccessor().getTypeReference().fetch();
+            return assigner.getAccessor().getTypePrototype();
         }
 
     }

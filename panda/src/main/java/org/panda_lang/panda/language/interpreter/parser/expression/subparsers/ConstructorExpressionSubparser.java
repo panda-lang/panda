@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.interpreter.parser.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.prototype.Arguments;
+import org.panda_lang.framework.design.architecture.prototype.Adjustment;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionCategory;
@@ -32,10 +32,10 @@ import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.architecture.module.PandaImportsUtils;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeExecutableExpression;
-import org.panda_lang.framework.language.architecture.prototype.StateComparator;
-import org.panda_lang.framework.language.architecture.prototype.TypeDeclarationUtils;
-import org.panda_lang.framework.language.architecture.prototype.VisibilityComparator;
 import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
+import org.panda_lang.framework.language.architecture.prototype.utils.StateComparator;
+import org.panda_lang.framework.language.architecture.prototype.utils.TypeDeclarationUtils;
+import org.panda_lang.framework.language.architecture.prototype.utils.VisibilityComparator;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
@@ -75,7 +75,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
         private static final ArgumentsParser ARGUMENT_PARSER = new ArgumentsParser();
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
+        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) throws Exception {
             // require 'new' keyword
             if (!token.contentEquals(Keywords.NEW)) {
                 return null;
@@ -95,7 +95,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
                 return null;
             }
 
-            // fetch type reference and update source index
+            // fetch type Prototype and update source index
             Snippet typeSource = typeValue.get();
             source.setIndex(source.getIndex() + typeSource.size());
 
@@ -122,7 +122,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             }
 
             // parse constructor call
-            Prototype type = PandaImportsUtils.getReferenceOrThrow(context.getContext(), typeSource.asSource(), typeSource).fetch();
+            Prototype type = PandaImportsUtils.getReferenceThrow(context.getContext(), typeSource.asSource(), typeSource).fetch();
             VisibilityComparator.requireAccess(type, context.getContext(), typeSource);
             StateComparator.requireInstantiation(context.getContext(), type, typeSource);
 
@@ -132,7 +132,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
         private ExpressionResult parseDefault(ExpressionContext context, Prototype type, TokenRepresentation section) {
             Snippet argsSource = section.toToken(Section.class).getContent();
             Expression[] arguments = ARGUMENT_PARSER.parse(context, argsSource);
-            Optional<Arguments<PrototypeConstructor>> adjustedConstructor = type.getConstructors().getAdjustedConstructor(arguments);
+            Optional<Adjustment<PrototypeConstructor>> adjustedConstructor = type.getConstructors().getAdjustedConstructor(arguments);
 
             return adjustedConstructor
                     .map(constructorArguments -> ExpressionResult.of(new PrototypeExecutableExpression(null, constructorArguments)))
@@ -168,11 +168,11 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             String baseClassName = typeSource.subSource(0, typeSource.size() - sections.size()).asSource();
             String endTypeName = baseClassName + StringUtils.repeated(sections.size(), "[]");
 
-            ArrayPrototype instanceType = (ArrayPrototype) PandaImportsUtils.getReferenceOrThrow(context.getContext(), endTypeName, typeSource).fetch();
+            ArrayPrototype instanceType = (ArrayPrototype) PandaImportsUtils.getReferenceThrow(context.getContext(), endTypeName, typeSource);
             ArrayPrototype baseType = instanceType;
 
             for (int declaredCapacities = 0; declaredCapacities < capacities.size() - 1; declaredCapacities++) {
-                Prototype componentType = baseType.getArrayType().fetch();
+                Prototype componentType = baseType.getArrayType();
 
                 if (!(componentType instanceof ArrayPrototype)) {
                     throw new RuntimeException("Should not happen");
@@ -181,7 +181,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
                 baseType = (ArrayPrototype) componentType;
             }
 
-            return ExpressionResult.of(new ArrayInstanceExpression(instanceType, baseType.getArrayType().fetch(), capacities.toArray(new Expression[0])).toExpression());
+            return ExpressionResult.of(new ArrayInstanceExpression(instanceType, baseType.getArrayType(), capacities.toArray(new Expression[0])).toExpression());
         }
 
         private List<Section> getArraySections(Snippet type) {

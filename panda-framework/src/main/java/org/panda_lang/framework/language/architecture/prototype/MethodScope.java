@@ -16,10 +16,12 @@
 
 package org.panda_lang.framework.language.architecture.prototype;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
 import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.design.runtime.Result;
 import org.panda_lang.framework.language.architecture.statement.AbstractPropertyFramedScope;
 import org.panda_lang.framework.language.architecture.statement.PandaPropertyFrame;
 
@@ -47,4 +49,28 @@ public class MethodScope extends AbstractPropertyFramedScope {
         }
 
     }
+
+    public static class PandaMethodCallback implements PrototypeExecutableCallback<Frame> {
+
+        private final MethodScope scope;
+
+        public PandaMethodCallback(MethodScope scope) {
+            this.scope = scope;
+        }
+
+        @Override
+        public @Nullable Object invoke(ProcessStack stack, @Nullable Frame instance, Object[] arguments) throws Exception {
+            MethodFrame scopeInstance = scope.revive(stack, instance);
+            ParameterUtils.assignValues(scopeInstance, arguments);
+            Result<?> result = stack.call(scopeInstance, scopeInstance);
+
+            if (result == null) {
+                return null;
+            }
+
+            return result.getResult();
+        }
+
+    }
+
 }

@@ -19,15 +19,14 @@ package org.panda_lang.framework.language.architecture.module;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ReferencesMap;
+import org.panda_lang.framework.design.architecture.prototype.Referencable;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.language.architecture.prototype.array.ArrayClassPrototypeFetcher;
 import org.panda_lang.framework.language.architecture.prototype.array.PandaArray;
-import org.panda_lang.utilities.commons.function.CachedSupplier;
 
 import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 public class PandaModule extends PandaModules implements Module {
 
@@ -46,8 +45,10 @@ public class PandaModule extends PandaModules implements Module {
     }
 
     @Override
-    public void add(String name, Class<?> associatedClass, Supplier<Reference> reference) {
-        this.references.put(name, associatedClass, new CachedSupplier<>(reference));
+    public Reference add(Referencable referencable) {
+        Reference reference = referencable.toReference();
+        references.put(reference);
+        return reference;
     }
 
     @Override
@@ -56,7 +57,7 @@ public class PandaModule extends PandaModules implements Module {
     }
 
     @Override
-    public int countReferences() {
+    public int countPrototypes() {
         return references.size();
     }
 
@@ -92,11 +93,11 @@ public class PandaModule extends PandaModules implements Module {
     }
 
     @Override
-    public Collection<Entry<String, Supplier<Reference>>> getReferences() {
-        Collection<Entry<String, Supplier<Reference>>> entries = references.getReferences();
+    public Collection<Entry<String, Reference>> getPrototypes() {
+        Collection<Entry<String, Reference>> entries = references.getPrototypes();
 
         for (Module submodule : getModules()) {
-            entries.addAll(submodule.getReferences());
+            entries.addAll(submodule.getPrototypes());
         }
 
         return entries;

@@ -43,10 +43,10 @@ final class ConstructorGenerator {
         Parameter[] parameters = constructor.getParameters();
 
         for (int index = 0; index < parameters.length; index++) {
-            Reference reference = generator.findOrGenerate(prototype.getModule(), constructor.getParameterTypes()[index]);
+            Reference parameterType = generator.findOrGenerate(prototype.getModule(), constructor.getParameterTypes()[index]);
             Parameter parameter = parameters[index];
 
-            prototypeParameters[index] = new PandaPropertyParameter(index, reference, parameter.getName(), parameter.isVarArgs(), false);
+            prototypeParameters[index] = new PandaPropertyParameter(index, parameterType.fetch(), parameter.getName(), parameter.isVarArgs(), false);
         }
 
         // TODO: Generate bytecode
@@ -56,7 +56,7 @@ final class ConstructorGenerator {
                 .name("constructor " + prototype.getName())
                 .location(prototype.getLocation())
                 .parameters(prototypeParameters)
-                .prototype(prototype.toReference())
+                .prototype(prototype)
                 .returnType(prototype.toReference())
                 .callback((frame, instance, arguments) -> constructor.newInstance(arguments))
                 .build();

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.architecture.prototype;
+package org.panda_lang.framework.language.architecture.prototype.utils;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.Module;

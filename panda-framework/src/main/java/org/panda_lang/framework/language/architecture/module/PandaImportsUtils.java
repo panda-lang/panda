@@ -31,11 +31,11 @@ public final class PandaImportsUtils {
 
     private PandaImportsUtils() { }
 
-    public static Reference getReferenceOrThrow(Context context, String className, @Nullable Snippet source) {
-        return getReferenceOrThrow(context, imports -> imports.forName(className), "Unknown type " + className, source);
+    public static Reference getReferenceThrow(Context context, String className, @Nullable Snippet source) {
+        return getReferenceThrow(context, imports -> imports.forName(className), "Unknown type " + className, source);
     }
 
-    static Reference getReferenceOrThrow(Context context, Function<Imports, Optional<Reference>> mapper, String message, Snippet source) {
+    static Reference getReferenceThrow(Context context, Function<Imports, Optional<Reference>> mapper, String message, Snippet source) {
         Optional<Reference> reference = mapper.apply(context.getComponent(Components.IMPORTS));
 
         if (!reference.isPresent()) {

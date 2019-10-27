@@ -16,10 +16,10 @@
 
 package org.panda_lang.framework.language.architecture.expression;
 
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.expression.ExpressionEvaluator;
 import org.panda_lang.framework.design.architecture.expression.ExpressionValueType;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 
 import java.security.InvalidParameterException;

@@ -16,8 +16,9 @@
 
 package org.panda_lang.framework.language.architecture.prototype;
 
-import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
 import org.panda_lang.framework.design.architecture.prototype.ExecutableProperty;
+import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.Referencable;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
@@ -29,7 +30,7 @@ import java.util.List;
 
 abstract class AbstractExecutableProperty extends AbstractProperty implements ExecutableProperty {
 
-    private final Reference reference;
+    private final Prototype prototype;
     private final PropertyParameter[] parameters;
     private final Reference returnType;
     private final PrototypeExecutableCallback callback;
@@ -37,7 +38,7 @@ abstract class AbstractExecutableProperty extends AbstractProperty implements Ex
     protected AbstractExecutableProperty(PandaParametrizedExecutableBuilder builder) {
         super(builder.name, builder.location, builder.visibility);
 
-        this.reference = builder.prototype;
+        this.prototype = builder.prototype;
         this.parameters = builder.parameters;
         this.returnType = builder.returnType;
         this.callback = builder.callback;
@@ -67,27 +68,27 @@ abstract class AbstractExecutableProperty extends AbstractProperty implements Ex
     }
 
     @Override
-    public Reference getReference() {
-        return reference;
+    public Prototype getPrototype() {
+        return prototype;
     }
 
     public abstract static class PandaParametrizedExecutableBuilder<T extends PandaParametrizedExecutableBuilder> {
 
         protected String name;
         protected Reference returnType;
-        protected Reference prototype;
+        protected Prototype prototype;
         protected SourceLocation location;
         protected PrototypeExecutableCallback callback;
         protected Visibility visibility = Visibility.PUBLIC;
         protected PropertyParameter[] parameters = ParameterUtils.PARAMETERLESS;
 
-        public T type(Reference reference) {
-            prototype(reference).returnType(reference);
+        public T type(Prototype prototype) {
+            prototype(prototype).returnType(prototype.toReference());
             return returnThis();
         }
 
-        public T prototype(Reference reference) {
-            this.prototype = reference;
+        public T prototype(Prototype prototype) {
+            this.prototype = prototype;
             return returnThis();
         }
 

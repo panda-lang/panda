@@ -16,34 +16,61 @@
 
 package org.panda_lang.framework.language.architecture.prototype;
 
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.prototype.ReferenceFetchException;
+import org.panda_lang.utilities.commons.function.ThrowingFunction;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
-public class PandaReference extends AbstractType implements Reference {
+public class PandaReference implements Reference {
 
-    private final Prototype prototype;
-    private final List<Runnable> initializers = new ArrayList<>(1);
-    private boolean initialized;
+    private final String name;
+    private final Class<?> associatedClass;
+    private final ThrowingFunction<Reference, Prototype, ReferenceFetchException> prototypeSupplier;
+    private final List<Consumer<Prototype>> initializers = new ArrayList<>(1);
+    private Prototype prototype;
 
-    protected PandaReference(Prototype prototype) {
-        super(prototype.getName(), prototype.getModule(), prototype.getLocation(), prototype.getAssociatedClass(), prototype.getType(), prototype.getState(), prototype.getVisibility());
-        this.prototype = prototype;
+    public PandaReference(String name, Class<?> associatedClass, ThrowingFunction<Reference, Prototype, ReferenceFetchException> prototypeSupplier) {
+        this.name = name;
+        this.associatedClass = associatedClass;
+        this.prototypeSupplier = prototypeSupplier;
     }
 
     @Override
-    public Reference addInitializer(Runnable initializer) {
+    public Reference addInitializer(Consumer<Prototype> initializer) {
         initializers.add(initializer);
         return this;
     }
 
     @Override
-    public synchronized Prototype fetch() {
-        if (!initialized) {
-            initialized = true;
-            initializers.forEach(Runnable::run);
+    public Prototype fetch() {
+        if (isInitialized()) {
+            return prototype;
+        }
+
+        this.prototype = prototypeSupplier.apply(this);
+
+        for (Consumer<Prototype> initializer : initializers) {
+            initializer.accept(prototype);
+        }
+
+        for (PrototypeField field : prototype.getFields().getDeclaredProperties()) {
+            if (!field.hasDefaultValue() || !field.isStatic()) {
+                continue;
+            }
+
+            Expression expression = field.getDefaultValue();
+
+            try {
+                field.setStaticValue(expression.evaluate(null, null));
+            } catch (Exception e) {
+                throw new ReferenceFetchException("Cannot evaluate static value of field " + field, e);
+            }
         }
 
         return prototype;
@@ -51,27 +78,22 @@ public class PandaReference extends AbstractType implements Reference {
 
     @Override
     public boolean isInitialized() {
-        return initialized;
-    }
-
-    @Override
-    public Reference getReference() {
-        return this;
+        return prototype != null;
     }
 
     @Override
     public Class<?> getAssociatedClass() {
-        return prototype.getAssociatedClass();
+        return associatedClass;
     }
 
     @Override
     public String getName() {
-        return prototype.getName();
+        return name;
     }
 
     @Override
     public String toString() {
-        return prototype.toString();
+        return "ref " + prototype.toString();
     }
 
 }

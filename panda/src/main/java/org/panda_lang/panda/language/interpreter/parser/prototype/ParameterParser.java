@@ -19,6 +19,7 @@ package org.panda_lang.panda.language.interpreter.parser.prototype;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.Imports;
 import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
@@ -65,20 +66,20 @@ public final class ParameterParser implements Parser {
             }
 
             Imports imports = context.getComponent(Components.IMPORTS);
-            Optional<Reference> referenceValue = imports.forName(source.subSource(0, end).asSource());
+            Optional<Reference> reference = imports.forName(source.subSource(0, end).asSource());
 
-            if (!referenceValue.isPresent()) {
+            if (!reference.isPresent()) {
                 throw new PandaParserFailure(context, source.subSource(0, end), "Unknown type", "Make sure that type is imported");
             }
 
-            Reference reference = referenceValue.get();
+            Prototype prototype = reference.get().fetch();
             boolean varargs = end + 1 < source.size();
 
             if (varargs) {
-                reference = reference.toArray(context.getComponent(Components.MODULE_LOADER));
+                prototype = prototype.toArray(context.getComponent(Components.MODULE_LOADER));
             }
 
-            PropertyParameter parameter = new PandaPropertyParameter(index, reference, name.getValue(), varargs, false);
+            PropertyParameter parameter = new PandaPropertyParameter(index, prototype, name.getValue(), varargs, false);
             parameters.add(parameter);
         }
 

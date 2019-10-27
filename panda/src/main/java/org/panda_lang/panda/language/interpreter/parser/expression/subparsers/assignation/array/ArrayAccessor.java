@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.language.interpreter.parser.expression.subparsers.assignation.array;
 
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
 import org.panda_lang.framework.language.architecture.expression.DynamicExpression;
+import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
 
 public final class ArrayAccessor implements DynamicExpression {
 
@@ -33,7 +33,7 @@ public final class ArrayAccessor implements DynamicExpression {
             throw new RuntimeException("Array required");
         }
 
-        this.type = ((ArrayPrototype) instanceExpression.getReturnType()).getArrayType().fetch();
+        this.type = ((ArrayPrototype) instanceExpression.getReturnType()).getArrayType();
         this.instanceExpression = instanceExpression;
         this.indexExpression = indexExpression;
     }

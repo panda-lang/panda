@@ -16,12 +16,17 @@
 
 package org.panda_lang.panda.language.interpreter.parser.prototype;
 
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.prototype.Adjustment;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.architecture.prototype.BaseConstructor;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.ParserBootstrap;
@@ -34,6 +39,8 @@ import org.panda_lang.panda.language.interpreter.bootstraps.context.interceptors
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.ArgumentsParser;
 
+import java.util.Optional;
+
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL)
 public final class BaseConstructorParser extends ParserBootstrap {
 
@@ -44,12 +51,21 @@ public final class BaseConstructorParser extends ParserBootstrap {
         return initializer
                 .handler(new TokenHandler(Keywords.BASE))
                 .interceptor(new LinearPatternInterceptor())
-                .pattern("base arguments:(~)");
+                .pattern("base args:(~)");
     }
 
     @Autowired
-    void parse(Context context, @Component Scope parent, @Inter SourceLocation location, @Src("arguments") Snippet arguments) {
-        parent.addStatement(new BaseConstructor(location, null, ARGUMENTS_PARSER.parse(context, arguments)));
+    void parse(Context context, @Component Scope parent, @Component Prototype prototype, @Inter SourceLocation location, @Src("args") Snippet args) {
+        Expression[] arguments = ARGUMENTS_PARSER.parse(context, args);
+        Optional<Adjustment<PrototypeConstructor>> adjustedConstructor = prototype.getConstructors().getAdjustedConstructor(arguments);
+
+        if (!adjustedConstructor.isPresent()) {
+            throw new PandaParserFailure(context, args, "Base type does not contain constructor with requested parameter types");
+        }
+
+        adjustedConstructor.ifPresent(adjusted -> {
+            parent.addStatement(new BaseConstructor(location, adjusted));
+        });
     }
 
 }

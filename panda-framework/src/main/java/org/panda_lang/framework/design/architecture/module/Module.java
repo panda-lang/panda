@@ -16,35 +16,36 @@
 
 package org.panda_lang.framework.design.architecture.module;
 
+import org.panda_lang.framework.design.architecture.prototype.Referencable;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 
 import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 public interface Module extends Modules, ModuleResource {
 
     /**
-     * Add a reference of prototype to the module
+     * Add reference to prototype to the module
      *
-     * @param referenceSupplier the reference to add
+     * @param reference the reference to add
+     * @return the added reference
      */
-    void add(String name, Class<?> associatedClass, Supplier<Reference> referenceSupplier);
+    Reference add(Referencable reference);
 
     /**
-     * Count initialized references
+     * Count initialized Prototypes
      *
      * @return the amount of used prototypes
      */
     int countUsedPrototypes();
 
     /**
-     * Count all references
+     * Count all Prototypes
      *
-     * @return the amount of references
+     * @return the amount of Prototypes
      */
-    int countReferences();
+    int countPrototypes();
 
     /**
      * Check if the given module is submodule of the current module
@@ -58,19 +59,19 @@ public interface Module extends Modules, ModuleResource {
      * Check if the module contains prototype associated with the specified class
      *
      * @param clazz the class to check
-     * @return true if module contains reference associated with the provided class
+     * @return true if module contains Prototype associated with the provided class
      */
     default boolean hasPrototype(Class<?> clazz) {
-        return forName(clazz.getSimpleName()).isPresent();
+        return forClass(clazz).isPresent();
     }
 
     /**
-     * Get all references.
+     * Get all Prototypes.
      * Iterable is used instead of collection because of the performance reasons.
      *
-     * @return the iterable that contains all references
+     * @return the iterable that contains all Prototypes
      */
-    Collection<Entry<String, Supplier<Reference>>> getReferences();
+    Collection<Entry<String, Reference>> getPrototypes();
 
     /**
      * Get parent module

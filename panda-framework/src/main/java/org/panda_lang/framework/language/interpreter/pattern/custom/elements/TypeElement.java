@@ -19,7 +19,7 @@ package org.panda_lang.framework.language.interpreter.pattern.custom.elements;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPatternElementBuilder;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
-import org.panda_lang.framework.language.architecture.prototype.TypeDeclarationUtils;
+import org.panda_lang.framework.language.architecture.prototype.utils.TypeDeclarationUtils;
 
 import java.util.Optional;
 

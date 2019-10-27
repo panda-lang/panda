@@ -37,7 +37,7 @@ public interface VariableData {
     /**
      * Get type of variable
      *
-     * @return the type reference
+     * @return the type Prototype
      */
     Reference getType();
 

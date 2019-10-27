@@ -14,23 +14,24 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.architecture.expression;
+package org.panda_lang.framework.language.resource.internal;
 
+import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.Referencable;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.language.architecture.prototype.PandaPrototypeUtils;
 
-public abstract class AbstractDynamicExpression implements DynamicExpression {
+public final class PandaResourcesUtils {
 
-    private final Reference returnType;
-
-    public AbstractDynamicExpression(Referencable returnType) {
-        this.returnType = returnType.toReference();
+    public static Prototype of(Module module, Class<?> type, String name) {
+        return PandaPrototypeUtils.of(module, type, name).fetch();
     }
 
-    @Override
-    public Prototype getReturnType() {
-        return returnType.fetch();
+    public static Prototype generate(Module module, Class<?> type) {
+        return generate(module, type, type.getSimpleName());
+    }
+
+    public static Prototype generate(Module module, Class<?> type, String name) {
+        return PandaPrototypeUtils.generateOf(module, type, name).fetch();
     }
 
 }

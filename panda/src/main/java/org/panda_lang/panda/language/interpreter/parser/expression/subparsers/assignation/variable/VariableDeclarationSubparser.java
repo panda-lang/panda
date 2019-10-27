@@ -29,7 +29,7 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
-import org.panda_lang.framework.language.architecture.prototype.TypeDeclarationUtils;
+import org.panda_lang.framework.language.architecture.prototype.utils.TypeDeclarationUtils;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.framework.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.framework.language.architecture.dynamic.assigner.AssignerExpression;
@@ -100,7 +100,7 @@ public final class VariableDeclarationSubparser extends AssignationSubparserBoot
     }
 
     @Autowired
-    ExpressionResult parse(Context context, @Component ExpressionContext expressionContext, @Component Scope scope, @Component Channel channel, @Component Expression expression) {
+    ExpressionResult parse(Context context, @Component ExpressionContext expressionContext, @Component Scope scope, @Component Channel channel, @Component Expression expression) throws Exception {
         Elements elements = channel.get("elements", Elements.class);
 
         PandaVariableDataInitializer dataInitializer = new PandaVariableDataInitializer(context, scope);

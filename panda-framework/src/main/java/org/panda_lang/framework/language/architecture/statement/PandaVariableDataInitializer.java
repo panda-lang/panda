@@ -16,6 +16,7 @@
 
 package org.panda_lang.framework.language.architecture.statement;
 
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
@@ -23,7 +24,7 @@ import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
-import org.panda_lang.framework.language.architecture.prototype.VisibilityComparator;
+import org.panda_lang.framework.language.architecture.prototype.utils.VisibilityComparator;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 
 import java.util.Objects;
@@ -65,14 +66,15 @@ public class PandaVariableDataInitializer {
             throw new PandaParserFailure(context, name, "Variable name is already used in the scope '" + variableName + "'");
         }
 
-        Optional<Reference> prototype = context.getComponent(Components.IMPORTS).forName(type.toSnippet().asSource());
+        Optional<Reference> reference = context.getComponent(Components.IMPORTS).forName(type.toSnippet().asSource());
 
-        if (!prototype.isPresent()) {
+        if (!reference.isPresent()) {
             throw new PandaParserFailure(context, type, "Cannot recognize variable type: " + type);
         }
 
-        VisibilityComparator.requireAccess(prototype.get(), context, type);
-        return new PandaVariableData(prototype.get(), nameSource.asSource(), mutable, nillable);
+        Prototype prototype = reference.get().fetch();
+        VisibilityComparator.requireAccess(prototype, context, type);
+        return new PandaVariableData(prototype, nameSource.asSource(), mutable, nillable);
     }
 
 }

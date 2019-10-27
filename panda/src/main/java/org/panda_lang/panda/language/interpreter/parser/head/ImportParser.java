@@ -17,13 +17,12 @@
 package org.panda_lang.panda.language.interpreter.parser.head;
 
 import org.panda_lang.framework.design.architecture.module.Imports;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.ImportElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.KeywordElement;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.ParserBootstrap;
@@ -50,8 +49,7 @@ public final class ImportParser extends ParserBootstrap {
 
     @Autowired
     void parseImport(Context context, @Component Imports imports, @Src("class") Snippet className) {
-        Reference reference = ConveyanceUtils.fetchReference(context, className);
-        imports.importReference(reference.getName(), () -> reference);
+        imports.importPrototype(className.toString(), ConveyanceUtils.fetchPrototype(context, className));
     }
 
 }

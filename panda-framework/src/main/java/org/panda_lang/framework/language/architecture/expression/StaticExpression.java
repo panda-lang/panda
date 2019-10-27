@@ -17,18 +17,17 @@
 package org.panda_lang.framework.language.architecture.expression;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.expression.ExpressionValueType;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 
 public final class StaticExpression implements Expression {
 
-    private final Reference reference;
+    private final Prototype prototype;
 
-    public StaticExpression(Reference reference) {
-        this.reference = reference;
+    public StaticExpression(Prototype prototype) {
+        this.prototype = prototype;
     }
 
     @Override
@@ -38,7 +37,7 @@ public final class StaticExpression implements Expression {
 
     @Override
     public Prototype getReturnType() {
-        return reference.fetch();
+        return prototype;
     }
 
     @Override
