@@ -17,9 +17,6 @@
 package org.panda_lang.framework.language.architecture.prototype.generator;
 
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
@@ -39,9 +36,7 @@ import java.util.function.Supplier;
 
 final class PrototypeGenerator {
 
-    private static int i;
-
-    private final Map<String, Reference> cachedReferences = new HashMap<>();
+    protected final Map<String, Reference> cachedReferences = new HashMap<>();
 
     protected Reference generate(Module module, Class<?> type, String name) {
         Reference reference = cachedReferences.get(getId(module, name));
@@ -64,20 +59,17 @@ final class PrototypeGenerator {
                     }
 
                     FieldGenerator generator = new FieldGenerator(this, prototype, field);
-                    PrototypeField prototypeField = generator.generate();
-                    prototype.getFields().declare(prototypeField);
+                    prototype.getFields().declare(generator.generate());
                 }
 
                 for (Constructor<?> constructor : ReflectionUtils.getByModifier(type.getConstructors(), Modifier.PUBLIC)) {
-                    ConstructorGenerator generator = new ConstructorGenerator(this, prototype, constructor);
-                    PrototypeConstructor prototypeField = generator.generate();
-                    prototype.getConstructors().declare(prototypeField);
+                    ConstructorGenerator generator = new ConstructorGenerator(prototype, constructor);
+                    prototype.getConstructors().declare(generator.generate());
                 }
 
                 for (Method method : ReflectionUtils.getByModifier(type.getMethods(), Modifier.PUBLIC)) {
                     MethodGenerator generator = new MethodGenerator(this, prototype, method);
-                    PrototypeMethod prototypeMethod = generator.generate();
-                    prototype.getMethods().declare(prototypeMethod);
+                    prototype.getMethods().declare(generator.generate());
                 }
             });
 

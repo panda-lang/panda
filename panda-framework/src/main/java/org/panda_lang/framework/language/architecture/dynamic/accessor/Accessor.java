@@ -33,7 +33,7 @@ public interface Accessor<T extends Variable> {
     @Nullable <R> R getValue(ProcessStack stack, Object instance) throws Exception;
 
     default Prototype getTypePrototype() {
-        return getVariable().getType().fetch();
+        return getVariable().getType()/*.fetch()*/;
     }
 
     int getMemoryPointer();

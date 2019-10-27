@@ -82,10 +82,17 @@ final class PandaMethods extends AbstractProperties<PrototypeMethod> implements 
     }
 
     @Override
-    public List<? extends PrototypeMethod> getDeclaredProperties() {
+    public List<PrototypeMethod> getDeclaredProperties() {
         return methodsMap.values().stream()
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<? extends PrototypeMethod> getProperties() {
+        List<PrototypeMethod> methods = getDeclaredProperties();
+        super.getPrototype().getBases().forEach(base -> methods.addAll(base.getMethods().getProperties()));
+        return methods;
     }
 
     @Override

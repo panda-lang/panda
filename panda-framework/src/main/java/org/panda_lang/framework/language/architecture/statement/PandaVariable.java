@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.language.architecture.statement;
 
-import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.prototype.Referencable;
 import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
 
@@ -25,8 +25,8 @@ public class PandaVariable extends PandaVariableData implements Variable {
     protected final int pointer;
     protected boolean initialized;
 
-    public PandaVariable(int pointer, Reference prototype, String name, boolean mutable, boolean nillable) {
-        super(prototype, name, mutable, nillable);
+    public PandaVariable(int pointer, Referencable referencable, String name, boolean mutable, boolean nillable) {
+        super(referencable, name, mutable, nillable);
 
         if (pointer < 0) {
             throw new IllegalArgumentException("Invalid variable id");

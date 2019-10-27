@@ -79,7 +79,7 @@ final class CreaseExpression extends NumberPriorities implements DynamicExpressi
 
     @Override
     public Prototype getReturnType() {
-        return accessor.getVariable().getType().fetch();
+        return accessor.getVariable().getType();
     }
 
     @Override

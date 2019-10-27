@@ -27,6 +27,8 @@ public class ParameterUtils {
 
     public static final PropertyParameter[] PARAMETERLESS = new PropertyParameter[0];
 
+    private ParameterUtils() { }
+
     public static void assignValues(AbstractFrame<?> instance, Object[] parameterValues) {
         if (instance.getAmountOfVariables() < parameterValues.length) {
             throw new PandaRuntimeException("Incompatible number of parameters");

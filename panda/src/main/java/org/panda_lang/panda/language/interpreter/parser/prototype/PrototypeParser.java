@@ -16,9 +16,11 @@
 
 package org.panda_lang.panda.language.interpreter.parser.prototype;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.Script;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.design.interpreter.parser.Components;
@@ -32,7 +34,6 @@ import org.panda_lang.framework.language.architecture.prototype.PandaConstructor
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeScope;
-import org.panda_lang.framework.language.architecture.prototype.generator.PrototypeClassGenerator;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PipelineParser;
@@ -60,11 +61,10 @@ import org.panda_lang.panda.language.interpreter.bootstraps.context.interceptors
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @RegistrableParser(pipeline = Pipelines.HEAD_LABEL)
 public final class PrototypeParser extends ParserBootstrap {
-
-    private static final PrototypeClassGenerator GENERATOR = new PrototypeClassGenerator();
 
     @Override
     protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
@@ -73,7 +73,7 @@ public final class PrototypeParser extends ParserBootstrap {
                 .interceptor(new CustomPatternInterceptor())
                 .pattern(CustomPattern.of(
                         VariantElement.create("visibility").content(Keywords.PUBLIC, Keywords.SHARED, Keywords.LOCAL).optional(),
-                        VariantElement.create("type").content(Keywords.CLASS, Keywords.INTERFACE),
+                        VariantElement.create("state").content(Keywords.CLASS, Keywords.INTERFACE),
                         WildcardElement.create("name").verify(new TokenTypeVerifier(TokenType.UNKNOWN)),
                         SubPatternElement.create("extended").optional().of(
                                 UnitElement.create("extends").content(":"),
@@ -84,17 +84,17 @@ public final class PrototypeParser extends ParserBootstrap {
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL)
-    void parse(Context context, @Inter SourceLocation location, @Inter Result result, @Component Script script, @Src("type") String type, @Src("name") String name) throws Exception {
+    void parse(Context context, @Inter SourceLocation location, @Inter Result result, @Component Script script, @Src("state") String state, @Src("name") String name) throws Exception {
         Visibility visibility = result.has("visibility") ? Visibility.of(result.get("visibility")) : Visibility.LOCAL;
 
         Prototype prototype = PandaPrototype.builder()
                 .name(name)
-                .module(script.getModule())
                 .location(location)
-                .associated(GENERATOR.generateType(name))
-                .type(result.get("type").toString())
-                .state(type.equals(Keywords.CLASS.getValue()) ? State.DEFAULT : State.ABSTRACT)
+                .module(script.getModule())
+                .type(state)
+                .state(State.of(state))
                 .visibility(visibility)
+                .associated(PrototypeParserUtils.generateType(name))
                 .build();
 
         PrototypeScope prototypeScope = new PrototypeScope(location, prototype);
@@ -102,37 +102,42 @@ public final class PrototypeParser extends ParserBootstrap {
                 .withComponent(PrototypeComponents.PROTOTYPE_SCOPE, prototypeScope)
                 .withComponent(PrototypeComponents.PROTOTYPE, prototype);
 
-        prototype.addBase(JavaModule.OBJECT);
         prototype.getModule().add(prototype);
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
-    void parseDeclaration(Context context, @Component Prototype prototype, @Src("inherited") Collection<Snippetable> inherited) {
-        if (inherited != null) {
-            inherited.forEach(typeSource -> PrototypeParserUtils.appendExtended(context, prototype, typeSource));
+    void parseDeclaration(Context context, @Component Prototype prototype, @Nullable @Src("inherited") Collection<Snippetable> inherited) {
+        Optional.ofNullable(inherited)
+                .ifPresent(classes -> classes.forEach(typeSource -> PrototypeParserUtils.appendExtended(context, prototype, typeSource)));
+
+        if (prototype.getBases().stream().noneMatch(base -> base.getType().equals("class"))) {
+            prototype.addBase(JavaModule.OBJECT);
         }
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.NEXT_AFTER)
-    void parseBody(Context context, @Src("body") Snippet body) throws Exception {
-        Context bodyContext = context.fork().withComponent(Components.STREAM, new PandaSourceStream(body));
-        PipelineParser<?> parser = new PipelineParser<>(Pipelines.PROTOTYPE, bodyContext);
-        parser.parse(bodyContext, false);
+    Object parseBody(Context context, @Src("body") Snippet body) throws Exception {
+        return new PipelineParser<>(Pipelines.PROTOTYPE, new PandaSourceStream(body), context).parse();
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
-    void verifyProperties(@Component Prototype prototype, @Component PrototypeScope scope) {
-
-
-        if (!prototype.getConstructors().getDeclaredProperties().isEmpty()) {
-            return;
+    void verifyProperties(Context context, @Component Prototype prototype, @Component PrototypeScope scope) {
+        if (prototype.getState() != State.ABSTRACT) {
+            prototype.getMethods().getProperties().stream()
+                    .filter(PrototypeMethod::isAbstract)
+                    .findAny()
+                    .ifPresent(method -> {
+                        throw new PandaParserFailure(context, "Missing implementation of &1" + method + "&r in &1" + prototype + "&r");
+                    });
         }
 
-        prototype.getConstructors().declare(PandaConstructor.builder()
-                .type(prototype)
-                .callback((frame, instance, arguments) -> scope.revive(frame, instance))
-                .location(prototype.getLocation())
-                .build());
+        if (prototype.getConstructors().getDeclaredProperties().isEmpty()) {
+            prototype.getConstructors().declare(PandaConstructor.builder()
+                    .type(prototype)
+                    .callback((frame, instance, arguments) -> scope.revive(frame, instance))
+                    .location(prototype.getLocation())
+                    .build());
+        }
     }
 
     @Autowired(order = 2, cycle = GenerationCycles.CONTENT_LABEL, delegation = Delegation.CURRENT_AFTER)

@@ -19,6 +19,7 @@ package org.panda_lang.panda.language.interpreter;
 import org.panda_lang.framework.PandaFramework;
 import org.panda_lang.framework.design.architecture.Application;
 import org.panda_lang.framework.design.architecture.Environment;
+import org.panda_lang.framework.language.architecture.prototype.generator.PrototypeGeneratorManager;
 import org.panda_lang.panda.language.architecture.PandaApplication;
 import org.panda_lang.framework.design.interpreter.Interpretation;
 import org.panda_lang.framework.design.interpreter.Interpreter;
@@ -62,6 +63,7 @@ public final class PandaInterpreter implements Interpreter {
         PandaFramework.getLogger().debug("• Parse time: " + parseTime);
         PandaFramework.getLogger().debug("• Amount of Prototypes: " + environment.getModulePath().countPrototypes());
         PandaFramework.getLogger().debug("• Amount of used prototypes: " + environment.getModulePath().countUsedPrototypes());
+        PandaFramework.getLogger().debug("• Amount of cached references: " + PrototypeGeneratorManager.getInstance().getCacheSize());
         PandaFramework.getLogger().debug("• Expression Parser Time: " + TimeUtils.toMilliseconds(PandaExpressionParser.time) + " (" +  PandaExpressionParser.amount + ")");
         PandaFramework.getLogger().debug("• Pipeline Handle Time: " + TimeUtils.toMilliseconds(environment.getResources().getPipelinePath().getTotalHandleTime()));
         PandaFramework.getLogger().debug("");

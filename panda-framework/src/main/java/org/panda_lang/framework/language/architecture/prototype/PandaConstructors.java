@@ -52,7 +52,14 @@ final class PandaConstructors extends AbstractProperties<PrototypeConstructor> i
     }
 
     @Override
-    public List<? extends PrototypeConstructor> getDeclaredProperties() {
+    public List<PrototypeConstructor> getDeclaredProperties() {
+        return constructors;
+    }
+
+    @Override
+    public List<? extends PrototypeConstructor> getProperties() {
+        List<PrototypeConstructor> constructors = getDeclaredProperties();
+        super.getPrototype().getBases().forEach(base -> constructors.addAll(base.getConstructors().getProperties()));
         return constructors;
     }
 

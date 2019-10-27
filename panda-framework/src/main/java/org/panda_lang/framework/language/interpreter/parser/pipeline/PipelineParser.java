@@ -37,18 +37,32 @@ public final class PipelineParser<T extends ContextParser> implements Parser {
 
     private final Pipeline<T> pipeline;
     private final SourceStream stream;
+    private Context context;
 
     public PipelineParser(PipelineComponent<T> component, Context context) {
         this(context.getComponent(Components.PIPELINE).getPipeline(component), context);
     }
 
-    public PipelineParser(Pipeline<T> pipeline, Context context) {
-        this(pipeline, context.getComponent(Components.STREAM));
+    public PipelineParser(PipelineComponent<T> component, SourceStream source, Context context) {
+        this(component, context.fork().withComponent(Components.STREAM, source));
     }
 
-    public PipelineParser(Pipeline<T> pipeline, SourceStream stream) {
+    public PipelineParser(Pipeline<T> pipeline, Context context) {
+        this(pipeline, context.getComponent(Components.STREAM), context);
+    }
+
+    public PipelineParser(Pipeline<T> pipeline, SourceStream stream, Context context) {
         this.pipeline = pipeline;
         this.stream = stream;
+        this.context = context;
+    }
+
+    public @Nullable T parse() throws Exception {
+        if (context == null) {
+            throw new IllegalArgumentException("Cannot parser pipeline without context");
+        }
+
+        return parse(context, false);
     }
 
     /**

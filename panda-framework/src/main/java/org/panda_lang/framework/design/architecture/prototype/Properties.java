@@ -42,6 +42,13 @@ public interface Properties<T extends ExecutableProperty> {
     List<? extends T> getDeclaredProperties();
 
     /**
+     * Get all available properties
+     *
+     * @return the list of properties
+     */
+    List<? extends T> getProperties();
+
+    /**
      * Get associated prototype
      *
      * @return the prototype

@@ -57,7 +57,7 @@ final class FieldGenerator {
         // TODO: Generate bytecode
         field.setAccessible(true);
 
-        Expression fieldExpression = new PandaExpression(new AbstractDynamicExpression(prototypeField.getReturnType()) {
+        Expression fieldExpression = new PandaExpression(new AbstractDynamicExpression(prototypeField.getType()) {
             @Override
             @SuppressWarnings("unchecked")
             public Object evaluate(ProcessStack flow, Object instance) {

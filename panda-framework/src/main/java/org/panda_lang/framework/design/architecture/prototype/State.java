@@ -16,6 +16,8 @@
 
 package org.panda_lang.framework.design.architecture.prototype;
 
+import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
+
 import java.lang.reflect.Modifier;
 
 /**
@@ -87,6 +89,16 @@ public enum State {
         }
 
         return State.DEFAULT;
+    }
+
+    /**
+     * Get state based on the given string ('class' -> {@link #DEFAULT}, any other -> {@link #ABSTRACT}
+     *
+     * @param state the string representation of state
+     * @return the state
+     */
+    public static State of(String state) {
+        return state.equals(Keywords.CLASS.getValue()) ? State.DEFAULT : State.ABSTRACT;
     }
 
 }

@@ -21,18 +21,18 @@ import org.panda_lang.framework.language.architecture.prototype.PandaPropertyPar
 
 import java.lang.reflect.Parameter;
 
-public final class PrototypeGeneratorUtils {
+final class PrototypeGeneratorUtils {
 
-    private static final PrototypeGenerator GENERATOR = new PrototypeGenerator();
+    private static final PrototypeGenerator GENERATOR = PrototypeGeneratorManager.getInstance().getGenerator();
 
     private PrototypeGeneratorUtils() { }
 
-    public static PandaPropertyParameter[] toParameters(Module module, Parameter[] parameters) {
+    static PandaPropertyParameter[] toParameters(Module module, Parameter[] parameters) {
         PandaPropertyParameter[] mappedParameters = new PandaPropertyParameter[parameters.length];
 
         for (int index = 0; index < parameters.length; index++) {
             Parameter parameter = parameters[index];
-            mappedParameters[index] = new PandaPropertyParameter(index, GENERATOR.findOrGenerate(module, parameter.getType()), parameter.getName(), parameter.isVarArgs(), false);
+            mappedParameters[index] = new PandaPropertyParameter(index, GENERATOR.findOrGenerate(module, parameter.getType()).fetch(), parameter.getName(), parameter.isVarArgs(), false);
         }
 
         return mappedParameters;

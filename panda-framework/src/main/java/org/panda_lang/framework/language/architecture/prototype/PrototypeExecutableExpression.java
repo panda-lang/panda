@@ -55,7 +55,7 @@ public final class PrototypeExecutableExpression implements Expression {
 
     @Override
     public Prototype getReturnType() {
-        return executable.getReturnType().fetch();
+        return executable.getType()/*.fetch()*/;
     }
 
     @Override

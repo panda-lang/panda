@@ -60,7 +60,14 @@ final class PandaFields extends AbstractProperties<PrototypeField> implements Fi
     }
 
     @Override
-    public List<? extends PrototypeField> getDeclaredProperties() {
+    public List<PrototypeField> getDeclaredProperties() {
+        return fields;
+    }
+
+    @Override
+    public List<? extends PrototypeField> getProperties() {
+        List<PrototypeField> fields = getDeclaredProperties();
+        super.getPrototype().getBases().forEach(base -> fields.addAll(base.getFields().getProperties()));
         return fields;
     }
 

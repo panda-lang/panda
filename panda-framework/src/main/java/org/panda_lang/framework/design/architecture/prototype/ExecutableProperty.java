@@ -36,11 +36,11 @@ public interface ExecutableProperty extends Property {
     <T> T invoke(ProcessStack stack, Object instance, Object... arguments) throws Exception;
 
     /**
-     * Get type Prototypes of executable's parameters
+     * Get references to types of executable's parameters
      *
      * @return array of used by parameter types
      */
-    Reference[] getParameterTypes();
+    Prototype[] getParameterTypes();
 
     /**
      * Get parameters used by executable
@@ -54,6 +54,6 @@ public interface ExecutableProperty extends Property {
      *
      * @return the return type Prototype
      */
-    Reference getReturnType();
+    Prototype getType();
 
 }

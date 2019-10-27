@@ -32,15 +32,15 @@ abstract class AbstractExecutableProperty extends AbstractProperty implements Ex
 
     private final Prototype prototype;
     private final PropertyParameter[] parameters;
-    private final Reference returnType;
+    private final Prototype returnType;
     private final PrototypeExecutableCallback callback;
 
     protected AbstractExecutableProperty(PandaParametrizedExecutableBuilder builder) {
         super(builder.name, builder.location, builder.visibility);
 
         this.prototype = builder.prototype;
+        this.returnType = builder.returnType.fetch();
         this.parameters = builder.parameters;
-        this.returnType = builder.returnType;
         this.callback = builder.callback;
     }
 
@@ -51,10 +51,10 @@ abstract class AbstractExecutableProperty extends AbstractProperty implements Ex
     }
 
     @Override
-    public Reference[] getParameterTypes() {
+    public Prototype[] getParameterTypes() {
         return Arrays.stream(getParameters())
                 .map(PropertyParameter::getType)
-                .toArray(Reference[]::new);
+                .toArray(Prototype[]::new);
     }
 
     @Override
@@ -63,7 +63,7 @@ abstract class AbstractExecutableProperty extends AbstractProperty implements Ex
     }
 
     @Override
-    public Reference getReturnType() {
+    public Prototype getType() {
         return returnType;
     }
 
