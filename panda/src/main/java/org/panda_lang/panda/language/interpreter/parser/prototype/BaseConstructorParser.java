@@ -26,6 +26,7 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.architecture.prototype.BaseConstructor;
+import org.panda_lang.framework.language.architecture.prototype.PandaConstructor.PandaConstructorScope;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.BootstrapInitializer;
@@ -56,6 +57,10 @@ public final class BaseConstructorParser extends ParserBootstrap {
 
     @Autowired
     void parse(Context context, @Component Scope parent, @Component Prototype prototype, @Inter SourceLocation location, @Src("args") Snippet args) {
+        if (!(parent instanceof PandaConstructorScope)) {
+            throw new PandaParserFailure(context, args, "Cannot use base constructor outside of the constructor");
+        }
+
         Expression[] arguments = ARGUMENTS_PARSER.parse(context, args);
         Optional<Adjustment<PrototypeConstructor>> adjustedConstructor = prototype.getConstructors().getAdjustedConstructor(arguments);
 
