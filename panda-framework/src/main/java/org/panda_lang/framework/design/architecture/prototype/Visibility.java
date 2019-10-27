@@ -30,7 +30,7 @@ public enum Visibility {
      */
     SHARED(1),
     /**
-     * May be accessed only from the same source file
+     * May be accessed only from the same source file or by inheritance
      */
     LOCAL(2);
 
