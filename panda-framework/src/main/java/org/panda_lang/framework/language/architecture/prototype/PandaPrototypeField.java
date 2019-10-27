@@ -18,7 +18,6 @@ package org.panda_lang.framework.language.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
 
 public class PandaPrototypeField extends AbstractExecutableProperty implements PrototypeField {
 
@@ -101,11 +100,6 @@ public class PandaPrototypeField extends AbstractExecutableProperty implements P
     @Override
     public int getPointer() {
         return fieldIndex;
-    }
-
-    @Override
-    public Reference getType() {
-        return getReturnType();
     }
 
     @Override

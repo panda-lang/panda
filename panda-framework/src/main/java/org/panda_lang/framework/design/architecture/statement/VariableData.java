@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.design.architecture.statement;
 
-import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
 
 public interface VariableData {
 
@@ -39,7 +39,7 @@ public interface VariableData {
      *
      * @return the type Prototype
      */
-    Reference getType();
+    Prototype getType();
 
     /**
      * Get name of parameter

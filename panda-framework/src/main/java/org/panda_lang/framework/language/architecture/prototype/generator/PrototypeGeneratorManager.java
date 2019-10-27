@@ -22,10 +22,19 @@ import org.panda_lang.framework.design.architecture.prototype.Reference;
 public class PrototypeGeneratorManager {
 
     private static final PrototypeGeneratorManager INSTANCE = new PrototypeGeneratorManager();
-    private static final PrototypeGenerator GENERATOR = new PrototypeGenerator();
+
+    private final PrototypeGenerator generator = new PrototypeGenerator();
 
     public Reference generate(Module module, Class<?> clazz, String name) {
-        return module.add(GENERATOR.generate(module, clazz, name));
+        return module.add(generator.generate(module, clazz, name));
+    }
+
+    public int getCacheSize() {
+        return generator.cachedReferences.size();
+    }
+
+    public PrototypeGenerator getGenerator() {
+        return generator;
     }
 
     public static PrototypeGeneratorManager getInstance() {

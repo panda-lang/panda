@@ -71,7 +71,7 @@ final class PrototypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
             if (!parameter.isVarargs()) {
                 target[required] = index;
 
-                if (!parameter.getType().fetch().isAssignableFrom(requiredTypes[required++])) {
+                if (!parameter.getType()/*.fetch()*/.isAssignableFrom(requiredTypes[required++])) {
                     return null;
                 }
 
@@ -79,7 +79,7 @@ final class PrototypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
             }
 
             // varargs parameter has to be array
-            Prototype type = ((ArrayPrototype) parameter.getType().fetch()).getArrayType();
+            Prototype type = ((ArrayPrototype) parameter.getType()/*.fetch()*/).getArrayType();
             varArgs++;
 
             // read vararg
@@ -140,7 +140,7 @@ final class PrototypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
             Expression[] expressionsArray = expressions.toArray(new Expression[0]);
 
             // generate varargs array expression
-            fixedArguments[argumentIndex] = new AbstractDynamicExpression(((ArrayPrototype) parameters[argumentIndex].getType().fetch()).getArrayType().toReference()) {
+            fixedArguments[argumentIndex] = new AbstractDynamicExpression(((ArrayPrototype) parameters[argumentIndex].getType()/*.fetch()*/).getArrayType().toReference()) {
                 @Override
                 @SuppressWarnings("unchecked")
                 public Object evaluate(ProcessStack stack, Object instance) throws Exception {

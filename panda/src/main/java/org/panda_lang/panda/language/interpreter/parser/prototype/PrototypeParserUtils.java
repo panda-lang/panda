@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.language.interpreter.parser.prototype;
 
+import javassist.ClassPool;
+import javassist.CtClass;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.interpreter.parser.Components;
@@ -27,6 +29,7 @@ import org.panda_lang.framework.language.architecture.prototype.utils.TypeDeclar
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.utilities.commons.ClassUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,7 +37,34 @@ import java.util.Optional;
 
 final class PrototypeParserUtils {
 
+    private static final ClassPool POOL = ClassPool.getDefault();
+
     private PrototypeParserUtils() { }
+
+    public static void appendExtended(Context context, Prototype prototype, Snippetable typeSource) {
+        String name = typeSource.toString();
+        Optional<Reference> extendedPrototype = context.getComponent(Components.IMPORTS).forName(name);
+
+        if (extendedPrototype.isPresent()) {
+            StateComparator.requireInheritance(context, extendedPrototype.get().fetch(), typeSource);
+            prototype.addBase(extendedPrototype.get().fetch());
+            return;
+        }
+
+        throw new PandaParserFailure(context, typeSource,
+                "Type " + name + " not found",
+                "Make sure that the name does not have a typo and module which should contain that class is imported"
+        );
+    }
+
+    protected static Class<?> generateType(String className) throws Exception {
+        if (ClassUtils.exists(className)) {
+            return Class.forName(className);
+        }
+
+        CtClass generatedClass = POOL.makeClass(className);
+        return generatedClass.toClass();
+    }
 
     public static Collection<Snippetable> readTypes(SynchronizedSource source) {
         Collection<Snippetable> types = new ArrayList<>(1);
@@ -58,22 +88,6 @@ final class PrototypeParserUtils {
         }
 
         return types;
-    }
-
-    public static void appendExtended(Context context, Prototype prototype, Snippetable typeSource) {
-        String name = typeSource.toString();
-        Optional<Reference> extendedPrototype = context.getComponent(Components.IMPORTS).forName(name);
-
-        if (extendedPrototype.isPresent()) {
-            StateComparator.requireInheritance(context, extendedPrototype.get().fetch(), typeSource);
-            prototype.addBase(extendedPrototype.get().fetch());
-            return;
-        }
-
-        throw new PandaParserFailure(context, typeSource,
-                "Type " + name + " not found",
-                "Make sure that the name does not have a typo and module which should contain that class is imported"
-        );
     }
 
 }

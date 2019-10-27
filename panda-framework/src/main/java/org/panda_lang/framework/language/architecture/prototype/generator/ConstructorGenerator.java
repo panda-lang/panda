@@ -19,35 +19,22 @@ package org.panda_lang.framework.language.architecture.prototype.generator;
 import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.language.architecture.prototype.PandaConstructor;
-import org.panda_lang.framework.language.architecture.prototype.PandaPropertyParameter;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Parameter;
 
 final class ConstructorGenerator {
 
-    private final PrototypeGenerator generator;
     private final Prototype prototype;
     private final Constructor<?> constructor;
 
-    ConstructorGenerator(PrototypeGenerator generator, Prototype prototype, Constructor<?> constructor) {
-        this.generator = generator;
+    ConstructorGenerator(Prototype prototype, Constructor<?> constructor) {
         this.prototype = prototype;
         this.constructor = constructor;
     }
 
     protected PrototypeConstructor generate() {
-        PropertyParameter[] prototypeParameters = new PropertyParameter[constructor.getParameterCount()];
-        Parameter[] parameters = constructor.getParameters();
-
-        for (int index = 0; index < parameters.length; index++) {
-            Reference parameterType = generator.findOrGenerate(prototype.getModule(), constructor.getParameterTypes()[index]);
-            Parameter parameter = parameters[index];
-
-            prototypeParameters[index] = new PandaPropertyParameter(index, parameterType.fetch(), parameter.getName(), parameter.isVarArgs(), false);
-        }
+        PropertyParameter[] prototypeParameters = PrototypeGeneratorUtils.toParameters(prototype.getModule(), constructor.getParameters());
 
         // TODO: Generate bytecode
         constructor.setAccessible(true);
