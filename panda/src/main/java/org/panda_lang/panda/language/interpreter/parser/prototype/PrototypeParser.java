@@ -30,7 +30,6 @@ import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.architecture.prototype.PandaConstructor;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
-import org.panda_lang.framework.language.architecture.prototype.PandaReference;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeScope;
 import org.panda_lang.framework.language.architecture.prototype.generator.PrototypeClassGenerator;
@@ -104,7 +103,7 @@ public final class PrototypeParser extends ParserBootstrap {
                 .withComponent(PrototypeComponents.PROTOTYPE, prototype);
 
         prototype.addBase(JavaModule.OBJECT);
-        prototype.getModule().add(new PandaReference(name, prototype.getAssociatedClass(), reference -> prototype));
+        prototype.getModule().add(prototype);
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)

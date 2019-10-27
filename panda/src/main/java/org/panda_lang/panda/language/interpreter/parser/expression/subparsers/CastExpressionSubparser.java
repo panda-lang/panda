@@ -49,7 +49,7 @@ public class CastExpressionSubparser implements ExpressionSubparser {
     private static final class CastWorker extends AbstractExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) throws Exception {
+        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
             if (!token.contentEquals(Keywords.AS) || !context.hasResults()) {
                 return null;
             }

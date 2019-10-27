@@ -128,13 +128,8 @@ public class PandaExpressionParserWorker {
 
         long time = System.nanoTime();
         int cachedIndex = context.getSynchronizedSource().getIndex();
-        ExpressionResult result;
 
-        try {
-            result = worker.next(context, token);
-        } catch (Exception e) {
-            return false;
-        }
+        ExpressionResult result = worker.next(context, token);
 
         Maps.update(TIMES, subparser.getSubparserName(), () -> 0L, cachedTime -> cachedTime + (System.nanoTime() - time));
 

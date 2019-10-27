@@ -48,7 +48,7 @@ public final class IsExpressionSubparser implements ExpressionSubparser {
     private static final class IsWorker extends AbstractExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) throws Exception {
+        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
             if (!context.hasResults() || !token.contentEquals(Keywords.IS)) {
                 return null;
             }

@@ -17,7 +17,6 @@
 package org.panda_lang.framework.language.architecture.prototype.generator;
 
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
@@ -34,23 +33,26 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 final class PrototypeGenerator {
 
-    protected static boolean locked;
     private static int i;
 
-    protected Reference generate(Module module, Class<?> type, String name) {
-        boolean bypass = !locked;
+    private final Map<String, Reference> cachedReferences = new HashMap<>();
 
-        if (bypass) {
-            locked = true;
+    protected Reference generate(Module module, Class<?> type, String name) {
+        Reference reference = cachedReferences.get(getId(module, name));
+
+        if (reference != null) {
+            return reference;
         }
 
-        System.out.println("TO GENERATE: " + type + " as " + name + " | " + (i++));
+        // System.out.println("TO GENERATE: " + type + " as " + name + " | " + (i++));
 
-        return new PandaReference(name, type, (ref) -> {
+        reference = new PandaReference(name, type, (ref) -> {
             ref.addInitializer(prototype -> {
                 if (!Modifier.isPublic(type.getModifiers())) {
                     return;
@@ -79,7 +81,7 @@ final class PrototypeGenerator {
                 }
             });
 
-            Prototype prototype = PandaPrototype.builder()
+            return PandaPrototype.builder()
                     .name(name)
                     .module(module)
                     .location(new PandaClassSource(type).toLocation())
@@ -88,23 +90,30 @@ final class PrototypeGenerator {
                     .state(State.of(type))
                     .visibility(Visibility.PUBLIC)
                     .build();
-
-            if (bypass) {
-                locked = false;
-            }
-
-            return prototype;
         });
+
+        cachedReferences.put(getId(module, reference.getName()), reference);
+        return reference;
     }
 
     protected Reference findOrGenerate(Module module, Class<?> type) {
         if (!module.hasPrototype(type)) {
+            Reference reference = cachedReferences.get(getId(module, type.getSimpleName()));
+
+            if (reference != null) {
+                return reference;
+            }
+
             return generate(module, type, type.getSimpleName());
         }
 
-        return module.forName(type.getSimpleName()).orElseThrow((Supplier<? extends PandaRuntimeException>) () -> {
+        return module.forClass(type).orElseThrow((Supplier<? extends PandaRuntimeException>) () -> {
             throw new PandaRuntimeException("Cannot find class: " + type);
         });
+    }
+
+    private String getId(Module module, String name) {
+        return module.getName() + "::" + name;
     }
 
 }
