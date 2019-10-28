@@ -115,17 +115,18 @@ shared interface EchoInterface {
 
     shared static anotherEcho(String doSth)
 
-    // local test()
+    local test()
 
 }
 
 shared class Foo : Test, EchoInterface {
 
-    shared static anotherEcho(String message1) {
+
+    override shared static anotherEcho(String message1) {
         Console.log(message1)
     }
 
-    // local test() { }
+    override local test() { }
 
 }
 
