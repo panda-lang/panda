@@ -22,39 +22,42 @@ import org.panda_lang.framework.design.architecture.prototype.Methods;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.framework.design.architecture.prototype.Referencable;
+import org.panda_lang.framework.design.architecture.prototype.State;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 final class PandaMethods extends AbstractProperties<PrototypeMethod> implements Methods {
 
     private static final PrototypeExecutablePropertiesMatcher<PrototypeMethod> MATCHER = new PrototypeExecutablePropertiesMatcher<>();
 
-
     PandaMethods(Prototype prototype) {
         super(PrototypeMethod.class, prototype);
     }
 
     @Override
-    public Optional<PrototypeMethod> getMethod(String name, Referencable... parameterTypes) {
-        Collection<? extends PrototypeMethod> methods = getPropertiesLike(name);
-
-        if (methods == null) {
-            return Optional.empty();
-        }
-
-        return MATCHER.match(methods, parameterTypes, null).map(Adjustment::getExecutable);
+    public Optional<PrototypeMethod> getMethod(String name, Referencable[] parameterTypes) {
+        return MATCHER.match(getPropertiesLike(name), parameterTypes, null).map(Adjustment::getExecutable);
     }
 
     @Override
     public Optional<Adjustment<PrototypeMethod>> getAdjustedArguments(String name, Expression[] arguments) {
-        Collection<? extends PrototypeMethod> methods = getPropertiesLike(name);
+        return MATCHER.match(getPropertiesLike(name), ParameterUtils.toTypes(arguments), arguments);
+    }
 
-        if (methods == null) {
-            return Optional.empty();
-        }
+    @Override
+    public List<? extends PrototypeMethod> getPropertiesLike(String name) {
+        return super.getPropertiesLike(name, method -> super.prototype.getState() == State.ABSTRACT || !method.isAbstract());
+    }
 
-        return MATCHER.match(methods, ParameterUtils.toTypes(arguments), arguments);
+    @Override
+    public List<? extends PrototypeMethod> getProperties() {
+        return super.getProperties(method -> super.prototype.getState() == State.ABSTRACT || !method.isAbstract());
+    }
+
+    @Override
+    public List<? extends PrototypeMethod> getDeclaredProperties() {
+        return super.getDeclaredProperties(method -> super.prototype.getState() == State.ABSTRACT || !method.isAbstract());
     }
 
     @Override

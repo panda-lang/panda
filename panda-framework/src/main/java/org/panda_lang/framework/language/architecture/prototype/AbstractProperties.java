@@ -28,6 +28,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -72,35 +74,53 @@ abstract class AbstractProperties<T extends ExecutableProperty> implements Prope
         return false;
     }
 
-    public List<? extends T> getPropertiesLike(String name) {
-        List<T> properties = Optional.ofNullable(propertiesMap.get(name)).orElseGet(Collections::emptyList).stream()
-                .map(CachedSupplier::get)
-                .collect(Collectors.toList());
-
+    private List<T> withBases(List<T> properties, Function<Properties<? extends T>, Collection<? extends T>> mapper, Predicate<T> filter) {
         for (Prototype base : prototype.getBases()) {
-            base.getProperties(type).ifPresent(baseProperties -> properties.addAll(baseProperties.getPropertiesLike(name)));
+            base.getProperties(type).ifPresent(baseProperties -> {
+                properties.addAll(mapper.apply(baseProperties).stream()
+                        .filter(filter)
+                        .collect(Collectors.toList())
+                );
+            });
         }
 
         return properties;
     }
 
-    @Override
-    public List<? extends T> getDeclaredProperties() {
-        return propertiesMap.values().stream()
-                .flatMap(Collection::stream)
+    protected List<T> getPropertiesLike(String name, Predicate<T> filter) {
+        List<T> properties = Optional.ofNullable(propertiesMap.get(name)).orElseGet(Collections::emptyList).stream()
                 .map(CachedSupplier::get)
+                .filter(filter)
                 .collect(Collectors.toList());
+
+        return withBases(properties, baseProperties -> baseProperties.getPropertiesLike(name), filter);
+    }
+
+    @Override
+    public List<? extends T> getPropertiesLike(String name) {
+        return getPropertiesLike(name, property -> true);
+    }
+
+    protected List<T> getProperties(Predicate<T> filter) {
+        return withBases(new ArrayList<>(getDeclaredProperties(filter)), Properties::getProperties, filter);
     }
 
     @Override
     public List<? extends T> getProperties() {
-        List<T> properties = new ArrayList<>(getDeclaredProperties());
+        return getProperties(property -> true);
+    }
 
-        for (Prototype base : prototype.getBases()) {
-            base.getProperties(type).ifPresent(baseProperties -> properties.addAll(baseProperties.getProperties()));
-        }
+    protected List<T> getDeclaredProperties(Predicate<T> filter) {
+        return propertiesMap.values().stream()
+                .flatMap(Collection::stream)
+                .map(CachedSupplier::get)
+                .filter(filter)
+                .collect(Collectors.toList());
+    }
 
-        return properties;
+    @Override
+    public List<? extends T> getDeclaredProperties() {
+        return getDeclaredProperties(property -> true);
     }
 
     @Override

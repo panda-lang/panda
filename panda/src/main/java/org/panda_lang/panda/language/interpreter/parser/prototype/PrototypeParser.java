@@ -123,10 +123,11 @@ public final class PrototypeParser extends ParserBootstrap {
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
     void verifyProperties(Context context, @Component Prototype prototype, @Component PrototypeScope scope) {
         if (prototype.getState() != State.ABSTRACT) {
-            prototype.getMethods().getProperties().stream()
+            prototype.getBases().stream()
+                    .flatMap(base -> base.getMethods().getProperties().stream())
                     .filter(PrototypeMethod::isAbstract)
-                    .findAny()
-                    .ifPresent(method -> {
+                    .filter(method -> !prototype.getMethods().getMethod(method.getSimpleName(), method.getParameterTypes()).isPresent())
+                    .forEach(method -> {
                         throw new PandaParserFailure(context, "Missing implementation of &1" + method + "&r in &1" + prototype + "&r");
                     });
         }
