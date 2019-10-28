@@ -28,17 +28,17 @@ import java.util.Optional;
 public interface Prototype extends Property, Referencable {
 
     /**
-     * Get Prototype to the array type of this type
+     * Get prototype to the array type of this type
      *
      * @param moduleLoader the loader to use
-     * @return the Prototype to array type
+     * @return the array prototype
      */
     Prototype toArray(ModuleLoader moduleLoader);
 
     /**
-     * Inherit the given Prototype
+     * Inherit the given prototype
      *
-     * @param basePrototype the Prototype to inherit from
+     * @param basePrototype the prototype to inherit from
      */
     void addBase(Prototype basePrototype);
 
@@ -88,7 +88,7 @@ public interface Prototype extends Property, Referencable {
     <T extends ExecutableProperty> Optional<Properties<T>> getProperties(Class<T> propertyType);
 
     /**
-     * Get Prototypes to super types
+     * Get supertypes of prototype
      *
      * @return collection of supertypes
      */

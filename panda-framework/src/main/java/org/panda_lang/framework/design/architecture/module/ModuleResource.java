@@ -23,18 +23,18 @@ import java.util.Optional;
 public interface ModuleResource {
 
     /**
-     * Find Prototype using the given class
+     * Find reference using the given class
      *
      * @param associatedClass the class associated with prototype to search for
-     * @return the Prototype
+     * @return the reference
      */
     Optional<Reference> forClass(Class<?> associatedClass);
 
     /**
-     * Find Prototype using the given name
+     * Find reference using the given name
      *
      * @param prototypeName the name to search for
-     * @return the Prototype
+     * @return the reference
      */
     Optional<Reference> forName(CharSequence prototypeName);
 
