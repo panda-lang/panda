@@ -65,7 +65,7 @@ public final class PrototypeExecutableExpression implements Expression {
 
     @Override
     public String toString() {
-        return executable +  " -> " + getReturnType().getName();
+        return executable +  " -> " + getReturnType().getSimpleName();
     }
 
 }

@@ -103,8 +103,13 @@ public class PandaPrototypeField extends AbstractExecutableProperty implements P
     }
 
     @Override
+    public String getName() {
+        return getSimpleName();
+    }
+
+    @Override
     public String toString() {
-        return getPrototype().getName() + "#" + getName();
+        return "field" + getPropertyName();
     }
 
     public static PandaPrototypeFieldBuilder builder() {

@@ -23,7 +23,7 @@ final class PandaModuleTest {
 
     @Test
     void testConstants() {
-        Assertions.assertEquals("Array", PandaModule.ARRAY.getName());
+        Assertions.assertEquals("Array", PandaModule.ARRAY.getSimpleName());
     }
 
 }

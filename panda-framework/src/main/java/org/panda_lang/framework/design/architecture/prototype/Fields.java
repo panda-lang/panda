@@ -21,14 +21,6 @@ import java.util.Optional;
 public interface Fields extends Properties<PrototypeField> {
 
     /**
-     * Get field at the given position
-     *
-     * @param index the position to search for
-     * @return the result field
-     */
-    Optional<PrototypeField> getField(int index);
-
-    /**
      * Get field with the given name
      *
      * @param name the name to search for

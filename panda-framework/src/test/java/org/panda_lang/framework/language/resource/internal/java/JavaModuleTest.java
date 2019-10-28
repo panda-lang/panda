@@ -23,19 +23,19 @@ class JavaModuleTest {
 
     @Test
     void testConstants() {
-        Assertions.assertEquals("void", JavaModule.VOID.getName());
-        Assertions.assertEquals("Boolean", JavaModule.BOOLEAN.getName());
-        Assertions.assertEquals("Char", JavaModule.CHAR.getName());
-        Assertions.assertEquals("Byte", JavaModule.BYTE.getName());
-        Assertions.assertEquals("Short", JavaModule.SHORT.getName());
-        Assertions.assertEquals("Int", JavaModule.INT.getName());
-        Assertions.assertEquals("Long", JavaModule.LONG.getName());
-        Assertions.assertEquals("Float", JavaModule.FLOAT.getName());
-        Assertions.assertEquals("Double", JavaModule.DOUBLE.getName());
-        Assertions.assertEquals("Object", JavaModule.OBJECT.getName());
-        Assertions.assertEquals("String", JavaModule.STRING.getName());
-        Assertions.assertEquals("Number", JavaModule.NUMBER.getName());
-        Assertions.assertEquals("Iterable", JavaModule.ITERABLE.getName());
+        Assertions.assertEquals("void", JavaModule.VOID.getSimpleName());
+        Assertions.assertEquals("Boolean", JavaModule.BOOLEAN.getSimpleName());
+        Assertions.assertEquals("Char", JavaModule.CHAR.getSimpleName());
+        Assertions.assertEquals("Byte", JavaModule.BYTE.getSimpleName());
+        Assertions.assertEquals("Short", JavaModule.SHORT.getSimpleName());
+        Assertions.assertEquals("Int", JavaModule.INT.getSimpleName());
+        Assertions.assertEquals("Long", JavaModule.LONG.getSimpleName());
+        Assertions.assertEquals("Float", JavaModule.FLOAT.getSimpleName());
+        Assertions.assertEquals("Double", JavaModule.DOUBLE.getSimpleName());
+        Assertions.assertEquals("Object", JavaModule.OBJECT.getSimpleName());
+        Assertions.assertEquals("String", JavaModule.STRING.getSimpleName());
+        Assertions.assertEquals("Number", JavaModule.NUMBER.getSimpleName());
+        Assertions.assertEquals("Iterable", JavaModule.ITERABLE.getSimpleName());
     }
 
 }

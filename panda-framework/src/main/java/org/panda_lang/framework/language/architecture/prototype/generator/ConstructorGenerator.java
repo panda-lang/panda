@@ -40,7 +40,7 @@ final class ConstructorGenerator {
         constructor.setAccessible(true);
 
         return PandaConstructor.builder()
-                .name("constructor " + prototype.getName())
+                .name("constructor " + prototype.getSimpleName())
                 .location(prototype.getLocation())
                 .parameters(prototypeParameters)
                 .prototype(prototype)

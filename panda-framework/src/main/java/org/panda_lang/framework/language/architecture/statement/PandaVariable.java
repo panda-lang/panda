@@ -56,7 +56,7 @@ public class PandaVariable extends PandaVariableData implements Variable {
 
     @Override
     public String toString() {
-        return "'" + getName() + "': '" + getType().getName() + "'";
+        return "'" + getName() + "': '" + getType().getSimpleName() + "'";
     }
 
 }

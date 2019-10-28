@@ -22,50 +22,24 @@ import org.panda_lang.framework.design.architecture.prototype.Constructors;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 final class PandaConstructors extends AbstractProperties<PrototypeConstructor> implements Constructors {
 
     private static final PrototypeExecutablePropertiesMatcher<PrototypeConstructor> MATCHER = new PrototypeExecutablePropertiesMatcher<>();
 
-    private final List<PrototypeConstructor> constructors = new ArrayList<>(1);
-
     PandaConstructors(Prototype prototype) {
-        super(prototype);
-    }
-
-    @Override
-    public void declare(PrototypeConstructor constructor) {
-        constructors.add(constructor);
+        super(PrototypeConstructor.class, prototype);
     }
 
     @Override
     public Optional<PrototypeConstructor> getConstructor(Prototype[] types) {
-        return MATCHER.match(constructors, types, null).map(Adjustment::getExecutable);
+        return MATCHER.match(getDeclaredProperties(), types, null).map(Adjustment::getExecutable);
     }
 
     @Override
     public Optional<Adjustment<PrototypeConstructor>> getAdjustedConstructor(Expression[] arguments) {
-        return MATCHER.match(constructors, ParameterUtils.toTypes(arguments), arguments);
-    }
-
-    @Override
-    public List<PrototypeConstructor> getDeclaredProperties() {
-        return constructors;
-    }
-
-    @Override
-    public List<? extends PrototypeConstructor> getProperties() {
-        List<PrototypeConstructor> constructors = getDeclaredProperties();
-        super.getPrototype().getBases().forEach(base -> constructors.addAll(base.getConstructors().getProperties()));
-        return constructors;
-    }
-
-    @Override
-    public int size() {
-        return constructors.size();
+        return MATCHER.match(getDeclaredProperties(), ParameterUtils.toTypes(arguments), arguments);
     }
 
 }

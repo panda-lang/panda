@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * Basic set of static data about a type
@@ -76,6 +77,15 @@ public interface Prototype extends Property, Referencable {
      * @return the constructors
      */
     Constructors getConstructors();
+
+    /**
+     * Get properties of the given type
+     *
+     * @param propertyType the property class
+     * @param <T> generic type that represents the property type
+     * @return the properties
+     */
+    <T extends ExecutableProperty> Optional<Properties<T>> getProperties(Class<T> propertyType);
 
     /**
      * Get Prototypes to super types

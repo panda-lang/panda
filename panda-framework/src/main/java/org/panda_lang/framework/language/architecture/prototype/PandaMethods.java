@@ -23,45 +23,21 @@ import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.framework.design.architecture.prototype.Referencable;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 final class PandaMethods extends AbstractProperties<PrototypeMethod> implements Methods {
 
     private static final PrototypeExecutablePropertiesMatcher<PrototypeMethod> MATCHER = new PrototypeExecutablePropertiesMatcher<>();
 
-    private final Map<String, Collection<PrototypeMethod>> methodsMap;
 
     PandaMethods(Prototype prototype) {
-        super(prototype);
-        this.methodsMap = new HashMap<>();
-    }
-
-    @Override
-    public void declare(PrototypeMethod method) {
-        Collection<PrototypeMethod> methods = methodsMap.computeIfAbsent(method.getName(), methodsContainer -> new ArrayList<>());
-        methods.add(method);
-    }
-
-    @Override
-    public boolean hasMethodLike(String name) {
-        return methodsMap.containsKey(name);
-    }
-
-    @Override
-    public Collection<PrototypeMethod> getMethodsLike(String name) {
-        return methodsMap.getOrDefault(name, Collections.emptyList());
+        super(PrototypeMethod.class, prototype);
     }
 
     @Override
     public Optional<PrototypeMethod> getMethod(String name, Referencable... parameterTypes) {
-        Collection<PrototypeMethod> methods = methodsMap.get(name);
+        Collection<? extends PrototypeMethod> methods = getPropertiesLike(name);
 
         if (methods == null) {
             return Optional.empty();
@@ -72,7 +48,7 @@ final class PandaMethods extends AbstractProperties<PrototypeMethod> implements 
 
     @Override
     public Optional<Adjustment<PrototypeMethod>> getAdjustedArguments(String name, Expression[] arguments) {
-        Collection<PrototypeMethod> methods = methodsMap.get(name);
+        Collection<? extends PrototypeMethod> methods = getPropertiesLike(name);
 
         if (methods == null) {
             return Optional.empty();
@@ -82,29 +58,8 @@ final class PandaMethods extends AbstractProperties<PrototypeMethod> implements 
     }
 
     @Override
-    public List<PrototypeMethod> getDeclaredProperties() {
-        return methodsMap.values().stream()
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<? extends PrototypeMethod> getProperties() {
-        List<PrototypeMethod> methods = getDeclaredProperties();
-        super.getPrototype().getBases().forEach(base -> methods.addAll(base.getMethods().getProperties()));
-        return methods;
-    }
-
-    @Override
-    public int size() {
-        return methodsMap.values().stream()
-                .mapToInt(Collection::size)
-                .sum();
-    }
-
-    @Override
     public String toString() {
-        return "PrototypeMethods[" + methodsMap.size() + "]";
+        return "PrototypeMethods[" + size() + "]";
     }
 
 }

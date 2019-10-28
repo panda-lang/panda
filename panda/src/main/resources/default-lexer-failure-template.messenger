@@ -1,12 +1,12 @@
 
 &b- - ~ ~< Lexer Failure >~ ~ - -&r
 
-Caused by: {{message}}
+Caused by:
+  {{message}}
 
 Source:
   {{source}}
   {{marker}}
-
 Location:
   Panda: {{location}} at line {{line}}:{{index}}
 

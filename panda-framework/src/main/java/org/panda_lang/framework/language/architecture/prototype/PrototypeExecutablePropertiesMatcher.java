@@ -36,7 +36,7 @@ import java.util.Optional;
 
 final class PrototypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
 
-    public Optional<Adjustment<T>> match(Collection<T> collection, Referencable[] requiredTypes, @Nullable Expression[] arguments) {
+    public Optional<Adjustment<T>> match(Collection<? extends T> collection, Referencable[] requiredTypes, @Nullable Expression[] arguments) {
         Prototype[] required = Arrays.stream(requiredTypes)
                 .map(referencable -> referencable.toReference().fetch())
                 .toArray(Prototype[]::new);

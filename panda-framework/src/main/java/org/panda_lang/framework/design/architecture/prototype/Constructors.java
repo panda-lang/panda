@@ -36,6 +36,6 @@ public interface Constructors extends Properties<PrototypeConstructor> {
      * @param types types to search for
      * @return the result constructor
      */
-    Optional<PrototypeConstructor> getConstructor(Prototype... types);
+    Optional<PrototypeConstructor> getConstructor(Prototype[] types);
 
 }

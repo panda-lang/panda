@@ -55,7 +55,7 @@ abstract class AbstractProperty implements Property {
     }
 
     @Override
-    public String getName() {
+    public String getSimpleName() {
         return name;
     }
 
