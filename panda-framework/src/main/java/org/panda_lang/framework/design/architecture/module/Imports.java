@@ -36,7 +36,7 @@ public interface Imports extends ModuleResource {
     void importModule(Module module);
 
     /**
-     * Import Prototype
+     * Import reference
      *
      * @param name the name of prototype to import as (may be different than prototype name)
      * @param reference the reference to prototype
