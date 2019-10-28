@@ -37,6 +37,6 @@ public interface Methods extends Properties<PrototypeMethod> {
      * @param parameterTypes the parameter types to search for
      * @return the found method
      */
-    Optional<PrototypeMethod> getMethod(String name, Referencable... parameterTypes);
+    Optional<PrototypeMethod> getMethod(String name, Referencable[] parameterTypes);
 
 }

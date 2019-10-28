@@ -30,7 +30,7 @@ public interface Properties<T extends ExecutableProperty> {
     void declare(String name, Supplier<T> propertySupplier);
 
     /**
-     * Declare a new prperty
+     * Declare a new property
      *
      * @param property the property to add
      */
