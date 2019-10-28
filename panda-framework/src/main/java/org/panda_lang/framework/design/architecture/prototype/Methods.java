@@ -18,26 +18,9 @@ package org.panda_lang.framework.design.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
 
-import java.util.Collection;
 import java.util.Optional;
 
 public interface Methods extends Properties<PrototypeMethod> {
-
-    /**
-     * Check if the prototype has method with the given name
-     *
-     * @param name the name to search for
-     * @return true if prototype contains method with the given name
-     */
-    boolean hasMethodLike(String name);
-
-    /**
-     * Get all methods with the given name
-     *
-     * @param name the name to search for
-     * @return collection of methods with the requested name
-     */
-    Collection<? extends PrototypeMethod> getMethodsLike(String name);
 
     /**
      * Adjust property to the given arguments

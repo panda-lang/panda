@@ -34,7 +34,7 @@ public class VariableAssignerUtils {
         }
 
         throw new PandaParserFailure(context,
-                "Cannot assign " + expression.getReturnType().getName() + " to " + variable.getType().getName() + " variable",
+                "Cannot assign " + expression.getReturnType().getSimpleName() + " to " + variable.getType().getSimpleName() + " variable",
                 "Change variable type or ensure the expression has compatible return type"
         );
     }

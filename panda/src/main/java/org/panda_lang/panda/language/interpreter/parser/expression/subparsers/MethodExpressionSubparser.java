@@ -102,7 +102,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
             }
 
             // check if prototype of instance contains required method
-            if (!instance.getReturnType().getMethods().hasMethodLike(nameToken.getValue())) {
+            if (!instance.getReturnType().getMethods().hasPropertyLike(nameToken.getValue())) {
                 return ExpressionResult.error("Cannot find method called '" + nameToken.getValue() + "'", nameToken);
             }
 
@@ -123,7 +123,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
 
             if (!adjustedArguments.isPresent()) {
                 throw new PandaExpressionParserFailure(context, argumentsSource,
-                        "Class " + instance.getReturnType().getName() + " does not have method '" + methodName + "' with these parameters",
+                        "Class " + instance.getReturnType().getSimpleName() + " does not have method '" + methodName + "' with these parameters",
                         "Change arguments or add a new method with the provided types of parameters"
                 );
             }

@@ -53,7 +53,12 @@ final class PandaStubReference implements Reference {
 
     @Override
     public String getName() {
-        return prototype.getName();
+        return prototype.getSimpleName();
+    }
+
+    @Override
+    public String toString() {
+        return "stub ref " + prototype;
     }
 
 }

@@ -17,15 +17,26 @@
 package org.panda_lang.framework.design.architecture.prototype;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public interface Properties<T extends ExecutableProperty> {
 
     /**
      * Declare a new property
      *
+     * @param name the name of property
+     * @param propertySupplier the property to add
+     */
+    void declare(String name, Supplier<T> propertySupplier);
+
+    /**
+     * Declare a new prperty
+     *
      * @param property the property to add
      */
-    void declare(T property);
+    default void declare(T property) {
+        declare(property.getSimpleName(), () -> property);
+    }
 
     /**
      * Get amount of properties
@@ -33,6 +44,22 @@ public interface Properties<T extends ExecutableProperty> {
      * @return the amount of properties
      */
     int size();
+
+    /**
+     * Check if container contains property with the given name
+     *
+     * @param name the name to search for
+     * @return true if container contains property with the given name, otherwise false
+     */
+    boolean hasPropertyLike(String name);
+
+    /**
+     * Get properties with the given name
+     *
+     * @param name the name to search for
+     * @return list of properties with the given name
+     */
+    List<? extends T> getPropertiesLike(String name);
 
     /**
      * Get properties declared in this container

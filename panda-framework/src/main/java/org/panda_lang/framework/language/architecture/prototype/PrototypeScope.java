@@ -72,7 +72,7 @@ public class PrototypeScope extends AbstractFramedScope implements FramedScope {
 
         @Override
         public String toString() {
-            return prototype.getName() + "#" + String.format("%06X", id & 0xFFFFF);
+            return prototype.getSimpleName() + "#" + String.format("%06X", id & 0xFFFFF);
         }
 
     }

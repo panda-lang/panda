@@ -20,60 +20,19 @@ import org.panda_lang.framework.design.architecture.prototype.Fields;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 final class PandaFields extends AbstractProperties<PrototypeField> implements Fields {
 
-    private final List<PrototypeField> fields = new ArrayList<>();
-
     PandaFields(Prototype prototype) {
-        super(prototype);
-    }
-
-    @Override
-    public void declare(PrototypeField field) {
-        fields.add(field);
-    }
-
-    @Override
-    public Optional<PrototypeField> getField(int index) {
-        for (PrototypeField field : fields) {
-            if (field.getPointer() == index) {
-                return Optional.of(field);
-            }
-        }
-
-        return Optional.empty();
+        super(PrototypeField.class, prototype);
     }
 
     @Override
     public Optional<PrototypeField> getField(String name) {
-        for (PrototypeField field : fields) {
-            if (field.getName().equals(name)) {
-                return Optional.of(field);
-            }
-        }
-
-        return Optional.empty();
-    }
-
-    @Override
-    public List<PrototypeField> getDeclaredProperties() {
-        return fields;
-    }
-
-    @Override
-    public List<? extends PrototypeField> getProperties() {
-        List<PrototypeField> fields = getDeclaredProperties();
-        super.getPrototype().getBases().forEach(base -> fields.addAll(base.getFields().getProperties()));
-        return fields;
-    }
-
-    @Override
-    public int size() {
-        return fields.size();
+        List<? extends PrototypeField> fields = getPropertiesLike(name);
+        return fields.isEmpty() ? Optional.empty() : Optional.of(fields.get(0));
     }
 
 }

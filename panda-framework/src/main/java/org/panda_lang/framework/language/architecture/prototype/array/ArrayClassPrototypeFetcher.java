@@ -76,8 +76,8 @@ public class ArrayClassPrototypeFetcher {
         ArrayPrototype arrayPrototype = new ArrayPrototype(module, arrayType, componentReference.fetch());
         ARRAY_PROTOTYPES.put(baseReference.getName() + dimensions, arrayPrototype);
 
-        arrayPrototype.getMethods().declare(ArrayClassPrototypeConstants.SIZE);
-        arrayPrototype.getMethods().declare(ArrayClassPrototypeConstants.TO_STRING);
+        arrayPrototype.getMethods().declare("size", () -> ArrayClassPrototypeConstants.SIZE);
+        arrayPrototype.getMethods().declare("toString", () -> ArrayClassPrototypeConstants.TO_STRING);
 
         module.add(arrayPrototype);
         return arrayPrototype;

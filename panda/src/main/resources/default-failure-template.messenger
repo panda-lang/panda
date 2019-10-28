@@ -1,7 +1,8 @@
 
 &b- - ~ ~< Severe Failure >~ ~ - -&r
 
-Caused by: {{message}}
+Caused by:
+  {{message}}
 
 % note %
 Note:
@@ -11,7 +12,6 @@ Note:
 Source:
   {{source}}
   {{marker}}
-
 Location:
   Panda: {{location}} at line {{line}}:{{index}}
 

@@ -59,17 +59,17 @@ final class PrototypeGenerator {
                     }
 
                     FieldGenerator generator = new FieldGenerator(this, prototype, field);
-                    prototype.getFields().declare(generator.generate());
+                    prototype.getFields().declare(field.getName(), generator::generate);
                 }
 
                 for (Constructor<?> constructor : ReflectionUtils.getByModifier(type.getConstructors(), Modifier.PUBLIC)) {
                     ConstructorGenerator generator = new ConstructorGenerator(prototype, constructor);
-                    prototype.getConstructors().declare(generator.generate());
+                    prototype.getConstructors().declare(ref.getName(), generator::generate);
                 }
 
                 for (Method method : ReflectionUtils.getByModifier(type.getMethods(), Modifier.PUBLIC)) {
                     MethodGenerator generator = new MethodGenerator(this, prototype, method);
-                    prototype.getMethods().declare(generator.generate());
+                    prototype.getMethods().declare(method.getName(), generator::generate);
                 }
             });
 

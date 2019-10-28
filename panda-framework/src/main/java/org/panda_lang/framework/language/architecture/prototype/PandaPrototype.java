@@ -20,9 +20,14 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.prototype.Constructors;
+import org.panda_lang.framework.design.architecture.prototype.ExecutableProperty;
 import org.panda_lang.framework.design.architecture.prototype.Fields;
 import org.panda_lang.framework.design.architecture.prototype.Methods;
+import org.panda_lang.framework.design.architecture.prototype.Properties;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
@@ -32,6 +37,7 @@ import org.panda_lang.framework.language.architecture.prototype.array.ArrayClass
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Optional;
 
 public class PandaPrototype extends AbstractProperty implements Prototype {
 
@@ -90,7 +96,7 @@ public class PandaPrototype extends AbstractProperty implements Prototype {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getModule(), getName());
+        return Objects.hash(getModule(), getSimpleName());
     }
 
     @Override
@@ -130,6 +136,24 @@ public class PandaPrototype extends AbstractProperty implements Prototype {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public <T extends ExecutableProperty> Optional<Properties<T>> getProperties(Class<T> propertyType) {
+        Properties<T> properties = null;
+
+        if (PrototypeMethod.class.isAssignableFrom(propertyType)) {
+            properties = (Properties<T>) methods;
+        }
+        else if (PrototypeConstructor.class.isAssignableFrom(propertyType)) {
+            properties = (Properties<T>) constructors;
+        }
+        else if (PrototypeField.class.isAssignableFrom(propertyType)) {
+            properties = (Properties<T>) fields;
+        }
+
+        return Optional.ofNullable(properties);
+    }
+
+    @Override
     public Collection<Prototype> getBases() {
         return bases;
     }
@@ -160,8 +184,13 @@ public class PandaPrototype extends AbstractProperty implements Prototype {
     }
 
     @Override
+    public String getPropertyName() {
+        return module.getName() + "::" + getSimpleName();
+    }
+
+    @Override
     public String toString() {
-        return "prototype " + getModule().getName() + "::" + getName();
+        return "prototype " + getPropertyName();
     }
 
     public static <T> PandaPrototypeBuilder<?, ?> builder() {

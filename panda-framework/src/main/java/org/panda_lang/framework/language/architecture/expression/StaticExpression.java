@@ -47,7 +47,7 @@ public final class StaticExpression implements Expression {
 
     @Override
     public String toString() {
-        return "static " + getReturnType().getName();
+        return "static " + getReturnType().getSimpleName();
     }
 
 }

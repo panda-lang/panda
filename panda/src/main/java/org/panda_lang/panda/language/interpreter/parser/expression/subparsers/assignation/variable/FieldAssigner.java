@@ -39,13 +39,13 @@ public class FieldAssigner extends AbstractAssigner<PrototypeField> {
         PrototypeField field = accessor.getVariable();
 
         if (!initialize && !field.isMutable()) {
-            throw new PandaRuntimeException("Cannot change value of immutable field '" + field.getName() + "'");
+            throw new PandaRuntimeException("Cannot change value of immutable field '" + field.getSimpleName() + "'");
         }
 
         Object value = valueExpression.evaluate(stack, instance);
 
         if (value == null && !field.isNillable()) {
-            throw new PandaRuntimeException("Cannot assign null to field  '" + field.getName() + "' without nil modifier");
+            throw new PandaRuntimeException("Cannot assign null to field  '" + field.getSimpleName() + "' without nil modifier");
         }
 
         if (field.isStatic()) {
@@ -58,7 +58,7 @@ public class FieldAssigner extends AbstractAssigner<PrototypeField> {
 
     @Override
     public String toString() {
-        return accessor.getVariable().getPrototype().getName() + "assigner@f_memory[" + accessor.getMemoryPointer() + "] << " + valueExpression;
+        return accessor.getVariable().getPrototype().getSimpleName() + "assigner@f_memory[" + accessor.getMemoryPointer() + "] << " + valueExpression;
     }
 
 }

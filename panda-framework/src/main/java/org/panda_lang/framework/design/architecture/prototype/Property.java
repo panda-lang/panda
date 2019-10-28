@@ -55,10 +55,19 @@ public interface Property {
     SourceLocation getLocation();
 
     /**
-     * Get name of prototype
+     * Get simple name of property (without prototype name)
      *
      * @return the name
      */
-    String getName();
+    String getSimpleName();
+
+    /**
+     * Get property name {prototype-name}::{property::name}
+     *
+     * @return the name of property
+     */
+    default String getPropertyName() {
+        return getPrototype().getSimpleName() + "::" + getSimpleName();
+    }
 
 }

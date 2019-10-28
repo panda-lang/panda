@@ -36,7 +36,7 @@ public class PandaConstructor extends AbstractExecutableProperty implements Prot
 
     @Override
     public String toString() {
-        return getName();
+        return "constructor " + getPropertyName();
     }
 
     public static PandaConstructorBuilder builder() {
@@ -48,7 +48,7 @@ public class PandaConstructor extends AbstractExecutableProperty implements Prot
         private PandaConstructorBuilder() { }
 
         public PandaConstructorBuilder constructor(Prototype prototype, Constructor<?> constructor) {
-            return type(prototype).name("constructor " + prototype.getName());
+            return type(prototype).name(prototype.getSimpleName());
         }
 
         public PandaConstructor build() {

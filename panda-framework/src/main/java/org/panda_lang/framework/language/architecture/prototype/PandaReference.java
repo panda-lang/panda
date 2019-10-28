@@ -93,7 +93,7 @@ public class PandaReference implements Reference {
 
     @Override
     public String toString() {
-        return "ref " + prototype.toString();
+        return "ref " + (isInitialized() ? prototype : " not-initialized " + name);
     }
 
 }

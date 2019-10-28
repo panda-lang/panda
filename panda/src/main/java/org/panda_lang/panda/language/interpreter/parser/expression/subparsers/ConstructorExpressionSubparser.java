@@ -136,7 +136,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
 
             return adjustedConstructor
                     .map(constructorArguments -> ExpressionResult.of(new PrototypeExecutableExpression(null, constructorArguments)))
-                    .orElseGet(() -> ExpressionResult.error(type.getName() + " does not have constructor with the required parameters: " + Arrays.toString(arguments), section));
+                    .orElseGet(() -> ExpressionResult.error(type.getSimpleName() + " does not have constructor with the required parameters: " + Arrays.toString(arguments), section));
         }
 
         private ExpressionResult parseArray(ExpressionContext context, Snippet typeSource) {

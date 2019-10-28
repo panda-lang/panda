@@ -19,6 +19,7 @@ package org.panda_lang.panda.language.interpreter.parser.prototype;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.framework.design.architecture.prototype.Referencable;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.design.interpreter.parser.Components;
@@ -115,8 +116,13 @@ public final class MethodParser extends ParserBootstrap {
                 .methodBody(methodScope)
                 .build();
 
-        if (prototype.getMethods().getMethod(method.getName(), method.getParameterTypes()).isPresent() && !result.has(Keywords.OVERRIDE.getValue())) {
-            throw new PandaParserFailure(context, name, "Overridden method does not contain 'override' modifier");
+        Optional<PrototypeMethod> existingMethod = prototype.getMethods().getMethod(method.getSimpleName(), method.getParameterTypes());
+
+        if (existingMethod.isPresent() && !result.has(Keywords.OVERRIDE.getValue())) {
+            throw new PandaParserFailure(context, name,
+                    "Method &b" + method.getPropertyName() + "&r overrides &b" + existingMethod.get() + "&r but does not contain &boverride&r modifier",
+                    "Add missing modifier if you want to override that method or rename current method"
+            );
         }
 
         prototype.getMethods().declare(method);
