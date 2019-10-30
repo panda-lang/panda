@@ -16,13 +16,15 @@
 
 package org.panda_lang.panda.cli;
 
-import picocli.CommandLine;
+import org.junit.jupiter.api.Test;
 
-public final class PandaCLI {
+final class PandaCLITest {
 
-    public void run(String... args) {
-        PandaCommand command = CommandLine.populateCommand(new PandaCommand(this), args);
-        command.run();
+    private static final PandaCLI CLI = new PandaCLI();
+
+    @Test
+    void testLevel() {
+        CLI.run("--level=info", "../examples/tests/current_test.panda");
     }
 
 }

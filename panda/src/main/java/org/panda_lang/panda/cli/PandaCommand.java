@@ -16,27 +16,34 @@
 
 package org.panda_lang.panda.cli;
 
-import org.panda_lang.panda.PandaConstants;
 import org.panda_lang.framework.PandaFramework;
 import org.panda_lang.framework.design.architecture.Application;
+import org.panda_lang.panda.PandaConstants;
+import org.panda_lang.panda.PandaFactory;
 import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
+import picocli.CommandLine.Parameters;
 
 import java.io.File;
 import java.util.Optional;
 
-@CommandLine.Command(name = "panda", version = "Panda " + PandaConstants.VERSION)
+@Command(name = "panda", version = "Panda " + PandaConstants.VERSION)
 public final class PandaCommand implements Runnable {
 
     private final PandaCLI cli;
 
-    @CommandLine.Parameters(index = "0", paramLabel = "SCRIPT", description = "Script to load")
+    @Parameters(index = "0", paramLabel = "SCRIPT", description = "Script to load")
     private File script;
 
-    @CommandLine.Option(names = { "-V", "--version" }, versionHelp = true, description = "display Panda version")
+    @Option(names = { "-V", "--version" }, versionHelp = true, description = "display Panda version")
     private boolean versionInfoRequested;
 
-    @CommandLine.Option(names = { "-h", "--help" }, usageHelp = true, description = "display help message")
+    @Option(names = { "-h", "--help" }, usageHelp = true, description = "display help message")
     private boolean usageHelpRequested;
+
+    @Option(names = { "-l", "--level" }, description = "set level of logging", paramLabel="<level>")
+    private String level;
 
     public PandaCommand(PandaCLI cli) {
         this.cli = cli;
@@ -45,6 +52,12 @@ public final class PandaCommand implements Runnable {
     @Override
     public void run() {
         CommandLine commandLine = new CommandLine(this);
+
+        if (level != null) {
+            System.setProperty("tinylog.writer.level", level);
+            // todo: replace after tinylog fix
+            // Configuration.set("tinylog.writer.level", level);
+        }
 
         if (usageHelpRequested) {
             CommandLine.usage(this, System.out);
@@ -56,7 +69,9 @@ public final class PandaCommand implements Runnable {
             return;
         }
 
-        Optional<Application> application = cli.getPanda().getLoader().load(script, script.getParentFile());
+        Optional<Application> application = new PandaFactory()
+                .createPanda().getLoader()
+                .load(script, script.getParentFile());
 
         if (!application.isPresent()) {
             PandaFramework.getLogger().error("Cannot load application");
