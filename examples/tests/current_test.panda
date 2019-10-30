@@ -121,7 +121,6 @@ shared interface EchoInterface {
 
 shared class Foo : Test, EchoInterface {
 
-
     override shared static anotherEcho(String message1) {
         Console.log(message1)
     }

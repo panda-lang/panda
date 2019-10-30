@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.cli.PandaCLI;
 import org.panda_lang.framework.design.FrameworkController;
 import org.panda_lang.framework.design.resource.Language;
 import org.panda_lang.framework.design.resource.Resources;
@@ -35,8 +34,6 @@ public final class Panda implements FrameworkController {
 
     private final Language language;
     private final Resources resources;
-
-    private final PandaCLI cli;
     private final PandaFileLoader loader;
 
     private Panda(PandaBuilder builder) {
@@ -50,18 +47,7 @@ public final class Panda implements FrameworkController {
 
         this.language = builder.language;
         this.resources = builder.resources;
-
-        this.cli = new PandaCLI(this);
         this.loader = new PandaFileLoader(this);
-    }
-
-    /**
-     * Get CLI used to command-line communication
-     *
-     * @return the panda cli
-     */
-    public PandaCLI getCli() {
-        return cli;
     }
 
     /**

@@ -16,35 +16,21 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.language.interpreter.PandaFileLoader;
+import org.panda_lang.panda.cli.PandaCLI;
 import org.panda_lang.utilities.commons.ArrayUtils;
-import org.panda_lang.utilities.commons.FileUtils;
-
-import java.io.File;
-import java.util.Collection;
 
 public final class PandaLauncher {
 
     private PandaLauncher() { }
 
     public static void main(String... args) {
-        PandaFactory pandaFactory = new PandaFactory();
-        Panda panda = pandaFactory.createPanda();
+        PandaCLI cli = new PandaCLI();
 
-        if (!ArrayUtils.isEmpty(args)) {
-            panda.getCli().run(args);
-            return;
+        if (ArrayUtils.isEmpty(args)) {
+            args = new String[]{ "--help" };
         }
 
-        loadDefault(panda, args);
-    }
-
-    private static void loadDefault(Panda panda, String... args) {
-        PandaFileLoader pandaFileLoader = panda.getLoader();
-        Collection<File> files = FileUtils.findFilesByExtension(System.getProperty("user.dir"), ".panda");
-
-        // TODO: find panda.json
-        throw new RuntimeException("Not implemented");
+        cli.run(args);
     }
 
 }
