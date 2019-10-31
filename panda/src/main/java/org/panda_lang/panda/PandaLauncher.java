@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.cli.PandaCLI;
+import org.panda_lang.panda.shell.PandaShell;
 import org.panda_lang.utilities.commons.ArrayUtils;
 
 public final class PandaLauncher {
@@ -24,7 +24,7 @@ public final class PandaLauncher {
     private PandaLauncher() { }
 
     public static void main(String... args) {
-        PandaCLI cli = new PandaCLI();
+        PandaShell cli = new PandaShell();
 
         if (ArrayUtils.isEmpty(args)) {
             args = new String[]{ "--help" };

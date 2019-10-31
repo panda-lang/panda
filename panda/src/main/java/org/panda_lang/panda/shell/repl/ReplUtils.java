@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.cli.shell;
+package org.panda_lang.panda.shell.repl;
 
 import org.panda_lang.framework.PandaFramework;
 
 import java.util.Collection;
 
-public final class ShellUtils {
+public final class ReplUtils {
 
-    private ShellUtils() { }
+    private ReplUtils() { }
 
     /**
      * Print results using {@link org.panda_lang.framework.PandaFramework#getLogger()}
      *
      * @param results the results to print
      */
-    public static void print(Collection<ShellResult> results) {
-        for (ShellResult result : results) {
+    public static void print(Collection<ReplResult> results) {
+        for (ReplResult result : results) {
             String[] lines = result.toString().split(System.lineSeparator());
 
             for (String line : lines) {

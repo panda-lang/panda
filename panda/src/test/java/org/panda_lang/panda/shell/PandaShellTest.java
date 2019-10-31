@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.cli;
+package org.panda_lang.panda.shell;
 
 import org.junit.jupiter.api.Test;
 
-final class PandaCLITest {
+final class PandaShellTest {
 
-    private static final PandaCLI CLI = new PandaCLI();
+    private static final PandaShell CLI = new PandaShell();
 
     @Test
     void testLevel() {

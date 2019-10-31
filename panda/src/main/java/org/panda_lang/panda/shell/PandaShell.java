@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.cli.shell;
+package org.panda_lang.panda.shell;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.statement.Variable;
+import org.panda_lang.panda.shell.cli.PandaCommand;
+import picocli.CommandLine;
 
-public interface ShellVariableChangeListener {
+public final class PandaShell {
 
-    void onChange(Variable variable, @Nullable Object previous, @Nullable Object current);
+    public void run(String... args) {
+        PandaCommand command = CommandLine.populateCommand(new PandaCommand(), args);
+        command.run();
+    }
 
 }
