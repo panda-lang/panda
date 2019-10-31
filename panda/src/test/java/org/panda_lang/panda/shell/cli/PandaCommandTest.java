@@ -14,23 +14,25 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda;
+package org.panda_lang.panda.shell.cli;
 
-import org.panda_lang.panda.shell.PandaShell;
-import org.panda_lang.utilities.commons.ArrayUtils;
+import org.junit.jupiter.api.Test;
+import picocli.CommandLine;
 
-public final class PandaLauncher {
+final class PandaCommandTest {
 
-    private PandaLauncher() { }
+    @Test
+    void help() {
+        invoke("--help");
+    }
 
-    public static void main(String... args) {
-        PandaShell cli = new PandaShell();
+    @Test
+    void version() {
+        invoke("--version");
+    }
 
-        if (ArrayUtils.isEmpty(args)) {
-            args = new String[]{ "--help" };
-        }
-
-        cli.invoke(args);
+    private void invoke(String args) {
+        CommandLine.populateCommand(new PandaCommand(), args).run();
     }
 
 }

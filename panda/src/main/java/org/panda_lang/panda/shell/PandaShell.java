@@ -21,7 +21,7 @@ import picocli.CommandLine;
 
 public final class PandaShell {
 
-    public void run(String... args) {
+    public void invoke(String... args) {
         PandaCommand command = CommandLine.populateCommand(new PandaCommand(), args);
         command.run();
     }

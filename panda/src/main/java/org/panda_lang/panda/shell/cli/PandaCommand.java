@@ -20,6 +20,7 @@ import org.panda_lang.framework.PandaFramework;
 import org.panda_lang.framework.design.architecture.Application;
 import org.panda_lang.panda.PandaConstants;
 import org.panda_lang.panda.PandaFactory;
+import org.tinylog.configuration.Configuration;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -31,16 +32,16 @@ import java.util.Optional;
 @Command(name = "panda", version = "Panda " + PandaConstants.VERSION)
 public final class PandaCommand implements Runnable {
 
-    @Parameters(index = "0", paramLabel = "SCRIPT", description = "Script to load")
+    @Parameters(index = "0", paramLabel = "<script>", description = "script to load")
     private File script;
 
-    @Option(names = { "-V", "--version" }, versionHelp = true, description = "display Panda version")
+    @Option(names = { "--version", "-V" }, versionHelp = true, description = "display current version of panda")
     private boolean versionInfoRequested;
 
-    @Option(names = { "-h", "--help" }, usageHelp = true, description = "display help message")
+    @Option(names = { "--help", "-H" }, usageHelp = true, description = "display help message")
     private boolean usageHelpRequested;
 
-    @Option(names = { "-l", "--level" }, description = "set level of logging", paramLabel="<level>")
+    @Option(names = { "--level", "-L" }, description = "set level of logging", paramLabel="<level>")
     private String level;
 
     @Override
@@ -48,18 +49,18 @@ public final class PandaCommand implements Runnable {
         CommandLine commandLine = new CommandLine(this);
 
         if (level != null) {
-            System.setProperty("tinylog.writer.level", level);
-            // todo: replace after tinylog fix
-            // Configuration.set("tinylog.writer.level", level);
+            Configuration.set("level", level);
         }
 
         if (usageHelpRequested) {
             CommandLine.usage(this, System.out);
-            return;
         }
 
         if (versionInfoRequested) {
             commandLine.printVersionHelp(System.out);
+        }
+
+        if (script == null) {
             return;
         }
 
