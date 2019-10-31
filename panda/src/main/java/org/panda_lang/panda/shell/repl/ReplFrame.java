@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.cli.shell;
+package org.panda_lang.panda.shell.repl;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
@@ -24,13 +24,13 @@ import org.panda_lang.framework.design.architecture.statement.FramedScope;
 import java.util.HashMap;
 import java.util.Map;
 
-final class ShellFrame implements Frame, PropertyFrame {
+final class ReplFrame implements Frame, PropertyFrame {
 
-    private final ShellScope scope;
+    private final ReplScope scope;
     private final Frame instance;
     private final Map<Integer, Object> memory = new HashMap<>();
 
-    protected ShellFrame(ShellScope scope, Frame instance) {
+    protected ReplFrame(ReplScope scope, Frame instance) {
         this.scope = scope;
         this.instance = instance;
     }
@@ -39,7 +39,7 @@ final class ShellFrame implements Frame, PropertyFrame {
     public <T> @Nullable T set(int pointer, @Nullable T value) {
         Object previous = memory.put(pointer, value);
 
-        for (ShellVariableChangeListener variableChangeListener : scope.getVariableChangeListeners()) {
+        for (ReplVariableChangeListener variableChangeListener : scope.getVariableChangeListeners()) {
             variableChangeListener.onChange(scope.getVariables().get(pointer), previous, value);
         }
 

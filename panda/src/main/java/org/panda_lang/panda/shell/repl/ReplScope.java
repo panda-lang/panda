@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.cli.shell;
+package org.panda_lang.panda.shell.repl;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
@@ -31,18 +31,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-final class ShellScope extends AbstractPropertyFramedScope {
+final class ReplScope extends AbstractPropertyFramedScope {
 
     private final Map<Integer, Object> defaultValues = new HashMap<>();
-    private final Collection<ShellVariableChangeListener> variableChangeListeners = new ArrayList<>(1);
+    private final Collection<ReplVariableChangeListener> variableChangeListeners = new ArrayList<>(1);
 
-    ShellScope(SourceLocation location, List<PropertyParameter> parameters) {
+    ReplScope(SourceLocation location, List<PropertyParameter> parameters) {
         super(location, parameters);
     }
 
     @Override
     public Frame revive(ProcessStack stack, Object instance) {
-        ShellFrame frame = new ShellFrame(this, (Frame) instance);
+        ReplFrame frame = new ReplFrame(this, (Frame) instance);
 
         for (Entry<Integer, Object> entry : defaultValues.entrySet()) {
             frame.set(entry.getKey(), entry.getValue());
@@ -51,7 +51,7 @@ final class ShellScope extends AbstractPropertyFramedScope {
         return frame;
     }
 
-    protected void addVariableChangeListener(ShellVariableChangeListener variableChangeListener) {
+    protected void addVariableChangeListener(ReplVariableChangeListener variableChangeListener) {
         variableChangeListeners.add(variableChangeListener);
     }
 
@@ -59,7 +59,7 @@ final class ShellScope extends AbstractPropertyFramedScope {
         defaultValues.put(variable.getPointer(), defaultValue);
     }
 
-    protected Collection<ShellVariableChangeListener> getVariableChangeListeners() {
+    protected Collection<ReplVariableChangeListener> getVariableChangeListeners() {
         return variableChangeListeners;
     }
 

@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.cli.shell;
+package org.panda_lang.panda.shell.repl;
 
 import org.panda_lang.utilities.commons.ArrayUtils;
 
 /**
  * Result of evaluation
  */
-public final class ShellResult {
+public final class ReplResult {
 
     /**
      * Type of result
      */
     public enum Type {
         /**
-         * Represents value returned by shell
+         * Represents value returned by REPL
          */
         SHELL,
         /**
@@ -40,7 +40,7 @@ public final class ShellResult {
     private final Type type;
     private final Object result;
 
-    ShellResult(Type type, Object result) {
+    ReplResult(Type type, Object result) {
         this.type = type;
         this.result = result;
     }

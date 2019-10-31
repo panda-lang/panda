@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.cli.shell;
+package org.panda_lang.panda.shell.repl;
 
 import org.panda_lang.framework.design.FrameworkController;
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
@@ -32,7 +32,7 @@ import org.panda_lang.framework.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.framework.language.runtime.PandaProcessStack;
 import org.panda_lang.framework.language.runtime.PandaProcessStackConstants;
-import org.panda_lang.panda.cli.shell.ShellResult.Type;
+import org.panda_lang.panda.shell.repl.ReplResult.Type;
 import org.panda_lang.utilities.commons.function.ThrowingFunction;
 
 import java.util.ArrayList;
@@ -41,9 +41,9 @@ import java.util.Collections;
 import java.util.function.Supplier;
 
 /**
- * Interactive shell
+ * Interactive shell - REPL (read-eval-print loop)
  */
-public final class Shell {
+public final class Repl {
 
     private final Context context;
     private final ExpressionParser expressionParser;
@@ -53,7 +53,7 @@ public final class Shell {
     private ProcessStack stack;
     private Frame instance;
 
-    Shell(Context context, ExpressionParser expressionParser, Supplier<Process> processSupplier, ThrowingFunction<ProcessStack, Object, Exception> instanceSupplier) throws Exception {
+    Repl(Context context, ExpressionParser expressionParser, Supplier<Process> processSupplier, ThrowingFunction<ProcessStack, Object, Exception> instanceSupplier) throws Exception {
         this.context = context;
         this.expressionParser = expressionParser;
         this.processSupplier = processSupplier;
@@ -62,7 +62,7 @@ public final class Shell {
     }
 
     /**
-     * Regenerate shell and cleanup cache
+     * Regenerate REPL and cleanup cache
      *
      * @throws Exception if something happen
      */
@@ -76,14 +76,14 @@ public final class Shell {
      * Evaluate the given source
      *
      * @param source the source to evaluate
-     * @return collection of shell results
+     * @return collection of repl results
      * @throws Exception if something happen
      */
-    public Collection<ShellResult> evaluate(String source) throws Exception {
+    public Collection<ReplResult> evaluate(String source) throws Exception {
         return source.startsWith("!!") ? Collections.singletonList(evaluateCommand(source)) : evaluateSource(source);
     }
 
-    private ShellResult evaluateCommand(String command) {
+    private ReplResult evaluateCommand(String command) {
         String content = command.substring(2).toLowerCase().trim();
         Object result = "-- " + content + System.lineSeparator();
 
@@ -100,12 +100,12 @@ public final class Shell {
             result += history.toString();
         }
 
-        return new ShellResult(Type.SHELL, result);
+        return new ReplResult(Type.SHELL, result);
     }
 
-    private Collection<ShellResult> evaluateSource(String source) throws Exception {
+    private Collection<ReplResult> evaluateSource(String source) throws Exception {
         Snippet[] expressions = PandaLexerUtils.convert(source).split(Separators.SEMICOLON);
-        Collection<ShellResult> collection = new ArrayList<>(expressions.length);
+        Collection<ReplResult> collection = new ArrayList<>(expressions.length);
 
         for (Snippet expressionSource : expressions) {
             collection.add(evaluateExpression(expressionSource));
@@ -115,7 +115,7 @@ public final class Shell {
         return collection;
     }
 
-    private ShellResult evaluateExpression(Snippet expressionSource) throws Exception {
+    private ReplResult evaluateExpression(Snippet expressionSource) throws Exception {
         context.withComponent(Components.CURRENT_SOURCE, expressionSource);
         Expression expression = expressionParser.parse(context, expressionSource).getExpression();
 
@@ -123,17 +123,17 @@ public final class Shell {
             return new Result<>(Status.RETURN, expression.evaluate(stack, instance));
         });
 
-        return new ShellResult(Type.PANDA, result != null ? result.getResult() : null);
+        return new ReplResult(Type.PANDA, result != null ? result.getResult() : null);
     }
 
     /**
-     * Initiate shell creator
+     * Initiate REPL creator
      *
      * @param frameworkController the framework controller that contains required resources
-     * @return a shell creator instance
+     * @return a REPL creator instance
      */
-    public static ShellCreator creator(FrameworkController frameworkController) {
-        return new ShellCreator(frameworkController);
+    public static ReplCreator creator(FrameworkController frameworkController) {
+        return new ReplCreator(frameworkController);
     }
 
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.cli.shell;
+package org.panda_lang.panda.shell.repl;
 
 import org.junit.jupiter.api.Test;
 import org.panda_lang.framework.PandaFramework;
@@ -26,20 +26,20 @@ import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
 
-class ShellTest {
+class ReplTest {
 
     @Test
     void test() throws Exception {
         PandaFactory pandaFactory = new PandaFactory();
         Panda panda = pandaFactory.createPanda();
 
-        Shell shell = Shell.creator(panda)
+        Repl repl = Repl.creator(panda)
                 .define(PandaMethod.builder()
                         .name("sqrt")
                         .parameters(new PandaPropertyParameter(0, JavaModule.DOUBLE, "i"))
                         .methodBody((stack, instance, arguments) -> Math.sqrt(((Number) arguments[0]).doubleValue()))
                         .returnType(JavaModule.DOUBLE)
-                        .location(new PandaClassSource(ShellTest.class).toLocation())
+                        .location(new PandaClassSource(ReplTest.class).toLocation())
                         .build())
                 .variable(new PandaVariableData(JavaModule.INT, "i"), 5)
                 .addVariableChangeListener((variable, previous, current) -> {
@@ -47,18 +47,18 @@ class ShellTest {
                 })
                 .create();
 
-        ShellUtils.print(shell.evaluate("i"));
-        ShellUtils.print(shell.evaluate("i = 4"));
+        ReplUtils.print(repl.evaluate("i"));
+        ReplUtils.print(repl.evaluate("i = 4"));
 
-        shell.regenerate();
-        ShellUtils.print(shell.evaluate("i"));
-        ShellUtils.print(shell.evaluate("String text = 'hello'; 'second expression'"));
+        repl.regenerate();
+        ReplUtils.print(repl.evaluate("i"));
+        ReplUtils.print(repl.evaluate("String text = 'hello'; 'second expression'"));
 
-        ShellUtils.print(shell.evaluate("!! vars"));
-        ShellUtils.print(shell.evaluate("!! source"));
+        ReplUtils.print(repl.evaluate("!! vars"));
+        ReplUtils.print(repl.evaluate("!! source"));
 
-        ShellUtils.print(shell.evaluate("Double double = 9.86960440109"));
-        ShellUtils.print(shell.evaluate("sqrt(double)"));
+        ReplUtils.print(repl.evaluate("Double double = 9.86960440109"));
+        ReplUtils.print(repl.evaluate("sqrt(double)"));
     }
 
 }

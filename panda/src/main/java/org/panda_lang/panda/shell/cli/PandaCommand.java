@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.cli;
+package org.panda_lang.panda.shell.cli;
 
 import org.panda_lang.framework.PandaFramework;
 import org.panda_lang.framework.design.architecture.Application;
@@ -31,8 +31,6 @@ import java.util.Optional;
 @Command(name = "panda", version = "Panda " + PandaConstants.VERSION)
 public final class PandaCommand implements Runnable {
 
-    private final PandaCLI cli;
-
     @Parameters(index = "0", paramLabel = "SCRIPT", description = "Script to load")
     private File script;
 
@@ -44,10 +42,6 @@ public final class PandaCommand implements Runnable {
 
     @Option(names = { "-l", "--level" }, description = "set level of logging", paramLabel="<level>")
     private String level;
-
-    public PandaCommand(PandaCLI cli) {
-        this.cli = cli;
-    }
 
     @Override
     public void run() {

@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.cli;
+package org.panda_lang.panda.shell.repl;
 
-import picocli.CommandLine;
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.architecture.statement.Variable;
 
-public final class PandaCLI {
+public interface ReplVariableChangeListener {
 
-    public void run(String... args) {
-        PandaCommand command = CommandLine.populateCommand(new PandaCommand(this), args);
-        command.run();
-    }
+    void onChange(Variable variable, @Nullable Object previous, @Nullable Object current);
 
 }
