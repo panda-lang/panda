@@ -30,11 +30,12 @@ import java.util.Collection;
 public final class ParsersPandaBootstrap implements PandaBootstrapElement {
 
     private final PandaBootstrap bootstrap;
-    private final RegistrableParsersLoader registrationLoader = new RegistrableParsersLoader();
+    private final RegistrableParsersLoader registrationLoader;
     private final Collection<ExpressionSubparser> expressionSubparsers = new ArrayList<>();
 
     public ParsersPandaBootstrap(PandaBootstrap bootstrap) {
         this.bootstrap = bootstrap;
+        this.registrationLoader = new RegistrableParsersLoader(bootstrap.logger);
     }
 
     @SafeVarargs

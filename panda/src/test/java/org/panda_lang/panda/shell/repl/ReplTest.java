@@ -17,21 +17,21 @@
 package org.panda_lang.panda.shell.repl;
 
 import org.junit.jupiter.api.Test;
-import org.panda_lang.framework.PandaFramework;
-import org.panda_lang.framework.language.architecture.prototype.PandaPropertyParameter;
 import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
+import org.panda_lang.framework.language.architecture.prototype.PandaPropertyParameter;
 import org.panda_lang.framework.language.architecture.statement.PandaVariableData;
 import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
 import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
+import org.slf4j.LoggerFactory;
 
 class ReplTest {
 
     @Test
     void test() throws Exception {
         PandaFactory pandaFactory = new PandaFactory();
-        Panda panda = pandaFactory.createPanda();
+        Panda panda = pandaFactory.createPanda(LoggerFactory.getLogger(ReplTest.class));
 
         Repl repl = Repl.creator(panda)
                 .define(PandaMethod.builder()
@@ -43,22 +43,22 @@ class ReplTest {
                         .build())
                 .variable(new PandaVariableData(JavaModule.INT, "i"), 5)
                 .addVariableChangeListener((variable, previous, current) -> {
-                    PandaFramework.getLogger().debug("// variable change :: " + variable.getName() + " = " + previous + " -> " + current);
+                    panda.getLogger().debug("// variable change :: " + variable.getName() + " = " + previous + " -> " + current);
                 })
                 .create();
 
-        ReplUtils.print(repl.evaluate("i"));
-        ReplUtils.print(repl.evaluate("i = 4"));
+        ReplUtils.print(panda, repl.evaluate("i"));
+        ReplUtils.print(panda, repl.evaluate("i = 4"));
 
         repl.regenerate();
-        ReplUtils.print(repl.evaluate("i"));
-        ReplUtils.print(repl.evaluate("String text = 'hello'; 'second expression'"));
+        ReplUtils.print(panda, repl.evaluate("i"));
+        ReplUtils.print(panda, repl.evaluate("String text = 'hello'; 'second expression'"));
 
-        ReplUtils.print(repl.evaluate("!! vars"));
-        ReplUtils.print(repl.evaluate("!! source"));
+        ReplUtils.print(panda, repl.evaluate("!! vars"));
+        ReplUtils.print(panda, repl.evaluate("!! source"));
 
-        ReplUtils.print(repl.evaluate("Double double = 9.86960440109"));
-        ReplUtils.print(repl.evaluate("sqrt(double)"));
+        ReplUtils.print(panda, repl.evaluate("Double double = 9.86960440109"));
+        ReplUtils.print(panda, repl.evaluate("sqrt(double)"));
     }
 
 }

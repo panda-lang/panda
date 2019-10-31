@@ -16,20 +16,67 @@
 
 package org.panda_lang.framework;
 
+import org.panda_lang.framework.design.resource.Language;
+import org.panda_lang.framework.design.resource.Resources;
 import org.slf4j.Logger;
 
-public final class PandaFramework {
+public abstract class PandaFramework implements FrameworkController {
 
-    private PandaFramework() { }
+    private final Language language;
+    private final Resources resources;
+    private final Logger logger;
+
+    protected PandaFramework(Logger logger, Language language, Resources resources) {
+        if (logger == null) {
+            throw new IllegalArgumentException("Missing logger");
+        }
+
+        if (language == null) {
+            throw new IllegalArgumentException("Missing language");
+        }
+
+        if (resources == null) {
+            throw new IllegalArgumentException("Missing resources");
+        }
+
+        this.language = language;
+        this.resources = resources;
+        this.logger = logger;
+    }
 
     /**
-     * Get logger used by the framework.
-     * See {@link PandaFrameworkLogger} to change logger instance.
+     * Get resources used by this Panda instance
      *
-     * @return the current logger
+     * @return the panda resources
      */
-    public static Logger getLogger() {
-        return PandaFrameworkLogger.PANDA_FRAMEWORK_LOGGER;
+    @Override
+    public Resources getResources() {
+        return resources;
+    }
+
+    /**
+     * Get language used by this Panda instance
+     *
+     * @return the panda language
+     */
+    @Override
+    public Language getLanguage() {
+        return language;
+    }
+
+    /**
+     * Get current version of Panda
+     *
+     * @return the current version
+     */
+    @Override
+    public String getVersion() {
+        return PandaFrameworkConstants.VERSION;
+    }
+
+    @Override
+    public Logger getLogger() {
+        return logger;
     }
 
 }

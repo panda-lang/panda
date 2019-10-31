@@ -52,7 +52,7 @@ public final class ApplicationParser implements Parser {
 
     public PandaApplication parse(Source source) {
         Environment environment = interpretation.getEnvironment();
-        Resources resources = environment.getResources();
+        Resources resources = environment.getController().getResources();
 
         PandaApplication application = new PandaApplication(environment);
         ModuleLoader loader = new PandaModuleLoader(environment.getModulePath());

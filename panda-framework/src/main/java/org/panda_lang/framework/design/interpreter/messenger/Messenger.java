@@ -16,7 +16,12 @@
 
 package org.panda_lang.framework.design.interpreter.messenger;
 
-public interface Messenger {
+import org.slf4j.Logger;
+
+/**
+ * Logging center
+ */
+public interface Messenger extends LoggerHolder {
 
     /**
      * Send object through the messenger
@@ -64,5 +69,13 @@ public interface Messenger {
      * @return the formatter instance
      */
     MessengerFormatter getMessengerFormatter();
+
+    /**
+     * Get assigned to messenger logger
+     *
+     * @return the assigned logger
+     */
+    @Override
+    Logger getLogger();
 
 }

@@ -21,11 +21,11 @@ import org.panda_lang.framework.design.interpreter.messenger.MessengerMessage;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerOutputListener;
 import org.slf4j.Logger;
 
-final class PandaMessengerOutputListener implements MessengerOutputListener {
+public final class LoggerMessengerOutputListener implements MessengerOutputListener {
 
     private final Logger logger;
 
-    PandaMessengerOutputListener(Logger logger) {
+    public LoggerMessengerOutputListener(Logger logger) {
         this.logger = logger;
     }
 

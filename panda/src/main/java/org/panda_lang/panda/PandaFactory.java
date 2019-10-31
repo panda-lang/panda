@@ -34,11 +34,12 @@ import org.panda_lang.panda.language.interpreter.messenger.mappers.StacktraceMap
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.PandaParsers;
 import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.assignation.AssignationParsers;
+import org.slf4j.Logger;
 
 public final class PandaFactory {
 
-    public Panda createPanda() {
-        return PandaBootstrap.initializeBootstrap()
+    public Panda createPanda(Logger logger) {
+        return PandaBootstrap.initializeBootstrap(logger)
                 // load syntax
                 .withSyntax(new PandaSyntax())
 

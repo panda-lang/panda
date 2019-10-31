@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.shell;
+package org.panda_lang.framework.design.interpreter.messenger;
 
-import org.junit.jupiter.api.Test;
-import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
-final class PandaShellTest {
+/**
+ * Logger container
+ */
+@FunctionalInterface
+public interface LoggerHolder {
 
-    private static final PandaShell SHELL = new PandaShell(LoggerFactory.getLogger(PandaShellTest.class));
-
-    @Test
-    void testLevel() {
-        SHELL.invoke("--level=info", "../examples/tests/current_test.panda");
-    }
+    /**
+     * Get assigned logger
+     *
+     * @return the logger
+     */
+    Logger getLogger();
 
 }

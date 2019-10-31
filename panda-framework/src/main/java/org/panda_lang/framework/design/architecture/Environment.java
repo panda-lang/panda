@@ -16,21 +16,15 @@
 
 package org.panda_lang.framework.design.architecture;
 
+import org.panda_lang.framework.FrameworkController;
 import org.panda_lang.framework.design.architecture.module.ModulePath;
 import org.panda_lang.framework.design.interpreter.Interpreter;
+import org.panda_lang.framework.design.interpreter.messenger.LoggerHolder;
 import org.panda_lang.framework.design.interpreter.messenger.Messenger;
-import org.panda_lang.framework.design.resource.Resources;
 
 import java.io.File;
 
-public interface Environment {
-
-    /**
-     * Get module path of environment
-     *
-     * @return the module path
-     */
-    ModulePath getModulePath();
+public interface Environment extends LoggerHolder {
 
     /**
      * Get interpreter of environment
@@ -40,6 +34,13 @@ public interface Environment {
     Interpreter getInterpreter();
 
     /**
+     * Get module path of environment
+     *
+     * @return the module path
+     */
+    ModulePath getModulePath();
+
+    /**
      * Get the environment messenger
      *
      * @return the messenger
@@ -47,17 +48,17 @@ public interface Environment {
     Messenger getMessenger();
 
     /**
-     * Get resources assigned to the environment
-     *
-     * @return the resources
-     */
-    Resources getResources();
-
-    /**
      * Get working directory
      *
      * @return the working directory
      */
     File getDirectory();
+
+    /**
+     * Get framework controller
+     *
+     * @return the controller
+     */
+    FrameworkController getController();
 
 }

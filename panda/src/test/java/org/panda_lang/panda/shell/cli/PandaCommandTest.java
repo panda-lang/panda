@@ -17,9 +17,13 @@
 package org.panda_lang.panda.shell.cli;
 
 import org.junit.jupiter.api.Test;
+import org.panda_lang.panda.shell.PandaShell;
+import org.slf4j.LoggerFactory;
 import picocli.CommandLine;
 
 final class PandaCommandTest {
+
+    private static final PandaShell SHELL = new PandaShell(LoggerFactory.getLogger(PandaCommandTest.class));
 
     @Test
     void help() {
@@ -32,7 +36,7 @@ final class PandaCommandTest {
     }
 
     private void invoke(String args) {
-        CommandLine.populateCommand(new PandaCommand(), args).run();
+        CommandLine.populateCommand(new PandaCommand(SHELL), args).run();
     }
 
 }

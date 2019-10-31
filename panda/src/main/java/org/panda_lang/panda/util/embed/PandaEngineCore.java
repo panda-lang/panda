@@ -18,15 +18,18 @@ package org.panda_lang.panda.util.embed;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 final class PandaEngineCore {
 
+    private final Logger logger = LoggerFactory.getLogger(PandaEngineCore.class);
     private Panda panda;
 
     protected Panda getPanda() {
         if (panda == null) {
             PandaFactory pandaFactory = new PandaFactory();
-            this.panda = pandaFactory.createPanda();
+            this.panda = pandaFactory.createPanda(logger);
         }
 
         return panda;

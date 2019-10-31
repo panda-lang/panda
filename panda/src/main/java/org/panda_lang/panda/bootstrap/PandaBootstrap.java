@@ -16,18 +16,23 @@
 
 package org.panda_lang.panda.bootstrap;
 
-import org.panda_lang.panda.Panda;
 import org.panda_lang.framework.design.resource.Syntax;
 import org.panda_lang.framework.language.resource.PandaLanguage;
 import org.panda_lang.framework.language.resource.PandaResources;
+import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.Panda.PandaBuilder;
+import org.slf4j.Logger;
 
 public final class PandaBootstrap {
 
-    protected final Panda.PandaBuilder panda = Panda.PandaBuilder.builder();
+    protected final Logger logger;
+    protected final PandaBuilder panda = Panda.builder();
     protected final PandaLanguage.PandaLanguageBuilder language = PandaLanguage.builder();
     protected final PandaResources.PandaResourcesBuilder resources = PandaResources.builder();
 
-    private PandaBootstrap() { }
+    private PandaBootstrap(Logger logger) {
+        this.logger = logger;
+    }
 
     public PandaBootstrap withSyntax(Syntax syntax) {
         this.language.withSyntax(syntax);
@@ -48,13 +53,14 @@ public final class PandaBootstrap {
 
     public Panda get() {
         return panda
+                .withLogger(logger)
                 .withLanguage(language.build())
                 .withResources(resources.build())
                 .build();
     }
 
-    public static PandaBootstrap initializeBootstrap() {
-        return new PandaBootstrap();
+    public static PandaBootstrap initializeBootstrap(Logger logger) {
+        return new PandaBootstrap(logger);
     }
 
 }

@@ -16,106 +16,77 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.framework.design.FrameworkController;
+import org.panda_lang.framework.FrameworkController;
+import org.panda_lang.framework.PandaFramework;
 import org.panda_lang.framework.design.resource.Language;
 import org.panda_lang.framework.design.resource.Resources;
-import org.panda_lang.framework.language.resource.PandaLanguage;
-import org.panda_lang.framework.language.resource.PandaResources;
 import org.panda_lang.panda.language.interpreter.PandaFileLoader;
-import org.panda_lang.panda.util.embed.PandaEngineFactoryConstants;
+import org.slf4j.Logger;
 
 /**
  * The framework controller of Panda language.
  *
  * @see org.panda_lang.panda.Panda.PandaBuilder
- *
  */
-public final class Panda implements FrameworkController {
+public final class Panda extends PandaFramework implements FrameworkController {
 
-    private final Language language;
-    private final Resources resources;
-    private final PandaFileLoader loader;
+    private final PandaFileLoader loader = new PandaFileLoader(this);
 
     private Panda(PandaBuilder builder) {
-        if (builder.language == null) {
-            throw new IllegalArgumentException("Language has to be defined");
-        }
-
-        if (builder.resources == null) {
-            throw new IllegalArgumentException("Pipeline path has to be defined");
-        }
-
-        this.language = builder.language;
-        this.resources = builder.resources;
-        this.loader = new PandaFileLoader(this);
+        super(builder.logger, builder.language, builder.resources);
     }
 
     /**
      * Get loader used to load applications
      *
-     * @return the panda loader
+     * @return the panda file loader
      */
     public PandaFileLoader getLoader() {
         return loader;
     }
 
     /**
-     * Get resources used by this Panda instance
+     * Create instance of panda builder
      *
-     * @return the panda resources
+     * @return the builder instance
      */
-    @Override
-    public Resources getResources() {
-        return resources;
-    }
-
-    /**
-     * Get language used by this Panda instance
-     *
-     * @return the panda language
-     */
-    @Override
-    public Language getLanguage() {
-        return language;
-    }
-
-    /**
-     * Get current version of Panda
-     *
-     * @return the current version
-     */
-    @Override
-    public String getVersion() {
-        return PandaEngineFactoryConstants.VERSION;
-    }
-
     public static PandaBuilder builder() {
         return new PandaBuilder();
     }
 
+    /**
+     * Utility builder
+     */
     public static class PandaBuilder {
 
-        protected PandaLanguage language;
-        protected PandaResources resources;
+        protected Language language;
+        protected Resources resources;
+        protected Logger logger;
 
         private PandaBuilder() { }
 
-        public PandaBuilder withLanguage(PandaLanguage language) {
+        public PandaBuilder withLanguage(Language language) {
             this.language = language;
             return this;
         }
 
-        public PandaBuilder withResources(PandaResources resources) {
+        public PandaBuilder withResources(Resources resources) {
             this.resources = resources;
             return this;
         }
 
-        public Panda build() {
-            return new Panda(this);
+        public PandaBuilder withLogger(Logger logger) {
+            this.logger = logger;
+            return this;
         }
 
-        public static PandaBuilder builder() {
-            return new PandaBuilder();
+        /**
+         * Create Panda instance based on the specified in builder values
+         *
+         * @return a new panda instance
+         */
+        public Panda build() {
+            return new Panda(this);
         }
 
     }

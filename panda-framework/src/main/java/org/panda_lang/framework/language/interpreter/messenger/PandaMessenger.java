@@ -16,7 +16,6 @@
 
 package org.panda_lang.framework.language.interpreter.messenger;
 
-import org.panda_lang.framework.PandaFramework;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.interpreter.messenger.Messenger;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerFormatter;
@@ -25,15 +24,22 @@ import org.panda_lang.framework.design.interpreter.messenger.MessengerMessage;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerMessageTranslator;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerOutputListener;
 import org.panda_lang.utilities.commons.iterable.ReversedIterable;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PandaMessenger implements Messenger {
 
+    private final Logger logger;
     private final MessengerFormatter formatter = new PandaMessengerFormatter(this);
     private final List<MessengerMessageTranslator> translators = new ArrayList<>();
-    private MessengerOutputListener outputListener = new PandaMessengerOutputListener(PandaFramework.getLogger());
+    private MessengerOutputListener outputListener;
+
+    public PandaMessenger(Logger logger) {
+        this.logger = logger;
+        this.outputListener = new LoggerMessengerOutputListener(logger);
+    }
 
     @Override
     @SuppressWarnings("unchecked")
@@ -85,6 +91,11 @@ public class PandaMessenger implements Messenger {
     @Override
     public MessengerFormatter getMessengerFormatter() {
         return formatter;
+    }
+
+    @Override
+    public Logger getLogger() {
+        return logger;
     }
 
 }

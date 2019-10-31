@@ -17,13 +17,14 @@
 package org.panda_lang.panda.examples;
 
 import org.junit.jupiter.api.Assertions;
-import org.panda_lang.framework.PandaFramework;
-import org.panda_lang.framework.PandaFrameworkLogger;
 import org.panda_lang.framework.design.architecture.Application;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.bootstrap.PandaApplicationBootstrap;
+import org.panda_lang.panda.util.PandaUtils;
 import org.panda_lang.utilities.commons.TimeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
@@ -38,7 +39,7 @@ public final class Launcher {
 
     public static void launch(Application application) {
         Assertions.assertDoesNotThrow(() -> {
-            PandaFramework.getLogger().debug("[PandaApp] Launching application...");
+            application.getLogger().debug("[PandaApp] Launching application...");
             long initTime = System.nanoTime();
 
             Object result = application.launch();
@@ -47,19 +48,20 @@ public final class Launcher {
             String uptimeValue = " (" + TimeUtils.toMilliseconds(uptime) + ")";
 
             if (result instanceof Integer) {
-                PandaFramework.getLogger().debug("[PandaApp] Done, process finished with exit code " + result + uptimeValue);
+                application.getLogger().debug("[PandaApp] Done, process finished with exit code " + result + uptimeValue);
                 return;
             }
 
-            PandaFramework.getLogger().debug("[PandaApp] Done" + uptimeValue);
+            application.getLogger().debug("[PandaApp] Done" + uptimeValue);
         });
     }
 
     public static Application interpret(String directory, String file) {
-        PandaFrameworkLogger.printJVMUptime();
+        Logger logger = LoggerFactory.getLogger(Launcher.class);
+        PandaUtils.printJVMUptime(() -> logger);
 
         PandaFactory factory = new PandaFactory();
-        Panda panda = factory.createPanda();
+        Panda panda = factory.createPanda(logger);
 
         Optional<Application> application = new PandaApplicationBootstrap(panda)
                 .workingDirectory("../examples/" + directory)

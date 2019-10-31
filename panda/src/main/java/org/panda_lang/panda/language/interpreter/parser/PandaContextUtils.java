@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parser;
 
-import org.panda_lang.framework.design.FrameworkController;
+import org.panda_lang.framework.FrameworkController;
 import org.panda_lang.framework.design.architecture.module.Imports;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.module.ModulePath;

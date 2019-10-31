@@ -39,7 +39,7 @@ final class Run {
         File mainScript = new File(document.getDocument().getParentFile(), Objects.requireNonNull(document.getMainScript()));
 
         PandaFactory factory = new PandaFactory();
-        Panda panda = factory.createPanda();
+        Panda panda = factory.createPanda(manager.getMessenger().getLogger());
 
         PandaEnvironment environment = new PandaEnvironment(panda, manager.getWorkingDirectory());
         environment.initialize();

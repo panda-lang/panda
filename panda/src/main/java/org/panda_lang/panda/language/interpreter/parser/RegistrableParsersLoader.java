@@ -16,22 +16,28 @@
 
 package org.panda_lang.panda.language.interpreter.parser;
 
-import org.panda_lang.panda.PandaException;
-import org.panda_lang.framework.PandaFramework;
 import org.panda_lang.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.parser.ParserRepresentation;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaParserRepresentation;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaPipelinePath;
+import org.panda_lang.panda.PandaException;
 import org.panda_lang.utilities.annotations.AnnotationsScannerProcess;
+import org.slf4j.Logger;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
 
 public final class RegistrableParsersLoader {
+
+    private final Logger logger;
+
+    public RegistrableParsersLoader(Logger logger) {
+        this.logger = logger;
+    }
 
     public PipelinePath load(AnnotationsScannerProcess scannerProcess) {
         return load(new PandaPipelinePath(), scannerProcess);
@@ -43,8 +49,8 @@ public final class RegistrableParsersLoader {
 
     @SuppressWarnings("unchecked")
     private PipelinePath loadPipelines(PipelinePath path, AnnotationsScannerProcess scannerProcess) {
-        PandaFramework.getLogger().debug("");
-        PandaFramework.getLogger().debug("--- Loading pipelines ");
+        logger.debug("");
+        logger.debug("--- Loading pipelines ");
 
         Collection<Class<? extends Parser>> loaded = scannerProcess.createSelector()
                 .selectTypesAnnotatedWith(RegistrableParser.class)
@@ -54,14 +60,14 @@ public final class RegistrableParsersLoader {
                         return true;
                     }
 
-                    PandaFramework.getLogger().error(clazz + " is annotated with ParserRegistration and does not implement Parser");
+                    logger.error(clazz + " is annotated with ParserRegistration and does not implement Parser");
                     return true;
                 })
                 .map(clazz -> (Class<? extends Parser>) clazz)
                 .collect(Collectors.toList());
 
         loadParsers(path, loaded);
-        PandaFramework.getLogger().debug("");
+        logger.debug("");
 
         return path;
     }
@@ -90,7 +96,7 @@ public final class RegistrableParsersLoader {
                 PipelineComponent<Parser> component = PipelineComponent.get(target);
 
                 if (component == null) {
-                    PandaFramework.getLogger().warn("Pipeline '" + target + "' does not exist or its component was not initialized");
+                    logger.warn("Pipeline '" + target + "' does not exist or its component was not initialized");
                     continue;
                 }
 

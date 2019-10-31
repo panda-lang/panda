@@ -20,6 +20,9 @@ public final class LoggingUtils {
 
     private LoggingUtils() { }
 
+    /**
+     * Set system property `log4j.skipJansi` to true
+     */
     public static void skipJansi() {
         System.setProperty("log4j.skipJansi", "true");
     }

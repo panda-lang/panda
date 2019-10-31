@@ -16,13 +16,11 @@
 
 package org.panda_lang.framework.language.interpreter.pattern.descriptive.extractor;
 
-import org.panda_lang.framework.PandaFramework;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.language.interpreter.pattern.descriptive.DescriptivePattern;
-import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
+import org.panda_lang.framework.language.interpreter.pattern.descriptive.DescriptivePattern;
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.utils.TokenDistributor;
-import org.panda_lang.utilities.commons.TimeUtils;
+import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -96,14 +94,6 @@ public class ExtractorWorker {
         }
 
         return new ExtractorResult("Unknown element: " + element);
-    }
-
-    public static void printTimeMap() {
-        for (Map.Entry<String, Long> entry : ExtractorWorker.timeMap.entrySet()) {
-            PandaFramework.getLogger().debug("  " + entry.getKey() + ": " + TimeUtils.toMilliseconds(entry.getValue()));
-        }
-
-        PandaFramework.getLogger().debug("");
     }
 
 }

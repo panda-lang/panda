@@ -18,11 +18,12 @@ package org.panda_lang.framework.language.interpreter.lexer;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.framework.design.interpreter.source.Source;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.source.PandaSource;
+import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.PandaFactory;
+import org.slf4j.LoggerFactory;
 
 class FileBasedLexerTest {
 
@@ -31,7 +32,7 @@ class FileBasedLexerTest {
     @Test
     public void testLexer() {
         PandaFactory pandaFactory = new PandaFactory();
-        Panda panda = pandaFactory.createPanda();
+        Panda panda = pandaFactory.createPanda(LoggerFactory.getLogger(FileBasedLexerTest.class));
 
         Snippet snippet = PandaLexer.of(panda.getLanguage().getSyntax())
                 .build()

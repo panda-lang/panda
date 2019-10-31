@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design;
+package org.panda_lang.framework;
 
+import org.panda_lang.framework.design.interpreter.messenger.LoggerHolder;
 import org.panda_lang.framework.design.resource.Language;
 import org.panda_lang.framework.design.resource.Resources;
+import org.slf4j.Logger;
 
 /**
  * Panda Framework controller
  */
-public interface FrameworkController {
+public interface FrameworkController extends LoggerHolder {
 
     /**
      * Get resources used by framework controller
@@ -44,5 +46,13 @@ public interface FrameworkController {
      * @return the current version
      */
     String getVersion();
+
+    /**
+     * Get logger used by the framework
+     *
+     * @return the current logger
+     */
+    @Override
+    Logger getLogger();
 
 }

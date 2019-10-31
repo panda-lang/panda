@@ -17,8 +17,9 @@
 package org.panda_lang.framework.design.architecture;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.interpreter.messenger.LoggerHolder;
 
-public interface Application {
+public interface Application extends LoggerHolder {
 
     /**
      * Launch application with a specified arguments

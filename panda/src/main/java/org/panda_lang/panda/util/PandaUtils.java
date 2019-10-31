@@ -16,6 +16,9 @@
 
 package org.panda_lang.panda.util;
 
+import org.panda_lang.framework.design.interpreter.messenger.LoggerHolder;
+import org.panda_lang.utilities.commons.TimeUtils;
+
 import java.util.Map;
 
 public final class PandaUtils {
@@ -24,6 +27,16 @@ public final class PandaUtils {
 
     public static <T> T eval(Map<String, Object> context, String expression) {
         return null;
+    }
+
+    /**
+     * Print current JVM startup time.
+     * The method should be called as fast as it is possible.
+     */
+    public static void printJVMUptime(LoggerHolder loggerHolder) {
+        loggerHolder.getLogger().debug("");
+        loggerHolder.getLogger().debug("JVM launch time: " + TimeUtils.getJVMUptime() + "ms (｡•́︿•̀｡)");
+        loggerHolder.getLogger().debug("");
     }
 
 }

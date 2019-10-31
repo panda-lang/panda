@@ -17,19 +17,20 @@
 package org.panda_lang.panda.pmm;
 
 import org.junit.jupiter.api.Test;
-import org.panda_lang.framework.PandaFrameworkLogger;
 import org.panda_lang.framework.language.interpreter.messenger.PandaMessenger;
+import org.panda_lang.panda.util.PandaUtils;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
 class PandaModulesManagerTest {
 
     private static final File DIRECTORY = new File("../examples/pmm/");
-    private static final PandaModulesManager MANAGER = new PandaModulesManager(new PandaMessenger(), DIRECTORY);
+    private static final PandaModulesManager MANAGER = new PandaModulesManager(new PandaMessenger(LoggerFactory.getLogger(PandaModulesManagerTest.class)), DIRECTORY);
 
     @Test
     void test() throws Exception {
-        PandaFrameworkLogger.printJVMUptime();
+        PandaUtils.printJVMUptime(MANAGER.getMessenger());
         File document = new File(DIRECTORY, "panda.hjson");
 
         MANAGER.install(document);
