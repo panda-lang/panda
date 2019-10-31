@@ -20,11 +20,11 @@ import org.junit.jupiter.api.Test;
 
 final class PandaShellTest {
 
-    private static final PandaShell CLI = new PandaShell();
+    private static final PandaShell SHELL = new PandaShell();
 
     @Test
     void testLevel() {
-        CLI.run("--level=info", "../examples/tests/current_test.panda");
+        SHELL.invoke("--level=info", "../examples/tests/current_test.panda");
     }
 
 }
