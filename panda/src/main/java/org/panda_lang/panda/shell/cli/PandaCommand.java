@@ -16,10 +16,11 @@
 
 package org.panda_lang.panda.shell.cli;
 
-import org.panda_lang.framework.PandaFramework;
 import org.panda_lang.framework.design.architecture.Application;
+import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaConstants;
 import org.panda_lang.panda.PandaFactory;
+import org.panda_lang.panda.shell.PandaShell;
 import org.tinylog.configuration.Configuration;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -32,6 +33,8 @@ import java.util.Optional;
 @Command(name = "panda", version = "Panda " + PandaConstants.VERSION)
 public final class PandaCommand implements Runnable {
 
+    private final PandaShell shell;
+
     @Parameters(index = "0", paramLabel = "<script>", description = "script to load")
     private File script;
 
@@ -43,6 +46,10 @@ public final class PandaCommand implements Runnable {
 
     @Option(names = { "--level", "-L" }, description = "set level of logging", paramLabel="<level>")
     private String level;
+
+    public PandaCommand(PandaShell shell) {
+        this.shell = shell;
+    }
 
     @Override
     public void run() {
@@ -64,12 +71,11 @@ public final class PandaCommand implements Runnable {
             return;
         }
 
-        Optional<Application> application = new PandaFactory()
-                .createPanda().getLoader()
-                .load(script, script.getParentFile());
+        Panda panda = new PandaFactory().createPanda(shell.getLogger());
+        Optional<Application> application = panda.getLoader().load(script, script.getParentFile());
 
         if (!application.isPresent()) {
-            PandaFramework.getLogger().error("Cannot load application");
+            shell.getLogger().error("Cannot load application");
             return;
         }
 

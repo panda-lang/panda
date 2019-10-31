@@ -16,43 +16,43 @@
 
 package org.panda_lang.panda.language.architecture;
 
+import org.panda_lang.framework.FrameworkController;
 import org.panda_lang.framework.design.architecture.Environment;
 import org.panda_lang.framework.design.architecture.module.ModulePath;
 import org.panda_lang.framework.design.interpreter.messenger.Messenger;
-import org.panda_lang.framework.design.resource.Resources;
 import org.panda_lang.framework.language.architecture.module.PandaModulePath;
 import org.panda_lang.framework.language.interpreter.messenger.PandaMessenger;
-import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaException;
 import org.panda_lang.panda.language.interpreter.PandaInterpreter;
 import org.panda_lang.panda.language.resource.ResourcesLoader;
+import org.slf4j.Logger;
 
 import java.io.File;
 
 public class PandaEnvironment implements Environment {
 
-    private final Panda panda;
+    private final FrameworkController controller;
     private final File workingDirectory;
     private final Messenger messenger;
     private final ModulePath modulePath;
     private PandaInterpreter interpreter;
 
-    public PandaEnvironment(Panda panda, File workingDirectory) {
-        this.panda = panda;
+    public PandaEnvironment(FrameworkController controller, File workingDirectory) {
+        this.controller = controller;
         this.workingDirectory = workingDirectory;
-        this.messenger = new PandaMessenger();
+        this.messenger = new PandaMessenger(controller.getLogger());
         this.modulePath = new PandaModulePath();
     }
 
     public void initialize() {
-        this.getResources().getMessengerInitializer().onInitialize(messenger);
+        controller.getResources().getMessengerInitializer().onInitialize(messenger);
 
         ResourcesLoader loader = new ResourcesLoader();
         loader.load(modulePath);
 
         this.interpreter = PandaInterpreter.builder()
                 .environment(this)
-                .elements(panda.getLanguage())
+                .elements(controller.getLanguage())
                 .build();
     }
 
@@ -66,6 +66,11 @@ public class PandaEnvironment implements Environment {
     }
 
     @Override
+    public Logger getLogger() {
+        return getController().getLogger();
+    }
+
+    @Override
     public ModulePath getModulePath() {
         return modulePath;
     }
@@ -76,17 +81,13 @@ public class PandaEnvironment implements Environment {
     }
 
     @Override
-    public Resources getResources() {
-        return panda.getResources();
-    }
-
-    @Override
     public File getDirectory() {
         return workingDirectory;
     }
 
-    public Panda getPanda() {
-        return panda;
+    @Override
+    public FrameworkController getController() {
+        return controller;
     }
 
 }

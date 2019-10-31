@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.shell.repl;
 
-import org.panda_lang.framework.PandaFramework;
+import org.panda_lang.framework.design.interpreter.messenger.LoggerHolder;
 
 import java.util.Collection;
 
@@ -29,12 +29,12 @@ public final class ReplUtils {
      *
      * @param results the results to print
      */
-    public static void print(Collection<ReplResult> results) {
+    public static void print(LoggerHolder logger, Collection<ReplResult> results) {
         for (ReplResult result : results) {
             String[] lines = result.toString().split(System.lineSeparator());
 
             for (String line : lines) {
-                PandaFramework.getLogger().info(line);
+                logger.getLogger().info(line);
             }
         }
     }

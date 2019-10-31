@@ -17,13 +17,24 @@
 package org.panda_lang.panda.shell;
 
 import org.panda_lang.panda.shell.cli.PandaCommand;
+import org.slf4j.Logger;
 import picocli.CommandLine;
 
 public final class PandaShell {
 
+    private Logger logger;
+
+    public PandaShell(Logger logger) {
+        this.logger = logger;
+    }
+
     public void invoke(String... args) {
-        PandaCommand command = CommandLine.populateCommand(new PandaCommand(), args);
+        PandaCommand command = CommandLine.populateCommand(new PandaCommand(this), args);
         command.run();
+    }
+
+    public Logger getLogger() {
+        return logger;
     }
 
 }

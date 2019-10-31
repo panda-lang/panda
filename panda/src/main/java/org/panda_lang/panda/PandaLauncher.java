@@ -18,13 +18,14 @@ package org.panda_lang.panda;
 
 import org.panda_lang.panda.shell.PandaShell;
 import org.panda_lang.utilities.commons.ArrayUtils;
+import org.slf4j.LoggerFactory;
 
 public final class PandaLauncher {
 
     private PandaLauncher() { }
 
     public static void main(String... args) {
-        PandaShell cli = new PandaShell();
+        PandaShell cli = new PandaShell(LoggerFactory.getLogger(PandaLauncher.class));
 
         if (ArrayUtils.isEmpty(args)) {
             args = new String[]{ "--help" };
