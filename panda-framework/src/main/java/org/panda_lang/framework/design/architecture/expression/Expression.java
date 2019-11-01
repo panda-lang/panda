@@ -18,6 +18,9 @@ package org.panda_lang.framework.design.architecture.expression;
 
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 
+/**
+ * Represents dynamic values
+ */
 public interface Expression extends ExpressionEvaluator {
 
     /**

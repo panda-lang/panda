@@ -42,7 +42,7 @@ public final class BaseConstructor extends AbstractExecutableStatement {
 
     @Override
     public @Nullable Object execute(ProcessStack stack, Object instance) throws Exception {
-        return constructor.invoke(stack, instance, ExpressionUtils.getValues(stack, instance, arguments));
+        return constructor.invoke(stack, instance, ExpressionUtils.evaluate(stack, instance, arguments));
     }
 
 }

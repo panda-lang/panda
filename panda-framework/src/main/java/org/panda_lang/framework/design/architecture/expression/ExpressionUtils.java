@@ -23,7 +23,14 @@ public final class ExpressionUtils {
 
     private ExpressionUtils() { }
 
-    public static <T> T evaluateStaticExpression(Expression expression) {
+    /**
+     * Evaluates static expression (constexpr) - expression that does not relay on stack and instance
+     *
+     * @param expression the expression to evaluate
+     * @param <T> generic type of result
+     * @return expression value
+     */
+    public static <T> T evaluateConstExpression(Expression expression) {
         try {
             return expression.evaluate(null, null);
         } catch (Exception e) {
@@ -31,7 +38,16 @@ public final class ExpressionUtils {
         }
     }
 
-    public static Object[] getValues(ProcessStack stack, Object instance, Expression... expressions) throws Exception {
+    /**
+     * Evaluates the given expressions and returns values stored in the array in the preserved order
+     *
+     * @param stack the stack to use
+     * @param instance the instance to use
+     * @param expressions the expressions to evaluate
+     * @return array of values
+     * @throws Exception if something happen
+     */
+    public static Object[] evaluate(ProcessStack stack, Object instance, Expression... expressions) throws Exception {
         Object[] values = new Object[expressions.length];
 
         for (int index = 0; index < values.length; index++) {

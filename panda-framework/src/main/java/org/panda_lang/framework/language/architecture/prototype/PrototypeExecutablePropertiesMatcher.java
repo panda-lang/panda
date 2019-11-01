@@ -144,7 +144,7 @@ final class PrototypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
                 @Override
                 @SuppressWarnings("unchecked")
                 public Object evaluate(ProcessStack stack, Object instance) throws Exception {
-                    return ExpressionUtils.getValues(stack, instance, expressionsArray);
+                    return ExpressionUtils.evaluate(stack, instance, expressionsArray);
                 }
             }.toExpression();
         }
