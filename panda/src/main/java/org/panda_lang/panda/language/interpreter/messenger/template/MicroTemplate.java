@@ -16,8 +16,6 @@
 
 package org.panda_lang.panda.language.interpreter.messenger.template;
 
-import org.panda_lang.utilities.commons.StringUtils;
-
 public final class MicroTemplate {
 
     private final String content;
@@ -26,8 +24,8 @@ public final class MicroTemplate {
         this.content = content;
     }
 
-    public String[] toLines() {
-        return StringUtils.split(content, System.lineSeparator());
+    public String getContent() {
+        return content;
     }
 
 }

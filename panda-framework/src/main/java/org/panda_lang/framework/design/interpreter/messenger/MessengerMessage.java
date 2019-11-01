@@ -16,10 +16,23 @@
 
 package org.panda_lang.framework.design.interpreter.messenger;
 
+/**
+ * Message container
+ */
 public interface MessengerMessage {
 
-    String[] getContent();
+    /**
+     * Content of message
+     *
+     * @return the content
+     */
+    String getContent();
 
+    /**
+     * Get message level
+     *
+     * @return the level
+     */
     MessengerLevel getLevel();
 
 }

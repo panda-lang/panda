@@ -22,15 +22,15 @@ import org.panda_lang.framework.design.interpreter.messenger.MessengerMessage;
 public class PandaMessengerMessage implements MessengerMessage {
 
     private final MessengerLevel level;
-    private final String[] message;
+    private final String message;
 
-    public PandaMessengerMessage(MessengerLevel level, String... message) {
+    public PandaMessengerMessage(MessengerLevel level, String message) {
         this.message = message;
         this.level = level;
     }
 
     @Override
-    public String[] getContent() {
+    public String getContent() {
         return message;
     }
 

@@ -41,7 +41,7 @@ final class PandaTranslator<T> implements MessengerMessageTranslator<T> {
     }
 
     @Override
-    public boolean handle(Messenger messenger, T element) {
+    public boolean translate(Messenger messenger, T element) {
         Map<String, Object> data = new HashMap<>();
         data.put(null, element);
 
@@ -67,7 +67,7 @@ final class PandaTranslator<T> implements MessengerMessageTranslator<T> {
                 .build();
 
         MicroTemplate template = engine.load(request);
-        MessengerMessage message = new PandaMessengerMessage(scheme.getLevel(), template.toLines());
+        MessengerMessage message = new PandaMessengerMessage(scheme.getLevel(), template.getContent());
         messenger.sendMessage(message);
 
         return scheme.isInterrupting();

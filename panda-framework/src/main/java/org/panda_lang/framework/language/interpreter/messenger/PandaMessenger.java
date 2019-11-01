@@ -64,7 +64,7 @@ public class PandaMessenger implements Messenger {
             throw new PandaFrameworkException("Cannot translate a message - translator for " + message.getClass() + " not found");
         }
 
-        return translator.handle(this, message);
+        return translator.translate(this, message);
     }
 
     @Override

@@ -16,13 +16,16 @@
 
 package org.panda_lang.framework.design.interpreter.messenger;
 
+/**
+ * Logging levels
+ */
 public enum MessengerLevel {
 
-    DEBUG,
     TRACE,
+    DEBUG,
     INFO,
     WARNING,
     ERROR,
-    FAILURE;
+    FAILURE
 
 }

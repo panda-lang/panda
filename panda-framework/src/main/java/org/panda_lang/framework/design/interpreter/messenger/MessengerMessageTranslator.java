@@ -16,10 +16,27 @@
 
 package org.panda_lang.framework.design.interpreter.messenger;
 
+/**
+ * Translates object of the specified type into the messages
+ *
+ * @param <T> type of accepted objects
+ */
 public interface MessengerMessageTranslator<T extends Object> {
 
-    boolean handle(Messenger messenger, T element);
+    /**
+     * Translate object into the messages
+     *
+     * @param messenger the messenger to use
+     * @param element the object to translate
+     * @return true if message interrupts current process (e.g. exceptions), otherwise false (e.g. warnings)
+     */
+    boolean translate(Messenger messenger, T element);
 
+    /**
+     * Get type of accepted values
+     *
+     * @return the type
+     */
     Class<T> getType();
 
 }

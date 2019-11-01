@@ -16,8 +16,16 @@
 
 package org.panda_lang.framework.design.interpreter.messenger;
 
+/**
+ * Messenger initializer called during the environment initialization
+ */
 public interface MessengerInitializer {
 
+    /**
+     * Process the given messenger
+     *
+     * @param messenger a new messenger
+     */
     void onInitialize(Messenger messenger);
 
 }

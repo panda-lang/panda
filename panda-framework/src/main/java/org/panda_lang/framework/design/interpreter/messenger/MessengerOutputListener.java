@@ -16,8 +16,16 @@
 
 package org.panda_lang.framework.design.interpreter.messenger;
 
+/**
+ * Output listener
+ */
 public interface MessengerOutputListener {
 
+    /**
+     * Called when the messenger sends a message
+     *
+     * @param message the message to handle
+     */
     void onMessage(MessengerMessage message);
 
 }
