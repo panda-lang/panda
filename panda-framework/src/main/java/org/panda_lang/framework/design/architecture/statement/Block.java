@@ -16,6 +16,9 @@
 
 package org.panda_lang.framework.design.architecture.statement;
 
+/**
+ * Represents block scopes
+ */
 public interface Block extends Scope {
 
 }

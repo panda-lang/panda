@@ -16,10 +16,6 @@
 
 package org.panda_lang.framework.language.architecture.statement;
 
-import org.panda_lang.framework.design.architecture.dynamic.ControlledScope;
-import org.panda_lang.framework.design.architecture.dynamic.Controller;
-import org.panda_lang.framework.design.architecture.dynamic.Executable;
-import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.Cell;
 import org.panda_lang.framework.design.architecture.statement.Statement;
 
@@ -27,23 +23,9 @@ public class PandaCell implements Cell {
 
     private Statement statement;
     private boolean manipulated;
-    private boolean executable;
-    private boolean scope;
-    private boolean block;
-    private boolean controlledBlock;
-    private boolean controller;
 
     public PandaCell(Statement statement) {
         this.statement = statement;
-        this.update();
-    }
-
-    private void update() {
-        this.executable = statement instanceof Executable;
-        this.scope = statement instanceof Scope;
-        this.block = statement instanceof Scope;
-        this.controlledBlock = statement instanceof ControlledScope;
-        this.controller = statement instanceof Controller;
     }
 
     @Override
@@ -53,36 +35,11 @@ public class PandaCell implements Cell {
         }
 
         this.statement = statement;
-        this.update();
     }
 
+    @Override
     public boolean isManipulated() {
         return manipulated;
-    }
-
-    @Override
-    public boolean isExecutable() {
-        return executable;
-    }
-
-    @Override
-    public boolean isBlock() {
-        return block;
-    }
-
-    @Override
-    public boolean isController() {
-        return controller;
-    }
-
-    @Override
-    public boolean isScope() {
-        return scope;
-    }
-
-    @Override
-    public boolean isControlledBlock() {
-        return controlledBlock;
     }
 
     @Override

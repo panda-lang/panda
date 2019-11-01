@@ -78,7 +78,7 @@ public final class BlockParser extends ParserBootstrap {
         if (!parent.getCells().isEmpty()) {
             Cell cell = parent.getCells().get(parent.getCells().size() - 1);
 
-            if (cell.isBlock()) {
+            if (cell.getStatement() instanceof Block) {
                 delegatedContext.withComponent(BlockComponents.PREVIOUS_BLOCK, (Block) cell.getStatement());
             }
         }

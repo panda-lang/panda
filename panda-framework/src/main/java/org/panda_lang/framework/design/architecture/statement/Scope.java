@@ -19,6 +19,9 @@ package org.panda_lang.framework.design.architecture.statement;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Represents statement that contains child statements
+ */
 public interface Scope extends Statement {
 
     /**

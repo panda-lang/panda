@@ -24,6 +24,9 @@ import org.panda_lang.framework.design.interpreter.messenger.Messenger;
 
 import java.io.File;
 
+/**
+ * Application playground
+ */
 public interface Environment extends LoggerHolder {
 
     /**
