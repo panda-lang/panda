@@ -16,10 +16,13 @@
 
 package org.panda_lang.framework.design.runtime;
 
+/**
+ * Instance of application
+ */
 public interface Process {
 
     /**
-     * Execute the process
+     * Launch the process
      *
      * @return a result of the execution process
      */

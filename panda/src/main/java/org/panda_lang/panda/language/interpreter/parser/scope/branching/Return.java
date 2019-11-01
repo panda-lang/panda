@@ -38,7 +38,7 @@ class Return extends AbstractExecutableStatement implements Controller {
     }
 
     @Override
-    public byte getStatus() {
+    public byte getStatusCode() {
         return Status.RETURN;
     }
 

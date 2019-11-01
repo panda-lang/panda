@@ -41,7 +41,7 @@ final class Throw extends AbstractExecutableStatement implements Controller {
     }
 
     @Override
-    public byte getStatus() {
+    public byte getStatusCode() {
         return Status.THROW;
     }
 

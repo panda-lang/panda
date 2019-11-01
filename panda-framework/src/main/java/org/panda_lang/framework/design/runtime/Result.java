@@ -18,6 +18,11 @@ package org.panda_lang.framework.design.runtime;
 
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Result of invocation with status code
+ *
+ * @param <T> generic type of result
+ */
 public class Result<T> {
 
     private final byte status;
@@ -28,10 +33,21 @@ public class Result<T> {
         this.result = result;
     }
 
+    /**
+     * Get result value
+     *
+     * @return the value
+     */
     public @Nullable T getResult() {
         return result;
     }
 
+    /**
+     * Get status code
+     *
+     * @return the status code
+     * @see org.panda_lang.framework.design.runtime.Status
+     */
     public byte getStatus() {
         return status;
     }

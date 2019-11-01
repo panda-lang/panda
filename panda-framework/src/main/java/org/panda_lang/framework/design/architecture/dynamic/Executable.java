@@ -17,9 +17,13 @@
 package org.panda_lang.framework.design.architecture.dynamic;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.architecture.statement.Statement;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 
-public interface Executable {
+/**
+ * Executable type of statement
+ */
+public interface Executable extends Statement {
 
     /**
      * Execute the statement

@@ -33,7 +33,6 @@ public class PandaApplication implements Application {
 
     private final Environment environment;
     private final List<Script> scripts = new ArrayList<>();
-    private MainScope main;
 
     public PandaApplication(Environment environment) {
         this.environment = environment;
@@ -41,15 +40,11 @@ public class PandaApplication implements Application {
 
     @Override
     public @Nullable Object launch(String... args) {
-        if (main == null) {
-            selectMain();
-        }
-
-        Process process = new PandaProcess(this, main, args);
+        Process process = new PandaProcess(this, selectMain(), args);
         return process.execute();
     }
 
-    private void selectMain() {
+    private MainScope selectMain() {
         List<MainScope> mains = scripts.stream()
                 .map(applicationScript -> applicationScript.select(MainScope.class))
                 .flatMap(List::stream)
@@ -63,7 +58,7 @@ public class PandaApplication implements Application {
             throw new PandaFrameworkException("Duplicated main statement");
         }
 
-        this.main = mains.get(0);
+        return mains.get(0);
     }
 
     public void addScript(Script script) {

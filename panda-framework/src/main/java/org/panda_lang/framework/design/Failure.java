@@ -16,8 +16,18 @@
 
 package org.panda_lang.framework.design;
 
+import org.jetbrains.annotations.Nullable;
+
+/**
+ * Represents errors occurred in the framework
+ */
 public interface Failure {
 
-    String getNote();
+    /**
+     * Get additional information about the failure
+     *
+     * @return the note
+     */
+    @Nullable String getNote();
 
 }

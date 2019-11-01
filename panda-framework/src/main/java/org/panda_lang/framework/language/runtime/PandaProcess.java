@@ -39,7 +39,7 @@ public class PandaProcess implements Process {
     @Override
     @SuppressWarnings("unchecked")
     public @Nullable Object execute() {
-        ProcessStack stack = new PandaProcessStack(this, PandaProcessStackConstants.DEFAULT_STACK_SIZE);
+        ProcessStack stack = new PandaProcessStack(this, PandaRuntimeConstants.DEFAULT_STACK_SIZE);
 
         try {
             Frame instance = mainScope.revive(null, null);

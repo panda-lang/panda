@@ -53,12 +53,12 @@ final class ReplFrame implements Frame, PropertyFrame {
     }
 
     @Override
-    public int getAmountOfVariables() {
+    public int getMemorySize() {
         return memory.size();
     }
 
     @Override
-    public FramedScope getScope() {
+    public FramedScope getFramedScope() {
         return scope;
     }
 

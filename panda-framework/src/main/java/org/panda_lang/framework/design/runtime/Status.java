@@ -16,14 +16,29 @@
 
 package org.panda_lang.framework.design.runtime;
 
+/**
+ * Default status codes
+ */
 public final class Status {
 
+    /**
+     * Represents thrown value
+     */
     public static final byte THROW = 0x00;
 
+    /**
+     * Represents returned value
+     */
     public static final byte RETURN = 0x01;
 
+    /**
+     * Represents break of scope on stack
+     */
     public static final byte BREAK = 0x02;
 
+    /**
+     * Represents omission of the rest of current scope on stack
+     */
     public static final byte CONTINUE = 0x03;
 
 }
