@@ -96,11 +96,16 @@ public interface SourceStream extends Snippetable {
     }
 
     /**
-     * Get current source as Tokens
+     * Get current source as snippet
      *
-     * @return the current content wrapped in Tokens
+     * @return the current content wrapped in snippet
      */
     @Override
     Snippet toSnippet();
+
+    @Override
+    default SourceStream toStream() {
+        return this;
+    }
 
 }

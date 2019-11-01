@@ -16,23 +16,16 @@
 
 package org.panda_lang.framework.design.interpreter.token;
 
-import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
-
 /**
- * Represents objects that can be reduced to the {@link org.panda_lang.framework.design.interpreter.token.Snippet}
+ * Represents objects that can be reduced to the {@link org.panda_lang.framework.design.interpreter.token.SourceStream}
  */
-public interface Snippetable extends Streamable {
+public interface Streamable {
 
     /**
-     * Converts current object into the {@link Snippet}
+     * Convert object to the source stream
      *
-     * @return a new snippet containing content of the current object
+     * @return the source stream
      */
-    Snippet toSnippet();
-
-    @Override
-    default SourceStream toStream() {
-        return new PandaSourceStream(toSnippet());
-    }
+    SourceStream toStream();
 
 }

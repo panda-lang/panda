@@ -31,7 +31,7 @@ import java.util.List;
  * Snippet is one of the most basic elements used by Panda Framework and represents a sequence of tokens.
  * It may be compared to {@link String} and {@link org.panda_lang.framework.design.interpreter.token.TokenRepresentation} to characters.
  */
-public interface Snippet extends Snippetable, Iterable<TokenRepresentation> {
+public interface Snippet extends Iterable<TokenRepresentation>, Snippetable {
 
     /**
      * Constant for not found result
