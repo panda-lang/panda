@@ -18,6 +18,11 @@ package org.panda_lang.framework.design.interpreter.parser;
 
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 
+/**
+ * Parser container
+ *
+ * @param <P> type of stored parser
+ */
 public interface ParserRepresentation<P> {
 
     /**

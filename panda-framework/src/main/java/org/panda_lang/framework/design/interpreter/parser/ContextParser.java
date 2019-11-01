@@ -16,6 +16,11 @@
 
 package org.panda_lang.framework.design.interpreter.parser;
 
+/**
+ * Represents parsers supported by pipelines
+ *
+ * @param <T> type of result
+ */
 public interface ContextParser<T> extends Parser {
 
     /**
