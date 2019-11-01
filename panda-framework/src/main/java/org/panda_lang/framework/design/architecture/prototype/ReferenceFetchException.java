@@ -18,6 +18,9 @@ package org.panda_lang.framework.design.architecture.prototype;
 
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 
+/**
+ * Represents exceptions that may happen during the process of fetching a prototype
+ */
 public final class ReferenceFetchException extends PandaRuntimeException {
 
     public ReferenceFetchException(String message, Throwable cause) {

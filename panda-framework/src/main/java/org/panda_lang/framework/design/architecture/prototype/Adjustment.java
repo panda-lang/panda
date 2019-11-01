@@ -18,6 +18,11 @@ package org.panda_lang.framework.design.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
 
+/**
+ * Container for arguments adjusted to the property signature
+ *
+ * @param <T> generic type of property
+ */
 public interface Adjustment<T extends ExecutableProperty> {
 
     /**

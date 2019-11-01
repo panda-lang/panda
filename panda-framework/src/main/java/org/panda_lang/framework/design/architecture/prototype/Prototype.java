@@ -23,7 +23,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 /**
- * Basic set of static data about a type
+ * Extensible owner of properties
  */
 public interface Prototype extends Property, Referencable {
 

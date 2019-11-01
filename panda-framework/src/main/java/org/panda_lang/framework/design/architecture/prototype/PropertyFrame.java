@@ -18,6 +18,9 @@ package org.panda_lang.framework.design.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
 
+/**
+ * Represents frames within the prototype frame (e.g. methods)
+ */
 public interface PropertyFrame extends Frame {
 
     /**

@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 
 /**
- * Element of property
+ * Element of prototype
  */
 public interface Property {
 
