@@ -31,8 +31,6 @@ import org.panda_lang.utilities.commons.collection.FixedStack;
 import org.panda_lang.utilities.commons.collection.IStack;
 import org.panda_lang.utilities.commons.function.ThrowingSupplier;
 
-import java.util.function.Supplier;
-
 public class PandaProcessStack implements ProcessStack {
 
     private final Process process;
@@ -46,7 +44,7 @@ public class PandaProcessStack implements ProcessStack {
 
     @Override
     public @Nullable Result<?> call(Object instance, Frame frame) throws Exception {
-        return call(instance, frame, () -> call(frame, frame.getScope()));
+        return call(instance, frame, () -> call(frame, frame.getFramedScope()));
     }
 
     @Override
@@ -85,7 +83,7 @@ public class PandaProcessStack implements ProcessStack {
         if (statement instanceof Executable) {
             if (statement instanceof Controller) {
                 Controller controller = (Controller) statement;
-                return new Result<>(controller.getStatus(), controller.execute(this, instance));
+                return new Result<>(controller.getStatusCode(), controller.execute(this, instance));
             }
 
             ((Executable) statement).execute(this, instance);

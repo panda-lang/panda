@@ -19,11 +19,17 @@ package org.panda_lang.framework.design.architecture.dynamic;
 import org.panda_lang.framework.design.architecture.statement.FramedScope;
 import org.panda_lang.framework.design.runtime.MemoryContainer;
 
+/**
+ * Specific type of memory container, associated with the {@link org.panda_lang.framework.design.architecture.statement.FramedScope}.
+ *
+ */
 public interface Frame extends MemoryContainer {
 
     /**
-     * @return the proper scope
+     * Get associated scope with the frame
+     *
+     * @return the frame scope
      */
-    FramedScope getScope();
+    FramedScope getFramedScope();
 
 }

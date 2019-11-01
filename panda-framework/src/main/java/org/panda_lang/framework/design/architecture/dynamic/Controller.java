@@ -16,8 +16,16 @@
 
 package org.panda_lang.framework.design.architecture.dynamic;
 
+/**
+ * Specific type of statement that contains status code considered by the process of execution
+ */
 public interface Controller extends Executable {
 
-    byte getStatus();
+    /**
+     * Get represented status code
+     *
+     * @return the status code
+     */
+    byte getStatusCode();
 
 }

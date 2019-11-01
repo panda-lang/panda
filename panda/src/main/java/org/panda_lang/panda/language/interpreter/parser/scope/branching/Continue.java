@@ -35,7 +35,7 @@ class Continue extends AbstractExecutableStatement implements Controller {
     }
 
     @Override
-    public byte getStatus() {
+    public byte getStatusCode() {
         return Status.CONTINUE;
     }
 

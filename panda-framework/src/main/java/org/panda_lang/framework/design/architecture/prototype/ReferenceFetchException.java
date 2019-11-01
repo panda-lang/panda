@@ -28,8 +28,4 @@ public final class ReferenceFetchException extends PandaRuntimeException {
         super(message);
     }
 
-    public ReferenceFetchException(Throwable cause) {
-        super(cause);
-    }
-
 }

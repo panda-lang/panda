@@ -31,7 +31,7 @@ import org.panda_lang.framework.design.runtime.Status;
 import org.panda_lang.framework.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.framework.language.runtime.PandaProcessStack;
-import org.panda_lang.framework.language.runtime.PandaProcessStackConstants;
+import org.panda_lang.framework.language.runtime.PandaRuntimeConstants;
 import org.panda_lang.panda.shell.repl.ReplResult.Type;
 import org.panda_lang.utilities.commons.function.ThrowingFunction;
 
@@ -68,7 +68,7 @@ public final class Repl {
      */
     public void regenerate() throws Exception {
         this.history = new StringBuilder();
-        this.stack = new PandaProcessStack(processSupplier.get(), PandaProcessStackConstants.DEFAULT_STACK_SIZE);
+        this.stack = new PandaProcessStack(processSupplier.get(), PandaRuntimeConstants.DEFAULT_STACK_SIZE);
         this.instance = context.getComponent(Components.SCOPE).getFramedScope().revive(stack, instanceSupplier.apply(stack));
     }
 
@@ -90,7 +90,7 @@ public final class Repl {
         if (content.equals("vars")) {
             StringBuilder variables = new StringBuilder();
 
-            for (Variable variable : instance.getScope().getVariables()) {
+            for (Variable variable : instance.getFramedScope().getVariables()) {
                 variables.append(variable.getName()).append(": ").append((Object) instance.get(variable.getPointer())).append(System.lineSeparator());
             }
 

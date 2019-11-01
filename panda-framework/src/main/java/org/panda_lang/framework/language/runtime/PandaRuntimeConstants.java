@@ -16,8 +16,14 @@
 
 package org.panda_lang.framework.language.runtime;
 
-public final class PandaProcessStackConstants {
+/**
+ * Constants related to the runtime
+ */
+public final class PandaRuntimeConstants {
 
+    /**
+     * Default size of stack
+     */
     public static final int DEFAULT_STACK_SIZE = 1024;
 
 }

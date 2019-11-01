@@ -17,11 +17,10 @@
 package org.panda_lang.framework.language.architecture.dynamic;
 
 import org.panda_lang.framework.design.architecture.dynamic.Executable;
-import org.panda_lang.framework.design.architecture.statement.Statement;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.language.architecture.statement.AbstractStatement;
 
-public abstract class AbstractExecutableStatement extends AbstractStatement implements Executable, Statement {
+public abstract class AbstractExecutableStatement extends AbstractStatement implements Executable {
 
     protected AbstractExecutableStatement(SourceLocation location) {
         super(location);

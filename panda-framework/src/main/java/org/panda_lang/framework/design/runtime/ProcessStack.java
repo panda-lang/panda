@@ -22,16 +22,57 @@ import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.Statement;
 import org.panda_lang.utilities.commons.function.ThrowingSupplier;
 
+/**
+ * Stack stores information about the active subroutines of a process
+ */
 public interface ProcessStack {
 
+    /**
+     * Call frame within the given instance
+     *
+     * @param instance the instance under which the frame has to be performed
+     * @param frame the frame to call
+     * @return result of invocation
+     * @throws Exception if something happen
+     */
     @Nullable Result<?> call(Object instance, Frame frame) throws Exception;
 
+    /**
+     * Call frame within the given instance and return custom result
+     *
+     * @param instance the instance within the frame has to be performed
+     * @param frame the frame to call
+     * @param resultSupplier the supplier of result
+     * @return result of invocation
+     * @throws Exception if something happen
+     */
     @Nullable Result<?> call(Object instance, Frame frame, ThrowingSupplier<Result<?>, Exception> resultSupplier) throws Exception;
 
+    /**
+     * Call scope within the given instance
+     *
+     * @param instance the instance within the frame has to performed
+     * @param scope the scope to call
+     * @return result of invocation
+     * @throws Exception if something happen
+     */
     @Nullable Result<?> call(Object instance, Scope scope) throws Exception;
 
+    /**
+     * Call statement within the given instance
+     *
+     * @param instance the instance within the statement
+     * @param statement the statement to call
+     * @return result of invocation
+     * @throws Exception if something happen
+     */
     @Nullable Result<?> call(Object instance, Statement statement) throws Exception;
 
+    /**
+     * Get statements on stack
+     *
+     * @return the array of statements on stack
+     */
     Statement[] getLivingFramesOnStack();
 
     /**

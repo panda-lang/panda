@@ -18,6 +18,9 @@ package org.panda_lang.framework.design.runtime;
 
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Represents segment of memory
+ */
 public interface MemoryContainer {
 
     /**
@@ -29,14 +32,16 @@ public interface MemoryContainer {
     @Nullable <T> T set(int pointer, @Nullable T value);
 
     /**
+     * Get value at the given position
+     *
      * @param pointer index of variable in current scope
-     * @return value
+     * @return the value at the given position
      */
     @Nullable <T> T get(int pointer);
 
     /**
-     * @return array length
+     * @return the size of memory
      */
-    int getAmountOfVariables();
+    int getMemorySize();
 
 }

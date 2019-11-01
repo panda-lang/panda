@@ -21,8 +21,19 @@ import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Result;
 
+/**
+ * Scope that takes over control on the returned by process stack {@link org.panda_lang.framework.design.runtime.Result}
+ */
 public interface ControlledScope extends Scope {
 
+    /**
+     * Custom call called by the process
+     *
+     * @param stack the current stack
+     * @param instance the current instance
+     * @return result of invocation
+     * @throws Exception if something happen
+     */
     @Nullable Result<?> controlledCall(ProcessStack stack, Object instance) throws Exception;
 
 }

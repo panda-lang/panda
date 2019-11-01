@@ -37,7 +37,7 @@ public abstract class AbstractFrame<T extends FramedScope> implements Frame {
 
     private void checkIndex(int index) {
         if (index < 0 || index >= localMemory.length) {
-            throw new PandaRuntimeException("Invalid variable index: " + index + "; Amount of localMemory: " + getAmountOfVariables());
+            throw new PandaRuntimeException("Invalid variable index: " + index + "; Amount of localMemory: " + getMemorySize());
         }
     }
 
@@ -56,12 +56,12 @@ public abstract class AbstractFrame<T extends FramedScope> implements Frame {
     }
 
     @Override
-    public int getAmountOfVariables() {
+    public int getMemorySize() {
         return localMemory.length;
     }
 
     @Override
-    public T getScope() {
+    public T getFramedScope() {
         return frame;
     }
 
