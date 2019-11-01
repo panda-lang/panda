@@ -20,8 +20,16 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+/**
+ * Represents collection of pipeline components
+ */
 public interface PipelineComponents {
 
+    /**
+     * Collect pipeline components
+     *
+     * @return collection of pipeline components
+     */
     default Collection<PipelineComponent<?>> collectPipelineComponents() {
         return Arrays.stream(this.getClass().getFields())
                 .filter(field -> PipelineComponent.class.isAssignableFrom(field.getType()))

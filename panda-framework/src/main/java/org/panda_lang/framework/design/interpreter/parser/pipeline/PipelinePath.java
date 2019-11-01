@@ -20,16 +20,49 @@ import org.panda_lang.framework.design.interpreter.parser.Parser;
 
 import java.util.Collection;
 
+/**
+ * Container of pipelines
+ */
 public interface PipelinePath {
 
+    /**
+     * Create a new pipeline based on the given component
+     *
+     * @param component the component to use
+     * @param <P> type of parsers represented by pipeline
+     * @return a new pipeline
+     */
     <P extends Parser> Pipeline<P> createPipeline(PipelineComponent<P> component);
 
+    /**
+     * Check if path contains the given pipeline
+     *
+     * @param component the identifier of pipeline to search for
+     * @return true if pipeline exists in the path, otherwise false
+     */
     boolean hasPipeline(PipelineComponent<?> component);
 
+    /**
+     * Get pipeline using the given component
+     *
+     * @param component the component to search for
+     * @param <P> the type of represented parsers by requested pipeline
+     * @return the found pipeline
+     */
     <P extends Parser> Pipeline<P> getPipeline(PipelineComponent<P> component);
 
+    /**
+     * Get sum of handle times stored by pipelines in the path
+     *
+     * @return a sum of handle times
+     */
     long getTotalHandleTime();
 
+    /**
+     * Collect names of pipelines
+     *
+     * @return the collection of pipelines names
+     */
     Collection<String> names();
 
 }

@@ -21,6 +21,11 @@ import org.panda_lang.framework.design.interpreter.parser.Parser;
 
 import java.util.Optional;
 
+/**
+ * Wrapper for pipeline handle result
+ *
+ * @param <T> type of the result parser
+ */
 public interface HandleResult<T extends Parser> {
 
     /**

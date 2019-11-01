@@ -18,6 +18,9 @@ package org.panda_lang.framework.design.interpreter.parser.pipeline;
 
 import org.panda_lang.framework.design.interpreter.parser.ContextParser;
 
+/**
+ * Default pipelines used by the framework
+ */
 public final class Pipelines implements PipelineComponents {
 
     /**
