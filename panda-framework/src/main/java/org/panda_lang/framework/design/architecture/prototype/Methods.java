@@ -20,6 +20,9 @@ import org.panda_lang.framework.design.architecture.expression.Expression;
 
 import java.util.Optional;
 
+/**
+ * Container for methods
+ */
 public interface Methods extends Properties<PrototypeMethod> {
 
     /**

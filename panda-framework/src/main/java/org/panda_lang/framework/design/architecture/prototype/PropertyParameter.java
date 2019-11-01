@@ -18,6 +18,9 @@ package org.panda_lang.framework.design.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.statement.Variable;
 
+/**
+ * Represents variable defined in the property signature - commonly called parameter
+ */
 public interface PropertyParameter extends Variable {
 
     /**

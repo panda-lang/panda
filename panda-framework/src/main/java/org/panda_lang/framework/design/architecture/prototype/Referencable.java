@@ -16,6 +16,9 @@
 
 package org.panda_lang.framework.design.architecture.prototype;
 
+/**
+ * Represent objects that can be reduced to the reference
+ */
 public interface Referencable {
 
     /**

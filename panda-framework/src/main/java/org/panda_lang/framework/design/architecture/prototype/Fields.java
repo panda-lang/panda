@@ -18,6 +18,9 @@ package org.panda_lang.framework.design.architecture.prototype;
 
 import java.util.Optional;
 
+/**
+ * Container for fields
+ */
 public interface Fields extends Properties<PrototypeField> {
 
     /**

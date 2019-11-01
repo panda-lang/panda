@@ -19,6 +19,9 @@ package org.panda_lang.framework.design.architecture.prototype;
 import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 
+/**
+ * Represents field property
+ */
 public interface PrototypeField extends ExecutableProperty, Variable {
 
     /**

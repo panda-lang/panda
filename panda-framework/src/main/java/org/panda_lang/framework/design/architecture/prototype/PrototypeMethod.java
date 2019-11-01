@@ -16,6 +16,9 @@
 
 package org.panda_lang.framework.design.architecture.prototype;
 
+/**
+ * Represents method property
+ */
 public interface PrototypeMethod extends ExecutableProperty {
 
     /**

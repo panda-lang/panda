@@ -19,6 +19,11 @@ package org.panda_lang.framework.design.architecture.prototype;
 import java.util.List;
 import java.util.function.Supplier;
 
+/**
+ * Represents container of executable properties
+ *
+ * @param <T> generic type of represented properties
+ */
 public interface Properties<T extends ExecutableProperty> {
 
     /**
