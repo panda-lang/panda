@@ -16,17 +16,28 @@
 
 package org.panda_lang.framework.design.interpreter.parser.pipeline;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 
+/**
+ * Checkout the requested source
+ */
 public interface Handler {
 
     /**
-     * Handle source
+     * Handle source, possible results:
+     *
+     * <ul>
+     *     <li>InterpreterFailure - that will be stored and printed if there is no matching handler</li>
+     *     <li>Exception - that will interrupt pipeline</li>
+     *     <li>boolean - true/false if matched or not</li>
+     *     <li>other/null - illegal return value</li>
+     * </ul>
      *
      * @param source source
-     * @return returns true if parsers fits to source
+     * @return the result object
      */
-    Object handle(Context context, Channel channel, Snippet source);
+    @Nullable Object handle(Context context, Channel channel, Snippet source);
 
 }
