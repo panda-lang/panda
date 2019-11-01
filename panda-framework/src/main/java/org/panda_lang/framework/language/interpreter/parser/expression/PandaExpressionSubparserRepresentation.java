@@ -14,21 +14,22 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.interpreter.parser.expression;
+package org.panda_lang.framework.language.interpreter.parser.expression;
 
 import org.jetbrains.annotations.NotNull;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
 
-public class ExpressionSubparserRepresentation implements Comparable<ExpressionSubparserRepresentation> {
+public class PandaExpressionSubparserRepresentation implements Comparable<PandaExpressionSubparserRepresentation> {
 
     private final ExpressionSubparser subparser;
     private int usages;
 
-    public ExpressionSubparserRepresentation(ExpressionSubparser subparser) {
+    public PandaExpressionSubparserRepresentation(ExpressionSubparser subparser) {
         this.subparser = subparser;
     }
 
     @Override
-    public int compareTo(@NotNull ExpressionSubparserRepresentation to) {
+    public int compareTo(@NotNull PandaExpressionSubparserRepresentation to) {
         int result = subparser.compareTo(to.getSubparser());
         return result == 0 ? Integer.compare(usages, to.getUsages()) : result;
     }

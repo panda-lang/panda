@@ -16,6 +16,9 @@
 
 package org.panda_lang.framework.design.interpreter.parser.expression;
 
+/**
+ * Type of subparser
+ */
 public enum ExpressionSubparserType {
 
     /**

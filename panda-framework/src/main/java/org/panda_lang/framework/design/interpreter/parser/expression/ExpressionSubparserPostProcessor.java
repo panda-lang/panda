@@ -18,8 +18,17 @@ package org.panda_lang.framework.design.interpreter.parser.expression;
 
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Expression parser post processor
+ */
 public interface ExpressionSubparserPostProcessor {
 
+    /**
+     * Process the context
+     *
+     * @param context the context to process
+     * @return the post processing result
+     */
     @Nullable ExpressionResult finish(ExpressionContext context);
 
 }

@@ -18,28 +18,74 @@ package org.panda_lang.framework.design.interpreter.parser.expression;
 
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
+import org.panda_lang.framework.design.interpreter.token.Streamable;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 
 import java.util.Optional;
 
+/**
+ * Expression parser
+ */
 public interface ExpressionParser extends Parser {
 
-    Optional<ExpressionTransaction> parseSilently(Context context, Snippet source);
+    /**
+     * Parse expression
+     *
+     * @param context the current context
+     * @param streamable the source with expression
+     * @param settings the settings to use
+     * @return the parsed expression wrapped into the transaction
+     * @see org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction
+     */
+    ExpressionTransaction parse(Context context, Streamable streamable, ExpressionParserSettings settings);
 
-    Optional<ExpressionTransaction> parseSilently(Context context, SourceStream source);
+    /**
+     * Try to parse expression
+     *
+     * @param context the current context
+     * @param streamable the source that may contain expression
+     * @param settings the settings to use
+     * @return the parsed expression wrapped into the transaction or nothing
+     */
+    Optional<ExpressionTransaction> parseSilently(Context context, Streamable streamable, ExpressionParserSettings settings);
 
-    Optional<ExpressionTransaction> parseSilently(Context context, SourceStream source, ExpressionParserSettings settings);
+    /**
+     * Utility method to call
+     * {@link #parseSilently(org.panda_lang.framework.design.interpreter.parser.Context, org.panda_lang.framework.design.interpreter.token.Streamable, ExpressionParserSettings)}
+     * with the default settings ({@link org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParserSettings#DEFAULT})
+     *
+     * @see #parseSilently(org.panda_lang.framework.design.interpreter.parser.Context, org.panda_lang.framework.design.interpreter.token.Streamable, ExpressionParserSettings)
+     */
+    default Optional<ExpressionTransaction> parseSilently(Context context, Streamable streamable) {
+        return parseSilently(context, streamable, ExpressionParserSettings.DEFAULT);
+    }
 
-    ExpressionTransaction parse(Context context, Snippet source);
+    /**
+     * Utility method to parse expression from the synchronized source
+     *
+     * @param context the current context
+     * @param source the synchronized source that contain
+     * @return the parsed expression wrapped into the transaction
+     */
+    default ExpressionTransaction parse(Context context, SynchronizedSource source) {
+        SourceStream stream = source.toStream();
 
-    ExpressionTransaction parse(Context context, SynchronizedSource source);
+        ExpressionTransaction expression = parse(context, stream, ExpressionParserSettings.DEFAULT);
+        source.setIndex(source.getIndex() + stream.getReadLength());
 
-    ExpressionTransaction parse(Context context, SynchronizedSource source, ExpressionParserSettings settings);
+        return expression;
+    }
 
-    ExpressionTransaction parse(Context context, SourceStream source);
-
-    ExpressionTransaction parse(Context context, SourceStream source, ExpressionParserSettings settings);
+    /**
+     * Utility method to call
+     * {@link #parse(org.panda_lang.framework.design.interpreter.parser.Context, org.panda_lang.framework.design.interpreter.token.Streamable, ExpressionParserSettings)}
+     * with the default settings ({@link org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParserSettings#DEFAULT})
+     *
+     * @see #parse(org.panda_lang.framework.design.interpreter.parser.Context, org.panda_lang.framework.design.interpreter.token.Streamable, ExpressionParserSettings)
+     */
+    default ExpressionTransaction parse(Context context, Streamable streamable) {
+        return parse(context, streamable, ExpressionParserSettings.DEFAULT);
+    }
 
 }

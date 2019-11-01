@@ -22,14 +22,11 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionC
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParserSettings;
-import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserRepresentation;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparsers;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
+import org.panda_lang.framework.design.interpreter.token.Streamable;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
-import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 
 import java.util.Collections;
 import java.util.List;
@@ -42,12 +39,12 @@ public class PandaExpressionParser implements ExpressionParser {
     public static long time;
     public static int amount;
 
-    private final List<ExpressionSubparserRepresentation> subparsers;
+    private final List<PandaExpressionSubparserRepresentation> subparsers;
     private int call;
 
     public PandaExpressionParser(ExpressionSubparsers subparsers) {
         this.subparsers = subparsers.getSubparsers().stream()
-                .map(ExpressionSubparserRepresentation::new)
+                .map(PandaExpressionSubparserRepresentation::new)
                 .collect(Collectors.toList());
 
         updateWorkers();
@@ -58,55 +55,22 @@ public class PandaExpressionParser implements ExpressionParser {
     }
 
     @Override
-    public Optional<ExpressionTransaction> parseSilently(Context context, Snippet source) {
-        return parseSilently(context, new PandaSourceStream(source));
-    }
-
-    @Override
-    public Optional<ExpressionTransaction> parseSilently(Context context, SourceStream source) {
-        return parseSilently(context, source, ExpressionParserSettings.COMBINED);
-    }
-
-    @Override
-    public Optional<ExpressionTransaction> parseSilently(Context context, SourceStream source, ExpressionParserSettings settings) {
+    public Optional<ExpressionTransaction> parseSilently(Context context, Streamable streamable, ExpressionParserSettings settings) {
         try {
-            return Optional.of(parse(context, source, settings));
+            return Optional.of(parse(context, streamable, settings));
         } catch (Exception e) {
             return Optional.empty();
         }
     }
 
     @Override
-    public ExpressionTransaction parse(Context context, Snippet source) {
-        return parse(context, new PandaSourceStream(source));
+    public ExpressionTransaction parse(Context context, Streamable streamable, ExpressionParserSettings settings) {
+        return parse(context, streamable, settings, null);
     }
 
-    @Override
-    public ExpressionTransaction parse(Context context, SynchronizedSource source) {
-        return parse(context, source, ExpressionParserSettings.DEFAULT);
-    }
+    public ExpressionTransaction parse(Context context, Streamable streamable, ExpressionParserSettings settings, @Nullable BiConsumer<ExpressionContext, PandaExpressionParserWorker> visitor) {
+        SourceStream source = streamable.toStream();
 
-    @Override
-    public ExpressionTransaction parse(Context context, SynchronizedSource source, ExpressionParserSettings settings) {
-        SourceStream stream = new PandaSourceStream(source.getAvailableSource());
-
-        ExpressionTransaction expression = parse(context, stream, settings);
-        source.setIndex(source.getIndex() + stream.getReadLength());
-
-        return expression;
-    }
-
-    @Override
-    public ExpressionTransaction parse(Context context, SourceStream source) {
-        return parse(context, source, ExpressionParserSettings.COMBINED);
-    }
-
-    @Override
-    public ExpressionTransaction parse(Context context, SourceStream source, ExpressionParserSettings settings) {
-        return parse(context, source, settings, null);
-    }
-
-    public ExpressionTransaction parse(Context context, SourceStream source, ExpressionParserSettings settings, @Nullable BiConsumer<ExpressionContext, PandaExpressionParserWorker> visitor) {
         if (!source.hasUnreadSource()) {
             throw new PandaExpressionParserException("Expression expected");
         }
@@ -127,7 +91,7 @@ public class PandaExpressionParser implements ExpressionParser {
         // if something went wrong
         if (worker.hasError()) {
             transaction.rollback();
-            throw new PandaExpressionParserFailure(expressionContext, worker.getError().getSource(), worker.getError().getErrorMessage());
+            throw new PandaExpressionParserFailure(expressionContext, worker.getError().getErrorSource(), worker.getError().getErrorMessage());
         }
 
         // if context does not contain any results

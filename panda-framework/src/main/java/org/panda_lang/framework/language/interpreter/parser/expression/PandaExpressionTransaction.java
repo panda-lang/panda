@@ -18,24 +18,23 @@ package org.panda_lang.framework.language.interpreter.parser.expression;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
-import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransactionCommit;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 
 import java.util.Collection;
 
 final class PandaExpressionTransaction implements ExpressionTransaction {
 
-    private final Collection<ExpressionTransactionCommit> commits;
+    private final Collection<Commit> commits;
     private Expression expression;
 
-    PandaExpressionTransaction(@Nullable Expression expression, Collection<ExpressionTransactionCommit> commits) {
+    PandaExpressionTransaction(@Nullable Expression expression, Collection<Commit> commits) {
         this.expression = expression;
         this.commits = commits;
     }
 
     @Override
     public void rollback() {
-        commits.forEach(ExpressionTransactionCommit::rollback);
+        getCommits().forEach(Commit::rollback);
     }
 
     PandaExpressionTransaction withExpression(Expression expression) {
@@ -44,7 +43,7 @@ final class PandaExpressionTransaction implements ExpressionTransaction {
     }
 
     @Override
-    public Collection<ExpressionTransactionCommit> getCommits() {
+    public Collection<Commit> getCommits() {
         return commits;
     }
 
