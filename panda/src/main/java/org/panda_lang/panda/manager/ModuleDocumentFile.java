@@ -14,22 +14,24 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.pmm;
+package org.panda_lang.panda.manager;
 
-enum InstallStatus {
+import org.hjson.JsonValue;
+import org.panda_lang.utilities.commons.FileUtils;
 
-    INSTALLED("+"),
-    SKIPPED("~"),
-    REMOVED("-");
+import java.io.File;
+import java.io.IOException;
 
-    private final String symbol;
+final class ModuleDocumentFile {
 
-    InstallStatus(String symbol) {
-        this.symbol = symbol;
+    private final File document;
+
+    ModuleDocumentFile(File document) {
+        this.document = document;
     }
 
-    protected String getSymbol() {
-        return symbol;
+    ModuleDocument getContent() throws IOException {
+        return new ModuleDocument(document, JsonValue.readHjson(FileUtils.getContentOfFile(document)).asObject());
     }
 
 }

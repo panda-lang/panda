@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.pmm;
+package org.panda_lang.panda.manager;
 
 import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
 import org.panda_lang.panda.Panda;
@@ -27,10 +27,10 @@ import java.util.Objects;
 
 final class Run {
 
-    private final PandaModulesManager manager;
+    private final ModuleManager manager;
     private final ModuleDocument document;
 
-    Run(PandaModulesManager manager, ModuleDocument document) {
+    Run(ModuleManager manager, ModuleDocument document) {
         this.manager = manager;
         this.document = document;
     }
@@ -59,9 +59,7 @@ final class Run {
     }
 
     private void load(PandaEnvironment environment, File scopeDirectory) throws IOException {
-        File[] modules = scopeDirectory.listFiles();
-
-        for (File module : modules) {
+        for (File module : Objects.requireNonNull(scopeDirectory.listFiles())) {
             ModuleDocument moduleInfo = new ModuleDocumentFile(new File(module, "panda.hjson")).getContent();
 
             environment.getModulePath().include(module.getName(), () -> {

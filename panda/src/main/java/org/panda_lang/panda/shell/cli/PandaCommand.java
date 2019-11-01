@@ -17,10 +17,13 @@
 package org.panda_lang.panda.shell.cli;
 
 import org.panda_lang.framework.design.architecture.Application;
+import org.panda_lang.framework.language.interpreter.messenger.PandaMessenger;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaConstants;
 import org.panda_lang.panda.PandaFactory;
+import org.panda_lang.panda.manager.ModuleManager;
 import org.panda_lang.panda.shell.PandaShell;
+import org.panda_lang.utilities.commons.function.ThrowingRunnable;
 import org.tinylog.configuration.Configuration;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -31,7 +34,7 @@ import java.io.File;
 import java.util.Optional;
 
 @Command(name = "panda", version = "Panda " + PandaConstants.VERSION)
-public final class PandaCommand implements Runnable {
+public final class PandaCommand implements ThrowingRunnable {
 
     private final PandaShell shell;
 
@@ -52,7 +55,7 @@ public final class PandaCommand implements Runnable {
     }
 
     @Override
-    public void run() {
+    public void run() throws Exception {
         CommandLine commandLine = new CommandLine(this);
 
         if (level != null) {
@@ -68,6 +71,13 @@ public final class PandaCommand implements Runnable {
         }
 
         if (script == null) {
+            return;
+        }
+
+        if (script.getName().endsWith("panda.hjson")) {
+            ModuleManager moduleManager = new ModuleManager(new PandaMessenger(shell.getLogger()), script.getParentFile());
+            moduleManager.install(script);
+            moduleManager.run(script);
             return;
         }
 

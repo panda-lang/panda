@@ -28,7 +28,7 @@ public final class PandaShell {
         this.logger = logger;
     }
 
-    public void invoke(String... args) {
+    public void invoke(String... args) throws Exception {
         PandaCommand command = CommandLine.populateCommand(new PandaCommand(this), args);
         command.run();
     }

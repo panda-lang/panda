@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.pmm;
+package org.panda_lang.panda.manager;
 
 import org.hjson.JsonValue;
 import org.junit.jupiter.api.Assertions;
