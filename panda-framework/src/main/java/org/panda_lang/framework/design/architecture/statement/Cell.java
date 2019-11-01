@@ -21,18 +21,25 @@ package org.panda_lang.framework.design.architecture.statement;
  */
 public interface Cell {
 
-    boolean isControlledBlock();
-
-    boolean isBlock();
-
-    boolean isScope();
-
-    boolean isController();
-
-    boolean isExecutable();
-
+    /**
+     * Set content of the cell
+     *
+     * @param statement the statement to use
+     */
     void setStatement(Statement statement);
 
+    /**
+     * Check if content of cell was modified
+     *
+     * @return true if content was modified, otherwise false
+     */
+    boolean isManipulated();
+
+    /**
+     * Get statement
+     *
+     * @return the statement
+     */
     Statement getStatement();
 
 }

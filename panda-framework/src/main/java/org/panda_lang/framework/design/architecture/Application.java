@@ -20,6 +20,9 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.messenger.LoggerHolder;
 import org.slf4j.Logger;
 
+/**
+ * Application is a group of bundled scripts
+ */
 public interface Application extends LoggerHolder {
 
     /**

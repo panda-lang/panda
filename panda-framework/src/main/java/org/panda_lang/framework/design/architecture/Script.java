@@ -22,6 +22,9 @@ import org.panda_lang.framework.design.architecture.statement.Statement;
 
 import java.util.List;
 
+/**
+ *
+ */
 public interface Script {
 
     /**

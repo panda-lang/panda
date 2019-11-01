@@ -16,6 +16,9 @@
 
 package org.panda_lang.framework.design.architecture.statement;
 
+/**
+ * Represents localized variable
+ */
 public interface Variable extends VariableData {
 
     /**
