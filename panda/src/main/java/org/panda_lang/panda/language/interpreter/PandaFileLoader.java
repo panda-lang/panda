@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.Application;
 import org.panda_lang.framework.design.interpreter.source.Source;
 import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
@@ -33,11 +34,15 @@ public final class PandaFileLoader {
         this.panda = panda;
     }
 
-    public Optional<Application> load(String script, File workingDirectory) {
+    public Optional<Application> load(String script, @Nullable File workingDirectory) {
         return load(PandaURLSource.fromFile(new File(workingDirectory, script)), workingDirectory);
     }
 
-    public Optional<Application> load(File script, File workingDirectory) {
+    public Optional<Application> load(File script, @Nullable File workingDirectory) {
+        if (workingDirectory == null) {
+            workingDirectory = script.getParentFile();
+        }
+
         return load(PandaURLSource.fromFile(script), workingDirectory);
     }
 

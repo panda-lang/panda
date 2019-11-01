@@ -16,24 +16,19 @@
 
 package org.panda_lang.panda.language.interpreter.parser.expression.subparsers.assignation;
 
-import org.panda_lang.framework.design.interpreter.parser.Parsers;
+import org.panda_lang.framework.language.interpreter.parser.PandaParsersUtils;
 import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.assignation.array.ArrayValueAssignationSubparser;
 import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.assignation.variable.VariableAssignationSubparser;
 import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.assignation.variable.VariableDeclarationSubparser;
 
-public final class AssignationParsers extends Parsers {
+public final class AssignationParsers {
 
-    public static final Class<? extends AssignationSubparser>[] SUBPARSERS = of(
+    public static final Class<? extends AssignationSubparser>[] SUBPARSERS = PandaParsersUtils.of(
             VariableAssignationSubparser.class,
             VariableDeclarationSubparser.class,
             ArrayValueAssignationSubparser.class
     );
 
     private AssignationParsers() { }
-
-    @Override
-    public Class<? extends AssignationSubparser>[] getParsers() {
-        return SUBPARSERS;
-    }
 
 }

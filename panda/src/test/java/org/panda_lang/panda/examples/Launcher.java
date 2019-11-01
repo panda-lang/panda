@@ -63,9 +63,9 @@ public final class Launcher {
         PandaFactory factory = new PandaFactory();
         Panda panda = factory.createPanda(logger);
 
-        Optional<Application> application = new PandaApplicationBootstrap(panda)
+        Optional<Application> application = PandaApplicationBootstrap.create(panda)
                 .workingDirectory("../examples/" + directory)
-                .main(file)
+                .script(file)
                 .createApplication();
 
         Assertions.assertTrue(application.isPresent());

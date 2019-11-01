@@ -14,23 +14,25 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.interpreter.parser;
+package org.panda_lang.framework.language.interpreter.parser;
 
-/**
- * Container of parsers classes
- */
-public abstract class Parsers {
+import org.panda_lang.framework.design.interpreter.parser.Parser;
 
-    @SafeVarargs
-    protected static <T extends Parser> Class<? extends T>[] of(Class<? extends T>... classes) {
-        return classes;
-    }
+
+public final class PandaParsersUtils {
+
+    private PandaParsersUtils() { }
 
     /**
-     * Get array of associated parsers classes
+     * Collect parser classes
      *
-     * @return the array of parsers classes
+     * @param classes the classes to collect
+     * @param <T> generic parser type
+     * @return array of parser classes
      */
-    public abstract Class<? extends Parser>[] getParsers();
+    @SafeVarargs
+    public static <T extends Parser> Class<? extends T>[] of(Class<? extends T>... classes) {
+        return classes;
+    }
 
 }

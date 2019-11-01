@@ -23,17 +23,26 @@ import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaPipeli
 
 import java.util.Collection;
 
-public final class PipelinePandaBootstrap implements PandaBootstrapElement {
+/**
+ * {@link org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath} initializer
+ */
+public final class PipelinesInitializer implements Initializer {
 
     private final PandaBootstrap bootstrap;
     private final PipelinePath path = new PandaPipelinePath();
 
-    public PipelinePandaBootstrap(PandaBootstrap bootstrap) {
+    PipelinesInitializer(PandaBootstrap bootstrap) {
         this.bootstrap = bootstrap;
     }
 
+    /**
+     * Add pipeline components to the path
+     *
+     * @param componentsClasses pipeline components classes to add
+     * @return the initializer
+     */
     @SafeVarargs
-    public final PipelinePandaBootstrap usePipelines(Class<? extends PipelineComponents>... componentsClasses) {
+    public final PipelinesInitializer usePipelines(Class<? extends PipelineComponents>... componentsClasses) {
         for (Class<? extends PipelineComponents> componentClass : componentsClasses) {
             try {
                 PipelineComponents pipelines = componentClass.newInstance();

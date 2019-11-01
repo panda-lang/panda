@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.interpreter.parser;
 
 import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.parser.Parsers;
+import org.panda_lang.framework.language.interpreter.parser.PandaParsersUtils;
 import org.panda_lang.framework.language.interpreter.parser.ScopeParser;
 import org.panda_lang.panda.language.interpreter.bootstraps.block.BlockParser;
 import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.ArgumentsParser;
@@ -47,9 +47,9 @@ import org.panda_lang.panda.language.interpreter.parser.scope.branching.Continue
 import org.panda_lang.panda.language.interpreter.parser.scope.branching.ReturnParser;
 import org.panda_lang.panda.language.interpreter.parser.scope.branching.ThrowParser;
 
-public final class PandaParsers extends Parsers {
+public final class PandaParsers {
 
-    public static final Class<? extends Parser>[] PARSERS = of(
+    public static final Class<? extends Parser>[] PARSERS = PandaParsersUtils.of(
             // lead
             ApplicationParser.class,
             ScopeParser.class,
@@ -96,10 +96,5 @@ public final class PandaParsers extends Parsers {
     );
 
     private PandaParsers() { }
-
-    @Override
-    public Class<? extends Parser>[] getParsers() {
-        return PARSERS;
-    }
 
 }

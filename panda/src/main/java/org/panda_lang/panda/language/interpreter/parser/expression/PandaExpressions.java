@@ -16,9 +16,8 @@
 
 package org.panda_lang.panda.language.interpreter.parser.expression;
 
-import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.parser.Parsers;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.framework.language.interpreter.parser.PandaParsersUtils;
 import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.ArrayValueExpressionSubparser;
 import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.CastExpressionSubparser;
 import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.ConstructorExpressionSubparser;
@@ -35,9 +34,9 @@ import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.St
 import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.VariableExpressionSubparser;
 import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.assignation.AssignationExpressionSubparser;
 
-public final class PandaExpressions extends Parsers {
+public final class PandaExpressions {
 
-    public static final Class<? extends ExpressionSubparser>[] SUBPARSERS = of(
+    public static final Class<? extends ExpressionSubparser>[] SUBPARSERS = PandaParsersUtils.of(
             ArrayValueExpressionSubparser.class,
             AssignationExpressionSubparser.class,
             CastExpressionSubparser.class,
@@ -54,10 +53,5 @@ public final class PandaExpressions extends Parsers {
             StaticExpressionSubparser.class,
             VariableExpressionSubparser.class
     );
-
-    @Override
-    public Class<? extends Parser>[] getParsers() {
-        return SUBPARSERS;
-    }
 
 }
