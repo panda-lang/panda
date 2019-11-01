@@ -34,19 +34,19 @@ public class PandaModulePath extends PandaModules implements ModulePath {
     }
 
     @Override
-    public void include(String name, Runnable initialize) {
+    public void include(String name, Runnable initializer) {
         Runnable cachedInitialize = modules.get(name);
 
         if (cachedInitialize != null) {
-            Runnable nextInitialize = initialize;
+            Runnable nextInitialize = initializer;
 
-            initialize = () -> {
+            initializer = () -> {
                 cachedInitialize.run();
                 nextInitialize.run();
             };
         }
 
-        modules.put(name, initialize);
+        modules.put(name, initializer);
     }
 
     @Override

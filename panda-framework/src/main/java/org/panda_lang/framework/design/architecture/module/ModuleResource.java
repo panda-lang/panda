@@ -20,6 +20,9 @@ import org.panda_lang.framework.design.architecture.prototype.Reference;
 
 import java.util.Optional;
 
+/**
+ * References container
+ */
 public interface ModuleResource {
 
     /**

@@ -21,6 +21,12 @@ package org.panda_lang.framework.design.architecture.module;
  */
 public interface ModulePath extends Modules {
 
-    void include(String name, Runnable initialize);
+    /**
+     * Include initializer for the specified module
+     *
+     * @param name name of module
+     * @param initializer module initializer
+     */
+    void include(String name, Runnable initializer);
 
 }
