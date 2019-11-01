@@ -18,6 +18,7 @@ package org.panda_lang.framework.design.interpreter.parser.expression;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParserSettings.ExpressionParserSettingsBuilder;
 
 import java.util.Collections;
 
@@ -25,32 +26,31 @@ class ExpressionParserSettingsTest {
 
     @Test
     void includeSelected() {
-        Assertions.assertNull(ExpressionParserSettings.create().getSelectedMode());
-        Assertions.assertTrue(ExpressionParserSettings.create().excludeSelected().getSelectedMode());
-        Assertions.assertFalse(ExpressionParserSettings.create().includeSelected().getSelectedMode());
+        Assertions.assertNull(init().build().getSelectedMode());
+        Assertions.assertTrue(init().excludeSelected().build().getSelectedMode());
+        Assertions.assertFalse(init().includeSelected().build().getSelectedMode());
     }
 
     @Test
     void withSelectedSubparsers() {
-        Assertions.assertEquals(Collections.singletonList("a"), ExpressionParserSettings.create().withSelectedSubparsers("a").getSelectedSubparsers());
-        Assertions.assertNotEquals(Collections.singletonList("a"), ExpressionParserSettings.create().withSelectedSubparsers(Collections.emptyList()).getSelectedSubparsers());
+        Assertions.assertEquals(Collections.singletonList("a"), init().withSelectedSubparsers("a").build().getSelectedSubparsers());
+        Assertions.assertNotEquals(Collections.singletonList("a"), init().withSelectedSubparsers(Collections.emptyList()).build().getSelectedSubparsers());
     }
 
     @Test
     void isStandaloneOnly() {
-        Assertions.assertTrue(ExpressionParserSettings.create().onlyStandalone().isStandaloneOnly());
-    }
-
-    @Test
-    void isCombined() {
-        Assertions.assertTrue(ExpressionParserSettings.create().withCombinedExpressions().isCombined());
+        Assertions.assertTrue(init().onlyStandalone().build().isStandaloneOnly());
     }
 
     @Test
     void create() {
-        ExpressionParserSettings settings = ExpressionParserSettings.create();
+        ExpressionParserSettings settings = init().build();
         Assertions.assertNotNull(settings);
         Assertions.assertEquals(ExpressionParserSettings.DEFAULT, settings);
+    }
+
+    private ExpressionParserSettingsBuilder init() {
+        return ExpressionParserSettings.create();
     }
 
 }

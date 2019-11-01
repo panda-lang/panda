@@ -16,82 +16,189 @@
 
 package org.panda_lang.framework.design.interpreter.parser.expression;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+import org.jetbrains.annotations.Nullable;
 
-public class ExpressionParserSettings {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Objects;
+
+/**
+ * Settings used by the single parse process
+ */
+public final class ExpressionParserSettings {
 
     /**
      * Default instance of expression settings
      */
-    public static final ExpressionParserSettings DEFAULT = ExpressionParserSettings.create();
+    public static final ExpressionParserSettings DEFAULT = ExpressionParserSettings.create().build();
 
-    protected Collection<String> selectedSubparsers;
-    protected Boolean selectedMode;
-    protected boolean standaloneOnly;
-    protected boolean combined;
+    private final Collection<String> selectedSubparsers;
+    private final Boolean selectedMode;
+    private final boolean standaloneOnly;
 
-    private ExpressionParserSettings() { }
-
-    public ExpressionParserSettings includeSelected() {
-        this.selectedMode = Boolean.FALSE;
-        return this;
+    ExpressionParserSettings(ExpressionParserSettingsBuilder builder) {
+        this.selectedSubparsers = builder.selectedSubparsers;
+        this.selectedMode = builder.selectedMode;
+        this.standaloneOnly = builder.standaloneOnly;
     }
 
-    public ExpressionParserSettings excludeSelected() {
-        this.selectedMode = Boolean.TRUE;
-        return this;
-    }
-
-    public ExpressionParserSettings withCombinedExpressions() {
-        this.combined = true;
-        return this;
-    }
-
-    public ExpressionParserSettings onlyStandalone() {
-        this.standaloneOnly = true;
-        return this;
-    }
-
-    public ExpressionParserSettings withSelectedSubparsers(String... subparsers) {
-        if (this.selectedSubparsers == null) {
-            this.selectedSubparsers = new ArrayList<>(subparsers.length);
-        }
-
-        Collections.addAll(this.selectedSubparsers, subparsers);
-        return this;
-    }
-
-    public ExpressionParserSettings withSelectedSubparsers(Collection<String> toExclude) {
-        if (selectedSubparsers == null) {
-            this.selectedSubparsers = toExclude;
-        }
-        else {
-            this.selectedSubparsers.addAll(toExclude);
-        }
-
-        return this;
-    }
-
+    /**
+     * Get collection of selected subparsers
+     *
+     * @return the collection of selected subparsers
+     */
     public Collection<? extends String> getSelectedSubparsers() {
         return selectedSubparsers;
     }
 
-    public Boolean getSelectedMode() {
+    /**
+     * Get selection mode, possible results:
+     *
+     * <ul>
+     *     <li>null - selection mode is not specified</li>
+     *     <li>true - exclude</li>
+     *     <li>false - include</li>
+     * </ul>
+     *
+     * @return the selection mode
+     */
+    public @Nullable Boolean getSelectedMode() {
         return selectedMode;
     }
 
+    /**
+     * Parse only standalone expressions
+     *
+     * @return true if parser can parse only standalone expressions
+     */
     public boolean isStandaloneOnly() {
         return standaloneOnly;
     }
 
-    public boolean isCombined() {
-        return combined;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        ExpressionParserSettings that = (ExpressionParserSettings) o;
+
+        return isStandaloneOnly() == that.isStandaloneOnly() &&
+                Objects.equals(getSelectedSubparsers(), that.getSelectedSubparsers()) &&
+                Objects.equals(getSelectedMode(), that.getSelectedMode());
     }
 
-    public static ExpressionParserSettings create() {
-        return new ExpressionParserSettings();
+    @Override
+    public int hashCode() {
+        return Objects.hash(getSelectedSubparsers(), getSelectedMode(), isStandaloneOnly());
+    }
+
+    /**
+     * Create settings builder
+     *
+     * @return a new builder intance
+     */
+    public static ExpressionParserSettingsBuilder create() {
+        return new ExpressionParserSettingsBuilder();
+    }
+
+    /**
+     * Settings builder
+     */
+    public static class ExpressionParserSettingsBuilder {
+
+        private Collection<String> selectedSubparsers;
+        private Boolean selectedMode;
+        private boolean standaloneOnly;
+
+        ExpressionParserSettingsBuilder() { }
+
+        /**
+         * Include selected subparsers
+         *
+         * @return builder instance
+         */
+        public ExpressionParserSettingsBuilder includeSelected() {
+            this.selectedMode = Boolean.FALSE;
+            return this;
+        }
+
+        /**
+         * Exclude selected subparsers
+         *
+         * @return builder instance
+         */
+        public ExpressionParserSettingsBuilder excludeSelected() {
+            this.selectedMode = Boolean.TRUE;
+            return this;
+        }
+
+        /**
+         * Set selected mode
+         *
+         * @param flag true to exclude, false to include selected subparsers
+         * @return builder instance
+         */
+        public ExpressionParserSettingsBuilder selected(boolean flag) {
+            if (flag) {
+                includeSelected();
+            }
+            else {
+                excludeSelected();
+            }
+
+            return this;
+        }
+
+        /**
+         * Parse only standalone expressions
+         *
+         * @return builder instance
+         */
+        public ExpressionParserSettingsBuilder onlyStandalone() {
+            this.standaloneOnly = true;
+            return this;
+        }
+
+        /**
+         * Select subparsers with the given name
+         *
+         * @param subparsers names of subparsers to select
+         * @return builder instance
+         */
+        public ExpressionParserSettingsBuilder withSelectedSubparsers(String... subparsers) {
+            return withSelectedSubparsers(Arrays.asList(subparsers));
+        }
+
+        /**
+         * Select subparsers with the given name
+         *
+         * @param subparsers names of subparsers to select
+         * @return builder instance
+         */
+        public ExpressionParserSettingsBuilder withSelectedSubparsers(Collection<String> subparsers) {
+            if (selectedSubparsers == null) {
+                this.selectedSubparsers = new ArrayList<>(subparsers.size());
+            }
+
+            this.selectedSubparsers.addAll(subparsers);
+            return this;
+        }
+
+        /**
+         * Create settings based on the collected data
+         *
+         * @return a new settings instance
+         */
+        public ExpressionParserSettings build() {
+            return new ExpressionParserSettings(this);
+        }
+
     }
 
 }

@@ -60,9 +60,13 @@ public class ExpressionWildcardReader implements WildcardReader<Expression> {
 
         String condition = datum[1];
         Collection<String> names = convert(StringUtils.splitFirst(condition, " ")[1]);
-        ExpressionParserSettings settings = ExpressionParserSettings.create().withSelectedSubparsers(names);
 
-        return parse(expressionParser, condition.startsWith("exclude") ? settings.excludeSelected() : settings.includeSelected(), context, distributor, distributor.currentSubSource());
+        ExpressionParserSettings settings = ExpressionParserSettings.create()
+                .withSelectedSubparsers(names)
+                .selected(condition.startsWith("exclude"))
+                .build();
+
+        return parse(expressionParser, settings, context, distributor, distributor.currentSubSource());
     }
 
     private @Nullable Expression parse(ExpressionParser expressionParser, @Nullable ExpressionParserSettings settings, Context context, TokenDistributor distributor, Snippet content) {
