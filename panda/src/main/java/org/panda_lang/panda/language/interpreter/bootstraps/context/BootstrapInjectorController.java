@@ -24,7 +24,7 @@ import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.
 import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.data.InterceptorData;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.data.LocalData;
-import org.panda_lang.framework.design.interpreter.pattern.PatternMapping;
+import org.panda_lang.framework.language.interpreter.pattern.PatternMapping;
 import org.panda_lang.utilities.commons.StringUtils;
 import org.panda_lang.utilities.inject.InjectorAnnotation;
 import org.panda_lang.utilities.inject.InjectorController;

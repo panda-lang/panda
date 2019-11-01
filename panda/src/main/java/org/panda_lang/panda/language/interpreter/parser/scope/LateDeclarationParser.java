@@ -20,6 +20,9 @@ import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.framework.design.interpreter.token.Snippetable;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
+import org.panda_lang.framework.language.architecture.statement.PandaVariableDataInitializer;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
 import org.panda_lang.framework.language.interpreter.pattern.custom.Result;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.KeywordElement;
@@ -27,11 +30,7 @@ import org.panda_lang.framework.language.interpreter.pattern.custom.elements.Typ
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.WildcardElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.NextTokenTypeVerifier;
 import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.TokenTypeVerifier;
-import org.panda_lang.framework.design.interpreter.token.Snippetable;
-import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.framework.language.architecture.statement.PandaVariableDataInitializer;
-import org.panda_lang.panda.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.Autowired;
@@ -40,6 +39,7 @@ import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.
 import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.interceptors.CustomPatternInterceptor;
+import org.panda_lang.panda.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_LATE_DECLARATION)
@@ -54,8 +54,8 @@ public final class LateDeclarationParser extends ParserBootstrap {
                         KeywordElement.create(Keywords.LATE),
                         KeywordElement.create(Keywords.MUT).optional(),
                         KeywordElement.create(Keywords.NIL).optional(),
-                        TypeElement.create("type").optional().verify(new NextTokenTypeVerifier(TokenType.UNKNOWN)),
-                        WildcardElement.create("name").verify(new TokenTypeVerifier(TokenType.UNKNOWN))
+                        TypeElement.create("type").optional().verify(new NextTokenTypeVerifier(TokenTypes.UNKNOWN)),
+                        WildcardElement.create("name").verify(new TokenTypeVerifier(TokenTypes.UNKNOWN))
                 ));
     }
 

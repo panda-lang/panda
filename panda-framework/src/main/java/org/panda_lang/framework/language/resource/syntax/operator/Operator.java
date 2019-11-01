@@ -18,6 +18,7 @@ package org.panda_lang.framework.language.resource.syntax.operator;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.interpreter.token.EqualableToken;
 import org.panda_lang.utilities.commons.StringUtils;
 
@@ -46,7 +47,7 @@ public class Operator extends EqualableToken {
 
     @Override
     public TokenType getType() {
-        return TokenType.OPERATOR;
+        return TokenTypes.OPERATOR;
     }
 
 }

@@ -16,39 +16,14 @@
 
 package org.panda_lang.framework.design.interpreter.token;
 
-import org.panda_lang.utilities.commons.ReflectionUtils;
-
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Represents token type
+ */
 public final class TokenType {
 
     private static final AtomicInteger ID_ASSIGNER = new AtomicInteger();
-
-    public static final TokenType SECTION = new TokenType("SECTION");
-
-    public static final TokenType UNKNOWN = new TokenType("UNKNOWN");
-
-    public static final TokenType IDENTIFIER = new TokenType("IDENTIFIER");
-
-    public static final TokenType LITERAL = new TokenType("LITERAL");
-
-    public static final TokenType KEYWORD = new TokenType("KEYWORD");
-
-    public static final TokenType SEPARATOR = new TokenType("SEPARATOR");
-
-    public static final TokenType SEQUENCE = new TokenType("SEQUENCE");
-
-    public static final TokenType OPERATOR = new TokenType("OPERATOR");
-
-    public static final TokenType INDENTATION = new TokenType("INDENTATION");
-
-    private static final Collection<TokenType> VALUES;
-
-    static {
-        VALUES = ReflectionUtils.getStaticFieldValues(TokenType.class, TokenType.class);
-    }
 
     private final int id;
     private final String name;
@@ -88,10 +63,6 @@ public final class TokenType {
     @Override
     public String toString() {
         return getName();
-    }
-
-    public static Collection<? extends TokenType> values() {
-        return new ArrayList<>(VALUES);
     }
 
 }

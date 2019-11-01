@@ -27,7 +27,7 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.architecture.module.PandaImportsUtils;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototypeField;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
@@ -69,8 +69,8 @@ public final class FieldParser extends ParserBootstrap {
                         KeywordElement.create(Keywords.STATIC).optional(),
                         KeywordElement.create(Keywords.MUT).optional(),
                         KeywordElement.create(Keywords.NIL).optional(),
-                        TypeElement.create("type").optional().verify(new NextTokenTypeVerifier(TokenType.UNKNOWN)),
-                        WildcardElement.create("name").verify(new TokenTypeVerifier(TokenType.UNKNOWN)),
+                        TypeElement.create("type").optional().verify(new NextTokenTypeVerifier(TokenTypes.UNKNOWN)),
+                        WildcardElement.create("name").verify(new TokenTypeVerifier(TokenTypes.UNKNOWN)),
                         SubPatternElement.create("assign").optional().of(
                                 UnitElement.create("operator").content("="),
                                 ExpressionElement.create("assignation").map(ExpressionTransaction::getExpression)

@@ -18,6 +18,9 @@ package org.panda_lang.framework.design.interpreter.token;
 
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 
+/**
+ * Represents stream of tokens
+ */
 public interface SourceStream extends Snippetable {
 
     /**

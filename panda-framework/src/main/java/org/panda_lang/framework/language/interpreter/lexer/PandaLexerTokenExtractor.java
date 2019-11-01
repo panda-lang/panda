@@ -18,7 +18,7 @@ package org.panda_lang.framework.language.interpreter.lexer;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.token.Token;
-import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.design.resource.Syntax;
 import org.panda_lang.framework.language.interpreter.token.PandaToken;
 import org.panda_lang.utilities.commons.StringUtils;
@@ -51,7 +51,7 @@ class PandaLexerTokenExtractor {
                     return false;
                 }
 
-                token = new PandaToken(TokenType.UNKNOWN, tokenPreview);
+                token = new PandaToken(TokenTypes.UNKNOWN, tokenPreview);
             }
 
             worker.addLineToken(token);
@@ -78,7 +78,7 @@ class PandaLexerTokenExtractor {
                     continue;
                 }
 
-                if (token.getType() == TokenType.KEYWORD || token.getType() == TokenType.LITERAL) {
+                if (token.getType() == TokenTypes.KEYWORD || token.getType() == TokenTypes.LITERAL) {
                     if (tokenPreview.length() > value.length()) {
                         continue;
                     }

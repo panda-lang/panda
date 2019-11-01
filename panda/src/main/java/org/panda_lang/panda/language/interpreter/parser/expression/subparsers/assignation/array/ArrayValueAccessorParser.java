@@ -17,15 +17,15 @@
 package org.panda_lang.panda.language.interpreter.parser.expression.subparsers.assignation.array;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.design.interpreter.token.TokenType;
-import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.resource.internal.java.JavaModule;
@@ -37,7 +37,7 @@ public final class ArrayValueAccessorParser implements Parser {
     public @Nullable ArrayAccessor parse(Context context, Snippet source) {
         TokenRepresentation sectionRepresentation = source.getLast();
 
-        if (sectionRepresentation == null || sectionRepresentation.getType() != TokenType.SECTION) {
+        if (sectionRepresentation == null || sectionRepresentation.getType() != TokenTypes.SECTION) {
             return null;
         }
 

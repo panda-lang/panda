@@ -17,6 +17,7 @@
 package org.panda_lang.framework.language.resource.syntax.auxiliary;
 
 import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.interpreter.token.EqualableToken;
 import org.panda_lang.utilities.commons.CharacterUtils;
 import org.panda_lang.utilities.commons.StringUtils;
@@ -43,7 +44,7 @@ public class Indentation extends EqualableToken {
 
     @Override
     public TokenType getType() {
-        return TokenType.INDENTATION;
+        return TokenTypes.INDENTATION;
     }
 
     /**

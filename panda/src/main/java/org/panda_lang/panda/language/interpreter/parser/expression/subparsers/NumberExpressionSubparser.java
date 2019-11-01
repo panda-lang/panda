@@ -17,18 +17,18 @@
 package org.panda_lang.panda.language.interpreter.parser.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
+import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.number.NumberParser;
 import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.number.NumberUtils;
-import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 
 public final class NumberExpressionSubparser implements ExpressionSubparser {
 
@@ -56,7 +56,7 @@ public final class NumberExpressionSubparser implements ExpressionSubparser {
                 return ExpressionResult.empty();
             }
 
-            if (token.getType() != TokenType.UNKNOWN || !NumberUtils.isNumeric(token.getValue())) {
+            if (token.getType() != TokenTypes.UNKNOWN || !NumberUtils.isNumeric(token.getValue())) {
                 return dispose();
             }
 

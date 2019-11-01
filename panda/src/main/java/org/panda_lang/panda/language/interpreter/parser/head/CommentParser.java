@@ -16,18 +16,18 @@
 
 package org.panda_lang.panda.language.interpreter.parser.head;
 
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.ContextParser;
-import org.panda_lang.framework.design.interpreter.parser.Components;
-import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.design.interpreter.token.TokenType;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
+import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +62,7 @@ public final class CommentParser implements ContextParser<CommentStatement>, Han
     }
 
     private static boolean isComment(Token token) {
-        return token.getType() == TokenType.SEQUENCE && token.getName().isPresent() && token.getName().get().equals("Comment");
+        return token.getType() == TokenTypes.SEQUENCE && token.getName().isPresent() && token.getName().get().equals("Comment");
     }
 
 }

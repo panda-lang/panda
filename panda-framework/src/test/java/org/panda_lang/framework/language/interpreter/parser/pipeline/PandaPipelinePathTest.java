@@ -21,9 +21,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponents;
-import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.interpreter.parser.PandaContext;
 import org.panda_lang.framework.language.interpreter.token.PandaTokenRepresentation;
 
@@ -62,7 +62,7 @@ class PandaPipelinePathTest implements PipelineComponents {
     @Test
     void getTotalHandleTime() {
         Assertions.assertNull(defaultPath.getPipeline(TEST_COMPONENT)
-                .handle(new PandaContext(), new PandaChannel(), PandaTokenRepresentation.of(TokenType.UNKNOWN, "test").toSnippet())
+                .handle(new PandaContext(), new PandaChannel(), PandaTokenRepresentation.of(TokenTypes.UNKNOWN, "test").toSnippet())
                 .getParser().orElse(null));
 
         Assertions.assertTrue(defaultPath.getTotalHandleTime() > 0);

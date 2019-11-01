@@ -18,6 +18,9 @@ package org.panda_lang.framework.design.interpreter.token;
 
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Snippet utilities
+ */
 public final class SnippetUtils {
 
     private SnippetUtils() { }

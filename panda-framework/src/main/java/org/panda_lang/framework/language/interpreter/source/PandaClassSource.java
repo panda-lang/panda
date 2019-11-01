@@ -19,6 +19,9 @@ package org.panda_lang.framework.language.interpreter.source;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceLocation;
 
+/**
+ * Represents virtual source based on java class
+ */
 public final class PandaClassSource extends PandaSource {
 
     public PandaClassSource(Class<?> clazz) {

@@ -16,11 +16,11 @@
 
 package org.panda_lang.framework.language.interpreter.pattern.custom.elements;
 
-import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPatternElementBuilder;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
+import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPatternElementBuilder;
 import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.framework.language.resource.syntax.separator.Separator;
@@ -36,7 +36,7 @@ public final class ContentBeforeElement extends CustomPatternElementBuilder<Snip
             Snippet declaration = new PandaSnippet();
 
             for (TokenRepresentation representation : source) {
-                if (representation.getType() == TokenType.SECTION && representation.toToken(Section.class).getSeparator().equals(separator)) {
+                if (representation.getType() == TokenTypes.SECTION && representation.toToken(Section.class).getSeparator().equals(separator)) {
                     source.next(-1);
                     break;
                 }

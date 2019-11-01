@@ -17,10 +17,10 @@
 package org.panda_lang.framework.language.resource.syntax.operator;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 
 import java.util.Objects;
 
@@ -56,7 +56,7 @@ public final class OperatorUtils {
         for (int index = 0; index < snippet.size(); index++) {
             TokenRepresentation representation = snippet.get(index);
 
-            if (representation.getType() != TokenType.OPERATOR) {
+            if (representation.getType() != TokenTypes.OPERATOR) {
                 continue;
             }
 

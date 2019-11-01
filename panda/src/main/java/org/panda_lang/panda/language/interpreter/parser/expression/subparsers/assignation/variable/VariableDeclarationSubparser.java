@@ -29,7 +29,7 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.architecture.prototype.utils.TypeDeclarationUtils;
 import org.panda_lang.framework.language.architecture.statement.PandaVariableDataInitializer;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
@@ -62,7 +62,7 @@ public final class VariableDeclarationSubparser extends AssignationSubparserBoot
 
         TokenRepresentation name = Objects.requireNonNull(source.getLast());
 
-        if (name.getType() != TokenType.UNKNOWN) {
+        if (name.getType() != TokenTypes.UNKNOWN) {
             return false;
         }
 

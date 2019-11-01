@@ -18,10 +18,23 @@ package org.panda_lang.framework.design.interpreter.source;
 
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 
+/**
+ * Represents some part (indicated fragment) of source
+ */
 public interface IndicatedSource {
 
+    /**
+     * Get the indicated fragment
+     *
+     * @return the indicated source
+     */
     Snippet getIndicated();
 
+    /**
+     * Get full source
+     *
+     * @return the full source
+     */
     Snippet getSource();
 
 }
