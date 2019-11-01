@@ -21,6 +21,11 @@ import org.panda_lang.utilities.commons.collection.Component;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Represents components used in the {@link org.panda_lang.framework.design.interpreter.parser.Context}
+ *
+ * @param <T> type of stored value
+ */
 public class ContextComponent<T> extends Component<T> {
 
     private static final Map<String, ContextComponent<?>> COMPONENTS = new HashMap<>();

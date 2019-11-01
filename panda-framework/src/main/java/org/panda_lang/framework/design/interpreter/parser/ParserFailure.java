@@ -18,8 +18,16 @@ package org.panda_lang.framework.design.interpreter.parser;
 
 import org.panda_lang.framework.design.Failure;
 
+/**
+ * Represents errors associated with parsers
+ */
 public interface ParserFailure extends Failure {
 
+    /**
+     * Get associated context
+     *
+     * @return the context
+     */
     Context getContext();
 
 }

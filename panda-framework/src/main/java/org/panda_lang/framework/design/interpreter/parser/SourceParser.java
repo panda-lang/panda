@@ -18,6 +18,11 @@ package org.panda_lang.framework.design.interpreter.parser;
 
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 
+/**
+ * Similar to {@link org.panda_lang.framework.design.interpreter.parser.ContextParser}, but with custom source
+ *
+ * @param <T> type of result
+ */
 public interface SourceParser<T> extends Parser {
 
     /**
