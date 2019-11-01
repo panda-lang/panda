@@ -16,9 +16,18 @@
 
 package org.panda_lang.framework.design.interpreter.parser.expression;
 
+/**
+ * Type of expression
+ */
 public enum ExpressionCategory {
 
+    /**
+     * Default expression that cannot be used as a standalone statement
+     */
     DEFAULT,
+    /**
+     * Standalone expressions can be used as a normal statements in the scopes
+     */
     STANDALONE
 
 }

@@ -17,6 +17,7 @@
 package org.panda_lang.framework.design.interpreter.parser.expression;
 
 import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction.Commit;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
@@ -47,7 +48,7 @@ public interface ExpressionContext {
      *
      * @param commit the commit to save
      */
-    void commit(ExpressionTransactionCommit commit);
+    void commit(Commit commit);
 
     /**
      * Check if context contains any expressions on stack

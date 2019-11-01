@@ -20,12 +20,41 @@ import org.panda_lang.framework.design.architecture.expression.Expression;
 
 import java.util.Collection;
 
+/**
+ * Transactional wrapper for the parsed expression.
+ * Useful if we parsed expression that had to commit changes in some places and we want to drop them (e.g. variable creation)
+ */
 public interface ExpressionTransaction {
 
+    /**
+     * Rollback changes required to create this expression
+     */
     void rollback();
 
-    Collection<ExpressionTransactionCommit> getCommits();
+    /**
+     * Get collection of commits
+     *
+     * @return the actual collection of commits
+     */
+    Collection<Commit> getCommits();
 
+    /**
+     * Get parsed expression
+     *
+     * @return the expression
+     */
     Expression getExpression();
+
+    /**
+     * Single commit that represents a change
+     */
+    interface Commit {
+
+        /**
+         * Rollback this change
+         */
+        void rollback();
+
+    }
 
 }

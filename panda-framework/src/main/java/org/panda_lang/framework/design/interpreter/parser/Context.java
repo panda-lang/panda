@@ -18,10 +18,13 @@ package org.panda_lang.framework.design.interpreter.parser;
 
 import java.util.Map;
 
+/**
+ * Component based set of data used during the interpretation process
+ */
 public interface Context {
 
     /**
-     * Clone ParserData to a new instance with old components
+     * Clone context to a new independent instance
      */
     Context fork();
 

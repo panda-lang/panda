@@ -19,7 +19,7 @@ package org.panda_lang.framework.language.interpreter.parser.expression;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransactionCommit;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction.Commit;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
@@ -35,7 +35,7 @@ final public class PandaExpressionContext implements ExpressionContext {
     private final SourceStream source;
     private final SynchronizedSource synchronizedSource;
     private final Stack<Expression> results = new Stack<>();
-    private final Collection<ExpressionTransactionCommit> commits = new ArrayList<>(1);
+    private final Collection<Commit> commits = new ArrayList<>(1);
 
     public PandaExpressionContext(ExpressionParser parser, Context context, SourceStream source) {
         this.parser = parser;
@@ -55,7 +55,7 @@ final public class PandaExpressionContext implements ExpressionContext {
     }
 
     @Override
-    public void commit(ExpressionTransactionCommit commit) {
+    public void commit(Commit commit) {
         commits.add(commit);
     }
 
@@ -74,7 +74,7 @@ final public class PandaExpressionContext implements ExpressionContext {
         return source;
     }
 
-    public Collection<ExpressionTransactionCommit> getCommits() {
+    public Collection<Commit> getCommits() {
         return commits;
     }
 

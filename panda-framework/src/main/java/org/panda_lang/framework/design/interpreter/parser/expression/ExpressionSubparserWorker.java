@@ -19,8 +19,25 @@ package org.panda_lang.framework.design.interpreter.parser.expression;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 
+/**
+ * Subparser worker, created during the parse process
+ */
 public interface ExpressionSubparserWorker {
 
+    /**
+     * Handle a next token. Possible results:
+     *
+     * <ul>
+     *     <li>null if current worker does not match the source</li>
+     *     <li>empty result if worker matches the source, but still needs more data</li>
+     *     <li>result if worker matched source</li>
+     *     <li>error if worker matched source, but something happen</li>
+     * </ul>
+     *
+     * @param context the current context
+     * @param token the token to handle
+     * @return the result of worker
+     */
     @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token);
 
     ExpressionSubparser getSubparser();

@@ -21,7 +21,6 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionC
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserPostProcessor;
-import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserRepresentation;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserType;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
@@ -37,14 +36,14 @@ public class PandaExpressionParserWorker {
     public static final Map<String, Long> TIMES = new HashMap<>();
     private static final int NONE = -1;
 
-    private final List<ExpressionSubparserRepresentation> subparsers;
+    private final List<PandaExpressionSubparserRepresentation> subparsers;
     private final ExpressionSubparserWorker[] workers;
     private final Stack<ExpressionSubparserWorker> cachedWorkers = new Stack<>();
     private ExpressionResult error = null;
     private int previousSubparser = NONE;
     private int lastSucceededRead = 0;
 
-    protected PandaExpressionParserWorker(List<ExpressionSubparserRepresentation> subparsers) {
+    protected PandaExpressionParserWorker(List<PandaExpressionSubparserRepresentation> subparsers) {
         this.subparsers = subparsers;
         this.workers = new ExpressionSubparserWorker[subparsers.size()];
 

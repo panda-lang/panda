@@ -24,65 +24,118 @@ import org.panda_lang.framework.design.architecture.expression.Expression;
 
 import java.util.function.Supplier;
 
+/**
+ * Result wrapper that may contain the result expression, error or nothing
+ */
 public class ExpressionResult {
 
     private static final ExpressionResult EMPTY = of(null);
 
-    private final @Nullable Expression value;
+    private final @Nullable Expression expression;
     private final @Nullable String errorMessage;
     private final @Nullable Snippetable source;
 
-    ExpressionResult(@Nullable Expression value, Snippetable source, String errorMessage) {
-        this.value = value;
+    ExpressionResult(@Nullable Expression expression, Snippetable source, String errorMessage) {
+        this.expression = expression;
         this.source = source;
         this.errorMessage = errorMessage;
     }
 
-    ExpressionResult(@Nullable Expression value) {
-        this(value, null, null);
+    ExpressionResult(@Nullable Expression expression) {
+        this(expression, null, null);
     }
 
     ExpressionResult(String errorMessage, TokenRepresentation source) {
         this(null, source, errorMessage);
     }
 
+    /**
+     * Check if wrapper does not contain expression
+     *
+     * @return true if wrapper contains result
+     */
     public boolean isEmpty() {
         return !isPresent();
     }
 
+    /**
+     * Check if result is present
+     *
+     * @return true if the result expression is present, otherwise false
+     */
     public boolean isPresent() {
-        return value != null;
+        return expression != null;
     }
 
+    /**
+     * Check if result contains error
+     *
+     * @return true if result contains error data, otherwise false
+     */
     public boolean containsError() {
         return source != null && errorMessage != null;
     }
 
-    public Expression orElse(Expression elseValue) {
-        return isPresent() ? value : elseValue;
-    }
-
     public Expression orElseGet(Supplier<? extends Expression> supplier) {
-        return isPresent() ? value : supplier.get();
+        return isPresent() ? expression : supplier.get();
     }
 
+    /**
+     * Get result expression
+     *
+     * @return the result expression
+     */
     public Expression get() {
-        return value;
+        return expression;
     }
 
+    /**
+     * Get error message
+     *
+     * @return the error message
+     */
     public String getErrorMessage() {
         return errorMessage;
     }
 
-    public Snippetable getSource() {
+    /**
+     * Get indicated error source
+     *
+     * @return the source
+     */
+    public Snippetable getErrorSource() {
         return source;
     }
 
+    /**
+     * Create result
+     *
+     * @param expression the result expression
+     * @return the result
+     */
+    public static ExpressionResult of(Expression expression) {
+        return new ExpressionResult(expression);
+    }
+
+    /**
+     * Create error result
+     *
+     * @param message the error message
+     * @param context the expression context
+     * @return the error result
+     */
     public static ExpressionResult error(String message, ExpressionContext context) {
         context.getSynchronizedSource().next(-1);
         return error(message, context.getSynchronizedSource().getAvailableSource());
     }
 
+    /**
+     * Create error result
+     *
+     * @param message the error message
+     * @param source the indicated source
+     * @return the error result
+     */
     public static ExpressionResult error(String message, Snippetable source) {
         Snippet snippet = source.toSnippet();
 
@@ -93,10 +146,9 @@ public class ExpressionResult {
         return new ExpressionResult(message, snippet.getFirst());
     }
 
-    public static ExpressionResult of(Expression value) {
-        return new ExpressionResult(value);
-    }
-
+    /**
+     * @return get empty result
+     */
     public static ExpressionResult empty() {
         return EMPTY;
     }
