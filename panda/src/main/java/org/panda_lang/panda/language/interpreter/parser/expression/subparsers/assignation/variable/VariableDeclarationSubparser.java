@@ -26,18 +26,19 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionC
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.architecture.prototype.utils.TypeDeclarationUtils;
-import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.framework.language.architecture.dynamic.assigner.Assigner;
-import org.panda_lang.framework.language.architecture.dynamic.assigner.AssignerExpression;
 import org.panda_lang.framework.language.architecture.statement.PandaVariableDataInitializer;
-import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.Component;
+import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.Inter;
+import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.assignation.AssignationPriorities;
 import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.assignation.AssignationSubparserBootstrap;
@@ -100,17 +101,28 @@ public final class VariableDeclarationSubparser extends AssignationSubparserBoot
     }
 
     @Autowired
-    ExpressionResult parse(Context context, @Component ExpressionContext expressionContext, @Component Scope scope, @Component Channel channel, @Component Expression expression) throws Exception {
+    ExpressionResult parse(
+            Context context,
+            @Component Scope scope, @Component Channel channel, @Component Expression expression, @Component ExpressionContext expressionContext,
+            @Inter SourceLocation location
+    ) {
         Elements elements = channel.get("elements", Elements.class);
-
         PandaVariableDataInitializer dataInitializer = new PandaVariableDataInitializer(context, scope);
         VariableData variableData = dataInitializer.createVariableData(elements.type, elements.name, elements.mutable, elements.nillable);
 
         Variable variable = scope.createVariable(variableData);
         expressionContext.commit(() -> scope.removeVariable(variable.getName()));
 
-        Assigner<Variable> assigner = VariableAssignerUtils.of(context, variable, true, expression);
-        return ExpressionResult.of(new AssignerExpression(assigner));
+        if (!variable.getType().isAssignableFrom(expression.getReturnType())) {
+            throw new PandaParserFailure(context,
+                    "Cannot assign " + expression.getReturnType().getSimpleName() + " to " + variable.getType().getSimpleName() + " variable",
+                    "Change variable type or ensure the expression has compatible return type"
+            );
+        }
+
+        return ExpressionResult.of(new VariableAccessor(variable.initialize())
+                .toAssigner(location, true, expression)
+                .toExpression());
     }
 
     private static final class Elements {
