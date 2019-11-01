@@ -18,6 +18,9 @@ package org.panda_lang.framework.design.architecture.module;
 
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 
+/**
+ * Represents references imported in the specific space, e.g. file
+ */
 public interface Imports extends ModuleResource {
 
     /**

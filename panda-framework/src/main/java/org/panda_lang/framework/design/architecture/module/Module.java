@@ -23,6 +23,9 @@ import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.Optional;
 
+/**
+ * Identifiable container of resources
+ */
 public interface Module extends Modules, ModuleResource {
 
     /**

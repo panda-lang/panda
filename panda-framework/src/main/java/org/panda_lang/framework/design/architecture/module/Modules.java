@@ -21,6 +21,9 @@ import org.panda_lang.utilities.commons.StreamUtils;
 import java.util.Collection;
 import java.util.Optional;
 
+/**
+ * Modules container
+ */
 public interface Modules {
 
     /**
