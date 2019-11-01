@@ -23,10 +23,16 @@ public abstract class Component<R> {
 
     private final String name;
     private final Class<R> type;
+    private final double priority;
 
-    protected Component(String name, Class<R> type) {
+    protected Component(String name, Class<R> type, double priority) {
         this.name = name;
         this.type = type;
+        this.priority = priority;
+    }
+
+    public double getPriority() {
+        return priority;
     }
 
     public String getName() {
