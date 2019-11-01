@@ -24,8 +24,8 @@ final class PandaShellTest {
     private static final PandaShell SHELL = new PandaShell(LoggerFactory.getLogger(PandaShellTest.class));
 
     @Test
-    void testLevel() {
-        SHELL.invoke("--level=info", "../examples/tests/current_test.panda");
+    void test() throws Exception {
+        SHELL.invoke("--level=info", "../examples/manager/panda.hjson");
     }
 
 }

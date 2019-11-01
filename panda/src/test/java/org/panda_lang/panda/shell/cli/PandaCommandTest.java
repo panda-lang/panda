@@ -26,16 +26,16 @@ final class PandaCommandTest {
     private static final PandaShell SHELL = new PandaShell(LoggerFactory.getLogger(PandaCommandTest.class));
 
     @Test
-    void help() {
+    void help() throws Exception {
         invoke("--help");
     }
 
     @Test
-    void version() {
+    void version() throws Exception {
         invoke("--version");
     }
 
-    private void invoke(String args) {
+    private void invoke(String args) throws Exception {
         CommandLine.populateCommand(new PandaCommand(SHELL), args).run();
     }
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.pmm;
+package org.panda_lang.panda.manager;
 
 import org.junit.jupiter.api.Test;
 import org.panda_lang.framework.language.interpreter.messenger.PandaMessenger;
@@ -23,10 +23,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
-class PandaModulesManagerTest {
+class ModuleManagerTest {
 
-    private static final File DIRECTORY = new File("../examples/pmm/");
-    private static final PandaModulesManager MANAGER = new PandaModulesManager(new PandaMessenger(LoggerFactory.getLogger(PandaModulesManagerTest.class)), DIRECTORY);
+    private static final File DIRECTORY = new File("../examples/manager/");
+    private static final ModuleManager MANAGER = new ModuleManager(new PandaMessenger(LoggerFactory.getLogger(ModuleManagerTest.class)), DIRECTORY);
 
     @Test
     void test() throws Exception {

@@ -24,7 +24,7 @@ public final class PandaLauncher {
 
     private PandaLauncher() { }
 
-    public static void main(String... args) {
+    public static void main(String... args) throws Exception {
         PandaShell cli = new PandaShell(LoggerFactory.getLogger(PandaLauncher.class));
 
         if (ArrayUtils.isEmpty(args)) {

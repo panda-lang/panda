@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.pmm;
+package org.panda_lang.panda.manager;
 
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerLevel;
@@ -37,10 +37,10 @@ import java.util.zip.ZipInputStream;
 
 final class Install implements ThrowingRunnable<IOException> {
 
-    private final PandaModulesManager manager;
+    private final ModuleManager manager;
     private final ModuleDocument document;
 
-    Install(PandaModulesManager manager, ModuleDocument document) {
+    Install(ModuleManager manager, ModuleDocument document) {
         this.manager = manager;
         this.document = document;
     }

@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.pmm;
+package org.panda_lang.panda.manager;
 
 import org.panda_lang.framework.design.interpreter.messenger.Messenger;
 
 import java.io.File;
 import java.io.IOException;
 
-public final class PandaModulesManager {
+public final class ModuleManager {
 
     private final Messenger messenger;
     private final File workingDirectory;
 
-    public PandaModulesManager(Messenger messenger, File workingDirectory) {
+    public ModuleManager(Messenger messenger, File workingDirectory) {
         this.messenger = messenger;
         this.workingDirectory = workingDirectory;
     }
