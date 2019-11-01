@@ -19,6 +19,11 @@ package org.panda_lang.framework.design.interpreter.parser.generation;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 
+/**
+ * Task that can be delegated to the generation
+ *
+ * @param <T> type of result
+ */
 public interface GenerationTask<T> {
 
     /**

@@ -24,6 +24,12 @@ public final class CycleType implements Comparable<CycleType> {
     private final String name;
     private final double priority;
 
+    /**
+     * Create new cycle type
+     *
+     * @param name the name of cycle
+     * @param priority the priority
+     */
     public CycleType(String name, double priority) {
         this.name = name;
         this.priority = priority;

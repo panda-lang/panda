@@ -18,6 +18,9 @@ package org.panda_lang.framework.design.interpreter.parser.generation;
 
 import org.panda_lang.framework.design.interpreter.parser.Context;
 
+/**
+ * Represents a group of tasks delegated to the same phase (layer) in the cycle
+ */
 public interface GenerationPhase {
 
     /**

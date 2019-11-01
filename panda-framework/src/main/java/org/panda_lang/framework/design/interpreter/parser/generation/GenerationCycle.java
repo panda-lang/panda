@@ -16,6 +16,9 @@
 
 package org.panda_lang.framework.design.interpreter.parser.generation;
 
+/**
+ * Cycle represents following continuously pair of phases identified by the specific {@link org.panda_lang.framework.design.interpreter.parser.generation.CycleType}
+ */
 public interface GenerationCycle {
 
     /**
