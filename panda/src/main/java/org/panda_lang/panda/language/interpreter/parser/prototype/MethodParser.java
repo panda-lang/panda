@@ -28,7 +28,7 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.architecture.prototype.MethodScope;
 import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
@@ -79,8 +79,8 @@ public final class MethodParser extends ParserBootstrap {
                         KeywordElement.create(Keywords.OVERRIDE).optional(),
                         VariantElement.create("visibility").content("public", "shared", "local").map(value -> Visibility.valueOf(value.toString().toUpperCase())),
                         UnitElement.create("static").content("static").optional(),
-                        TypeElement.create("type").optional().verify(new NextTokenTypeVerifier(TokenType.UNKNOWN)),
-                        WildcardElement.create("name").verify(new TokenTypeVerifier(TokenType.UNKNOWN)),
+                        TypeElement.create("type").optional().verify(new NextTokenTypeVerifier(TokenTypes.UNKNOWN)),
+                        WildcardElement.create("name").verify(new TokenTypeVerifier(TokenTypes.UNKNOWN)),
                         SectionElement.create("parameters"),
                         SectionElement.create("body").optional()
                 ));

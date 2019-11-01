@@ -25,7 +25,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionS
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserType;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.operation.Operation;
 import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.operation.OperationParser;
 
@@ -71,7 +71,7 @@ public final class OperationExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            if (token.getType() != TokenType.OPERATOR) {/*
+            if (token.getType() != TokenTypes.OPERATOR) {/*
                 if (elements != null) {
                     elements.add(new Operation.OperationElement(context.popExpression()));
                     return finish(context);

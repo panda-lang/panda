@@ -19,7 +19,7 @@ package org.panda_lang.framework.language.interpreter.lexer;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
-import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.interpreter.PandaInterpreterFailure;
 import org.panda_lang.framework.language.interpreter.source.PandaIndicatedSource;
 import org.panda_lang.framework.language.interpreter.token.PandaToken;
@@ -36,7 +36,7 @@ public class PandaLexerException extends PandaInterpreterFailure {
     }
 
     private static Snippetable of(CharSequence content, SourceLocation location) {
-        return new PandaTokenRepresentation(new PandaToken(TokenType.UNKNOWN, content.toString()), location);
+        return new PandaTokenRepresentation(new PandaToken(TokenTypes.UNKNOWN, content.toString()), location);
     }
 
 }

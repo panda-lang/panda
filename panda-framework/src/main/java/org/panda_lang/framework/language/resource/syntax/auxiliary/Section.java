@@ -16,9 +16,10 @@
 
 package org.panda_lang.framework.language.resource.syntax.auxiliary;
 
+import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.interpreter.token.EqualableToken;
 import org.panda_lang.framework.language.resource.syntax.separator.Separator;
 
@@ -41,7 +42,7 @@ public class Section extends EqualableToken {
 
     @Override
     public TokenType getType() {
-        return TokenType.SECTION;
+        return TokenTypes.SECTION;
     }
 
     public Snippet getContent() {

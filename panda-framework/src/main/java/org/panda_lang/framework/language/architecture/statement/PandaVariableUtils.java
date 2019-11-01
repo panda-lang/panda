@@ -17,7 +17,7 @@
 package org.panda_lang.framework.language.architecture.statement;
 
 import org.panda_lang.framework.design.interpreter.token.Token;
-import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.utilities.commons.CharacterUtils;
 
 public final class PandaVariableUtils {
@@ -35,7 +35,7 @@ public final class PandaVariableUtils {
     private PandaVariableUtils() { }
 
     public static boolean isAllowedName(Token token) {
-        if (token.getType() != TokenType.UNKNOWN) {
+        if (token.getType() != TokenTypes.UNKNOWN) {
             return false;
         }
 

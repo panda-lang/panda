@@ -23,7 +23,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionS
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserType;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.architecture.expression.ThisExpression;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.framework.language.interpreter.parser.expression.ExpressionParserUtils;
@@ -50,7 +50,7 @@ public final class LiteralExpressionSubparser implements ExpressionSubparser {
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
-            if (token.getType() != TokenType.LITERAL) {
+            if (token.getType() != TokenTypes.LITERAL) {
                 return null;
             }
 

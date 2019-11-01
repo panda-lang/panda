@@ -23,7 +23,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionC
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.architecture.expression.StaticExpression;
 import org.panda_lang.framework.language.architecture.prototype.utils.VisibilityComparator;
 import org.panda_lang.framework.language.interpreter.parser.expression.PartialResultSubparser;
@@ -44,7 +44,7 @@ public final class StaticExpressionSubparser implements PartialResultSubparser {
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
-            if (token.getType() != TokenType.UNKNOWN || context.hasResults() || !context.getSynchronizedSource().hasNext()) {
+            if (token.getType() != TokenTypes.UNKNOWN || context.hasResults() || !context.getSynchronizedSource().hasNext()) {
                 return null;
             }
 

@@ -16,9 +16,9 @@
 
 package org.panda_lang.framework.language.interpreter.lexer;
 
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.framework.language.resource.syntax.PandaSyntax;
 import org.panda_lang.utilities.commons.StringUtils;
@@ -39,7 +39,7 @@ public class PandaLexerUtils {
         StringBuilder content = new StringBuilder();
 
         for (TokenRepresentation representation : source) {
-            if (representation.getType() != TokenType.SECTION) {
+            if (representation.getType() != TokenTypes.SECTION) {
                 content.append(representation.getToken().toString()).append(" ");
             }
             else {

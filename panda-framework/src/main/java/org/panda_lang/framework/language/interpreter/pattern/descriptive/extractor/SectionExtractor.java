@@ -16,10 +16,10 @@
 
 package org.panda_lang.framework.language.interpreter.pattern.descriptive.extractor;
 
-import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternSection;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.utils.TokenDistributor;
+import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternSection;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
 
 final class SectionExtractor extends AbstractElementExtractor<LexicalPatternSection> {
@@ -32,7 +32,7 @@ final class SectionExtractor extends AbstractElementExtractor<LexicalPatternSect
     public ExtractorResult extract(LexicalPatternSection element, TokenDistributor distributor) {
         TokenRepresentation next = distributor.next();
 
-        if (next.getType() != TokenType.SECTION) {
+        if (next.getType() != TokenTypes.SECTION) {
             return new ExtractorResult("Token is not section");
         }
 

@@ -26,7 +26,7 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
@@ -63,7 +63,7 @@ public final class RequireParser extends ParserBootstrap {
                         KeywordElement.create(Keywords.REQUIRE),
                         VariantElement.create("variant").content(
                                 ImportElement.create("required").pandaModule(),
-                                WildcardElement.create("requiredFile").verify(new TokenTypeVerifier(TokenType.SEQUENCE))
+                                WildcardElement.create("requiredFile").verify(new TokenTypeVerifier(TokenTypes.SEQUENCE))
                         )
                 ));
     }

@@ -29,7 +29,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionS
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.architecture.module.PandaImportsUtils;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeExecutableExpression;
 import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
@@ -111,7 +111,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             // look for () section
             TokenRepresentation next = source.next();
 
-            if (next.getType() != TokenType.SECTION) {
+            if (next.getType() != TokenTypes.SECTION) {
                 return null;
             }
 
@@ -190,7 +190,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             for (int index = type.size() - 1; index >= 0; index--) {
                 TokenRepresentation representation = type.get(index);
 
-                if (representation.getType() != TokenType.SECTION) {
+                if (representation.getType() != TokenTypes.SECTION) {
                     break;
                 }
 

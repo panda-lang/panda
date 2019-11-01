@@ -19,12 +19,12 @@ package org.panda_lang.framework.language.interpreter.pattern.descriptive.wildca
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.language.interpreter.pattern.descriptive.wildcard.reader.WildcardReader;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.utils.TokenDistributor;
+import org.panda_lang.framework.language.interpreter.pattern.descriptive.wildcard.reader.WildcardReader;
+import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.framework.language.resource.syntax.operator.Operators;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
@@ -45,7 +45,7 @@ class TypeReader implements WildcardReader<Snippet> {
         TokenRepresentation type = distributor.getNext();
 
         //noinspection ConstantConditions
-        if (type.getType() != TokenType.UNKNOWN && type.getType() != TokenType.SECTION) {
+        if (type.getType() != TokenTypes.UNKNOWN && type.getType() != TokenTypes.SECTION) {
             return null;
         }
 
@@ -69,7 +69,7 @@ class TypeReader implements WildcardReader<Snippet> {
     private @Nullable TokenRepresentation readSection(TokenDistributor distributor) {
         TokenRepresentation next = distributor.next();
 
-        if (next.getType() != TokenType.SECTION) {
+        if (next.getType() != TokenTypes.SECTION) {
             return null;
         }
 

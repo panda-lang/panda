@@ -14,14 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.interpreter.pattern;
+package org.panda_lang.framework.language.interpreter.pattern;
 
-import org.panda_lang.framework.design.interpreter.token.Snippet;
+/**
+ * Simple interface for pattern results that allows to get matched values
+ */
+public interface PatternMapping {
 
-public interface PatternResult {
-
-    boolean isMatched();
-
-    Snippet getSource();
+    /**
+     * Get value using the given name
+     *
+     * @param name the name to search for
+     * @param <T> type of result
+     * @return a found result
+     */
+    <T> T get(String name);
 
 }

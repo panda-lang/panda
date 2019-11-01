@@ -19,7 +19,7 @@ package org.panda_lang.framework.language.architecture.prototype.utils;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
@@ -42,7 +42,7 @@ public final class TypeDeclarationUtils {
         Snippet type = new PandaSnippet();
         TokenRepresentation candidate = Objects.requireNonNull(source.get(0));
 
-        if (candidate.getType() != TokenType.UNKNOWN) {
+        if (candidate.getType() != TokenTypes.UNKNOWN) {
             return Optional.empty();
         }
 
@@ -83,7 +83,7 @@ public final class TypeDeclarationUtils {
 
         type.addToken(candidate);
 
-        if (candidate == null || candidate.getType() != TokenType.UNKNOWN) {
+        if (candidate == null || candidate.getType() != TokenTypes.UNKNOWN) {
             return Optional.empty();
         }
 
@@ -95,7 +95,7 @@ public final class TypeDeclarationUtils {
     }
 
     public static boolean isArraySeparator(@Nullable TokenRepresentation token) {
-        return token != null && token.getType() == TokenType.SECTION && token.toToken(Section.class).getSeparator().equals(Separators.SQUARE_BRACKET_LEFT);
+        return token != null && token.getType() == TokenTypes.SECTION && token.toToken(Section.class).getSeparator().equals(Separators.SQUARE_BRACKET_LEFT);
     }
 
 }

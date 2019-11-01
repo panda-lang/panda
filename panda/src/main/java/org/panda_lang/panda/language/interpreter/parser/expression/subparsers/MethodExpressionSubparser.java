@@ -27,7 +27,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionS
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.architecture.expression.StaticExpression;
 import org.panda_lang.framework.language.architecture.expression.ThisExpression;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeExecutableExpression;
@@ -72,7 +72,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
             SynchronizedSource source = context.getSynchronizedSource();
 
             // name has to be declared by unknown type of token
-            if (nameToken.getType() != TokenType.UNKNOWN || !source.hasNext()) {
+            if (nameToken.getType() != TokenTypes.UNKNOWN || !source.hasNext()) {
                 return null;
             }
 

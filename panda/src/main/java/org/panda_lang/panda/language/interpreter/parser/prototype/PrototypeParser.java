@@ -29,7 +29,7 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
-import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.architecture.prototype.PandaConstructor;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
@@ -74,7 +74,7 @@ public final class PrototypeParser extends ParserBootstrap {
                 .pattern(CustomPattern.of(
                         VariantElement.create("visibility").content(Keywords.PUBLIC, Keywords.SHARED, Keywords.LOCAL).optional(),
                         VariantElement.create("state").content(Keywords.CLASS, Keywords.INTERFACE),
-                        WildcardElement.create("name").verify(new TokenTypeVerifier(TokenType.UNKNOWN)),
+                        WildcardElement.create("name").verify(new TokenTypeVerifier(TokenTypes.UNKNOWN)),
                         SubPatternElement.create("extended").optional().of(
                                 UnitElement.create("extends").content(":"),
                                 CustomElement.create("inherited").custom((data, source) -> PrototypeParserUtils.readTypes(source))

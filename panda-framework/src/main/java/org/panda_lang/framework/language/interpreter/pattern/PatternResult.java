@@ -14,23 +14,27 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.interpreter.source;
+package org.panda_lang.framework.language.interpreter.pattern;
 
-import org.panda_lang.framework.language.interpreter.source.PandaSourceSet;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
 
 /**
- * Provider of code source instances.
+ * Universal interface for pattern results
  */
-public interface SourceProvider extends Iterable<Source> {
+public interface PatternResult {
 
-    default SourceSet toSourceSet() {
-        PandaSourceSet sources = new PandaSourceSet();
+    /**
+     * Check if result is matched
+     *
+     * @return true if matched, otherwise false
+     */
+    boolean isMatched();
 
-        for (Source source : this) {
-            sources.addSource(source);
-        }
-
-        return sources;
-    }
+    /**
+     * Get matched source
+     *
+     * @return the matched source
+     */
+    Snippet getSource();
 
 }

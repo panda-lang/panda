@@ -18,6 +18,7 @@ package org.panda_lang.framework.language.resource.syntax.sequence;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.interpreter.token.EqualableToken;
 
 import java.util.Optional;
@@ -62,7 +63,7 @@ public class Sequence extends EqualableToken {
 
     @Override
     public TokenType getType() {
-        return TokenType.SEQUENCE;
+        return TokenTypes.SEQUENCE;
     }
 
 }
