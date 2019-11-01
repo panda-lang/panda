@@ -24,4 +24,8 @@ public interface Assigner<T extends Variable> extends Executable {
 
     Accessor<T> getAccessor();
 
+    default AssignerExpression toExpression() {
+        return new AssignerExpression(this);
+    }
+
 }

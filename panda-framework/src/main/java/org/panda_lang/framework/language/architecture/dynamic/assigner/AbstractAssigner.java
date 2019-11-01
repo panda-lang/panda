@@ -17,13 +17,16 @@
 package org.panda_lang.framework.language.architecture.dynamic.assigner;
 
 import org.panda_lang.framework.design.architecture.statement.Variable;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.language.architecture.dynamic.accessor.Accessor;
+import org.panda_lang.framework.language.architecture.statement.AbstractStatement;
 
-public abstract class AbstractAssigner<T extends Variable> implements Assigner<T> {
+public abstract class AbstractAssigner<T extends Variable> extends AbstractStatement implements Assigner<T> {
 
     protected final Accessor<T> accessor;
 
-    protected AbstractAssigner(Accessor<T> accessor) {
+    protected AbstractAssigner(SourceLocation location, Accessor<T> accessor) {
+        super(location);
         this.accessor = accessor;
     }
 

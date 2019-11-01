@@ -30,7 +30,7 @@ public class ParameterUtils {
     private ParameterUtils() { }
 
     public static void assignValues(AbstractFrame<?> instance, Object[] parameterValues) {
-        if (instance.getAmountOfVariables() < parameterValues.length) {
+        if (instance.getMemorySize() < parameterValues.length) {
             throw new PandaRuntimeException("Incompatible number of parameters");
         }
 

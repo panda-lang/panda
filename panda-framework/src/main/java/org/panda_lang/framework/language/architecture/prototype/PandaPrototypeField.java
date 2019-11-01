@@ -42,8 +42,9 @@ public class PandaPrototypeField extends AbstractExecutableProperty implements P
     }
 
     @Override
-    public void initialize() {
+    public PandaPrototypeField initialize() {
         this.initialized = true;
+        return this;
     }
 
     @Override

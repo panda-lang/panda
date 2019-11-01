@@ -18,6 +18,7 @@ package org.panda_lang.panda.language.interpreter.parser.expression.subparsers.a
 
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.framework.language.architecture.dynamic.assigner.AbstractAssigner;
@@ -28,8 +29,8 @@ public class FieldAssigner extends AbstractAssigner<PrototypeField> {
     private final boolean initialize;
     private final Expression valueExpression;
 
-    public FieldAssigner(Accessor<PrototypeField> accessor, boolean initialize, Expression valueExpression) {
-        super(accessor);
+    public FieldAssigner(SourceLocation location, Accessor<PrototypeField> accessor, boolean initialize, Expression valueExpression) {
+        super(location, accessor);
         this.initialize = initialize;
         this.valueExpression = valueExpression;
     }

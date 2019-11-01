@@ -20,8 +20,10 @@ public interface Variable extends VariableData {
 
     /**
      * Mark variable as initialized
+     *
+     * @return variable instance
      */
-    void initialize();
+    Variable initialize();
 
     /**
      * Check if the variable is initialized

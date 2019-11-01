@@ -64,13 +64,13 @@ final class FieldGenerator {
                 try {
                     return field.get(instance);
                 } catch (IllegalAccessException e) {
-                    throw new PandaRuntimeException(e);
+                    throw new PandaRuntimeException("Cannot get value of " + field, e);
                 }
             }
         });
 
         prototypeField.setDefaultValue(fieldExpression);
-        prototypeField.setStaticValue(prototypeField.isStatic() ? ExpressionUtils.evaluateStaticExpression(fieldExpression) : null);
+        prototypeField.setStaticValue(prototypeField.isStatic() ? ExpressionUtils.evaluateConstExpression(fieldExpression) : null);
 
         return prototypeField;
     }

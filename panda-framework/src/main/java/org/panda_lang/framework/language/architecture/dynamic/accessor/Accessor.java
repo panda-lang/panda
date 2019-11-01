@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.statement.Variable;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.MemoryContainer;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.dynamic.assigner.Assigner;
@@ -28,7 +29,7 @@ public interface Accessor<T extends Variable> {
 
     MemoryContainer fetchMemoryContainer(ProcessStack stack, Object instance) throws Exception;
 
-    Assigner<T> toAssigner(boolean initialize, Expression value);
+    Assigner<T> toAssigner(SourceLocation location, boolean initialize, Expression value);
 
     @Nullable <R> R getValue(ProcessStack stack, Object instance) throws Exception;
 

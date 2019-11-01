@@ -18,6 +18,7 @@ package org.panda_lang.panda.language.interpreter.parser.expression.subparsers.a
 
 import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.language.architecture.dynamic.accessor.AbstractAccessor;
 import org.panda_lang.framework.language.architecture.dynamic.assigner.Assigner;
 
@@ -28,8 +29,8 @@ public class VariableAccessor extends AbstractAccessor<Variable> {
     }
 
     @Override
-    public Assigner<Variable> toAssigner(boolean initialize, Expression value) {
-        return new VariableAssigner(this, initialize, value);
+    public Assigner<Variable> toAssigner(SourceLocation location, boolean initialize, Expression value) {
+        return new VariableAssigner(location, this, initialize, value);
     }
 
 }
