@@ -30,7 +30,7 @@ public class PipelineComponent<P extends Parser> extends Component<P> {
     private final Class<? extends PipelineComponents> container;
 
     private PipelineComponent(Class<? extends PipelineComponents> container, String name, Class<P> type) {
-        super(name, type);
+        super(name, type, 0);
         this.container = container;
     }
 

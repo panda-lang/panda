@@ -30,6 +30,7 @@ import org.panda_lang.utilities.inject.InjectorAnnotation;
 import org.panda_lang.utilities.inject.InjectorController;
 import org.panda_lang.utilities.inject.InjectorResources;
 
+import java.util.Comparator;
 import java.util.Map;
 import java.util.Objects;
 
@@ -79,8 +80,9 @@ final class BootstrapInjectorController implements InjectorController {
 
                     return type == entry.getKey().getType();
                 })
+                .sorted(Comparator.comparingDouble(entry -> entry.getKey().getPriority()))
                 .map(Map.Entry::getValue)
-                .filter(Objects::nonNull)
+                // .filter(Objects::nonNull)
                 .findFirst()
                 .orElse(null);
     }

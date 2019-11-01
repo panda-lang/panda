@@ -25,13 +25,17 @@ public class ContextComponent<T> extends Component<T> {
 
     private static final Map<String, ContextComponent<?>> COMPONENTS = new HashMap<>();
 
-    private ContextComponent(String name, Class<T> type) {
-        super(name, type);
+    private ContextComponent(String name, Class<T> type, double priority) {
+        super(name, type, priority);
+    }
+
+    public static <T> ContextComponent<T> of(String name, Class<T> type) {
+        return of(name, type, 1.0);
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> ContextComponent<T> of(String name, Class<T> type) {
-        return (ContextComponent<T>) ofComponents(COMPONENTS, name, () -> new ContextComponent<>(name, type));
+    public static <T> ContextComponent<T> of(String name, Class<T> type, double priority) {
+        return (ContextComponent<T>) ofComponents(COMPONENTS, name, () -> new ContextComponent<>(name, type, priority));
     }
 
 }
