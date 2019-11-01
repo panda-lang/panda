@@ -31,18 +31,18 @@ public final class LoggerMessengerOutputListener implements MessengerOutputListe
 
     @Override
     public void onMessage(MessengerMessage message) {
-        for (String line : message.getContent()) {
+        for (String line : message.getContent().split(System.lineSeparator())) {
             this.log(message.getLevel(), line);
         }
     }
 
     private void log(MessengerLevel level, String message) {
         switch (level) {
-            case DEBUG:
-                logger.debug(message);
-                break;
             case TRACE:
                 logger.trace(message);
+                break;
+            case DEBUG:
+                logger.debug(message);
                 break;
             case INFO:
                 logger.info(message);

@@ -19,6 +19,9 @@ package org.panda_lang.framework.design.interpreter.lexer;
 import org.panda_lang.framework.design.interpreter.source.Source;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 
+/**
+ * Converts source into the 
+ */
 public interface Lexer {
 
     Snippet convert(Source source);

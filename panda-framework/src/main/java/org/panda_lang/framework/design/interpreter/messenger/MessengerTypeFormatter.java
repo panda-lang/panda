@@ -16,10 +16,28 @@
 
 package org.panda_lang.framework.design.interpreter.messenger;
 
+/**
+ * Utility class to register a couple of placeholders assigned to the same type
+ *
+ * @param <T> the generic type of formatter
+ * @see org.panda_lang.framework.design.interpreter.messenger.MessengerFormatter#register(String, Class, FormatterFunction)
+ */
 public interface MessengerTypeFormatter<T> {
 
+    /**
+     * Register a new placeholder
+     *
+     * @param placeholder the name of placeholder
+     * @param replacementFunction the value to replace with
+     * @return formatter instance
+     */
     MessengerTypeFormatter<T> register(String placeholder, FormatterFunction<T> replacementFunction);
 
+    /**
+     * Type of formatter
+     *
+     * @return the type
+     */
     Class<T> getType();
 
 }

@@ -20,6 +20,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 
+/**
+ * Message formatter
+ */
 public interface MessengerFormatter {
 
     /**
@@ -32,7 +35,7 @@ public interface MessengerFormatter {
     String format(String message, Collection<Object> context);
 
     /**
-     * Register new placeholder
+     * Register a new placeholder
      *
      * @param placeholder the name of the placeholder
      * @param requiredData the required type of data to use that placeholder (if null, it means that placeholder does not require provided context)

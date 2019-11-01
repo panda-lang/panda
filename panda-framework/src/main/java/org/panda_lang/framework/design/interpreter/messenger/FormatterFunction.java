@@ -18,6 +18,12 @@ package org.panda_lang.framework.design.interpreter.messenger;
 
 import java.util.function.BiFunction;
 
+/**
+ * Returns some value based on the given T value.
+ * Used to obtain placeholders values.
+ *
+ * @param <T> type of accepted value
+ */
 @FunctionalInterface
 public interface FormatterFunction<T> extends BiFunction<MessengerFormatter, T, Object> {
 
