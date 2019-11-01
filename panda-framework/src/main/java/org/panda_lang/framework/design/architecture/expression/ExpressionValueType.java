@@ -16,6 +16,9 @@
 
 package org.panda_lang.framework.design.architecture.expression;
 
+/**
+ * Represents type of expression value
+ */
 public enum ExpressionValueType {
 
     /**

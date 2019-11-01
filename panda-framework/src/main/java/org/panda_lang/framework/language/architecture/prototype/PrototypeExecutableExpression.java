@@ -44,7 +44,7 @@ public final class PrototypeExecutableExpression implements Expression {
     @Override
     @SuppressWarnings("unchecked")
     public Object evaluate(ProcessStack stack, Object instance) throws Exception {
-        Object[] values = ExpressionUtils.getValues(stack, instance, arguments);
+        Object[] values = ExpressionUtils.evaluate(stack, instance, arguments);
 
         if (instanceExpression != null) {
             instance = instanceExpression.evaluate(stack, instance);

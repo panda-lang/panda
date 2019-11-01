@@ -18,6 +18,9 @@ package org.panda_lang.framework.design.architecture.expression;
 
 import org.panda_lang.framework.design.runtime.ProcessStack;
 
+/**
+ * Expression value supplier
+ */
 public interface ExpressionEvaluator {
 
     /**
