@@ -24,11 +24,15 @@ import org.panda_lang.panda.language.interpreter.messenger.PandaTranslatorLayout
 import org.panda_lang.panda.language.interpreter.messenger.PandaTranslatorLayoutManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class MessengerPandaBootstrap implements PandaBootstrapElement {
+/**
+ * {@link org.panda_lang.framework.design.interpreter.messenger.Messenger} creator
+ */
+public final class MessengerInitializer implements Initializer {
 
     private final PandaBootstrap bootstrap;
     private final Collection<Class<? extends PandaTranslatorLayout<?>>> layouts = new ArrayList<>();
@@ -36,44 +40,52 @@ public final class MessengerPandaBootstrap implements PandaBootstrapElement {
     private final Map<Class<?>, MessengerDataMapper> dataMappers = new HashMap<>();
     private MessengerOutputListener outputListener;
 
-    public MessengerPandaBootstrap(PandaBootstrap bootstrap) {
+    MessengerInitializer(PandaBootstrap bootstrap) {
         this.bootstrap = bootstrap;
     }
 
+    /**
+     * Add translator layouts to messenger
+     *
+     * @param layoutClasses classes of layouts to add
+     * @return the category instance
+     */
     @SafeVarargs
-    public final MessengerPandaBootstrap withLayouts(Class<? extends PandaTranslatorLayout<?>>... layoutClasses) {
-        for (Class<? extends PandaTranslatorLayout<?>> layoutClass : layoutClasses) {
-            withLayout(layoutClass);
-        }
-
+    public final MessengerInitializer addLayouts(Class<? extends PandaTranslatorLayout<?>>... layoutClasses) {
+        layouts.addAll(Arrays.asList(layoutClasses));
         return this;
     }
 
-    public MessengerPandaBootstrap withLayout(Class<? extends PandaTranslatorLayout<?>> layoutClass) {
-        layouts.add(layoutClass);
-        return this;
-    }
-
+    /**
+     * Add data formatters to messenger
+     *
+     * @param dataFormatterClasses classes of formatters to add
+     * @return the category instance
+     */
     @SafeVarargs
-    public final MessengerPandaBootstrap withDataFormatters(Class<? extends MessengerDataFormatter<?>>... dataFormatterClasses) {
-        for (Class<? extends MessengerDataFormatter<?>> dataFormatterClass : dataFormatterClasses) {
-            withDataFormatter(dataFormatterClass);
-        }
-
+    public final MessengerInitializer addDataFormatters(Class<? extends MessengerDataFormatter<?>>... dataFormatterClasses) {
+        dataFormatters.addAll(Arrays.asList(dataFormatterClasses));
         return this;
     }
 
-    public MessengerPandaBootstrap withDataFormatter(Class<? extends MessengerDataFormatter<?>> dataFormatterClass) {
-        dataFormatters.add(dataFormatterClass);
-        return this;
-    }
-
-    public MessengerPandaBootstrap withOutputListener(MessengerOutputListener outputListener) {
+    /**
+     * Set custom output listener (by default listener is assigned to the logger)
+     *
+     * @param outputListener the listener to use
+     * @return the category instance
+     */
+    public MessengerInitializer withOutputListener(MessengerOutputListener outputListener) {
         this.outputListener = outputListener;
         return this;
     }
 
-    public MessengerPandaBootstrap withDataMapper(MessengerDataMapper<?, ?> dataMapper) {
+    /**
+     * Add data mapper to messenger
+     *
+     * @param dataMapper the mapper to add
+     * @return the category instance
+     */
+    public MessengerInitializer addDataMapper(MessengerDataMapper<?, ?> dataMapper) {
         this.dataMappers.put(dataMapper.getType(), dataMapper);
         return this;
     }

@@ -16,38 +16,74 @@
 
 package org.panda_lang.panda.bootstrap;
 
-import org.panda_lang.panda.Panda;
 import org.panda_lang.framework.design.architecture.Application;
+import org.panda_lang.panda.Panda;
 
 import java.io.File;
 import java.util.Optional;
 
+/**
+ * Simplified application loader
+ */
 public final class PandaApplicationBootstrap {
 
     protected final Panda panda;
-    protected String main;
-    protected File workingDirectory;
+    protected String script;
+    protected File directory;
 
-    public PandaApplicationBootstrap(Panda panda) {
+    PandaApplicationBootstrap(Panda panda) {
         this.panda = panda;
     }
 
-    public PandaApplicationBootstrap main(String sourcePath) {
-        this.main = sourcePath;
+    /**
+     * Define main script of application
+     *
+     * @param script the main script to use
+     * @return the bootstrap instance
+     */
+    public PandaApplicationBootstrap script(String script) {
+        this.script = script;
         return this;
     }
 
+    /**
+     * Set working directory of application
+     *
+     * @param workingDirectory the directory to use
+     * @return the bootstrap instance
+     */
     public PandaApplicationBootstrap workingDirectory(String workingDirectory) {
         return workingDirectory(new File(workingDirectory));
     }
 
+    /**
+     * Set working directory of application
+     *
+     * @param workingDirectory the directory to use
+     * @return the bootstrap instance
+     */
     public PandaApplicationBootstrap workingDirectory(File workingDirectory) {
-        this.workingDirectory = workingDirectory;
+        this.directory = workingDirectory;
         return this;
     }
 
+    /**
+     * Load application using the collected data
+     *
+     * @return loaded application or nothing if something happen
+     */
     public Optional<Application> createApplication() {
-        return panda.getLoader().load(main, workingDirectory);
+        return panda.getLoader().load(script, directory);
+    }
+
+    /**
+     * Create application bootstrap
+     *
+     * @param panda instance of panda to use
+     * @return a new application bootstrap instance
+     */
+    public static PandaApplicationBootstrap create(Panda panda) {
+        return new PandaApplicationBootstrap(panda);
     }
 
 }

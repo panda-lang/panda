@@ -18,8 +18,19 @@ package org.panda_lang.panda.language.interpreter.messenger;
 
 import java.util.function.Function;
 
+/**
+ * Map T to R with data about T type
+ *
+ * @param <T> generic type of accepted value
+ * @param <R> generic type of mapped value
+ */
 public interface MessengerDataMapper<T, R> extends Function<T, R>  {
 
+    /**
+     * Type of accepted object
+     *
+     * @return the accepted type
+     */
     Class<T> getType();
 
 }

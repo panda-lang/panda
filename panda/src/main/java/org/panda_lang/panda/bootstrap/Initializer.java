@@ -16,16 +16,13 @@
 
 package org.panda_lang.panda.bootstrap;
 
-import org.panda_lang.panda.PandaException;
+interface Initializer {
 
-public final class PandaBootstrapException extends PandaException {
-
-    public PandaBootstrapException(String message) {
-        super(message);
-    }
-
-    public PandaBootstrapException(String message, Throwable cause) {
-        super(message, cause);
-    }
+    /**
+     * Save collected values in bootstrap
+     *
+     * @return the main bootstrap instance
+     */
+    PandaBootstrap collect();
 
 }

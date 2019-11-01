@@ -22,9 +22,8 @@ import org.panda_lang.framework.design.architecture.Application;
 import org.panda_lang.framework.design.architecture.Environment;
 import org.panda_lang.framework.design.architecture.Script;
 import org.panda_lang.framework.design.runtime.Process;
-import org.panda_lang.panda.language.interpreter.parser.head.MainScope;
 import org.panda_lang.framework.language.runtime.PandaProcess;
-import org.slf4j.Logger;
+import org.panda_lang.panda.language.interpreter.parser.head.MainScope;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,11 +68,6 @@ public class PandaApplication implements Application {
 
     public void addScript(Script script) {
         scripts.add(script);
-    }
-
-    @Override
-    public Logger getLogger() {
-        return environment.getLogger();
     }
 
     @Override

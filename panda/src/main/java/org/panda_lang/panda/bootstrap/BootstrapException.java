@@ -16,8 +16,15 @@
 
 package org.panda_lang.panda.bootstrap;
 
-interface PandaBootstrapElement {
+import org.panda_lang.panda.PandaException;
 
-    PandaBootstrap collect();
+/**
+ * Represents exceptions in bootstraps
+ */
+public final class BootstrapException extends PandaException {
+
+    BootstrapException(String message) {
+        super(message);
+    }
 
 }

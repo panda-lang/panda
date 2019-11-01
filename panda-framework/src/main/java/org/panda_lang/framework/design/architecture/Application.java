@@ -18,6 +18,7 @@ package org.panda_lang.framework.design.architecture;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.messenger.LoggerHolder;
+import org.slf4j.Logger;
 
 public interface Application extends LoggerHolder {
 
@@ -32,5 +33,10 @@ public interface Application extends LoggerHolder {
      * @return the application environment
      */
     Environment getEnvironment();
+
+    @Override
+    default Logger getLogger() {
+        return getEnvironment().getLogger();
+    }
 
 }

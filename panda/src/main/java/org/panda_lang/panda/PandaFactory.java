@@ -36,8 +36,17 @@ import org.panda_lang.panda.language.interpreter.parser.PandaParsers;
 import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.assignation.AssignationParsers;
 import org.slf4j.Logger;
 
+/**
+ * Simplify creation of Panda instance
+ */
 public final class PandaFactory {
 
+    /**
+     * Create default instance of Panda
+     *
+     * @param logger logger to use by framework
+     * @return a new instance of panda
+     */
     public Panda createPanda(Logger logger) {
         return PandaBootstrap.initializeBootstrap(logger)
                 // load syntax
@@ -45,13 +54,13 @@ public final class PandaFactory {
 
                 // initialize messenger
                 .initializeMessenger()
-                    .withLayout(ExceptionTranslatorLayout.class)
-                    .withLayouts(PandaLexerFailureTranslatorLayout.class, InterpreterFailureTranslatorLayout.class, ParserFailureTranslatorLayout.class)
-                    .withLayout(ProcessFailureTranslatorLayout.class)
-                    .withDataFormatters(EnvironmentFormatter.class, ThrowableFormatter.class, StacktraceElementsFormatter.class)
-                    .withDataFormatters(IndicatedSourceFormatter.class, ParserFailureFormatter.class)
-                    .withDataFormatter(ProcessFailureFormatter.class)
-                    .withDataMapper(new StacktraceMapper())
+                    .addLayouts(ExceptionTranslatorLayout.class)
+                    .addLayouts(PandaLexerFailureTranslatorLayout.class, InterpreterFailureTranslatorLayout.class, ParserFailureTranslatorLayout.class)
+                    .addLayouts(ProcessFailureTranslatorLayout.class)
+                    .addDataFormatters(EnvironmentFormatter.class, ThrowableFormatter.class, StacktraceElementsFormatter.class)
+                    .addDataFormatters(IndicatedSourceFormatter.class, ParserFailureFormatter.class)
+                    .addDataFormatters(ProcessFailureFormatter.class)
+                    .addDataMapper(new StacktraceMapper())
                     .collect()
 
                 // load pipelines
@@ -66,7 +75,7 @@ public final class PandaFactory {
                     .collect()
 
                 // load models
-                .get();
+                .create();
     }
 
 }
