@@ -1,140 +1,186 @@
 module example-test
 
+// import current_test_required.panda file
 require 'current_test_required'
 
+// import java collections from std
 require java:collections // import submodules by default? :thinking:
 
+// import java class
 import org.panda_lang.panda.PandaConstants
 
+// define public Console class that will allow us to proxy logs
 public class Console {
 
+    // define public static method that accepts multiple arguments (varargs)
     public static log(Object... values) {
+        // print values using the java output, System class is in the 'java' module which is imported by default
         System.out.println(StringUtils.toString(values))
     }
 
 }
 
+// main statement is called when the script is launched
 main {
-    late String init
-    nil Object req = null
-
+    // create Test instance, then call its method and finally print content of testField
     Test test = new Test('"Constructor"')
     test.echo("Method echo")
     Console.log(test.getTestField().testField)
 
-    mut nil Foo varFoo = null
+    // define variable init that may be initialized later
+    late String init
+    // define nullable variable
+    nil Foo req = null
+
+    // define mutable nullable variable varFoo
+    mut nil Foo varFoo = req
+    // assign a new value to the varFoo
     varFoo = new Foo()
 
+    // assign string to a new variable s
     mut String s = "Hello Panda v1"
+    // assign new value to the s variable
     s = "Hello Panda v2"
 
+    // assign integer in hex format to the i variable
     Int i = 0x000001
+    // perform some math operations
     Number math = (10.1 + (3 + 4.2 + i) * 2) - (2 / 1) /* expected: 24.5 */
-    Boolean flag = i == 1
+    // compare values and assign result to the flag variable
+    Bool flag = i == 1
 
-    Console.log("Hello Panda", flag, varFoo, s, test, i)
-    Console.log(math)
+    // print some recent values in console
+    Console.log("Hello Panda", flag, varFoo, s, test, i, math)
 
-    if (!flag) {
+
+    // verify logic
+    if !flag {
         Console.log("Nope")
     }
     else {
-        Console.log("Yay")
+        Console.log("Yay") // expected
     }
 
+    // assign ArrayList (class) value to List (interface) variable and add some values
     List list = new ArrayList()
     list.add("val1")
     list.add("val2")
 
+    // create string builder and append previous list
     StringBuilder builder = new StringBuilder()
     builder.append(list)
 
-    loop (i) {
+    // loop i times, expr may be wrapped into ( )
+    loop i {
+        // append some content in the
         builder.append(" Loop x1 ")
 
+        // iterate through the list and add elements to the builder
         foreach (String var : list) {
             builder.append(var)
         }
 
         continue
-        builder.append(" Loop x3 ")
+        builder.append(" Loop x3 ") // won't be called due to 'continue'
     }
 
-    while (flag != false) {
+    // iterate as long as flag is not equal to the false
+    while flag != false {
         Console.log(builder.toString())
-        break
+        break // or just stop
     }
 
+    // create TestArray instance and
     TestArray testArray = new TestArray(7);
     testArray.modify(test)
 
+    // print array and some logical expressions
     Console.log("Hello " + "Array " + testArray.array.toString())
     Console.log("OR v AND: " + (false || false) + ", " + false || true, true && false, true && true)
     Console.log("Compare: " + 1 > 2, 1 > 2, 1 < 2, 2 < 1)
+    Console.log("Random",  (false || false) + ", " + false || true, true && false, true && true, (false || false) + ", " + false || true, true && false, true && true)
 
+    // test (in/de)crease operations
     mut Int creaseValue = 10
     Console.log("Increase: " + creaseValue++, creaseValue++, ++creaseValue, ++creaseValue)
     Console.log("Decrease: " + creaseValue--, creaseValue--, --creaseValue, --creaseValue)
 
+    // increase expression as standalone statement
     creaseValue++
     Console.log(creaseValue)
-    Console.log("Random",  (false || false) + ", " + false || true, true && false, true && true, (false || false) + ", " + false || true, true && false, true && true)
 
+    // create instance of class imported from another file
     Required required = new Required()
     required.hello()
 
+    // try to catch some exceptions
     try {
         throw new RuntimeException("Try")
     } catch (Exception e) {
-        Console.log(e.getMessage())
+        Console.log(e.getMessage()) // gotcha
     }
 
+    // print constant from imported java class
     Console.log(PandaConstants.VERSION)
 
+    // test standard fori loop
     for (mut Int index = 3; index != 0; index--) {
-        if (index == 2) {
+        if index == 2 {
             continue
         }
 
         Console.log("ForI: " + index)
     }
 
+    // print variable declared by the expression :0
     Console.log("Assignation: " + (Object assignation = 10))
 
-    if (assignation is Int) {
-        Int castTest = assignation as Int
+    // check if variable defined in expr instanceof integer
+    if assignation is Int {
+        Int castTest = assignation as Int // and cast that value to integer
         Console.log("Is int value: " + castTest)
     }
 
     // Make sure that here is no way to create instance of interface
     // Interface int = new Interface()
-
 }
 
-shared interface EchoInterface {
+// simple interface
+shared interface IEcho {
 
+    // yes, we require implementation of static method
     shared static anotherEcho(String doSth)
 
+    // standard method to impl
     local test()
 
 }
 
-shared class Foo : Test, EchoInterface {
+// simple class that extends class Test and implements interface IEcho
+shared class Foo : Test, IEcho {
 
+    // we need to mark overridden methods by the keyword
     override shared static anotherEcho(String message1) {
         Console.log(message1)
     }
 
+    // we need to impl all methods
     override local test() { }
 
 }
 
+// random Test class
 class Test {
 
-    public Int index = 1
+    // public static field INDEX with assigned value
+    public static Int INDEX = 1
+
+    // shared between submodules field
     shared Test testField
+    // local mutable field
     local mut Double double = 1.5D
 
+    // constructor prints random message and assigns itself to testField field
     constructor(String message2) {
         Console.log(message2)
         this.testField = this
@@ -144,27 +190,33 @@ class Test {
         Console.log(message3)
     }
 
+    // get test instance
     shared Test getTestField() {
         return this.testField
     }
 
 }
 
+// array test
 local class TestArray {
 
+    // shared array
     shared String[] array
 
+    // create TestArray and define array size
     constructor(Int size) {
         this.array = new String[size]
     }
 
+    // modify some values in array
     shared modify(Test test) {
-        this.getArray()[test.index] = "Hello Array"
+        this.getArray()[Test.INDEX] = "Hello Array"
         array[6] = String.valueOf(this)
 
-        Console.log("Value at array[test.index]: " + this.getArray()[test.index])
+        Console.log("Value at array[test.index]: " + this.getArray()[test.INDEX])
     }
 
+    // get array
     local String[] getArray() {
         return array
     }

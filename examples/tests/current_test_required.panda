@@ -1,7 +1,9 @@
 module example-test
 
+// export StringUtils class, this class will be visible in another files
 export org.panda_lang.utilities.commons.StringUtils
 
+// shared class to test visibility access
 shared class Required {
 
     shared hello() {

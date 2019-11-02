@@ -1,8 +1,0 @@
-module panda-module-manager
-
-require panda-dependency
-
-main {
-    System.out.println(PandaDependency.getMessage())
-    System.out.println(LDDependency.getMessage())
-}

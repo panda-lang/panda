@@ -4,6 +4,8 @@
 {{message}}
 {{stacktrace}}
 
+{{exception.short}}
+
 Environment: {{environment}}
 
 End of Exception
