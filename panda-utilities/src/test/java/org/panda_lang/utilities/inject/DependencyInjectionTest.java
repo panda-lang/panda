@@ -19,7 +19,7 @@ package org.panda_lang.utilities.inject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.utilities.commons.ReflectionUtils;
-import org.panda_lang.utilities.inject.annotations.Autowired;
+import org.panda_lang.utilities.inject.annotations.Inject;
 import org.panda_lang.utilities.inject.annotations.Injectable;
 import org.panda_lang.utilities.inject.annotations.Wired;
 
@@ -64,18 +64,18 @@ final class DependencyInjectionTest {
 
     private static class TestClass {
 
-        @Autowired
+        @Inject
         TestClass(String value) {
             Assertions.assertEquals(HELLO, value);
         }
 
-        @Autowired
+        @Inject
         public String testTypeInvoke(String value) {
             Assertions.assertEquals(HELLO, value);
             return value;
         }
 
-        @Autowired
+        @Inject
         private String testAnnotationInvoke(@CustomAnnotation("hello-autowired") String value) {
             Assertions.assertEquals(HELLO_AUTOWIRED, value);
             return value;

@@ -89,5 +89,5 @@ main {
     Double[][] b = m.matgen(n)
     Double[][] x = m.matmul(a, b)
 
-    System.out.println(x[n / 2][n / 2])
+    log x[n / 2][n / 2]
 }

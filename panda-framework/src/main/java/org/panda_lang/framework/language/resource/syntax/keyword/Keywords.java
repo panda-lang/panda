@@ -65,6 +65,8 @@ public final class Keywords {
 
     public static final Keyword LOCAL = new Keyword("local");
 
+    public static final Keyword LOG = new Keyword("log");
+
     public static final Keyword LOOP = new Keyword("loop");
 
     public static final Keyword MAIN = new Keyword("main");

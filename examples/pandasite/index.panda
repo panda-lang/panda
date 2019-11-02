@@ -2,7 +2,7 @@ module awesomeness
 
 class Panda {
     shared hello(String name) {
-        Console.print("Hey, " + name + ". You're finally awake ฅ^•ﻌ•^ฅ ")
+        log "Hey, " + name + ". You're finally awake ฅ^•ﻌ•^ฅ "
     }
 }
 

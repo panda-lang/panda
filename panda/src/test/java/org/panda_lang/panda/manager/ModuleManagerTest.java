@@ -25,7 +25,7 @@ import java.io.File;
 
 class ModuleManagerTest {
 
-    private static final File DIRECTORY = new File("../examples/manager/");
+    private static final File DIRECTORY = new File("../examples/module_manager/");
     private static final ModuleManager MANAGER = new ModuleManager(new PandaMessenger(LoggerFactory.getLogger(ModuleManagerTest.class)), DIRECTORY);
 
     @Test
