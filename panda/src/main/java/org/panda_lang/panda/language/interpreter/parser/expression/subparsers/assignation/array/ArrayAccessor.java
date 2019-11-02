@@ -48,7 +48,7 @@ public final class ArrayAccessor implements DynamicExpression {
         return new ArrayAssigner(this, value);
     }
 
-    public int getIndex(ProcessStack stack, Object instance) throws Exception {
+    public Integer getIndex(ProcessStack stack, Object instance) throws Exception {
         return indexExpression.evaluate(stack, instance);
     }
 
