@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.examples.performance;
+package org.panda_lang.panda.examples.performance.matmul;
 
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.examples.Launcher;
+import org.panda_lang.panda.examples.ExamplesLauncher;
 import org.panda_lang.framework.design.architecture.Application;
 
 class MatmulTest {
@@ -25,8 +25,8 @@ class MatmulTest {
     @Test
     void testMatmul() {
         for (int i = 0; i < 5; i++) {
-            Application application = Launcher.interpret("performance", "matmul.panda");
-            Launcher.launch(application);
+            Application application = ExamplesLauncher.interpret("performance", "matmul.panda");
+            ExamplesLauncher.launch(application);
         }
     }
 

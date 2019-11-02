@@ -16,12 +16,12 @@
 
 package org.panda_lang.panda.language.interpreter.messenger.layouts;
 
-import org.panda_lang.framework.design.interpreter.messenger.MessengerLevel;
-import org.panda_lang.panda.language.interpreter.messenger.PandaTranslatorLayout;
 import org.panda_lang.framework.design.interpreter.source.Source;
 import org.panda_lang.framework.language.interpreter.lexer.PandaLexerException;
 import org.panda_lang.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
+import org.panda_lang.panda.language.interpreter.messenger.PandaTranslatorLayout;
+import org.slf4j.event.Level;
 
 public final class PandaLexerFailureTranslatorLayout implements PandaTranslatorLayout<PandaLexerException> {
 
@@ -36,8 +36,8 @@ public final class PandaLexerFailureTranslatorLayout implements PandaTranslatorL
     }
 
     @Override
-    public MessengerLevel getLevel() {
-        return MessengerLevel.FAILURE;
+    public Level getLevel() {
+        return Level.ERROR;
     }
 
     @Override

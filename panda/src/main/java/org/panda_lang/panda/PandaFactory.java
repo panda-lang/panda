@@ -20,9 +20,10 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.language.resource.syntax.PandaSyntax;
 import org.panda_lang.panda.bootstrap.PandaBootstrap;
 import org.panda_lang.panda.language.interpreter.messenger.formatters.EnvironmentFormatter;
+import org.panda_lang.panda.language.interpreter.messenger.formatters.ExceptionFormatter;
+import org.panda_lang.panda.language.interpreter.messenger.formatters.IndicatedSourceFormatter;
 import org.panda_lang.panda.language.interpreter.messenger.formatters.ParserFailureFormatter;
 import org.panda_lang.panda.language.interpreter.messenger.formatters.ProcessFailureFormatter;
-import org.panda_lang.panda.language.interpreter.messenger.formatters.IndicatedSourceFormatter;
 import org.panda_lang.panda.language.interpreter.messenger.formatters.StacktraceElementsFormatter;
 import org.panda_lang.panda.language.interpreter.messenger.formatters.ThrowableFormatter;
 import org.panda_lang.panda.language.interpreter.messenger.layouts.ExceptionTranslatorLayout;
@@ -31,8 +32,8 @@ import org.panda_lang.panda.language.interpreter.messenger.layouts.PandaLexerFai
 import org.panda_lang.panda.language.interpreter.messenger.layouts.ParserFailureTranslatorLayout;
 import org.panda_lang.panda.language.interpreter.messenger.layouts.ProcessFailureTranslatorLayout;
 import org.panda_lang.panda.language.interpreter.messenger.mappers.StacktraceMapper;
-import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.PandaParsers;
+import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.assignation.AssignationParsers;
 import org.slf4j.Logger;
 
@@ -57,7 +58,7 @@ public final class PandaFactory {
                     .addLayouts(ExceptionTranslatorLayout.class)
                     .addLayouts(PandaLexerFailureTranslatorLayout.class, InterpreterFailureTranslatorLayout.class, ParserFailureTranslatorLayout.class)
                     .addLayouts(ProcessFailureTranslatorLayout.class)
-                    .addDataFormatters(EnvironmentFormatter.class, ThrowableFormatter.class, StacktraceElementsFormatter.class)
+                    .addDataFormatters(EnvironmentFormatter.class, ThrowableFormatter.class, StacktraceElementsFormatter.class, ExceptionFormatter.class)
                     .addDataFormatters(IndicatedSourceFormatter.class, ParserFailureFormatter.class)
                     .addDataFormatters(ProcessFailureFormatter.class)
                     .addDataMapper(new StacktraceMapper())

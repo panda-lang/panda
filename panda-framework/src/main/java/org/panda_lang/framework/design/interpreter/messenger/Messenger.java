@@ -17,6 +17,7 @@
 package org.panda_lang.framework.design.interpreter.messenger;
 
 import org.slf4j.Logger;
+import org.slf4j.event.Level;
 
 /**
  * Logging center
@@ -37,16 +38,16 @@ public interface Messenger extends LoggerHolder {
      * @param level the level of message
      * @param message the message to send
      */
-    void sendMessage(MessengerLevel level, String message);
+    void send(Level level, Object message);
 
     /**
      * Send messenger message through messenger.
      *
      * @param message the message to send
      *
-     * @see org.panda_lang.framework.design.interpreter.messenger.Messenger#sendMessage(MessengerLevel, String)
+     * @see org.panda_lang.framework.design.interpreter.messenger.Messenger#send(Level, java.lang.Object)
      */
-    void sendMessage(MessengerMessage message);
+    void send(MessengerMessage message);
 
     /**
      * Add message translator associated with the specified type

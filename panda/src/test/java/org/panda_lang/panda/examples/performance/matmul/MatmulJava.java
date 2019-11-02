@@ -14,10 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.examples.performance;
+package org.panda_lang.panda.examples.performance.matmul;
 
 import org.panda_lang.utilities.commons.TimeUtils;
 
+/**
+ * Java equivalent to matmul.panda
+ */
 @SuppressWarnings("WrapperTypeMayBePrimitive")
 final class MatmulJava {
 

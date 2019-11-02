@@ -17,6 +17,7 @@
 package org.panda_lang.framework.language.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
@@ -39,6 +40,10 @@ public class PandaReference implements Reference {
         this.name = name;
         this.associatedClass = associatedClass;
         this.prototypeSupplier = prototypeSupplier;
+    }
+
+    public PandaReference(Prototype prototype) {
+        this(prototype.getSimpleName(), prototype.getAssociatedClass(), reference -> prototype);
     }
 
     @Override
@@ -67,7 +72,7 @@ public class PandaReference implements Reference {
             Expression expression = field.getDefaultValue();
 
             try {
-                field.setStaticValue(expression.evaluate(null, null));
+                field.setStaticValue(ExpressionUtils.evaluateConstExpression(expression));
             } catch (Exception e) {
                 throw new ReferenceFetchException("Cannot evaluate static value of field " + field, e);
             }

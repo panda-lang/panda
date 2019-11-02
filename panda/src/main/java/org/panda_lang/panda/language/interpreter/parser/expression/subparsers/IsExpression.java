@@ -40,7 +40,7 @@ final class IsExpression implements DynamicExpression {
 
     @Override
     public Prototype getReturnType() {
-        return JavaModule.BOOLEAN;
+        return JavaModule.BOOL;
     }
 
 }

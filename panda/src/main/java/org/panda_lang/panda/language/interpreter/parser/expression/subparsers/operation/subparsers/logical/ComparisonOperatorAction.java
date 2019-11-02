@@ -24,7 +24,7 @@ public abstract class ComparisonOperatorAction extends NumberOperationAction {
 
     @Override
     public Prototype returnType() {
-        return JavaModule.BOOLEAN;
+        return JavaModule.BOOL;
     }
 
 }

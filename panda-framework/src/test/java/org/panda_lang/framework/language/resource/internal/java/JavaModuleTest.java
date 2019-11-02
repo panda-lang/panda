@@ -24,7 +24,7 @@ class JavaModuleTest {
     @Test
     void testConstants() {
         Assertions.assertEquals("void", JavaModule.VOID.getSimpleName());
-        Assertions.assertEquals("Boolean", JavaModule.BOOLEAN.getSimpleName());
+        Assertions.assertEquals("Bool", JavaModule.BOOL.getSimpleName());
         Assertions.assertEquals("Char", JavaModule.CHAR.getSimpleName());
         Assertions.assertEquals("Byte", JavaModule.BYTE.getSimpleName());
         Assertions.assertEquals("Short", JavaModule.SHORT.getSimpleName());

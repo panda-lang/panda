@@ -34,7 +34,7 @@ public abstract class ComparisonOperator extends NumberOperation {
 
     @Override
     public Prototype returnType(Prototype a, Prototype b) {
-        return JavaModule.BOOLEAN;
+        return JavaModule.BOOL;
     }
 
     @Override

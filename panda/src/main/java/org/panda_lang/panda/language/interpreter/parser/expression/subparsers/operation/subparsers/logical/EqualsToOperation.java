@@ -44,7 +44,7 @@ public class EqualsToOperation implements RPNOperationSupplier, RPNOperationActi
 
     @Override
     public Prototype returnType() {
-        return JavaModule.BOOLEAN;
+        return JavaModule.BOOL;
     }
 
     @Override

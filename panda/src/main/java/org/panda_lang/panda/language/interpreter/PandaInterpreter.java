@@ -20,7 +20,6 @@ import org.panda_lang.framework.design.architecture.Application;
 import org.panda_lang.framework.design.architecture.Environment;
 import org.panda_lang.framework.design.interpreter.Interpretation;
 import org.panda_lang.framework.design.interpreter.Interpreter;
-import org.panda_lang.framework.design.interpreter.messenger.MessengerLevel;
 import org.panda_lang.framework.design.interpreter.source.Source;
 import org.panda_lang.framework.design.resource.Language;
 import org.panda_lang.framework.language.architecture.prototype.generator.PrototypeGeneratorManager;
@@ -30,6 +29,7 @@ import org.panda_lang.framework.language.interpreter.pattern.descriptive.extract
 import org.panda_lang.panda.language.architecture.PandaApplication;
 import org.panda_lang.panda.language.interpreter.parser.ApplicationParser;
 import org.panda_lang.utilities.commons.TimeUtils;
+import org.slf4j.event.Level;
 
 import java.util.Optional;
 
@@ -52,20 +52,20 @@ public final class PandaInterpreter implements Interpreter {
         PandaApplication application = parser.parse(source);
 
         if (!interpretation.isHealthy()) {
-            environment.getMessenger().sendMessage(MessengerLevel.FAILURE, "Interpretation failed, cannot parse specified sources");
+            environment.getMessenger().send(Level.ERROR, "Interpretation failed, cannot parse specified sources");
             return Optional.empty();
         }
 
         String parseTime = TimeUtils.toMilliseconds(System.nanoTime() - uptime);
 
-        environment.getController().getLogger().debug("--- Interpretation of " + source.getId() + " details ");
-        environment.getController().getLogger().debug("• Parse time: " + parseTime);
-        environment.getController().getLogger().debug("• Amount of Prototypes: " + environment.getModulePath().countPrototypes());
-        environment.getController().getLogger().debug("• Amount of used prototypes: " + environment.getModulePath().countUsedPrototypes());
-        environment.getController().getLogger().debug("• Amount of cached references: " + PrototypeGeneratorManager.getInstance().getCacheSize());
-        environment.getController().getLogger().debug("• Expression Parser Time: " + TimeUtils.toMilliseconds(PandaExpressionParser.time) + " (" +  PandaExpressionParser.amount + ")");
-        environment.getController().getLogger().debug("• Pipeline Handle Time: " + TimeUtils.toMilliseconds(environment.getController().getResources().getPipelinePath().getTotalHandleTime()));
-        environment.getController().getLogger().debug("");
+        environment.getMessenger().send(Level.DEBUG, "--- Interpretation of " + source.getId() + " details ");
+        environment.getMessenger().send(Level.DEBUG, "• Parse time: " + parseTime);
+        environment.getMessenger().send(Level.DEBUG, "• Amount of Prototypes: " + environment.getModulePath().countPrototypes());
+        environment.getMessenger().send(Level.DEBUG, "• Amount of used prototypes: " + environment.getModulePath().countUsedPrototypes());
+        environment.getMessenger().send(Level.DEBUG, "• Amount of cached references: " + PrototypeGeneratorManager.getInstance().getCacheSize());
+        environment.getMessenger().send(Level.DEBUG, "• Expression Parser Time: " + TimeUtils.toMilliseconds(PandaExpressionParser.time) + " (" +  PandaExpressionParser.amount + ")");
+        environment.getMessenger().send(Level.DEBUG, "• Pipeline Handle Time: " + TimeUtils.toMilliseconds(environment.getController().getResources().getPipelinePath().getTotalHandleTime()));
+        environment.getMessenger().send(Level.DEBUG, "");
 
         ExtractorWorker.fullTime = 0;
         PandaExpressionParser.time = 0;

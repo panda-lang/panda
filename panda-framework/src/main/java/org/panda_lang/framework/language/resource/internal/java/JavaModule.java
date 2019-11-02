@@ -32,7 +32,7 @@ public final class JavaModule implements InternalModuleInfo {
     public static final Prototype OBJECT = PandaResourcesUtils.of(MODULE, Object.class, "Object");
     public static final Prototype INT = PandaResourcesUtils.generate(MODULE, Integer.class, "Int");
     public static final Prototype CHAR = PandaResourcesUtils.generate(MODULE, Character.class, "Char");
-    public static final Prototype BOOLEAN = PandaResourcesUtils.generate(MODULE, Boolean.class);
+    public static final Prototype BOOL = PandaResourcesUtils.generate(MODULE, Boolean.class, "Bool");
     public static final Prototype BYTE = PandaResourcesUtils.generate(MODULE, Byte.class);
     public static final Prototype SHORT = PandaResourcesUtils.generate(MODULE, Short.class);
     public static final Prototype LONG = PandaResourcesUtils.generate(MODULE, Long.class);

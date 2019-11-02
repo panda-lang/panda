@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.examples.performance;
+package org.panda_lang.panda.examples.performance.matmul;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Fork;
@@ -22,7 +22,7 @@ import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Warmup;
-import org.panda_lang.panda.examples.Launcher;
+import org.panda_lang.panda.examples.ExamplesLauncher;
 import org.panda_lang.framework.design.architecture.Application;
 import org.panda_lang.panda.util.BenchmarkUtils;
 
@@ -35,7 +35,7 @@ public class MatmulPerformanceTest {
 
     @Setup
     public void setup() {
-        this.matmulApplication = Launcher.interpret("performance", "matmul.panda");
+        this.matmulApplication = ExamplesLauncher.interpret("tests/performance", "matmul.panda");
     }
 
     @Benchmark

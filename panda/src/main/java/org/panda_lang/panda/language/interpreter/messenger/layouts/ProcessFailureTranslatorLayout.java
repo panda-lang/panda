@@ -16,18 +16,27 @@
 
 package org.panda_lang.panda.language.interpreter.messenger.layouts;
 
-import org.panda_lang.framework.design.interpreter.messenger.MessengerLevel;
+import org.panda_lang.framework.design.interpreter.messenger.MessengerFormatter;
 import org.panda_lang.framework.design.interpreter.source.Source;
 import org.panda_lang.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
 import org.panda_lang.framework.language.runtime.PandaProcessFailure;
 import org.panda_lang.panda.language.interpreter.messenger.PandaTranslatorLayout;
+import org.slf4j.event.Level;
+
+import java.util.Map;
 
 public final class ProcessFailureTranslatorLayout implements PandaTranslatorLayout<PandaProcessFailure> {
 
     @Override
+    public void onHandle(MessengerFormatter formatter, PandaProcessFailure failure, Map<String, Object> context) {
+        context.put("exception", failure.getException());
+        context.put("stacktrace", failure.getException().getStackTrace());
+    }
+
+    @Override
     public boolean isInterrupting() {
-        return false;
+        return true;
     }
 
     @Override
@@ -36,8 +45,8 @@ public final class ProcessFailureTranslatorLayout implements PandaTranslatorLayo
     }
 
     @Override
-    public MessengerLevel getLevel() {
-        return MessengerLevel.FAILURE;
+    public Level getLevel() {
+        return Level.ERROR;
     }
 
     @Override

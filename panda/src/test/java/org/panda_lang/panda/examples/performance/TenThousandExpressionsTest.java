@@ -14,18 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.interpreter.messenger;
+package org.panda_lang.panda.examples.performance;
 
-/**
- * Logging levels
- */
-public enum MessengerLevel {
+import org.junit.jupiter.api.Test;
+import org.panda_lang.panda.examples.ExamplesLauncher;
 
-    TRACE,
-    DEBUG,
-    INFO,
-    WARNING,
-    ERROR,
-    FAILURE
+final class TenThousandExpressionsTest {
+
+    @Test
+    void launch() {
+        ExamplesLauncher.interpret("tests/performance", "ten_thousand_expressions.panda");
+    }
 
 }

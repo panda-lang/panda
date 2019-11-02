@@ -16,10 +16,10 @@
 
 package org.panda_lang.framework.language.interpreter.messenger;
 
-import org.panda_lang.framework.design.interpreter.messenger.MessengerLevel;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerMessage;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerOutputListener;
 import org.slf4j.Logger;
+import org.slf4j.event.Level;
 
 public final class LoggerMessengerOutputListener implements MessengerOutputListener {
 
@@ -36,7 +36,7 @@ public final class LoggerMessengerOutputListener implements MessengerOutputListe
         }
     }
 
-    private void log(MessengerLevel level, String message) {
+    private void log(Level level, String message) {
         switch (level) {
             case TRACE:
                 logger.trace(message);
@@ -47,11 +47,10 @@ public final class LoggerMessengerOutputListener implements MessengerOutputListe
             case INFO:
                 logger.info(message);
                 break;
-            case WARNING:
+            case WARN:
                 logger.warn(message);
                 break;
             case ERROR:
-            case FAILURE:
                 logger.error(message);
                 break;
         }

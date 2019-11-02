@@ -56,9 +56,9 @@ public final class LiteralExpressionSubparser implements ExpressionSubparser {
 
             switch (token.getValue()) {
                 case "true":
-                    return ExpressionParserUtils.toExpressionResult(JavaModule.BOOLEAN, true);
+                    return ExpressionParserUtils.toExpressionResult(JavaModule.BOOL, true);
                 case "false":
-                    return ExpressionParserUtils.toExpressionResult(JavaModule.BOOLEAN, false);
+                    return ExpressionParserUtils.toExpressionResult(JavaModule.BOOL, false);
                 case "null":
                     return ExpressionParserUtils.toExpressionResult(null, null);
                 case "this":
