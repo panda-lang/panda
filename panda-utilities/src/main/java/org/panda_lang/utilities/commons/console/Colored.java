@@ -16,8 +16,11 @@
 
 package org.panda_lang.utilities.commons.console;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.utilities.commons.StringUtils;
 import org.panda_lang.utilities.commons.text.ContentJoiner;
+
+import java.util.Objects;
 
 public class Colored {
 
@@ -40,8 +43,8 @@ public class Colored {
                 .toString();
     }
 
-    public static Colored on(Object text) {
-        return new Colored(text.toString());
+    public static Colored on(@Nullable Object text) {
+        return new Colored(Objects.toString(text));
     }
 
 }
