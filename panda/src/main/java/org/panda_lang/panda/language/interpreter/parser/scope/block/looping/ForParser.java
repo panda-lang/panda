@@ -44,7 +44,7 @@ import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 @RegistrableParser(pipeline = PandaPipeline.BLOCK_LABEL)
 public final class ForParser extends BlockSubparserBootstrap {
 
-    private static final Expression DEFAULT_CONDITION = new PandaExpression(JavaModule.BOOLEAN, true);
+    private static final Expression DEFAULT_CONDITION = new PandaExpression(JavaModule.BOOL, true);
 
     @Override
     protected BootstrapInitializer<BlockData> initialize(Context context, BootstrapInitializer<BlockData> initializer) {
