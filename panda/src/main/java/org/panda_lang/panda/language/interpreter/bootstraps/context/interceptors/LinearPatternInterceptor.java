@@ -58,6 +58,7 @@ public class LinearPatternInterceptor implements BootstrapInterceptor {
             }
 
             interceptorData.addElement(currentSource.getLocation());
+            interceptorData.addElement(result.getSource());
             interceptorData.addElement(result);
         }
 
