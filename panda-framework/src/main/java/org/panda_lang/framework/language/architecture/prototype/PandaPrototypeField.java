@@ -17,6 +17,7 @@
 package org.panda_lang.framework.language.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 
 public class PandaPrototypeField extends AbstractExecutableProperty implements PrototypeField {
@@ -42,8 +43,13 @@ public class PandaPrototypeField extends AbstractExecutableProperty implements P
     }
 
     @Override
-    public PandaPrototypeField initialize() {
+    public synchronized PandaPrototypeField initialize() {
         this.initialized = true;
+
+        if (isStatic && defaultValue != null) {
+            this.staticValue = ExpressionUtils.evaluateConstExpression(defaultValue);
+        }
+
         return this;
     }
 
