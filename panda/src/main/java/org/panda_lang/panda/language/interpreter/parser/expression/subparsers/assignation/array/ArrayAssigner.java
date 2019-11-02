@@ -20,6 +20,7 @@ import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.expression.DynamicExpression;
+import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 
 public final class ArrayAssigner implements DynamicExpression {
 
@@ -32,8 +33,15 @@ public final class ArrayAssigner implements DynamicExpression {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Object evaluate(ProcessStack stack, Object instance) throws Exception {
-        return accessor.getArrayInstance(stack, instance)[accessor.getIndex(stack, instance)] = value.evaluate(stack, instance);
+        Integer index = accessor.getIndex(stack, instance);
+
+        if (index == null) {
+            throw new PandaRuntimeException("Index cannot be null");
+        }
+
+        return accessor.getArrayInstance(stack, instance)[index] = value.evaluate(stack, instance);
     }
 
     @Override
