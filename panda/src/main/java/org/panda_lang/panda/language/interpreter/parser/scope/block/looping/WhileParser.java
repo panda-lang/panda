@@ -16,24 +16,24 @@
 
 package org.panda_lang.panda.language.interpreter.parser.scope.block.looping;
 
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.Components;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.framework.language.resource.internal.java.JavaModule;
-import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
+import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.bootstraps.block.BlockData;
 import org.panda_lang.panda.language.interpreter.bootstraps.block.BlockSubparserBootstrap;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.Component;
+import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.Inter;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.bootstraps.context.interceptors.LinearPatternInterceptor;
+import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
-import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 
 @RegistrableParser(pipeline = PandaPipeline.BLOCK_LABEL)
 public class WhileParser extends BlockSubparserBootstrap {
@@ -43,18 +43,16 @@ public class WhileParser extends BlockSubparserBootstrap {
         return initializer
                 .handler(new TokenHandler(Keywords.WHILE))
                 .interceptor(new LinearPatternInterceptor())
-                .pattern("while content:(~)");
+                .pattern("while &value:*=expression");
     }
 
     @Autowired
-    BlockData parseWhile(Context context, @Component Scope parent, @Src("content") Snippet content) {
-        Expression expression = context.getComponent(Components.EXPRESSION).parse(context, content).getExpression();
-
-        if (!JavaModule.BOOLEAN.isAssignableFrom(expression.getReturnType())) {
+    BlockData parseWhile(Context context, @Component Scope parent, @Inter SourceLocation location, @Src("value") Expression expression) {
+        if (!JavaModule.BOOL.isAssignableFrom(expression.getReturnType())) {
             throw new PandaParserException("Loop requires boolean as an argument");
         }
 
-        return new BlockData(new WhileBlock(parent, content.getLocation(), expression));
+        return new BlockData(new WhileBlock(parent, location, expression));
     }
 
 }
