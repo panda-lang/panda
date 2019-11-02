@@ -1,0 +1,12 @@
+module panda-module-manager
+
+// require panda-dependency defined in the panda.hjson
+require panda-dependency
+
+main {
+    // print panda-dependency message
+    System.out.println(PandaDependency.getMessage())
+
+    // print subdependency (defined in panda-dependency/panda.hjson) message
+    System.out.println(LDDependency.getMessage())
+}
