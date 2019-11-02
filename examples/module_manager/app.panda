@@ -5,8 +5,8 @@ require panda-dependency
 
 main {
     // print panda-dependency message
-    System.out.println(PandaDependency.getMessage())
+    log PandaDependency.getMessage()
 
     // print subdependency (defined in panda-dependency/panda.hjson) message
-    System.out.println(LDDependency.getMessage())
+    log LDDependency.getMessage()
 }

@@ -7,7 +7,7 @@ export org.panda_lang.utilities.commons.StringUtils
 shared class Required {
 
     shared hello() {
-        Console.log("Required print")
+        log "Required print"
 
         // Imported by current_test.panda java class should not be visible
         // Console.print(PandaConstants.VERSION)

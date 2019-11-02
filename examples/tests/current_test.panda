@@ -9,23 +9,12 @@ require java:collections // import submodules by default? :thinking:
 // import java class
 import org.panda_lang.panda.PandaConstants
 
-// define public Console class that will allow us to proxy logs
-public class Console {
-
-    // define public static method that accepts multiple arguments (varargs)
-    public static log(Object... values) {
-        // print values using the java output, System class is in the 'java' module which is imported by default
-        System.out.println(StringUtils.toString(values))
-    }
-
-}
-
 // main statement is called when the script is launched
 main {
     // create Test instance, then call its method and finally print content of testField
     Test test = new Test('"Constructor"')
     test.echo("Method echo")
-    Console.log(test.getTestField().testField)
+    log test.getTestField().testField
 
     // define variable init that may be initialized later
     late String init
@@ -49,16 +38,15 @@ main {
     // compare values and assign result to the flag variable
     Bool flag = i == 1
 
-    // print some recent values in console
-    Console.log("Hello Panda", flag, varFoo, s, test, i, math)
-
+    // print some recent values in the console
+    log 'Hello Panda', flag, varFoo, s, test, i, math
 
     // verify logic
     if !flag {
-        Console.log("Nope")
+        log 'Nope'
     }
     else {
-        Console.log("Yay") // expected
+        log 'Yay' // expected
     }
 
     // assign ArrayList (class) value to List (interface) variable and add some values
@@ -86,7 +74,7 @@ main {
 
     // iterate as long as flag is not equal to the false
     while flag != false {
-        Console.log(builder.toString())
+        log builder.toString()
         break // or just stop
     }
 
@@ -95,19 +83,19 @@ main {
     testArray.modify(test)
 
     // print array and some logical expressions
-    Console.log("Hello " + "Array " + testArray.array.toString())
-    Console.log("OR v AND: " + (false || false) + ", " + false || true, true && false, true && true)
-    Console.log("Compare: " + 1 > 2, 1 > 2, 1 < 2, 2 < 1)
-    Console.log("Random",  (false || false) + ", " + false || true, true && false, true && true, (false || false) + ", " + false || true, true && false, true && true)
+    log "Hello " + "Array " + testArray.array.toString()
+    log "OR v AND: " + (false || false) + ", " + false || true, true && false, true && true
+    log "Compare: " + 1 > 2, 1 > 2, 1 < 2, 2 < 1
+    log "Random",  (false || false) + ", " + false || true, true && false, true && true, (false || false) + ", " + false || true, true && false, true && true
 
     // test (in/de)crease operations
     mut Int creaseValue = 10
-    Console.log("Increase: " + creaseValue++, creaseValue++, ++creaseValue, ++creaseValue)
-    Console.log("Decrease: " + creaseValue--, creaseValue--, --creaseValue, --creaseValue)
+    log "Increase: " + creaseValue++, creaseValue++, ++creaseValue, ++creaseValue
+    log "Decrease: " + creaseValue--, creaseValue--, --creaseValue, --creaseValue
 
     // increase expression as standalone statement
     creaseValue++
-    Console.log(creaseValue)
+    log creaseValue
 
     // create instance of class imported from another file
     Required required = new Required()
@@ -117,11 +105,11 @@ main {
     try {
         throw new RuntimeException("Try")
     } catch (Exception e) {
-        Console.log(e.getMessage()) // gotcha
+        log e.getMessage() // gotcha
     }
 
     // print constant from imported java class
-    Console.log(PandaConstants.VERSION)
+    log PandaConstants.VERSION
 
     // test standard fori loop
     for (mut Int index = 3; index != 0; index--) {
@@ -129,16 +117,16 @@ main {
             continue
         }
 
-        Console.log("ForI: " + index)
+        log "ForI: " + index
     }
 
     // print variable declared by the expression :0
-    Console.log("Assignation: " + (Object assignation = 10))
+    log "Assignation: " + (Object assignation = 10)
 
     // check if variable defined in expr instanceof integer
     if assignation is Int {
         Int castTest = assignation as Int // and cast that value to integer
-        Console.log("Is int value: " + castTest)
+        log "Is int value: " + castTest
     }
 
     // Make sure that here is no way to create instance of interface
@@ -161,7 +149,7 @@ shared class Foo : Test, IEcho {
 
     // we need to mark overridden methods by the keyword
     override shared static anotherEcho(String message1) {
-        Console.log(message1)
+        log message1
     }
 
     // we need to impl all methods
@@ -182,12 +170,12 @@ class Test {
 
     // constructor prints random message and assigns itself to testField field
     constructor(String message2) {
-        Console.log(message2)
+        log message2
         this.testField = this
     }
 
     shared echo(Object message3) {
-        Console.log(message3)
+        log message3
     }
 
     // get test instance
@@ -213,7 +201,7 @@ local class TestArray {
         this.getArray()[Test.INDEX] = "Hello Array"
         array[6] = String.valueOf(this)
 
-        Console.log("Value at array[test.index]: " + this.getArray()[test.INDEX])
+        log "Value at array[test.index]: " + this.getArray()[test.INDEX]
     }
 
     // get array

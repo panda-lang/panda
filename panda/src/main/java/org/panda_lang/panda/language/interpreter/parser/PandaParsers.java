@@ -35,6 +35,7 @@ import org.panda_lang.panda.language.interpreter.parser.prototype.MethodParser;
 import org.panda_lang.panda.language.interpreter.parser.prototype.ParameterParser;
 import org.panda_lang.panda.language.interpreter.parser.prototype.PrototypeParser;
 import org.panda_lang.panda.language.interpreter.parser.scope.LateDeclarationParser;
+import org.panda_lang.panda.language.interpreter.parser.scope.LogParser;
 import org.panda_lang.panda.language.interpreter.parser.scope.StandaloneExpressionParser;
 import org.panda_lang.panda.language.interpreter.parser.scope.TryCatchParser;
 import org.panda_lang.panda.language.interpreter.parser.scope.block.conditional.ConditionalBlockParser;
@@ -77,6 +78,7 @@ public final class PandaParsers {
             // scope
             // AssignationParser.class, off
             LateDeclarationParser.class,
+            LogParser.class,
             StandaloneExpressionParser.class,
             TryCatchParser.class,
 

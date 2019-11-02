@@ -58,7 +58,7 @@ public class PandaExpressionParser implements ExpressionParser {
     public Optional<ExpressionTransaction> parseSilently(Context context, Streamable streamable, ExpressionParserSettings settings) {
         try {
             return Optional.of(parse(context, streamable, settings));
-        } catch (Exception e) {
+        } catch (PandaExpressionParserException e) {
             return Optional.empty();
         }
     }

@@ -83,10 +83,11 @@ final class BootstrapTaskScheduler<T> {
                 throw new BootstrapException("Error occurred: " + e.getMessage(), e.getTargetException());
             }
             catch (Exception e) {
+                // e.printStackTrace();
                 throw e;
             }
             catch (Throwable throwable) {
-                throwable.printStackTrace();
+                // throwable.printStackTrace();
                 throw new BootstrapException("Internal error: " + (throwable.getMessage() != null ? throwable.getMessage() : throwable.getClass()), throwable);
             }
 
