@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
-public final class Launcher {
+public final class ExamplesLauncher {
 
     public static void launch(String directory, String file) {
         Assertions.assertDoesNotThrow(() -> {
@@ -57,7 +57,7 @@ public final class Launcher {
     }
 
     public static Application interpret(String directory, String file) {
-        Logger logger = LoggerFactory.getLogger(Launcher.class);
+        Logger logger = LoggerFactory.getLogger(ExamplesLauncher.class);
         PandaUtils.printJVMUptime(() -> logger);
 
         PandaFactory factory = new PandaFactory();

@@ -17,13 +17,13 @@
 package org.panda_lang.panda.language.interpreter.messenger.layouts;
 
 import org.panda_lang.framework.design.interpreter.messenger.MessengerFormatter;
-import org.panda_lang.framework.design.interpreter.messenger.MessengerLevel;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.source.Source;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
 import org.panda_lang.panda.language.interpreter.messenger.PandaTranslatorLayout;
+import org.slf4j.event.Level;
 
 import java.util.Map;
 
@@ -53,8 +53,8 @@ public final class ParserFailureTranslatorLayout implements PandaTranslatorLayou
     }
 
     @Override
-    public MessengerLevel getLevel() {
-        return MessengerLevel.FAILURE;
+    public Level getLevel() {
+        return Level.ERROR;
     }
 
     @Override

@@ -16,6 +16,8 @@
 
 package org.panda_lang.framework.design.interpreter.messenger;
 
+import org.slf4j.event.Level;
+
 /**
  * Message container
  */
@@ -33,6 +35,6 @@ public interface MessengerMessage {
      *
      * @return the level
      */
-    MessengerLevel getLevel();
+    Level getLevel();
 
 }

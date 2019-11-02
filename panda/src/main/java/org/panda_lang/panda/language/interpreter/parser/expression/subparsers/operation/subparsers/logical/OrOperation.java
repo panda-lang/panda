@@ -47,7 +47,7 @@ public class OrOperation implements RPNOperationSupplier, RPNOperationAction<Boo
 
     @Override
     public Prototype requiredType() {
-        return JavaModule.BOOLEAN;
+        return JavaModule.BOOL;
     }
 
 }

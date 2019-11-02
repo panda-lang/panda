@@ -40,7 +40,7 @@ public class PandaVariable extends PandaVariableData implements Variable {
     }
 
     @Override
-    public Variable initialize() {
+    public synchronized Variable initialize() {
         this.initialized = true;
         return this;
     }

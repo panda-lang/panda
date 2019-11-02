@@ -68,7 +68,7 @@ final class PandaTranslator<T> implements MessengerMessageTranslator<T> {
 
         MicroTemplate template = engine.load(request);
         MessengerMessage message = new PandaMessengerMessage(scheme.getLevel(), template.getContent());
-        messenger.sendMessage(message);
+        messenger.send(message);
 
         return scheme.isInterrupting();
     }

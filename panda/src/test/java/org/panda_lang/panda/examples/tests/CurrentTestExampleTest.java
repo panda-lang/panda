@@ -17,14 +17,14 @@
 package org.panda_lang.panda.examples.tests;
 
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.examples.Launcher;
+import org.panda_lang.panda.examples.ExamplesLauncher;
 
 class CurrentTestExampleTest {
 
     @Test
     void testCurrentTest() {
         for (int i = 0; i < 1; i++) {
-            Launcher.launch("tests", "current_test.panda");
+            ExamplesLauncher.launch("tests", "current_test.panda");
         }
     }
 

@@ -29,6 +29,7 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
+import org.panda_lang.framework.language.architecture.prototype.PandaReference;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.architecture.prototype.PandaConstructor;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
@@ -102,7 +103,7 @@ public final class PrototypeParser extends ParserBootstrap {
                 .withComponent(PrototypeComponents.PROTOTYPE_SCOPE, prototypeScope)
                 .withComponent(PrototypeComponents.PROTOTYPE, prototype);
 
-        prototype.getModule().add(prototype);
+        prototype.getModule().add(new PandaReference(prototype));
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)

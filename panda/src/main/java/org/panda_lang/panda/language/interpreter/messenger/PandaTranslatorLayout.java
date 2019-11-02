@@ -17,8 +17,8 @@
 package org.panda_lang.panda.language.interpreter.messenger;
 
 import org.panda_lang.framework.design.interpreter.messenger.MessengerFormatter;
-import org.panda_lang.framework.design.interpreter.messenger.MessengerLevel;
 import org.panda_lang.framework.design.interpreter.source.Source;
+import org.slf4j.event.Level;
 
 import java.util.Map;
 
@@ -30,7 +30,7 @@ public interface PandaTranslatorLayout<T extends Object> {
 
     String getPrefix();
 
-    MessengerLevel getLevel();
+    Level getLevel();
 
     Source getTemplateSource();
 

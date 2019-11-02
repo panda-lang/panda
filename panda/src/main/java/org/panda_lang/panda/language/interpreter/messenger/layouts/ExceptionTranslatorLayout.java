@@ -17,19 +17,15 @@
 package org.panda_lang.panda.language.interpreter.messenger.layouts;
 
 import org.panda_lang.framework.design.interpreter.messenger.MessengerFormatter;
-import org.panda_lang.framework.design.interpreter.messenger.MessengerLevel;
-import org.panda_lang.panda.language.interpreter.messenger.PandaTranslatorLayout;
 import org.panda_lang.framework.design.interpreter.source.Source;
-import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
+import org.panda_lang.panda.language.interpreter.messenger.PandaTranslatorLayout;
+import org.slf4j.event.Level;
 
 import java.util.Map;
 
 public final class ExceptionTranslatorLayout implements PandaTranslatorLayout<Throwable> {
-
-    private String location;
-    private SourceStream source;
 
     @Override
     public void onHandle(MessengerFormatter formatter, Throwable element, Map<String, Object> context) {
@@ -43,12 +39,6 @@ public final class ExceptionTranslatorLayout implements PandaTranslatorLayout<Th
                 });
     }
 
-    public ExceptionTranslatorLayout update(String location, SourceStream source) {
-        this.location = location;
-        this.source = source;
-        return this;
-    }
-
     @Override
     public boolean isInterrupting() {
         return true;
@@ -60,8 +50,8 @@ public final class ExceptionTranslatorLayout implements PandaTranslatorLayout<Th
     }
 
     @Override
-    public MessengerLevel getLevel() {
-        return MessengerLevel.ERROR;
+    public Level getLevel() {
+        return Level.ERROR;
     }
 
     @Override

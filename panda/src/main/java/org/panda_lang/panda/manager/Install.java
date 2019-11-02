@@ -17,11 +17,11 @@
 package org.panda_lang.panda.manager;
 
 import org.panda_lang.framework.PandaFrameworkException;
-import org.panda_lang.framework.design.interpreter.messenger.MessengerLevel;
 import org.panda_lang.utilities.commons.FileUtils;
 import org.panda_lang.utilities.commons.IOUtils;
 import org.panda_lang.utilities.commons.ZipUtils;
 import org.panda_lang.utilities.commons.function.ThrowingRunnable;
+import org.slf4j.event.Level;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -46,7 +46,7 @@ final class Install implements ThrowingRunnable<IOException> {
     }
 
     public void run() throws IOException {
-        manager.getMessenger().sendMessage(MessengerLevel.DEBUG, "--- Installing dependencies");
+        manager.getMessenger().send(Level.DEBUG, "--- Installing dependencies");
 
         Dependency documentDependency = document.toDependency();
         File pandaModules = new File(document.getDocument().getParentFile(), "panda_modules");
@@ -63,7 +63,7 @@ final class Install implements ThrowingRunnable<IOException> {
 
             for (Dependency dependency : dependencies) {
                 if (documentDependency.equals(dependency)) {
-                    manager.getMessenger().sendMessage(MessengerLevel.WARNING, "Module contains circular dependency to itself");
+                    manager.getMessenger().send(Level.WARN, "Module contains circular dependency to itself");
                     continue;
                 }
 
@@ -87,7 +87,7 @@ final class Install implements ThrowingRunnable<IOException> {
             scan(dependencyMap, new File(pandaModules, moduleDirectory.getName()));
         }
 
-        manager.getMessenger().sendMessage(MessengerLevel.DEBUG, "");
+        manager.getMessenger().send(Level.DEBUG, "");
     }
 
     private void install(File pandaModules, Dependency dependency, Collection<Dependency> dependenciesToLoad) throws IOException {
@@ -144,7 +144,7 @@ final class Install implements ThrowingRunnable<IOException> {
     }
 
     private void log(InstallStatus status, Dependency dependency) {
-        manager.getMessenger().sendMessage(MessengerLevel.DEBUG, status.getSymbol() + " " + dependency.toString());
+        manager.getMessenger().send(Level.DEBUG, status.getSymbol() + " " + dependency.toString());
     }
 
 }
