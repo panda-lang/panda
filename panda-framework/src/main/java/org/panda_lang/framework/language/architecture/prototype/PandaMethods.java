@@ -23,6 +23,7 @@ import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.framework.design.architecture.prototype.Referencable;
 import org.panda_lang.framework.design.architecture.prototype.State;
+import org.panda_lang.framework.language.architecture.prototype.utils.ParameterUtils;
 
 import java.util.List;
 import java.util.Optional;

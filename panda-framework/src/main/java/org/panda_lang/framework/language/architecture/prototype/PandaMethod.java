@@ -57,7 +57,7 @@ public class PandaMethod extends AbstractExecutableProperty implements Prototype
         return new PandaMethodBuilder();
     }
 
-    public static class PandaMethodBuilder extends AbstractExecutableProperty.PandaParametrizedExecutableBuilder<PandaMethodBuilder> {
+    public static class PandaMethodBuilder extends PandaParametrizedExecutableBuilder<PandaMethodBuilder> {
 
         protected PrototypeExecutableCallback methodBody;
         protected boolean isAbstract;

@@ -36,7 +36,7 @@ public @interface RegistrableParser {
     String[] pipeline();
 
     /**
-     * Default priorities {@link org.panda_lang.panda.language.interpreter.parser.PandaPriorities}
+     * Default priorities {@link org.panda_lang.panda.language.resource.syntax.PandaPriorities}
      *
      * @return the priority
      */

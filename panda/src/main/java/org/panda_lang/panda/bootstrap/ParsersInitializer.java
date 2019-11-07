@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionSubparsers;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParsersLoader;
-import org.panda_lang.panda.language.interpreter.parser.expression.PandaExpressionUtils;
+import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressionUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,7 +56,7 @@ public final class ParsersInitializer implements Initializer {
      * Load default expressions defined by Panda standard
      *
      * @return the initializer instance
-     * @see org.panda_lang.panda.language.interpreter.parser.expression.PandaExpressions#SUBPARSERS
+     * @see org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressions#SUBPARSERS
      */
     public ParsersInitializer loadDefaultExpressionSubparsers() {
         this.expressionSubparsers.addAll(PandaExpressionUtils.collectSubparsers().getSubparsers());

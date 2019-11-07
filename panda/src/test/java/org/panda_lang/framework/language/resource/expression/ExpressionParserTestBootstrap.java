@@ -32,7 +32,7 @@ import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpr
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.framework.language.resource.internal.java.JavaModule;
-import org.panda_lang.panda.language.interpreter.parser.expression.PandaExpressionUtils;
+import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressionUtils;
 import org.panda_lang.utilities.commons.StringUtils;
 
 import java.util.HashMap;

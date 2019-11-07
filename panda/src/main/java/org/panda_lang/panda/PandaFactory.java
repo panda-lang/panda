@@ -32,9 +32,9 @@ import org.panda_lang.panda.language.interpreter.messenger.layouts.PandaLexerFai
 import org.panda_lang.panda.language.interpreter.messenger.layouts.ParserFailureTranslatorLayout;
 import org.panda_lang.panda.language.interpreter.messenger.layouts.ProcessFailureTranslatorLayout;
 import org.panda_lang.panda.language.interpreter.messenger.mappers.StacktraceMapper;
-import org.panda_lang.panda.language.interpreter.parser.PandaParsers;
+import org.panda_lang.panda.language.resource.syntax.PandaParsers;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
-import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.assignation.AssignationParsers;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationParsers;
 import org.slf4j.Logger;
 
 /**

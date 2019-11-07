@@ -31,7 +31,7 @@ import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpr
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.interpreter.parser.generation.PandaGeneration;
 import org.panda_lang.panda.language.architecture.PandaScript;
-import org.panda_lang.panda.language.interpreter.parser.expression.PandaExpressionUtils;
+import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressionUtils;
 import org.panda_lang.panda.language.resource.ResourcesLoader;
 
 public final class PandaContextUtils {
