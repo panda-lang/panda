@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.architecture.prototype.Property;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 
-abstract class AbstractProperty implements Property {
+public abstract class AbstractProperty implements Property {
 
     private final String name;
     private final SourceLocation location;

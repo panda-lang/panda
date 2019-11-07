@@ -18,8 +18,8 @@ package org.panda_lang.panda.language.interpreter.parser;
 
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponents;
-import org.panda_lang.panda.language.interpreter.parser.expression.subparsers.assignation.AssignationSubparser;
-import org.panda_lang.panda.language.interpreter.bootstraps.block.BlockSubparser;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationSubparser;
+import org.panda_lang.panda.language.interpreter.parser.block.BlockSubparser;
 
 /**
  * Used by {@link RegistrableParser}
@@ -31,7 +31,7 @@ public final class PandaPipeline implements PipelineComponents {
      */
     public static final String BLOCK_LABEL = "block";
     /**
-     * Class prototype parsers, used by {@link org.panda_lang.panda.language.interpreter.bootstraps.block.BlockParser}
+     * Class prototype parsers, used by {@link org.panda_lang.panda.language.interpreter.parser.block.BlockParser}
      */
     public static final PipelineComponent<BlockSubparser> BLOCK = PipelineComponent.of(PandaPipeline.class, BLOCK_LABEL, BlockSubparser.class);
 
@@ -40,7 +40,7 @@ public final class PandaPipeline implements PipelineComponents {
      */
     public static final String ASSIGNER_LABEL = "assignation";
     /**
-     * Assigner parsers, used by {@link org.panda_lang.panda.language.interpreter.parser.expression.subparsers.assignation.AssignationExpressionSubparser}
+     * Assigner parsers, used by {@link org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationExpressionSubparser}
      */
     public static final PipelineComponent<AssignationSubparser> ASSIGNER = PipelineComponent.of(PandaPipeline.class, ASSIGNER_LABEL, AssignationSubparser.class);
 

@@ -22,6 +22,7 @@ import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Result;
+import org.panda_lang.framework.language.architecture.prototype.utils.ParameterUtils;
 import org.panda_lang.framework.language.architecture.statement.AbstractPropertyFramedScope;
 import org.panda_lang.framework.language.architecture.statement.PandaPropertyFrame;
 

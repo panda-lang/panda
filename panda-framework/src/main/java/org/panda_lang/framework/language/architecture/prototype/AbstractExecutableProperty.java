@@ -24,11 +24,12 @@ import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.language.architecture.prototype.utils.ParameterUtils;
 
 import java.util.Arrays;
 import java.util.List;
 
-abstract class AbstractExecutableProperty extends AbstractProperty implements ExecutableProperty {
+public abstract class AbstractExecutableProperty extends AbstractProperty implements ExecutableProperty {
 
     private final Prototype prototype;
     private final PropertyParameter[] parameters;

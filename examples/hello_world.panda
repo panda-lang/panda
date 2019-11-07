@@ -1,5 +1,7 @@
 module example
 
+// every program needs a place to start its execution, that's the main statement
 main {
+    // print Hello Panda in the console
     log 'Hello Panda'
 }
