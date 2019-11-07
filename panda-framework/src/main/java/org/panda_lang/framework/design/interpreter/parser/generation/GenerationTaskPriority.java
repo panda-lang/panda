@@ -29,6 +29,11 @@ public final class GenerationTaskPriority implements Comparable<GenerationTaskPr
 
     private final double priority;
 
+    /**
+     * Create custom task priority
+     *
+     * @param priority the priority
+     */
     public GenerationTaskPriority(double priority) {
         this.priority = priority;
     }

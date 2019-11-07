@@ -51,7 +51,7 @@ public final class ApplicationParser implements Parser {
     }
 
     public PandaApplication parse(Source source) {
-        Environment environment = interpretation.getEnvironment();
+        Environment environment = interpretation.getInterpreter().getEnvironment();
         Resources resources = environment.getController().getResources();
 
         PandaApplication application = new PandaApplication(environment);
@@ -63,7 +63,7 @@ public final class ApplicationParser implements Parser {
         SourceSet sources = new PandaSourceSet();
         sources.addSource(source);
 
-        Lexer lexer = PandaLexer.of(interpretation.getLanguage().getSyntax())
+        Lexer lexer = PandaLexer.of(environment.getController().getLanguage().getSyntax())
                 .enableSections()
                 .build();
 

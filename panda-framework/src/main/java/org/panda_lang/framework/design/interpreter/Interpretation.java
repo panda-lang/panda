@@ -16,27 +16,54 @@
 
 package org.panda_lang.framework.design.interpreter;
 
-import org.panda_lang.framework.design.architecture.Environment;
-import org.panda_lang.framework.design.resource.Language;
 import org.panda_lang.utilities.commons.function.ThrowingRunnable;
 import org.panda_lang.utilities.commons.function.ThrowingSupplier;
 
 import java.util.Collection;
 
+/**
+ * Represents process of interpretation
+ */
 public interface Interpretation {
 
-    <E extends Exception> Interpretation execute(ThrowingRunnable<E> runnable);
+    /**
+     * Execute the given task
+     *
+     * @param task the task to execute
+     * @param <E> exception type
+     * @return the interpretation instance
+     */
+    <E extends Exception> Interpretation execute(ThrowingRunnable<E> task);
 
-    <T, E extends Exception> T execute(ThrowingSupplier<T, E> callback);
+    /**
+     * Execute the given task and get result
+     *
+     * @param task the task to execute
+     * @param <T> type of result
+     * @param <E> exception type
+     * @return the interpretation instance
+     */
+    <T, E extends Exception> T execute(ThrowingSupplier<T, E> task);
 
+    /**
+     * Check if process of interpretation is still healthy (executed tasks didn't throw any exceptions)
+     *
+     * @return true if healthy, otherwise false
+     */
     boolean isHealthy();
 
+    /**
+     * Get all collected failures
+     *
+     * @return collection of failures
+     */
     Collection<? extends Exception> getFailures();
 
-    Language getLanguage();
-
+    /**
+     * Get associated interpreter
+     *
+     * @return the interpreter
+     */
     Interpreter getInterpreter();
-
-    Environment getEnvironment();
 
 }

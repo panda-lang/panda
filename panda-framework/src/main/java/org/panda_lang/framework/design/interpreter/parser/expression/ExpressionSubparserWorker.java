@@ -40,6 +40,11 @@ public interface ExpressionSubparserWorker {
      */
     @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token);
 
+    /**
+     * Get parent subparser
+     *
+     * @return the subparser
+     */
     ExpressionSubparser getSubparser();
 
 }

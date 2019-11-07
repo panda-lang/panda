@@ -17,15 +17,26 @@
 package org.panda_lang.framework.design.interpreter;
 
 import org.panda_lang.framework.design.architecture.Application;
+import org.panda_lang.framework.design.architecture.Environment;
 import org.panda_lang.framework.design.interpreter.source.Source;
 
 import java.util.Optional;
 
+/**
+ * Translate source code into efficient intermediate representation and build an application
+ */
 public interface Interpreter {
 
     /**
      * Starts the process of interpretation
      */
     Optional<Application> interpret(Source source);
+
+    /**
+     * Get associated environment
+     *
+     * @return the environment
+     */
+    Environment getEnvironment();
 
 }

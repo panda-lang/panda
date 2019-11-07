@@ -33,10 +33,11 @@ public final class TokenType {
         this.name = name;
     }
 
-    public int ordinal() {
-        return id;
-    }
-
+    /**
+     * Get name
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
