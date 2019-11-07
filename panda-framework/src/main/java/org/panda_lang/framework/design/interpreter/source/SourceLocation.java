@@ -21,6 +21,9 @@ package org.panda_lang.framework.design.interpreter.source;
  */
 public interface SourceLocation {
 
+    /**
+     * Represents unknown location
+     */
     int UNKNOWN_LOCATION = -3;
 
     /**

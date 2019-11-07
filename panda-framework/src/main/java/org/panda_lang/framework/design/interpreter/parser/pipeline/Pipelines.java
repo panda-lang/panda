@@ -55,7 +55,7 @@ public final class Pipelines implements PipelineComponents {
      */
     public static final String SCOPE_LABEL = "scope";
     /**
-     * Container parsers
+     * Scope parsers
      */
     public static final PipelineComponent<ContextParser> SCOPE = PipelineComponent.of(Pipelines.class, SCOPE_LABEL, ContextParser.class);
 

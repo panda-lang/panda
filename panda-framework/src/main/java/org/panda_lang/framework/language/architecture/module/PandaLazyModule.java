@@ -18,6 +18,9 @@ package org.panda_lang.framework.language.architecture.module;
 
 import org.panda_lang.framework.design.architecture.module.Module;
 
+/**
+ * Implementation of module that allows to set parent, useful for e.g. lazy inits
+ */
 public final class PandaLazyModule extends PandaModule {
 
     public PandaLazyModule(String name) {

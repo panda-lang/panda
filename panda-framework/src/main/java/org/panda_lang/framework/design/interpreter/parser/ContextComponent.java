@@ -34,10 +34,27 @@ public class ContextComponent<T> extends Component<T> {
         super(name, type, priority);
     }
 
+    /**
+     * Create component
+     *
+     * @param name name of component
+     * @param type type of component
+     * @param <T> generic type of component
+     * @return a new component
+     */
     public static <T> ContextComponent<T> of(String name, Class<T> type) {
         return of(name, type, 1.0);
     }
 
+    /**
+     * Create component with a custom priority
+     *
+     * @param name name of component
+     * @param type type of component
+     * @param priority the priority
+     * @param <T> generic type of component
+     * @return a new component
+     */
     @SuppressWarnings("unchecked")
     public static <T> ContextComponent<T> of(String name, Class<T> type, double priority) {
         return (ContextComponent<T>) ofComponents(COMPONENTS, name, () -> new ContextComponent<>(name, type, priority));

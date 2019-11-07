@@ -44,11 +44,26 @@ public class PipelineComponent<P extends Parser> extends Component<P> {
         return container.getSimpleName() + "::" + super.toString();
     }
 
+    /**
+     * Create component
+     *
+     * @param container the parent container
+     * @param name the name of component
+     * @param type the type of component
+     * @param <T> generic type of component
+     * @return a new component
+     */
     @SuppressWarnings("unchecked")
     public static <T extends Parser> PipelineComponent<T> of(Class<? extends PipelineComponents> container, String name, Class<T> type) {
         return (PipelineComponent<T>) ofComponents(COMPONENTS, name, () -> new PipelineComponent<>(container, name, type));
     }
 
+    /**
+     * Get component with the given name
+     *
+     * @param name the name to search for
+     * @return a found component
+     */
     @SuppressWarnings("unchecked")
     public static @Nullable PipelineComponent<Parser> get(String name) {
         for (Map.Entry<String, PipelineComponent<? extends Parser>> entry : COMPONENTS.entrySet()) {

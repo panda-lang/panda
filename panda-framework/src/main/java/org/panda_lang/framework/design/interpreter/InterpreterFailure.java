@@ -16,7 +16,6 @@
 
 package org.panda_lang.framework.design.interpreter;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.Failure;
 import org.panda_lang.framework.design.interpreter.source.IndicatedSource;
@@ -31,9 +30,11 @@ public abstract class InterpreterFailure extends PandaFrameworkException impleme
         super(message);
     }
 
-    @Override
-    public abstract @Nullable String getNote();
-
+    /**
+     * Get indicated source
+     *
+     * @return the indicated source
+     */
     public abstract IndicatedSource getIndicatedSource();
 
 }

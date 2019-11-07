@@ -35,30 +35,32 @@ public class PandaEnvironment implements Environment {
     private final File workingDirectory;
     private final Messenger messenger;
     private final ModulePath modulePath;
-    private PandaInterpreter interpreter;
+    private final PandaInterpreter interpreter;
+    private boolean initialized;
 
     public PandaEnvironment(FrameworkController controller, File workingDirectory) {
         this.controller = controller;
         this.workingDirectory = workingDirectory;
         this.messenger = new PandaMessenger(controller.getLogger());
         this.modulePath = new PandaModulePath();
+        this.interpreter = new PandaInterpreter(this);
     }
 
-    public void initialize() {
+    public synchronized void initialize() {
+        if (initialized) {
+            return;
+        }
+
+        this.initialized = true;
         controller.getResources().getMessengerInitializer().onInitialize(messenger);
 
         ResourcesLoader loader = new ResourcesLoader();
         loader.load(modulePath);
-
-        this.interpreter = PandaInterpreter.builder()
-                .environment(this)
-                .elements(controller.getLanguage())
-                .build();
     }
 
     @Override
     public PandaInterpreter getInterpreter() {
-        if (interpreter == null) {
+        if (!initialized) {
             throw new PandaException("Environment was not initialized");
         }
 

@@ -17,10 +17,8 @@
 package org.panda_lang.framework.language.interpreter;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.Environment;
 import org.panda_lang.framework.design.interpreter.Interpretation;
 import org.panda_lang.framework.design.interpreter.Interpreter;
-import org.panda_lang.framework.design.resource.Language;
 import org.panda_lang.utilities.commons.function.ThrowingRunnable;
 import org.panda_lang.utilities.commons.function.ThrowingSupplier;
 
@@ -29,22 +27,18 @@ import java.util.Collection;
 
 public final class PandaInterpretation implements Interpretation {
 
-    private final Language language;
-    private final Environment environment;
     private final Interpreter interpreter;
     private final Collection<Exception> failures = new ArrayList<>(1);
     private boolean healthy = true;
 
-    public PandaInterpretation(Language language, Environment environment, Interpreter interpreter) {
-        this.language = language;
-        this.environment = environment;
+    public PandaInterpretation(Interpreter interpreter) {
         this.interpreter = interpreter;
     }
 
     @Override
-    public <E extends Exception> Interpretation execute(ThrowingRunnable<E> runnable) {
+    public <E extends Exception> Interpretation execute(ThrowingRunnable<E> task) {
         execute(() -> {
-            runnable.run();
+            task.run();
             return null;
         });
 
@@ -52,11 +46,12 @@ public final class PandaInterpretation implements Interpretation {
     }
 
     @Override
-    public @Nullable <T, E extends Exception> T execute(ThrowingSupplier<T, E> callback) {
+    public @Nullable <T, E extends Exception> T execute(ThrowingSupplier<T, E> task) {
         try {
-            return isHealthy() ? callback.get() : null;
+            return isHealthy() ? task.get() : null;
         } catch (Exception exception) {
-            this.healthy = !getEnvironment().getMessenger().send(exception);
+            failures.add(exception);
+            this.healthy = !interpreter.getEnvironment().getMessenger().send(exception);
             return null;
         }
     }
@@ -72,18 +67,8 @@ public final class PandaInterpretation implements Interpretation {
     }
 
     @Override
-    public Language getLanguage() {
-        return language;
-    }
-
-    @Override
     public Interpreter getInterpreter() {
         return interpreter;
-    }
-
-    @Override
-    public Environment getEnvironment() {
-        return environment;
     }
 
 }

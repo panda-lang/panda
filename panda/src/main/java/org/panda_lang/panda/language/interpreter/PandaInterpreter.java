@@ -21,7 +21,6 @@ import org.panda_lang.framework.design.architecture.Environment;
 import org.panda_lang.framework.design.interpreter.Interpretation;
 import org.panda_lang.framework.design.interpreter.Interpreter;
 import org.panda_lang.framework.design.interpreter.source.Source;
-import org.panda_lang.framework.design.resource.Language;
 import org.panda_lang.framework.language.architecture.prototype.generator.PrototypeGeneratorManager;
 import org.panda_lang.framework.language.interpreter.PandaInterpretation;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParser;
@@ -36,16 +35,14 @@ import java.util.Optional;
 public final class PandaInterpreter implements Interpreter {
 
     private final Environment environment;
-    private final Language language;
 
-    protected PandaInterpreter(PandaInterpreterBuilder builder) {
-        this.environment = builder.environment;
-        this.language = builder.elements;
+    public PandaInterpreter(Environment environment) {
+        this.environment = environment;
     }
 
     @Override
     public Optional<Application> interpret(Source source) {
-        Interpretation interpretation = new PandaInterpretation(language, environment, this);
+        Interpretation interpretation = new PandaInterpretation(this);
         long uptime = System.nanoTime();
 
         ApplicationParser parser = new ApplicationParser(interpretation);
@@ -74,31 +71,9 @@ public final class PandaInterpreter implements Interpreter {
         return Optional.of(application);
     }
 
-    public static PandaInterpreterBuilder builder() {
-        return new PandaInterpreterBuilder();
-    }
-
-    public static final class PandaInterpreterBuilder {
-
-        protected Environment environment;
-        protected Language elements;
-
-        private PandaInterpreterBuilder() { }
-
-        public PandaInterpreterBuilder environment(Environment environment) {
-            this.environment = environment;
-            return this;
-        }
-
-        public PandaInterpreterBuilder elements(Language elements) {
-            this.elements = elements;
-            return this;
-        }
-
-        public PandaInterpreter build() {
-            return new PandaInterpreter(this);
-        }
-
+    @Override
+    public Environment getEnvironment() {
+        return environment;
     }
 
 }
