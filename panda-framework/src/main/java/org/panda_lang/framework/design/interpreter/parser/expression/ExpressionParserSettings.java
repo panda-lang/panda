@@ -117,7 +117,7 @@ public final class ExpressionParserSettings {
          * @return builder instance
          */
         public ExpressionParserSettingsBuilder excludeSelected() {
-            this.selectedMode = SelectedMode.INCLUDE;
+            this.selectedMode = SelectedMode.EXCLUDE;
             return this;
         }
 
