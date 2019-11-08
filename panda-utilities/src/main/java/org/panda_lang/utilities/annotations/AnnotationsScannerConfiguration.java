@@ -34,7 +34,7 @@ import java.net.URLClassLoader;
 import java.util.HashSet;
 import java.util.Set;
 
-public class AnnotationsScannerConfiguration {
+public final class AnnotationsScannerConfiguration {
 
     protected final Set<ClassLoader> classLoaders;
     protected final Set<AnnotationsScannerResource<?>> resources;

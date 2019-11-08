@@ -28,7 +28,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PandaPipelinePath implements PipelinePath {
+public final class PandaPipelinePath implements PipelinePath {
 
     private final Map<PipelineComponent<?>, Pipeline<?>> pipelines = new HashMap<>(3);
 

@@ -26,7 +26,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class AnnotationsScannerUtils {
+public final class AnnotationsScannerUtils {
 
     public static String toClassPath(String path) {
         return StringUtils.replace(StringUtils.replace(path, "/", "."), ".class", "");

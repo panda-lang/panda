@@ -20,9 +20,9 @@ import org.panda_lang.framework.design.architecture.expression.ExpressionEvaluat
 import org.panda_lang.framework.design.architecture.prototype.Referencable;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 
-public class PandaDynamicExpression extends AbstractDynamicExpression {
+public final class PandaDynamicExpression extends AbstractDynamicExpression {
 
-    private ExpressionEvaluator evaluator;
+    private final ExpressionEvaluator evaluator;
 
     public PandaDynamicExpression(Referencable referencable, ExpressionEvaluator evaluator) {
         super(referencable.toReference());

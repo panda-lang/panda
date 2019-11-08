@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class PandaSnippet implements Snippet {
+public final class PandaSnippet implements Snippet {
 
     private final List<TokenRepresentation> tokens;
 

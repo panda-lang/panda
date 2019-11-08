@@ -27,7 +27,7 @@ import org.panda_lang.framework.language.resource.syntax.operator.Operators;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConcatenationOperatorSubparser implements OperationSubparser {
+public final class ConcatenationOperatorSubparser implements OperationSubparser {
 
     @Override
     public @Nullable Expression parse(OperationParser parser, Context context, Operation operation) {

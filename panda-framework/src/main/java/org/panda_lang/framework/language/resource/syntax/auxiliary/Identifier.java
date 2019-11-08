@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.interpreter.token.EqualableToken;
 
-public class Identifier extends EqualableToken {
+public final class Identifier extends EqualableToken {
 
     private final String identifier;
 

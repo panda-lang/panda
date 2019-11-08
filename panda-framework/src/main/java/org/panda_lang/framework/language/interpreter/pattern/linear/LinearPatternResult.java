@@ -23,7 +23,7 @@ import org.panda_lang.framework.design.interpreter.token.Snippet;
 import java.util.List;
 import java.util.Map;
 
-public class LinearPatternResult implements PatternResult, PatternMapping {
+public final class LinearPatternResult implements PatternResult, PatternMapping {
 
     protected static final LinearPatternResult NOT_MATCHED = new LinearPatternResult();
 

@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
-class LinearPatternMatcher {
+final class LinearPatternMatcher {
 
     private final LinearPattern pattern;
     private final SourceStream source;

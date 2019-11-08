@@ -28,7 +28,7 @@ import org.panda_lang.framework.language.architecture.statement.PandaPropertyFra
 
 import java.util.List;
 
-public class MethodScope extends AbstractPropertyFramedScope {
+public final class MethodScope extends AbstractPropertyFramedScope {
 
     public MethodScope(SourceLocation location, List<PropertyParameter> parameters) {
         super(location, parameters);
@@ -43,7 +43,7 @@ public class MethodScope extends AbstractPropertyFramedScope {
         return new PandaMethodCallback(this);
     }
 
-    public static class MethodFrame extends PandaPropertyFrame<MethodScope> {
+    public static final class MethodFrame extends PandaPropertyFrame<MethodScope> {
 
         public MethodFrame(MethodScope method, Frame instance) {
             super(method, instance);
@@ -51,7 +51,7 @@ public class MethodScope extends AbstractPropertyFramedScope {
 
     }
 
-    public static class PandaMethodCallback implements PrototypeExecutableCallback<Frame> {
+    public static final class PandaMethodCallback implements PrototypeExecutableCallback<Frame> {
 
         private final MethodScope scope;
 

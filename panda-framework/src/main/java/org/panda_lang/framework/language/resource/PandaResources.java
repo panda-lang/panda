@@ -22,7 +22,7 @@ import org.panda_lang.framework.design.resource.Resources;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparsers;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaPipelinePath;
 
-public class PandaResources implements Resources {
+public final class PandaResources implements Resources {
 
     private final PandaResourcesBuilder builder;
 

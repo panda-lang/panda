@@ -30,7 +30,7 @@ import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import java.util.Objects;
 import java.util.Optional;
 
-public class PandaVariableDataInitializer {
+public final class PandaVariableDataInitializer {
 
     private final Context context;
     private final Scope scope;

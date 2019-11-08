@@ -24,7 +24,7 @@ import org.panda_lang.framework.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.framework.language.architecture.dynamic.assigner.AbstractAssigner;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 
-public class FieldAssigner extends AbstractAssigner<PrototypeField> {
+public final class FieldAssigner extends AbstractAssigner<PrototypeField> {
 
     private final boolean initialize;
     private final Expression valueExpression;

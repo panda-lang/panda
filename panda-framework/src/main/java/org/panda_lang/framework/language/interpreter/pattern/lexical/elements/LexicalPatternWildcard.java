@@ -18,7 +18,7 @@ package org.panda_lang.framework.language.interpreter.pattern.lexical.elements;
 
 import org.panda_lang.utilities.commons.StringUtils;
 
-public class LexicalPatternWildcard extends DefaultLexicalPatternElement {
+public final class LexicalPatternWildcard extends DefaultLexicalPatternElement {
 
     private final String context;
     private String name;

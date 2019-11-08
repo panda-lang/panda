@@ -29,7 +29,7 @@ import org.slf4j.Logger;
 
 import java.io.File;
 
-public class PandaEnvironment implements Environment {
+public final class PandaEnvironment implements Environment {
 
     private final FrameworkController controller;
     private final File workingDirectory;

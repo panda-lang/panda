@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * @param <T> generic type of result
  */
-public class Result<T> {
+public final class Result<T> {
 
     private final byte status;
     private final T result;

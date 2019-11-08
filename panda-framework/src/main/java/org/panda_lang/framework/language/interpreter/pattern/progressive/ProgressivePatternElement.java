@@ -19,7 +19,7 @@ package org.panda_lang.framework.language.interpreter.pattern.progressive;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 
-public class ProgressivePatternElement {
+public final class ProgressivePatternElement {
 
     private TokenRepresentation operator;
     private Snippet expression;

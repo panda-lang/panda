@@ -27,7 +27,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class BootstrapInitializer<T> {
+public final class BootstrapInitializer<T> {
 
     protected String name;
     protected Object instance;

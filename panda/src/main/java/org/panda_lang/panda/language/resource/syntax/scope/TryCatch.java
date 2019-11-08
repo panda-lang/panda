@@ -71,10 +71,10 @@ final class TryCatch extends AbstractExecutableStatement {
         return this;
     }
 
-    private static class Data {
+    private static final class Data {
 
-        private Variable variable;
-        private Scope block;
+        private final Variable variable;
+        private final Scope block;
 
         public Data(Variable variable, Scope block) {
             this.variable = variable;

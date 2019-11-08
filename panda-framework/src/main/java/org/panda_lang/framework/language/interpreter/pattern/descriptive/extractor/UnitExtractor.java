@@ -19,7 +19,7 @@ package org.panda_lang.framework.language.interpreter.pattern.descriptive.extrac
 import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternUnit;
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.utils.TokenDistributor;
 
-class UnitExtractor extends AbstractElementExtractor<LexicalPatternUnit> {
+final class UnitExtractor extends AbstractElementExtractor<LexicalPatternUnit> {
 
     protected UnitExtractor(ExtractorWorker worker) {
         super(worker);

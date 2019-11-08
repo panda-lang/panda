@@ -25,7 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class TokenDistributor implements Iterable<TokenRepresentation> {
+public final class TokenDistributor implements Iterable<TokenRepresentation> {
 
     private final Snippet source;
     private int index;

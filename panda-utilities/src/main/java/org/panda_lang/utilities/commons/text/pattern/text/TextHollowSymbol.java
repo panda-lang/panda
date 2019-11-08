@@ -21,7 +21,7 @@ import org.panda_lang.utilities.commons.text.pattern.PatternMatcher;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class TextHollowSymbol implements PatternMatcher {
+public final class TextHollowSymbol implements PatternMatcher {
 
     private final int index;
     private final TextHollowSymbolType hollowSymbolType;

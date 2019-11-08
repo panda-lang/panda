@@ -83,7 +83,7 @@ final class ReflectionUtilsTest {
 
     }
 
-    static class Bar extends Foo {
+    static final class Bar extends Foo {
 
         private final String FIELD = "value";
 

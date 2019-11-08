@@ -19,7 +19,7 @@ package org.panda_lang.utilities.annotations.resource;
 import java.io.IOException;
 import java.io.InputStream;
 
-class JarAnnotationsScannerInputStream extends InputStream {
+final class JarAnnotationsScannerInputStream extends InputStream {
 
     private final JarAnnotationsScannerResource resource;
     private final long fromIndex;

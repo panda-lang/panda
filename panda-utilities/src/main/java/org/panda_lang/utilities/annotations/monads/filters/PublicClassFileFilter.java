@@ -22,7 +22,7 @@ import javassist.bytecode.MethodInfo;
 import org.panda_lang.utilities.annotations.adapter.MetadataAdapter;
 import org.panda_lang.utilities.annotations.monads.AnnotationsFilter;
 
-public class PublicClassFileFilter implements AnnotationsFilter<ClassFile> {
+public final class PublicClassFileFilter implements AnnotationsFilter<ClassFile> {
 
     @Override
     public boolean check(MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter, ClassFile element) {

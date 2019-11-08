@@ -22,7 +22,7 @@ import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.interpreter.token.EqualableToken;
 import org.panda_lang.utilities.commons.StringUtils;
 
-public class Operator extends EqualableToken {
+public final class Operator extends EqualableToken {
 
     private final String family;
     private final String operator;

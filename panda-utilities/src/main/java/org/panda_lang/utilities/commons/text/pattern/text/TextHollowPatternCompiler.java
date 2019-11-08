@@ -18,7 +18,7 @@ package org.panda_lang.utilities.commons.text.pattern.text;
 
 import java.util.List;
 
-public class TextHollowPatternCompiler {
+public final class TextHollowPatternCompiler {
 
     private final TextHollowPatternBuilder builder;
 

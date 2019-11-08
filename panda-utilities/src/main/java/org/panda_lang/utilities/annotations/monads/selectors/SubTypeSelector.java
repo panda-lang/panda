@@ -23,7 +23,7 @@ import org.panda_lang.utilities.annotations.monads.AnnotationsSelector;
 
 import java.util.Collection;
 
-public class SubTypeSelector implements AnnotationsSelector<Class<?>> {
+public final class SubTypeSelector implements AnnotationsSelector<Class<?>> {
 
     private final Class<?> type;
 

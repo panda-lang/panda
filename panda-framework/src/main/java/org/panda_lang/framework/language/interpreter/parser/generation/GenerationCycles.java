@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class GenerationCycles {
+public final class GenerationCycles {
 
     public static final String SYNTAX_LABEL = "SYNTAX";
     public static final CycleType SYNTAX = new CycleType(SYNTAX_LABEL, 1.0);

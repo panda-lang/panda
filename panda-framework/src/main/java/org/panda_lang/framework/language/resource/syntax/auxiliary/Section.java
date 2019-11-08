@@ -23,7 +23,7 @@ import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.interpreter.token.EqualableToken;
 import org.panda_lang.framework.language.resource.syntax.separator.Separator;
 
-public class Section extends EqualableToken {
+public final class Section extends EqualableToken {
 
     private final TokenRepresentation openingSeparator;
     private final TokenRepresentation closingSeparator;

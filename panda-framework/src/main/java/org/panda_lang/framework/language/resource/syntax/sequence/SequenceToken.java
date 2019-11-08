@@ -18,7 +18,7 @@ package org.panda_lang.framework.language.resource.syntax.sequence;
 
 import org.panda_lang.framework.language.interpreter.token.PandaToken;
 
-public class SequenceToken extends PandaToken {
+public final class SequenceToken extends PandaToken {
 
     private final Sequence sequence;
 

@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionC
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 
-public class PandaExpressionParserFailure extends PandaParserFailure {
+public final class PandaExpressionParserFailure extends PandaParserFailure {
 
     private final String expressionMessage;
 

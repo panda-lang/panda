@@ -29,7 +29,7 @@ import org.slf4j.event.Level;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PandaMessenger implements Messenger {
+public final class PandaMessenger implements Messenger {
 
     private final Logger logger;
     private final MessengerFormatter formatter = new PandaMessengerFormatter(this);

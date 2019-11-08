@@ -26,7 +26,7 @@ import org.panda_lang.utilities.commons.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LexicalExtractorResult<T> implements PatternResult {
+public final class LexicalExtractorResult<T> implements PatternResult {
 
     private static final LexicalExtractorResult<?> ERR = new LexicalExtractorResult<>(false);
 

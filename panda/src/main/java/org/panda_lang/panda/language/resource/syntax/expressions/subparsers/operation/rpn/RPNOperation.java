@@ -22,7 +22,7 @@ import org.panda_lang.framework.language.resource.syntax.operator.Operator;
 import java.util.Map;
 import java.util.Stack;
 
-public class RPNOperation {
+public final class RPNOperation {
 
     private final Map<Operator, RPNOperationSupplier> actions;
     private final Stack<Object> values;

@@ -23,7 +23,7 @@ import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractExecutableStatement;
 
-class Return extends AbstractExecutableStatement implements Controller {
+final class Return extends AbstractExecutableStatement implements Controller {
 
     private final Expression value;
 

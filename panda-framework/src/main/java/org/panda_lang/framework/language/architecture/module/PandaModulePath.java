@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class PandaModulePath extends PandaModules implements ModulePath {
+public final class PandaModulePath extends PandaModules implements ModulePath {
 
     private final Map<String, Runnable> modules = new HashMap<>();
 

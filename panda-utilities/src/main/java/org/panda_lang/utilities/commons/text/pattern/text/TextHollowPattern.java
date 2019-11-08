@@ -22,7 +22,7 @@ import org.panda_lang.utilities.commons.text.pattern.PatternMatcher;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TextHollowPattern implements PatternMatcher {
+public final class TextHollowPattern implements PatternMatcher {
 
     private final List<TextHollowSymbol> hollowSymbols;
     private final List<String> hollows;

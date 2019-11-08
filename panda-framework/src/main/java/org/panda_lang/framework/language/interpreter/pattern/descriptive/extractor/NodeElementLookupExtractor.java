@@ -22,7 +22,7 @@ import org.panda_lang.framework.language.interpreter.pattern.descriptive.utils.T
 
 import java.util.List;
 
-class NodeElementLookupExtractor {
+final class NodeElementLookupExtractor {
 
     private final NodeLookupExtractor lookupExtractor;
 

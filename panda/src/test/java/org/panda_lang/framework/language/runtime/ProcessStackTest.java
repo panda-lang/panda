@@ -58,7 +58,7 @@ class ProcessStackTest {
         process.execute();
     }
 
-    private static class ExecutableStub extends AbstractStatement implements Executable {
+    private static final class ExecutableStub extends AbstractStatement implements Executable {
 
         private ExecutableStub(SourceLocation location) {
             super(location);
@@ -71,7 +71,7 @@ class ProcessStackTest {
 
     }
 
-    private static class ScopeStub extends AbstractScope implements Scope {
+    private static final class ScopeStub extends AbstractScope implements Scope {
 
         protected ScopeStub(Scope parent) {
             super(parent, null);

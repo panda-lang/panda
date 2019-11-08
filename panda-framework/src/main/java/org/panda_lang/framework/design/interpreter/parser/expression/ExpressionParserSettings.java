@@ -110,7 +110,7 @@ public final class ExpressionParserSettings {
     /**
      * Settings builder
      */
-    public static class ExpressionParserSettingsBuilder {
+    public static final class ExpressionParserSettingsBuilder {
 
         private Collection<String> selectedSubparsers;
         private Boolean selectedMode;

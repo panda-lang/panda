@@ -21,7 +21,7 @@ import org.panda_lang.framework.language.interpreter.pattern.descriptive.wildcar
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class DefaultWildcardConditionFactories {
+public final class DefaultWildcardConditionFactories {
 
     private static final Collection<WildcardConditionFactory> FACTORIES = new ArrayList<>();
 

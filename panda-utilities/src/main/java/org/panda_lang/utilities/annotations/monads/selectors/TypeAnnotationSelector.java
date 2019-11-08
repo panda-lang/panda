@@ -28,9 +28,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class TypeAnnotationSelector implements AnnotationsSelector<Class<?>> {
+public final class TypeAnnotationSelector implements AnnotationsSelector<Class<?>> {
 
-    private Class<? extends Annotation> annotationType;
+    private final Class<? extends Annotation> annotationType;
 
     public TypeAnnotationSelector(Class<? extends Annotation> annotationType) {
         this.annotationType = annotationType;

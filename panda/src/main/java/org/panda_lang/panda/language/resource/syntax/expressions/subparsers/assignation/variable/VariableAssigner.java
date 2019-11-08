@@ -24,7 +24,7 @@ import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 import org.panda_lang.framework.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.framework.language.architecture.dynamic.assigner.AbstractAssigner;
 
-public class VariableAssigner extends AbstractAssigner<Variable> {
+public final class VariableAssigner extends AbstractAssigner<Variable> {
 
     private final boolean initialize;
     private final Expression expression;

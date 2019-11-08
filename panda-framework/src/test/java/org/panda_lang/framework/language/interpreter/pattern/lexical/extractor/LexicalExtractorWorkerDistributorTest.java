@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.utilities.commons.iterable;
+package org.panda_lang.framework.language.interpreter.pattern.lexical.extractor;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-final class ArrayDistributorTest {
+final class LexicalExtractorWorkerDistributorTest {
 
     private static final String[] array = { "a", "b", "c", "d", "e" };
 
     @Test
     void testArrayDistributor() {
-        ArrayDistributor<String> distributor = new ArrayDistributor<>(array);
+        LexicalExtractorWorkerDistributor<String> distributor = new LexicalExtractorWorkerDistributor<>(array);
         distributor.setIndex(2);
 
         Assertions.assertAll(

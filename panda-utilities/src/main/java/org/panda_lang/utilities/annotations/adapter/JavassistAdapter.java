@@ -38,9 +38,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class JavassistAdapter implements MetadataAdapter<ClassFile, FieldInfo, MethodInfo> {
+public final class JavassistAdapter implements MetadataAdapter<ClassFile, FieldInfo, MethodInfo> {
 
-    public static boolean includeInvisibleTag = true;
+    public static final boolean includeInvisibleTag = true;
 
     @Override
     public boolean acceptsInput(String file) {

@@ -25,7 +25,7 @@ import org.panda_lang.utilities.commons.TimeUtils;
 
 import java.util.Set;
 
-public class AnnotationsScannerProcess implements AnnotationsDisposable {
+public final class AnnotationsScannerProcess {
 
     private final AnnotationsScanner scanner;
     private final AnnotationScannerStore store;
@@ -61,11 +61,6 @@ public class AnnotationsScannerProcess implements AnnotationsDisposable {
 
     public AnnotationsScannerSelector createSelector() {
         return new AnnotationsScannerSelector(this, store);
-    }
-
-    @Override
-    public void dispose() {
-        store.dispose();
     }
 
     public MetadataAdapter<ClassFile, FieldInfo, MethodInfo> getMetadataAdapter() {

@@ -31,7 +31,7 @@ import org.panda_lang.utilities.commons.collection.FixedStack;
 import org.panda_lang.utilities.commons.collection.IStack;
 import org.panda_lang.utilities.commons.function.ThrowingSupplier;
 
-public class PandaProcessStack implements ProcessStack {
+public final class PandaProcessStack implements ProcessStack {
 
     private final Process process;
     private final IStack<Statement> stack;

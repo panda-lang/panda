@@ -26,7 +26,7 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.Iterator;
 
-public class SystemAnnotationScannerResource extends AnnotationsScannerResource<SystemAnnotationScannerFile> {
+public final class SystemAnnotationScannerResource extends AnnotationsScannerResource<SystemAnnotationScannerFile> {
 
     protected final File file;
     private final String path;

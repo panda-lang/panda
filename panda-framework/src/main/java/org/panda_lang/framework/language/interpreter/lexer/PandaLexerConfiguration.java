@@ -18,7 +18,7 @@ package org.panda_lang.framework.language.interpreter.lexer;
 
 import org.panda_lang.framework.design.resource.Syntax;
 
-public class PandaLexerConfiguration {
+public final class PandaLexerConfiguration {
 
     protected Syntax syntax;
     protected boolean ignoringCase;

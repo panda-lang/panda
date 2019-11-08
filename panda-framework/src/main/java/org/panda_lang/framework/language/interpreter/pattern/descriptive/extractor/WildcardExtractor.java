@@ -23,7 +23,7 @@ import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.utils.TokenDistributor;
 
-class WildcardExtractor extends AbstractElementExtractor<LexicalPatternWildcard> {
+final class WildcardExtractor extends AbstractElementExtractor<LexicalPatternWildcard> {
 
     private WildcardCompiler wildcardCompiler;
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.utilities.commons.iterable;
+package org.panda_lang.framework.language.interpreter.pattern.lexical.extractor;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -24,18 +24,18 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> { // lgtm [java/iterator-implements-iterable]
+final class LexicalExtractorWorkerDistributor<T> implements Iterator<T>, Iterable<T> { // lgtm [java/iterator-implements-iterable]
 
     private final T[] array;
     private int index;
 
-    public ArrayDistributor(T[] array) {
+    public LexicalExtractorWorkerDistributor(T[] array) {
         this.array = array.clone();
         this.index = -1;
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayDistributor(Collection<T> collection, Class<T> type) {
+    public LexicalExtractorWorkerDistributor(Collection<T> collection, Class<T> type) {
         this(collection.toArray((T[]) Array.newInstance(type, collection.size())));
     }
 

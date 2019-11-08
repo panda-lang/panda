@@ -23,7 +23,7 @@ import org.panda_lang.framework.language.architecture.dynamic.AbstractFrame;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractLivingFrameUtils;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 
-public class ParameterUtils {
+public final class ParameterUtils {
 
     public static final PropertyParameter[] PARAMETERLESS = new PropertyParameter[0];
 

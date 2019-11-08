@@ -24,12 +24,12 @@ import org.panda_lang.framework.language.resource.syntax.separator.Separator;
 
 import java.util.Stack;
 
-class ProgressivePatternWorker {
+final class ProgressivePatternWorker {
 
     private final ProgressivePattern extractor;
     private final ProgressivePatternResult result;
 
-    private Stack<Separator> separators = new Stack<>();
+    private final Stack<Separator> separators = new Stack<>();
     private PandaSnippet expression = new PandaSnippet();
 
     ProgressivePatternWorker(ProgressivePattern extractor, Snippet source) {

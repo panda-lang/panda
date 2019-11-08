@@ -23,7 +23,7 @@ import org.panda_lang.framework.design.interpreter.token.Snippet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProgressivePatternResult implements PatternResult {
+public final class ProgressivePatternResult implements PatternResult {
 
     private final Snippet source;
     private final List<ProgressivePatternElement> elements;

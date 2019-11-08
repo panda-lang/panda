@@ -24,7 +24,7 @@ import org.panda_lang.framework.design.runtime.Process;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Result;
 
-public class PandaProcess implements Process {
+public final class PandaProcess implements Process {
 
     private final Application application;
     private final String[] parameters;

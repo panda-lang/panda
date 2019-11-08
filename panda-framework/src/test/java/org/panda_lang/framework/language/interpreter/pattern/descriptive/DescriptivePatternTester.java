@@ -25,7 +25,7 @@ import org.panda_lang.framework.language.interpreter.parser.PandaContext;
 import org.panda_lang.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.framework.language.resource.syntax.PandaSyntax;
 
-class DescriptivePatternTester {
+final class DescriptivePatternTester {
 
     private static final PandaSyntax SYNTAX = new PandaSyntax();
 
@@ -56,7 +56,7 @@ class DescriptivePatternTester {
         }
     }
 
-    static class Wildcard {
+    static final class Wildcard {
 
         private final String name;
         private final String expected;

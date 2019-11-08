@@ -36,7 +36,7 @@ import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 
 @RegistrableParser(pipeline = PandaPipeline.BLOCK_LABEL)
-public class LoopParser extends BlockSubparserBootstrap {
+public final class LoopParser extends BlockSubparserBootstrap {
 
     @Override
     protected BootstrapInitializer<BlockData> initialize(Context context, BootstrapInitializer<BlockData> initializer) {

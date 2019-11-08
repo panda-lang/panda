@@ -19,7 +19,7 @@ package org.panda_lang.utilities.commons.text.pattern.text;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TextHollowPatternUtils {
+public final class TextHollowPatternUtils {
 
     public static List<String> toFragments(String lightLine) {
         List<String> fragments = new ArrayList<>();

@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PandaApplication implements Application {
+public final class PandaApplication implements Application {
 
     private final Environment environment;
     private final List<Script> scripts = new ArrayList<>();

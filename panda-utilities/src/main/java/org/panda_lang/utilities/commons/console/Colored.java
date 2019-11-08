@@ -22,7 +22,7 @@ import org.panda_lang.utilities.commons.text.ContentJoiner;
 
 import java.util.Objects;
 
-public class Colored {
+public final class Colored {
 
     private final String text;
     private String effect = StringUtils.EMPTY;

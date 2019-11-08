@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LocalData {
+public final class LocalData {
 
     private final Map<String, Object> context;
 

@@ -21,7 +21,7 @@ import org.panda_lang.utilities.commons.StringUtils;
 /**
  * Families used by {@link org.panda_lang.framework.language.resource.syntax.operator.Operators}
  */
-public class OperatorFamilies {
+public final class OperatorFamilies {
 
     /**
      * Family used by math operators

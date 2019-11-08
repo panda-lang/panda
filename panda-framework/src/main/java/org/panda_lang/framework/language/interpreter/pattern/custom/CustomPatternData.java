@@ -24,7 +24,7 @@ import java.util.Map;
 
 public final class CustomPatternData implements PatternMapping {
 
-    private Map<String, Object> data = new HashMap<>();
+    private final Map<String, Object> data = new HashMap<>();
 
     public CustomPatternData with(String id, Object value) {
         this.data.put(id, value);

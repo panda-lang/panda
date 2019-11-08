@@ -27,7 +27,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class TreemapNode<T> {
+public final class TreemapNode<T> {
 
     private final T element;
     private final Function<T, String> mapper;

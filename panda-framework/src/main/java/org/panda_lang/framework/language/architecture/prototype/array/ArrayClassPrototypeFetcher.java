@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class ArrayClassPrototypeFetcher {
+public final class ArrayClassPrototypeFetcher {
 
     private static final Map<String, Referencable> ARRAY_PROTOTYPES = new HashMap<>();
 

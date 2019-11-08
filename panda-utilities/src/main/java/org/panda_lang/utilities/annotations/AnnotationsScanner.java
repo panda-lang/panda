@@ -16,7 +16,7 @@
 
 package org.panda_lang.utilities.annotations;
 
-public class AnnotationsScanner {
+public final class AnnotationsScanner {
 
     private final AnnotationsScannerConfiguration configuration;
 

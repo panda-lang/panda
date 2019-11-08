@@ -24,7 +24,7 @@ import org.panda_lang.framework.language.interpreter.pattern.descriptive.wildcar
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.utils.TokenDistributor;
 import org.panda_lang.utilities.commons.StringUtils;
 
-public class WildcardCompiler {
+public final class WildcardCompiler {
 
     private final WildcardConditionCompiler conditionCompiler;
     private final WildcardReaderCompiler readerCompiler;

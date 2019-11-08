@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class PandaGeneration implements Generation {
+public final class PandaGeneration implements Generation {
 
     private final Map<String, GenerationCycle> cycles = new LinkedHashMap<>();
     private GenerationCycle currentCycle;

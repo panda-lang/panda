@@ -22,7 +22,7 @@ import org.panda_lang.framework.language.resource.syntax.sequence.SequenceToken;
 
 import java.util.Stack;
 
-class PandaLexerSequencer {
+final class PandaLexerSequencer {
 
     private final PandaLexerWorker worker;
     private final Stack<Sequence> sequenceStack;

@@ -25,7 +25,7 @@ import javax.script.ScriptEngineFactory;
 import javax.script.ScriptException;
 import java.io.Reader;
 
-public class PandaEngine extends AbstractScriptEngine {
+public final class PandaEngine extends AbstractScriptEngine {
 
     private final PandaEngineCore core;
     private final PandaEngineFactory factory;

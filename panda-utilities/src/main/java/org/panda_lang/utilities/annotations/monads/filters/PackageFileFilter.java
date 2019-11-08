@@ -24,7 +24,7 @@ import org.panda_lang.utilities.annotations.AnnotationsScannerUtils;
 import org.panda_lang.utilities.annotations.adapter.MetadataAdapter;
 import org.panda_lang.utilities.annotations.monads.AnnotationsFilter;
 
-public class PackageFileFilter implements AnnotationsFilter<AnnotationsScannerFile> {
+public final class PackageFileFilter implements AnnotationsFilter<AnnotationsScannerFile> {
 
     private final boolean exclude;
     private final String[] packages;

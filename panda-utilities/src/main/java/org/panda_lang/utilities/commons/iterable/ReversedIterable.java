@@ -19,7 +19,7 @@ package org.panda_lang.utilities.commons.iterable;
 import java.util.Iterator;
 import java.util.List;
 
-public class ReversedIterable<T> implements Iterable<T> {
+public final class ReversedIterable<T> implements Iterable<T> {
 
     private final List<T> list;
 
@@ -32,7 +32,7 @@ public class ReversedIterable<T> implements Iterable<T> {
         return new ReversedIterator();
     }
 
-    class ReversedIterator implements Iterator<T> {
+    final class ReversedIterator implements Iterator<T> {
 
         private int index = list.size();
 

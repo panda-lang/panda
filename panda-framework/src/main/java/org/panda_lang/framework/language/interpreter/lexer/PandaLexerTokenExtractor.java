@@ -25,7 +25,7 @@ import org.panda_lang.utilities.commons.StringUtils;
 
 import java.util.Collection;
 
-class PandaLexerTokenExtractor {
+final class PandaLexerTokenExtractor {
 
     private final PandaLexerWorker worker;
 

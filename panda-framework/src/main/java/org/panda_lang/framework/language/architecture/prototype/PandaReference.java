@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class PandaReference implements Reference {
+public final class PandaReference implements Reference {
 
     private final String name;
     private final Class<?> associatedClass;

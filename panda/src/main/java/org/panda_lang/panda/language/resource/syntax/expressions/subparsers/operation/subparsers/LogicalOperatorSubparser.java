@@ -37,7 +37,7 @@ import org.panda_lang.utilities.commons.collection.Maps;
 
 import java.util.Map;
 
-public class LogicalOperatorSubparser implements OperationSubparser {
+public final class LogicalOperatorSubparser implements OperationSubparser {
 
     private static final int LOGICAL = 1;
     private static final int COMPARE = 2;

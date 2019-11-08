@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.language.architecture.statement.AbstractBlock;
 
-class ElseBlock extends AbstractBlock {
+final class ElseBlock extends AbstractBlock {
 
     public ElseBlock(Scope parent, SourceLocation location) {
         super(parent, location);

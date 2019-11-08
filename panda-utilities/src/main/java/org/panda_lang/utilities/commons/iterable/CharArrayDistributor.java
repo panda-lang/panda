@@ -16,7 +16,7 @@
 
 package org.panda_lang.utilities.commons.iterable;
 
-public class CharArrayDistributor {
+public final class CharArrayDistributor {
 
     private final char[] array;
     private int index;

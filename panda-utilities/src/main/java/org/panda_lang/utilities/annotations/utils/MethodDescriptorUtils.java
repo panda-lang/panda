@@ -29,7 +29,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-public class MethodDescriptorUtils {
+public final class MethodDescriptorUtils {
 
     public static boolean isConstructor(String descriptor) {
         return descriptor.contains("init>");

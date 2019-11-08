@@ -22,7 +22,7 @@ import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.language.architecture.dynamic.accessor.AbstractAccessor;
 import org.panda_lang.framework.language.architecture.dynamic.assigner.Assigner;
 
-public class FieldAccessor extends AbstractAccessor<PrototypeField> {
+public final class FieldAccessor extends AbstractAccessor<PrototypeField> {
 
     public FieldAccessor(Expression instance, PrototypeField field) {
         super(new FieldAccessorFunction(instance), field, field.getPointer());

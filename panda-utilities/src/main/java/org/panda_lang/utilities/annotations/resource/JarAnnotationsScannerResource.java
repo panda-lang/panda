@@ -28,7 +28,7 @@ import java.util.Iterator;
 import java.util.jar.JarInputStream;
 import java.util.zip.ZipEntry;
 
-class JarAnnotationsScannerResource extends AnnotationsScannerResource<AnnotationsScannerFile> implements Closeable {
+final class JarAnnotationsScannerResource extends AnnotationsScannerResource<AnnotationsScannerFile> implements Closeable {
 
     protected JarInputStream jarInputStream;
     protected long cursor = 0;

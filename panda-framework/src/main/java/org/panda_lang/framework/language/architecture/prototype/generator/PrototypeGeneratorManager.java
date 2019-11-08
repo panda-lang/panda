@@ -19,7 +19,7 @@ package org.panda_lang.framework.language.architecture.prototype.generator;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 
-public class PrototypeGeneratorManager {
+public final class PrototypeGeneratorManager {
 
     private static final PrototypeGeneratorManager INSTANCE = new PrototypeGeneratorManager();
 

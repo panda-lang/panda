@@ -24,7 +24,7 @@ import org.panda_lang.framework.language.resource.syntax.operator.Operator;
 import java.util.Map;
 import java.util.Stack;
 
-class RPNOperationTransformer {
+final class RPNOperationTransformer {
 
     private final Map<Operator, Integer> priorities;
     private final Map<Operator, RPNOperationSupplier> suppliers;

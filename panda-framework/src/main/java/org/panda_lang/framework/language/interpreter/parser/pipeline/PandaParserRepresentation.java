@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.parser.ParserRepresentation;
 
-public class PandaParserRepresentation<P extends Parser> implements ParserRepresentation<P> {
+public final class PandaParserRepresentation<P extends Parser> implements ParserRepresentation<P> {
 
     private final P parser;
     private final Handler handler;

@@ -17,16 +17,16 @@
 package org.panda_lang.utilities.annotations;
 
 import javassist.bytecode.ClassFile;
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.utilities.commons.collection.map.Multimap;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
-public class AnnotationScannerStore implements AnnotationsDisposable {
+public final class AnnotationScannerStore {
 
     private final Multimap<String, String> store;
     private final Map<String, ClassFile> classFiles;
@@ -34,12 +34,6 @@ public class AnnotationScannerStore implements AnnotationsDisposable {
     public AnnotationScannerStore() {
         this.store = new Multimap<>(new HashMap<>(), HashSet::new);
         this.classFiles = new HashMap<>();
-    }
-
-    @Override
-    public void dispose() {
-        store.clear();
-        classFiles.clear();
     }
 
     public void addInheritors(String type, String inheritor) {
@@ -74,8 +68,8 @@ public class AnnotationScannerStore implements AnnotationsDisposable {
         return inheritors;
     }
 
-    public @Nullable ClassFile getCachedClassFile(String type) {
-        return classFiles.get(type);
+    public Optional<ClassFile> getCachedClassFile(String type) {
+        return Optional.ofNullable(classFiles.get(type));
     }
 
     public int getAmountOfCachedClassFiles() {

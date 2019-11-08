@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ope
 
 import org.panda_lang.framework.design.runtime.ProcessStack;
 
-public class AndOperator extends OrOperation {
+public final class AndOperator extends OrOperation {
 
     @Override
     public Boolean get(ProcessStack stack, Boolean aValue, Boolean bValue) {

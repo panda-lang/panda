@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class PandaModuleLoader implements ModuleLoader {
+public final class PandaModuleLoader implements ModuleLoader {
 
     private final ModulePath path;
     private final ModuleLoader parent;

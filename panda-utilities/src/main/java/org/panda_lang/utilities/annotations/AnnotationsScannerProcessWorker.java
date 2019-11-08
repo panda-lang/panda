@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-class AnnotationsScannerProcessWorker {
+final class AnnotationsScannerProcessWorker {
 
     private final AnnotationsScanner scanner;
     private final AnnotationsScannerProcess process;
@@ -79,16 +79,6 @@ class AnnotationsScannerProcessWorker {
         }
 
         return classFiles;
-    }
-
-    private boolean checkUrl(AnnotationsScannerResource<?> resource) {
-        for (AnnotationsFilter<URL> urlFilter : process.getProcessConfiguration().urlFilters) {
-            if (!urlFilter.check(process.getMetadataAdapter(), resource.getLocation())) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     private @Nullable ClassFile scanFile(AnnotationsScannerFile file) {

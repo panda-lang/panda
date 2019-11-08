@@ -21,7 +21,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
 
-public class TreeNode<T> {
+public final class TreeNode<T> {
 
     private final T element;
     private final Set<TreeNode<T>> children;

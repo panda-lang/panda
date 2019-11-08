@@ -22,7 +22,7 @@ import org.panda_lang.framework.design.interpreter.parser.ContextComponent;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PandaContext implements Context {
+public final class PandaContext implements Context {
 
     private final Map<ContextComponent<?>, Object> components;
 

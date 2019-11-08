@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class LexicalPatternCompiler {
+public final class LexicalPatternCompiler {
 
     private static final char[] IDENTIFIER_CHARACTERS = CharacterUtils.mergeArrays(CharacterUtils.LITERALS, CharacterUtils.arrayOf('-'));
     private static final Separator[] OPENING_SEPARATORS = Separators.getOpeningSeparators();

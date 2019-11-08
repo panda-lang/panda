@@ -29,7 +29,7 @@ import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.framework.language.resource.syntax.operator.Operators;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 
-class TypeReader implements WildcardReader<Snippet> {
+final class TypeReader implements WildcardReader<Snippet> {
 
     @Override
     public boolean match(String context) {

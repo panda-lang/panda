@@ -36,9 +36,9 @@ import java.util.Objects;
 
 final class BootstrapInjectorController implements InjectorController {
 
-    private Context context;
-    private InterceptorData interceptorData;
-    private LocalData localData;
+    private final Context context;
+    private final InterceptorData interceptorData;
+    private final LocalData localData;
 
     BootstrapInjectorController(Context context, InterceptorData interceptorData, LocalData localData) {
         this.context = context;

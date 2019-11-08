@@ -29,7 +29,7 @@ import org.panda_lang.framework.language.architecture.prototype.utils.Visibility
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.utilities.commons.function.Produce;
 
-public class CastExpressionSubparser implements ExpressionSubparser {
+public final class CastExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker() {

@@ -18,7 +18,7 @@ package org.panda_lang.framework.language.interpreter.pattern.linear;
 
 import org.panda_lang.framework.PandaFrameworkException;
 
-public class LinearPatternException extends PandaFrameworkException {
+public final class LinearPatternException extends PandaFrameworkException {
 
     public LinearPatternException(String message) {
         super(message);

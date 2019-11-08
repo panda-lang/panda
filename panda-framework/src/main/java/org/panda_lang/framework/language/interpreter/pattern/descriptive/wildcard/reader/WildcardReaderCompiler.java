@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.DescriptivePattern;
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.utils.TokenDistributor;
 
-public class WildcardReaderCompiler {
+public final class WildcardReaderCompiler {
 
     private final DescriptivePattern pattern;
 

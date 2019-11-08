@@ -21,7 +21,7 @@ import org.panda_lang.framework.language.interpreter.pattern.descriptive.wildcar
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class DefaultWildcardReaders {
+public final class DefaultWildcardReaders {
 
     private static final Collection<WildcardReader> READERS = new ArrayList<>();
 

@@ -33,7 +33,7 @@ import org.panda_lang.utilities.commons.collection.Lists;
 import java.util.Arrays;
 import java.util.List;
 
-public class PandaSyntax implements Syntax {
+public final class PandaSyntax implements Syntax {
 
     private final List<Keyword> keywords = Arrays.asList(Keywords.values());
     private final List<Literal> literals = Arrays.asList(Literals.values());

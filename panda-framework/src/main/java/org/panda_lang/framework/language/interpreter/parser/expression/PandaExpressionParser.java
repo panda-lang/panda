@@ -34,7 +34,7 @@ import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
-public class PandaExpressionParser implements ExpressionParser {
+public final class PandaExpressionParser implements ExpressionParser {
 
     public static long time;
     public static int amount;

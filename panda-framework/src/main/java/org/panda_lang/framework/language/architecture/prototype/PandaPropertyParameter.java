@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
 import org.panda_lang.framework.design.architecture.prototype.Referencable;
 import org.panda_lang.framework.language.architecture.statement.PandaVariable;
 
-public class PandaPropertyParameter extends PandaVariable implements PropertyParameter {
+public final class PandaPropertyParameter extends PandaVariable implements PropertyParameter {
 
     private final boolean varargs;
 

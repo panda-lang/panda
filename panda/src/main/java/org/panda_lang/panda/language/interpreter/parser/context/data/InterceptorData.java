@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class InterceptorData {
+public final class InterceptorData {
 
     private final Collection<Object> context;
 

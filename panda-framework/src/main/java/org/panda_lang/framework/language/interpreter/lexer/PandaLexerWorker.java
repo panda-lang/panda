@@ -30,7 +30,7 @@ import org.panda_lang.utilities.commons.StringUtils;
 import java.util.ArrayList;
 import java.util.Collection;
 
-class PandaLexerWorker {
+final class PandaLexerWorker {
 
     private final PandaLexer lexer;
     private final Source source;
@@ -41,7 +41,7 @@ class PandaLexerWorker {
     private final PandaLexerSequencer sequencer  = new PandaLexerSequencer(this);
     private final PandaLexerCollector collector = new PandaLexerCollector(this);
 
-    private StringBuilder linePreview = new StringBuilder();
+    private final StringBuilder linePreview = new StringBuilder();
     private boolean previousSpecial;
     private int line;
 

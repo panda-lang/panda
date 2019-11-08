@@ -24,7 +24,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class Lists {
+public final class Lists {
 
     /**
      * Add element to the given list and get added value as result

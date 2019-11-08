@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class PandaSourceStream implements SourceStream {
+public final class PandaSourceStream implements SourceStream {
 
     private final Snippet original;
     private int index;

@@ -22,7 +22,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-class LinearPatternCompiler {
+final class LinearPatternCompiler {
 
     protected final Syntax syntax;
     protected final Collection<LinearPatternElementCompiler> elementCompilers;

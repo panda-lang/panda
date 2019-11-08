@@ -25,10 +25,10 @@ import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.Le
 import java.util.HashMap;
 import java.util.Map;
 
-public class ExtractorWorker {
+public final class ExtractorWorker {
 
     public static long fullTime;
-    public static Map<String, Long> timeMap = new HashMap<>();
+    public static final Map<String, Long> timeMap = new HashMap<>();
 
     protected final DescriptivePattern pattern;
     protected final Context context;

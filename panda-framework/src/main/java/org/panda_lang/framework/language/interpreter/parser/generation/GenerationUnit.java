@@ -19,7 +19,7 @@ package org.panda_lang.framework.language.interpreter.parser.generation;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.generation.GenerationTask;
 
-class GenerationUnit {
+final class GenerationUnit {
 
     private final GenerationTask task;
     private final Context delegated;

@@ -62,7 +62,7 @@ final class DependencyInjectionTest {
         });
     }
 
-    private static class TestClass {
+    private static final class TestClass {
 
         @Inject
         TestClass(String value) {
