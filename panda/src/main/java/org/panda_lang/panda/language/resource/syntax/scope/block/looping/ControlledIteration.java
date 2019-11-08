@@ -16,28 +16,36 @@
 
 package org.panda_lang.panda.language.resource.syntax.scope.block.looping;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.dynamic.ControlledScope;
-import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.statement.Scope;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Result;
-import org.panda_lang.framework.language.architecture.statement.AbstractBlock;
+import org.panda_lang.framework.design.runtime.Status;
+import org.panda_lang.utilities.commons.function.ThrowingSupplier;
 
-final class WhileBlock extends AbstractBlock implements ControlledScope {
+final class ControlledIteration {
 
-    private final Expression expression;
+    private final ThrowingSupplier<Boolean, Exception> condition;
 
-    WhileBlock(Scope parent, SourceLocation location, Expression expression) {
-        super(parent, location);
-        this.expression = expression;
+    ControlledIteration(ThrowingSupplier<Boolean, Exception> condition) {
+        this.condition = condition;
     }
 
-    @Override
-    public @Nullable Result<?> controlledCall(ProcessStack stack, Object instance) throws Exception {
-        return new ControlledIteration(() -> expression.evaluate(stack, instance)).iterate(stack, instance, this);
+    protected Result<?> iterate(ProcessStack stack, Object instance, ControlledScope scope) throws Exception {
+        while (condition.get()) {
+            Result<?> result = stack.call(instance, scope);
+
+            if (result == null || result.getStatus() == Status.CONTINUE) {
+                continue;
+            }
+
+            if (result.getStatus() == Status.BREAK) {
+                break;
+            }
+
+            return result;
+        }
+
+        return null;
     }
 
 }
-
