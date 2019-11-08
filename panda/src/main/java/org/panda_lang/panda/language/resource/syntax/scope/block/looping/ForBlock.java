@@ -23,7 +23,6 @@ import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Result;
-import org.panda_lang.framework.design.runtime.Status;
 import org.panda_lang.framework.language.architecture.statement.AbstractBlock;
 
 final class ForBlock extends AbstractBlock implements ControlledScope {
@@ -45,21 +44,15 @@ final class ForBlock extends AbstractBlock implements ControlledScope {
             initializationStatement.evaluate(stack, instance);
         }
 
-        for (; conditionExpression.evaluate(stack, instance); evaluate(stack, instance, postExpression)) {
-            Result<?> result = stack.call(instance, this);
+        return new ControlledIteration(() -> {
+            boolean condition = conditionExpression.evaluate(stack, instance);
 
-            if (result == null || result.getStatus() == Status.CONTINUE) {
-                continue;
+            if (condition) {
+                evaluate(stack, instance, postExpression);
             }
 
-            if (result.getStatus() == Status.BREAK) {
-                break;
-            }
-
-            return result;
-        }
-
-        return null;
+            return condition;
+        }).iterate(stack, instance, this);
     }
 
     private @Nullable Object evaluate(ProcessStack stack, Object instance, @Nullable Expression expression) throws Exception {

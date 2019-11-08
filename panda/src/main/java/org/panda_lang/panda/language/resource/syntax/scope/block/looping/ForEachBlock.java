@@ -24,8 +24,9 @@ import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Result;
-import org.panda_lang.framework.design.runtime.Status;
 import org.panda_lang.framework.language.architecture.statement.AbstractBlock;
+
+import java.util.Iterator;
 
 final class ForEachBlock extends AbstractBlock implements ControlledScope {
 
@@ -42,23 +43,16 @@ final class ForEachBlock extends AbstractBlock implements ControlledScope {
     public @Nullable Result<?> controlledCall(ProcessStack stack, Object instance) throws Exception {
         Frame scope = stack.getCurrentScope();
         Iterable iterable = iterableExpression.evaluate(stack, instance);
+        Iterator iterator = iterable.iterator();
 
-        for (Object value : iterable) {
-            scope.set(valuePointer, value);
-            Result<?> result = stack.call(instance, this);
-
-            if (result == null || result.getStatus() == Status.CONTINUE) {
-                continue;
+        return new ControlledIteration(() -> {
+            if (!iterator.hasNext()) {
+                return false;
             }
 
-            if (result.getStatus() == Status.BREAK) {
-                break;
-            }
-
-            return result;
-        }
-
-        return null;
+            scope.set(valuePointer, iterator.next());
+            return true;
+        }).iterate(stack, instance, this);
     }
 
     public Expression getIterableExpression() {

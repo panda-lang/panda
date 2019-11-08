@@ -23,8 +23,8 @@ import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Result;
-import org.panda_lang.framework.design.runtime.Status;
 import org.panda_lang.framework.language.architecture.statement.AbstractBlock;
+import org.panda_lang.utilities.commons.function.ThrowingSupplier;
 
 final class LoopBlock extends AbstractBlock implements ControlledScope {
 
@@ -39,21 +39,14 @@ final class LoopBlock extends AbstractBlock implements ControlledScope {
     public @Nullable Result<?> controlledCall(ProcessStack stack, Object instance) throws Exception {
         int times  = expression.evaluate(stack, instance);
 
-        for (int index = 0; index < times; index++) {
-            Result<?> result = stack.call(instance, this);
+        return new ControlledIteration(new ThrowingSupplier<Boolean, Exception>() {
+            private int index = 0;
 
-            if (result == null || result.getStatus() == Status.CONTINUE) {
-                continue;
+            @Override
+            public Boolean get() {
+                return index++ < times;
             }
-
-            if (result.getStatus() == Status.BREAK) {
-                break;
-            }
-
-            return result;
-        }
-
-        return null;
+        }).iterate(stack, instance, this);
     }
 
 }
