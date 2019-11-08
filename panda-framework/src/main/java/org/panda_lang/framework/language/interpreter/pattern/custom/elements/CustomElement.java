@@ -25,7 +25,7 @@ public final class CustomElement<T> extends CustomPatternElementBuilder<T, Custo
     }
 
     public static <T> CustomElement<T> create(String id) {
-        return new CustomElement<T>(id);
+        return new CustomElement<>(id);
     }
 
 }

@@ -41,7 +41,7 @@ public final class ImportElement extends CustomPatternElementBuilder<Snippetable
             while (source.hasNext()) {
                 TokenRepresentation next = source.getNext();
 
-                if (!condition.test(source.getCurrent(), next)) {
+                if (!condition.test(source.getCurrent().orElse(null), next)) {
                     break;
                 }
 

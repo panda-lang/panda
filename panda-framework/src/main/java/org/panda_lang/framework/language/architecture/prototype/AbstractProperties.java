@@ -76,12 +76,10 @@ abstract class AbstractProperties<T extends ExecutableProperty> implements Prope
 
     private List<T> withBases(List<T> properties, Function<Properties<? extends T>, Collection<? extends T>> mapper, Predicate<T> filter) {
         for (Prototype base : prototype.getBases()) {
-            base.getProperties(type).ifPresent(baseProperties -> {
-                properties.addAll(mapper.apply(baseProperties).stream()
-                        .filter(filter)
-                        .collect(Collectors.toList())
-                );
-            });
+            base.getProperties(type).ifPresent(baseProperties -> properties.addAll(mapper.apply(baseProperties).stream()
+                    .filter(filter)
+                    .collect(Collectors.toList())
+            ));
         }
 
         return properties;

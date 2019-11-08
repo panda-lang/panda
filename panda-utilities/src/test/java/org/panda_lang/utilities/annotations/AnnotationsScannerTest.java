@@ -96,7 +96,7 @@ final class AnnotationsScannerTest {
     public static final class AnotherImplementation implements TestType {
 
         @AnotherAnnotationTest
-        public void methodName() { }
+        public void methodName() { assert false; }
 
     }
 

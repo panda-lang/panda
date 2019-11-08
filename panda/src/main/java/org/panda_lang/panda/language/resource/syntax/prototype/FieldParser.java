@@ -79,7 +79,7 @@ public final class FieldParser extends ParserBootstrap {
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
-    void parse(Context context, LocalData local, @Inter Result result, @Inter SourceLocation location, @Src("type") Snippet type, @Src("name") TokenRepresentation name) throws Exception {
+    void parse(Context context, LocalData local, @Inter Result result, @Inter SourceLocation location, @Src("type") Snippet type, @Src("name") TokenRepresentation name) {
         Prototype returnType = PandaImportsUtils.getReferenceThrow(context, type.asSource(), type).fetch();
         Visibility visibility = Visibility.valueOf(result.get("visibility").toString().toUpperCase());
 

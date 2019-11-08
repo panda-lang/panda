@@ -27,7 +27,7 @@ final class WildcardElementCompiler implements LinearPatternElementCompiler {
     }
 
     @Override
-    public LinearPatternElement compile(LinearPatternCompiler compiler, @Nullable String identifier, String content, boolean optional) {
+    public @Nullable LinearPatternElement compile(LinearPatternCompiler compiler, @Nullable String identifier, String content, boolean optional) {
         if (!content.contains("=")) {
             return new WildcardElement(WildcardElement.Type.DEFAULT, identifier, optional);
         }

@@ -31,7 +31,7 @@ enum AnnotationsScannerResourceType implements AnnotationsScannerResourceURLType
         }
 
         @Override
-        public AnnotationsScannerResource createResource(URL url) throws Exception {
+        public AnnotationsScannerResource createResource(URL url) {
             return new JarAnnotationsScannerResource(url);
         }
     },
@@ -47,68 +47,6 @@ enum AnnotationsScannerResourceType implements AnnotationsScannerResourceURLType
             return new SystemAnnotationScannerResource(url);
         }
     };
-
-    /*,
-
-    JAR_URL {
-        @Override
-        public boolean matches(URL url) {
-            return "jar".equals(url.getProtocol()) || "zip".equals(url.getProtocol()) || "wsjar".equals(url.getProtocol());
-        }
-
-        @Override
-        public AnnotationsScannerResource createResource(URL url) throws Exception {
-            try {
-                URLConnection urlConnection = url.openConnection();
-
-                if (urlConnection instanceof JarURLConnection) {
-                    return new ZipDir(((JarURLConnection) urlConnection).getJarFile());
-                }
-            } catch (Throwable var3) {
-                ;
-            }
-
-            java.io.File file = Vfs.getFile(url);
-            return file != null ? new ZipDir(new JarFile(file)) : null;
-        }
-    },
-
-    JAR_INPUT_STREAM {
-        @Override
-        public boolean matches(URL url) throws Exception {
-            return url.toExternalForm().contains(".jar");
-        }
-
-        @Override
-        public AnnotationsScannerResource createResource(URL url) throws Exception {
-            return new JarAnnotationsScannerResource(url);
-        }
-    },
-
-    BUNDLE {
-        @Override
-        public boolean matches(URL url) throws Exception {
-            return url.getProtocol().startsWith("bundle");
-        }
-
-        @Override
-        public AnnotationsScannerResource createResource(URL url) throws Exception {
-            return Vfs.fromURL((URL)ClasspathHelper.contextClassLoader().loadClass("org.eclipse.core.runtime.FileLocator").getMethod("resolve", URL.class).invoke((Object)null, url));
-        }
-    },
-
-    DIRECTORY {
-        @Override
-        public boolean matches(URL url) {
-            return url.getProtocol().equals("file") && !url.toExternalForm().contains(".jar") && Vfs.getFile(url).isDirectory();
-        }
-
-        @Override
-        public AnnotationsScannerResource createResource(URL url) throws Exception {
-            return new SystemDir(Vfs.getFile(url));
-        }
-    };
-    */
 
     static @Nullable AnnotationsScannerResourceType detect(URL url) {
         for (AnnotationsScannerResourceType type : values()) {

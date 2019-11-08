@@ -29,6 +29,7 @@ import org.panda_lang.panda.util.BenchmarkUtils;
 @State(Scope.Benchmark)
 @Warmup(time = 1, iterations = 1)
 @Fork(1)
+@SuppressWarnings("CanBeFinal")
 public class MatmulPerformanceTest {
 
     private Application matmulApplication;

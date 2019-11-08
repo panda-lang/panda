@@ -76,19 +76,21 @@ final class ReflectionUtilsTest {
 
     static class Foo {
 
+        @SuppressWarnings("unused")
         private static final String STATIC_FIELD = "static-value";
 
         @AnnotationTest
-        private void test() { }
+        private void test() { assert false; }
 
     }
 
     static final class Bar extends Foo {
 
+        @SuppressWarnings("unused")
         private final String FIELD = "value";
 
         @AnnotationTest
-        private void test() { }
+        private void test() { assert false; }
 
     }
 

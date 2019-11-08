@@ -101,9 +101,9 @@ final class NodeExtractor extends AbstractElementExtractor<LexicalPatternNode> {
     }
 
     /**
-     * @param element     the element to match
+     * @param element the element to match
      * @param distributor source
-     * @return subresult or null if distributor does not contains source
+     * @return sub-result or null if distributor does not contains source
      */
     private @Nullable ExtractorResult extractElement(LexicalPatternElement element, TokenDistributor distributor) {
         if (distributor.hasNext()) {

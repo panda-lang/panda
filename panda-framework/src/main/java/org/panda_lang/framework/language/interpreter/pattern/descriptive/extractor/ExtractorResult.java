@@ -16,6 +16,7 @@
 
 package org.panda_lang.framework.language.interpreter.pattern.descriptive.extractor;
 
+import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.language.interpreter.pattern.PatternResult;
 import org.panda_lang.framework.language.interpreter.pattern.PatternMapping;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
@@ -45,20 +46,24 @@ public final class ExtractorResult implements PatternResult, PatternMapping {
 
     public ExtractorResult merge(ExtractorResult otherResult) {
         if (!otherResult.isMatched() || !isMatched()) {
-            throw new RuntimeException("Cannot merge unmatched result");
+            throw new PandaFrameworkException("Cannot merge unmatched result");
         }
 
+        //noinspection ConstantConditions
         getIdentifiers().addAll(otherResult.getIdentifiers());
+        //noinspection ConstantConditions
         getWildcards().addAll(otherResult.getWildcards());
         return this;
     }
 
     public ExtractorResult exclude(ExtractorResult otherResult) {
         if (!isMatched() || !otherResult.isMatched()) {
-            throw new RuntimeException("Cannot merge unmatched result");
+            throw new PandaFrameworkException("Cannot merge unmatched result");
         }
 
+        //noinspection ConstantConditions
         getIdentifiers().removeAll(otherResult.getIdentifiers());
+        //noinspection ConstantConditions
         getWildcards().removeAll(otherResult.getWildcards());
         return this;
     }
@@ -68,6 +73,7 @@ public final class ExtractorResult implements PatternResult, PatternMapping {
             return this;
         }
 
+        //noinspection ConstantConditions
         getIdentifiers().add(identifier);
         return this;
     }
@@ -78,12 +84,18 @@ public final class ExtractorResult implements PatternResult, PatternMapping {
     }
 
     public ExtractorResult addWildcard(String name, Object wildcardContent) {
+        if (!isMatched()) {
+            throw new PandaFrameworkException("Cannot add wildcard to not matched result");
+        }
+
+        //noinspection ConstantConditions
         getWildcards().add(new ExtractorResultElement(name, wildcardContent));
         return this;
     }
 
     public boolean has(String identifier) {
-        return getIdentifiers().contains(identifier);
+        //noinspection ConstantConditions
+        return isMatched() && getIdentifiers().contains(identifier);
     }
 
     public boolean hasErrorMessage() {
@@ -98,6 +110,11 @@ public final class ExtractorResult implements PatternResult, PatternMapping {
     @Override
     @SuppressWarnings("unchecked")
     public ExtractorResultElement get(String name) {
+        if (!isMatched()) {
+            throw new PandaFrameworkException("Cannot get result from unmatched result");
+        }
+
+        //noinspection ConstantConditions
         return getWildcards().stream()
                 .filter(element -> element.getName().equals(name))
                 .findFirst()

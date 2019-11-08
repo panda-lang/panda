@@ -37,7 +37,7 @@ public final class PandaInterpretation implements Interpretation {
 
     @Override
     public <E extends Exception> Interpretation execute(ThrowingRunnable<E> task) {
-        execute(() -> {
+        execute((ThrowingSupplier<@Nullable Object, Exception>) () -> {
             task.run();
             return null;
         });

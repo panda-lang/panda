@@ -43,6 +43,7 @@ import java.util.HashMap;
 @Fork(value = 1)
 @Warmup(iterations = 2)
 @Measurement(iterations = 3)
+@SuppressWarnings("CanBeFinal")
 public class OperationExpressionBenchmark {
 
     private Expression expression;

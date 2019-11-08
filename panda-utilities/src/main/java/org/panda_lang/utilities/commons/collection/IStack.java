@@ -21,10 +21,15 @@ public interface IStack<T> {
     /**
      * Pushes an item onto the top of this stack
      *
-     * @param element the item to be pushed onto this stac
+     * @param element the item to be pushed onto this stack
      */
     void push(T element);
 
+    /**
+     * Check element on top of the stack
+     *
+     * @return the value on top
+     */
     T peek();
 
     /**

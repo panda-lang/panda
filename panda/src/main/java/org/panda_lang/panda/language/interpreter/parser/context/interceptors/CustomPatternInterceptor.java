@@ -18,16 +18,18 @@ package org.panda_lang.panda.language.interpreter.parser.context.interceptors;
 
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.token.SourceStream;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPatternData;
 import org.panda_lang.framework.language.interpreter.pattern.custom.Result;
 import org.panda_lang.framework.language.interpreter.pattern.custom.UniversalData;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.SourceStream;
-import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapContent;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInterceptor;
 import org.panda_lang.panda.language.interpreter.parser.context.data.InterceptorData;
+
+import java.util.function.Supplier;
 
 public final class CustomPatternInterceptor implements BootstrapInterceptor {
 
@@ -35,25 +37,24 @@ public final class CustomPatternInterceptor implements BootstrapInterceptor {
 
     @Override
     public void initialize(BootstrapContent content) {
-        this.pattern = (CustomPattern) content.getPattern().get();
+        this.pattern = (CustomPattern) content.getPattern().orElseThrow((Supplier<? extends PandaParserFailure>) () -> {
+            throw new PandaParserFailure(content.getContext(), "Missing pattern");
+        });
     }
 
     @Override
     public InterceptorData handle(InterceptorData interceptorData, Context context) {
-        if (pattern != null) {
-            SourceStream source = context.getComponent(Components.STREAM);
-            Snippet currentSource = source.toSnippet();
-            Result result = pattern.match(source, new CustomPatternData().with(UniversalData.CONTEXT, context));
+        SourceStream source = context.getComponent(Components.STREAM);
+        Snippet currentSource = source.toSnippet();
+        Result result = pattern.match(source, new CustomPatternData().with(UniversalData.CONTEXT, context));
 
-            if (!result.isMatched()) {
-                throw new PandaParserFailure(context, currentSource, "CustomPatternInterceptor could not match pattern", "Make sure that the pattern does not have a typo");
-            }
-
-            interceptorData.addElement(currentSource.getLocation());
-            interceptorData.addElement(result);
-            interceptorData.addElement(result);
+        if (!result.isMatched()) {
+            throw new PandaParserFailure(context, currentSource, "CustomPatternInterceptor could not match pattern", "Make sure that the pattern does not have a typo");
         }
 
+        interceptorData.addElement(currentSource.getLocation());
+        interceptorData.addElement(result);
+        interceptorData.addElement(result);
         return interceptorData;
     }
 

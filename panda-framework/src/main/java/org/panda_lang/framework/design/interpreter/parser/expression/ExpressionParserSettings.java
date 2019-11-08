@@ -16,12 +16,9 @@
 
 package org.panda_lang.framework.design.interpreter.parser.expression;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Objects;
 
 /**
  * Settings used by the single parse process
@@ -29,12 +26,20 @@ import java.util.Objects;
 public final class ExpressionParserSettings {
 
     /**
+     * Represents selected mode
+     */
+    public enum SelectedMode {
+        INCLUDE,
+        EXCLUDE
+    }
+
+    /**
      * Default instance of expression settings
      */
     public static final ExpressionParserSettings DEFAULT = ExpressionParserSettings.create().build();
 
     private final Collection<String> selectedSubparsers;
-    private final Boolean selectedMode;
+    private final SelectedMode selectedMode;
     private final boolean standaloneOnly;
 
     ExpressionParserSettings(ExpressionParserSettingsBuilder builder) {
@@ -63,7 +68,7 @@ public final class ExpressionParserSettings {
      *
      * @return the selection mode
      */
-    public @Nullable Boolean getSelectedMode() {
+    public SelectedMode getSelectedMode() {
         return selectedMode;
     }
 
@@ -76,32 +81,10 @@ public final class ExpressionParserSettings {
         return standaloneOnly;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        ExpressionParserSettings that = (ExpressionParserSettings) o;
-
-        return isStandaloneOnly() == that.isStandaloneOnly() &&
-                Objects.equals(getSelectedSubparsers(), that.getSelectedSubparsers()) &&
-                Objects.equals(getSelectedMode(), that.getSelectedMode());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getSelectedSubparsers(), getSelectedMode(), isStandaloneOnly());
-    }
-
     /**
      * Create settings builder
      *
-     * @return a new builder intance
+     * @return a new builder instance
      */
     public static ExpressionParserSettingsBuilder create() {
         return new ExpressionParserSettingsBuilder();
@@ -113,7 +96,7 @@ public final class ExpressionParserSettings {
     public static final class ExpressionParserSettingsBuilder {
 
         private Collection<String> selectedSubparsers;
-        private Boolean selectedMode;
+        private SelectedMode selectedMode;
         private boolean standaloneOnly;
 
         ExpressionParserSettingsBuilder() { }
@@ -124,7 +107,7 @@ public final class ExpressionParserSettings {
          * @return builder instance
          */
         public ExpressionParserSettingsBuilder includeSelected() {
-            this.selectedMode = Boolean.FALSE;
+            this.selectedMode = SelectedMode.INCLUDE;
             return this;
         }
 
@@ -134,7 +117,7 @@ public final class ExpressionParserSettings {
          * @return builder instance
          */
         public ExpressionParserSettingsBuilder excludeSelected() {
-            this.selectedMode = Boolean.TRUE;
+            this.selectedMode = SelectedMode.INCLUDE;
             return this;
         }
 

@@ -130,7 +130,7 @@ final class StringUtilsTest {
 
     @Test
     void containsCharacter() {
-        Assertions.assertTrue(StringUtils.containsCharacter("abcd", 'a', 'c'));
+        Assertions.assertTrue(StringUtils.containsCharacter("a b c", 'a', 'c'));
     }
 
     @Test

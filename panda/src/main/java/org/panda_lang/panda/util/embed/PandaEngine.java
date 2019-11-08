@@ -22,46 +22,46 @@ import javax.script.AbstractScriptEngine;
 import javax.script.Bindings;
 import javax.script.ScriptContext;
 import javax.script.ScriptEngineFactory;
-import javax.script.ScriptException;
 import java.io.Reader;
 
+@SuppressWarnings("ReturnOfNull")
 public final class PandaEngine extends AbstractScriptEngine {
 
     private final PandaEngineCore core;
     private final PandaEngineFactory factory;
 
-    public PandaEngine(PandaEngineFactory factory) {
+    PandaEngine(PandaEngineFactory factory) {
         this.factory = factory;
         this.core = new PandaEngineCore();
     }
 
     @Override
-    public Object eval(String s, ScriptContext scriptContext) throws ScriptException {
+    public Object eval(String s, ScriptContext scriptContext) {
         return null;
     }
 
     @Override
-    public Object eval(Reader reader, ScriptContext scriptContext) throws ScriptException {
+    public Object eval(Reader reader, ScriptContext scriptContext) {
         return null;
     }
 
     @Override
-    public Object eval(String s) throws ScriptException {
+    public Object eval(String s) {
         return null;
     }
 
     @Override
-    public Object eval(Reader reader) throws ScriptException {
+    public Object eval(Reader reader) {
         return null;
     }
 
     @Override
-    public Object eval(String s, Bindings bindings) throws ScriptException {
+    public Object eval(String s, Bindings bindings) {
         return null;
     }
 
     @Override
-    public Object eval(Reader reader, Bindings bindings) throws ScriptException {
+    public Object eval(Reader reader, Bindings bindings) {
         return null;
     }
 

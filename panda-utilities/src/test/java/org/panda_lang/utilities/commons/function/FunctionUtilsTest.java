@@ -19,18 +19,21 @@ package org.panda_lang.utilities.commons.function;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class CachedSupplierTest {
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+class FunctionUtilsTest {
 
     @Test
-    void isInitialized() {
-        CachedSupplier<Object> cachedSupplier = new CachedSupplier<>(Object::new);
-        Assertions.assertFalse(cachedSupplier.isInitialized());
+    void map() {
+        List<String> data = Arrays.asList("1", "b", "2");
 
-        Object a = cachedSupplier.get();
-        Object b = cachedSupplier.get();
-        Assertions.assertSame(a, b);
+        List<Integer> numbers = data.stream()
+                .map(FunctionUtils.map((ThrowingFunction<String, Integer, NumberFormatException>) Integer::parseInt, e -> -1))
+                .collect(Collectors.toList());
 
-        Assertions.assertTrue(cachedSupplier.isInitialized());
+        Assertions.assertEquals(Arrays.asList(1, -1, 2), numbers);
     }
 
 }

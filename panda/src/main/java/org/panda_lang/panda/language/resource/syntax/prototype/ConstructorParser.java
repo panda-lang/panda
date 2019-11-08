@@ -65,9 +65,7 @@ public final class ConstructorParser extends ParserBootstrap {
     void parse(Context context, LocalData local, @Inter SourceLocation location, @Component PrototypeScope prototypeScope, @Src("parameters") @Nullable Snippet parametersSource) {
         Prototype prototype = prototypeScope.getPrototype();
         List<PropertyParameter> parameters = PARAMETER_PARSER.parse(context, parametersSource);
-
         PandaConstructorScope constructorScope = local.allocated(new PandaConstructorScope(location, parameters));
-        constructorScope.addParameters(parameters);
 
         PrototypeConstructor constructor = PandaConstructor.builder()
                 .type(prototype)

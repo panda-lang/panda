@@ -23,13 +23,14 @@ public final class FunctionUtils {
     private FunctionUtils() { }
 
     /**
+     * Map throwing function in default stream api with exception consume support
      *
-     * @param function
-     * @param exceptionConsumer
-     * @param <T>
-     * @param <R>
-     * @param <E>
-     * @return
+     * @param function the function to apply
+     * @param exceptionConsumer the exception consumer
+     * @param <T> type of function parameter
+     * @param <R> type of function result
+     * @param <E> type of exception
+     * @return a new function
      */
     @SuppressWarnings("unchecked")
     public static <T, R, E extends Exception> Function<T, R> map(ThrowingFunction<T, R, E> function, Function<E, R> exceptionConsumer) {

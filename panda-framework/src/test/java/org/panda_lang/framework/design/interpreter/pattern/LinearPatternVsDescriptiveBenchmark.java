@@ -31,6 +31,7 @@ import org.panda_lang.framework.language.interpreter.lexer.PandaLexerUtils;
 @Fork(value = 1)
 @Warmup(iterations = 1)
 @Measurement(iterations = 2)
+@SuppressWarnings("CanBeFinal")
 public class LinearPatternVsDescriptiveBenchmark {
 
     private static final Snippet SOURCE = PandaLexerUtils.convert("if ( true )");

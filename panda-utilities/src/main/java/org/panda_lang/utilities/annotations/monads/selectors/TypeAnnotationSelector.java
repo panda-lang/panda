@@ -37,7 +37,7 @@ public final class TypeAnnotationSelector implements AnnotationsSelector<Class<?
     }
 
     @Override
-    public Collection<Class<?>> select(AnnotationsScannerProcess process, AnnotationScannerStore store) throws Exception {
+    public Collection<Class<?>> select(AnnotationsScannerProcess process, AnnotationScannerStore store) {
         Set<String> selectedClasses = new HashSet<>();
 
         for (ClassFile cachedClassFile : store.getCachedClassFiles()) {

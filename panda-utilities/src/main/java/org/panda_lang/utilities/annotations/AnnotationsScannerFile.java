@@ -20,7 +20,7 @@ import java.io.InputStream;
 
 public interface AnnotationsScannerFile {
 
-    InputStream openInputStream() throws Exception;
+    InputStream openInputStream();
 
     String getOriginalPath();
 

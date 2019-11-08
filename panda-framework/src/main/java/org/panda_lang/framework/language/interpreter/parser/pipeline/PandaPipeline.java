@@ -88,8 +88,12 @@ public final class PandaPipeline<P extends Parser> implements Pipeline<P> {
                 throw new PandaFrameworkException("Handler exception: " + exception.getMessage(), exception);
             }
 
-            if (!(value instanceof Boolean)) {
+            if (!(value instanceof Boolean) && value != null) {
                 throw new PandaFrameworkException("Illegal result type from handler " + handler.getClass() + ": returned " + value.getClass());
+            }
+
+            if (value == null) {
+                throw new PandaFrameworkException("Handler returned null value");
             }
 
             if ((Boolean) value) {

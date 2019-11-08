@@ -77,10 +77,6 @@ public final class NumberExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            if (expression == null) {
-                return dispose();
-            }
-
             // remove previous result from stack
             if (period != null) {
                 context.popExpression();
