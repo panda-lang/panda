@@ -18,7 +18,7 @@ package org.panda_lang.framework.language.interpreter.pattern.descriptive.wildca
 
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.DescriptivePatternException;
 
-public class DescriptivePatternWildcardException extends DescriptivePatternException {
+public final class DescriptivePatternWildcardException extends DescriptivePatternException {
 
     public DescriptivePatternWildcardException(String message) {
         super(message);

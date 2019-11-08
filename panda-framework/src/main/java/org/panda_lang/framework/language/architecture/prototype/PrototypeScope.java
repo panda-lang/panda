@@ -27,7 +27,7 @@ import org.panda_lang.framework.language.architecture.statement.AbstractFramedSc
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class PrototypeScope extends AbstractFramedScope implements FramedScope {
+public final class PrototypeScope extends AbstractFramedScope implements FramedScope {
 
     private final Prototype prototype;
 
@@ -56,7 +56,7 @@ public class PrototypeScope extends AbstractFramedScope implements FramedScope {
         return prototype;
     }
 
-    public static class ClassPrototypeFrame extends AbstractFrame<PrototypeScope> {
+    public static final class ClassPrototypeFrame extends AbstractFrame<PrototypeScope> {
 
         private static final AtomicInteger idAssigner = new AtomicInteger();
 

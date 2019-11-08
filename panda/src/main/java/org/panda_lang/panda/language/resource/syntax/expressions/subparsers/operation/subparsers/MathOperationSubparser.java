@@ -33,7 +33,7 @@ import org.panda_lang.utilities.commons.collection.Maps;
 
 import java.util.Map;
 
-public class MathOperationSubparser implements OperationSubparser {
+public final class MathOperationSubparser implements OperationSubparser {
 
     private static final Map<Operator, Integer> PRIORITIES = Maps.of(
             Operators.ADDITION, 1,

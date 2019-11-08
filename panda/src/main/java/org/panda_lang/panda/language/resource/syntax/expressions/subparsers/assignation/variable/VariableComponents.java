@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ass
 import org.panda_lang.framework.design.interpreter.parser.ContextComponent;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 
-public class VariableComponents {
+public final class VariableComponents {
 
     public static ContextComponent<Expression> INSTANCE_EXPRESSION = ContextComponent.of("panda-variable-instance-expression", Expression.class);
 

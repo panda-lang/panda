@@ -21,7 +21,7 @@ import org.panda_lang.utilities.commons.ObjectUtils;
 
 import java.util.Stack;
 
-public class SeparatorStack {
+public final class SeparatorStack {
 
     private final Stack<Separator> separators = new Stack<>();
 

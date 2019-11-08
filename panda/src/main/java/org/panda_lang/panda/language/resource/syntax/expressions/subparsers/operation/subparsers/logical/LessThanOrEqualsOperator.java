@@ -21,7 +21,7 @@ import org.panda_lang.framework.language.interpreter.parser.PandaParserException
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNOperationAction;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number.NumberPriorities;
 
-public class LessThanOrEqualsOperator extends ComparisonOperator {
+public final class LessThanOrEqualsOperator extends ComparisonOperator {
 
     @Override
     public RPNOperationAction of(int compared) {

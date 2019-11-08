@@ -24,7 +24,7 @@ import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExtractorResult implements PatternResult, PatternMapping {
+public final class ExtractorResult implements PatternResult, PatternMapping {
 
     private Snippet source;
     private final String errorMessage;

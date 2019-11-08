@@ -22,7 +22,7 @@ import picocli.CommandLine;
 
 public final class PandaShell {
 
-    private Logger logger;
+    private final Logger logger;
 
     public PandaShell(Logger logger) {
         this.logger = logger;

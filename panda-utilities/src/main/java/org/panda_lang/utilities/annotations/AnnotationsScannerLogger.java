@@ -21,7 +21,7 @@ import org.slf4j.Logger;
 
 import java.util.function.Consumer;
 
-public class AnnotationsScannerLogger {
+public final class AnnotationsScannerLogger {
 
     private final @Nullable Logger logger;
     private boolean mute;

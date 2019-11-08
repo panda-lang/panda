@@ -25,7 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 
-public class SystemAnnotationScannerResourceIterator implements Iterator<SystemAnnotationScannerFile> {
+public final class SystemAnnotationScannerResourceIterator implements Iterator<SystemAnnotationScannerFile> {
 
     public static long listTime;
 

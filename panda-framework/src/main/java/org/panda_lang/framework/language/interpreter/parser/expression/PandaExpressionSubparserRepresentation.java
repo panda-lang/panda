@@ -19,7 +19,7 @@ package org.panda_lang.framework.language.interpreter.parser.expression;
 import org.jetbrains.annotations.NotNull;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
 
-public class PandaExpressionSubparserRepresentation implements Comparable<PandaExpressionSubparserRepresentation> {
+public final class PandaExpressionSubparserRepresentation implements Comparable<PandaExpressionSubparserRepresentation> {
 
     private final ExpressionSubparser subparser;
     private int usages;

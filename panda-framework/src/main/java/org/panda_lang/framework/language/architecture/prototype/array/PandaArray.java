@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.language.architecture.prototype.array;
 
-public class PandaArray {
+public final class PandaArray {
 
     public static final String IDENTIFIER = "[]";
 

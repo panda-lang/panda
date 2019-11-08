@@ -31,7 +31,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class MethodAnnotationSelector implements AnnotationsSelector<Method> {
+public final class MethodAnnotationSelector implements AnnotationsSelector<Method> {
 
     private final Class<? extends Annotation> annotationType;
 

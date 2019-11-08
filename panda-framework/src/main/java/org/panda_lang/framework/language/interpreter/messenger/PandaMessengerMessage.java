@@ -19,7 +19,7 @@ package org.panda_lang.framework.language.interpreter.messenger;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerMessage;
 import org.slf4j.event.Level;
 
-public class PandaMessengerMessage implements MessengerMessage {
+public final class PandaMessengerMessage implements MessengerMessage {
 
     private final Level level;
     private final String message;

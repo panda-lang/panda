@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionS
 
 import java.util.Collection;
 
-public class PandaExpressionSubparsers implements ExpressionSubparsers {
+public final class PandaExpressionSubparsers implements ExpressionSubparsers {
 
     private final Collection<ExpressionSubparser> subparsers;
 

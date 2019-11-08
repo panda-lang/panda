@@ -18,7 +18,7 @@ package org.panda_lang.utilities.commons.iterable;
 
 import java.util.function.BiConsumer;
 
-public class Loop<T> {
+public final class Loop<T> {
 
     private final Iterable<T> source;
     private BiConsumer<LoopResult, T> loopSource;
@@ -50,7 +50,7 @@ public class Loop<T> {
         return new Loop<>(source);
     }
 
-    public static class LoopResult {
+    public static final class LoopResult {
 
         private boolean broke;
 

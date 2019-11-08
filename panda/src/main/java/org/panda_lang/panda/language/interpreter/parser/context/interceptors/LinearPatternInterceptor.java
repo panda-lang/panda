@@ -28,7 +28,7 @@ import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 
-public class LinearPatternInterceptor implements BootstrapInterceptor {
+public final class LinearPatternInterceptor implements BootstrapInterceptor {
 
     private BootstrapContent content;
     private LinearPattern pattern;

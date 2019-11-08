@@ -23,7 +23,7 @@ import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
 import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
 import org.panda_lang.framework.language.resource.internal.panda.PandaModule;
 
-public class ArrayPrototype extends PandaPrototype {
+public final class ArrayPrototype extends PandaPrototype {
 
     private final Prototype prototype;
 

@@ -25,7 +25,7 @@ import org.panda_lang.utilities.commons.StringUtils;
 /**
  * Indentation determines the amount of whitespaces at the beginning of line. The tab character is exactly equal to 4 whitespaces.
  */
-public class Indentation extends EqualableToken {
+public final class Indentation extends EqualableToken {
 
     private final int size;
 

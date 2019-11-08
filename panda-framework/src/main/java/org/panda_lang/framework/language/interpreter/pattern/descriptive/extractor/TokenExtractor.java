@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.DescriptivePattern;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 
-public class TokenExtractor {
+public final class TokenExtractor {
 
     private final DescriptivePattern pattern;
 

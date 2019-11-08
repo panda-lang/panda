@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.interpreter.source.Source;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.resource.Syntax;
 
-public class PandaLexer implements Lexer {
+public final class PandaLexer implements Lexer {
 
     private final PandaLexerConfiguration configuration;
 

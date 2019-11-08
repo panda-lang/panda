@@ -25,7 +25,7 @@ import org.panda_lang.framework.language.interpreter.parser.PandaParserException
 import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 import org.panda_lang.utilities.commons.StringUtils;
 
-public class NumberParser implements SourceParser<Expression> {
+public final class NumberParser implements SourceParser<Expression> {
 
     @Override
     public Expression parse(Context context, Snippet source) {

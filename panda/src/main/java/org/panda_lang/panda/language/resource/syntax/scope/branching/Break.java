@@ -23,7 +23,7 @@ import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Status;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractExecutableStatement;
 
-class Break extends AbstractExecutableStatement implements Controller {
+final class Break extends AbstractExecutableStatement implements Controller {
 
     Break(SourceLocation location) {
         super(location);

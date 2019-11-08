@@ -23,7 +23,7 @@ import org.panda_lang.framework.language.interpreter.pattern.descriptive.utils.T
 
 import java.util.List;
 
-class NodeExtractor extends AbstractElementExtractor<LexicalPatternNode> {
+final class NodeExtractor extends AbstractElementExtractor<LexicalPatternNode> {
 
     private final NodeLookupExtractor nodeLookupExtractor = new NodeLookupExtractor(this);
 

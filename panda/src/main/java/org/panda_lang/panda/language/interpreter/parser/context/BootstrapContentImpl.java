@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 
 import java.util.Optional;
 
-class BootstrapContentImpl implements BootstrapContent {
+final class BootstrapContentImpl implements BootstrapContent {
 
     private final String name;
     private final Object instance;

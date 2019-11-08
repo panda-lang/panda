@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-public class PandaExpressionParserWorker {
+public final class PandaExpressionParserWorker {
 
     public static final Map<String, Long> TIMES = new HashMap<>();
     private static final int NONE = -1;

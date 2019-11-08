@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.interpreter.parser.generation.Generation;
 import org.panda_lang.framework.design.interpreter.parser.generation.GenerationCycle;
 import org.panda_lang.framework.design.interpreter.parser.generation.GenerationPhase;
 
-public class PandaGenerationCycle implements GenerationCycle {
+public final class PandaGenerationCycle implements GenerationCycle {
 
     private final String name;
     private final Generation generation;

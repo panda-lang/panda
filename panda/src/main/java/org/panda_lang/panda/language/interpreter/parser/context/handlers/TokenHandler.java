@@ -23,7 +23,7 @@ import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.utilities.commons.ArrayUtils;
 
-public class TokenHandler implements Handler {
+public final class TokenHandler implements Handler {
 
     private final Token[] tokens;
 

@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.architecture.expression.Expression;
 
 import java.util.Objects;
 
-public class ExtractorResultElement {
+public final class ExtractorResultElement {
 
     private final String name;
     private final Object value;

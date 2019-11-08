@@ -22,7 +22,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InjectorAnnotation<T extends Annotation> {
+public final class InjectorAnnotation<T extends Annotation> {
 
     private final T annotation;
     private final Metadata<T> metadata;
@@ -53,7 +53,7 @@ public class InjectorAnnotation<T extends Annotation> {
         return annotation;
     }
 
-    public static class Metadata<T extends Annotation> {
+    public static final class Metadata<T extends Annotation> {
 
         private final Class<? extends Annotation> annotationType;
         private final Map<String, Object> values = new HashMap<>();

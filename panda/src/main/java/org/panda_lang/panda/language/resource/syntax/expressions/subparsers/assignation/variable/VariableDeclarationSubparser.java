@@ -127,10 +127,10 @@ public final class VariableDeclarationSubparser extends AssignationSubparserBoot
 
     private static final class Elements {
 
-        private TokenRepresentation name;
-        private Snippet type;
-        private boolean mutable;
-        private boolean nillable;
+        private final TokenRepresentation name;
+        private final Snippet type;
+        private final boolean mutable;
+        private final boolean nillable;
 
         Elements(Snippet type, TokenRepresentation name, boolean mutable, boolean nillable) {
             this.type = type;

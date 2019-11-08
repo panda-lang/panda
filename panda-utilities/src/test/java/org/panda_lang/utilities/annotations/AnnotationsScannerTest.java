@@ -91,9 +91,9 @@ final class AnnotationsScannerTest {
     public interface TestType { }
 
     @AnnotationTest
-    public static class Implementation implements WrappedTestType { }
+    public static final class Implementation implements WrappedTestType { }
 
-    public static class AnotherImplementation implements TestType {
+    public static final class AnotherImplementation implements TestType {
 
         @AnotherAnnotationTest
         public void methodName() { }

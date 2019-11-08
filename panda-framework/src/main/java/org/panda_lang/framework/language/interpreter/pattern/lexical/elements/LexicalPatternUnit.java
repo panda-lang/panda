@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.language.interpreter.pattern.lexical.elements;
 
-public class LexicalPatternUnit extends DefaultLexicalPatternElement {
+public final class LexicalPatternUnit extends DefaultLexicalPatternElement {
 
     private final String value;
 

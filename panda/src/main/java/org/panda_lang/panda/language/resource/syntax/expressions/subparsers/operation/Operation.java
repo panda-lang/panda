@@ -30,7 +30,7 @@ import org.panda_lang.framework.language.resource.syntax.operator.Operator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Operation {
+public final class Operation {
 
     private final List<OperationElement> elements;
 
@@ -68,7 +68,7 @@ public class Operation {
         return new Operation(elements);
     }
 
-    public static class OperationElement {
+    public static final class OperationElement {
 
         private final Expression expression;
         private final TokenRepresentation operator;

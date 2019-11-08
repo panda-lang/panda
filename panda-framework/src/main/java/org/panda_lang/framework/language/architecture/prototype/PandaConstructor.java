@@ -28,7 +28,7 @@ import org.panda_lang.framework.language.architecture.statement.PandaPropertyFra
 import java.lang.reflect.Constructor;
 import java.util.List;
 
-public class PandaConstructor extends AbstractExecutableProperty implements PrototypeConstructor {
+public final class PandaConstructor extends AbstractExecutableProperty implements PrototypeConstructor {
 
     private PandaConstructor(PandaConstructorBuilder builder) {
         super(builder);
@@ -43,7 +43,7 @@ public class PandaConstructor extends AbstractExecutableProperty implements Prot
         return new PandaConstructorBuilder().name("constructor");
     }
 
-    public static class PandaConstructorBuilder extends PandaParametrizedExecutableBuilder<PandaConstructorBuilder> {
+    public static final class PandaConstructorBuilder extends PandaParametrizedExecutableBuilder<PandaConstructorBuilder> {
 
         private PandaConstructorBuilder() { }
 
@@ -57,7 +57,7 @@ public class PandaConstructor extends AbstractExecutableProperty implements Prot
 
     }
 
-    public static class PandaConstructorScope extends AbstractPropertyFramedScope {
+    public static final class PandaConstructorScope extends AbstractPropertyFramedScope {
 
         public PandaConstructorScope(SourceLocation location, List<PropertyParameter> parameters) {
             super(location, parameters);
@@ -74,7 +74,7 @@ public class PandaConstructor extends AbstractExecutableProperty implements Prot
 
     }
 
-    public static class ConstructorFrame extends PandaPropertyFrame<PandaConstructorScope> {
+    public static final class ConstructorFrame extends PandaPropertyFrame<PandaConstructorScope> {
 
         public ConstructorFrame(PandaConstructorScope scope, Frame instance) {
             super(scope, instance);

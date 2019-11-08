@@ -21,7 +21,7 @@ import org.panda_lang.utilities.commons.text.ContentJoiner;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LexicalPatternNode extends DefaultLexicalPatternElement {
+public final class LexicalPatternNode extends DefaultLexicalPatternElement {
 
     private final List<LexicalPatternElement> elements;
     private final boolean variant;

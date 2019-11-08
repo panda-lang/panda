@@ -197,7 +197,7 @@ public class PandaPrototype extends AbstractProperty implements Prototype {
         return new PandaPrototypeBuilder<>();
     }
 
-    public static class PandaPrototypeBuilder<BUILDER extends PandaPrototypeBuilder<BUILDER, ?>, TYPE extends PandaPrototype> {
+    public static final class PandaPrototypeBuilder<BUILDER extends PandaPrototypeBuilder<BUILDER, ?>, TYPE extends PandaPrototype> {
 
         protected String name;
         protected Module module;

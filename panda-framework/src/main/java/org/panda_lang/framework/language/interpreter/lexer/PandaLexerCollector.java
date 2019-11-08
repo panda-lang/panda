@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-class PandaLexerCollector {
+final class PandaLexerCollector {
 
     private final PandaLexerWorker worker;
     private final List<TokenRepresentation> representations = new ArrayList<>();

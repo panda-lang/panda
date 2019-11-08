@@ -18,7 +18,7 @@ package org.panda_lang.framework.language.interpreter.pattern.descriptive;
 
 import org.panda_lang.utilities.commons.text.ContentJoiner;
 
-public class DescriptiveContentBuilder {
+public final class DescriptiveContentBuilder {
 
     private final StringBuilder contentBuilder = new StringBuilder();
 

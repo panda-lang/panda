@@ -22,7 +22,7 @@ import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.language.architecture.dynamic.accessor.AbstractAccessor;
 import org.panda_lang.framework.language.architecture.dynamic.assigner.Assigner;
 
-public class VariableAccessor extends AbstractAccessor<Variable> {
+public final class VariableAccessor extends AbstractAccessor<Variable> {
 
     public VariableAccessor(Variable variable) {
         super((stack, instance) -> stack.getCurrentScope(), variable, variable.getPointer());

@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.language.architecture.statement.AbstractBlock;
 
-class SwitchBlock extends AbstractBlock {
+final class SwitchBlock extends AbstractBlock {
 
     protected SwitchBlock(Scope parent, SourceLocation location) {
         super(parent, location);

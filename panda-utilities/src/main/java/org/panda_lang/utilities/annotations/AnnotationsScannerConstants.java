@@ -19,7 +19,7 @@ package org.panda_lang.utilities.annotations;
 import java.util.Arrays;
 import java.util.List;
 
-class AnnotationsScannerConstants {
+final class AnnotationsScannerConstants {
 
     static final String[] PANDA_PACKAGES = {
             "META-INF",
@@ -33,10 +33,10 @@ class AnnotationsScannerConstants {
             "org.jetbrains", "org.intellij", "com.intellij", "lib.idea_rt",                     // IDE
     };
 
-    static List<String> primitiveNames = Arrays.asList("boolean", "char", "byte", "short", "int", "long", "float", "double", "void");
+    static final List<String> primitiveNames = Arrays.asList("boolean", "char", "byte", "short", "int", "long", "float", "double", "void");
 
-    static List<String> primitiveDescriptors = Arrays.asList("Z", "C", "B", "S", "I", "J", "F", "D", "V");
+    static final List<String> primitiveDescriptors = Arrays.asList("Z", "C", "B", "S", "I", "J", "F", "D", "V");
 
-    static List<Class> primitiveTypes = Arrays.asList(boolean.class, char.class, byte.class, short.class, int.class, long.class, float.class, double.class, void.class);
+    static final List<Class> primitiveTypes = Arrays.asList(boolean.class, char.class, byte.class, short.class, int.class, long.class, float.class, double.class, void.class);
 
 }

@@ -22,7 +22,7 @@ import org.panda_lang.framework.language.resource.syntax.operator.Operator;
 
 import java.util.Map;
 
-public class RPNOperationBuilder {
+public final class RPNOperationBuilder {
 
     private Context context;
     private Operation operation;

@@ -22,7 +22,7 @@ import org.panda_lang.utilities.commons.StringUtils;
 
 import java.util.List;
 
-class NodeLookupExtractor {
+final class NodeLookupExtractor {
 
     protected final NodeExtractor nodeExtractor;
     private final NodeElementLookupExtractor elementLookupExtractor = new NodeElementLookupExtractor(this);
@@ -86,7 +86,7 @@ class NodeLookupExtractor {
         return lookupResult;
     }
 
-    static class LookupResult {
+    static final class LookupResult {
 
         protected ExtractorResult precedingResult;
         protected ExtractorResult currentResult;

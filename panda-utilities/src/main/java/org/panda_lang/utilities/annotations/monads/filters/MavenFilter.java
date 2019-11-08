@@ -16,7 +16,7 @@
 
 package org.panda_lang.utilities.annotations.monads.filters;
 
-public class MavenFilter extends URLFilter {
+public final class MavenFilter extends URLFilter {
 
     public MavenFilter() {
         super(true, "m2.repository");

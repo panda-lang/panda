@@ -28,7 +28,7 @@ import org.panda_lang.utilities.commons.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WildcardConditionCompiler {
+public final class WildcardConditionCompiler {
 
     private final DescriptivePattern pattern;
 

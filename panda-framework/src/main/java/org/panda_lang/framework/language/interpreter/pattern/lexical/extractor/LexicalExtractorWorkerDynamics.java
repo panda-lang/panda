@@ -20,7 +20,6 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternUnit;
 import org.panda_lang.utilities.commons.StringUtils;
-import org.panda_lang.utilities.commons.iterable.ArrayDistributor;
 
 import java.util.List;
 import java.util.Stack;
@@ -48,11 +47,11 @@ final class LexicalExtractorWorkerDynamics<T> {
             LexicalPatternUnit unit = element.toUnit();
             units.push(unit);
 
-            ArrayDistributor<LexicalPatternUnit> unitArrayDistributor = new ArrayDistributor<>(units, LexicalPatternUnit.class);
-            unitArrayDistributor.reverse();
+            LexicalExtractorWorkerDistributor<LexicalPatternUnit> unitLexicalExtractorWorkerDistributor = new LexicalExtractorWorkerDistributor<>(units, LexicalPatternUnit.class);
+            unitLexicalExtractorWorkerDistributor.reverse();
             int unitIndex = LexicalExtractorWorker.NOT_FOUND;
 
-            for (LexicalPatternUnit currentUnit : unitArrayDistributor) {
+            for (LexicalPatternUnit currentUnit : unitLexicalExtractorWorkerDistributor) {
                 if (index < 0) {
                     return null;
                 }
@@ -65,7 +64,7 @@ final class LexicalExtractorWorkerDynamics<T> {
                     continue;
                 }
 
-                LexicalPatternUnit previousUnit = unitArrayDistributor.getPrevious();
+                LexicalPatternUnit previousUnit = unitLexicalExtractorWorkerDistributor.getPrevious();
 
                 if (currentUnit.equals(previousUnit)) {
                     previousUnit = null;

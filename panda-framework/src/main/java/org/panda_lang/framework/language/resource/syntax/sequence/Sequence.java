@@ -23,11 +23,12 @@ import org.panda_lang.framework.language.interpreter.token.EqualableToken;
 
 import java.util.Optional;
 
-public class Sequence extends EqualableToken {
+public final class Sequence extends EqualableToken {
 
-    private final Optional<String> name;
     private final String sequenceStart;
     private final String sequenceEnd;
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    private final Optional<String> cachedName;
 
     public Sequence(@Nullable String name, char sequence) {
         this(name, Character.toString(sequence));
@@ -38,7 +39,7 @@ public class Sequence extends EqualableToken {
     }
 
     public Sequence(@Nullable String name, String sequenceStart, String sequenceEnd) {
-        this.name = Optional.ofNullable(name);
+        this.cachedName = Optional.ofNullable(name);
         this.sequenceStart = sequenceStart;
         this.sequenceEnd = sequenceEnd;
     }
@@ -58,7 +59,7 @@ public class Sequence extends EqualableToken {
 
     @Override
     public Optional<String> getName() {
-        return name;
+        return cachedName;
     }
 
     @Override

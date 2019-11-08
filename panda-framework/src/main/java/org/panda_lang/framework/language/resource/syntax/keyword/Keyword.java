@@ -22,7 +22,7 @@ import org.panda_lang.framework.language.interpreter.token.EqualableToken;
 
 import java.util.Optional;
 
-public class Keyword extends EqualableToken {
+public final class Keyword extends EqualableToken {
 
     private final String keyword;
 

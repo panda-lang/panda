@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ope
 
 import org.panda_lang.framework.design.runtime.ProcessStack;
 
-public class NotEqualsToOperation extends EqualsToOperation {
+public final class NotEqualsToOperation extends EqualsToOperation {
 
     @Override
     public Boolean get(ProcessStack stack, Object a, Object b) {

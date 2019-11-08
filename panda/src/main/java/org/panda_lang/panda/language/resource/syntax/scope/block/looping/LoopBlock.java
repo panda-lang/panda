@@ -26,7 +26,7 @@ import org.panda_lang.framework.design.runtime.Result;
 import org.panda_lang.framework.design.runtime.Status;
 import org.panda_lang.framework.language.architecture.statement.AbstractBlock;
 
-class LoopBlock extends AbstractBlock implements ControlledScope {
+final class LoopBlock extends AbstractBlock implements ControlledScope {
 
     private final Expression expression;
 

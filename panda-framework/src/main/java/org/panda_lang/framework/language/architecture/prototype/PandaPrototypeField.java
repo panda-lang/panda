@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 
-public class PandaPrototypeField extends AbstractExecutableProperty implements PrototypeField {
+public final class PandaPrototypeField extends AbstractExecutableProperty implements PrototypeField {
 
     private final int fieldIndex;
     private final boolean isStatic;
@@ -123,7 +123,7 @@ public class PandaPrototypeField extends AbstractExecutableProperty implements P
         return new PandaPrototypeFieldBuilder();
     }
 
-    public static class PandaPrototypeFieldBuilder extends AbstractExecutableProperty.PandaParametrizedExecutableBuilder<PandaPrototypeFieldBuilder> {
+    public static final class PandaPrototypeFieldBuilder extends AbstractExecutableProperty.PandaParametrizedExecutableBuilder<PandaPrototypeFieldBuilder> {
 
         protected int fieldIndex;
         protected boolean isStatic;

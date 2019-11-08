@@ -23,7 +23,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public class Multimap<K, V> implements Serializable {
+public final class Multimap<K, V> implements Serializable {
 
     private final Map<K, Collection<V>> map;
     private final Supplier<Collection<V>> collectionSupplier;

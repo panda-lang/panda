@@ -27,7 +27,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AnnotationsScannerProcessBuilder {
+public final class AnnotationsScannerProcessBuilder {
 
     protected final AnnotationsScanner scanner;
     protected final AnnotationScannerStore store;

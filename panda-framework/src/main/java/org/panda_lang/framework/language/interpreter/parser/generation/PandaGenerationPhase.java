@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class PandaGenerationPhase implements GenerationPhase {
+public final class PandaGenerationPhase implements GenerationPhase {
 
     private static final AtomicInteger ID = new AtomicInteger();
 

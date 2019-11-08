@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.interpreter.parser.block;
 
 import org.panda_lang.framework.design.architecture.statement.Block;
 
-public class BlockData {
+public final class BlockData {
 
     private final Block block;
     private final boolean unlisted;

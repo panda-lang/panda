@@ -23,7 +23,7 @@ import org.panda_lang.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.framework.language.resource.syntax.PandaSyntax;
 import org.panda_lang.utilities.commons.StringUtils;
 
-public class PandaLexerUtils {
+public final class PandaLexerUtils {
 
     private static final PandaLexer LEXER = PandaLexer.of(new PandaSyntax()).enableSections().build();
 

@@ -57,7 +57,7 @@ import java.util.function.Function;
  * <code>identifier:*=expression</code><br><br>
  *
  */
-public class LinearPattern {
+public final class LinearPattern {
 
     private static final LinearPatternCompiler COMPILER = new LinearPatternCompiler(new PandaSyntax(), new ArrayList<LinearPatternElementCompiler>(2) {{
         add(new WildcardElementCompiler());

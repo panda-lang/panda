@@ -29,7 +29,7 @@ import org.panda_lang.utilities.commons.ObjectUtils;
 import java.util.Map;
 import java.util.Stack;
 
-public class RPNOperationRectifier {
+public final class RPNOperationRectifier {
 
     private static final RPNOperationRectifier RECTIFIER = new RPNOperationRectifier();
 

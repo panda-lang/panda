@@ -22,7 +22,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineFactory;
 import java.util.List;
 
-public class PandaEngineFactory implements ScriptEngineFactory {
+public final class PandaEngineFactory implements ScriptEngineFactory {
 
     private final PandaEngine pandaEngine = new PandaEngine(this);
 

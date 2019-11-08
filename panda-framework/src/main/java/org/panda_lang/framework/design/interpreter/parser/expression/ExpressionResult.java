@@ -27,7 +27,7 @@ import java.util.function.Supplier;
 /**
  * Result wrapper that may contain the result expression, error or nothing
  */
-public class ExpressionResult {
+public final class ExpressionResult {
 
     private static final ExpressionResult EMPTY = of(null);
 

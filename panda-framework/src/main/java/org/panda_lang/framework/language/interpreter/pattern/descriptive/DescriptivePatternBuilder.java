@@ -20,7 +20,7 @@ import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.language.interpreter.pattern.lexical.LexicalPatternCompiler;
 import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
 
-public class DescriptivePatternBuilder {
+public final class DescriptivePatternBuilder {
 
     protected LexicalPatternElement patternContent;
 

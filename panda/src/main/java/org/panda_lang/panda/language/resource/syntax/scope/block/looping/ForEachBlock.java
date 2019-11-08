@@ -27,7 +27,7 @@ import org.panda_lang.framework.design.runtime.Result;
 import org.panda_lang.framework.design.runtime.Status;
 import org.panda_lang.framework.language.architecture.statement.AbstractBlock;
 
-class ForEachBlock extends AbstractBlock implements ControlledScope {
+final class ForEachBlock extends AbstractBlock implements ControlledScope {
 
     private final int valuePointer;
     private final Expression iterableExpression;

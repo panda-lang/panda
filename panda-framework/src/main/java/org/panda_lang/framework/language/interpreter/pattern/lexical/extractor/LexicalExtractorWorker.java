@@ -28,7 +28,7 @@ import org.panda_lang.framework.language.interpreter.token.PandaTokenRepresentat
 
 import java.util.List;
 
-public class LexicalExtractorWorker<T> {
+public final class LexicalExtractorWorker<T> {
 
     protected static final int NOT_FOUND = -1;
     protected static final int INVALID = -2;

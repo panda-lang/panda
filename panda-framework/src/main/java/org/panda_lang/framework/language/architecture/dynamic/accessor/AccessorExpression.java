@@ -19,7 +19,7 @@ package org.panda_lang.framework.language.architecture.dynamic.accessor;
 import org.panda_lang.framework.language.architecture.expression.DynamicExpression;
 import org.panda_lang.framework.language.architecture.expression.PandaExpression;
 
-public class AccessorExpression extends PandaExpression {
+public final class AccessorExpression extends PandaExpression {
 
     private final Accessor<?> accessor;
 

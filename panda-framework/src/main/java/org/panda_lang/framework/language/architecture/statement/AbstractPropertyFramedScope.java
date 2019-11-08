@@ -43,8 +43,4 @@ public abstract class AbstractPropertyFramedScope extends AbstractFramedScope {
         return variables;
     }
 
-    public List<? extends PropertyParameter> getParameters() {
-        return parameters;
-    }
-
 }

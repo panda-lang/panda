@@ -42,7 +42,7 @@ import org.panda_lang.framework.language.interpreter.pattern.lexical.processed.W
  *
  * @param <T> the type of the expected return values processed by {@link org.panda_lang.framework.language.interpreter.pattern.lexical.processed.WildcardProcessor}
  */
-public class LexicalPattern<T> {
+public final class LexicalPattern<T> {
 
     private final LexicalPatternElement pattern;
     private @Nullable WildcardProcessor<T> processor;
@@ -81,7 +81,7 @@ public class LexicalPattern<T> {
         return new LexicalPatternBuilder<>();
     }
 
-    private static class DefaultLexicalExtractor<T> implements LexicalExtractor<T> {
+    private static final class DefaultLexicalExtractor<T> implements LexicalExtractor<T> {
 
         private final LexicalPattern<T> pattern;
 

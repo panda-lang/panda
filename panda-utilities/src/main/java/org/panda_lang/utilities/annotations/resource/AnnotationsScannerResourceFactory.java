@@ -21,7 +21,7 @@ import org.panda_lang.utilities.annotations.AnnotationsScannerResource;
 
 import java.net.URL;
 
-public class AnnotationsScannerResourceFactory {
+public final class AnnotationsScannerResourceFactory {
 
     public @Nullable AnnotationsScannerResource<?> createTypedResource(URL url) {
         return AnnotationsScannerResourceType.createTypedResource(url);

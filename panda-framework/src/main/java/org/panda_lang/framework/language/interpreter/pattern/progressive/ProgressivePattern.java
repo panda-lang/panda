@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.resource.syntax.separator.Separator;
 
-public class ProgressivePattern {
+public final class ProgressivePattern {
 
     private final Separator[] separators;
     private final Token[] dividers;

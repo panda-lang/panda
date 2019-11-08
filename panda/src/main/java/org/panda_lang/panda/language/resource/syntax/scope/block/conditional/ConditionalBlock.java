@@ -27,7 +27,7 @@ import org.panda_lang.framework.language.architecture.statement.AbstractBlock;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 
-class ConditionalBlock extends AbstractBlock implements ControlledScope {
+final class ConditionalBlock extends AbstractBlock implements ControlledScope {
 
     private final Expression condition;
     private Scope elseBlock;

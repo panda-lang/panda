@@ -25,7 +25,7 @@ import org.panda_lang.utilities.commons.ObjectUtils;
 
 import java.util.List;
 
-public class ConcatenationExpressionCallback implements DynamicExpression {
+public final class ConcatenationExpressionCallback implements DynamicExpression {
 
     private final List<Expression> values;
 

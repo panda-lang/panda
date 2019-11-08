@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNOperationAction;
 
-public class MultiplicationOperation extends MathOperation {
+public final class MultiplicationOperation extends MathOperation {
 
     @Override
     public RPNOperationAction of(Prototype returnType, int priority) {

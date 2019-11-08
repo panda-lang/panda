@@ -62,6 +62,6 @@ class ClassUtilsTest {
 
     static class B extends A { }
 
-    static class C extends B { }
+    static final class C extends B { }
 
 }

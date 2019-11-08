@@ -32,7 +32,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
-public class PandaPipeline<P extends Parser> implements Pipeline<P> {
+public final class PandaPipeline<P extends Parser> implements Pipeline<P> {
 
     private final String name;
     private final Pipeline<P> parentPipeline;

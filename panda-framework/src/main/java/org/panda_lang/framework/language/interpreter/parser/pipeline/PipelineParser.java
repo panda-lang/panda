@@ -16,7 +16,6 @@
 
 package org.panda_lang.framework.language.interpreter.parser.pipeline;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.Interpretation;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
@@ -37,7 +36,7 @@ public final class PipelineParser<T extends ContextParser> implements Parser {
 
     private final Pipeline<T> pipeline;
     private final SourceStream stream;
-    private Context context;
+    private final Context context;
 
     public PipelineParser(PipelineComponent<T> component, Context context) {
         this(context.getComponent(Components.PIPELINE).getPipeline(component), context);
@@ -57,7 +56,7 @@ public final class PipelineParser<T extends ContextParser> implements Parser {
         this.context = context;
     }
 
-    public @Nullable T parse() throws Exception {
+    public boolean parse() throws Exception {
         if (context == null) {
             throw new IllegalArgumentException("Cannot parser pipeline without context");
         }
@@ -73,7 +72,7 @@ public final class PipelineParser<T extends ContextParser> implements Parser {
      * @return returns always null
      * @throws Exception if something happen in subparser
      */
-    public @Nullable T parse(Context context, boolean fork) throws Exception {
+    public boolean parse(Context context, boolean fork) throws Exception {
         Interpretation interpretation = context.getComponent(Components.INTERPRETATION);
 
         while (stream.hasUnreadSource() && interpretation.isHealthy()) {
@@ -106,7 +105,7 @@ public final class PipelineParser<T extends ContextParser> implements Parser {
             }
         }
 
-        return null;
+        return true;
     }
 
 }

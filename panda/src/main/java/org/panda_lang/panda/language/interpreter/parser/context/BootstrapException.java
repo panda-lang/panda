@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.interpreter.parser.context;
 
 import org.panda_lang.panda.PandaException;
 
-public class BootstrapException extends PandaException {
+public final class BootstrapException extends PandaException {
 
     BootstrapException(String message) {
         super(message);

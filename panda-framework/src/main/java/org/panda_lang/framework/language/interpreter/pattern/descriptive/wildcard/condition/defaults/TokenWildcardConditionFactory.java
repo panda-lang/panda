@@ -25,7 +25,7 @@ import org.panda_lang.framework.language.interpreter.pattern.descriptive.wildcar
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.utilities.commons.StringUtils;
 
-class TokenWildcardConditionFactory implements WildcardConditionFactory {
+final class TokenWildcardConditionFactory implements WildcardConditionFactory {
 
     private static final String TOKEN = "token";
     private static final String NOT_TOKEN = "not token";

@@ -19,7 +19,7 @@ package org.panda_lang.utilities.commons.text.pattern.text;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TextHollowPatternBuilder {
+public final class TextHollowPatternBuilder {
 
     private final List<TextHollowSymbol> hollowSymbols;
     private TextHollowSymbol hollowSymbol;

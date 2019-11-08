@@ -27,7 +27,7 @@ import org.panda_lang.utilities.commons.ObjectUtils;
 import java.security.InvalidParameterException;
 import java.util.Objects;
 
-public class PandaTokenRepresentation implements TokenRepresentation {
+public final class PandaTokenRepresentation implements TokenRepresentation {
 
     private final Token token;
     private final SourceLocation location;

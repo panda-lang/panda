@@ -24,7 +24,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-class SystemAnnotationScannerFile implements AnnotationsScannerFile {
+final class SystemAnnotationScannerFile implements AnnotationsScannerFile {
 
     protected final SystemAnnotationScannerResource root;
     private final File file;

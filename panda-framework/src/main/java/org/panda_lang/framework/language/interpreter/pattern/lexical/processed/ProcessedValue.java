@@ -18,7 +18,7 @@ package org.panda_lang.framework.language.interpreter.pattern.lexical.processed;
 
 import org.jetbrains.annotations.Nullable;
 
-public class ProcessedValue<T> {
+public final class ProcessedValue<T> {
 
     private final T value;
     private final String identifier;

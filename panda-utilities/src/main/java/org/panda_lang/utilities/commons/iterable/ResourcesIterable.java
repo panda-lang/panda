@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.function.IntFunction;
 
-public class ResourcesIterable<T> implements Iterable<T> {
+public final class ResourcesIterable<T> implements Iterable<T> {
 
     private final Iterable<T>[] iterables;
 
@@ -38,7 +38,7 @@ public class ResourcesIterable<T> implements Iterable<T> {
         return new ResourceIterator();
     }
 
-    class ResourceIterator implements Iterator<T> {
+    final class ResourceIterator implements Iterator<T> {
 
         private final Iterator<T>[] iterators = Arrays.stream(iterables)
                 .map(Iterable::iterator)

@@ -28,7 +28,7 @@ import java.util.Map;
  *
  * @param <P> pipeline parser type
  */
-public class PipelineComponent<P extends Parser> extends Component<P> {
+public final class PipelineComponent<P extends Parser> extends Component<P> {
 
     private static final Map<String, PipelineComponent<? extends Parser>> COMPONENTS = new HashMap<>();
 

@@ -34,7 +34,7 @@ import org.panda_lang.panda.language.interpreter.parser.context.interceptors.Lin
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL)
-public class ReturnParser extends ParserBootstrap {
+public final class ReturnParser extends ParserBootstrap {
 
     @Override
     protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {

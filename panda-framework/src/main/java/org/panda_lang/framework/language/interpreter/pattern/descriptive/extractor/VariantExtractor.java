@@ -20,7 +20,7 @@ import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.Le
 import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternNode;
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.utils.TokenDistributor;
 
-class VariantExtractor extends AbstractElementExtractor<LexicalPatternNode> {
+final class VariantExtractor extends AbstractElementExtractor<LexicalPatternNode> {
 
     protected VariantExtractor(ExtractorWorker worker) {
         super(worker);

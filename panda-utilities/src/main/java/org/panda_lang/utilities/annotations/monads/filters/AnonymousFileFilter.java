@@ -23,7 +23,7 @@ import org.panda_lang.utilities.annotations.AnnotationsScannerFile;
 import org.panda_lang.utilities.annotations.adapter.MetadataAdapter;
 import org.panda_lang.utilities.annotations.monads.AnnotationsFilter;
 
-public class AnonymousFileFilter implements AnnotationsFilter<AnnotationsScannerFile> {
+public final class AnonymousFileFilter implements AnnotationsFilter<AnnotationsScannerFile> {
 
     @Override
     public boolean check(MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter, AnnotationsScannerFile element) {

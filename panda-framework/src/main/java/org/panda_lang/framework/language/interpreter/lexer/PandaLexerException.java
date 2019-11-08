@@ -25,7 +25,7 @@ import org.panda_lang.framework.language.interpreter.source.PandaIndicatedSource
 import org.panda_lang.framework.language.interpreter.token.PandaToken;
 import org.panda_lang.framework.language.interpreter.token.PandaTokenRepresentation;
 
-public class PandaLexerException extends PandaInterpreterFailure {
+public final class PandaLexerException extends PandaInterpreterFailure {
 
     public PandaLexerException(Snippetable line, Snippetable indicated, String message, @Nullable String note) {
         super(new PandaIndicatedSource(line, indicated), message, note);

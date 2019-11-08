@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.resource.Language;
 import org.panda_lang.framework.design.resource.Syntax;
 import org.panda_lang.framework.language.resource.syntax.PandaSyntax;
 
-public class PandaLanguage implements Language {
+public final class PandaLanguage implements Language {
 
     private final PandaLanguageBuilder builder;
 

@@ -57,7 +57,7 @@ public final class Panda extends PandaFramework implements FrameworkController {
     /**
      * Utility builder
      */
-    public static class PandaBuilder {
+    public static final class PandaBuilder {
 
         protected Language language;
         protected Resources resources;

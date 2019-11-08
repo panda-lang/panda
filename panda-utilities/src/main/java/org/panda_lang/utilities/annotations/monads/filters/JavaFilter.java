@@ -24,7 +24,7 @@ import org.panda_lang.utilities.annotations.monads.AnnotationsFilter;
 
 import java.net.URL;
 
-public class JavaFilter implements AnnotationsFilter<URL> {
+public final class JavaFilter implements AnnotationsFilter<URL> {
 
     @Override
     public boolean check(MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter, URL element) {

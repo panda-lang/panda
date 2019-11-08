@@ -28,7 +28,7 @@ import java.util.Arrays;
 
 public class URLFilter implements AnnotationsFilter<URL> {
 
-    private boolean exclude;
+    private final boolean exclude;
     private final String[] paths;
 
     public URLFilter(String... paths) {

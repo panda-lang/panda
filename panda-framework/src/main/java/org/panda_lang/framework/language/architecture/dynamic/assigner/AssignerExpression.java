@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.expression.DynamicExpression;
 import org.panda_lang.framework.language.architecture.expression.PandaExpression;
 
-public class AssignerExpression extends PandaExpression {
+public final class AssignerExpression extends PandaExpression {
 
     public AssignerExpression(Assigner<?> assigner) {
         super(new AssignerDynamicExpression(assigner));

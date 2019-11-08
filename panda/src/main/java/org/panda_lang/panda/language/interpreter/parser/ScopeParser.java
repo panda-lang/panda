@@ -25,7 +25,7 @@ import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PipelineParser;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 
-public class ScopeParser implements Parser {
+public final class ScopeParser implements Parser {
 
     public Scope parse(Context context, Scope block, Snippet body) throws Exception {
         Context delegatedContext = context.fork()

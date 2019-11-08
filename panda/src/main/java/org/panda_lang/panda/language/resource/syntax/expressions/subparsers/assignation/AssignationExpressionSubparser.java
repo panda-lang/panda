@@ -66,7 +66,7 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
         return "assignation";
     }
 
-    private static class AssignationExpressionSubparserWorker extends AbstractExpressionSubparserWorker {
+    private static final class AssignationExpressionSubparserWorker extends AbstractExpressionSubparserWorker {
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext expressionContext, TokenRepresentation token) {

@@ -19,7 +19,7 @@ package org.panda_lang.framework.language.architecture.statement;
 import org.panda_lang.framework.design.architecture.statement.Cell;
 import org.panda_lang.framework.design.architecture.statement.Statement;
 
-public class PandaCell implements Cell {
+public final class PandaCell implements Cell {
 
     private Statement statement;
     private boolean manipulated;

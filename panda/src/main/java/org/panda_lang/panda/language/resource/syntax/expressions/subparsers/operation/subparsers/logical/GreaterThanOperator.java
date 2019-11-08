@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNOperationAction;
 
-public class GreaterThanOperator extends ComparisonOperator {
+public final class GreaterThanOperator extends ComparisonOperator {
 
     @Override
     public RPNOperationAction of(int compared) {

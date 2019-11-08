@@ -33,7 +33,7 @@ import org.panda_lang.utilities.commons.StringUtils;
 import java.util.Arrays;
 import java.util.Collection;
 
-public class ExpressionWildcardReader implements WildcardReader<Expression> {
+public final class ExpressionWildcardReader implements WildcardReader<Expression> {
 
     private final ExpressionParser expressionParser;
 

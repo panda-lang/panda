@@ -45,7 +45,7 @@ import java.util.Collection;
  * <code>module &#123;module:condition token {type:unknown}, token {value:-}&#125;[;]</code><br><br>
  *
  */
-public class DescriptivePattern {
+public final class DescriptivePattern {
 
     private final LexicalPatternElement patternContent;
     private final Collection<WildcardConditionFactory> wildcardConditionFactories = DefaultWildcardConditionFactories.getDefaultFactories();

@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class PandaEngineFactoryConstants {
+public final class PandaEngineFactoryConstants {
 
     /**
      * Language name

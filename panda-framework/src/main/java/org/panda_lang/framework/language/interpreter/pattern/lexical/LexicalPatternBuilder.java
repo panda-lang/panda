@@ -19,7 +19,7 @@ package org.panda_lang.framework.language.interpreter.pattern.lexical;
 import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.framework.language.interpreter.pattern.lexical.processed.WildcardProcessor;
 
-public class LexicalPatternBuilder<T> {
+public final class LexicalPatternBuilder<T> {
 
     private LexicalPatternElement pattern;
     private WildcardProcessor<T> wildcardProcessor;

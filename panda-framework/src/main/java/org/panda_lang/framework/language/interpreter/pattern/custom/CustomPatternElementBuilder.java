@@ -26,8 +26,8 @@ public abstract class CustomPatternElementBuilder<T, B extends Buildable<T>> imp
     protected final String id;
     protected boolean optional;
     protected CustomReader<? extends T> reader;
-    protected Collection<CustomVerify<? extends T>> verifies = new ArrayList<>(1);
-    protected List<Function<?, ?>> mappers = new ArrayList<>(1);
+    protected final Collection<CustomVerify<? extends T>> verifies = new ArrayList<>(1);
+    protected final List<Function<?, ?>> mappers = new ArrayList<>(1);
 
     protected CustomPatternElementBuilder(String id) {
         this.id = id;
