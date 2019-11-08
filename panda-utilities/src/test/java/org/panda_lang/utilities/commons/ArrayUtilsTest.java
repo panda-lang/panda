@@ -19,13 +19,15 @@ package org.panda_lang.utilities.commons;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.Objects;
+
 final class ArrayUtilsTest {
 
-    private static final String[] EMPTY_ARRAY = new String[] {};
+    private static final String[] EMPTY_ARRAY = { };
 
-    private static final String[] ARRAY = new String[] { "a", "b", "c" };
+    private static final String[] ARRAY = { "a", "b", "c" };
 
-    private static final String[] ARRAY_WITH_NULL = new String[] { "a", "b", "c", null };
+    private static final String[] ARRAY_WITH_NULL = { "a", "b", "c", null };
 
     @Test
     void containsNull() {
@@ -97,6 +99,40 @@ final class ArrayUtilsTest {
     @Test
     void getWithDefaultValue() {
         Assertions.assertEquals("a", ArrayUtils.get(EMPTY_ARRAY, Integer.MAX_VALUE, "a"));
+    }
+
+    @Test
+    void forEach() {
+        ArrayUtils.forEach(ARRAY, element -> {
+            Assertions.assertTrue(ArrayUtils.contains(ARRAY, element));
+        });
+    }
+
+    @Test
+    void forEachThrowing() {
+        ArrayUtils.forEachThrowing(ARRAY, element -> {
+            Assertions.assertTrue(ArrayUtils.contains(ARRAY, element));
+        });
+    }
+
+    @Test
+    void findIn() {
+        Assertions.assertTrue(ArrayUtils.findIn(ARRAY_WITH_NULL, Objects::nonNull).isPresent());
+    }
+
+    @Test
+    void isArray() {
+        //noinspection UnnecessaryLocalVariable
+        Object someObject = ARRAY;
+        Object anotherObject = "content";
+
+        Assertions.assertTrue(ArrayUtils.isArray(someObject));
+        Assertions.assertFalse(ArrayUtils.isArray(anotherObject));
+    }
+
+    @Test
+    void getIndex() {
+        Assertions.assertEquals(1, ArrayUtils.getIndex(ARRAY, element -> element.equals("b")));
     }
 
 }

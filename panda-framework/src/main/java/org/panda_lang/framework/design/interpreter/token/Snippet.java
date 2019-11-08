@@ -260,7 +260,7 @@ public interface Snippet extends Iterable<TokenRepresentation>, Snippetable {
      *
      * @return the last token or null if the snippet is empty
      */
-    default @Nullable TokenRepresentation getLast() {
+    default TokenRepresentation getLast() {
         return getLast(0);
     }
 

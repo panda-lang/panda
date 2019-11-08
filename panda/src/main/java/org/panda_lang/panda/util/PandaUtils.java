@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.util;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.messenger.LoggerHolder;
 import org.panda_lang.utilities.commons.TimeUtils;
 
@@ -25,7 +26,7 @@ public final class PandaUtils {
 
     private PandaUtils() { }
 
-    public static <T> T eval(Map<String, Object> context, String expression) {
+    public static <T> @Nullable T eval(Map<String, Object> context, String expression) {
         return null;
     }
 

@@ -149,7 +149,7 @@ public final class FileUtils {
     }
 
     /**
-     * Collect all files and subfiles in the specified directory
+     * Collect all files (including files from subdirectories) from the given directory
      *
      * @param directory root
      * @return tree node of collected files

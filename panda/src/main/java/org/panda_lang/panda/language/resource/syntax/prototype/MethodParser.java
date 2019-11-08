@@ -120,7 +120,7 @@ public final class MethodParser extends ParserBootstrap {
 
         if (existingMethod.isPresent() && !result.has(Keywords.OVERRIDE.getValue())) {
             throw new PandaParserFailure(context, name,
-                    "Method &b" + method.getPropertyName() + "&r overrides &b" + existingMethod.get() + "&r but does not contain &boverride&r modifier",
+                    "Method &b" + method.getPropertyName() + "&r overrides &b" + existingMethod.get() + "&r but does not contain&b override&r modifier",
                     "Add missing modifier if you want to override that method or rename current method"
             );
         }

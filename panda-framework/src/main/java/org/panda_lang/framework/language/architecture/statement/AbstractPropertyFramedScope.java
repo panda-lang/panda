@@ -30,10 +30,10 @@ public abstract class AbstractPropertyFramedScope extends AbstractFramedScope {
     public AbstractPropertyFramedScope(SourceLocation location, List<PropertyParameter> parameters) {
         super(location);
         this.parameters = parameters;
-        addParameters(parameters);
+        this.addParameters(parameters);
     }
 
-    public List<? extends Variable> addParameters(List<? extends PropertyParameter> parameters) {
+    protected List<? extends Variable> addParameters(List<? extends PropertyParameter> parameters) {
         List<Variable> variables = new ArrayList<>();
 
         for (PropertyParameter parameter : parameters) {

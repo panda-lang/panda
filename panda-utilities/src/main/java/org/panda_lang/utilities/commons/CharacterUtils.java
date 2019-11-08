@@ -18,6 +18,7 @@ package org.panda_lang.utilities.commons;
 
 public final class CharacterUtils {
 
+    @SuppressWarnings("SpellCheckingInspection")
     private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 
     public static final char[] DIGITS = "0123456789".toCharArray();

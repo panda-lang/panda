@@ -32,7 +32,7 @@ public final class StacktraceMapper implements MessengerDataMapper<StackTraceEle
             ArrayUtils.of(PandaParserFailure.class, ParserBootstrap.class)
     );
 
-    private static final String[] IGNORED = new String[] {
+    private static final String[] IGNORED = {
             "sun.reflect", "java.lang.reflect", "org.panda_lang.utilities.inject",
             "ParserLayerGenerator", "PandaGeneration", "PandaInterpretation", "AssignationSubparserBootstrap"
     };

@@ -32,70 +32,49 @@ public final class IOUtils {
 
     private IOUtils() { }
 
-    public static @Nullable String getURLContent(String s) {
-        String body = null;
-        InputStream in = null;
-
-        try {
-            URL url = new URL(s);
-            URLConnection con = url.openConnection();
-            con.setRequestProperty("User-Agent", "Mozilla/5.0");
-            in = con.getInputStream();
-            String encoding = con.getContentEncoding();
-            Charset charset = (encoding == null) ? StandardCharsets.UTF_8 : Charset.forName(encoding);
-            body = IOUtils.toString(in, charset);
-            in.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            close(in);
-        }
-
-        return body;
-    }
-
-    public static String toString(InputStream in, String encoding) {
-        return toString(in, Charset.forName(encoding));
-    }
-
-    public static @Nullable String toString(InputStream in, Charset encoding) {
-        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
-            byte[] buf = new byte[8192];
-            int len;
-
-            while ((len = in.read(buf)) != -1) {
-                byteArrayOutputStream.write(buf, 0, len);
-            }
-
-            return new String(byteArrayOutputStream.toByteArray(), encoding);
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
-
-        return null;
-    }
-
     public static InputStream convertStringToStream(String str) {
         return new ByteArrayInputStream(str.getBytes(StandardCharsets.UTF_8));
     }
 
     public static @Nullable String convertStreamToString(InputStream inputStream) {
-        ByteArrayOutputStream result = new ByteArrayOutputStream();
+        return toString(inputStream, StandardCharsets.UTF_8);
+    }
+
+    public static @Nullable String getURLContent(String s) {
+        String body = null;
+        InputStream stream = null;
 
         try {
-            byte[] buffer = new byte[1024];
-            int length;
+            URLConnection connection = new URL(s).openConnection();
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+            stream = connection.getInputStream();
 
-            while ((length = inputStream.read(buffer)) != -1) {
-                result.write(buffer, 0, length);
-            }
+            String encoding = connection.getContentEncoding();
+            Charset charset = encoding == null ? StandardCharsets.UTF_8 : Charset.forName(encoding);
+            body = IOUtils.toString(stream, charset);
 
-            return result.toString("UTF-8");
+            stream.close();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            close(result);
-            close(inputStream);
+            close(stream);
+        }
+
+        return body;
+    }
+
+    public static @Nullable String toString(InputStream in, Charset encoding) {
+        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
+            byte[] buffer = new byte[8192];
+            int length;
+
+            while ((length = in.read(buffer)) != -1) {
+                byteArrayOutputStream.write(buffer, 0, length);
+            }
+
+            return new String(byteArrayOutputStream.toByteArray(), encoding);
+        } catch (IOException exception) {
+            exception.printStackTrace();
         }
 
         return null;

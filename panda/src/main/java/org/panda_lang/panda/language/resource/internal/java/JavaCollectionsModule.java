@@ -20,7 +20,7 @@ import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
 
 public final class JavaCollectionsModule implements InternalModuleInfo {
 
-    private static final String[] NAMES = new String[] {
+    private static final String[] NAMES = {
             "Collection",
             "Comparator",
             "Deque",

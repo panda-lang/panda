@@ -42,7 +42,7 @@ public final class VariantElement extends CustomPatternElementBuilder<Object, Va
     }
 
     public VariantElement content(String... variants) {
-        super.custom((data, source) -> TokenUtils.valueEquals(source.next(), variants) ? source.getCurrent() : null);
+        super.custom((data, source) -> TokenUtils.valueEquals(source.next(), variants) ? source.getCurrent().orElse(null) : null);
         return this;
     }
 

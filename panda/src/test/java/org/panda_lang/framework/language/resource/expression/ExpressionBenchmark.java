@@ -36,6 +36,7 @@ import org.panda_lang.panda.util.BenchmarkUtils;
 @Fork(value = 1)
 @Warmup(iterations = 1)
 @Measurement(iterations = 2)
+@SuppressWarnings("CanBeFinal")
 public class ExpressionBenchmark extends ExpressionParserTestBootstrap {
 
     private static final Snippet SOURCE = PandaLexerUtils.convert("variable.toString().toString().toString().toString()");
@@ -46,6 +47,7 @@ public class ExpressionBenchmark extends ExpressionParserTestBootstrap {
     }
 
     @State(Scope.Thread)
+    @SuppressWarnings("CanBeFinal")
     public static class Configuration {
 
         protected Context context;

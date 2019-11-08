@@ -36,7 +36,7 @@ public final class WildcardConditionCompiler {
         this.pattern = pattern;
     }
 
-    public @Nullable Snippet extract(String context, TokenDistributor distributor) {
+    public Snippet extract(String context, TokenDistributor distributor) {
         String[] conditions = StringUtils.split(context, ",");
         List<WildcardCondition> wildcardConditions = new ArrayList<>(conditions.length);
 

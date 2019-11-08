@@ -77,7 +77,7 @@ final class MatchableDistributor {
         }
     }
 
-    public @Nullable void verifyBefore() {
+    public void verifyBefore() {
         for (int i = 0; i < distributor.getIndex(); i++) {
             verify(distributor.get(i));
         }

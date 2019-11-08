@@ -23,6 +23,6 @@ import java.util.Collection;
 
 public interface AnnotationsSelector<T> {
 
-    Collection<T> select(AnnotationsScannerProcess process, AnnotationScannerStore store) throws Exception;
+    Collection<T> select(AnnotationsScannerProcess process, AnnotationScannerStore store);
 
 }

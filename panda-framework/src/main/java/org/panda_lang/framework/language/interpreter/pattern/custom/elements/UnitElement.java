@@ -26,7 +26,7 @@ public final class UnitElement extends CustomPatternElementBuilder<TokenRepresen
     }
 
     public UnitElement content(String value) {
-        super.custom((data, source) -> source.next().getValue().equals(value) ? source.getCurrent() : null);
+        super.custom((data, source) -> source.next().getValue().equals(value) ? source.getCurrent().orElse(null) : null);
         return this;
     }
 

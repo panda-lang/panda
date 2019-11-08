@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
@@ -95,8 +96,8 @@ public final class Operation {
             return operator;
         }
 
-        public Operator getOperator() {
-            return (Operator) getOperatorRepresentation().getToken();
+        public @Nullable Operator getOperator() {
+            return isOperator() ? (Operator) getOperatorRepresentation().getToken() : null;
         }
 
         public Expression getExpression() {

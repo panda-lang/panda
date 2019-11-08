@@ -14,24 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.context;
+package org.panda_lang.utilities.commons;
 
-public final class ParserBootstrapUtils {
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-    private static final Class<?>[] INTERNAL = {
-        BootstrapContextParser.class,
-        BootstrapTaskScheduler.class
-    };
+class ThrowableUtilsTest {
 
-    private ParserBootstrapUtils() { }
-
-    /**
-     * Get internal classes. Useful when we want to exclude some internal classes from stacktrace.
-     *
-     * @return the array of internal classes
-     */
-    public static Class<?>[] getInternalClasses() {
-        return INTERNAL.clone();
+    @Test
+    void throwAny() {
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            ThrowableUtils.throwAny(new RuntimeException());
+        });
     }
 
 }

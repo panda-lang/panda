@@ -18,13 +18,16 @@ package org.panda_lang.panda.language.interpreter.parser.context.handlers;
 
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPatternData;
 import org.panda_lang.framework.language.interpreter.pattern.custom.UniversalData;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapContent;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapHandler;
+
+import java.util.function.Supplier;
 
 public final class CustomPatternHandler implements BootstrapHandler {
 
@@ -32,7 +35,9 @@ public final class CustomPatternHandler implements BootstrapHandler {
 
     @Override
     public void initialize(BootstrapContent content) {
-        this.pattern = (CustomPattern) content.getPattern().get();
+        this.pattern = (CustomPattern) content.getPattern().orElseThrow((Supplier<? extends PandaParserFailure>) () -> {
+            throw new PandaParserFailure(content.getContext(), "Cannot initialize custom pattern handler - pattern is null");
+        });
     }
 
     @Override

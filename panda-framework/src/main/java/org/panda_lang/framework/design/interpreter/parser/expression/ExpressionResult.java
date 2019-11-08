@@ -35,7 +35,7 @@ public final class ExpressionResult {
     private final @Nullable String errorMessage;
     private final @Nullable Snippetable source;
 
-    ExpressionResult(@Nullable Expression expression, Snippetable source, String errorMessage) {
+    ExpressionResult(@Nullable Expression expression, @Nullable Snippetable source, @Nullable String errorMessage) {
         this.expression = expression;
         this.source = source;
         this.errorMessage = errorMessage;
@@ -94,7 +94,7 @@ public final class ExpressionResult {
      *
      * @return the error message
      */
-    public String getErrorMessage() {
+    public @Nullable String getErrorMessage() {
         return errorMessage;
     }
 

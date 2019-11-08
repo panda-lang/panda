@@ -33,18 +33,14 @@ final class ArrayClassPrototypeConstants {
             .name("size")
             .location(LOCATION)
             .returnType(JavaModule.INT)
-            .methodBody((branch, instance, arguments) -> {
-                return ((Object[]) Objects.requireNonNull(instance)).length;
-            })
+            .methodBody((branch, instance, arguments) -> ((Object[]) Objects.requireNonNull(instance)).length)
             .build();
 
     protected static final PrototypeMethod TO_STRING = PandaMethod.builder()
             .name("toString")
             .location(LOCATION)
             .returnType(JavaModule.STRING)
-            .methodBody((branch, instance, arguments) -> {
-                return Arrays.toString((Object[]) instance);
-            })
+            .methodBody((branch, instance, arguments) -> Arrays.toString((Object[]) instance))
             .build();
 
     private ArrayClassPrototypeConstants() { }

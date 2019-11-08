@@ -18,6 +18,7 @@ package org.panda_lang.panda.manager;
 
 import org.hjson.JsonObject;
 import org.hjson.JsonValue;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ final class ModuleDocument {
         return getDependencies("dependencies");
     }
 
-    protected String getMainScript() {
+    protected @Nullable String getMainScript() {
         JsonValue scripts = content.get("scripts");
         return scripts == null ? null : scripts.asObject().getString("main", null);
     }

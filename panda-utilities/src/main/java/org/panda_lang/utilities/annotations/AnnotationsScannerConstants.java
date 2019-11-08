@@ -21,9 +21,10 @@ import java.util.List;
 
 final class AnnotationsScannerConstants {
 
+    @SuppressWarnings("SpellCheckingInspection")
     static final String[] PANDA_PACKAGES = {
             "META-INF",
-            "org.panda_lang.utilities",                                                   // Panda
+            "org.panda_lang.utilities",                                                         // Panda
             "java", "com.sun", "sun", "jdk", "javax", "oracle", "com.oracle", "netscape",       // Java
 
             "javassist", "org.fusesource", "org.apiguardian", "org.ow2",                        // Internal

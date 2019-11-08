@@ -41,7 +41,7 @@ public final class StringUtils {
      *
      * @param text      the text to split
      * @param delimiter the delimiter to search for
-     * @return array of splitted text
+     * @return array of split text
      */
     public static String[] splitFirst(String text, String delimiter) {
         int index = text.indexOf(delimiter);
