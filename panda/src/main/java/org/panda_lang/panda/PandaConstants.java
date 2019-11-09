@@ -18,8 +18,14 @@ package org.panda_lang.panda;
 
 import org.panda_lang.framework.PandaFrameworkConstants;
 
+/**
+ * Set of default constants associated with Panda
+ */
 public final class PandaConstants {
 
+    /**
+     * Represents the current version of Panda
+     */
     public static final String VERSION = PandaFrameworkConstants.VERSION;
 
     private PandaConstants() { }

@@ -16,25 +16,56 @@
 
 package org.panda_lang.panda.shell;
 
-import org.panda_lang.panda.shell.cli.PandaCommand;
+import org.panda_lang.framework.design.interpreter.messenger.LoggerHolder;
+import org.panda_lang.utilities.commons.function.CachedSupplier;
 import org.slf4j.Logger;
 import picocli.CommandLine;
 
-public final class PandaShell {
+import java.io.InputStream;
+import java.util.function.Supplier;
 
-    private final Logger logger;
+/**
+ * Represents command line user interface of Panda
+ */
+public final class PandaShell implements LoggerHolder {
 
-    public PandaShell(Logger logger) {
-        this.logger = logger;
+    private final Supplier<Logger> logger;
+    private final InputStream input;
+    private final PandaCli pandaCli = new PandaCli(this);
+
+    /**
+     * Create a new instance of shell
+     *
+     * @param logger the logger used to send responses
+     */
+    public PandaShell(Supplier<Logger> logger, InputStream input) {
+        this.logger = new CachedSupplier<>(logger);
+        this.input = input;
     }
 
+    /**
+     * Invoke the given arguments
+     *
+     * @param args array of arguments
+     * @throws Exception if something happen
+     */
     public void invoke(String... args) throws Exception {
-        PandaCommand command = CommandLine.populateCommand(new PandaCommand(this), args);
+        PandaCli command = CommandLine.populateCommand(pandaCli, args);
         command.run();
     }
 
+    /**
+     * Get input of shell
+     *
+     * @return the input
+     */
+    public InputStream getInput() {
+        return input;
+    }
+
+    @Override
     public Logger getLogger() {
-        return logger;
+        return logger.get();
     }
 
 }

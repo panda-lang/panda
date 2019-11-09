@@ -18,12 +18,17 @@ package org.panda_lang.utilities.commons;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import sun.misc.Unsafe;
 
 class UnsafeUtilsTest {
 
     @Test
     void getUnsafe() {
-        Assertions.assertNotNull(UnsafeUtils.getUnsafe());
+        Unsafe unsafe = UnsafeUtils.getUnsafe();
+        Unsafe anotherUnsafe = UnsafeUtils.getUnsafe();
+
+        Assertions.assertNotNull(unsafe);
+        Assertions.assertSame(unsafe, anotherUnsafe);
     }
 
 }

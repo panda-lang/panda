@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.shell.cli;
+package org.panda_lang.panda.shell;
 
 import org.panda_lang.framework.design.architecture.Application;
 import org.panda_lang.framework.language.interpreter.messenger.PandaMessenger;
@@ -22,7 +22,7 @@ import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaConstants;
 import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.manager.ModuleManager;
-import org.panda_lang.panda.shell.PandaShell;
+import org.panda_lang.panda.shell.repl.ReplConsole;
 import org.panda_lang.utilities.commons.function.ThrowingRunnable;
 import org.tinylog.configuration.Configuration;
 import picocli.CommandLine;
@@ -34,11 +34,11 @@ import java.io.File;
 import java.util.Optional;
 
 @Command(name = "panda", version = "Panda " + PandaConstants.VERSION)
-public final class PandaCommand implements ThrowingRunnable {
+final class PandaCli implements ThrowingRunnable {
 
     private final PandaShell shell;
 
-    @Parameters(index = "0", paramLabel = "<script>", description = "script to load")
+    @Parameters(index = "0", paramLabel = "<script>", description = "script to load", defaultValue = "")
     private File script;
 
     @Option(names = { "--version", "-V" }, versionHelp = true, description = "display current version of panda")
@@ -50,7 +50,10 @@ public final class PandaCommand implements ThrowingRunnable {
     @Option(names = { "--level", "-L" }, description = "set level of logging", paramLabel="<level>")
     private String level;
 
-    public PandaCommand(PandaShell shell) {
+    @Option(names = { "--repl", "-R" }, description = "open interactive shell")
+    private boolean repl;
+
+    public PandaCli(PandaShell shell) {
         this.shell = shell;
     }
 
@@ -64,13 +67,24 @@ public final class PandaCommand implements ThrowingRunnable {
 
         if (usageHelpRequested) {
             CommandLine.usage(this, System.out);
+            return;
         }
 
         if (versionInfoRequested) {
             commandLine.printVersionHelp(System.out);
+            return;
         }
 
-        if (script == null) {
+        if (!repl && script == null) {
+            shell.getLogger().warn("Missing or unknown operation");
+            return;
+        }
+
+        Panda panda = new PandaFactory().createPanda(shell.getLogger());
+
+        if (repl) {
+            ReplConsole console = new ReplConsole(panda, shell.getInput());
+            console.launch();
             return;
         }
 
@@ -81,7 +95,6 @@ public final class PandaCommand implements ThrowingRunnable {
             return;
         }
 
-        Panda panda = new PandaFactory().createPanda(shell.getLogger());
         Optional<Application> application = panda.getLoader().load(script, script.getParentFile());
 
         if (!application.isPresent()) {
