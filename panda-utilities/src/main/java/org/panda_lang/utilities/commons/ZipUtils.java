@@ -25,7 +25,7 @@ import java.util.zip.ZipInputStream;
 
 public final class ZipUtils {
 
-    private static final int  BUFFER_SIZE = 4096;
+    private static final int BUFFER_SIZE = 4096;
 
     private ZipUtils() { }
 

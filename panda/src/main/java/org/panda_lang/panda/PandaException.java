@@ -18,11 +18,10 @@ package org.panda_lang.panda;
 
 import org.panda_lang.framework.PandaFrameworkException;
 
+/**
+ * Default representation of exceptions that may occur in Panda
+ */
 public class PandaException extends PandaFrameworkException {
-
-    public PandaException() {
-        super();
-    }
 
     public PandaException(String message) {
         super(message);

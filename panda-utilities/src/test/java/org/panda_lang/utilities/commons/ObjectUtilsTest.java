@@ -45,4 +45,21 @@ final class ObjectUtilsTest {
         Assertions.assertFalse(ObjectUtils.equalsOneOf("value", OBJECT, OBJECT, OBJECT));
     }
 
+    @Test
+    void cast() {
+        Assertions.assertEquals("text", ObjectUtils.cast("text"));
+
+        Object unknown = "content";
+        Assertions.assertEquals("content", ObjectUtils.cast(String.class, unknown));
+
+        Assertions.assertNull(ObjectUtils.cast(String.class, 5));
+    }
+
+    @Test
+    void testEquals() {
+        Assertions.assertFalse(ObjectUtils.equals(5, "value", (a, b) -> true));
+        Object aObject = new Object();
+        Assertions.assertTrue(ObjectUtils.equals(aObject, aObject.toString(), aObject, Object::toString));
+    }
+
 }

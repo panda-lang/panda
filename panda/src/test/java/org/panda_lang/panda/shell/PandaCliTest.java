@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.shell.cli;
+package org.panda_lang.panda.shell;
 
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.shell.PandaShell;
 import org.slf4j.LoggerFactory;
 import picocli.CommandLine;
 
-final class PandaCommandTest {
+final class PandaCliTest {
 
-    private static final PandaShell SHELL = new PandaShell(LoggerFactory.getLogger(PandaCommandTest.class));
+    private static final PandaShell SHELL = new PandaShell(() -> LoggerFactory.getLogger(PandaCliTest.class), System.in);
 
     @Test
     void help() throws Exception {
@@ -36,7 +35,7 @@ final class PandaCommandTest {
     }
 
     private void invoke(String args) throws Exception {
-        CommandLine.populateCommand(new PandaCommand(SHELL), args).run();
+        CommandLine.populateCommand(new PandaCli(SHELL), args).run();
     }
 
 }

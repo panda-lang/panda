@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 
 final class PandaShellTest {
 
-    private static final PandaShell SHELL = new PandaShell(LoggerFactory.getLogger(PandaShellTest.class));
+    private static final PandaShell SHELL = new PandaShell(() -> LoggerFactory.getLogger(PandaShellTest.class), System.in);
 
     @Test
     void test() throws Exception {

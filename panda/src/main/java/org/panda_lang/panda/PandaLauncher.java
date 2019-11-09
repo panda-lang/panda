@@ -20,18 +20,27 @@ import org.panda_lang.panda.shell.PandaShell;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Default launcher of Panda
+ */
 public final class PandaLauncher {
 
     private PandaLauncher() { }
 
+    /**
+     * Launch Panda with the given parameters
+     *
+     * @param args arguments passed to the shell, filled with '--help' if empty
+     * @throws Exception if something happen
+     */
     public static void main(String... args) throws Exception {
-        PandaShell cli = new PandaShell(LoggerFactory.getLogger(PandaLauncher.class));
+        PandaShell shell = new PandaShell(() -> LoggerFactory.getLogger(PandaLauncher.class), System.in);
 
         if (ArrayUtils.isEmpty(args)) {
             args = new String[]{ "--help" };
         }
 
-        cli.invoke(args);
+        shell.invoke(args);
     }
 
 }

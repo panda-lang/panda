@@ -19,8 +19,19 @@ package org.panda_lang.panda.shell.repl;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.statement.Variable;
 
+/**
+ * Listen for changes of variable values
+ */
+@FunctionalInterface
 public interface ReplVariableChangeListener {
 
+    /**
+     * Called when value of variable is changed
+     *
+     * @param variable the affected variable
+     * @param previous the previous value
+     * @param current a new value
+     */
     void onChange(Variable variable, @Nullable Object previous, @Nullable Object current);
 
 }
