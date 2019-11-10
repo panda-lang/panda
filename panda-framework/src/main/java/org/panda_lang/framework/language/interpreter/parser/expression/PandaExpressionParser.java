@@ -24,6 +24,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionP
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParserSettings;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparsers;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction.Commit;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.design.interpreter.token.Streamable;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
@@ -79,13 +80,22 @@ public final class PandaExpressionParser implements ExpressionParser {
         PandaExpressionContext expressionContext = new PandaExpressionContext(this, context, source);
         PandaExpressionParserWorker worker = new PandaExpressionParserWorker(subparsers);
 
-        for (TokenRepresentation representation : expressionContext.getSynchronizedSource()) {
-            if (!worker.next(expressionContext, representation)) {
-                break;
+        try {
+            for (TokenRepresentation representation : expressionContext.getSynchronizedSource()) {
+                if (!worker.next(expressionContext, representation)) {
+                    break;
+                }
             }
+
+            worker.finish(expressionContext);
+        } catch (Exception e) {
+            for (Commit commit : expressionContext.getCommits()) {
+                commit.rollback();
+            }
+
+            throw new PandaExpressionParserFailure(expressionContext, expressionContext.getSynchronizedSource().getSource(), e.getMessage());
         }
 
-        worker.finish(expressionContext);
         PandaExpressionTransaction transaction = new PandaExpressionTransaction(null, expressionContext.getCommits());
 
         // if something went wrong

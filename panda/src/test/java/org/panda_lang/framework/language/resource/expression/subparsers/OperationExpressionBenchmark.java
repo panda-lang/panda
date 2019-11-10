@@ -26,6 +26,7 @@ import org.openjdk.jmh.annotations.Warmup;
 import org.openjdk.jmh.infra.Blackhole;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressionUtils;
@@ -51,7 +52,8 @@ public class OperationExpressionBenchmark {
     @Setup
     public void setup() {
         ExpressionParser parser = new PandaExpressionParser(PandaExpressionUtils.collectSubparsers());
-        this.expression = parser.parse(ExpressionContextUtils.createFakeContext((context -> new HashMap<>())), PandaLexerUtils.convert("1 + 2")).getExpression();
+        Snippet source = PandaLexerUtils.convert(OperationExpressionBenchmark.class.getSimpleName(), "1 + 2");
+        this.expression = parser.parse(ExpressionContextUtils.createFakeContext((context -> new HashMap<>())), source).getExpression();
     }
 
     @Benchmark

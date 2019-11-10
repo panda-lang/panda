@@ -20,15 +20,14 @@ import org.panda_lang.framework.design.interpreter.messenger.MessengerTypeFormat
 import org.panda_lang.panda.language.interpreter.messenger.MessengerDataFormatter;
 import org.panda_lang.utilities.commons.ArrayUtils;
 
-import java.util.Objects;
-
 public final class ExceptionFormatter implements MessengerDataFormatter<Exception> {
 
     @Override
     public void onInitialize(MessengerTypeFormatter<Exception> typeFormatter) {
         typeFormatter.register("{{exception.short}}", (formatter, exception) -> {
-            return "Stack: " + exception.getClass().getName() + Objects.toString(exception.getMessage(), "") +
-                    System.lineSeparator() + "  " + ArrayUtils.get(exception.getStackTrace(), 0).map(StackTraceElement::toString).orElse("");
+            return "Stack: " + System.lineSeparator() +
+                    "  at " + exception.getClass().getName() + (exception.getMessage() != null ? ": " + exception.getMessage() : "") + System.lineSeparator() +
+                    "    " + ArrayUtils.get(exception.getStackTrace(), 0).map(StackTraceElement::toString).orElse("");
         });
     }
 

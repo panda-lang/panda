@@ -19,17 +19,21 @@ package org.panda_lang.panda.shell.repl;
 import org.panda_lang.framework.FrameworkController;
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
 import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.statement.Statement;
 import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
+import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.runtime.Process;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Result;
-import org.panda_lang.framework.design.runtime.Status;
 import org.panda_lang.framework.language.interpreter.lexer.PandaLexerUtils;
+import org.panda_lang.framework.language.interpreter.source.PandaSource;
+import org.panda_lang.framework.language.interpreter.token.PandaSourceLocation;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.framework.language.runtime.PandaProcessFailure;
 import org.panda_lang.framework.language.runtime.PandaProcessStack;
 import org.panda_lang.framework.language.runtime.PandaRuntimeConstants;
 import org.panda_lang.panda.shell.repl.ReplResult.Type;
@@ -49,15 +53,19 @@ public final class Repl {
     private final ExpressionParser expressionParser;
     private final Supplier<Process> processSupplier;
     private final ThrowingFunction<ProcessStack, Object, Exception> instanceSupplier;
-    private StringBuilder history;
+    private final boolean customExceptionListener;
+    private ReplExceptionListener exceptionListener;
     private ProcessStack stack;
     private Frame instance;
+    private StringBuilder history;
 
-    Repl(Context context, ExpressionParser expressionParser, Supplier<Process> processSupplier, ThrowingFunction<ProcessStack, Object, Exception> instanceSupplier) throws Exception {
-        this.context = context;
-        this.expressionParser = expressionParser;
-        this.processSupplier = processSupplier;
-        this.instanceSupplier = instanceSupplier;
+    Repl(ReplCreator creator) throws Exception {
+        this.context = creator.context;
+        this.expressionParser = context.getComponent(Components.EXPRESSION);
+        this.processSupplier = creator.processSupplier;
+        this.instanceSupplier = creator.instanceSupplier;
+        this.exceptionListener = creator.exceptionListener;
+        this.customExceptionListener = exceptionListener != null;
         this.regenerate();
     }
 
@@ -70,6 +78,12 @@ public final class Repl {
         this.history = new StringBuilder();
         this.stack = new PandaProcessStack(processSupplier.get(), PandaRuntimeConstants.DEFAULT_STACK_SIZE);
         this.instance = context.getComponent(Components.SCOPE).getFramedScope().revive(stack, instanceSupplier.apply(stack));
+
+        if (!customExceptionListener) {
+            this.exceptionListener = (exception, runtime) -> {
+                context.getComponent(Components.ENVIRONMENT).getMessenger().send(runtime ? new PandaProcessFailure(stack, exception) : exception);
+            };
+        }
     }
 
     /**
@@ -77,9 +91,8 @@ public final class Repl {
      *
      * @param source the source to evaluate
      * @return collection of repl results
-     * @throws Exception if something happen
      */
-    public Collection<ReplResult> evaluate(String source) throws Exception {
+    public Collection<ReplResult> evaluate(String source) {
         return source.startsWith("!!") ? Collections.singletonList(evaluateCommand(source)) : evaluateSource(source);
     }
 
@@ -103,27 +116,56 @@ public final class Repl {
         return new ReplResult(Type.SHELL, result);
     }
 
-    private Collection<ReplResult> evaluateSource(String source) throws Exception {
-        Snippet[] expressions = PandaLexerUtils.convert(source).split(Separators.SEMICOLON);
+    private Collection<ReplResult> evaluateSource(String source) {
+        if (source.trim().isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        Snippet[] expressions = PandaLexerUtils.convert("REPL source", source).split(Separators.SEMICOLON);
         Collection<ReplResult> collection = new ArrayList<>(expressions.length);
 
         for (Snippet expressionSource : expressions) {
-            collection.add(evaluateExpression(expressionSource));
+            ReplResult result = evaluateExpression(expressionSource);
+
+            if (result.getType() == null) {
+                continue;
+            }
+
+            collection.add(result);
             history.append(expressionSource.toString()).append(System.lineSeparator());
         }
 
         return collection;
     }
 
-    private ReplResult evaluateExpression(Snippet expressionSource) throws Exception {
+    private ReplResult evaluateExpression(Snippet expressionSource) {
         context.withComponent(Components.CURRENT_SOURCE, expressionSource);
-        Expression expression = expressionParser.parse(context, expressionSource).getExpression();
+        Expression expression;
 
-        Result<?> result = stack.call(instance, instance, () -> {
-            return new Result<>(Status.RETURN, expression.evaluate(stack, instance));
-        });
+        try {
+            expression = expressionParser.parse(context, expressionSource).getExpression();
+        } catch (Exception e) {
+            exceptionListener.onException(e, false);
+            return ReplResult.NONE;
+        }
 
-        return new ReplResult(Type.PANDA, result != null ? result.getResult() : null);
+        try {
+            SourceLocation location = new PandaSourceLocation(new PandaSource("REPL source", history.toString(), true), 0, 0);
+            Statement statement = new ReplStatement(location, expression);
+
+            Result<?> result = stack.call(instance, instance, () -> {
+                return stack.call(instance, statement);
+            });
+
+            if (result == null) {
+                return ReplResult.NONE;
+            }
+
+            return new ReplResult(Type.PANDA, result.getResult());
+        } catch (Exception e) {
+            exceptionListener.onException(e, true);
+            return ReplResult.NONE;
+        }
     }
 
     /**

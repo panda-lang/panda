@@ -16,6 +16,7 @@
 
 package org.panda_lang.framework.design.interpreter.parser;
 
+import org.panda_lang.framework.FrameworkController;
 import org.panda_lang.framework.design.architecture.Application;
 import org.panda_lang.framework.design.architecture.Environment;
 import org.panda_lang.framework.design.architecture.Script;
@@ -35,6 +36,11 @@ import org.panda_lang.framework.design.interpreter.token.SourceStream;
  * The most common components available in the context
  */
 public final class Components {
+
+    /**
+     * Represents the framework controller
+     */
+    public static final ContextComponent<FrameworkController> CONTROLLER = ContextComponent.of("controller", FrameworkController.class);
 
     /**
      * Represents the interpretation process

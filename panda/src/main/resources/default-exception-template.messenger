@@ -1,7 +1,7 @@
 
 &b- - ~ ~< Exception >~ ~ - -&r
 
-Caused by: {{message}}
+{{message}}
 
 Stacktrace: {{stacktrace-elements.default}}
 

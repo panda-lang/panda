@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressionUtils;
@@ -31,16 +32,16 @@ import java.util.HashMap;
 class OperationExpressionTest {
 
     private static final ExpressionParser PARSER = new PandaExpressionParser(PandaExpressionUtils.collectSubparsers());
-
+    private static final Snippet SOURCE = PandaLexerUtils.convert(OperationExpressionTest.class.getSimpleName(), "1 + 2");
     @Test
     void testMathOperation() throws Exception {
-        Expression expression = PARSER.parse(ExpressionContextUtils.createFakeContext((context -> new HashMap<>())), PandaLexerUtils.convert("1 + 2")).getExpression();
+        Expression expression = PARSER.parse(ExpressionContextUtils.createFakeContext((context -> new HashMap<>())), SOURCE).getExpression();
         Assertions.assertEquals((Object) 3, expression.evaluate(null, null));
     }
 
     @Test
     void test100M() throws Exception {
-        Expression expression = PARSER.parse(ExpressionContextUtils.createFakeContext((context -> new HashMap<>())), PandaLexerUtils.convert("1 + 1")).getExpression();
+        Expression expression = PARSER.parse(ExpressionContextUtils.createFakeContext((context -> new HashMap<>())), SOURCE).getExpression();
         long time = System.nanoTime();
 
         for (int times = 0; times < 100_000_000; times++) {

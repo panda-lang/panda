@@ -23,6 +23,8 @@ import org.panda_lang.utilities.commons.ArrayUtils;
  */
 public final class ReplResult {
 
+    static final ReplResult NONE = new ReplResult(null, null);
+
     /**
      * Type of result
      */

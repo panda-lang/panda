@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ope
 
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNOperationAction;
 
 public final class DivisionOperation extends MathOperation {
@@ -28,21 +28,25 @@ public final class DivisionOperation extends MathOperation {
         return new MathOperationAction(returnType) {
             @Override
             public Object get(ProcessStack stack, Number a, Number b) {
-                switch (priority) {
-                    case INT:
-                        return a.intValue() / b.intValue();
-                    case DOUBLE:
-                        return a.doubleValue() / b.doubleValue();
-                    case LONG:
-                        return a.longValue() / b.longValue();
-                    case FLOAT:
-                        return a.floatValue() / b.floatValue();
-                    case BYTE:
-                        return a.byteValue() / b.byteValue();
-                    case SHORT:
-                        return a.shortValue() / b.shortValue();
-                    default:
-                        throw new PandaParserException("Unknown type " + priority);
+                try {
+                    switch (priority) {
+                        case INT:
+                            return a.intValue() / b.intValue();
+                        case DOUBLE:
+                            return a.doubleValue() / b.doubleValue();
+                        case LONG:
+                            return a.longValue() / b.longValue();
+                        case FLOAT:
+                            return a.floatValue() / b.floatValue();
+                        case BYTE:
+                            return a.byteValue() / b.byteValue();
+                        case SHORT:
+                            return a.shortValue() / b.shortValue();
+                        default:
+                            throw new PandaRuntimeException("Unknown type " + priority);
+                    }
+                } catch (ArithmeticException exception) {
+                    throw new PandaRuntimeException("Illegal arithmetic operation: " + exception.getMessage(), exception);
                 }
             }
         };
