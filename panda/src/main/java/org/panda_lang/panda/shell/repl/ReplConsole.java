@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.shell.repl;
 
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaConstants;
 
@@ -40,8 +41,16 @@ public final class ReplConsole {
         Scanner scanner = new Scanner(input);
 
         while (scanner.hasNextLine()) {
-            Collection<ReplResult> results = repl.evaluate(scanner.nextLine());
-            ReplUtils.print(panda, results);
+            try {
+                Collection<ReplResult> results = repl.evaluate(scanner.nextLine());
+                ReplUtils.print(panda, results);
+            } catch (PandaParserFailure failure) {
+                panda.getLogger().error(failure.getMessage());
+
+                if (failure.getNote() != null) {
+                    panda.getLogger().error("Note: " + failure.getNote());
+                }
+            }
         }
 
         panda.getLogger().info("REPL has been terminated");

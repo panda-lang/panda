@@ -103,7 +103,7 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
 
                 return result;
             } catch (PandaParserFailure e) {
-                return ExpressionResult.error("Cannot parse assigned expression - " + e.getMessage(), expressionSource.getOriginalSource());
+                return ExpressionResult.error("Cannot parse assigned expression - " + e.getMessage() + (e.hasNote() ? ". Note: " + e.getNote() : ""), expressionSource.getOriginalSource());
             } catch (Exception e) {
                 throw new PandaParserException("Cannot parser assigned expression: " + e.getMessage(), e);
                 //return ExpressionResult.error("Cannot parse assigned expression - " + e.getMessage(), expressionSource.getOriginalSource());

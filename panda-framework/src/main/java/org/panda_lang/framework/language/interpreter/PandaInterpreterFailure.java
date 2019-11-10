@@ -31,10 +31,6 @@ public class PandaInterpreterFailure extends InterpreterFailure {
         this.note = note;
     }
 
-    public PandaInterpreterFailure(IndicatedSource indicatedSource, String message) {
-        this(indicatedSource, message, null);
-    }
-
     @Override
     public @Nullable String getNote() {
         return note;

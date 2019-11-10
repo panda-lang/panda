@@ -24,6 +24,15 @@ import org.jetbrains.annotations.Nullable;
 public interface Failure {
 
     /**
+     * Check if failure contains a note
+     *
+     * @return true if note is not null, otherwise false
+     */
+    default boolean hasNote() {
+        return getNote() != null;
+    }
+
+    /**
      * Get additional information about the failure
      *
      * @return the note
