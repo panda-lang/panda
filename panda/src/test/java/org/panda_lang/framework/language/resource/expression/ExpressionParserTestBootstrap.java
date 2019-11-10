@@ -72,7 +72,7 @@ class ExpressionParserTestBootstrap {
     }
 
     protected static void parse(String src) {
-        Snippet source = PandaLexerUtils.convert(src);
+        Snippet source = PandaLexerUtils.convert(ExpressionParserTestBootstrap.class.getSimpleName(), src);
         SourceStream stream = new PandaSourceStream(source);
 
         DATA.withComponent(Components.SOURCE, source);

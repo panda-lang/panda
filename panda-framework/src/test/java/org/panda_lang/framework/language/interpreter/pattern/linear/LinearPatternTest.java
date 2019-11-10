@@ -108,7 +108,7 @@ class LinearPatternTest {
     }
 
     private static Snippet of(String source) {
-        return PandaLexerUtils.convert(source);
+        return PandaLexerUtils.convert(LinearPatternTest.class.getSimpleName(), source);
     }
 
 }

@@ -1,8 +1,7 @@
 
 &b- - ~ ~< Lexer Failure >~ ~ - -&r
 
-Caused by:
-  {{message}}
+{{message}}
 
 Source:
   {{source}}

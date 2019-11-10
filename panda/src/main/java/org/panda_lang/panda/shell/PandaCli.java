@@ -53,6 +53,9 @@ final class PandaCli implements ThrowingRunnable {
     @Option(names = { "--repl", "-R" }, description = "open interactive shell")
     private boolean repl;
 
+    @Option(names = { "--simplified-repl", "-S"}, description = "open interactive shell with simplified errors")
+    private boolean simplifiedRepl;
+
     public PandaCli(PandaShell shell) {
         this.shell = shell;
     }
@@ -75,15 +78,15 @@ final class PandaCli implements ThrowingRunnable {
             return;
         }
 
-        if (!repl && script == null) {
+        if (!repl && !simplifiedRepl && script == null) {
             shell.getLogger().warn("Missing or unknown operation");
             return;
         }
 
         Panda panda = new PandaFactory().createPanda(shell.getLogger());
 
-        if (repl) {
-            ReplConsole console = new ReplConsole(panda, shell.getInput());
+        if (repl || simplifiedRepl) {
+            ReplConsole console = new ReplConsole(panda, shell.getInput(), simplifiedRepl);
             console.launch();
             return;
         }

@@ -17,13 +17,15 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn;
 
 import org.panda_lang.framework.PandaFrameworkException;
-import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
-import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
 import org.panda_lang.framework.design.architecture.expression.ExpressionValueType;
-import org.panda_lang.framework.language.resource.syntax.operator.Operator;
+import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.expression.AbstractDynamicExpression;
 import org.panda_lang.framework.language.architecture.expression.PandaExpression;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.language.resource.syntax.operator.Operator;
 import org.panda_lang.utilities.commons.ObjectUtils;
 
 import java.util.Map;
@@ -33,7 +35,7 @@ public final class RPNOperationRectifier {
 
     private static final RPNOperationRectifier RECTIFIER = new RPNOperationRectifier();
 
-    public Expression rectify(Map<Operator, RPNOperationSupplier> suppliers, Stack<?> elements) {
+    public Expression rectify(Context context, Map<Operator, RPNOperationSupplier> suppliers, Stack<?> elements) {
         Stack<Expression> values = new Stack<>();
 
         for (Object element : elements) {
@@ -55,7 +57,12 @@ public final class RPNOperationRectifier {
             RPNOperationAction<?, ?, ?> action = supplier.of(a, b);
 
             if(a.getType() == ExpressionValueType.CONST && b.getType() == ExpressionValueType.CONST) {
-                values.push(new PandaExpression(action.returnType(), action.get(null, ExpressionUtils.evaluateConstExpression(a), ExpressionUtils.evaluateConstExpression(b))));
+                try {
+                    values.push(new PandaExpression(action.returnType(), action.get(null, ExpressionUtils.evaluateConstExpression(a), ExpressionUtils.evaluateConstExpression(b))));
+                } catch (Exception e) {
+                    throw new PandaParserFailure(context, "Cannot evaluate static expression: " + e.getMessage());
+                }
+
                 continue;
             }
 

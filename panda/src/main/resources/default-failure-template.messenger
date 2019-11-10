@@ -15,7 +15,7 @@ Source:
 Location:
   Panda: {{location}} at line {{line}}:{{index}}
 
-Stack: {{stacktrace-elements.trimmed}}
+{{exception.short}}
 
 Environment: {{environment}}
 

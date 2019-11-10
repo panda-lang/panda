@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.shell.repl;
 
-import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaConstants;
 
@@ -28,29 +27,25 @@ public final class ReplConsole {
 
     private final Panda panda;
     private final InputStream input;
+    private final boolean simplified;
 
-    public ReplConsole(Panda panda, InputStream input) {
+    public ReplConsole(Panda panda, InputStream input, boolean simplified) {
         this.panda = panda;
         this.input = input;
+        this.simplified = simplified;
     }
 
     public void launch() throws Exception {
+        Scanner scanner = new Scanner(input);
         panda.getLogger().info("Panda " + PandaConstants.VERSION + " REPL");
 
-        Repl repl = Repl.creator(panda).create();
-        Scanner scanner = new Scanner(input);
+        Repl repl = Repl.creator(panda)
+                .withCustomExceptionListener(simplified ? (exception, runtime) -> panda.getLogger().error(exception.getMessage()) : null)
+                .create();
 
         while (scanner.hasNextLine()) {
-            try {
-                Collection<ReplResult> results = repl.evaluate(scanner.nextLine());
-                ReplUtils.print(panda, results);
-            } catch (PandaParserFailure failure) {
-                panda.getLogger().error(failure.getMessage());
-
-                if (failure.getNote() != null) {
-                    panda.getLogger().error("Note: " + failure.getNote());
-                }
-            }
+            Collection<ReplResult> results = repl.evaluate(scanner.nextLine());
+            ReplUtils.print(panda, results);
         }
 
         panda.getLogger().info("REPL has been terminated");

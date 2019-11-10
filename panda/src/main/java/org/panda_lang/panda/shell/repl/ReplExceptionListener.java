@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.architecture.dynamic;
+package org.panda_lang.panda.shell.repl;
 
 /**
- * Specific type of statement that contains status code considered by the process of execution
+ * Handle exceptions on your own
  */
-public interface Controller extends Executable {
+@FunctionalInterface
+public interface ReplExceptionListener {
 
     /**
-     * Get represented status code
+     * Called when an exception occurs
      *
-     * @return the status code
-     * @see org.panda_lang.framework.design.runtime.Status
+     * @param exception the caught exception
+     * @param runtime tells if exception occurred during at runtime (execution time), otherwise it happened during the interpretation time
      */
-    byte getStatusCode();
+    void onException(Exception exception, boolean runtime);
 
 }

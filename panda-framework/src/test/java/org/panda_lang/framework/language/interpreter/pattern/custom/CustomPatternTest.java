@@ -42,8 +42,6 @@ import java.util.Collections;
 
 class CustomPatternTest {
 
-    private static final Context CONTEXT = new PandaContext().withComponent(Components.EXPRESSION, new PandaExpressionParser(Collections::emptyList));
-
     @Test
     void method() {
         CustomPattern customPattern = CustomPattern.of(
@@ -55,11 +53,11 @@ class CustomPatternTest {
                 SectionElement.create("body")
         );
 
-        Snippet source = PandaLexerUtils.convert("shared static String[] of(String a, Int[] b) { /* content */ } another content");
+        Snippet source = convert("shared static String[] of(String a, Int[] b) { /* content */ } another content");
         Result result = customPattern.match(source);
 
         Assertions.assertTrue(result.isMatched());
-        Assertions.assertEquals(PandaLexerUtils.convert("shared static String[] of(String a, Int[] b) { /* content */ }"), result.getSource());
+        Assertions.assertEquals(convert("shared static String[] of(String a, Int[] b) { /* content */ }"), result.getSource());
 
         Assertions.assertAll(
                 () -> Assertions.assertEquals("shared", result.get("visibility").toString()),
@@ -89,7 +87,7 @@ class CustomPatternTest {
                 )
         );
 
-        Result result = pattern.match(PandaLexerUtils.convert("local mut Test testField"));
+        Result result = pattern.match(convert("local mut Test testField"));
         Assertions.assertTrue(result.isMatched());
     }
 
@@ -105,8 +103,12 @@ class CustomPatternTest {
                 )
         );
 
-        Result result = pattern.match(PandaLexerUtils.convert("if ( )"));
+        Result result = pattern.match(convert("if ( )"));
         Assertions.assertTrue(result.isMatched());
+    }
+
+    private Snippet convert(String source) {
+        return PandaLexerUtils.convert(CustomPatternTest.class.getSimpleName(), source);
     }
 
 }

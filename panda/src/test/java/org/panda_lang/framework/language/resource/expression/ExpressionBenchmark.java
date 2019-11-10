@@ -39,7 +39,7 @@ import org.panda_lang.panda.util.BenchmarkUtils;
 @SuppressWarnings("CanBeFinal")
 public class ExpressionBenchmark extends ExpressionParserTestBootstrap {
 
-    private static final Snippet SOURCE = PandaLexerUtils.convert("variable.toString().toString().toString().toString()");
+    private static final Snippet SOURCE = PandaLexerUtils.convert(ExpressionBenchmark.class.getSimpleName(), "variable.toString().toString().toString().toString()");
 
     @Benchmark
     public void testParser(Configuration configuration, Blackhole blackhole) {

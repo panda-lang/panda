@@ -30,17 +30,25 @@ import org.panda_lang.framework.language.interpreter.parser.PandaContext;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.interpreter.parser.generation.PandaGeneration;
+import org.panda_lang.panda.language.architecture.PandaEnvironment;
 import org.panda_lang.panda.language.architecture.PandaScript;
-import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressionUtils;
 import org.panda_lang.panda.language.resource.ResourcesLoader;
+import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressionUtils;
+
+import java.io.File;
 
 public final class PandaContextUtils {
 
     private PandaContextUtils() { }
 
     public static Context createStubContext(FrameworkController frameworkController) {
-        Context context = new PandaContext();
-        context.withComponent(Components.EXPRESSION, new PandaExpressionParser(PandaExpressionUtils.collectSubparsers()));
+        PandaEnvironment environment = new PandaEnvironment(frameworkController, new File("."));
+        environment.initialize();
+
+        Context context = new PandaContext()
+                .withComponent(Components.CONTROLLER, frameworkController)
+                .withComponent(Components.ENVIRONMENT, environment)
+                .withComponent(Components.EXPRESSION, new PandaExpressionParser(PandaExpressionUtils.collectSubparsers()));
 
         ModulePath path = new PandaModulePath();
         ResourcesLoader resourcesLoader = new ResourcesLoader();

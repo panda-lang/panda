@@ -34,8 +34,7 @@ import org.panda_lang.framework.language.interpreter.lexer.PandaLexerUtils;
 @SuppressWarnings("CanBeFinal")
 public class LinearPatternVsDescriptiveBenchmark {
 
-    private static final Snippet SOURCE = PandaLexerUtils.convert("if ( true )");
-
+    private static final Snippet SOURCE = PandaLexerUtils.convert(LinearPatternVsDescriptiveBenchmark.class.getSimpleName(), "if ( true )");
     private static final LinearPattern LINEAR = LinearPattern.compile("if ( content:* )");
     private static final DescriptivePattern DESCRIPTIVE = DescriptivePattern.builder().compile("if `( <*content> `)").build();
 
