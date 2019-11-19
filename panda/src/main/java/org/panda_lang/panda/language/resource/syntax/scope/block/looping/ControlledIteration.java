@@ -16,23 +16,35 @@
 
 package org.panda_lang.panda.language.resource.syntax.scope.block.looping;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.dynamic.ControlledScope;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Result;
 import org.panda_lang.framework.design.runtime.Status;
+import org.panda_lang.utilities.commons.function.ThrowingRunnable;
 import org.panda_lang.utilities.commons.function.ThrowingSupplier;
 
 final class ControlledIteration {
 
     private final ThrowingSupplier<Boolean, Exception> condition;
+    private final ThrowingRunnable<Exception> after;
+
+    ControlledIteration(ThrowingSupplier<Boolean, Exception> condition, @Nullable ThrowingRunnable<Exception> after) {
+        this.condition = condition;
+        this.after = after;
+    }
 
     ControlledIteration(ThrowingSupplier<Boolean, Exception> condition) {
-        this.condition = condition;
+        this(condition, null);
     }
 
     protected Result<?> iterate(ProcessStack stack, Object instance, ControlledScope scope) throws Exception {
         while (condition.get()) {
             Result<?> result = stack.call(instance, scope);
+
+            if (after != null) {
+                after.run();
+            }
 
             if (result == null || result.getStatus() == Status.CONTINUE) {
                 continue;

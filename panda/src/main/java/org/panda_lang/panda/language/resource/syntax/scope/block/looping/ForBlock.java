@@ -44,15 +44,10 @@ final class ForBlock extends AbstractBlock implements ControlledScope {
             initializationStatement.evaluate(stack, instance);
         }
 
-        return new ControlledIteration(() -> {
-            boolean condition = conditionExpression.evaluate(stack, instance);
-
-            if (condition) {
-                evaluate(stack, instance, postExpression);
-            }
-
-            return condition;
-        }).iterate(stack, instance, this);
+        return new ControlledIteration(
+                () -> conditionExpression.evaluate(stack, instance),
+                () -> evaluate(stack, instance, postExpression)
+        ).iterate(stack, instance, this);
     }
 
     private @Nullable Object evaluate(ProcessStack stack, Object instance, @Nullable Expression expression) throws Exception {
