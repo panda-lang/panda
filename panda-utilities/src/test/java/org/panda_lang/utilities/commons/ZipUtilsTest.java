@@ -19,8 +19,8 @@ package org.panda_lang.utilities.commons;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.panda_lang.utilities.commons.collection.Node;
 import org.panda_lang.utilities.commons.collection.Sets;
-import org.panda_lang.utilities.commons.collection.map.TreeNode;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -46,7 +46,7 @@ class ZipUtilsTest {
         File directory = new File(outputDirectory, "directory");
         Assertions.assertTrue(directory.exists());
 
-        TreeNode<File> map = FileUtils.collectFiles(directory);
+        Node<File> map = FileUtils.collectFiles(directory);
         Assertions.assertEquals("directory", map.getElement().getName());
 
         Set<String> files = map.collectLeafs(File::isFile).stream()
@@ -54,4 +54,5 @@ class ZipUtilsTest {
                 .collect(Collectors.toSet());
         Assertions.assertEquals(Sets.newHashSet("1.txt", "2.txt"), files);
     }
+
 }

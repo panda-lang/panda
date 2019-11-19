@@ -16,7 +16,7 @@
 
 package org.panda_lang.utilities.commons;
 
-import org.panda_lang.utilities.commons.collection.map.TreeNode;
+import org.panda_lang.utilities.commons.collection.Node;
 
 import java.io.File;
 import java.io.IOException;
@@ -154,8 +154,8 @@ public final class FileUtils {
      * @param directory root
      * @return tree node of collected files
      */
-    public static TreeNode<File> collectFiles(File directory) {
-        TreeNode<File> tree = new TreeNode<>(directory);
+    public static Node<File> collectFiles(File directory) {
+        Node<File> tree = new Node<>(directory);
 
         if (!directory.isDirectory()) {
             return tree;
@@ -168,7 +168,7 @@ public final class FileUtils {
         }
 
         for (File file : files) {
-            tree.add(file.isDirectory() ? collectFiles(file) : new TreeNode<>(file));
+            tree.add(file.isDirectory() ? collectFiles(file) : new Node<>(file));
         }
 
         return tree;

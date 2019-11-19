@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package org.panda_lang.utilities.commons.collection.map;
+package org.panda_lang.utilities.commons.collection;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
 
-public final class TreeNode<T> {
+public final class Node<T> {
 
     private final T element;
-    private final Set<TreeNode<T>> children;
+    private final Set<Node<T>> children;
 
-    public TreeNode(T element) {
+    public Node(T element) {
         this.element = element;
         this.children = new HashSet<>();
     }
@@ -34,7 +34,7 @@ public final class TreeNode<T> {
     public Set<T> collectLeafs(Predicate<T> filter) {
         Set<T> leafs = new HashSet<>();
 
-        for (TreeNode<T> child : children) {
+        for (Node<T> child : children) {
             leafs.addAll(child.collectLeafs(filter));
         }
 
@@ -45,11 +45,11 @@ public final class TreeNode<T> {
         return leafs;
     }
 
-    public void add(TreeNode<T> node) {
+    public void add(Node<T> node) {
         this.children.add(node);
     }
 
-    public void add(Collection<TreeNode<T>> nodes) {
+    public void add(Collection<Node<T>> nodes) {
         this.children.addAll(nodes);
     }
 
@@ -57,7 +57,7 @@ public final class TreeNode<T> {
         return children.isEmpty();
     }
 
-    public Set<TreeNode<T>> getChildren() {
+    public Set<Node<T>> getChildren() {
         return children;
     }
 
