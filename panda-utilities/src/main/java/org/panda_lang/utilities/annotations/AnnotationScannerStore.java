@@ -17,7 +17,7 @@
 package org.panda_lang.utilities.annotations;
 
 import javassist.bytecode.ClassFile;
-import org.panda_lang.utilities.commons.collection.map.Multimap;
+import org.panda_lang.utilities.commons.collection.Multimap;
 
 import java.util.Collection;
 import java.util.HashMap;
