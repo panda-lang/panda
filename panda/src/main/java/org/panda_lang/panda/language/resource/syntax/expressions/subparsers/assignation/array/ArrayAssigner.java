@@ -41,7 +41,7 @@ public final class ArrayAssigner implements DynamicExpression {
             throw new PandaRuntimeException("Index cannot be null");
         }
 
-        return accessor.getArrayInstance(stack, instance)[index] = value.evaluate(stack, instance);
+        return accessor.getArrayInstance(stack,  instance)[index] = value.evaluate(stack, instance);
     }
 
     @Override
