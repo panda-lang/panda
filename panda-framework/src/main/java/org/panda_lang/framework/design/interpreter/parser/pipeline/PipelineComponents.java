@@ -16,6 +16,8 @@
 
 package org.panda_lang.framework.design.interpreter.parser.pipeline;
 
+import org.panda_lang.framework.PandaFrameworkException;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -37,7 +39,7 @@ public interface PipelineComponents {
                     try {
                         return (PipelineComponent<?>) field.get(this);
                     } catch (IllegalAccessException e) {
-                        throw new RuntimeException(e);
+                        throw new PandaFrameworkException(e);
                     }
                 })
                 .collect(Collectors.toList());

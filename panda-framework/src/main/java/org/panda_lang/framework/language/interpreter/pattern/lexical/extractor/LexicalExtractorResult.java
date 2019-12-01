@@ -17,6 +17,7 @@
 package org.panda_lang.framework.language.interpreter.pattern.lexical.extractor;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.language.interpreter.pattern.PatternResult;
 import org.panda_lang.framework.language.interpreter.pattern.lexical.processed.ProcessedValue;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
@@ -49,7 +50,7 @@ public final class LexicalExtractorResult<T> implements PatternResult {
 
     public void merge(LexicalExtractorResult<T> result) {
         if (!result.isMatched()) {
-            throw new RuntimeException("Cannot merge unmatched result");
+            throw new PandaFrameworkException("Cannot merge unmatched result");
         }
 
         processedValues.addAll(result.processedValues);

@@ -16,6 +16,7 @@
 
 package org.panda_lang.framework.language.interpreter.pattern.lexical;
 
+import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.framework.language.interpreter.pattern.lexical.processed.WildcardProcessor;
 
@@ -29,7 +30,7 @@ public final class LexicalPatternBuilder<T> {
         LexicalPatternElement compiledPattern = compiler.compile(pattern);
 
         if (compiledPattern == null) {
-            throw new RuntimeException("Cannot compile pattern: " + pattern);
+            throw new PandaFrameworkException("Cannot compile pattern: " + pattern);
         }
 
         this.pattern = compiledPattern;

@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions;
 
+import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparsers;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionSubparsers;
@@ -38,7 +39,7 @@ public final class PandaExpressionUtils {
                     try {
                         return (ExpressionSubparser) clazz.newInstance();
                     } catch (InstantiationException | IllegalAccessException e) {
-                        throw new RuntimeException(e);
+                        throw new PandaFrameworkException(e);
                     }
                 })
                 .collect(Collectors.toList()));

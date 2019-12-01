@@ -19,6 +19,7 @@ package org.panda_lang.framework.language.resource.expression;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Components;
@@ -82,7 +83,7 @@ class ExpressionParserTestBootstrap {
         Expression expression = PARSER.parse(DATA, stream).getExpression();
 
         if (stream.hasUnreadSource()) {
-            throw new RuntimeException("Unread source: " + stream.toSnippet());
+            throw new PandaFrameworkException("Unread source: " + stream.toSnippet());
         }
 
         System.out.println(source + ": " + expression);

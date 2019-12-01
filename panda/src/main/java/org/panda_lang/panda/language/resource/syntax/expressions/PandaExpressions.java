@@ -36,6 +36,9 @@ import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assi
 
 public final class PandaExpressions {
 
+    /**
+     * Array of default expression subparsers
+     */
     public static final Class<? extends ExpressionSubparser>[] SUBPARSERS = PandaParsersUtils.of(
             ArrayValueExpressionSubparser.class,
             AssignationExpressionSubparser.class,

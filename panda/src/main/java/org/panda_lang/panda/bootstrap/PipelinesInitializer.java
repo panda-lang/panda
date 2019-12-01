@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.bootstrap;
 
+import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponents;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
@@ -52,7 +53,7 @@ public final class PipelinesInitializer implements Initializer {
                     path.createPipeline(component);
                 }
             } catch (InstantiationException | IllegalAccessException e) {
-                throw new RuntimeException("Cannot create instance of pipelines container: " + e.getMessage());
+                throw new PandaFrameworkException("Cannot create instance of pipelines container: " + e.getMessage());
             }
         }
 

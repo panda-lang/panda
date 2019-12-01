@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parser;
 
+import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.parser.ParserRepresentation;
@@ -76,7 +77,7 @@ public final class RegistrableParsersLoader {
         try {
             return loadParsersInternal(path, parsers);
         } catch (Exception e) {
-            throw new RuntimeException("Cannot load parsers: " + e.getMessage(), e);
+            throw new PandaFrameworkException("Cannot load parsers: " + e.getMessage(), e);
         }
     }
 

@@ -16,6 +16,7 @@
 
 package org.panda_lang.framework.language.interpreter.pattern.descriptive.extractor;
 
+import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternNode;
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.utils.TokenDistributor;
@@ -29,7 +30,7 @@ final class VariantExtractor extends AbstractElementExtractor<LexicalPatternNode
     @Override
     public ExtractorResult extract(LexicalPatternNode element, TokenDistributor distributor) {
         if (!element.isVariant()) {
-            throw new RuntimeException("The specified node is not marked as a variant node");
+            throw new PandaFrameworkException("The specified node is not marked as a variant node");
         }
 
         int index = distributor.getIndex();
