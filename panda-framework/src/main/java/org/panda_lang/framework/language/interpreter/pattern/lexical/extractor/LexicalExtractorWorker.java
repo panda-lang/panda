@@ -17,6 +17,7 @@
 package org.panda_lang.framework.language.interpreter.pattern.lexical.extractor;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternNode;
@@ -79,7 +80,7 @@ public final class LexicalExtractorWorker<T> {
 
     private LexicalExtractorResult<T> matchVariant(LexicalPatternNode variantNode, String phrase) {
         if (!variantNode.isVariant()) {
-            throw new RuntimeException("The specified node is not marked as a variant node");
+            throw new PandaFrameworkException("The specified node is not marked as a variant node");
         }
 
         for (LexicalPatternElement variantElement : variantNode.getElements()) {
@@ -115,7 +116,7 @@ public final class LexicalExtractorWorker<T> {
     }
 
     private @Nullable LexicalExtractorResult<T> extractSection(LexicalPatternSection pattern, String phrase) {
-        throw new RuntimeException("Not impl");
+        throw new PandaFrameworkException("Not impl");
     }
 
 }

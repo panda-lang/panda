@@ -16,6 +16,9 @@
 
 package org.panda_lang.framework;
 
+/**
+ * Exception thrown by the framework
+ */
 public class PandaFrameworkException extends RuntimeException {
 
     public PandaFrameworkException() {

@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.messenger;
 
+import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.interpreter.messenger.Messenger;
 import org.panda_lang.panda.language.interpreter.messenger.template.MicroTemplateEngine;
 
@@ -44,7 +45,7 @@ public final class PandaTranslatorLayoutManager {
             PandaTranslatorLayout<?> layoutInstance = layout.newInstance();
             load(layoutInstance);
         } catch (InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException("Cannot create instance of layout " + layout, e);
+            throw new PandaFrameworkException("Cannot create instance of layout " + layout, e);
         }
     }
 

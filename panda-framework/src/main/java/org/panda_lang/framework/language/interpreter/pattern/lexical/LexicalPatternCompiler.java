@@ -17,6 +17,7 @@
 package org.panda_lang.framework.language.interpreter.pattern.lexical;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternDynamic;
 import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternNode;
@@ -120,7 +121,7 @@ public final class LexicalPatternCompiler {
         }
 
         if (elements.size() == 0) {
-            throw new RuntimeException("Empty element");
+            throw new PandaFrameworkException("Empty element");
         }
 
         return elements.size() == 1 ? elements.get(0) : new LexicalPatternNode(elements);

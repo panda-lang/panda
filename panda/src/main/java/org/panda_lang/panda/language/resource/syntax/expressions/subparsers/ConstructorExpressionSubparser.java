@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.prototype.Adjustment;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
@@ -175,7 +176,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
                 Prototype componentType = baseType.getArrayType();
 
                 if (!(componentType instanceof ArrayPrototype)) {
-                    throw new RuntimeException("Should not happen");
+                    throw new PandaFrameworkException("Should not happen");
                 }
 
                 baseType = (ArrayPrototype) componentType;

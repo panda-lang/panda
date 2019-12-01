@@ -17,6 +17,7 @@
 package org.panda_lang.framework.language.interpreter.pattern.lexical;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.utilities.commons.CharacterUtils;
 import org.panda_lang.utilities.commons.iterable.CharArrayDistributor;
 import org.panda_lang.utilities.commons.text.SectionString.SectionStack;
@@ -48,7 +49,7 @@ final class LexicalPatternCompilerReader extends SectionStack {
         char leftType = distributor.next();
 
         if (!CharacterUtils.belongsTo(leftType, openingSequence)) {
-            throw new RuntimeException("Unknown bracket type: " + leftType);
+            throw new PandaFrameworkException("Unknown bracket type: " + leftType);
         }
 
         StringBuilder content = new StringBuilder();

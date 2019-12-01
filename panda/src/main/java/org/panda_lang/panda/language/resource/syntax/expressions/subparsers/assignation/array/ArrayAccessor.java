@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.array;
 
+import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.runtime.ProcessStack;
@@ -30,7 +31,7 @@ public final class ArrayAccessor implements DynamicExpression {
 
     public ArrayAccessor(Expression instanceExpression, Expression indexExpression) {
         if (!(instanceExpression.getReturnType() instanceof ArrayPrototype)) {
-            throw new RuntimeException("Array required");
+            throw new PandaFrameworkException("Array required");
         }
 
         this.type = ((ArrayPrototype) instanceExpression.getReturnType()).getArrayType();
