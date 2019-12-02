@@ -40,7 +40,7 @@ final class ControlledIteration {
 
     protected Result<?> iterate(ProcessStack stack, Object instance, ControlledScope scope) throws Exception {
         while (condition.get()) {
-            Result<?> result = stack.call(instance, scope);
+            Result<?> result = stack.callScope(instance, scope);
 
             if (after != null) {
                 after.run();

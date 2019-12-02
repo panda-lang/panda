@@ -41,7 +41,7 @@ final class TryCatch extends AbstractExecutableStatement {
     @Override
     public @Nullable Object execute(ProcessStack stack, Object instance) throws Exception {
         try {
-            return stack.call(instance, tryBlock);
+            return stack.callScope(instance, tryBlock);
         } catch (Throwable throwable) {
             Data catchData = catchContainers.get(throwable.getClass());
 
@@ -58,9 +58,9 @@ final class TryCatch extends AbstractExecutableStatement {
             }
 
             stack.getCurrentScope().set(catchData.variable.getPointer(), throwable);
-            stack.call(instance, catchData.block);
+            stack.callScope(instance, catchData.block);
         } finally {
-            stack.call(instance, finallyBlock);
+            stack.callScope(instance, finallyBlock);
         }
 
         return null;

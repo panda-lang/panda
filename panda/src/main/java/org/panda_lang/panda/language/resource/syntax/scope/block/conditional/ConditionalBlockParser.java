@@ -16,10 +16,14 @@
 
 package org.panda_lang.panda.language.resource.syntax.scope.block.conditional;
 
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.statement.Block;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
+import org.panda_lang.framework.language.architecture.expression.PandaDynamicExpression;
+import org.panda_lang.framework.language.architecture.expression.PandaExpression;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
 import org.panda_lang.framework.language.interpreter.pattern.custom.Result;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.ExpressionElement;
@@ -67,28 +71,17 @@ public final class ConditionalBlockParser extends BlockSubparserBootstrap {
     }
 
     @Autowired
-    BlockData parse(Context context, @Inter Result result, @Inter SourceLocation location, @Component Scope parent, @Component(BlockComponents.PREVIOUS_BLOCK_LABEL) Block previous) {
-        if (result.has("else") && !result.has("else if")) {
-            ElseBlock elseBlock = new ElseBlock(parent, location);
+    BlockData parse(
+            Context context,
+            @Component Scope parent, @Component ModuleLoader loader, @Component(BlockComponents.PREVIOUS_BLOCK_LABEL) Block previous,
+            @Inter Result result, @Inter SourceLocation location
+    ) {
+        Expression condition = result.has("condition") ? result.get("condition") : new PandaExpression(loader.requirePrototype(Boolean.class), true);
+        ConditionalBlock conditionalBlock = new ConditionalBlock(parent, location, condition);
 
+        if (result.has("else")) {
             if (!(previous instanceof ConditionalBlock)) {
                 throw new PandaParserFailure(context, "The Else-block without associated If-block");
-            }
-
-            ConditionalBlock conditionalBlock = (ConditionalBlock) previous;
-            conditionalBlock.setElseBlock(elseBlock);
-            return new BlockData(elseBlock, true);
-        }
-
-        if (!result.has("condition")) {
-            throw new PandaParserFailure(context, "Empty condition");
-        }
-
-        ConditionalBlock conditionalBlock = new ConditionalBlock(parent, location, result.get("condition"));
-
-        if (result.has("else if")) {
-            if (!(previous instanceof ConditionalBlock)) {
-                throw new PandaParserFailure(context, "The If-Else-block without associated If-block");
             }
 
             ConditionalBlock previousConditionalBlock = (ConditionalBlock) previous;

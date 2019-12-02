@@ -43,7 +43,7 @@ public final class PandaProcess implements Process {
 
         try {
             Frame instance = mainScope.revive(null, null);
-            Result<?> result = stack.call(instance, instance);
+            Result<?> result = stack.callFrame(instance, instance);
             return result != null ? result.getResult() : null;
         } catch (Exception e) {
             application.getEnvironment().getMessenger().send(new PandaProcessFailure(stack, e));
