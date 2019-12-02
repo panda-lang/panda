@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
@@ -38,7 +39,7 @@ public final class OperationExpressionSubparser implements ExpressionSubparser {
     private static final OperationParser OPERATION_PARSER = new OperationParser();
 
     @Override
-    public ExpressionSubparserWorker createWorker() {
+    public ExpressionSubparserWorker createWorker(Context context) {
         return new OperationWorker().withSubparser(this);
     }
 

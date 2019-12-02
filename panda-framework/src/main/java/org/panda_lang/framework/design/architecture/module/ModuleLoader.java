@@ -19,7 +19,7 @@ package org.panda_lang.framework.design.architecture.module;
 import java.util.Optional;
 
 /**
- * ModuleLoader stores all imported modules wrapped into {@link org.panda_lang.framework.design.architecture.module.LoadedModule}
+ * ModuleLoader stores all imported modules wrapped into {@link org.panda_lang.framework.design.architecture.module.Module}
  */
 public interface ModuleLoader extends ModuleResource {
 
@@ -37,7 +37,7 @@ public interface ModuleLoader extends ModuleResource {
      * @param module the module to search for
      * @return loaded module
      */
-    LoadedModule loadIfAbsent(Module module);
+    Module loadIfAbsent(Module module);
 
     /**
      * Get loaded module with given name
@@ -45,7 +45,7 @@ public interface ModuleLoader extends ModuleResource {
      * @param name the name to search for
      * @return the loaded module, otherwise empty optional
      */
-    Optional<LoadedModule> get(String name);
+    Optional<Module> get(String name);
 
     /**
      * Get parent loader

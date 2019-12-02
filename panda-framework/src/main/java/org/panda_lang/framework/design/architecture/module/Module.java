@@ -77,6 +77,13 @@ public interface Module extends Modules, ModuleResource {
     Collection<Entry<String, Reference>> getPrototypes();
 
     /**
+     * Get the loader used to load this module
+     *
+     * @return the module loader
+     */
+    ModuleLoader getModuleLoader();
+
+    /**
      * Get parent module
      *
      * @return the parent module

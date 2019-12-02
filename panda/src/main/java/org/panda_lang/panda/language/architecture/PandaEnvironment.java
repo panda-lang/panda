@@ -18,8 +18,10 @@ package org.panda_lang.panda.language.architecture;
 
 import org.panda_lang.framework.FrameworkController;
 import org.panda_lang.framework.design.architecture.Environment;
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.module.ModulePath;
 import org.panda_lang.framework.design.interpreter.messenger.Messenger;
+import org.panda_lang.framework.language.architecture.module.PandaModuleLoader;
 import org.panda_lang.framework.language.architecture.module.PandaModulePath;
 import org.panda_lang.framework.language.interpreter.messenger.PandaMessenger;
 import org.panda_lang.panda.PandaException;
@@ -35,6 +37,7 @@ public final class PandaEnvironment implements Environment {
     private final File workingDirectory;
     private final Messenger messenger;
     private final ModulePath modulePath;
+    private final ModuleLoader moduleLoader;
     private final PandaInterpreter interpreter;
     private boolean initialized;
 
@@ -43,6 +46,7 @@ public final class PandaEnvironment implements Environment {
         this.workingDirectory = workingDirectory;
         this.messenger = new PandaMessenger(controller.getLogger());
         this.modulePath = new PandaModulePath();
+        this.moduleLoader = new PandaModuleLoader(modulePath);
         this.interpreter = new PandaInterpreter(this);
     }
 
@@ -54,8 +58,8 @@ public final class PandaEnvironment implements Environment {
         this.initialized = true;
         controller.getResources().getMessengerInitializer().onInitialize(messenger);
 
-        ResourcesLoader loader = new ResourcesLoader();
-        loader.load(modulePath);
+        ResourcesLoader resourcesLoader = new ResourcesLoader();
+        resourcesLoader.load(moduleLoader);
     }
 
     @Override
@@ -75,6 +79,11 @@ public final class PandaEnvironment implements Environment {
     @Override
     public ModulePath getModulePath() {
         return modulePath;
+    }
+
+    @Override
+    public ModuleLoader getModuleLoader() {
+        return moduleLoader;
     }
 
     @Override

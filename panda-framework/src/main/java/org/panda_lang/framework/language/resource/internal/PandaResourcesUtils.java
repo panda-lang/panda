@@ -17,7 +17,9 @@
 package org.panda_lang.framework.language.resource.internal;
 
 import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.language.architecture.module.PandaModuleLoader;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototypeUtils;
 
 public final class PandaResourcesUtils {

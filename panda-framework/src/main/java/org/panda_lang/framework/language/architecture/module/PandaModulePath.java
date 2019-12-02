@@ -17,6 +17,7 @@
 package org.panda_lang.framework.language.architecture.module;
 
 import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.module.ModulePath;
 
 import java.util.HashMap;
@@ -50,7 +51,7 @@ public final class PandaModulePath extends PandaModules implements ModulePath {
     }
 
     @Override
-    public Optional<Module> get(String moduleQualifier) {
+    public Optional<Module> get(String moduleQualifier, ModuleLoader loader) {
         Runnable initialize = modules.get(moduleQualifier);
 
         if (initialize != null) {
@@ -58,7 +59,7 @@ public final class PandaModulePath extends PandaModules implements ModulePath {
             initialize.run();
         }
 
-        return super.get(moduleQualifier);
+        return super.get(moduleQualifier, loader);
     }
 
 }

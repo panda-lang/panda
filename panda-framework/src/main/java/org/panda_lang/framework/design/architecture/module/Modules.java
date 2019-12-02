@@ -57,7 +57,7 @@ public interface Modules {
      * @param moduleQualifier the name of module
      * @return the module
      */
-    Optional<Module> get(String moduleQualifier);
+    Optional<Module> get(String moduleQualifier, ModuleLoader loader);
 
     /**
      * Get all names of modules

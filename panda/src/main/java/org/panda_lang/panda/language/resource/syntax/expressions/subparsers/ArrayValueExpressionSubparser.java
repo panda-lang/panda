@@ -18,6 +18,7 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
@@ -25,7 +26,6 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionS
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
-import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.array.ArrayAccessor;
@@ -34,7 +34,7 @@ import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assi
 public final class ArrayValueExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public ExpressionSubparserWorker createWorker() {
+    public ExpressionSubparserWorker createWorker(Context context) {
         return new ArrayValueWorker().withSubparser(this);
     }
 
@@ -88,7 +88,7 @@ public final class ArrayValueExpressionSubparser implements ExpressionSubparser 
             Expression indexExpression = indexTransaction.getExpression();
 
             // require int as index
-            if (!JavaModule.INT.isAssignableFrom(indexExpression.getReturnType())) {
+            if (!Integer.class.isAssignableFrom(indexExpression.getReturnType().getAssociatedClass())) {
                 return ExpressionResult.error("Index of array has to be Integer", section.getContent());
             }
 

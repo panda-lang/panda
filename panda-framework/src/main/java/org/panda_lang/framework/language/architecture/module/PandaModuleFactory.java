@@ -18,26 +18,23 @@ package org.panda_lang.framework.language.architecture.module;
 
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.module.ModulePath;
 
 import java.util.function.Supplier;
 
 public final class PandaModuleFactory {
 
-    private final ModulePath path;
+    private final ModuleLoader loader;
 
-    public PandaModuleFactory(ModulePath path) {
-        this.path = path;
+    public PandaModuleFactory(ModuleLoader loader) {
+        this.loader = loader;
     }
 
     public Module computeIfAbsent(String moduleQualifier) {
-        return PandaModulesUtils.fetch(path, moduleQualifier, true).orElseThrow((Supplier<? extends PandaFrameworkException>) () -> {
+        return PandaModulesUtils.fetch(loader, loader.getPath(), moduleQualifier, true).orElseThrow((Supplier<? extends PandaFrameworkException>) () -> {
             throw new PandaFrameworkException("Cannot fetch module " + moduleQualifier);
         });
-    }
-
-    public ModulePath getPath() {
-        return path;
     }
 
 }

@@ -42,7 +42,7 @@ import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.Abst
 public final class AssignationExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public ExpressionSubparserWorker createWorker() {
+    public ExpressionSubparserWorker createWorker(Context context) {
         return new AssignationExpressionSubparserWorker().withSubparser(this);
     }
 

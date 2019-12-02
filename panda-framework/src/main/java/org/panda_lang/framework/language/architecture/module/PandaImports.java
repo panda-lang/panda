@@ -19,7 +19,6 @@ package org.panda_lang.framework.language.architecture.module;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Imports;
-import org.panda_lang.framework.design.architecture.module.LoadedModule;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
@@ -32,7 +31,7 @@ import java.util.Optional;
 public final class PandaImports implements Imports {
 
     private final ModuleLoader loader;
-    private final Map<String, LoadedModule> importedModules = new HashMap<>();
+    private final Map<String, Module> importedModules = new HashMap<>();
     private final Map<String, Reference> importedPrototypes = new HashMap<>();
 
     public PandaImports(ModuleLoader loader) {
@@ -49,7 +48,7 @@ public final class PandaImports implements Imports {
 
     @Override
     public void importModule(String name) {
-        Optional<Module> module = loader.getPath().get(name);
+        Optional<Module> module = loader.getPath().get(name, loader);
 
         if (!module.isPresent()) {
             throw new PandaFrameworkException("Module " + name + " does not exist");
@@ -92,8 +91,8 @@ public final class PandaImports implements Imports {
             return Optional.of(localPrototype);
         }
 
-        for (LoadedModule value : importedModules.values()) {
-            Optional<Reference> reference = value.forName(name);
+        for (Module module : importedModules.values()) {
+            Optional<Reference> reference = module.forName(name);
 
             if (reference.isPresent()) {
                 return reference;

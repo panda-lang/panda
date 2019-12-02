@@ -48,7 +48,7 @@ public final class WhileParser extends BlockSubparserBootstrap {
 
     @Autowired
     BlockData parseWhile(Context context, @Component Scope parent, @Inter SourceLocation location, @Src("value") Expression expression) {
-        if (!JavaModule.BOOL.isAssignableFrom(expression.getReturnType())) {
+        if (!Boolean.class.isAssignableFrom(expression.getReturnType().getAssociatedClass())) {
             throw new PandaParserException("Loop requires boolean as an argument");
         }
 

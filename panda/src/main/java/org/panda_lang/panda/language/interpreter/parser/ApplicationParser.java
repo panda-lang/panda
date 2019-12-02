@@ -53,9 +53,7 @@ public final class ApplicationParser implements Parser {
     public PandaApplication parse(Source source) {
         Environment environment = interpretation.getInterpreter().getEnvironment();
         Resources resources = environment.getController().getResources();
-
         PandaApplication application = new PandaApplication(environment);
-        ModuleLoader loader = new PandaModuleLoader(environment.getModulePath());
 
         PandaGeneration generation = new PandaGeneration();
         generation.initialize(GenerationCycles.getValues());
@@ -72,20 +70,20 @@ public final class ApplicationParser implements Parser {
                 .withComponent(Components.ENVIRONMENT, environment)
                 .withComponent(Components.INTERPRETATION, interpretation)
                 .withComponent(Components.GENERATION, generation)
-                .withComponent(Components.MODULE_LOADER, loader)
+                .withComponent(Components.MODULE_LOADER, environment.getModuleLoader())
                 .withComponent(Components.PIPELINE, resources.getPipelinePath())
                 .withComponent(Components.EXPRESSION, resources.getExpressionSubparsers().toParser())
                 .withComponent(Components.SOURCES, sources);
 
         for (Source current : sources) {
-            PandaScript script = new PandaScript(current.getId(), new PandaModuleLoader(loader));
+            PandaScript script = new PandaScript(current.getId(), new PandaModuleLoader(environment.getModuleLoader()));
             application.addScript(script);
 
             interpretation.execute(() -> {
                 Snippet snippet = lexer.convert(current);
                 SourceStream stream = new PandaSourceStream(snippet);
 
-                Imports imports = new PandaImports(loader);
+                Imports imports = new PandaImports(environment.getModuleLoader());
                 imports.importModule("java");
                 imports.importModule("panda");
 

@@ -17,7 +17,6 @@
 package org.panda_lang.framework.language.architecture.module;
 
 import org.panda_lang.framework.PandaFrameworkException;
-import org.panda_lang.framework.design.architecture.module.LoadedModule;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.module.ModulePath;
@@ -34,10 +33,10 @@ public final class PandaModuleLoader implements ModuleLoader {
 
     private final ModulePath path;
     private final ModuleLoader parent;
-    private final Map<String, LoadedModule> loadedModules = new HashMap<>(2);
+    private final Map<String, Module> modules = new HashMap<>(2);
 
-    public PandaModuleLoader(ModuleLoader loader) {
-        this(loader.getPath(), loader);
+    public PandaModuleLoader(ModuleLoader parent) {
+        this(parent.getPath(), parent);
     }
 
     public PandaModuleLoader(ModulePath path) {
@@ -49,8 +48,8 @@ public final class PandaModuleLoader implements ModuleLoader {
         this.parent = parent;
     }
 
-    public LoadedModule load(String name) {
-        return path.get(name)
+    public Module load(String name) {
+        return path.get(name, this)
                 .map(this::loadIfAbsent)
                 .orElseThrow((Supplier<? extends PandaFrameworkException>) () -> {
                     throw new PandaFrameworkException("Module '" + name + "' does not exist");
@@ -58,7 +57,7 @@ public final class PandaModuleLoader implements ModuleLoader {
     }
 
     @Override
-    public LoadedModule loadIfAbsent(Module module) {
+    public Module loadIfAbsent(Module module) {
         //noinspection OptionalGetWithoutIsPresent
         return internalLoad(module, false).get();
     }
@@ -68,28 +67,32 @@ public final class PandaModuleLoader implements ModuleLoader {
         return internalLoad(module, true).isPresent();
     }
 
-    private Optional<LoadedModule> internalLoad(Module module, boolean emptyIfLoaded) {
-        LoadedModule loadedModule = loadedModules.get(module.getName());
+    private Optional<Module> internalLoad(Module module, boolean emptyIfLoaded) {
+        Module cachedModule = modules.get(module.getName());
 
-        if (loadedModule != null) {
-            return emptyIfLoaded ? Optional.empty() : Optional.of(loadedModule);
+        if (cachedModule != null) {
+            return emptyIfLoaded ? Optional.empty() : Optional.of(cachedModule);
         }
 
-        loadedModule = new PandaLoadedModule(this, module);
-        this.loadedModules.put(module.getName(), loadedModule);
-        return Optional.of(loadedModule);
+        this.modules.put(module.getName(), module);
+        return Optional.of(module);
     }
 
     @Override
     public Optional<Reference> forClass(Class<?> associatedClass) {
-        for (LoadedModule loadedModule : loadedModules.values()) {
-            Optional<Reference> prototypePrototype = loadedModule.forClass(associatedClass);
+        for (Module module : modules.values()) {
+            Optional<Reference> prototypePrototype = module.forClass(associatedClass);
 
             if (prototypePrototype.isPresent()) {
                 return prototypePrototype;
             }
 
         }
+
+        if (parent != null) {
+            return parent.forClass(associatedClass);
+        }
+
         return Optional.empty();
     }
 
@@ -106,8 +109,8 @@ public final class PandaModuleLoader implements ModuleLoader {
     }
 
     @Override
-    public Optional<LoadedModule> get(String name) {
-        return Optional.ofNullable(loadedModules.get(name));
+    public Optional<Module> get(String name) {
+        return Optional.ofNullable(modules.get(name));
     }
 
     @Override

@@ -40,10 +40,10 @@ import org.panda_lang.panda.language.interpreter.parser.context.interceptors.Cus
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL)
-public final class LogParser extends ParserBootstrap {
+public final class LogParser extends ParserBootstrap<Object> {
 
     @Override
-    protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
+    protected BootstrapInitializer<Object> initialize(Context context, BootstrapInitializer<Object> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.LOG))
                 .interceptor(new CustomPatternInterceptor())

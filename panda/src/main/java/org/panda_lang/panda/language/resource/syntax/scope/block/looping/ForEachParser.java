@@ -62,7 +62,7 @@ public final class ForEachParser extends BlockSubparserBootstrap {
         VariableData variableData = dataInitializer.createVariableData(elements[0], true, true);
         forEach.addVariable(new PandaVariable(forEach.getValuePointer(), variableData));
 
-        if (!JavaModule.ITERABLE.isAssignableFrom(forEach.getIterableExpression().getReturnType())) {
+        if (!Iterable.class.isAssignableFrom(forEach.getIterableExpression().getReturnType().getAssociatedClass())) {
             throw new PandaParserException("ForEach requires Iterable value");
         }
 

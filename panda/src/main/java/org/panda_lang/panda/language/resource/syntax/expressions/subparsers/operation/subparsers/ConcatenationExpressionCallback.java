@@ -27,9 +27,11 @@ import java.util.List;
 
 public final class ConcatenationExpressionCallback implements DynamicExpression {
 
+    private final Prototype stringType;
     private final List<Expression> values;
 
-    public ConcatenationExpressionCallback(List<Expression> values) {
+    public ConcatenationExpressionCallback(Prototype stringType, List<Expression> values) {
+        this.stringType = stringType;
         this.values = values;
     }
 
@@ -46,7 +48,7 @@ public final class ConcatenationExpressionCallback implements DynamicExpression 
 
     @Override
     public Prototype getReturnType() {
-        return JavaModule.STRING;
+        return stringType;
     }
 
 }

@@ -18,6 +18,7 @@ package org.panda_lang.framework.language.architecture.module;
 
 import org.panda_lang.framework.design.architecture.module.ReferencesMap;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.utilities.commons.ClassUtils;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -58,6 +59,14 @@ final class PandaReferencesMap extends HashMap<String, Reference> implements Ref
         String prototypeName = associatedClasses.get(associatedClass);
 
         if (prototypeName == null) {
+            if (associatedClass.isPrimitive()) {
+                Class<?> primitiveClass = ClassUtils.PRIMITIVE_EQUIVALENT.get(associatedClass);
+
+                if (primitiveClass != null) {
+                    return forClass(primitiveClass);
+                }
+            }
+
             return Optional.empty();
         }
 

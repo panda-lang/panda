@@ -20,25 +20,31 @@ import org.jetbrains.annotations.Nullable;
 
 public enum NumberType {
 
-    BYTE('B', NumberPriorities.BYTE),
-    SHORT('S', NumberPriorities.SHORT),
-    INT('I', NumberPriorities.INT),
-    LONG('L', NumberPriorities.LONG),
-    FLOAT('F', NumberPriorities.FLOAT),
-    DOUBLE('D', NumberPriorities.DOUBLE);
+    BYTE('B', NumberPriorities.BYTE, Byte.class),
+    SHORT('S', NumberPriorities.SHORT, Short.class),
+    INT('I', NumberPriorities.INT, Integer.class),
+    LONG('L', NumberPriorities.LONG, Long.class),
+    FLOAT('F', NumberPriorities.FLOAT, Float.class),
+    DOUBLE('D', NumberPriorities.DOUBLE, Double.class);
 
     private final char letter;
     private final char lowerLetter;
     private final double priority;
+    private final Class<?> javaType;
 
-    NumberType(char c, double priority) {
+    NumberType(char c, double priority, Class<?> javaType) {
         this.letter = c;
         this.priority = priority;
+        this.javaType = javaType;
         this.lowerLetter = Character.toLowerCase(letter);
     }
 
     public char getLetter() {
         return letter;
+    }
+
+    public Class<?> getJavaType() {
+        return javaType;
     }
 
     public double getPriority() {

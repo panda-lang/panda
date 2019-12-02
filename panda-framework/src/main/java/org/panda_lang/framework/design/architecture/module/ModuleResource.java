@@ -16,14 +16,49 @@
 
 package org.panda_lang.framework.design.architecture.module;
 
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  * References container
  */
 public interface ModuleResource {
+
+    /**
+     * Get prototype associated with the given class.
+     * Use this method only if you are absolutely sure that the requested prototype exists
+     *
+     * @param associatedClass the associated class to search for
+     * @return the found prototype
+     * @throws org.panda_lang.framework.language.runtime.PandaRuntimeException if prototype does not exist
+     */
+    default Prototype requirePrototype(Class<?> associatedClass) throws PandaRuntimeException {
+        return forClass(associatedClass)
+                .map(Reference::fetch)
+                .orElseThrow((Supplier<? extends PandaRuntimeException>) () -> {
+                    throw new PandaRuntimeException("Cannot find prototype associated with " + associatedClass);
+                });
+    }
+
+    /**
+     * Get prototype with the given name.
+     * Use this method only if you are absolutely sure that the request prototype exists
+     *
+     * @param name the name to search for
+     * @return the found prototype
+     * @throws org.panda_lang.framework.language.runtime.PandaRuntimeException if prototype does not exist
+     */
+    default Prototype requirePrototype(String name) throws PandaRuntimeException {
+        return forName(name)
+                .map(Reference::fetch)
+                .orElseThrow((Supplier<? extends PandaRuntimeException>) () -> {
+                    throw new PandaRuntimeException("Cannot find prototype " + name);
+                });
+    }
 
     /**
      * Find reference using the given class

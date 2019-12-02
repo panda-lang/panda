@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn;
 
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 
@@ -23,6 +24,6 @@ public interface RPNOperationAction<A, B, R> {
 
     R get(ProcessStack stack, A aValue, B bValue);
 
-    Prototype returnType();
+    Prototype returnType(ModuleLoader loader);
 
 }

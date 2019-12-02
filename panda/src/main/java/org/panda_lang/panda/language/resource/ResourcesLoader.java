@@ -18,9 +18,9 @@ package org.panda_lang.panda.language.resource;
 
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.module.ModulePath;
 import org.panda_lang.framework.design.architecture.module.Modules;
-import org.panda_lang.framework.language.architecture.module.PandaLazyModule;
 import org.panda_lang.framework.language.architecture.module.PandaModuleFactory;
 import org.panda_lang.framework.language.architecture.prototype.generator.PrototypeGeneratorManager;
 import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
@@ -31,13 +31,13 @@ import java.util.Optional;
 
 public final class ResourcesLoader {
 
-    public void load(ModulePath path) {
-        load(path, PandaFrameworkModules.getClasses());
-        load(path, PandaModules.getClasses());
+    public void load(ModuleLoader loader) {
+        load(loader, PandaFrameworkModules.getClasses());
+        load(loader, PandaModules.getClasses());
     }
 
-    public void load(ModulePath path, Class<? extends InternalModuleInfo>[] internalModuleInfoClasses) {
-        PandaModuleFactory moduleFactory = new PandaModuleFactory(path);
+    public void load(ModuleLoader loader, Class<? extends InternalModuleInfo>[] internalModuleInfoClasses) {
+        PandaModuleFactory moduleFactory = new PandaModuleFactory(loader);
 
         for (Class<? extends InternalModuleInfo> internalModuleInfoClass : internalModuleInfoClasses) {
             try {
@@ -49,32 +49,14 @@ public final class ResourcesLoader {
     }
 
     private void load(PandaModuleFactory factory, InternalModuleInfo internalModuleInfo) throws ClassNotFoundException {
-        Optional<PandaLazyModule> lazyModuleValue = internalModuleInfo.getCustomModule();
-        Module module;
-
-        if (lazyModuleValue.isPresent()) {
-            PandaLazyModule lazyModule = lazyModuleValue.get();
-            int lastIndexOf = internalModuleInfo.getModule().lastIndexOf(":");
-            Modules modules = factory.getPath();
-
-            if (lastIndexOf != -1) {
-                String parentQualifier = internalModuleInfo.getModule().substring(0, lastIndexOf);
-                Module parent = factory.computeIfAbsent(parentQualifier);
-                lazyModule.setParent(parent);
-                modules = parent;
-            }
-
-            modules.include(lazyModule);
-            module = lazyModule;
-        }
-        else {
-            module = factory.computeIfAbsent(internalModuleInfo.getModule());
-        }
+        Module module = factory.computeIfAbsent(internalModuleInfo.getModule());
 
         for (String name : internalModuleInfo.getNames()) {
             Class<?> type = Class.forName(internalModuleInfo.getPackageName() + "." + name);
             module.add(PrototypeGeneratorManager.getInstance().generate(module, type, type.getSimpleName()));
         }
+
+        internalModuleInfo.initialize(module);
     }
 
 }

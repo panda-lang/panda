@@ -16,6 +16,7 @@
 
 package org.panda_lang.framework.language.interpreter.parser.expression;
 
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
@@ -43,12 +44,12 @@ public final class PandaExpressionParserWorker {
     private int previousSubparser = NONE;
     private int lastSucceededRead = 0;
 
-    protected PandaExpressionParserWorker(List<PandaExpressionSubparserRepresentation> subparsers) {
+    protected PandaExpressionParserWorker(Context context, List<PandaExpressionSubparserRepresentation> subparsers) {
         this.subparsers = subparsers;
         this.workers = new ExpressionSubparserWorker[subparsers.size()];
 
         for (int index = 0; index < subparsers.size(); index++) {
-            this.workers[index] = subparsers.get(index).getSubparser().createWorker();
+            this.workers[index] = subparsers.get(index).getSubparser().createWorker(context);
         }
     }
 
