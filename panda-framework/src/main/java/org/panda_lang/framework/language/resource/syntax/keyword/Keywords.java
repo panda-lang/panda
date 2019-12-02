@@ -18,6 +18,7 @@ package org.panda_lang.framework.language.resource.syntax.keyword;
 
 import org.panda_lang.utilities.commons.ReflectionUtils;
 
+import java.security.KeyStore;
 import java.util.Collection;
 
 /**
@@ -42,6 +43,8 @@ public final class Keywords {
     public static final Keyword CONTINUE = new Keyword("continue");
 
     public static final Keyword ELSE = new Keyword("else");
+
+    public static final Keyword ELSE_IF = new Keyword("else if");
 
     public static final Keyword EXPORT = new Keyword("export");
 
