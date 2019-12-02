@@ -42,9 +42,11 @@ import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationPriorities;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationSubparserBootstrap;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationType;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @RegistrableParser(pipeline = PandaPipeline.ASSIGNER_LABEL, priority = AssignationPriorities.VARIABLE_DECLARATION)
 public final class VariableDeclarationSubparser extends AssignationSubparserBootstrap {
@@ -103,7 +105,9 @@ public final class VariableDeclarationSubparser extends AssignationSubparserBoot
     @Autowired
     ExpressionResult parse(
             Context context,
-            @Component Scope scope, @Component Channel channel, @Component Expression expression, @Component ExpressionContext expressionContext,
+            @Component Scope scope, @Component Channel channel,
+            @Component Expression expression, @Component ExpressionContext expressionContext,
+            @Component AssignationType type,
             @Inter SourceLocation location
     ) {
         Elements elements = channel.get("elements", Elements.class);

@@ -20,10 +20,11 @@ import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.ContextComponent;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 
 public final class AssignationComponents {
 
-    public static final String CONTEXT_LABEL = "context";
+    public static final String CONTEXT_LABEL = "assignation-expression-context";
     public static final ContextComponent<ExpressionContext> CONTEXT = ContextComponent.of(CONTEXT_LABEL, ExpressionContext.class);
 
     public static final String SCOPE_LABEL = "assignation-scope";
@@ -31,6 +32,12 @@ public final class AssignationComponents {
 
     public static final String EXPRESSION_LABEL = "assignation-expression";
     public static final ContextComponent<Expression> EXPRESSION = ContextComponent.of(EXPRESSION_LABEL, Expression.class);
+
+    public static final String OPERATOR_LABEL = "assignation-operator";
+    public static final ContextComponent<TokenRepresentation> OPERATOR = ContextComponent.of(OPERATOR_LABEL, TokenRepresentation.class);
+
+    public static final String TYPE_LABEL = "assignation-type";
+    public static final ContextComponent<AssignationType> TYPE = ContextComponent.of(TYPE_LABEL, AssignationType.class);
 
     private AssignationComponents() { }
 

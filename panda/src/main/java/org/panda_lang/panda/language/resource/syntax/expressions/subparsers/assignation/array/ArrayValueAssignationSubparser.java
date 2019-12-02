@@ -27,6 +27,7 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
@@ -39,6 +40,7 @@ import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationComponents;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationPriorities;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationSubparserBootstrap;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationType;
 
 import java.util.Optional;
 
@@ -85,7 +87,16 @@ public final class ArrayValueAssignationSubparser extends AssignationSubparserBo
     }
 
     @Autowired
-    ExpressionResult parse(Context context, @Component SourceStream source, @Component Channel channel, @Component(AssignationComponents.EXPRESSION_LABEL) Expression value) {
+    ExpressionResult parse(
+            Context context,
+            @Component SourceStream source, @Component Channel channel,
+            @Component(AssignationComponents.EXPRESSION_LABEL) Expression value,
+            @Component AssignationType type, @Component TokenRepresentation operator
+    ) {
+        if (type != AssignationType.DEFAULT) {
+            throw new PandaParserFailure(context, operator, "Unsupported operator");
+        }
+
         Snippet snippet = source.toSnippet();
         ArrayAccessor accessorExpression = PARSER.parse(context, snippet, channel.get("array-instance", Expression.class), snippet.getLast().toToken());
         ArrayAssigner assignerExpression = accessorExpression.toAssignerExpression(value);
