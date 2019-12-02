@@ -39,6 +39,8 @@ import org.panda_lang.framework.language.resource.syntax.operator.OperatorUtils;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.AbstractExpressionSubparserWorker;
 
+import java.util.Optional;
+
 public final class AssignationExpressionSubparser implements ExpressionSubparser {
 
     @Override
@@ -85,11 +87,12 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
                     .withComponent(AssignationComponents.CONTEXT, expressionContext)
                     .withComponent(AssignationComponents.SCOPE, context.getComponent(Components.SCOPE));
 
-            HandleResult<AssignationSubparser> handleResult = context.getComponent(Components.PIPELINE)
+            Optional<AssignationSubparser> handleResult = context.getComponent(Components.PIPELINE)
                     .getPipeline(PandaPipeline.ASSIGNER)
-                    .handle(assignationContext, assignationContext.getComponent(Components.CHANNEL), declaration);
+                    .handle(assignationContext, assignationContext.getComponent(Components.CHANNEL), declaration)
+                    .getParser();
 
-            if (!handleResult.isFound() || !handleResult.getParser().isPresent()) {
+            if (!handleResult.isPresent()) {
                 return null;
             }
 
@@ -98,8 +101,11 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
             try {
                 ExpressionTransaction expression = expressionContext.getParser().parse(assignationContext, expressionSource);
 
-                ExpressionResult result = handleResult.getParser().get().parseAssignment(assignationContext, declaration, expression.getExpression());
-                expressionContext.getSynchronizedSource().setIndex(declaration.size() + 1 + expressionSource.getReadLength());
+                AssignationSubparser<?> assignationSubparser = handleResult.get();
+                ExpressionResult result = assignationSubparser.parseAssignment(assignationContext, declaration, source.get(index), expression.getExpression());
+
+                int assignationLength = declaration.size() + 1 + expressionSource.getReadLength();
+                expressionContext.getSynchronizedSource().setIndex(assignationLength);
 
                 return result;
             } catch (PandaParserFailure e) {
