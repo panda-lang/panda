@@ -16,19 +16,17 @@
 
 package org.panda_lang.framework.language.resource.internal;
 
-import org.panda_lang.framework.language.architecture.module.PandaLazyModule;
+import org.panda_lang.framework.design.architecture.module.Module;
 
 import java.util.Optional;
 
 public interface InternalModuleInfo {
 
+    default void initialize(Module module) { }
+
     String[] getNames();
 
     String getPackageName();
-
-    default Optional<PandaLazyModule> getCustomModule() {
-        return Optional.empty();
-    }
 
     String getModule();
 

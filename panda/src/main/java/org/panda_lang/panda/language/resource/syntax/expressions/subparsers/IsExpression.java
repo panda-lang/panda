@@ -24,10 +24,12 @@ import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 
 final class IsExpression implements DynamicExpression {
 
+    private final Prototype returnType;
     private final Expression value;
     private final Prototype requestedTypePrototype;
 
-    IsExpression(Expression value, Prototype requestedTypePrototype) {
+    IsExpression(Prototype returnType, Expression value, Prototype requestedTypePrototype) {
+        this.returnType = returnType;
         this.value = value;
         this.requestedTypePrototype = requestedTypePrototype;
     }
@@ -40,7 +42,7 @@ final class IsExpression implements DynamicExpression {
 
     @Override
     public Prototype getReturnType() {
-        return JavaModule.BOOL;
+        return returnType;
     }
 
 }

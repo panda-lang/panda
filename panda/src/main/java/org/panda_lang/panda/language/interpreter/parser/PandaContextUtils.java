@@ -51,16 +51,17 @@ public final class PandaContextUtils {
                 .withComponent(Components.EXPRESSION, new PandaExpressionParser(PandaExpressionUtils.collectSubparsers()));
 
         ModulePath path = new PandaModulePath();
-        ResourcesLoader resourcesLoader = new ResourcesLoader();
-        resourcesLoader.load(path);
-
         ModuleLoader loader = new PandaModuleLoader(path);
+
+        ResourcesLoader resourcesLoader = new ResourcesLoader();
+        resourcesLoader.load(loader);
+
         Imports imports = new PandaImports(loader);
         imports.importModule("java");
         imports.importModule("panda");
 
         PandaScript script = new PandaScript("stub-script", loader);
-        script.setModule(new PandaModule("stub-module"));
+        script.setModule(new PandaModule("stub-module", loader));
 
         return context
                 .withComponent(Components.SCRIPT, script)

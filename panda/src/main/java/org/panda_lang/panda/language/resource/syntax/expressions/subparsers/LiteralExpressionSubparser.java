@@ -17,6 +17,9 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.architecture.module.ModuleLoaderUtils;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
@@ -32,8 +35,8 @@ import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 public final class LiteralExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public ExpressionSubparserWorker createWorker() {
-        return new SequenceWorker().withSubparser(this);
+    public ExpressionSubparserWorker createWorker(Context context) {
+        return new SequenceWorker(context).withSubparser(this);
     }
 
     @Override
@@ -48,6 +51,12 @@ public final class LiteralExpressionSubparser implements ExpressionSubparser {
 
     private static final class SequenceWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
+        private final Prototype boolType;
+
+        public SequenceWorker(Context context) {
+            this.boolType = ModuleLoaderUtils.forClass(context, boolean.class);
+        }
+
         @Override
         public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
             if (token.getType() != TokenTypes.LITERAL) {
@@ -56,9 +65,9 @@ public final class LiteralExpressionSubparser implements ExpressionSubparser {
 
             switch (token.getValue()) {
                 case "true":
-                    return ExpressionParserUtils.toExpressionResult(JavaModule.BOOL, true);
+                    return ExpressionParserUtils.toExpressionResult(boolType, true);
                 case "false":
-                    return ExpressionParserUtils.toExpressionResult(JavaModule.BOOL, false);
+                    return ExpressionParserUtils.toExpressionResult(boolType, false);
                 case "null":
                     return ExpressionParserUtils.toExpressionResult(null, null);
                 case "this":

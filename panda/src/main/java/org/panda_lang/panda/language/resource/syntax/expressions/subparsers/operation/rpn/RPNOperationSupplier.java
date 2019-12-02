@@ -17,14 +17,15 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn;
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 
 public interface RPNOperationSupplier {
 
-    RPNOperationAction<?, ?, ?> of(Expression a, Expression b);
+    RPNOperationAction<?, ?, ?> of(ModuleLoader moduleLoader, Expression a, Expression b);
 
-    Prototype returnType(Prototype a, Prototype b);
+    Prototype returnType(ModuleLoader loader, Prototype a, Prototype b);
 
-    Prototype requiredType();
+    Prototype requiredType(ModuleLoader loader);
 
 }

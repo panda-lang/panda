@@ -18,6 +18,7 @@ package org.panda_lang.framework.language.architecture.prototype.array;
 
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.Referencable;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
@@ -75,9 +76,10 @@ public final class ArrayClassPrototypeFetcher {
 
         ArrayPrototype arrayPrototype = new ArrayPrototype(module, arrayType, componentReference.fetch());
         ARRAY_PROTOTYPES.put(baseReference.getName() + dimensions, arrayPrototype);
+        ModuleLoader loader = module.getModuleLoader();
 
-        arrayPrototype.getMethods().declare("size", () -> ArrayClassPrototypeConstants.SIZE);
-        arrayPrototype.getMethods().declare("toString", () -> ArrayClassPrototypeConstants.TO_STRING);
+        arrayPrototype.getMethods().declare("size", () -> ArrayClassPrototypeConstants.SIZE.apply(loader));
+        arrayPrototype.getMethods().declare("toString", () -> ArrayClassPrototypeConstants.TO_STRING.apply(loader));
 
         module.add(arrayPrototype);
         return arrayPrototype;

@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.resource.syntax.scope.block.looping;
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
@@ -26,7 +27,6 @@ import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.architecture.expression.PandaExpression;
 import org.panda_lang.framework.language.architecture.statement.PandaBlock;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.interpreter.parser.block.BlockData;
@@ -44,10 +44,12 @@ import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 @RegistrableParser(pipeline = PandaPipeline.BLOCK_LABEL)
 public final class ForParser extends BlockSubparserBootstrap {
 
-    private static final Expression DEFAULT_CONDITION = new PandaExpression(JavaModule.BOOL, true);
+    private Expression defaultCondition;
 
     @Override
     protected BootstrapInitializer<BlockData> initialize(Context context, BootstrapInitializer<BlockData> initializer) {
+        this.defaultCondition = new PandaExpression(ModuleLoaderUtils.forClass(context, boolean.class), true);
+
         return initializer
                 .handler(new TokenHandler(Keywords.FOR))
                 .interceptor(new LinearPatternInterceptor())
@@ -76,7 +78,7 @@ public final class ForParser extends BlockSubparserBootstrap {
         }
 
         Snippet terminationSource = forEachElements[1];
-        Expression termination = DEFAULT_CONDITION;
+        Expression termination = defaultCondition;
 
         if (!terminationSource.isEmpty()) {
             termination = expressionParser.parse(delegatedContext, terminationSource).getExpression();

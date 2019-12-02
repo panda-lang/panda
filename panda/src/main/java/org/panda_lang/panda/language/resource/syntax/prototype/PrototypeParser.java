@@ -18,6 +18,7 @@ package org.panda_lang.panda.language.resource.syntax.prototype;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.Script;
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
@@ -107,12 +108,12 @@ public final class PrototypeParser extends ParserBootstrap {
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
-    void parseDeclaration(Context context, @Component Prototype prototype, @Nullable @Src("inherited") Collection<Snippetable> inherited) {
+    void parseDeclaration(Context context, @Component Prototype prototype, @Component ModuleLoader loader, @Nullable @Src("inherited") Collection<Snippetable> inherited) {
         Optional.ofNullable(inherited)
                 .ifPresent(classes -> classes.forEach(typeSource -> PrototypeParserUtils.appendExtended(context, prototype, typeSource)));
 
         if (prototype.getBases().stream().noneMatch(base -> base.getType().equals("class"))) {
-            prototype.addBase(JavaModule.OBJECT);
+            prototype.addBase(loader.requirePrototype(Object.class));
         }
     }
 

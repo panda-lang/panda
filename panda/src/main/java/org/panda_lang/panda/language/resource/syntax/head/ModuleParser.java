@@ -19,6 +19,7 @@ package org.panda_lang.panda.language.resource.syntax.head;
 import org.panda_lang.framework.design.architecture.Environment;
 import org.panda_lang.framework.design.architecture.module.Imports;
 import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
@@ -42,10 +43,10 @@ import org.panda_lang.panda.language.interpreter.parser.context.interceptors.Cus
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 
 @RegistrableParser(pipeline = Pipelines.HEAD_LABEL)
-public final class ModuleParser extends ParserBootstrap {
+public final class ModuleParser extends ParserBootstrap<Object> {
 
     @Override
-    protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
+    protected BootstrapInitializer<Object> initialize(Context context, BootstrapInitializer<Object> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.MODULE))
                 .interceptor(new CustomPatternInterceptor())
@@ -62,9 +63,10 @@ public final class ModuleParser extends ParserBootstrap {
         }
 
         String moduleName = source.asSource();
+        ModuleLoader moduleLoader = imports.getModuleLoader();
 
-        Module module = environment.getModulePath().get(moduleName).orElseGet(() -> {
-            Module pandaModule = new PandaModule(moduleName);
+        Module module = environment.getModulePath().get(moduleName, moduleLoader).orElseGet(() -> {
+            Module pandaModule = new PandaModule(moduleName, moduleLoader);
             environment.getModulePath().include(pandaModule);
             return pandaModule;
         });

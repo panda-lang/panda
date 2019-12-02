@@ -38,7 +38,7 @@ final class OperationUtils {
                 operator = Operators.ADDITION.equals(element.getOperator());
             }
             else if (!string && element.isExpression()) {
-                string = JavaModule.STRING.isAssignableFrom(element.getExpression().getReturnType());
+                string = String.class.isAssignableFrom(element.getExpression().getReturnType().getAssociatedClass());
             }
 
             if (operator && string) {
@@ -52,7 +52,7 @@ final class OperationUtils {
     static boolean isNumeric(Operation operation) {
         return verify(operation, null, element -> {
             if (element.isExpression()) {
-                return JavaModule.NUMBER.isAssignableFrom(element.getExpression().getReturnType());
+                return Number.class.isAssignableFrom(element.getExpression().getReturnType().getAssociatedClass());
             }
 
             Operator operator = ObjectUtils.cast(Operator.class, element.getOperatorRepresentation().getToken());

@@ -65,13 +65,13 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 @RegistrableParser(pipeline = Pipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_METHOD)
-public final class MethodParser extends ParserBootstrap {
+public final class MethodParser extends ParserBootstrap<Object> {
 
     private static final ParameterParser PARAMETER_PARSER = new ParameterParser();
     private static final ScopeParser SCOPE_PARSER = new ScopeParser();
 
     @Override
-    protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
+    protected BootstrapInitializer<Object> initialize(Context context, BootstrapInitializer<Object> initializer) {
         return initializer
                 .handler(new CustomPatternHandler())
                 .interceptor(new CustomPatternInterceptor())
@@ -98,7 +98,7 @@ public final class MethodParser extends ParserBootstrap {
                                         "Make sure that the name does not have a typo and module which should contain that class is imported"
                                 );
                         }))
-                .orElse(JavaModule.VOID);
+                .orElseGet(() -> prototype.getModule().getModuleLoader().requirePrototype(void.class));
 
         TokenRepresentation name = result.get("name");
         List<PropertyParameter> parameters = PARAMETER_PARSER.parse(context, result.get("parameters"));

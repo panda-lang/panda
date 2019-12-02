@@ -19,7 +19,10 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.prototype.Adjustment;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
@@ -38,13 +41,15 @@ import org.panda_lang.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.utilities.commons.ObjectUtils;
+import org.panda_lang.utilities.commons.text.ContentJoiner;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 public final class MethodExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public ExpressionSubparserWorker createWorker() {
+    public ExpressionSubparserWorker createWorker(Context context) {
         return new MethodWorker().withSubparser(this);
     }
 
@@ -122,8 +127,14 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
             Optional<Adjustment<PrototypeMethod>> adjustedArguments = instance.getReturnType().getMethods().getAdjustedArguments(methodName.getValue(), arguments);
 
             if (!adjustedArguments.isPresent()) {
+                String types = ContentJoiner.on(", ").join(Arrays.stream(arguments)
+                        .map(Expression::getReturnType)
+                        .map(Prototype::getSimpleName)
+                        .toArray()
+                ).toString();
+
                 throw new PandaExpressionParserFailure(context, argumentsSource,
-                        "Class " + instance.getReturnType().getSimpleName() + " does not have method '" + methodName + "' with these parameters",
+                        "Class " + instance.getReturnType().getSimpleName() + " does not have method &1" + methodName + "&r with parameters &1" + types + "&r",
                         "Change arguments or add a new method with the provided types of parameters"
                 );
             }

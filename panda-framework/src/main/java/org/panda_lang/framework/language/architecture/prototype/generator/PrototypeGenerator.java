@@ -24,6 +24,7 @@ import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
 import org.panda_lang.framework.language.architecture.prototype.PandaReference;
 import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
+import org.panda_lang.utilities.commons.ClassUtils;
 import org.panda_lang.utilities.commons.ReflectionUtils;
 
 import java.lang.reflect.Constructor;
@@ -32,6 +33,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 final class PrototypeGenerator {
@@ -89,19 +91,27 @@ final class PrototypeGenerator {
     }
 
     protected Reference findOrGenerate(Module module, Class<?> type) {
-        if (!module.hasPrototype(type)) {
-            Reference reference = cachedReferences.get(getId(module, type.getSimpleName()));
+        if (type.isPrimitive()) {
+            Class<?> equivalent = ClassUtils.PRIMITIVE_EQUIVALENT.get(type);
 
-            if (reference != null) {
-                return reference;
+            if (equivalent != null) {
+                return findOrGenerate(module, equivalent);
             }
+        }
+        
+        Optional<Reference> referenceValue = module.getModuleLoader().forClass(type);
 
-            return generate(module, type, type.getSimpleName());
+        if (referenceValue.isPresent()) {
+            return referenceValue.get();
         }
 
-        return module.forClass(type).orElseThrow((Supplier<? extends PandaRuntimeException>) () -> {
-            throw new PandaRuntimeException("Cannot find class: " + type);
-        });
+        Reference reference = cachedReferences.get(getId(module, type.getSimpleName()));
+
+        if (reference != null) {
+            return reference;
+        }
+
+        return generate(module, type, type.getSimpleName());
     }
 
     private String getId(Module module, String name) {

@@ -17,6 +17,7 @@
 package org.panda_lang.framework.design.interpreter.parser.expression;
 
 import org.jetbrains.annotations.NotNull;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
 
 /**
@@ -28,8 +29,9 @@ public interface ExpressionSubparser extends Parser, Comparable<ExpressionSubpar
      * Creates worker of the current subparser
      *
      * @return the worker instance
+     * @param context
      */
-    ExpressionSubparserWorker createWorker();
+    ExpressionSubparserWorker createWorker(Context context);
 
     @Override
     default int compareTo(@NotNull ExpressionSubparser to) {

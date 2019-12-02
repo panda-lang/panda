@@ -17,6 +17,8 @@
 package org.panda_lang.panda.shell.repl;
 
 import org.junit.jupiter.api.Test;
+import org.panda_lang.framework.design.architecture.module.ModuleLoaderUtils;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
 import org.panda_lang.framework.language.architecture.prototype.PandaPropertyParameter;
 import org.panda_lang.framework.language.architecture.statement.PandaVariableData;
@@ -33,15 +35,18 @@ class ReplTest {
         PandaFactory pandaFactory = new PandaFactory();
         Panda panda = pandaFactory.createPanda(LoggerFactory.getLogger(ReplTest.class));
 
-        Repl repl = Repl.creator(panda)
+        ReplCreator creator = Repl.creator(panda);
+        Context context = creator.getContext();
+
+        Repl repl = creator
+                .variable(new PandaVariableData(ModuleLoaderUtils.forClass(context, int.class), "i"), 5)
                 .define(PandaMethod.builder()
                         .name("sqrt")
-                        .parameters(new PandaPropertyParameter(0, JavaModule.DOUBLE, "i"))
+                        .parameters(new PandaPropertyParameter(0, ModuleLoaderUtils.forClass(context, Double.class), "i"))
                         .methodBody((stack, instance, arguments) -> Math.sqrt(((Number) arguments[0]).doubleValue()))
-                        .returnType(JavaModule.DOUBLE)
+                        .returnType(ModuleLoaderUtils.forClass(context, Double.class))
                         .location(new PandaClassSource(ReplTest.class).toLocation())
                         .build())
-                .variable(new PandaVariableData(JavaModule.INT, "i"), 5)
                 .addVariableChangeListener((variable, previous, current) -> {
                     panda.getLogger().debug("// variable change :: " + variable.getName() + " = " + previous + " -> " + current);
                 })

@@ -18,6 +18,7 @@ package org.panda_lang.framework.language.architecture.module;
 
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.module.Modules;
 import org.panda_lang.utilities.commons.StringUtils;
 
@@ -27,19 +28,19 @@ final class PandaModulesUtils {
 
     private PandaModulesUtils() { }
 
-    protected static Optional<Module> fetch(Modules modules, String moduleQualifier, boolean compute) {
+    protected static Optional<Module> fetch(ModuleLoader loader, Modules modules, String moduleQualifier, boolean compute) {
         String[] names = moduleQualifier.split(":");
         Module module = null;
 
         for (String name : names) {
             if (StringUtils.isEmpty(name)) {
-                throw new PandaFrameworkException("Illegal name");
+                throw new PandaFrameworkException("Illegal name " + moduleQualifier);
             }
 
-            Module nextModule = modules.get(name).orElse(null);
+            Module nextModule = modules.get(name, loader).orElse(null);
 
             if (nextModule == null && compute) {
-                nextModule = new PandaModule(module, name);
+                nextModule = new PandaModule(module, name, loader);
                 modules.include(nextModule);
             }
 

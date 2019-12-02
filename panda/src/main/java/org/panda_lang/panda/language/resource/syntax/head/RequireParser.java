@@ -48,14 +48,16 @@ import org.panda_lang.panda.language.interpreter.parser.context.interceptors.Cus
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Objects;
 import java.util.Optional;
 
 @RegistrableParser(pipeline = Pipelines.HEAD_LABEL)
-public final class RequireParser extends ParserBootstrap {
+public final class RequireParser extends ParserBootstrap<Object> {
 
     @Override
-    protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
+    protected BootstrapInitializer<Object> initialize(Context context, BootstrapInitializer<Object> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.REQUIRE))
                 .interceptor(new CustomPatternInterceptor())
@@ -82,7 +84,7 @@ public final class RequireParser extends ParserBootstrap {
         Environment environment = context.getComponent(Components.ENVIRONMENT);
 
         String moduleName = require.asSource();
-        Optional<Module> module = environment.getModulePath().get(moduleName);
+        Optional<Module> module = environment.getModulePath().get(moduleName, imports.getModuleLoader());
 
         if (!module.isPresent()) {
             throw new PandaParserFailure(context, require, "Unknown module " + moduleName, "Make sure that the name does not have a typo and module is added to the module path");

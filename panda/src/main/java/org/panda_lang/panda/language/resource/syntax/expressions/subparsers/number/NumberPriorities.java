@@ -31,7 +31,7 @@ public class NumberPriorities {
     protected static final int FLOAT = 50;
     protected static final int DOUBLE = 60;
 
-    protected static final Map<Prototype, Integer> HIERARCHY = Maps.of(
+    protected static final Map<String, Integer> HIERARCHY = Maps.of(
             JavaModule.BYTE, BYTE,
             JavaModule.SHORT, SHORT,
             JavaModule.INT, INT,
@@ -41,7 +41,7 @@ public class NumberPriorities {
     );
 
     public int getPriority(Prototype prototype) {
-        return HIERARCHY.get(prototype);
+        return HIERARCHY.get(prototype.getSimpleName());
     }
 
 }

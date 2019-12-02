@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.panda_lang.framework.PandaFrameworkException;
+import org.panda_lang.framework.design.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Components;
@@ -56,9 +57,9 @@ class ExpressionParserTestBootstrap {
 
     protected static Context prepareData() {
         return ExpressionContextUtils.createFakeContext(context -> new HashMap<VariableData, Object>() {{
-            put(new PandaVariableData(JavaModule.STRING, "variable"), null);
-            put(new PandaVariableData(JavaModule.STRING.toArray(context.getComponent(Components.MODULE_LOADER)), "array"), null);
-            put(new PandaVariableData(JavaModule.INT, "i", true, false), null);
+            put(new PandaVariableData(ModuleLoaderUtils.forClass(context, String.class), "variable"), null);
+            put(new PandaVariableData(ModuleLoaderUtils.forClass(context, String.class).toArray(context.getComponent(Components.MODULE_LOADER)), "array"), null);
+            put(new PandaVariableData(ModuleLoaderUtils.forClass(context, int.class), "i", true, false), null);
         }});
     }
 

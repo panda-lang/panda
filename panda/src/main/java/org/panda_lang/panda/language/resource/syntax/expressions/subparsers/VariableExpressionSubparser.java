@@ -22,6 +22,7 @@ import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.interpreter.parser.Components;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
@@ -41,7 +42,7 @@ import java.util.Optional;
 public final class VariableExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public ExpressionSubparserWorker createWorker() {
+    public ExpressionSubparserWorker createWorker(Context context) {
         return new VariableWorker().withSubparser(this);
     }
 

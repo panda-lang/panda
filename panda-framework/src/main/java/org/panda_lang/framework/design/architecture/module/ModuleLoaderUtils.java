@@ -14,18 +14,23 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.logical;
+package org.panda_lang.framework.design.architecture.module;
 
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.language.resource.internal.java.JavaModule;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.number.NumberOperationAction;
+import org.panda_lang.framework.design.interpreter.parser.Components;
+import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.utilities.commons.ClassUtils;
 
-public abstract class ComparisonOperatorAction extends NumberOperationAction {
+public final class ModuleLoaderUtils {
 
-    @Override
-    public Prototype returnType(ModuleLoader loader) {
-        return loader.requirePrototype(boolean.class);
+    private ModuleLoaderUtils() { }
+
+    public static Prototype forClass(Context context, Class<?> associatedClass) {
+        return context.getComponent(Components.MODULE_LOADER).requirePrototype(associatedClass);
+    }
+
+    public static Prototype forName(Context context, String name) {
+        return context.getComponent(Components.MODULE_LOADER).requirePrototype(name);
     }
 
 }

@@ -48,7 +48,7 @@ public final class LoopParser extends BlockSubparserBootstrap {
 
     @Autowired
     BlockData parseContent(Context context, @Component Scope parent, @Inter SourceLocation location, @Src("value") Expression expression) {
-        if (!JavaModule.INT.isAssignableFrom(expression.getReturnType())) {
+        if (!Integer.class.isAssignableFrom(expression.getReturnType().getAssociatedClass())) {
             throw new PandaParserException("Loop requires number as an argument");
         }
 

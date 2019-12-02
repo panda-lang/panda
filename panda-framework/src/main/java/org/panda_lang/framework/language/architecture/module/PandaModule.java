@@ -18,6 +18,7 @@ package org.panda_lang.framework.language.architecture.module;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.module.ReferencesMap;
 import org.panda_lang.framework.design.architecture.prototype.Referencable;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
@@ -31,17 +32,19 @@ import java.util.Optional;
 public class PandaModule extends PandaModules implements Module {
 
     protected final String name;
+    protected final ModuleLoader loader;
     protected final ReferencesMap references;
     protected Module parent;
 
-    public PandaModule(@Nullable Module parent, String name) {
+    public PandaModule(@Nullable Module parent, String name, ModuleLoader loader) {
         this.name = name;
+        this.loader = loader;
         this.parent = parent;
         this.references = new PandaReferencesMap();
     }
 
-    public PandaModule(String name) {
-        this(null, name);
+    public PandaModule(String name, ModuleLoader loader) {
+        this(null, name, loader);
     }
 
     @Override
@@ -85,8 +88,8 @@ public class PandaModule extends PandaModules implements Module {
 
     @Override
     public Optional<Reference> forName(CharSequence prototypeName) {
-        if (name.endsWith(PandaArray.IDENTIFIER)) {
-            return ArrayClassPrototypeFetcher.fetch(this, name);
+        if (prototypeName.toString().endsWith(PandaArray.IDENTIFIER)) {
+            return ArrayClassPrototypeFetcher.fetch(this, prototypeName.toString());
         }
 
         return references.forName(prototypeName);
@@ -101,6 +104,11 @@ public class PandaModule extends PandaModules implements Module {
         }
 
         return entries;
+    }
+
+    @Override
+    public ModuleLoader getModuleLoader() {
+        return loader;
     }
 
     @Override

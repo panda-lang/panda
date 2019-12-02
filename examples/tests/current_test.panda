@@ -57,6 +57,7 @@ main {
     // create string builder and append previous list
     StringBuilder builder = new StringBuilder()
     builder.append(list)
+    builder.append(list.size())
 
     // loop i times, expr may be wrapped into ( )
     loop i {
@@ -131,6 +132,8 @@ main {
 
     // Make sure that here is no way to create instance of interface
     // Interface int = new Interface()
+
+    log 10 + Int.parseInt("5") + list.size()
 }
 
 // simple interface

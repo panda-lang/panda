@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.logical;
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.resource.internal.java.JavaModule;
@@ -33,23 +34,23 @@ public class EqualsToOperation implements RPNOperationSupplier, RPNOperationActi
     }
 
     @Override
-    public RPNOperationAction of(Expression a, Expression b) {
+    public RPNOperationAction<Object, Object, Boolean> of(ModuleLoader loader, Expression a, Expression b) {
         return this;
     }
 
     @Override
-    public Prototype returnType(Prototype a, Prototype b) {
-        return returnType();
+    public Prototype returnType(ModuleLoader loader, Prototype a, Prototype b) {
+        return returnType(loader);
     }
 
     @Override
-    public Prototype returnType() {
-        return JavaModule.BOOL;
+    public Prototype returnType(ModuleLoader loader) {
+        return loader.requirePrototype(boolean.class);
     }
 
     @Override
-    public Prototype requiredType() {
-        return JavaModule.OBJECT;
+    public Prototype requiredType(ModuleLoader loader) {
+        return loader.requirePrototype(Object.class);
     }
 
 }

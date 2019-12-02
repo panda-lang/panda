@@ -22,8 +22,11 @@ import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeExecutableCallback;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
+import sun.dc.pr.PRError;
+import sun.dc.pr.PRException;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.security.InvalidParameterException;
@@ -79,7 +82,17 @@ final class MethodGenerator {
                 arguments[amountOfArgs - 1] = varargs;
             }
 
-            return method.invoke(instance, arguments);
+            try {
+                return method.invoke(instance, arguments);
+            } catch (InvocationTargetException e) {
+                Throwable throwable = e.getTargetException();
+
+                if (throwable instanceof Exception) {
+                    throw (Exception) throwable;
+                }
+
+                throw new PandaRuntimeException("Internal error", throwable);
+            }
         };
 
         return PandaMethod.builder()

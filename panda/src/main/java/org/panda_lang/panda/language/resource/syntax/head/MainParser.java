@@ -38,12 +38,12 @@ import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 
 @RegistrableParser(pipeline = Pipelines.HEAD_LABEL)
-public final class MainParser extends ParserBootstrap {
+public final class MainParser<T> extends ParserBootstrap<T> {
 
     private static final ScopeParser SCOPE_PARSER = new ScopeParser();
 
     @Override
-    protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
+    protected BootstrapInitializer<T> initialize(Context context, BootstrapInitializer<T> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.MAIN))
                 .interceptor(new LinearPatternInterceptor())

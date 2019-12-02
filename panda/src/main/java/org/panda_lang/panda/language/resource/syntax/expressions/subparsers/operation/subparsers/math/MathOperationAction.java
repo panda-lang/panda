@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.math;
 
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.number.NumberOperationAction;
 
@@ -28,7 +29,7 @@ public abstract class MathOperationAction extends NumberOperationAction {
     }
 
     @Override
-    public Prototype returnType() {
+    public Prototype returnType(ModuleLoader loader) {
         return prototype;
     }
 

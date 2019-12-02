@@ -78,7 +78,7 @@ public final class PandaExpressionParser implements ExpressionParser {
 
         long uptime = System.nanoTime();
         PandaExpressionContext expressionContext = new PandaExpressionContext(this, context, source);
-        PandaExpressionParserWorker worker = new PandaExpressionParserWorker(subparsers);
+        PandaExpressionParserWorker worker = new PandaExpressionParserWorker(context, subparsers);
 
         try {
             for (TokenRepresentation representation : expressionContext.getSynchronizedSource()) {
@@ -91,6 +91,10 @@ public final class PandaExpressionParser implements ExpressionParser {
         } catch (Exception e) {
             for (Commit commit : expressionContext.getCommits()) {
                 commit.rollback();
+            }
+
+            if (e instanceof PandaExpressionParserFailure) {
+                throw e;
             }
 
             throw new PandaExpressionParserFailure(expressionContext, expressionContext.getSynchronizedSource().getSource(), e.getMessage());

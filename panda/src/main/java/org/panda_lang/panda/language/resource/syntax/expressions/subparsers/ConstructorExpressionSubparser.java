@@ -22,6 +22,7 @@ import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.prototype.Adjustment;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
@@ -38,7 +39,6 @@ import org.panda_lang.framework.language.architecture.prototype.utils.StateCompa
 import org.panda_lang.framework.language.architecture.prototype.utils.TypeDeclarationUtils;
 import org.panda_lang.framework.language.architecture.prototype.utils.VisibilityComparator;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
-import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
@@ -52,7 +52,7 @@ import java.util.Optional;
 public final class ConstructorExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public ExpressionSubparserWorker createWorker() {
+    public ExpressionSubparserWorker createWorker(Context context) {
         return new ConstructorWorker().withSubparser(this);
     }
 
@@ -155,7 +155,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
                 context.commit(capacityTransaction::rollback);
                 Expression capacity = capacityTransaction.getExpression();
 
-                if (!JavaModule.INT.isAssignableFrom(capacity.getReturnType())) {
+                if (!Integer.class.isAssignableFrom(capacity.getReturnType().getAssociatedClass())) {
                     return ExpressionResult.error("Capacity has to be Int", content);
                 }
 

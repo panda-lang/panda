@@ -58,7 +58,7 @@ public final class ArrayValueAccessorParser implements Parser {
         ExpressionParser parser = context.getComponent(Components.EXPRESSION);
         Expression index = parser.parse(context, indexSource.getContent()).getExpression();
 
-        if (!JavaModule.INT.isAssignableFrom(index.getReturnType())) {
+        if (!Integer.class.isAssignableFrom(index.getReturnType().getAssociatedClass())) {
             throw new PandaParserFailure(context, source, "The specified index is not an integer", "Change array index to expression that returns int");
         }
 

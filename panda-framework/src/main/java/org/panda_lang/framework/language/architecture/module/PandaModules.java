@@ -17,6 +17,7 @@
 package org.panda_lang.framework.language.architecture.module;
 
 import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.module.Modules;
 
 import java.util.Collection;
@@ -34,12 +35,12 @@ abstract class PandaModules implements Modules {
     }
 
     @Override
-    public Optional<Module> get(String moduleQualifier) {
+    public Optional<Module> get(String moduleQualifier, ModuleLoader loader) {
         if (!moduleQualifier.contains(":")) {
             return Optional.ofNullable(modules.get(moduleQualifier));
         }
 
-        return PandaModulesUtils.fetch(this, moduleQualifier, false);
+        return PandaModulesUtils.fetch(loader, this, moduleQualifier, false);
     }
 
     @Override

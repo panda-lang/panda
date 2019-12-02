@@ -16,12 +16,16 @@
 
 package org.panda_lang.framework.language.architecture.prototype.array;
 
+import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
 import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
 import org.panda_lang.framework.language.resource.internal.panda.PandaModule;
+
+import java.util.Optional;
 
 public final class ArrayPrototype extends PandaPrototype {
 
@@ -29,8 +33,15 @@ public final class ArrayPrototype extends PandaPrototype {
 
     public ArrayPrototype(Module module, Class<?> associated, Prototype type) {
         super(module, associated.getSimpleName(), new PandaClassSource(associated).toLocation(), associated, type.getType(), type.getState(), Visibility.PUBLIC);
+
+        Optional<Reference> arrayBaseReference = module.getModuleLoader().forClass(PandaArray.class);
+
+        if (!arrayBaseReference.isPresent()) {
+            throw new PandaFrameworkException("Cannot find array base reference");
+        }
+
+        super.addBase(arrayBaseReference.get().fetch());
         this.prototype = type;
-        super.addBase(PandaModule.ARRAY);
     }
 
     @Override

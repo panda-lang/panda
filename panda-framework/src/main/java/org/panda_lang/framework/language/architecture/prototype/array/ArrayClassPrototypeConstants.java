@@ -16,6 +16,7 @@
 
 package org.panda_lang.framework.language.architecture.prototype.array;
 
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
@@ -24,22 +25,23 @@ import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.function.Function;
 
 final class ArrayClassPrototypeConstants {
 
     private static final SourceLocation LOCATION = new PandaClassSource(ArrayClassPrototypeConstants.class).toLocation();
 
-    protected static final PrototypeMethod SIZE = PandaMethod.builder()
+    protected static final Function<ModuleLoader, PrototypeMethod> SIZE = loader -> PandaMethod.builder()
             .name("size")
             .location(LOCATION)
-            .returnType(JavaModule.INT)
+            .returnType(loader.requirePrototype(Integer.class))
             .methodBody((branch, instance, arguments) -> ((Object[]) Objects.requireNonNull(instance)).length)
             .build();
 
-    protected static final PrototypeMethod TO_STRING = PandaMethod.builder()
+    protected static final Function<ModuleLoader, PrototypeMethod> TO_STRING = loader -> PandaMethod.builder()
             .name("toString")
             .location(LOCATION)
-            .returnType(JavaModule.STRING)
+            .returnType(loader.requirePrototype(String.class))
             .methodBody((branch, instance, arguments) -> Arrays.toString((Object[]) instance))
             .build();
 

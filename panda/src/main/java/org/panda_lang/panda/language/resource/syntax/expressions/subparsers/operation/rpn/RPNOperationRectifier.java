@@ -20,6 +20,8 @@ import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
 import org.panda_lang.framework.design.architecture.expression.ExpressionValueType;
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.expression.AbstractDynamicExpression;
@@ -37,6 +39,7 @@ public final class RPNOperationRectifier {
 
     public Expression rectify(Context context, Map<Operator, RPNOperationSupplier> suppliers, Stack<?> elements) {
         Stack<Expression> values = new Stack<>();
+        ModuleLoader loader = context.getComponent(Components.MODULE_LOADER);
 
         for (Object element : elements) {
             if (!(element instanceof Operator)) {
@@ -54,11 +57,12 @@ public final class RPNOperationRectifier {
             // inversed on stack
             Expression b = values.pop();
             Expression a = values.pop();
-            RPNOperationAction<?, ?, ?> action = supplier.of(a, b);
+            RPNOperationAction<?, ?, ?> action = supplier.of(loader, a, b);
 
-            if(a.getType() == ExpressionValueType.CONST && b.getType() == ExpressionValueType.CONST) {
+            if (a.getType() == ExpressionValueType.CONST && b.getType() == ExpressionValueType.CONST) {
                 try {
-                    values.push(new PandaExpression(action.returnType(), action.get(null, ExpressionUtils.evaluateConstExpression(a), ExpressionUtils.evaluateConstExpression(b))));
+                    Object constValue = action.get(null, ExpressionUtils.evaluateConstExpression(a), ExpressionUtils.evaluateConstExpression(b));
+                    values.push(new PandaExpression(action.returnType(loader), constValue));
                 } catch (Exception e) {
                     throw new PandaParserFailure(context, "Cannot evaluate static expression: " + e.getMessage());
                 }
@@ -66,7 +70,7 @@ public final class RPNOperationRectifier {
                 continue;
             }
 
-            Expression expression = new PandaExpression(new AbstractDynamicExpression(action.returnType()) {
+            Expression expression = new PandaExpression(new AbstractDynamicExpression(action.returnType(loader)) {
                 @Override
                 @SuppressWarnings("unchecked")
                 public Object evaluate(ProcessStack stack, Object instance) throws Exception {

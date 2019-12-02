@@ -17,6 +17,7 @@
 package org.panda_lang.framework.design.architecture;
 
 import org.panda_lang.framework.FrameworkController;
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.module.ModulePath;
 import org.panda_lang.framework.design.interpreter.Interpreter;
 import org.panda_lang.framework.design.interpreter.messenger.LoggerHolder;
@@ -42,6 +43,13 @@ public interface Environment extends LoggerHolder {
      * @return the module path
      */
     ModulePath getModulePath();
+
+    /**
+     * Get module loader
+     *
+     * @return the module loader
+     */
+    ModuleLoader getModuleLoader();
 
     /**
      * Get the environment messenger
