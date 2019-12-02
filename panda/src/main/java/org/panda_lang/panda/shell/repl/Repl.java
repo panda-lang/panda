@@ -153,8 +153,8 @@ public final class Repl {
             SourceLocation location = new PandaSourceLocation(new PandaSource("REPL source", history.toString(), true), 0, 0);
             Statement statement = new ReplStatement(location, expression);
 
-            Result<?> result = stack.call(instance, instance, () -> {
-                return stack.call(instance, statement);
+            Result<?> result = stack.callCustomFrame(instance, instance, () -> {
+                return stack.callStatement(instance, statement);
             });
 
             if (result == null) {

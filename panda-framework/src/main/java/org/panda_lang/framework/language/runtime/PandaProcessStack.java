@@ -43,12 +43,12 @@ public final class PandaProcessStack implements ProcessStack {
     }
 
     @Override
-    public @Nullable Result<?> call(Object instance, Frame frame) throws Exception {
-        return call(instance, frame, () -> call(frame, frame.getFramedScope()));
+    public @Nullable Result<?> callFrame(Object instance, Frame frame) throws Exception {
+        return callCustomFrame(instance, frame, () -> callScope(frame, frame.getFramedScope()));
     }
 
     @Override
-    public @Nullable Result<?> call(Object instance, Frame frame, ThrowingSupplier<Result<?>, Exception> resultSupplier) throws Exception {
+    public @Nullable Result<?> callCustomFrame(Object instance, Frame frame, ThrowingSupplier<Result<?>, Exception> resultSupplier) throws Exception {
         Frame cachedFrame = currentFrame;
         this.currentFrame = frame;
 
@@ -59,20 +59,7 @@ public final class PandaProcessStack implements ProcessStack {
     }
 
     @Override
-    public @Nullable Result<?> call(Object instance, Scope scope) throws Exception {
-        for (Cell cell : scope.getCells()) {
-            Result<?> result = call(instance, cell.getStatement());
-
-            if (result != null) {
-                return result;
-            }
-        }
-
-        return null;
-    }
-
-    @Override
-    public @Nullable Result<?> call(Object instance, Statement statement) throws Exception {
+    public @Nullable Result<?> callStatement(Object instance, Statement statement) throws Exception {
         stack.push(statement);
         Result<?> result = callInternal(instance, statement);
         stack.pop();
@@ -95,7 +82,20 @@ public final class PandaProcessStack implements ProcessStack {
                 return ((ControlledScope) statement).controlledCall(this, instance);
             }
 
-            return call(instance, (Scope) statement);
+            return callScope(instance, (Scope) statement);
+        }
+
+        return null;
+    }
+
+    @Override
+    public @Nullable Result<?> callScope(Object instance, Scope scope) throws Exception {
+        for (Cell cell : scope.getCells()) {
+            Result<?> result = callStatement(instance, cell.getStatement());
+
+            if (result != null) {
+                return result;
+            }
         }
 
         return null;

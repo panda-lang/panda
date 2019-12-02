@@ -63,7 +63,7 @@ public final class MethodScope extends AbstractPropertyFramedScope {
         public @Nullable Object invoke(ProcessStack stack, @Nullable Frame instance, Object[] arguments) throws Exception {
             MethodFrame scopeInstance = scope.revive(stack, instance);
             ParameterUtils.assignValues(scopeInstance, arguments);
-            Result<?> result = stack.call(scopeInstance, scopeInstance);
+            Result<?> result = stack.callFrame(scopeInstance, scopeInstance);
 
             if (result == null) {
                 return null;

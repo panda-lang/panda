@@ -20,12 +20,12 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.dynamic.ControlledScope;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.statement.Scope;
+import org.panda_lang.framework.design.architecture.statement.Statement;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Result;
 import org.panda_lang.framework.language.architecture.statement.AbstractBlock;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 
 final class ConditionalBlock extends AbstractBlock implements ControlledScope {
 
@@ -47,11 +47,11 @@ final class ConditionalBlock extends AbstractBlock implements ControlledScope {
         Boolean flag = condition.evaluate(stack, instance);
 
         if (flag) {
-            return stack.call(instance, this);
+            return stack.callScope(instance, this);
         }
 
         if (elseBlock != null) {
-            return stack.call(instance, elseBlock);
+            return stack.callStatement(instance, (Statement) elseBlock);
         }
 
         return null;

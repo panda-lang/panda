@@ -77,7 +77,7 @@ public final class ConstructorParser extends ParserBootstrap {
                     AbstractFrame constructorInstance = constructorScope.revive(stack, prototypeInstance);
                     ParameterUtils.assignValues(constructorInstance, arguments);
 
-                    stack.call(prototypeInstance, constructorInstance);
+                    stack.callFrame(prototypeInstance, constructorInstance);
                     return prototypeInstance;
                 })
                 .build();

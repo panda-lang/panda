@@ -35,7 +35,7 @@ public interface ProcessStack {
      * @return result of invocation
      * @throws Exception if something happen
      */
-    @Nullable Result<?> call(Object instance, Frame frame) throws Exception;
+    @Nullable Result<?> callFrame(Object instance, Frame frame) throws Exception;
 
     /**
      * Call frame within the given instance and return custom result
@@ -46,17 +46,7 @@ public interface ProcessStack {
      * @return result of invocation
      * @throws Exception if something happen
      */
-    @Nullable Result<?> call(Object instance, Frame frame, ThrowingSupplier<Result<?>, Exception> resultSupplier) throws Exception;
-
-    /**
-     * Call scope within the given instance
-     *
-     * @param instance the instance within the frame has to performed
-     * @param scope the scope to call
-     * @return result of invocation
-     * @throws Exception if something happen
-     */
-    @Nullable Result<?> call(Object instance, Scope scope) throws Exception;
+    @Nullable Result<?> callCustomFrame(Object instance, Frame frame, ThrowingSupplier<Result<?>, Exception> resultSupplier) throws Exception;
 
     /**
      * Call statement within the given instance
@@ -66,7 +56,17 @@ public interface ProcessStack {
      * @return result of invocation
      * @throws Exception if something happen
      */
-    @Nullable Result<?> call(Object instance, Statement statement) throws Exception;
+    @Nullable Result<?> callStatement(Object instance, Statement statement) throws Exception;
+
+    /**
+     * Call scope within the given instance
+     *
+     * @param instance the instance within the frame has to performed
+     * @param scope the scope to call
+     * @return result of invocation
+     * @throws Exception if something happen
+     */
+    @Nullable Result<?> callScope(Object instance, Scope scope) throws Exception;
 
     /**
      * Get statements on stack
