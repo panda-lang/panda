@@ -78,8 +78,8 @@ public final class BlockParser extends ParserBootstrap {
         if (!parent.getCells().isEmpty()) {
             Cell cell = parent.getCells().get(parent.getCells().size() - 1);
 
-            if (cell.getStatement() instanceof Block) {
-                delegatedContext.withComponent(BlockComponents.PREVIOUS_BLOCK, (Block) cell.getStatement());
+            if (cell.getStatement() instanceof BlockStatement) {
+                delegatedContext.withComponent(BlockComponents.PREVIOUS_BLOCK, ((BlockStatement) cell.getStatement()).getBlock());
             }
         }
 
@@ -91,11 +91,11 @@ public final class BlockParser extends ParserBootstrap {
 
         local.allocated(blockData.getBlock());
 
-        if (blockData.isUnlisted()) {
-            return;
+        if (!blockData.isUnlisted()) {
+            parent.addStatement(blockData.getBlock());
         }
 
-        context.getComponent(Components.SCOPE).addStatement(blockData.getBlock());
+        parent.addStatement(new BlockStatement(blockData.getBlock()));
     }
 
     @Autowired(order = 2)

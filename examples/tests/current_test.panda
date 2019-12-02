@@ -43,10 +43,13 @@ main {
 
     // verify logic
     if !flag {
-        log 'Nope'
+        throw new RuntimeException('Nope If')
+    }
+    else if flag {
+        log 'Yay' // expected
     }
     else {
-        log 'Yay' // expected
+        throw new RuntimeException('Nope Else')
     }
 
     // assign ArrayList (class) value to List (interface) variable and add some values

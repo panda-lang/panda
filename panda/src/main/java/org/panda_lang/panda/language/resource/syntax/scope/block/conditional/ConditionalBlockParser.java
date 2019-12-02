@@ -28,6 +28,7 @@ import org.panda_lang.framework.language.interpreter.pattern.custom.elements.Sub
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.VariantElement;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.language.resource.syntax.keyword.Keyword;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.block.BlockComponents;
@@ -51,8 +52,13 @@ public final class ConditionalBlockParser extends BlockSubparserBootstrap {
                 .interceptor(new CustomPatternInterceptor())
                 .pattern(CustomPattern.of(
                         VariantElement.create("variant").content(
-                                SubPatternElement.create("with-condition").of(
-                                        VariantElement.create("type").content("if", "else if"),
+                                SubPatternElement.create("else if").of(
+                                        KeywordElement.create(Keywords.ELSE),
+                                        KeywordElement.create(Keywords.IF),
+                                        ExpressionElement.create("condition").map(ExpressionTransaction::getExpression)
+                                ),
+                                SubPatternElement.create("if").of(
+                                        KeywordElement.create(Keywords.IF),
                                         ExpressionElement.create("condition").map(ExpressionTransaction::getExpression)
                                 ),
                                 KeywordElement.create(Keywords.ELSE)
@@ -62,7 +68,7 @@ public final class ConditionalBlockParser extends BlockSubparserBootstrap {
 
     @Autowired
     BlockData parse(Context context, @Inter Result result, @Inter SourceLocation location, @Component Scope parent, @Component(BlockComponents.PREVIOUS_BLOCK_LABEL) Block previous) {
-        if (result.has("else")) {
+        if (result.has("else") && !result.has("else if")) {
             ElseBlock elseBlock = new ElseBlock(parent, location);
 
             if (!(previous instanceof ConditionalBlock)) {
@@ -79,20 +85,19 @@ public final class ConditionalBlockParser extends BlockSubparserBootstrap {
         }
 
         ConditionalBlock conditionalBlock = new ConditionalBlock(parent, location, result.get("condition"));
-        String type = result.get("type").toString();
 
-        if (type.equals("if")) {
-            return new BlockData(conditionalBlock);
-        }
-
-        if (type.equals("else if")) {
+        if (result.has("else if")) {
             if (!(previous instanceof ConditionalBlock)) {
                 throw new PandaParserFailure(context, "The If-Else-block without associated If-block");
             }
 
             ConditionalBlock previousConditionalBlock = (ConditionalBlock) previous;
-            conditionalBlock.setElseBlock(previousConditionalBlock);
-            return new BlockData(previous, true);
+            previousConditionalBlock.setElseBlock(conditionalBlock);
+            return new BlockData(conditionalBlock, true);
+        }
+
+        if (result.has("if")) {
+            return new BlockData(conditionalBlock);
         }
 
         throw new PandaParserFailure(context, "Unrecognized condition type");
