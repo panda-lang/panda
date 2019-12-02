@@ -22,8 +22,6 @@ import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeExecutableCallback;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
-import sun.dc.pr.PRError;
-import sun.dc.pr.PRException;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
