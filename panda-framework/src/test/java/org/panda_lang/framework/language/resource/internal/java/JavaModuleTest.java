@@ -16,7 +16,6 @@
 
 package org.panda_lang.framework.language.resource.internal.java;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class JavaModuleTest {

@@ -18,9 +18,9 @@ package org.panda_lang.panda.language.resource.syntax;
 
 import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.language.interpreter.parser.PandaParsersUtils;
+import org.panda_lang.panda.language.interpreter.parser.ApplicationParser;
 import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
 import org.panda_lang.panda.language.interpreter.parser.block.BlockParser;
-import org.panda_lang.panda.language.interpreter.parser.ApplicationParser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ArgumentsParser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number.NumberParser;
 import org.panda_lang.panda.language.resource.syntax.head.CommentParser;

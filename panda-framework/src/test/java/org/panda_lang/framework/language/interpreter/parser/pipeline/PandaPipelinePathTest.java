@@ -23,9 +23,9 @@ import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponents;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
-import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.interpreter.parser.PandaContext;
 import org.panda_lang.framework.language.interpreter.token.PandaTokenRepresentation;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 
 import java.util.Arrays;
 

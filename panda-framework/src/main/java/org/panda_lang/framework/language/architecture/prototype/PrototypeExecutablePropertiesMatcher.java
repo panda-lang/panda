@@ -114,7 +114,7 @@ final class PrototypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
         List<Expression>[] mapped = new List[parameters.length];
 
         // group arguments
-        for (int targetIndex = 0; targetIndex < target.length;) {
+        for (int targetIndex = 0; targetIndex < target.length; ) {
             int targetParameter = target[targetIndex];
             List<Expression> section = mapped[targetParameter];
 

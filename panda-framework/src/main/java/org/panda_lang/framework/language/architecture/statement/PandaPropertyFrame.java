@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.architecture.prototype.PropertyFrame;
 import org.panda_lang.framework.design.architecture.statement.FramedScope;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractFrame;
 
-public class PandaPropertyFrame<T extends FramedScope>  extends AbstractFrame<T> implements PropertyFrame {
+public class PandaPropertyFrame<T extends FramedScope> extends AbstractFrame<T> implements PropertyFrame {
 
     private final Frame instance;
 

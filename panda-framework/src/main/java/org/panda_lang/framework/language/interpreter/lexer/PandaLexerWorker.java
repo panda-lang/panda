@@ -17,9 +17,9 @@
 package org.panda_lang.framework.language.interpreter.lexer;
 
 import org.panda_lang.framework.design.interpreter.source.Source;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceLocation;
 import org.panda_lang.framework.language.interpreter.token.PandaTokenRepresentation;
@@ -38,7 +38,7 @@ final class PandaLexerWorker {
     private final StringBuilder builder = new StringBuilder();
     private final Collection<Token> lineTokens = new ArrayList<>();
     private final PandaLexerTokenExtractor extractor = new PandaLexerTokenExtractor(this);
-    private final PandaLexerSequencer sequencer  = new PandaLexerSequencer(this);
+    private final PandaLexerSequencer sequencer = new PandaLexerSequencer(this);
     private final PandaLexerCollector collector = new PandaLexerCollector(this);
 
     private final StringBuilder linePreview = new StringBuilder();

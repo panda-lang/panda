@@ -17,11 +17,11 @@
 package org.panda_lang.framework.language.interpreter.pattern.descriptive.extractor;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.language.interpreter.pattern.descriptive.utils.TokenDistributor;
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.wildcard.WildcardCompiler;
 import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternWildcard;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
-import org.panda_lang.framework.language.interpreter.pattern.descriptive.utils.TokenDistributor;
 
 final class WildcardExtractor extends AbstractElementExtractor<LexicalPatternWildcard> {
 

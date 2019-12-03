@@ -61,6 +61,7 @@ public interface TokenRepresentation extends Token, Snippetable {
     default <T extends Token> T toToken(Class<T> type) {
         return (T) getToken();
     }
+
     /**
      * Get token using {@link #getToken()} method and cast it to the requested type
      *

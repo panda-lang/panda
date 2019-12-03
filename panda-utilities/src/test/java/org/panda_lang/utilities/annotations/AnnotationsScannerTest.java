@@ -79,19 +79,19 @@ final class AnnotationsScannerTest {
         Assertions.assertEquals("methodName", annotatedMethods.iterator().next().getName());
     }
 
-    public @interface AnnotationTest { }
+    public @interface AnnotationTest {}
 
-    public@interface AnotherAnnotationTest { }
+    public @interface AnotherAnnotationTest {}
 
     @SuppressWarnings("unused")
-    interface NotVisibleType extends WrappedTestType { }
+    interface NotVisibleType extends WrappedTestType {}
 
-    public interface WrappedTestType extends TestType { }
+    public interface WrappedTestType extends TestType {}
 
-    public interface TestType { }
+    public interface TestType {}
 
     @AnnotationTest
-    public static final class Implementation implements WrappedTestType { }
+    public static final class Implementation implements WrappedTestType {}
 
     public static final class AnotherImplementation implements TestType {
 

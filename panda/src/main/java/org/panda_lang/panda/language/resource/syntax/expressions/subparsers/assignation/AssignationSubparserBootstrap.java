@@ -17,15 +17,15 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.interpreter.parser.Components;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
+import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 
 import java.util.function.Supplier;
 

@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number;
 
-import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.utilities.commons.CharacterUtils;
 
 public final class NumberUtils {

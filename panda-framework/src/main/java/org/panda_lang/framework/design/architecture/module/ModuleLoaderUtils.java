@@ -19,7 +19,6 @@ package org.panda_lang.framework.design.architecture.module;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.utilities.commons.ClassUtils;
 
 public final class ModuleLoaderUtils {
 

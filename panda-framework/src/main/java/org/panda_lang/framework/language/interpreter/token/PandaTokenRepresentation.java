@@ -17,8 +17,8 @@
 package org.panda_lang.framework.language.interpreter.token;
 
 import org.panda_lang.framework.design.interpreter.source.Source;
-import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.interpreter.source.PandaSource;

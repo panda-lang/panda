@@ -18,7 +18,6 @@ package org.panda_lang.framework.language.interpreter.pattern.lexical.extractor;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.PandaFrameworkException;
-import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternNode;
 import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternSection;
@@ -26,6 +25,7 @@ import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.Le
 import org.panda_lang.framework.language.interpreter.pattern.lexical.processed.ProcessedValue;
 import org.panda_lang.framework.language.interpreter.pattern.lexical.processed.WildcardProcessor;
 import org.panda_lang.framework.language.interpreter.token.PandaTokenRepresentation;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 
 import java.util.List;
 

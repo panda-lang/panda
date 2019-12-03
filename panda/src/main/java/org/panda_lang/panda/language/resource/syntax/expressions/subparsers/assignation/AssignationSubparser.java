@@ -17,11 +17,11 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 
 @FunctionalInterface

@@ -18,8 +18,8 @@ package org.panda_lang.framework.language.resource.syntax.operator;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
-import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.interpreter.token.EqualableToken;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.utilities.commons.StringUtils;
 
 public final class Operator extends EqualableToken {

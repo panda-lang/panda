@@ -62,5 +62,5 @@ final class ForEachBlock extends AbstractBlock implements ControlledScope {
     public int getValuePointer() {
         return valuePointer;
     }
-    
+
 }

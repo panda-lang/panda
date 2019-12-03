@@ -17,9 +17,9 @@
 package org.panda_lang.framework.language.interpreter.pattern.descriptive.extractor;
 
 import org.panda_lang.framework.PandaFrameworkException;
+import org.panda_lang.framework.language.interpreter.pattern.descriptive.utils.TokenDistributor;
 import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternNode;
-import org.panda_lang.framework.language.interpreter.pattern.descriptive.utils.TokenDistributor;
 
 final class VariantExtractor extends AbstractElementExtractor<LexicalPatternNode> {
 

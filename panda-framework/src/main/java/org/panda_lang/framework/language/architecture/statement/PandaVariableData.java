@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.Referencable;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
 
-public class PandaVariableData implements VariableData  {
+public class PandaVariableData implements VariableData {
 
     private final String name;
     private final Prototype type;

@@ -19,10 +19,10 @@ package org.panda_lang.framework.language.interpreter.pattern.descriptive.wildca
 import org.hjson.JsonObject;
 import org.hjson.JsonValue;
 import org.panda_lang.framework.PandaFrameworkException;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.wildcard.condition.WildcardCondition;
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.wildcard.condition.WildcardConditionFactory;
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.wildcard.condition.WildcardConditionResult;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.utilities.commons.StringUtils;
 
 final class TokenWildcardConditionFactory implements WildcardConditionFactory {

@@ -27,7 +27,6 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.architecture.module.PandaImportsUtils;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototypeField;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
@@ -43,7 +42,9 @@ import org.panda_lang.framework.language.interpreter.pattern.custom.elements.Var
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.WildcardElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.NextTokenTypeVerifier;
 import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.TokenTypeVerifier;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
@@ -54,7 +55,6 @@ import org.panda_lang.panda.language.interpreter.parser.context.data.LocalData;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.CustomPatternHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
-import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 
 @RegistrableParser(pipeline = Pipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_FIELD)
 public final class FieldParser extends ParserBootstrap {

@@ -110,7 +110,7 @@ final class Dependency {
             String name = byVersion[0];
             String version = byVersion[1];
 
-            return new Dependency(owner, name, version, "https://github.com/" + owner + "/" + name +  "/archive/" + version + ".zip");
+            return new Dependency(owner, name, version, "https://github.com/" + owner + "/" + name + "/archive/" + version + ".zip");
         }
 
         throw new PandaFrameworkException("Unsupported dependency format: " + qualifier);

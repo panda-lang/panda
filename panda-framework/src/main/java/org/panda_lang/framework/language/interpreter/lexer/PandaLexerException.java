@@ -19,11 +19,11 @@ package org.panda_lang.framework.language.interpreter.lexer;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
-import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.interpreter.PandaInterpreterFailure;
 import org.panda_lang.framework.language.interpreter.source.PandaIndicatedSource;
 import org.panda_lang.framework.language.interpreter.token.PandaToken;
 import org.panda_lang.framework.language.interpreter.token.PandaTokenRepresentation;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 
 public final class PandaLexerException extends PandaInterpreterFailure {
 

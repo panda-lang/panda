@@ -16,11 +16,9 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation;
 
-import javafx.scene.control.Separator;
 import org.panda_lang.framework.language.resource.syntax.operator.Operator;
 import org.panda_lang.framework.language.resource.syntax.operator.Operators;
 
-import java.lang.management.OperatingSystemMXBean;
 import java.util.Optional;
 
 public enum AssignationType {

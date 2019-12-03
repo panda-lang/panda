@@ -18,8 +18,8 @@ package org.panda_lang.panda.language.interpreter.parser;
 
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponents;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationSubparser;
 import org.panda_lang.panda.language.interpreter.parser.block.BlockSubparser;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationSubparser;
 
 /**
  * Used by {@link RegistrableParser}

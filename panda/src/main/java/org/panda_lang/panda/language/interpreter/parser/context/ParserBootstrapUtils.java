@@ -19,8 +19,8 @@ package org.panda_lang.panda.language.interpreter.parser.context;
 public final class ParserBootstrapUtils {
 
     private static final Class<?>[] INTERNAL = {
-        BootstrapContextParser.class,
-        BootstrapTaskScheduler.class
+            BootstrapContextParser.class,
+            BootstrapTaskScheduler.class
     };
 
     private ParserBootstrapUtils() { }

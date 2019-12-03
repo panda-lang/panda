@@ -17,6 +17,8 @@
 package org.panda_lang.framework.language.interpreter.pattern.descriptive;
 
 import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.extractor.ExtractorResult;
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.extractor.TokenExtractor;
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.wildcard.condition.WildcardConditionFactory;
@@ -24,8 +26,6 @@ import org.panda_lang.framework.language.interpreter.pattern.descriptive.wildcar
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.wildcard.reader.WildcardReader;
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.wildcard.reader.defaults.DefaultWildcardReaders;
 import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 
 import java.util.Collection;

@@ -47,13 +47,13 @@ final class PandaCli implements ThrowingRunnable {
     @Option(names = { "--help", "-H" }, usageHelp = true, description = "display help message")
     private boolean usageHelpRequested;
 
-    @Option(names = { "--level", "-L" }, description = "set level of logging", paramLabel="<level>")
+    @Option(names = { "--level", "-L" }, description = "set level of logging", paramLabel = "<level>")
     private String level;
 
     @Option(names = { "--repl", "-R" }, description = "open interactive shell")
     private boolean repl;
 
-    @Option(names = { "--simplified-repl", "-S"}, description = "open interactive shell with simplified errors")
+    @Option(names = { "--simplified-repl", "-S" }, description = "open interactive shell with simplified errors")
     private boolean simplifiedRepl;
 
     public PandaCli(PandaShell shell) {

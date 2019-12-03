@@ -76,7 +76,7 @@ public final class InjectorAnnotation<T extends Annotation> {
         }
 
         @SuppressWarnings("unchecked")
-        public  <V> V getValue(String key) {
+        public <V> V getValue(String key) {
             return (V) values.get(key);
         }
 

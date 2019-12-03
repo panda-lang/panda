@@ -17,10 +17,7 @@
 package org.panda_lang.panda.language.interpreter.parser.block;
 
 import org.panda_lang.framework.design.architecture.statement.Block;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.language.architecture.statement.AbstractStatement;
-
-import java.util.concurrent.BlockingQueue;
 
 final class BlockStatement extends AbstractStatement {
 

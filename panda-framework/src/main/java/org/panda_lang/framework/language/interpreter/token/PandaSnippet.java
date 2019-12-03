@@ -16,8 +16,8 @@
 
 package org.panda_lang.framework.language.interpreter.token;
 
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.utilities.commons.ObjectUtils;
 import org.panda_lang.utilities.commons.collection.Lists;
 import org.panda_lang.utilities.commons.text.ContentJoiner;

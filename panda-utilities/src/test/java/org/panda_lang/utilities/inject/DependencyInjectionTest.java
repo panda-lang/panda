@@ -82,7 +82,7 @@ final class DependencyInjectionTest {
         }
 
         @Wired({
-             @Wired.Link(parameter = "value", with = CustomAnnotation.class, value = "hello-wired")
+                @Wired.Link(parameter = "value", with = CustomAnnotation.class, value = "hello-wired")
         })
         protected String testWiredInvoke(String value) {
             Assertions.assertEquals(HELLO_WIRED, value);

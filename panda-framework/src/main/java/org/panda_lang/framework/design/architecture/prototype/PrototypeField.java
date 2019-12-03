@@ -16,8 +16,8 @@
 
 package org.panda_lang.framework.design.architecture.prototype;
 
-import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.statement.Variable;
 
 /**
  * Represents field property

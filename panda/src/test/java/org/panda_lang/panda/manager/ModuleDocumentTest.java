@@ -30,19 +30,19 @@ class ModuleDocumentTest {
     @BeforeAll
     static void prepare() {
         String value =
-                    "name: test-module\n" +
-                    "version: 1.0.0\n" +
-                    "owner: dzikoysk\n" +
-                    "scripts: {\n" +
+                "name: test-module\n" +
+                        "version: 1.0.0\n" +
+                        "owner: dzikoysk\n" +
+                        "scripts: {\n" +
                         "main: app.panda\n" +
-                    "}\n" +
-                    "dependencies: [\n" +
+                        "}\n" +
+                        "dependencies: [\n" +
                         "github:owner-one/dependency-one@1.0.0\n" +
                         "github:owner-three/dependency-three@1.0.0\n" +
-                    "]\n" +
-                    "tests-dependencies: [\n" +
+                        "]\n" +
+                        "tests-dependencies: [\n" +
                         "github:owner-two/dependency-two@1.0.0\n" +
-                    "]\n";
+                        "]\n";
 
         document = new ModuleDocument(new File("."), JsonValue.readHjson(value).asObject());
     }

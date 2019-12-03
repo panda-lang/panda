@@ -22,7 +22,6 @@ import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.framework.language.interpreter.parser.PandaContext;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParser;
@@ -36,6 +35,7 @@ import org.panda_lang.framework.language.interpreter.pattern.custom.elements.Var
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.WildcardElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.NextTokenTypeVerifier;
 import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.TokenTypeVerifier;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 
 import java.util.Collections;

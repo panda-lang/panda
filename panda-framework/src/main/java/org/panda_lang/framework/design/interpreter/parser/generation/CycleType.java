@@ -42,7 +42,7 @@ public final class CycleType implements Comparable<CycleType> {
 
     /**
      * Get priority of cycle
-     * 
+     *
      * @return the priority
      */
     public double getPriority() {

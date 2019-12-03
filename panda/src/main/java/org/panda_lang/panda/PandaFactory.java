@@ -32,8 +32,8 @@ import org.panda_lang.panda.language.interpreter.messenger.layouts.PandaLexerFai
 import org.panda_lang.panda.language.interpreter.messenger.layouts.ParserFailureTranslatorLayout;
 import org.panda_lang.panda.language.interpreter.messenger.layouts.ProcessFailureTranslatorLayout;
 import org.panda_lang.panda.language.interpreter.messenger.mappers.StacktraceMapper;
-import org.panda_lang.panda.language.resource.syntax.PandaParsers;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
+import org.panda_lang.panda.language.resource.syntax.PandaParsers;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationParsers;
 import org.slf4j.Logger;
 
@@ -55,25 +55,25 @@ public final class PandaFactory {
 
                 // initialize messenger
                 .initializeMessenger()
-                    .addLayouts(ExceptionTranslatorLayout.class)
-                    .addLayouts(PandaLexerFailureTranslatorLayout.class, InterpreterFailureTranslatorLayout.class, ParserFailureTranslatorLayout.class)
-                    .addLayouts(ProcessFailureTranslatorLayout.class)
-                    .addDataFormatters(EnvironmentFormatter.class, ThrowableFormatter.class, StacktraceElementsFormatter.class, ExceptionFormatter.class)
-                    .addDataFormatters(IndicatedSourceFormatter.class, ParserFailureFormatter.class)
-                    .addDataFormatters(ProcessFailureFormatter.class)
-                    .addDataMapper(new StacktraceMapper())
-                    .collect()
+                .addLayouts(ExceptionTranslatorLayout.class)
+                .addLayouts(PandaLexerFailureTranslatorLayout.class, InterpreterFailureTranslatorLayout.class, ParserFailureTranslatorLayout.class)
+                .addLayouts(ProcessFailureTranslatorLayout.class)
+                .addDataFormatters(EnvironmentFormatter.class, ThrowableFormatter.class, StacktraceElementsFormatter.class, ExceptionFormatter.class)
+                .addDataFormatters(IndicatedSourceFormatter.class, ParserFailureFormatter.class)
+                .addDataFormatters(ProcessFailureFormatter.class)
+                .addDataMapper(new StacktraceMapper())
+                .collect()
 
                 // load pipelines
                 .initializePipelines()
-                    .usePipelines(Pipelines.class, PandaPipeline.class)
-                    .collect()
+                .usePipelines(Pipelines.class, PandaPipeline.class)
+                .collect()
 
                 // load parsers and expressions subparsers
                 .initializeParsers()
-                    .loadParsersClasses(PandaParsers.PARSERS, AssignationParsers.SUBPARSERS)
-                    .loadDefaultExpressionSubparsers()
-                    .collect()
+                .loadParsersClasses(PandaParsers.PARSERS, AssignationParsers.SUBPARSERS)
+                .loadDefaultExpressionSubparsers()
+                .collect()
 
                 // load models
                 .create();

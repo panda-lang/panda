@@ -26,11 +26,10 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionS
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserType;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.architecture.expression.ThisExpression;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.framework.language.interpreter.parser.expression.ExpressionParserUtils;
-import org.panda_lang.framework.language.resource.internal.java.JavaModule;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 
 public final class LiteralExpressionSubparser implements ExpressionSubparser {
 

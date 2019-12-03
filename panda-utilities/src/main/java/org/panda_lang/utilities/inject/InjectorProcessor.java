@@ -48,7 +48,7 @@ final class InjectorProcessor {
         return parameters;
     }
 
-    private InjectorAnnotation<?>[] mapAnnotations(Executable executable) throws InjectorException, InvocationTargetException, IllegalAccessException  {
+    private InjectorAnnotation<?>[] mapAnnotations(Executable executable) throws InjectorException, InvocationTargetException, IllegalAccessException {
         Class<?>[] parameterTypes = executable.getParameterTypes();
         Parameter[] parameters = executable.getParameters();
 

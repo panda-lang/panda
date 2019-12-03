@@ -24,6 +24,7 @@ import org.panda_lang.framework.language.interpreter.pattern.custom.elements.Imp
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.KeywordElement;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.architecture.PandaScript;
+import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
@@ -31,7 +32,6 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Comp
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
-import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 
 @RegistrableParser(pipeline = Pipelines.HEAD_LABEL)
 public final class ExportParser extends ParserBootstrap {

@@ -23,7 +23,6 @@ import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
 import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
-import org.panda_lang.framework.language.resource.internal.panda.PandaModule;
 
 import java.util.Optional;
 

@@ -18,9 +18,9 @@ package org.panda_lang.framework.language.interpreter.lexer;
 
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.framework.language.resource.syntax.PandaSyntax;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.utilities.commons.StringUtils;
 
 public final class PandaLexerUtils {

@@ -17,8 +17,8 @@
 package org.panda_lang.framework.language.resource.syntax.separator;
 
 import org.panda_lang.framework.design.interpreter.token.TokenType;
-import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.interpreter.token.EqualableToken;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 
 public final class Separator extends EqualableToken {
 

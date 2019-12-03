@@ -170,6 +170,22 @@ public final class ArrayUtils {
     }
 
     /**
+     * Get base class of any array, e.g. Integer from Integer[][][][][]
+     *
+     * @param arrayClass the array class
+     * @return the base type
+     */
+    public static Class<?> getBaseClass(Class<?> arrayClass) {
+        Class<?> currentClass = arrayClass;
+
+        while (currentClass.isArray()) {
+            currentClass = arrayClass.getComponentType();
+        }
+
+        return currentClass;
+    }
+
+    /**
      * Get array class for the specified type
      *
      * @param clazz type of array

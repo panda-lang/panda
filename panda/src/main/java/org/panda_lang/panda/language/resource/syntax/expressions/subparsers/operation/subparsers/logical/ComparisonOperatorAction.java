@@ -18,7 +18,6 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ope
 
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.number.NumberOperationAction;
 
 public abstract class ComparisonOperatorAction extends NumberOperationAction {

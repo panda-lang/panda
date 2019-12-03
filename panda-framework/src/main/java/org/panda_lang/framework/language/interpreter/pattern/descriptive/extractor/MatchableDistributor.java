@@ -17,9 +17,9 @@
 package org.panda_lang.framework.language.interpreter.pattern.descriptive.extractor;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.utils.TokenDistributor;
 import org.panda_lang.framework.language.resource.syntax.separator.Separator;
 

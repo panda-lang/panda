@@ -16,8 +16,8 @@
 
 package org.panda_lang.framework.language.interpreter.pattern.custom.elements;
 
-import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPatternElementBuilder;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
+import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPatternElementBuilder;
 
 public final class WildcardElement extends CustomPatternElementBuilder<Snippetable, WildcardElement> {
 

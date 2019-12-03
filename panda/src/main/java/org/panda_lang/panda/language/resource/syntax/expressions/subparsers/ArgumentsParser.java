@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
@@ -26,7 +27,6 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionT
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;

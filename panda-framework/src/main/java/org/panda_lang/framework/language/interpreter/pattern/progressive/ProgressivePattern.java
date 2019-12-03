@@ -16,8 +16,8 @@
 
 package org.panda_lang.framework.language.interpreter.pattern.progressive;
 
-import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.language.resource.syntax.separator.Separator;
 
 public final class ProgressivePattern {

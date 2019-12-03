@@ -60,7 +60,7 @@ public final class PipelinesInitializer implements Initializer {
         bootstrap.logger.debug("--- Loading pipelines");
         bootstrap.logger.debug("Pipelines: (" + path.names().size() + ") " + path.names());
         bootstrap.logger.debug("");
-        
+
         return this;
     }
 

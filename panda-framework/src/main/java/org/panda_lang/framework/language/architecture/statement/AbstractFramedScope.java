@@ -17,8 +17,8 @@
 package org.panda_lang.framework.language.architecture.statement;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.FramedScope;
+import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 
 public abstract class AbstractFramedScope extends AbstractScope implements FramedScope {

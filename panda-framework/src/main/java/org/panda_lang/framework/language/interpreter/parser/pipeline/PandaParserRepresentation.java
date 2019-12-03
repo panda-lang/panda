@@ -17,8 +17,8 @@
 package org.panda_lang.framework.language.interpreter.parser.pipeline;
 
 import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.parser.ParserRepresentation;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 
 public final class PandaParserRepresentation<P extends Parser> implements ParserRepresentation<P> {
 

@@ -17,8 +17,8 @@
 package org.panda_lang.framework.language.interpreter.parser.expression;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
 
 import java.util.Collection;
 

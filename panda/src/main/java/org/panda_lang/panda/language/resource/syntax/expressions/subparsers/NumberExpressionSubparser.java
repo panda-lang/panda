@@ -25,8 +25,8 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionS
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number.NumberParser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number.NumberUtils;

@@ -16,12 +16,12 @@
 
 package org.panda_lang.framework.language.interpreter.parser.expression;
 
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction.Commit;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
-import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 
 import java.util.ArrayList;

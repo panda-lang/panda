@@ -16,8 +16,8 @@
 
 package org.panda_lang.framework.language.interpreter.pattern.custom.elements;
 
-import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPatternElementBuilder;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPatternElementBuilder;
 
 public final class UnitElement extends CustomPatternElementBuilder<TokenRepresentation, UnitElement> {
 

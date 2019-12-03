@@ -19,15 +19,11 @@ package org.panda_lang.panda.language.resource;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.framework.design.architecture.module.ModulePath;
-import org.panda_lang.framework.design.architecture.module.Modules;
 import org.panda_lang.framework.language.architecture.module.PandaModuleFactory;
 import org.panda_lang.framework.language.architecture.prototype.generator.PrototypeGeneratorManager;
 import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
 import org.panda_lang.framework.language.resource.internal.PandaFrameworkModules;
 import org.panda_lang.panda.language.resource.internal.PandaModules;
-
-import java.util.Optional;
 
 public final class ResourcesLoader {
 

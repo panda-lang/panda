@@ -31,8 +31,8 @@ import org.panda_lang.framework.language.architecture.statement.StaticScope;
 import org.panda_lang.framework.language.interpreter.parser.PandaContext;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.panda.language.architecture.PandaScript;
-import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressionUtils;
 import org.panda_lang.panda.language.resource.ResourcesLoader;
+import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressionUtils;
 
 import java.util.Map;
 import java.util.function.Function;

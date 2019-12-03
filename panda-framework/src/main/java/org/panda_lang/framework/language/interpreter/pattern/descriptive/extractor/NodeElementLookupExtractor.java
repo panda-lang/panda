@@ -16,9 +16,9 @@
 
 package org.panda_lang.framework.language.interpreter.pattern.descriptive.extractor;
 
-import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.utils.TokenDistributor;
+import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
 
 import java.util.List;
 

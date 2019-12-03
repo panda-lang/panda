@@ -28,9 +28,9 @@ final class BootstrapGenerator {
 
     protected <T> ParserRepresentation<ContextParser<T>> generate(BootstrapInitializer<T> initializer, BootstrapContent content) {
         List<BootstrapMethod> methods = initializer.layers.stream()
-                                .map(BootstrapMethod::new)
-                                .sorted(Comparator.comparingInt(BootstrapMethod::getOrder))
-                                .collect(Collectors.toList());
+                .map(BootstrapMethod::new)
+                .sorted(Comparator.comparingInt(BootstrapMethod::getOrder))
+                .collect(Collectors.toList());
 
         content.getInterceptor()
                 .ifPresent((interceptor -> interceptor.initialize(content)));

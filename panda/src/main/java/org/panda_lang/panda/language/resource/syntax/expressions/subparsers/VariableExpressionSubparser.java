@@ -28,12 +28,12 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionR
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.architecture.expression.ThisExpression;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
 import org.panda_lang.framework.language.architecture.prototype.utils.VisibilityComparator;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.framework.language.interpreter.token.TokenUtils;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number.NumberUtils;
 

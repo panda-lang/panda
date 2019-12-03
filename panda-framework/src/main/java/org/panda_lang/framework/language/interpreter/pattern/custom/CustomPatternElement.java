@@ -53,6 +53,7 @@ final class CustomPatternElement implements Buildable {
     public CustomReader<?> getReader() {
         return reader;
     }
+
     public boolean isOptional() {
         return optional;
     }

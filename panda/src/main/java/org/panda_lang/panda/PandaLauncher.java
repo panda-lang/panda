@@ -37,7 +37,7 @@ public final class PandaLauncher {
         PandaShell shell = new PandaShell(() -> LoggerFactory.getLogger(PandaLauncher.class), System.in);
 
         if (ArrayUtils.isEmpty(args)) {
-            args = new String[]{ "--help" };
+            args = new String[] { "--help" };
         }
 
         shell.invoke(args);

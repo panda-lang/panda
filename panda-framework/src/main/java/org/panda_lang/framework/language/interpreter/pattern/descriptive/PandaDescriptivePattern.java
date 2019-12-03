@@ -16,8 +16,8 @@
 
 package org.panda_lang.framework.language.interpreter.pattern.descriptive;
 
-import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Components;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.wildcard.reader.defaults.ExpressionWildcardReader;
 
 public final class PandaDescriptivePattern {
