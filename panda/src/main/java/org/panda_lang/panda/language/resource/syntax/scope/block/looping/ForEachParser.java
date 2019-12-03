@@ -16,11 +16,17 @@
 
 package org.panda_lang.panda.language.resource.syntax.scope.block.looping;
 
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.expression.ExpressionEvaluator;
+import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.language.architecture.expression.PandaDynamicExpression;
+import org.panda_lang.framework.language.architecture.expression.PandaExpression;
 import org.panda_lang.framework.language.architecture.statement.PandaVariable;
 import org.panda_lang.framework.language.architecture.statement.PandaVariableDataInitializer;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
@@ -37,6 +43,7 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Comp
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.LinearPatternInterceptor;
+import org.panda_lang.utilities.commons.iterable.ArrayIterable;
 
 @RegistrableParser(pipeline = PandaPipeline.BLOCK_LABEL)
 public final class ForEachParser extends BlockSubparserBootstrap {
@@ -50,14 +57,28 @@ public final class ForEachParser extends BlockSubparserBootstrap {
     }
 
     @Autowired
-    BlockData parseBlock(Context context, @Component Scope parent, @Component ExpressionParser parser, @Src("content") Snippet content) {
+    BlockData parseBlock(Context context, @Component Scope parent, @Component ModuleLoader loader, @Component ExpressionParser parser, @Src("content") Snippet content) {
         Snippet[] elements = content.split(Operators.COLON);
 
         if (elements.length != 2) {
             throw new PandaParserFailure(context, content, "Invalid amount of statements in for each loop declaration", "The statement should look like: foreach (<value> : <source>)");
         }
 
-        ForEachBlock forEach = new ForEachBlock(parent, content.getLocation(), parser.parse(context, elements[1]).getExpression());
+        Expression iterableExpression = parser.parse(context, elements[1]).getExpression();
+
+        if (iterableExpression.getReturnType().isArray()) {
+            Expression arrayExpression = iterableExpression;
+
+            iterableExpression = new PandaDynamicExpression(loader.requirePrototype(Iterable.class), new ExpressionEvaluator() {
+                @Override
+                @SuppressWarnings("unchecked")
+                public Object evaluate(ProcessStack stack, Object instance) throws Exception {
+                    return new ArrayIterable<>(arrayExpression.evaluate(stack, instance));
+                }
+            }).toExpression();
+        }
+
+        ForEachBlock forEach = new ForEachBlock(parent, content.getLocation(), iterableExpression);
         PandaVariableDataInitializer dataInitializer = new PandaVariableDataInitializer(context, forEach);
         VariableData variableData = dataInitializer.createVariableData(elements[0], true, true);
         forEach.addVariable(new PandaVariable(forEach.getValuePointer(), variableData));
