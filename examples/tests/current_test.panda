@@ -136,7 +136,11 @@ main {
     // Make sure that here is no way to create instance of interface
     // Interface int = new Interface()
 
+    // be sure that the result uses the same int prototype
     log 10 + Int.parseInt("5") + list.size()
+
+    // map array to iterable in foreach
+    foreach (String var : new String[10]) { }
 }
 
 // simple interface
