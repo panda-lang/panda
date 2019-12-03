@@ -18,8 +18,6 @@ package org.panda_lang.framework.language.resource.internal;
 
 import org.panda_lang.framework.design.architecture.module.Module;
 
-import java.util.Optional;
-
 public interface InternalModuleInfo {
 
     default void initialize(Module module) { }

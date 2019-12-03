@@ -24,7 +24,6 @@ import org.panda_lang.framework.design.interpreter.parser.SourceParser;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.architecture.expression.PandaExpression;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 import org.panda_lang.utilities.commons.StringUtils;
 
 public final class NumberParser implements SourceParser<Expression> {

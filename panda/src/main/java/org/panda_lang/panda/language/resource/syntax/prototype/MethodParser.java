@@ -28,11 +28,9 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.architecture.prototype.MethodScope;
 import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
 import org.panda_lang.framework.language.interpreter.pattern.custom.Result;
@@ -44,8 +42,10 @@ import org.panda_lang.framework.language.interpreter.pattern.custom.elements.Var
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.WildcardElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.NextTokenTypeVerifier;
 import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.TokenTypeVerifier;
-import org.panda_lang.framework.language.resource.internal.java.JavaModule;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
+import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
@@ -58,7 +58,6 @@ import org.panda_lang.panda.language.interpreter.parser.context.data.LocalData;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.CustomPatternHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
-import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 
 import java.util.List;
 import java.util.Optional;
@@ -89,14 +88,14 @@ public final class MethodParser extends ParserBootstrap<Object> {
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
     void parse(Context context, LocalData local, @Component Prototype prototype, @Inter SourceLocation location, @Inter Result result, @Src("type") Snippet type, @Src("body") Snippet body) {
         Referencable returnTypeReferencable = Optional.ofNullable(type)
-                .map(value ->  context.getComponent(Components.IMPORTS)
+                .map(value -> context.getComponent(Components.IMPORTS)
                         .forName(type.asSource())
                         .map(reference -> (Referencable) reference)
                         .orElseThrow((Supplier<? extends PandaParserFailure>) () -> {
-                                throw new PandaParserFailure(context, type,
-                                        "Unknown type",
-                                        "Make sure that the name does not have a typo and module which should contain that class is imported"
-                                );
+                            throw new PandaParserFailure(context, type,
+                                    "Unknown type",
+                                    "Make sure that the name does not have a typo and module which should contain that class is imported"
+                            );
                         }))
                 .orElseGet(() -> prototype.getModule().getModuleLoader().requirePrototype(void.class));
 

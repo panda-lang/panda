@@ -18,9 +18,9 @@ package org.panda_lang.framework.language.interpreter.lexer;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.token.Token;
-import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.design.resource.Syntax;
 import org.panda_lang.framework.language.interpreter.token.PandaToken;
+import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.utilities.commons.StringUtils;
 
 import java.util.Collection;

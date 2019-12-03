@@ -23,7 +23,6 @@ import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
 import org.panda_lang.framework.language.architecture.prototype.PandaPropertyParameter;
 import org.panda_lang.framework.language.architecture.statement.PandaVariableData;
 import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
-import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
 import org.slf4j.LoggerFactory;

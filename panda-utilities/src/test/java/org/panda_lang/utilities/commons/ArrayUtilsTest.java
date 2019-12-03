@@ -23,7 +23,7 @@ import java.util.Objects;
 
 final class ArrayUtilsTest {
 
-    private static final String[] EMPTY_ARRAY = { };
+    private static final String[] EMPTY_ARRAY = {};
 
     private static final String[] ARRAY = { "a", "b", "c" };
 

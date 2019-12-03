@@ -21,7 +21,6 @@ import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
 import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
-import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 
 import java.util.Arrays;
 import java.util.Objects;

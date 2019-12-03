@@ -16,9 +16,9 @@
 
 package org.panda_lang.framework.language.interpreter.token;
 
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 
 import java.util.ArrayList;
 import java.util.List;

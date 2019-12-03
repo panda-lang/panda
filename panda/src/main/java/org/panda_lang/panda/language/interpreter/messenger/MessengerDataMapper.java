@@ -24,7 +24,7 @@ import java.util.function.Function;
  * @param <T> generic type of accepted value
  * @param <R> generic type of mapped value
  */
-public interface MessengerDataMapper<T, R> extends Function<T, R>  {
+public interface MessengerDataMapper<T, R> extends Function<T, R> {
 
     /**
      * Type of accepted object

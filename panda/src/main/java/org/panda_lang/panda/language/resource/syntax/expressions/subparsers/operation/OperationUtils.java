@@ -18,7 +18,6 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ope
 
 import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.framework.language.resource.internal.java.JavaModule;
 import org.panda_lang.framework.language.resource.syntax.operator.Operator;
 import org.panda_lang.framework.language.resource.syntax.operator.OperatorFamilies;
 import org.panda_lang.framework.language.resource.syntax.operator.OperatorUtils;

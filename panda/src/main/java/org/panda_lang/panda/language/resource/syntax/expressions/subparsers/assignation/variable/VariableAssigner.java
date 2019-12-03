@@ -20,9 +20,9 @@ import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 import org.panda_lang.framework.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.framework.language.architecture.dynamic.assigner.AbstractAssigner;
+import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 
 public final class VariableAssigner extends AbstractAssigner<Variable> {
 

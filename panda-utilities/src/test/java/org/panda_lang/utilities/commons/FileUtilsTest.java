@@ -73,7 +73,7 @@ final class FileUtilsTest {
     }
 
     @Test
-    void getContentAsLines() throws IOException  {
+    void getContentAsLines() throws IOException {
         Assertions.assertArrayEquals(CONTENT.split(System.lineSeparator()), FileUtils.getContentAsLines(content));
     }
 
@@ -95,7 +95,7 @@ final class FileUtilsTest {
     }
 
     @Test
-    void overrideFile() throws IOException  {
+    void overrideFile() throws IOException {
         FileUtils.overrideFile(content, "#onlypanda");
         Assertions.assertEquals("#onlypanda", FileUtils.getContentOfFile(content));
         FileUtils.overrideFile(content, CONTENT);

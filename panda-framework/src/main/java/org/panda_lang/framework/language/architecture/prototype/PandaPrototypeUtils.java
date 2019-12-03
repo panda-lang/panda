@@ -43,6 +43,7 @@ public final class PandaPrototypeUtils {
                 .build()
         ).toReference();
     }
+
     public static Reference generateOf(Module module, Class<?> type, String name) {
         return PrototypeGeneratorManager.getInstance().generate(module, type, name);
     }

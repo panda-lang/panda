@@ -18,10 +18,10 @@ package org.panda_lang.framework.language.interpreter.pattern.lexical.extractor;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.PandaFrameworkException;
-import org.panda_lang.framework.language.interpreter.pattern.PatternResult;
-import org.panda_lang.framework.language.interpreter.pattern.lexical.processed.ProcessedValue;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
+import org.panda_lang.framework.language.interpreter.pattern.PatternResult;
+import org.panda_lang.framework.language.interpreter.pattern.lexical.processed.ProcessedValue;
 import org.panda_lang.utilities.commons.StringUtils;
 
 import java.util.ArrayList;

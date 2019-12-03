@@ -17,9 +17,9 @@
 package org.panda_lang.framework.language.interpreter.pattern.descriptive.extractor;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.language.interpreter.pattern.descriptive.utils.TokenDistributor;
 import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternNode;
-import org.panda_lang.framework.language.interpreter.pattern.descriptive.utils.TokenDistributor;
 
 import java.util.List;
 

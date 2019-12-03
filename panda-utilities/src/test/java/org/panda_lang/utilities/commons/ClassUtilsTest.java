@@ -58,10 +58,10 @@ class ClassUtilsTest {
         Assertions.assertEquals(C.class, ClassUtils.selectMostRelated(classes, C.class).orElse(null));
     }
 
-    static class A { }
+    static class A {}
 
-    static class B extends A { }
+    static class B extends A {}
 
-    static final class C extends B { }
+    static final class C extends B {}
 
 }

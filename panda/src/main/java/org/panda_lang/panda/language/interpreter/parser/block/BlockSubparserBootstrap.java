@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.language.interpreter.parser.block;
 
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.framework.design.interpreter.parser.Components;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
+import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 
 public abstract class BlockSubparserBootstrap extends ParserBootstrap<BlockData> implements BlockSubparser {
 

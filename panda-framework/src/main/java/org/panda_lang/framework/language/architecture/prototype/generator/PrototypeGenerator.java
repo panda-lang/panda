@@ -23,7 +23,6 @@ import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
 import org.panda_lang.framework.language.architecture.prototype.PandaReference;
 import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
-import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 import org.panda_lang.utilities.commons.ClassUtils;
 import org.panda_lang.utilities.commons.ReflectionUtils;
 
@@ -34,7 +33,6 @@ import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 final class PrototypeGenerator {
 
@@ -98,7 +96,7 @@ final class PrototypeGenerator {
                 return findOrGenerate(module, equivalent);
             }
         }
-        
+
         Optional<Reference> referenceValue = module.getModuleLoader().forClass(type);
 
         if (referenceValue.isPresent()) {

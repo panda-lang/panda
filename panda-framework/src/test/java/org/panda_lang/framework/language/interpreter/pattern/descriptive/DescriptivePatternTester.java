@@ -17,11 +17,11 @@
 package org.panda_lang.framework.language.interpreter.pattern.descriptive;
 
 import org.junit.jupiter.api.Assertions;
-import org.panda_lang.framework.language.interpreter.pattern.descriptive.extractor.ExtractorResult;
-import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.framework.language.interpreter.parser.PandaContext;
+import org.panda_lang.framework.language.interpreter.pattern.descriptive.extractor.ExtractorResult;
+import org.panda_lang.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.framework.language.resource.syntax.PandaSyntax;
 

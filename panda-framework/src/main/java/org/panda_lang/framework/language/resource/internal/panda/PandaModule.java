@@ -17,13 +17,10 @@
 package org.panda_lang.framework.language.resource.internal.panda;
 
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.language.architecture.prototype.array.PandaArray;
 import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
 import org.panda_lang.framework.language.resource.internal.PandaResourcesUtils;
 import org.panda_lang.utilities.commons.StringUtils;
-
-import java.util.Optional;
 
 public final class PandaModule implements InternalModuleInfo {
 

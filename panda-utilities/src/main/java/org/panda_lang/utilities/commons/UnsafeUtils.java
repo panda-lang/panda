@@ -37,8 +37,7 @@ public final class UnsafeUtils {
                 Field theUnsafeField = Unsafe.class.getDeclaredField("theUnsafe");
                 theUnsafeField.setAccessible(true);
                 unsafe = (Unsafe) theUnsafeField.get(null);
-            }
-            catch (NoSuchFieldException | IllegalAccessException e) {
+            } catch (NoSuchFieldException | IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
         }

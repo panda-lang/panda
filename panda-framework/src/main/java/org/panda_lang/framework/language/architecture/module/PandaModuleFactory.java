@@ -19,7 +19,6 @@ package org.panda_lang.framework.language.architecture.module;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.framework.design.architecture.module.ModulePath;
 
 import java.util.function.Supplier;
 

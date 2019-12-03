@@ -17,10 +17,10 @@
 package org.panda_lang.framework.design.interpreter.parser.expression;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.design.architecture.expression.Expression;
 
 import java.util.function.Supplier;
 

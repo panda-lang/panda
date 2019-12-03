@@ -49,7 +49,7 @@ public final class ReplCreator {
     protected final ReplScope replScope;
     protected ReplExceptionListener exceptionListener;
     protected Supplier<Process> processSupplier;
-    protected  ThrowingFunction<ProcessStack, Object, Exception> instanceSupplier;
+    protected ThrowingFunction<ProcessStack, Object, Exception> instanceSupplier;
 
     ReplCreator(FrameworkController frameworkController) {
         this.context = PandaContextUtils.createStubContext(frameworkController);

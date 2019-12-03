@@ -17,15 +17,15 @@
 package org.panda_lang.framework.language.interpreter.pattern.descriptive.wildcard.reader.defaults;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParserSettings;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
-import org.panda_lang.framework.language.interpreter.pattern.descriptive.wildcard.reader.WildcardReader;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
-import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.utils.TokenDistributor;
+import org.panda_lang.framework.language.interpreter.pattern.descriptive.wildcard.reader.WildcardReader;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.StringUtils;

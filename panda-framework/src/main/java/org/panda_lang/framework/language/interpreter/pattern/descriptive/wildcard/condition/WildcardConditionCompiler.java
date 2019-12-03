@@ -18,11 +18,11 @@ package org.panda_lang.framework.language.interpreter.pattern.descriptive.wildca
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.PandaFrameworkException;
-import org.panda_lang.framework.language.interpreter.pattern.descriptive.DescriptivePattern;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
+import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.language.interpreter.pattern.descriptive.DescriptivePattern;
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.utils.TokenDistributor;
+import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.utilities.commons.StringUtils;
 
 import java.util.ArrayList;

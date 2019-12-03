@@ -29,6 +29,7 @@ import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPatter
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.ArgumentsElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.KeywordElement;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
@@ -37,7 +38,6 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Inte
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
-import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL)
 public final class LogParser extends ParserBootstrap<Object> {

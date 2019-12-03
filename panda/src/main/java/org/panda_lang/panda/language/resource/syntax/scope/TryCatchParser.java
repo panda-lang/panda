@@ -25,6 +25,9 @@ import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.architecture.statement.PandaBlock;
 import org.panda_lang.framework.language.architecture.statement.PandaVariableDataInitializer;
+import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
+import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
@@ -35,9 +38,6 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.data.LocalData;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.LinearPatternInterceptor;
-import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
-import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
-import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL)
 public final class TryCatchParser extends ParserBootstrap {

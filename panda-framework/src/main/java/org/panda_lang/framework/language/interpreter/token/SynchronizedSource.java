@@ -17,10 +17,10 @@
 package org.panda_lang.framework.language.interpreter.token;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.design.interpreter.token.Streamable;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
 
 import java.util.Iterator;
 import java.util.Optional;

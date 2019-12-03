@@ -16,9 +16,9 @@
 
 package org.panda_lang.framework.language.interpreter.pattern.custom.verifiers;
 
-import org.panda_lang.framework.language.interpreter.pattern.custom.CustomVerify;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
+import org.panda_lang.framework.language.interpreter.pattern.custom.CustomVerify;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 
 import java.util.Map;

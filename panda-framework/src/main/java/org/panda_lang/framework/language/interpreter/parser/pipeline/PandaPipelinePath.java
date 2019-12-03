@@ -17,12 +17,12 @@
 package org.panda_lang.framework.language.interpreter.parser.pipeline;
 
 import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.utilities.commons.collection.Component;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipeline;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.utilities.commons.StreamUtils;
+import org.panda_lang.utilities.commons.collection.Component;
 
 import java.util.Collection;
 import java.util.HashMap;

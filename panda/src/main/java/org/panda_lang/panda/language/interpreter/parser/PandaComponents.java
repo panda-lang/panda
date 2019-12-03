@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.interpreter.parser;
 
+import org.panda_lang.framework.design.interpreter.parser.ContextComponent;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.language.architecture.PandaScript;
-import org.panda_lang.framework.design.interpreter.parser.ContextComponent;
 
 /**
  * Default list of names used by {@link org.panda_lang.framework.design.interpreter.parser.Context} for components

@@ -19,9 +19,9 @@ package org.panda_lang.framework.language.interpreter.pattern.descriptive.wildca
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.DescriptivePattern;
+import org.panda_lang.framework.language.interpreter.pattern.descriptive.utils.TokenDistributor;
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.wildcard.condition.WildcardConditionCompiler;
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.wildcard.reader.WildcardReaderCompiler;
-import org.panda_lang.framework.language.interpreter.pattern.descriptive.utils.TokenDistributor;
 import org.panda_lang.utilities.commons.StringUtils;
 
 public final class WildcardCompiler {

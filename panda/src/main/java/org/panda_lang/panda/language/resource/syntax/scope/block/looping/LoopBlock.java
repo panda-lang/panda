@@ -37,7 +37,7 @@ final class LoopBlock extends AbstractBlock implements ControlledScope {
 
     @Override
     public @Nullable Result<?> controlledCall(ProcessStack stack, Object instance) throws Exception {
-        int times  = expression.evaluate(stack, instance);
+        int times = expression.evaluate(stack, instance);
 
         return new ControlledIteration(new ThrowingSupplier<Boolean, Exception>() {
             private int index = 0;

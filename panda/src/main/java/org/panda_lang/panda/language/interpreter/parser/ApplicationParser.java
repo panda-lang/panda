@@ -18,7 +18,6 @@ package org.panda_lang.panda.language.interpreter.parser;
 
 import org.panda_lang.framework.design.architecture.Environment;
 import org.panda_lang.framework.design.architecture.module.Imports;
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.interpreter.Interpretation;
 import org.panda_lang.framework.design.interpreter.lexer.Lexer;
 import org.panda_lang.framework.design.interpreter.parser.Components;

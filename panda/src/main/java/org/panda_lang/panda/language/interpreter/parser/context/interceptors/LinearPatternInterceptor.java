@@ -16,17 +16,17 @@
 
 package org.panda_lang.panda.language.interpreter.parser.context.interceptors;
 
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.language.interpreter.parser.context.BootstrapContent;
-import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInterceptor;
-import org.panda_lang.panda.language.interpreter.parser.context.data.InterceptorData;
 import org.panda_lang.framework.design.interpreter.parser.Components;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.framework.language.interpreter.pattern.linear.LinearPattern;
-import org.panda_lang.framework.language.interpreter.pattern.linear.LinearPatternResult;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.language.interpreter.pattern.linear.LinearPattern;
+import org.panda_lang.framework.language.interpreter.pattern.linear.LinearPatternResult;
+import org.panda_lang.panda.language.interpreter.parser.context.BootstrapContent;
+import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInterceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.data.InterceptorData;
 
 public final class LinearPatternInterceptor implements BootstrapInterceptor {
 

@@ -35,7 +35,9 @@ public final class ArrayClassPrototypeFetcher {
     private static final Map<String, Referencable> ARRAY_PROTOTYPES = new HashMap<>();
 
     public static Optional<Reference> fetch(Module module, Class<?> type) {
-        return fetch(module, type.getSimpleName());
+        Class<?> baseClass = ArrayUtils.getBaseClass(type);
+        Prototype baseReference = module.getModuleLoader().requirePrototype(baseClass);
+        return fetch(module, baseReference.getSimpleName() + type.getSimpleName().replace(baseClass.getSimpleName(), StringUtils.EMPTY));
     }
 
     public static Optional<Reference> fetch(Module module, String type) {

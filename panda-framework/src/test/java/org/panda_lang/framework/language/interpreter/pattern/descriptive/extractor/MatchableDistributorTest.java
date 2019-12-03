@@ -20,8 +20,8 @@ import org.junit.jupiter.api.Test;
 import org.panda_lang.framework.design.interpreter.lexer.Lexer;
 import org.panda_lang.framework.design.interpreter.source.Source;
 import org.panda_lang.framework.language.interpreter.lexer.PandaLexer;
-import org.panda_lang.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.framework.language.interpreter.pattern.descriptive.utils.TokenDistributor;
+import org.panda_lang.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.framework.language.resource.syntax.PandaSyntax;
 
 public class MatchableDistributorTest {

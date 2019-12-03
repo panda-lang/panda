@@ -17,14 +17,14 @@
 package org.panda_lang.panda.language.interpreter.parser.context;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.language.interpreter.parser.context.data.InterceptorData;
-import org.panda_lang.panda.language.interpreter.parser.context.data.LocalData;
 import org.panda_lang.framework.design.interpreter.parser.Components;
+import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.generation.Generation;
 import org.panda_lang.framework.design.interpreter.parser.generation.GenerationCycle;
 import org.panda_lang.framework.design.interpreter.parser.generation.GenerationPhase;
 import org.panda_lang.framework.design.interpreter.parser.generation.GenerationTask;
+import org.panda_lang.panda.language.interpreter.parser.context.data.InterceptorData;
+import org.panda_lang.panda.language.interpreter.parser.context.data.LocalData;
 import org.panda_lang.utilities.inject.DependencyInjection;
 import org.panda_lang.utilities.inject.Injector;
 import org.panda_lang.utilities.inject.InjectorController;
@@ -74,19 +74,16 @@ final class BootstrapTaskScheduler<T> {
 
             try {
                 value = injector.invokeMethod(method.getMethod(), content.getInstance());
-            }
-            catch (InvocationTargetException e) {
+            } catch (InvocationTargetException e) {
                 if (e.getTargetException() instanceof Exception) {
                     throw (Exception) e.getTargetException();
                 }
 
                 throw new BootstrapException("Error occurred: " + e.getMessage(), e.getTargetException());
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 // e.printStackTrace();
                 throw e;
-            }
-            catch (Throwable throwable) {
+            } catch (Throwable throwable) {
                 // throwable.printStackTrace();
                 throw new BootstrapException("Internal error: " + (throwable.getMessage() != null ? throwable.getMessage() : throwable.getClass()), throwable);
             }

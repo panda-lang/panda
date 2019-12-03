@@ -16,12 +16,12 @@
 
 package org.panda_lang.framework.language.interpreter.pattern.custom.elements;
 
+import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.language.interpreter.pattern.custom.Buildable;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPatternElementBuilder;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomReader;
 import org.panda_lang.framework.language.interpreter.pattern.custom.Result;
-import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 
 public final class SubPatternElement extends CustomPatternElementBuilder<Result, SubPatternElement> {
