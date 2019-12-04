@@ -18,6 +18,7 @@ package org.panda_lang.framework.language.interpreter.parser.expression;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.ParserFailure;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
@@ -93,7 +94,7 @@ public final class PandaExpressionParser implements ExpressionParser {
                 commit.rollback();
             }
 
-            if (e instanceof PandaExpressionParserFailure) {
+            if (e instanceof ParserFailure) {
                 throw e;
             }
 

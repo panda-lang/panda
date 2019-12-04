@@ -23,6 +23,8 @@ import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.expression.DynamicExpression;
 import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
 
+import java.lang.reflect.Array;
+
 public final class ArrayAccessor implements DynamicExpression {
 
     private final Prototype type;
@@ -42,7 +44,7 @@ public final class ArrayAccessor implements DynamicExpression {
     @Override
     @SuppressWarnings("unchecked")
     public Object evaluate(ProcessStack stack, Object instance) throws Exception {
-        return getArrayInstance(stack, instance)[getIndex(stack, instance)];
+        return Array.get(getArrayInstance(stack, instance), getIndex(stack, instance));
     }
 
     public ArrayAssigner toAssignerExpression(Expression value) {
@@ -53,7 +55,7 @@ public final class ArrayAccessor implements DynamicExpression {
         return indexExpression.evaluate(stack, instance);
     }
 
-    public <T> T[] getArrayInstance(ProcessStack stack, Object instance) throws Exception {
+    public Object getArrayInstance(ProcessStack stack, Object instance) throws Exception {
         return instanceExpression.evaluate(stack, instance);
     }
 
