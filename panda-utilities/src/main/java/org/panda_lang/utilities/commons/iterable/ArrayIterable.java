@@ -18,14 +18,17 @@ package org.panda_lang.utilities.commons.iterable;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Array;
 import java.util.Iterator;
 
 public final class ArrayIterable<T> implements Iterable<T> {
 
-    private final T[] array;
+    private final Object array;
+    private final int length;
 
-    public ArrayIterable(T[] array) {
+    public ArrayIterable(Object array) {
         this.array = array;
+        this.length = Array.getLength(array);
     }
 
     @NotNull
@@ -40,12 +43,13 @@ public final class ArrayIterable<T> implements Iterable<T> {
 
         @Override
         public boolean hasNext() {
-            return index < array.length;
+            return index < length;
         }
 
         @Override
+        @SuppressWarnings("unchecked")
         public T next() {
-            return array[index++];
+            return (T) Array.get(array, index++);
         }
 
     }
