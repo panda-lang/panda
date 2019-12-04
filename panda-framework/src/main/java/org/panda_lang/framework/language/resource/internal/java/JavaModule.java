@@ -17,45 +17,37 @@
 package org.panda_lang.framework.language.resource.internal.java;
 
 import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
 import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
 import org.panda_lang.framework.language.resource.internal.PandaResourcesUtils;
 
 public final class JavaModule implements InternalModuleInfo {
 
-    public static final String VOID = "void";
-    public static final String OBJECT = "Object";
-    public static final String INT = "Int";
-    public static final String CHAR = "Char";
-    public static final String BOOL = "Bool";
-    public static final String BYTE = "Byte";
-    public static final String SHORT = "Short";
-    public static final String LONG = "Long";
-    public static final String FLOAT = "Float";
-    public static final String DOUBLE = "Double";
-    public static final String STRING = "String";
-    public static final String NUMBER = "Number";
-    public static final String ITERABLE = "Iterable";
-
     @Override
     public void initialize(Module module) {
-        PandaResourcesUtils.of(module, void.class, VOID);
-        PandaResourcesUtils.generate(module, Object.class, OBJECT);
-        PandaResourcesUtils.generate(module, Integer.class, INT);
-        PandaResourcesUtils.generate(module, Character.class, CHAR);
-        PandaResourcesUtils.generate(module, Boolean.class, BOOL);
+        PandaResourcesUtils.of(module, void.class, "void");
+        PandaResourcesUtils.generate(module, Object.class);
+        PandaResourcesUtils.generate(module, Boolean.class, "Bool");
+
+        Prototype intType = PandaResourcesUtils.generate(module, Integer.class, "Int");
+        module.add(new ArrayPrototype(module, "PrimitiveInt", int.class, intType));
+
+        Prototype charType = PandaResourcesUtils.generate(module, Character.class, "Char");
+        module.add(new ArrayPrototype(module, "PrimitiveChar", char.class, charType));
     }
 
     @Override
     public String[] getNames() {
         return new String[] {
-                BYTE,
-                SHORT,
-                LONG,
-                FLOAT,
-                DOUBLE,
-                STRING,
-                NUMBER,
-                ITERABLE
+                "Byte",
+                "Short",
+                "Long",
+                "Float",
+                "Double",
+                "String",
+                "Number",
+                "Iterable"
         };
     }
 

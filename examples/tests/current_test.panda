@@ -8,6 +8,7 @@ require java:collections // import submodules by default? :thinking:
 
 // import java class
 import org.panda_lang.panda.PandaConstants
+import java.util.Arrays
 
 // main statement is called when the script is launched
 main {
@@ -141,6 +142,12 @@ main {
 
     // map array to iterable in foreach
     foreach (String var : new String[10]) { }
+
+    // make sure that we can use primitive arrays
+    PrimitiveChar[] primitiveArray = '#onlypanda'.toCharArray()
+    Arrays.sort(primitiveArray)
+    log new String(primitiveArray)
+
 }
 
 // simple interface

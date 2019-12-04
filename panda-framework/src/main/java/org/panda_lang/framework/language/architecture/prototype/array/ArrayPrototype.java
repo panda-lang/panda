@@ -31,15 +31,11 @@ public final class ArrayPrototype extends PandaPrototype {
     private final Prototype prototype;
 
     public ArrayPrototype(Module module, Class<?> associated, Prototype type) {
-        super(module, associated.getSimpleName(), new PandaClassSource(associated).toLocation(), associated, type.getType(), type.getState(), Visibility.PUBLIC);
+        this(module, associated.getSimpleName(), associated, type);
+    }
 
-        Optional<Reference> arrayBaseReference = module.getModuleLoader().forClass(PandaArray.class);
-
-        if (!arrayBaseReference.isPresent()) {
-            throw new PandaFrameworkException("Cannot find array base reference");
-        }
-
-        super.addBase(arrayBaseReference.get().fetch());
+    public ArrayPrototype(Module module, String name, Class<?> associated, Prototype type) {
+        super(module, name, new PandaClassSource(associated).toLocation(), associated, type.getType(), type.getState(), Visibility.PUBLIC);
         this.prototype = type;
     }
 

@@ -42,8 +42,8 @@ final class ForEachBlock extends AbstractBlock implements ControlledScope {
     @Override
     public @Nullable Result<?> controlledCall(ProcessStack stack, Object instance) throws Exception {
         Frame scope = stack.getCurrentScope();
-        Iterable iterable = iterableExpression.evaluate(stack, instance);
-        Iterator iterator = iterable.iterator();
+        Iterable<?> iterable = iterableExpression.evaluate(stack, instance);
+        Iterator<?> iterator = iterable.iterator();
 
         return new ControlledIteration(() -> {
             if (!iterator.hasNext()) {

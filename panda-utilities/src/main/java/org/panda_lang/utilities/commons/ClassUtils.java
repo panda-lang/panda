@@ -27,6 +27,8 @@ import java.util.Optional;
 public final class ClassUtils {
 
     public static final Map<Class<?>, Class<?>> PRIMITIVE_EQUIVALENT = new HashMap<Class<?>, Class<?>>() {{
+        put(void.class, Void.class);
+
         put(byte.class, Byte.class);
         put(short.class, Short.class);
         put(int.class, Integer.class);

@@ -48,7 +48,7 @@ public final class ResourcesLoader {
         Module module = factory.computeIfAbsent(internalModuleInfo.getModule());
 
         for (String name : internalModuleInfo.getNames()) {
-            Class<?> type = Class.forName(internalModuleInfo.getPackageName() + "." + name);
+            Class<?> type = Class.forName((internalModuleInfo.getPackageName().isEmpty() ? "" : internalModuleInfo.getPackageName() + ".") + name);
             module.add(PrototypeGeneratorManager.getInstance().generate(module, type, type.getSimpleName()));
         }
 
