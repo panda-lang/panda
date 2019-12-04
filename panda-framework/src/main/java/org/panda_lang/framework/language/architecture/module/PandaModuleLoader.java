@@ -22,6 +22,7 @@ import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.module.ModulePath;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
+import org.panda_lang.utilities.commons.ClassUtils;
 import org.panda_lang.utilities.commons.StringUtils;
 
 import java.util.HashMap;
@@ -80,13 +81,16 @@ public final class PandaModuleLoader implements ModuleLoader {
 
     @Override
     public Optional<Reference> forClass(Class<?> associatedClass) {
+        if (associatedClass.isPrimitive() && associatedClass != void.class) {
+            associatedClass = ClassUtils.PRIMITIVE_EQUIVALENT.get(associatedClass);
+        }
+
         for (Module module : modules.values()) {
             Optional<Reference> prototypePrototype = module.forClass(associatedClass);
 
             if (prototypePrototype.isPresent()) {
                 return prototypePrototype;
             }
-
         }
 
         if (parent != null) {

@@ -22,6 +22,8 @@ import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.expression.DynamicExpression;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 
+import java.lang.reflect.Array;
+
 public final class ArrayAssigner implements DynamicExpression {
 
     private final ArrayAccessor accessor;
@@ -41,7 +43,10 @@ public final class ArrayAssigner implements DynamicExpression {
             throw new PandaRuntimeException("Index cannot be null");
         }
 
-        return accessor.getArrayInstance(stack, instance)[index] = value.evaluate(stack, instance);
+        Object value = this.value.evaluate(stack, instance);
+        Array.set(accessor.getArrayInstance(stack, instance), index, value);
+
+        return value;
     }
 
     @Override

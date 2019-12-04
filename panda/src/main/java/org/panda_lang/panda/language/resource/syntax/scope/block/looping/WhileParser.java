@@ -21,6 +21,7 @@ import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
@@ -48,7 +49,7 @@ public final class WhileParser extends BlockSubparserBootstrap {
     @Autowired
     BlockData parseWhile(Context context, @Component Scope parent, @Inter SourceLocation location, @Src("value") Expression expression) {
         if (!Boolean.class.isAssignableFrom(expression.getReturnType().getAssociatedClass())) {
-            throw new PandaParserException("Loop requires boolean as an argument");
+            throw new PandaParserFailure(context, "Loop requires boolean as an argument");
         }
 
         return new BlockData(new WhileBlock(parent, location, expression));

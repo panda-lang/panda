@@ -21,6 +21,7 @@ import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
 import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
 import org.panda_lang.framework.language.resource.internal.PandaResourcesUtils;
+import org.panda_lang.utilities.commons.ClassUtils;
 
 public final class JavaModule implements InternalModuleInfo {
 
@@ -28,23 +29,27 @@ public final class JavaModule implements InternalModuleInfo {
     public void initialize(Module module) {
         PandaResourcesUtils.of(module, void.class, "void");
         PandaResourcesUtils.generate(module, Object.class);
-        PandaResourcesUtils.generate(module, Boolean.class, "Bool");
 
-        Prototype intType = PandaResourcesUtils.generate(module, Integer.class, "Int");
-        module.add(new ArrayPrototype(module, "PrimitiveInt", int.class, intType));
+        generate(module, boolean.class, "Bool");
+        generate(module, char.class, "Char");
+        generate(module, byte.class, "Byte");
+        generate(module, short.class, "Short");
+        generate(module, int.class, "Int");
+        generate(module, long.class, "Long");
+        generate(module, float.class, "Float");
+        generate(module, double.class, "Double");
+    }
 
-        Prototype charType = PandaResourcesUtils.generate(module, Character.class, "Char");
-        module.add(new ArrayPrototype(module, "PrimitiveChar", char.class, charType));
+    private void generate(Module module, Class<?> primitiveClass, String name) {
+        Prototype primitiveType = PandaResourcesUtils.generate(module, primitiveClass, "Primitive" + name);
+        Prototype type = PandaResourcesUtils.generate(module, ClassUtils.PRIMITIVE_EQUIVALENT.get(primitiveClass), name);
+
+        type.addBase(primitiveType);
     }
 
     @Override
     public String[] getNames() {
         return new String[] {
-                "Byte",
-                "Short",
-                "Long",
-                "Float",
-                "Double",
                 "String",
                 "Number",
                 "Iterable"
