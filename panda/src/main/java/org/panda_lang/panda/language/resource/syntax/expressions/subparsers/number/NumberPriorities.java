@@ -32,12 +32,23 @@ public class NumberPriorities {
     protected static final int DOUBLE = 60;
 
     protected static final Map<String, Integer> HIERARCHY = Maps.of(
-            JavaModule.BYTE, BYTE,
-            JavaModule.SHORT, SHORT,
-            JavaModule.INT, INT,
-            JavaModule.LONG, LONG,
-            JavaModule.FLOAT, FLOAT,
-            JavaModule.DOUBLE, DOUBLE
+            "Byte", BYTE,
+            "byte", BYTE,
+
+            "Short", SHORT,
+            "short", SHORT,
+
+            "Int", INT,
+            "int", INT,
+
+            "Long", LONG,
+            "long", LONG,
+
+            "Float", FLOAT,
+            "float", FLOAT,
+
+            "Double", DOUBLE,
+            "double", DOUBLE
     );
 
     public int getPriority(Prototype prototype) {
