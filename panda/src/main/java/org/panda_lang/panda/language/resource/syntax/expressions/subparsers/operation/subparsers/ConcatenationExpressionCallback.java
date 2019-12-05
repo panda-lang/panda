@@ -35,14 +35,14 @@ public final class ConcatenationExpressionCallback implements DynamicExpression 
     }
 
     @Override
-    public <T> T evaluate(ProcessStack stack, Object instance) throws Exception {
+    public String evaluate(ProcessStack stack, Object instance) throws Exception {
         StringBuilder content = new StringBuilder();
 
         for (Expression value : values) {
             content.append(value.evaluate(stack, instance).toString());
         }
 
-        return ObjectUtils.cast(content);
+        return content.toString();
     }
 
     @Override
