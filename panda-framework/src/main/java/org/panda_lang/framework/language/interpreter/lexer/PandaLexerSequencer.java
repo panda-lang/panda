@@ -60,7 +60,7 @@ final class PandaLexerSequencer {
         String tokenPreview = tokenBuilder.toString();
 
         for (Sequence sequence : worker.getConfiguration().syntax.getSequences()) {
-            if (!tokenPreview.endsWith(sequence.getSequenceStart())) {
+            if (!tokenPreview.startsWith(sequence.getSequenceStart())) {
                 continue;
             }
 
@@ -69,6 +69,10 @@ final class PandaLexerSequencer {
         }
 
         return false;
+    }
+
+    public boolean isOpened() {
+        return !sequenceStack.isEmpty();
     }
 
 }
