@@ -78,14 +78,14 @@ final class PandaLexerWorker {
             return;
         }
 
-        if (!getConfiguration().ignoringWhitespaces && CharacterUtils.isWhitespace(character)) {
+        if (!getConfiguration().ignoringWhitespaces && CharacterUtils.isWhitespace(character) && !sequencer.isOpened()) {
             boolean extracted = extractor.extract(builder);
 
-            if (!extracted) {
-                throw new PandaLexerFailure(linePreview, tokenPreview, new PandaSourceLocation(source, line, lineTokens.size()), "Unknown token", null);
+            if (extracted) {
+                return;
             }
 
-            return;
+            throw new PandaLexerFailure(linePreview, tokenPreview, new PandaSourceLocation(source, line, lineTokens.size()), "Cannot recognize token", null);
         }
 
         check(character);

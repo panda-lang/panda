@@ -21,7 +21,7 @@ package org.panda_lang.framework.language.resource.syntax;
  */
 public final class DefaultCharacters {
 
-    private static final char[] SPECIAL_CHARACTERS = "#&'()[]{}*+,-./:;<=>!|`^".toCharArray();
+    private static final char[] SPECIAL_CHARACTERS = "#&()[]{}*+,-./:;<=>!|`^".toCharArray();
 
     private DefaultCharacters() { }
 

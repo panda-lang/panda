@@ -16,31 +16,38 @@
 
 package org.panda_lang.panda.language.interpreter.messenger.layouts;
 
+import org.panda_lang.framework.design.Failure;
+import org.panda_lang.framework.design.interpreter.InterpreterFailure;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerFormatter;
-import org.panda_lang.framework.design.interpreter.source.Source;
-import org.panda_lang.framework.language.interpreter.lexer.PandaLexerFailure;
-import org.panda_lang.framework.language.interpreter.source.PandaSource;
-import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.language.interpreter.messenger.PandaTranslatorLayout;
 import org.slf4j.event.Level;
 
 import java.util.Map;
 
-public final class PandaLexerFailureTranslatorLayout extends AbstractInterpreterFailureTranslatorLayout<PandaLexerFailure> implements PandaTranslatorLayout<PandaLexerFailure> {
+abstract class AbstractInterpreterFailureTranslatorLayout<T extends InterpreterFailure> implements PandaTranslatorLayout<T> {
 
     @Override
-    public void onHandle(MessengerFormatter formatter, PandaLexerFailure failure, Map<String, Object> context) {
-        super.onHandle(formatter, failure, context);
+    public void onHandle(MessengerFormatter formatter, T failure, Map<String, Object> context) {
+        context.put("throwable", failure);
+        context.put("stacktrace", failure.getStackTrace());
+        context.put("note", failure.getNote());
+        context.put("source", failure.getIndicatedSource());
     }
 
     @Override
-    public Source getTemplateSource() {
-        return new PandaSource(PandaURLSource.fromResource("/default-lexer-failure-template.messenger"));
+    public boolean isInterrupting() {
+        return true;
     }
 
     @Override
-    public Class<PandaLexerFailure> getType() {
-        return PandaLexerFailure.class;
+    public String getPrefix() {
+        return " #!# ";
+    }
+
+    @Override
+    public Level getLevel() {
+        return Level.ERROR;
     }
 
 }

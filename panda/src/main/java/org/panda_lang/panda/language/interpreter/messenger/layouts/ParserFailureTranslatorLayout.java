@@ -27,34 +27,17 @@ import org.slf4j.event.Level;
 
 import java.util.Map;
 
-public final class ParserFailureTranslatorLayout implements PandaTranslatorLayout<PandaParserFailure> {
+public final class ParserFailureTranslatorLayout extends AbstractInterpreterFailureTranslatorLayout<PandaParserFailure> implements PandaTranslatorLayout<PandaParserFailure> {
 
     @Override
     public void onHandle(MessengerFormatter formatter, PandaParserFailure element, Map<String, Object> context) {
-        context.put("stacktrace", element.getStackTrace());
-        context.put("source", element.getIndicatedSource());
+        super.onHandle(formatter, element, context);
         context.put("data", element.getContext());
-        context.put("note", element.getNote());
 
         element.getContext()
                 .getComponent(Components.GENERATION)
                 .getCurrentCycle()
                 .ifPresent(cycle -> context.put("cycle", cycle));
-    }
-
-    @Override
-    public boolean isInterrupting() {
-        return true;
-    }
-
-    @Override
-    public String getPrefix() {
-        return " #!# ";
-    }
-
-    @Override
-    public Level getLevel() {
-        return Level.ERROR;
     }
 
     @Override

@@ -26,28 +26,11 @@ import org.slf4j.event.Level;
 
 import java.util.Map;
 
-public final class InterpreterFailureTranslatorLayout implements PandaTranslatorLayout<InterpreterFailure> {
+public final class InterpreterFailureTranslatorLayout extends AbstractInterpreterFailureTranslatorLayout<InterpreterFailure> implements PandaTranslatorLayout<InterpreterFailure> {
 
     @Override
     public void onHandle(MessengerFormatter formatter, InterpreterFailure element, Map<String, Object> context) {
-        context.put("stacktrace", element.getStackTrace());
-        context.put("source", element.getIndicatedSource());
-        context.put("note", element.getNote());
-    }
-
-    @Override
-    public boolean isInterrupting() {
-        return true;
-    }
-
-    @Override
-    public String getPrefix() {
-        return " #!# ";
-    }
-
-    @Override
-    public Level getLevel() {
-        return Level.ERROR;
+        super.onHandle(formatter, element, context);
     }
 
     @Override
