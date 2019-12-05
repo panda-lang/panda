@@ -33,7 +33,7 @@ final class PandaLexerSequencer {
     }
 
     public boolean checkBefore(StringBuilder tokenBuilder, char c) {
-        if (sequenceStack.size() < 1) {
+        if (sequenceStack.isEmpty()) {
             return false;
         }
 
@@ -60,7 +60,7 @@ final class PandaLexerSequencer {
         String tokenPreview = tokenBuilder.toString();
 
         for (Sequence sequence : worker.getConfiguration().syntax.getSequences()) {
-            if (!tokenPreview.startsWith(sequence.getSequenceStart())) {
+            if (!tokenPreview.endsWith(sequence.getSequenceStart())) {
                 continue;
             }
 

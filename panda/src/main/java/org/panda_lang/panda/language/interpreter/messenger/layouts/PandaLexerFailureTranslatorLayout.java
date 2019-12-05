@@ -17,13 +17,13 @@
 package org.panda_lang.panda.language.interpreter.messenger.layouts;
 
 import org.panda_lang.framework.design.interpreter.source.Source;
-import org.panda_lang.framework.language.interpreter.lexer.PandaLexerException;
+import org.panda_lang.framework.language.interpreter.lexer.PandaLexerFailure;
 import org.panda_lang.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
 import org.panda_lang.panda.language.interpreter.messenger.PandaTranslatorLayout;
 import org.slf4j.event.Level;
 
-public final class PandaLexerFailureTranslatorLayout implements PandaTranslatorLayout<PandaLexerException> {
+public final class PandaLexerFailureTranslatorLayout implements PandaTranslatorLayout<PandaLexerFailure> {
 
     @Override
     public boolean isInterrupting() {
@@ -46,8 +46,8 @@ public final class PandaLexerFailureTranslatorLayout implements PandaTranslatorL
     }
 
     @Override
-    public Class<PandaLexerException> getType() {
-        return PandaLexerException.class;
+    public Class<PandaLexerFailure> getType() {
+        return PandaLexerFailure.class;
     }
 
 }

@@ -25,13 +25,13 @@ import org.panda_lang.framework.language.interpreter.token.PandaToken;
 import org.panda_lang.framework.language.interpreter.token.PandaTokenRepresentation;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 
-public final class PandaLexerException extends PandaInterpreterFailure {
+public final class PandaLexerFailure extends PandaInterpreterFailure {
 
-    public PandaLexerException(Snippetable line, Snippetable indicated, String message, @Nullable String note) {
+    public PandaLexerFailure(Snippetable line, Snippetable indicated, String message, @Nullable String note) {
         super(new PandaIndicatedSource(line, indicated), message, note);
     }
 
-    public PandaLexerException(CharSequence line, CharSequence indicated, SourceLocation location, String message, @Nullable String note) {
+    public PandaLexerFailure(CharSequence line, CharSequence indicated, SourceLocation location, String message, @Nullable String note) {
         this(of(line, location), of(indicated, location), message, note);
     }
 

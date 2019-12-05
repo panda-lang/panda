@@ -112,7 +112,7 @@ final class PandaLexerCollector {
 
     protected List<TokenRepresentation> collect() {
         if (!sections.isEmpty() || !closingSeparators.isEmpty()) {
-            throw new PandaLexerException(worker.getBuilder().toString(), sections.peek().toString(), sections.peek().getLocation(), "Cannot find closing separator", "");
+            throw new PandaLexerFailure(worker.getBuilder().toString(), sections.peek().toString(), sections.peek().getLocation(), "Cannot find closing separator", "");
         }
 
         return representations;
