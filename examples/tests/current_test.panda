@@ -185,11 +185,13 @@ class Test {
     shared Test testField
     // local mutable field
     local mut Double double = 1.5D
+    local String message2
 
     // constructor prints random message and assigns itself to testField field
     constructor(String message2) {
         log message2
         this.testField = this
+        this.message2 = message2
     }
 
     shared echo(Object message3) {
