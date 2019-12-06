@@ -65,18 +65,14 @@ public final class VariableExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
+            // do not accept variable names starting with numbers
             if (NumberUtils.startsWithNumber(token.getToken())) {
                 return null;
             }
 
             String name = token.getValue();
-            Optional<Variable> variableValue = context.getContext().getComponent(Components.SCOPE).getVariable(name);
 
-            if (variableValue.isPresent()) {
-                Variable variable = variableValue.get();
-                return ExpressionResult.of(new VariableExpression(variable).toExpression());
-            }
-
+            // if there is anything on stack, we can search only for fields
             if (context.hasResults()) {
                 ExpressionResult result = fromInstance(context, context.peekExpression(), token)
                         .orElseGet(() -> ExpressionResult.error("Cannot find field called '" + name + "'", token));
@@ -86,6 +82,14 @@ public final class VariableExpressionSubparser implements ExpressionSubparser {
                 }
 
                 return result;
+            }
+
+            Optional<Variable> variableValue = context.getContext().getComponent(Components.SCOPE).getVariable(name);
+
+            // respect local variables before fields
+            if (variableValue.isPresent()) {
+                Variable variable = variableValue.get();
+                return ExpressionResult.of(new VariableExpression(variable).toExpression());
             }
 
             Prototype prototype = context.getContext().getComponent(PrototypeComponents.PROTOTYPE);
