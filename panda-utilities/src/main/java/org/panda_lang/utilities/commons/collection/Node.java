@@ -16,8 +16,11 @@
 
 package org.panda_lang.utilities.commons.collection;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -43,6 +46,22 @@ public final class Node<T> {
         }
 
         return leafs;
+    }
+
+    public @Nullable Node<T> find(T element) {
+        if (Objects.equals(element, getElement())) {
+            return this;
+        }
+
+        for (Node<T> child : getChildren()) {
+            Node<T> result = child.find(element);
+
+            if (result != null) {
+                return result;
+            }
+        }
+
+        return null;
     }
 
     public void add(Node<T> node) {

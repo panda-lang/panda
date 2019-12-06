@@ -42,7 +42,7 @@ public final class LoopParser extends BlockSubparserBootstrap {
         return initializer
                 .handler(new TokenHandler(Keywords.LOOP))
                 .interceptor(new LinearPatternInterceptor())
-                .pattern("loop &value:*=expression");
+                .pattern("loop value:*=expression");
     }
 
     @Autowired

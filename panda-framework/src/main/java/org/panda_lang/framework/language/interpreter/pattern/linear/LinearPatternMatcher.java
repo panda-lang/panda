@@ -46,15 +46,7 @@ final class LinearPatternMatcher {
         Map<String, Object> wildcards = new HashMap<>(pattern.getElements().size());
 
         for (LinearPatternElement element : pattern.getElements()) {
-            boolean matched = false;
-
-            try {
-                matched = match(expressionMatcher, content, identifiers, wildcards, element);
-            } catch (PandaExpressionParserFailure e) {
-                continue;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            boolean matched = match(expressionMatcher, content, identifiers, wildcards, element);
 
             if (!matched) {
                 if (!element.isOptional()) {
@@ -106,7 +98,6 @@ final class LinearPatternMatcher {
 
         if (element.isWildcard()) {
             WildcardElement wildcard = (WildcardElement) element;
-
             Object value = null;
 
             if (wildcard.getType() == WildcardElement.Type.DEFAULT) {
@@ -114,7 +105,13 @@ final class LinearPatternMatcher {
             }
 
             if (wildcard.getType() == WildcardElement.Type.EXPRESSION) {
-                value = matcher.apply(content);
+                try {
+                    value = matcher.apply(content);
+                } catch (PandaExpressionParserFailure e) {
+                    if (!wildcard.isOptional()) {
+                        throw e;
+                    }
+                }
             }
 
             if (value != null && identifier.isPresent()) {
@@ -122,6 +119,7 @@ final class LinearPatternMatcher {
                 identifiers.add(identifier.get());
             }
 
+            identifier.ifPresent(id -> wildcards.put("*" + id, content.getAvailableSource()));
             return value != null;
         }
 
