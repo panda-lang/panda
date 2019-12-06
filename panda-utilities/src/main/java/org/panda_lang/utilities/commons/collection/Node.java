@@ -18,13 +18,17 @@ package org.panda_lang.utilities.commons.collection;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.Stack;
 import java.util.function.Predicate;
 
-public final class Node<T> {
+public class Node<T> {
 
     private final T element;
     private final Set<Node<T>> children;
@@ -64,8 +68,29 @@ public final class Node<T> {
         return null;
     }
 
-    public void add(Node<T> node) {
+    public @Nullable List<Node<T>> trace(T element) {
+        if (Objects.equals(element, getElement())) {
+            return Collections.singletonList(this);
+        }
+
+        List<Node<T>> trace = new ArrayList<>();
+
+        for (Node<T> child : getChildren()) {
+            @Nullable List<Node<T>> result = child.trace(element);
+
+            if (result != null) {
+                trace.add(this);
+                trace.addAll(result);
+                return trace;
+            }
+        }
+
+        return null;
+    }
+
+    public Node<T> add(Node<T> node) {
         this.children.add(node);
+        return node;
     }
 
     public void add(Collection<Node<T>> nodes) {
@@ -82,6 +107,11 @@ public final class Node<T> {
 
     public T getElement() {
         return element;
+    }
+
+    @Override
+    public String toString() {
+        return "Node::" + getElement();
     }
 
 }

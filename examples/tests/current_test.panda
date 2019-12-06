@@ -145,7 +145,7 @@ main {
     foreach (String var : new String[10]) { }
 
     // make sure that we can use primitive arrays
-    PrimitiveChar[] primitiveArray = '#onlypanda'.toCharArray()
+    PrimitiveChar[] primitiveArray = (')#onlypanda').toCharArray()
     Arrays.sort(primitiveArray)
     log primitiveArray[0]
     log new String(primitiveArray)
