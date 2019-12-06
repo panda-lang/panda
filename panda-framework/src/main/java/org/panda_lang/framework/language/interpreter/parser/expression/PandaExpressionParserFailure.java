@@ -38,4 +38,9 @@ public final class PandaExpressionParserFailure extends PandaParserFailure {
         return expressionMessage;
     }
 
+    @Override
+    public String getLocalizedMessage() {
+        return super.getMessage();
+    }
+
 }
