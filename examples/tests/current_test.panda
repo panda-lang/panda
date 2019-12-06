@@ -36,6 +36,7 @@ main {
     Int i = 0x000001
     // perform some math operations
     Number math = (10.1 + (3 + 4.2 + i) * 2) - (2 / 1) /* expected: 24.5 */
+    log 0x5A, 0x5F // expected: 90, 95
     // compare values and assign result to the flag variable
     Bool flag = i == 1
 
@@ -148,7 +149,6 @@ main {
     Arrays.sort(primitiveArray)
     log primitiveArray[0]
     log new String(primitiveArray)
-
 }
 
 // simple interface
