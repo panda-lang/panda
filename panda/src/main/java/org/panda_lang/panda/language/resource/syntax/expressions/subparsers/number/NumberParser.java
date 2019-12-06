@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
@@ -24,6 +25,7 @@ import org.panda_lang.framework.design.interpreter.parser.SourceParser;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.architecture.expression.PandaExpression;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.utilities.commons.StringUtils;
 
 public final class NumberParser implements SourceParser<Expression> {
@@ -31,24 +33,27 @@ public final class NumberParser implements SourceParser<Expression> {
     @Override
     public Expression parse(Context context, Snippet source) {
         String unknownNumber = StringUtils.replace(source.asSource(), "_", StringUtils.EMPTY);
+
         char numberTypeDefinitionCharacter = unknownNumber.charAt(unknownNumber.length() - 1);
+        @Nullable NumberType numberTypeDefinition = NumberType.of(numberTypeDefinitionCharacter);
 
-        NumberType numberTypeDefinition = NumberType.of(numberTypeDefinitionCharacter);
         String number = numberTypeDefinition == null ? unknownNumber : unknownNumber.substring(0, unknownNumber.length() - 1);
-
-        if (numberTypeDefinition == null && !Character.isDigit(numberTypeDefinitionCharacter)) {
-            throw new PandaParserException("Unknown number type " + numberTypeDefinitionCharacter);
-        }
-
         NumberType numberType = NumberType.INT;
         int radix = 10;
 
+        // Floating point number
         if (number.contains(".")) {
             numberType = NumberType.DOUBLE;
         }
+        // Hexagonal number
         else if (number.contains("x")) {
-            number = number.substring(2);
+            numberTypeDefinition = NumberType.INT;
+            number = unknownNumber.substring(2);
             radix = 16;
+        }
+
+        if (numberTypeDefinition == null && !Character.isDigit(numberTypeDefinitionCharacter)) {
+            throw new PandaParserFailure(context, source, "Unknown number type " + numberTypeDefinitionCharacter);
         }
 
         if (numberTypeDefinition != null) {

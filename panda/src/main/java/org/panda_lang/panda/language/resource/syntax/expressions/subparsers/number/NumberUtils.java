@@ -24,7 +24,7 @@ public final class NumberUtils {
 
     public static final char[] ALLOWED_CHARACTERS = { '.', '_', 'x' };
 
-    public static final char[] NUMBER_EXTENSIONS = { 'b', 'B', 's', 'S', 'i', 'I', 'l', 'L', 'd', 'D', 'f', 'F' };
+    public static final char[] NUMBER_EXTENSIONS = "AaBbCcDdEeFfSsIiLl".toCharArray();
 
     private NumberUtils() { }
 
@@ -38,10 +38,6 @@ public final class NumberUtils {
 
     public static boolean startsWithNumber(Token token) {
         return token.getValue().length() != 0 && Character.isDigit(token.getValue().charAt(0));
-    }
-
-    public static boolean isNumeric(Snippet source) {
-        return isNumeric(source.asSource());
     }
 
     public static boolean isNumeric(String content) {
