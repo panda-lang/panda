@@ -20,7 +20,7 @@ final class CustomInstallFactory {
     
     public CustomInstall createCustomInstall(Dependency dependency) {
         switch (dependency.getType()) {
-            case "github:":
+            case "github":
                 return new GitHubInstall(dependency);
             default:
                 throw new IllegalArgumentException("Unknown dependency type: " + dependency.getType());
