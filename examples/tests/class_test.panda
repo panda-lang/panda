@@ -7,9 +7,18 @@ main {
 
 class Methods {
 
+    shared Int count = 5
+
     shared initialize() {
         staticMethod()
         anotherInitialize('Another initialize')
+
+        Int count = count(10)
+        log count
+    }
+
+    shared Int count(Int count) {
+        return count
     }
 
     shared anotherInitialize(String message) {

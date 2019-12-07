@@ -149,9 +149,6 @@ main {
     Arrays.sort(primitiveArray)
     log primitiveArray[0]
     log new String(primitiveArray)
-
-    Int[] intValue = new Int[5]
-    intValue[0] = "val"
 }
 
 // simple interface
