@@ -149,6 +149,9 @@ main {
     Arrays.sort(primitiveArray)
     log primitiveArray[0]
     log new String(primitiveArray)
+
+    Int[] intValue = new Int[5]
+    intValue[0] = "val"
 }
 
 // simple interface
@@ -185,6 +188,7 @@ class Test {
     shared Test testField
     // local mutable field
     local mut Double double = 1.5D
+    // local immutable field
     local String message2
 
     // constructor prints random message and assigns itself to testField field

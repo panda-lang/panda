@@ -98,10 +98,17 @@ public final class ArrayValueAssignationSubparser extends AssignationSubparserBo
         }
 
         Snippet snippet = source.toSnippet();
-        ArrayAccessor accessorExpression = PARSER.parse(context, snippet, channel.get("array-instance", Expression.class), snippet.getLast().toToken());
-        ArrayAssigner assignerExpression = accessorExpression.toAssignerExpression(value);
+        ArrayAccessor accessor = PARSER.parse(context, snippet, channel.get("array-instance", Expression.class), snippet.getLast().toToken());
 
-        return ExpressionResult.of(assignerExpression.toExpression());
+        if (!accessor.getReturnType().isAssignableFrom(value.getReturnType())) {
+            throw new PandaParserFailure(context,
+                    "Invalid value type, cannot assign " + value.getReturnType() + " to the array of " + accessor.getReturnType(),
+                    "Make sure that you are assigning the proper value or change type of the array"
+            );
+        }
+
+        ArrayAssigner assigner = accessor.toAssignerExpression(value);
+        return ExpressionResult.of(assigner.toExpression());
     }
 
 }
