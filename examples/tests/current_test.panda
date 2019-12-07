@@ -1,10 +1,12 @@
 module example-test
 
+// import java collections from std
+require java:collections
+
 // import current_test_required.panda file
 require 'current_test_required'
-
-// import java collections from std
-require java:collections // import submodules by default? :thinking:
+// import 'test-local-module' local module
+require 'test-local-module'
 
 // import java class
 import org.panda_lang.panda.PandaConstants
@@ -149,6 +151,9 @@ main {
     Arrays.sort(primitiveArray)
     log primitiveArray[0]
     log new String(primitiveArray)
+
+    // Use class from imported local module
+    LocalModuleClass.hello()
 }
 
 // simple interface

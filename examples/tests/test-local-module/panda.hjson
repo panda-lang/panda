@@ -1,0 +1,7 @@
+name: test-local-module
+version: 1.0.0
+owner: dzikoysk
+
+scripts: {
+    main: app.panda
+}
