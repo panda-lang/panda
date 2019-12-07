@@ -46,8 +46,11 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Comp
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
+import org.panda_lang.panda.manager.ModuleManagerUtils;
+import org.slf4j.event.Level;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -75,7 +78,7 @@ public final class RequireParser extends ParserBootstrap<Object> {
             return;
         }
 
-        parseFile(context, Objects.requireNonNull(requiredFile));
+        parseFile(context, imports, Objects.requireNonNull(requiredFile));
     }
 
     private void parseModule(Context context, Imports imports, Snippet require) {
@@ -91,15 +94,37 @@ public final class RequireParser extends ParserBootstrap<Object> {
         imports.importModule(module.get());
     }
 
-    private void parseFile(Context context, TokenRepresentation requiredFile) {
+    private void parseFile(Context context, Imports imports, TokenRepresentation requiredFile) {
         if (!TokenUtils.hasName(requiredFile, "String")) {
             throw new PandaParserFailure(context, requiredFile, "Invalid token", "You should use string sequence to import file");
         }
 
-        File file = new File(context.getComponent(Components.ENVIRONMENT).getDirectory(), requiredFile.getValue() + ".panda");
+        Environment environment = context.getComponent(Components.ENVIRONMENT);
+        File environmentDirectory = context.getComponent(Components.ENVIRONMENT).getDirectory();
+        File file = new File(environmentDirectory, requiredFile.getValue() + ".panda");
 
         if (!file.exists()) {
-            throw new PandaParserFailure(context, requiredFile, "File " + file + " does not exist", "Make sure that the path does not have a typo");
+            file = new File(environmentDirectory, requiredFile.getValue());
+
+            if (!file.exists()) {
+                throw new PandaParserFailure(context, requiredFile, "File " + file + " does not exist", "Make sure that the path does not have a typo");
+            }
+
+            try {
+                ModuleManagerUtils.loadToEnvironment(environment, file);
+            } catch (IOException e) {
+                throw new PandaParserFailure(context, requiredFile, e.getMessage());
+            }
+
+            Optional<Module> module = environment.getModulePath().get(requiredFile.getValue(), context.getComponent(Components.MODULE_LOADER));
+
+            if (!module.isPresent()) {
+                environment.getMessenger().send(Level.WARN, "Imported local package " + requiredFile.getValue() + " does not have module with the name name");
+                return;
+            }
+
+            imports.importModule(module.get());
+            return;
         }
 
         context.getComponent(Components.SOURCES).addSource(PandaURLSource.fromFile(file));

@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.manager;
 
+import org.panda_lang.framework.design.architecture.Environment;
 import org.panda_lang.framework.design.interpreter.source.Source;
 import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
 import org.panda_lang.panda.Panda;
@@ -49,25 +50,16 @@ final class Run {
         File[] scopes = modulesDirectory.listFiles();
 
         if (scopes != null) {
-            for (File scope : scopes) {
-                load(environment, scope);
+            for (File scopeDirectory : scopes) {
+                for (File moduleDirectory : Objects.requireNonNull(scopeDirectory.listFiles())) {
+                    ModuleManagerUtils.loadToEnvironment(environment, moduleDirectory);
+                }
             }
         }
 
         environment.getInterpreter()
                 .interpret(PandaURLSource.fromFile(mainScript))
                 .ifPresent(application -> application.launch());
-    }
-
-    private void load(PandaEnvironment environment, File scopeDirectory) throws IOException {
-        for (File moduleDirectory : Objects.requireNonNull(scopeDirectory.listFiles())) {
-            ModuleDocument moduleInfo = new ModuleDocumentFile(new File(moduleDirectory, "panda.hjson")).getContent();
-
-            environment.getModulePath().include(moduleDirectory.getName(), () -> {
-                Source source = PandaURLSource.fromFile(new File(moduleDirectory, Objects.requireNonNull(moduleInfo.getMainScript())));
-                environment.getInterpreter().interpret(source);
-            });
-        }
     }
 
 }

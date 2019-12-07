@@ -1,0 +1,9 @@
+module test-local-module
+
+public class LocalModuleClass {
+
+    public static hello() {
+        log 'Local Module Class'
+    }
+
+}
