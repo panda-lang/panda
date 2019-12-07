@@ -21,23 +21,23 @@ import org.panda_lang.framework.design.interpreter.messenger.Messenger;
 import java.io.File;
 import java.io.IOException;
 
-public final class ModuleManager {
+public final class PackageManager {
 
     private final Messenger messenger;
     private final File workingDirectory;
 
-    public ModuleManager(Messenger messenger, File workingDirectory) {
+    public PackageManager(Messenger messenger, File workingDirectory) {
         this.messenger = messenger;
         this.workingDirectory = workingDirectory;
     }
 
     public void install(File documentFile) throws IOException {
-        Install install = new Install(this, new ModuleDocumentFile(documentFile).getContent());
+        Install install = new Install(this, new PackageDocumentFile(documentFile).getContent());
         install.run();
     }
 
     public void run(File documentFile) throws IOException {
-        Run run = new Run(this, new ModuleDocumentFile(documentFile).getContent());
+        Run run = new Run(this, new PackageDocumentFile(documentFile).getContent());
         run.run();
     }
 

@@ -26,18 +26,18 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-final class ModuleDocument {
+final class PackageDocument {
 
     private final File document;
     private final JsonObject content;
 
-    ModuleDocument(File document, JsonObject content) {
+    PackageDocument(File document, JsonObject content) {
         this.document = document;
         this.content = content;
     }
 
     protected Dependency toDependency() {
-        return new Dependency(getOwner(), getName(), getVersion(), "");
+        return new Dependency("", getOwner(), getName(), getVersion(), "");
     }
 
     private List<? extends String> getList(String name) {
@@ -49,8 +49,10 @@ final class ModuleDocument {
     }
 
     private List<Dependency> getDependencies(String name) {
+        DependencyFactory factory = new DependencyFactory();
+
         return getList(name).stream()
-                .map(Dependency::parseDependency)
+                .map(factory::createDependency)
                 .collect(Collectors.toList());
     }
 
@@ -79,8 +81,8 @@ final class ModuleDocument {
         return content.getString("name", null);
     }
 
-    protected File getModulesDirectory() {
-        return new File(getDocument().getParent(), "panda_modules");
+    protected File getPandaModules() {
+        return new File(getDocument().getParent(), PackageManagerConstants.MODULES);
     }
 
     protected File getDocument() {

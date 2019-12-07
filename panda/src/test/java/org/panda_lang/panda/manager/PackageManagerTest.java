@@ -23,10 +23,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
-class ModuleManagerTest {
+class PackageManagerTest {
 
     private static final File DIRECTORY = new File("../examples/module_manager/");
-    private static final ModuleManager MANAGER = new ModuleManager(new PandaMessenger(LoggerFactory.getLogger(ModuleManagerTest.class)), DIRECTORY);
+    private static final PackageManager MANAGER = new PackageManager(new PandaMessenger(LoggerFactory.getLogger(PackageManagerTest.class)), DIRECTORY);
 
     @Test
     void test() throws Exception {
