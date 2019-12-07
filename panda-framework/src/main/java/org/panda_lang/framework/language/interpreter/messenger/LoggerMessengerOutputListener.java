@@ -31,7 +31,9 @@ public final class LoggerMessengerOutputListener implements MessengerOutputListe
 
     @Override
     public void onMessage(MessengerMessage message) {
-        for (String line : message.getContent().split(System.lineSeparator())) {
+        String content = message.getContent().replace(System.lineSeparator(), "\n");
+
+        for (String line : content.split("\n")) {
             this.log(message.getLevel(), line);
         }
     }
