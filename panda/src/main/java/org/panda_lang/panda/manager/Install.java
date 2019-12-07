@@ -37,10 +37,10 @@ import java.util.zip.ZipInputStream;
 
 final class Install implements ThrowingRunnable<IOException> {
 
-    private final ModuleManager manager;
-    private final ModuleDocument document;
+    private final PackageManager manager;
+    private final PackageDocument document;
 
-    Install(ModuleManager manager, ModuleDocument document) {
+    Install(PackageManager manager, PackageDocument document) {
         this.manager = manager;
         this.document = document;
     }
@@ -49,7 +49,7 @@ final class Install implements ThrowingRunnable<IOException> {
         manager.getMessenger().send(Level.DEBUG, "--- Installing dependencies");
 
         Dependency documentDependency = document.toDependency();
-        File pandaModules = new File(document.getDocument().getParentFile(), "panda_modules");
+        File pandaModules = new File(document.getDocument().getParentFile(), PackageManagerConstants.MODULES);
 
         if (!pandaModules.exists()) {
             pandaModules.mkdir();
@@ -91,47 +91,34 @@ final class Install implements ThrowingRunnable<IOException> {
     }
 
     private void install(File pandaModules, Dependency dependency, Collection<Dependency> dependenciesToLoad) throws IOException {
-        File scopeDirectory = new File(pandaModules, dependency.getScope());
-        scopeDirectory.mkdir();
+        File ownerDirectory = new File(pandaModules, dependency.getOwner());
+        ownerDirectory.mkdir();
 
-        File moduleDirectory = new File(scopeDirectory, dependency.getName());
-        File moduleInfoFile = new File(moduleDirectory, "panda.hjson");
+        File packageDirectory = new File(ownerDirectory, dependency.getName());
+        File packageInfoFile = new File(packageDirectory, PackageManagerConstants.PACKAGE_INFO);
 
-        if (moduleDirectory.exists()) {
-            if (!moduleInfoFile.exists()) {
-                throw new PandaFrameworkException("Invalid module " + dependency.getName());
+        if (packageDirectory.exists()) {
+            if (!packageInfoFile.exists()) {
+                throw new PandaFrameworkException("Invalid package " + dependency.getName());
             }
 
-            ModuleDocument moduleInfo = new ModuleDocumentFile(moduleInfoFile).getContent();
+            PackageDocument packageInfo = new PackageDocumentFile(packageInfoFile).getContent();
 
-            if (dependency.getVersion().equals(moduleInfo.getVersion())) {
+            if (dependency.getVersion().equals(packageInfo.getVersion())) {
                 log(InstallStatus.SKIPPED, dependency);
                 return;
             }
 
-            FileUtils.delete(moduleDirectory);
+            FileUtils.delete(packageDirectory);
         }
 
-        BufferedInputStream in = null;
-
-        try {
-            in = new BufferedInputStream(new URL(dependency.getAddress()).openStream());
-            ZipInputStream zipStream = new ZipInputStream(in);
-            ZipUtils.extract(zipStream, scopeDirectory);
-
-            File extractedModule = new File(scopeDirectory, dependency.getName() + "-" + dependency.getVersion());
-            extractedModule.renameTo(moduleDirectory);
-
-            ModuleDocument moduleInfo = new ModuleDocumentFile(moduleInfoFile).getContent();
-            dependenciesToLoad.addAll(moduleInfo.getDependencies());
-            log(InstallStatus.INSTALLED, dependency);
-        } finally {
-            IOUtils.close(in);
-        }
+        CustomInstallFactory customInstallFactory = new CustomInstallFactory();
+        CustomInstall customInstall = customInstallFactory.createCustomInstall(dependency);
+        customInstall.install((status, loaded) -> log(status, loaded), ownerDirectory, packageInfoFile);
     }
 
-    private void scan(Map<String, Dependency> dependenciesMap, File scopeDirectory) {
-        File[] modules = Objects.requireNonNull(scopeDirectory.listFiles());
+    protected void scan(Map<String, Dependency> dependenciesMap, File ownerDirectory) {
+        File[] modules = Objects.requireNonNull(ownerDirectory.listFiles());
 
         for (File module : modules) {
             if (dependenciesMap.containsKey(module.getName())) {
@@ -143,7 +130,7 @@ final class Install implements ThrowingRunnable<IOException> {
         }
     }
 
-    private void log(InstallStatus status, Dependency dependency) {
+    protected void log(InstallStatus status, Dependency dependency) {
         manager.getMessenger().send(Level.DEBUG, status.getSymbol() + " " + dependency.toString());
     }
 

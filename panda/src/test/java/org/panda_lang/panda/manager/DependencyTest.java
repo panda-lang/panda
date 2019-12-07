@@ -21,9 +21,11 @@ import org.junit.jupiter.api.Test;
 
 class DependencyTest {
 
-    private static final Dependency A = Dependency.parseDependency("github:dzikoysk/panda-dependency@1.0.0");
-    private static final Dependency B = Dependency.parseDependency("github:dzikoysk/panda-dependency@1.0.1");
-    private static final Dependency C = Dependency.parseDependency("github:dzikoysk/panda-dependency@1.0");
+    private static final DependencyFactory FACTORY = new DependencyFactory();
+
+    private static final Dependency A = FACTORY.createDependency("github:dzikoysk/panda-dependency@1.0.0");
+    private static final Dependency B = FACTORY.createDependency("github:dzikoysk/panda-dependency@1.0.1");
+    private static final Dependency C = FACTORY.createDependency("github:dzikoysk/panda-dependency@1.0");
 
     @Test
     void hasHigherVersion() {
@@ -45,7 +47,7 @@ class DependencyTest {
 
     @Test
     void getScope() {
-        Assertions.assertEquals("dzikoysk", A.getScope());
+        Assertions.assertEquals("dzikoysk", A.getOwner());
     }
 
     @Test

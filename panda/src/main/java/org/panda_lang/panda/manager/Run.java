@@ -16,8 +16,6 @@
 
 package org.panda_lang.panda.manager;
 
-import org.panda_lang.framework.design.architecture.Environment;
-import org.panda_lang.framework.design.interpreter.source.Source;
 import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
@@ -29,10 +27,10 @@ import java.util.Objects;
 
 final class Run {
 
-    private final ModuleManager manager;
-    private final ModuleDocument document;
+    private final PackageManager manager;
+    private final PackageDocument document;
 
-    Run(ModuleManager manager, ModuleDocument document) {
+    Run(PackageManager manager, PackageDocument document) {
         this.manager = manager;
         this.document = document;
     }
@@ -46,13 +44,13 @@ final class Run {
         PandaEnvironment environment = new PandaEnvironment(panda, manager.getWorkingDirectory());
         environment.initialize();
 
-        File modulesDirectory = document.getModulesDirectory();
-        File[] scopes = modulesDirectory.listFiles();
+        File pandaModules = document.getPandaModules();
+        File[] owners = pandaModules.listFiles();
 
-        if (scopes != null) {
-            for (File scopeDirectory : scopes) {
-                for (File moduleDirectory : Objects.requireNonNull(scopeDirectory.listFiles())) {
-                    ModuleManagerUtils.loadToEnvironment(environment, moduleDirectory);
+        if (owners != null) {
+            for (File ownerDirectory : owners) {
+                for (File moduleDirectory : Objects.requireNonNull(ownerDirectory.listFiles())) {
+                    PackageManagerUtils.loadToEnvironment(environment, moduleDirectory);
                 }
             }
         }

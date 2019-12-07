@@ -46,7 +46,7 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Comp
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
-import org.panda_lang.panda.manager.ModuleManagerUtils;
+import org.panda_lang.panda.manager.PackageManagerUtils;
 import org.slf4j.event.Level;
 
 import java.io.File;
@@ -111,7 +111,7 @@ public final class RequireParser extends ParserBootstrap<Object> {
             }
 
             try {
-                ModuleManagerUtils.loadToEnvironment(environment, file);
+                PackageManagerUtils.loadToEnvironment(environment, file);
             } catch (IOException e) {
                 throw new PandaParserFailure(context, requiredFile, e.getMessage());
             }

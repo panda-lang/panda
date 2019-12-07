@@ -20,17 +20,20 @@ import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.StringUtils;
 
+import java.io.File;
 import java.util.Objects;
 
 final class Dependency {
 
-    private final String scope;
+    private final String type;
+    private final String owner;
     private final String name;
     private final String version;
     private final String address;
 
-    protected Dependency(String scope, String name, String version, String address) {
-        this.scope = scope;
+    protected Dependency(String type, String owner, String name, String version, String address) {
+        this.type = type;
+        this.owner = owner;
         this.name = name;
         this.version = version;
         this.address = address;
@@ -55,8 +58,27 @@ final class Dependency {
         return false;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Dependency that = (Dependency) o;
+        return getOwner().equals(that.getOwner()) && getName().equals(that.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getOwner(), getName());
+    }
+
     protected String getIdentifier() {
-        return getScope() + "/" + getName();
+        return getOwner() + "/" + getName();
     }
 
     protected String getAddress() {
@@ -71,49 +93,17 @@ final class Dependency {
         return name;
     }
 
-    protected String getScope() {
-        return scope;
+    protected String getOwner() {
+        return owner;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        Dependency that = (Dependency) o;
-        return getScope().equals(that.getScope()) && getName().equals(that.getName());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getScope(), getName());
+    public String getType() {
+        return type;
     }
 
     @Override
     public String toString() {
-        return scope + "/" + name + "@" + version;
-    }
-
-    protected static Dependency parseDependency(String qualifier) {
-        if (qualifier.startsWith("github:")) {
-            String uri = qualifier.substring("github:".length());
-
-            String[] byOwner = uri.split("/");
-            String owner = byOwner[0];
-
-            String[] byVersion = byOwner[1].split("@");
-            String name = byVersion[0];
-            String version = byVersion[1];
-
-            return new Dependency(owner, name, version, "https://github.com/" + owner + "/" + name + "/archive/" + version + ".zip");
-        }
-
-        throw new PandaFrameworkException("Unsupported dependency format: " + qualifier);
+        return owner + "/" + name + "@" + version;
     }
 
 }

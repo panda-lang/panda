@@ -23,9 +23,9 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
-class ModuleDocumentTest {
+class PackageDocumentTest {
 
-    private static ModuleDocument document;
+    private static PackageDocument document;
 
     @BeforeAll
     static void prepare() {
@@ -43,7 +43,7 @@ class ModuleDocumentTest {
                         "github:owner-two/dependency-two@1.0.0\n" +
                         "]\n";
 
-        document = new ModuleDocument(new File("."), JsonValue.readHjson(value).asObject());
+        document = new PackageDocument(new File("."), JsonValue.readHjson(value).asObject());
     }
 
     @Test

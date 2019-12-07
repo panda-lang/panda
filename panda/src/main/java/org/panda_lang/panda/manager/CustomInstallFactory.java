@@ -16,22 +16,15 @@
 
 package org.panda_lang.panda.manager;
 
-import org.hjson.JsonValue;
-import org.panda_lang.utilities.commons.FileUtils;
-
-import java.io.File;
-import java.io.IOException;
-
-final class ModuleDocumentFile {
-
-    private final File document;
-
-    ModuleDocumentFile(File document) {
-        this.document = document;
+final class CustomInstallFactory {
+    
+    public CustomInstall createCustomInstall(Dependency dependency) {
+        switch (dependency.getType()) {
+            case "github:":
+                return new GitHubInstall(dependency);
+            default:
+                throw new IllegalArgumentException("Unknown dependency type: " + dependency.getType());
+        }
     }
-
-    ModuleDocument getContent() throws IOException {
-        return new ModuleDocument(document, JsonValue.readHjson(FileUtils.getContentOfFile(document)).asObject());
-    }
-
+    
 }

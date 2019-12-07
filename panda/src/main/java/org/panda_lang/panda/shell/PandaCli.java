@@ -21,7 +21,7 @@ import org.panda_lang.framework.language.interpreter.messenger.PandaMessenger;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaConstants;
 import org.panda_lang.panda.PandaFactory;
-import org.panda_lang.panda.manager.ModuleManager;
+import org.panda_lang.panda.manager.PackageManager;
 import org.panda_lang.panda.shell.repl.ReplConsole;
 import org.panda_lang.utilities.commons.function.ThrowingRunnable;
 import org.tinylog.configuration.Configuration;
@@ -92,9 +92,9 @@ final class PandaCli implements ThrowingRunnable {
         }
 
         if (script.getName().endsWith("panda.hjson")) {
-            ModuleManager moduleManager = new ModuleManager(new PandaMessenger(shell.getLogger()), script.getParentFile());
-            moduleManager.install(script);
-            moduleManager.run(script);
+            PackageManager packageManager = new PackageManager(new PandaMessenger(shell.getLogger()), script.getParentFile());
+            packageManager.install(script);
+            packageManager.run(script);
             return;
         }
 

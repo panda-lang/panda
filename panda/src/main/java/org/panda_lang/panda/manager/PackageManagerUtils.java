@@ -24,9 +24,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-public final class ModuleManagerUtils {
+public final class PackageManagerUtils {
 
-    private ModuleManagerUtils() { }
+    private PackageManagerUtils() { }
 
     /**
      * Load module
@@ -36,10 +36,10 @@ public final class ModuleManagerUtils {
      * @throws IOException when module directory or module file does not exist
      */
     public static void loadToEnvironment(Environment environment, File moduleDirectory) throws IOException {
-        ModuleDocument moduleInfo = new ModuleDocumentFile(new File(moduleDirectory, "panda.hjson")).getContent();
+        PackageDocument packageInfo = new PackageDocumentFile(new File(moduleDirectory, PackageManagerConstants.PACKAGE_INFO)).getContent();
 
         environment.getModulePath().include(moduleDirectory.getName(), () -> {
-            Source source = PandaURLSource.fromFile(new File(moduleDirectory, Objects.requireNonNull(moduleInfo.getMainScript())));
+            Source source = PandaURLSource.fromFile(new File(moduleDirectory, Objects.requireNonNull(packageInfo.getMainScript())));
             environment.getInterpreter().interpret(source);
         });
     }
