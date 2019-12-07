@@ -1,0 +1,27 @@
+module examples:tests
+
+main {
+    Methods methods = new Methods()
+    methods.initialize()
+}
+
+class Methods {
+
+    shared initialize() {
+        staticMethod()
+        anotherInitialize('Another initialize')
+    }
+
+    shared anotherInitialize(String message) {
+        log message
+    }
+
+    shared static staticMethod() {
+        anotherStaticMethod('Another static method')
+    }
+
+    shared static anotherStaticMethod(String message) {
+        log message
+    }
+
+}

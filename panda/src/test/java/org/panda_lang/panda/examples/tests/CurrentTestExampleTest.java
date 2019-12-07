@@ -28,4 +28,9 @@ class CurrentTestExampleTest {
         }
     }
 
+    @Test
+    void testClassTest() {
+        ExamplesLauncher.launch("tests", "class_test.panda");
+    }
+
 }
