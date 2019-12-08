@@ -29,7 +29,6 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionT
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaChannel;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
@@ -108,8 +107,9 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
 
                 return result;
             } catch (PandaParserFailure e) {
-                throw e;
-                // return ExpressionResult.error(e.getMessage() + (e.hasNote() ? ". Note: " + e.getNote() : ""), expressionSource.getOriginalSource());
+                // throw e; we can't throw because as individual subparser we don't know everything
+                // TODO: Support notes/failures by expression results
+                return ExpressionResult.error(e.getMessage() + (e.hasNote() ? ". Note: " + e.getNote() : ""), expressionSource.getOriginalSource());
             } catch (Exception e) {
                 throw new PandaParserFailure(context, token, "Cannot parser assigned expression: " + e.getMessage());
                 // return ExpressionResult.error("Cannot parse assigned expression - " + e.getMessage(), expressionSource.getOriginalSource());
