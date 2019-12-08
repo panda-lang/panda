@@ -119,7 +119,7 @@ public final class RequireParser extends ParserBootstrap<Object> {
             Optional<Module> module = environment.getModulePath().get(requiredFile.getValue(), context.getComponent(Components.MODULE_LOADER));
 
             if (!module.isPresent()) {
-                environment.getMessenger().send(Level.WARN, "Imported local package " + requiredFile.getValue() + " does not have module with the name name");
+                environment.getMessenger().send(Level.WARN, "Imported local package " + requiredFile.getValue() + " does not have module with the same name");
                 return;
             }
 

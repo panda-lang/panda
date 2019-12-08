@@ -20,7 +20,6 @@ import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.expression.DynamicExpression;
-import org.panda_lang.utilities.commons.ObjectUtils;
 
 import java.util.List;
 
@@ -39,7 +38,7 @@ public final class ConcatenationExpressionCallback implements DynamicExpression 
         StringBuilder content = new StringBuilder();
 
         for (Expression value : values) {
-            content.append(value.evaluate(stack, instance).toString());
+            content.append((Object) value.evaluate(stack, instance));
         }
 
         return content.toString();
