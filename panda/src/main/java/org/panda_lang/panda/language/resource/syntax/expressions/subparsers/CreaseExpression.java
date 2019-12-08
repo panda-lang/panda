@@ -49,7 +49,7 @@ final class CreaseExpression extends NumberPriorities implements DynamicExpressi
         Object after = of(before);
         memory.set(accessor.getMemoryPointer(), after);
 
-        return post ? after : before;
+        return post ? before : after;
     }
 
     private Object of(Object value) {
