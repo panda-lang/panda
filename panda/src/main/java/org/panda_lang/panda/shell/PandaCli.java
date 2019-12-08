@@ -23,6 +23,7 @@ import org.panda_lang.panda.PandaConstants;
 import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.manager.PackageManager;
 import org.panda_lang.panda.shell.repl.ReplConsole;
+import org.panda_lang.panda.util.PandaUtils;
 import org.panda_lang.utilities.commons.function.ThrowingRunnable;
 import org.tinylog.configuration.Configuration;
 import picocli.CommandLine;
@@ -83,6 +84,7 @@ final class PandaCli implements ThrowingRunnable<Exception> {
             return;
         }
 
+        PandaUtils.printJVMUptime(shell);
         Panda panda = new PandaFactory().createPanda(shell.getLogger());
 
         if (repl || simplifiedRepl) {
