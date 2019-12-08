@@ -16,9 +16,8 @@
 
 package org.panda_lang.panda.manager;
 
+import org.panda_lang.framework.FrameworkController;
 import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
-import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.language.architecture.PandaEnvironment;
 
 import java.io.File;
@@ -35,13 +34,10 @@ final class Run {
         this.document = document;
     }
 
-    protected void run() throws IOException {
+    protected void run(FrameworkController controller) throws IOException {
         File mainScript = new File(document.getDocument().getParentFile(), Objects.requireNonNull(document.getMainScript()));
 
-        PandaFactory factory = new PandaFactory();
-        Panda panda = factory.createPanda(manager.getMessenger().getLogger());
-
-        PandaEnvironment environment = new PandaEnvironment(panda, manager.getWorkingDirectory());
+        PandaEnvironment environment = new PandaEnvironment(controller, manager.getWorkingDirectory());
         environment.initialize();
 
         File pandaModules = document.getPandaModules();
