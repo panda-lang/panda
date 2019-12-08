@@ -14,25 +14,33 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.math;
+package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn;
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNSimplifiedAction;
+import org.panda_lang.framework.design.runtime.ProcessStack;
 
-public abstract class MathOperationAction extends RPNSimplifiedAction<Number, Number, Number> {
+public abstract class RPNSimplifiedAction<A, B, R> implements RPNOperationAction<R> {
 
-    private final Prototype prototype;
+    private final Expression a;
+    private final Expression b;
 
-    protected MathOperationAction(Prototype prototype, Expression a, Expression b) {
-        super(a, b);
-        this.prototype = prototype;
+    protected RPNSimplifiedAction(Expression a, Expression b) {
+        this.a = a;
+        this.b = b;
+    }
+
+    public abstract R get(ProcessStack stack, Object instance, A a, B b);
+
+    @Override
+    public R get(ProcessStack stack, Object instance) throws Exception {
+        return get(stack, instance, a.evaluate(stack, instance), b.evaluate(stack, instance));
     }
 
     @Override
     public Prototype returnType(ModuleLoader loader) {
-        return prototype;
+        return null;
     }
 
 }

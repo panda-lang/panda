@@ -14,34 +14,37 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.logical;
+package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn;
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNOperationAction;
 
-public final class AndOperator extends OrOperation {
+public abstract class RPNSimplifiedSupplier<A, B, T> implements RPNOperationSupplier {
+
+    public abstract T get(ProcessStack stack, Object instance, A a, B b);
+
+    public abstract Prototype returnType(ModuleLoader loader);
 
     @Override
-    public RPNOperationAction<Boolean> of(ModuleLoader loader, Expression a, Expression b) {
-        return new RPNOperationAction<Boolean>() {
+    public RPNOperationAction<T> of(ModuleLoader moduleLoader, Expression a, Expression b) {
+        return new RPNOperationAction<T>() {
             @Override
-            public Boolean get(ProcessStack stack, Object instance) throws Exception {
-                Boolean aValue = a.evaluate(stack, instance);
-
-                if (!aValue) {
-                    return false;
-                }
-
-                return b.evaluate(stack, instance);
+            public T get(ProcessStack stack, Object instance) throws Exception {
+                return RPNSimplifiedSupplier.this.get(stack, instance, a.evaluate(stack, instance), b.evaluate(stack, instance));
             }
 
             @Override
             public Prototype returnType(ModuleLoader loader) {
-                return AndOperator.super.requiredType(loader);
+                return RPNSimplifiedSupplier.this.returnType(loader);
             }
         };
     }
+
+    @Override
+    public Prototype returnType(ModuleLoader loader, Prototype a, Prototype b) {
+        return returnType(loader);
+    }
+
 }

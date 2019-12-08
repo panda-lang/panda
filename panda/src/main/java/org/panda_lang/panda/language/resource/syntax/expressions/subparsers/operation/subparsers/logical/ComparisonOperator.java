@@ -20,16 +20,16 @@ import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNOperationAction;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.number.NumberOperation;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.number.NumericOperation;
 
-public abstract class ComparisonOperator extends NumberOperation {
+public abstract class ComparisonOperator extends NumericOperation<Boolean> {
 
-    public abstract RPNOperationAction<Expression, Expression, Boolean> of(int compared);
+    public abstract RPNOperationAction<Boolean> of(int compared, Expression a, Expression b);
 
     @Override
-    public RPNOperationAction<Expression, Expression, Boolean> of(ModuleLoader loader, Expression a, Expression b) {
+    public RPNOperationAction<Boolean> of(ModuleLoader loader, Expression a, Expression b) {
         Prototype comparedType = estimateType(a.getReturnType(), b.getReturnType());
-        return of(super.getPriority(comparedType));
+        return of(super.getPriority(comparedType), a, b);
     }
 
     @Override

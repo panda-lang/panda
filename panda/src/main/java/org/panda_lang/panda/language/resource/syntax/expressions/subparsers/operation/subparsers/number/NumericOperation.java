@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number.NumberPriorities;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNOperationSupplier;
 
-public abstract class NumberOperation extends NumberPriorities implements RPNOperationSupplier {
+public abstract class NumericOperation<R> extends NumberPriorities implements RPNOperationSupplier<R> {
 
     protected Prototype estimateType(Prototype a, Prototype b) {
         if (a == b) {

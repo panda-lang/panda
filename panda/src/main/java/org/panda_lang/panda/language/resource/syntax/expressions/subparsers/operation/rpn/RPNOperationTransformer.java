@@ -27,7 +27,7 @@ import java.util.Stack;
 final class RPNOperationTransformer {
 
     private final Map<Operator, Integer> priorities;
-    private final Map<Operator, RPNOperationSupplier> suppliers;
+    private final Map<Operator, RPNOperationSupplier<?>> suppliers;
 
     RPNOperationTransformer(RPNOperationBuilder builder) {
         this.priorities = builder.priorities;

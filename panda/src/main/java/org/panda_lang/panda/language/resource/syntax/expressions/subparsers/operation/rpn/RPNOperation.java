@@ -26,10 +26,10 @@ import java.util.Stack;
 public final class RPNOperation {
 
     private final Context context;
-    private final Map<Operator, RPNOperationSupplier> actions;
+    private final Map<Operator, RPNOperationSupplier<?>> actions;
     private final Stack<Object> values;
 
-    RPNOperation(Context context, Map<Operator, RPNOperationSupplier> actions, Stack<Object> values) {
+    RPNOperation(Context context, Map<Operator, RPNOperationSupplier<?>> actions, Stack<Object> values) {
         this.context = context;
         this.actions = actions;
         this.values = values;
