@@ -16,7 +16,10 @@
 
 package org.panda_lang.panda.manager;
 
+import org.panda_lang.framework.FrameworkController;
 import org.panda_lang.framework.design.interpreter.messenger.Messenger;
+import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.PandaFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,8 +40,14 @@ public final class PackageManager {
     }
 
     public void run(File documentFile) throws IOException {
+        PandaFactory factory = new PandaFactory();
+        Panda panda = factory.createPanda(messenger.getLogger());
+        run(panda, documentFile);
+    }
+
+    public void run(FrameworkController controller, File documentFile) throws IOException {
         Run run = new Run(this, new PackageDocumentFile(documentFile).getContent());
-        run.run();
+        run.run(controller);
     }
 
     protected File getWorkingDirectory() {

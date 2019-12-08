@@ -34,7 +34,7 @@ import java.io.File;
 import java.util.Optional;
 
 @Command(name = "panda", version = "Panda " + PandaConstants.VERSION)
-final class PandaCli implements ThrowingRunnable {
+final class PandaCli implements ThrowingRunnable<Exception> {
 
     private final PandaShell shell;
 
@@ -94,7 +94,7 @@ final class PandaCli implements ThrowingRunnable {
         if (script.getName().endsWith("panda.hjson")) {
             PackageManager packageManager = new PackageManager(new PandaMessenger(shell.getLogger()), script.getParentFile());
             packageManager.install(script);
-            packageManager.run(script);
+            packageManager.run(panda, script);
             return;
         }
 
