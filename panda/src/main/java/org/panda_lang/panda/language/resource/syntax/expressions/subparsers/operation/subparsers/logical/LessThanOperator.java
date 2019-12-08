@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.logical;
 
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number.NumberPriorities;
@@ -24,10 +25,10 @@ import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.oper
 public final class LessThanOperator extends ComparisonOperator {
 
     @Override
-    public RPNOperationAction of(int compared) {
-        return new ComparisonOperatorAction() {
+    public RPNOperationAction<Boolean> of(int compared, Expression a, Expression b) {
+        return new ComparisonOperatorAction(a, b) {
             @Override
-            public Object get(ProcessStack stack, Number a, Number b) {
+            public Boolean get(ProcessStack stack, Object instance, Number a, Number b) {
                 switch (compared) {
                     case NumberPriorities.INT:
                         return a.intValue() < b.intValue();

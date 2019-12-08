@@ -20,9 +20,9 @@ import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 
-public interface RPNOperationAction<A, B, R> {
+public interface RPNOperationAction<R> {
 
-    R get(ProcessStack stack, A aValue, B bValue);
+    R get(ProcessStack stack, Object instance) throws Exception;
 
     Prototype returnType(ModuleLoader loader);
 

@@ -20,9 +20,9 @@ import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 
-public interface RPNOperationSupplier {
+public interface RPNOperationSupplier<R> {
 
-    RPNOperationAction<?, ?, ?> of(ModuleLoader moduleLoader, Expression a, Expression b);
+    RPNOperationAction<R> of(ModuleLoader moduleLoader, Expression a, Expression b);
 
     Prototype returnType(ModuleLoader loader, Prototype a, Prototype b);
 

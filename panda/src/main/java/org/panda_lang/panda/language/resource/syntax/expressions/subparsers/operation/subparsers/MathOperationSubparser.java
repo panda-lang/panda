@@ -43,7 +43,7 @@ public final class MathOperationSubparser implements OperationSubparser {
             Operators.DIVISION, 2
     );
 
-    private static final Map<Operator, RPNOperationSupplier> ACTIONS = Maps.of(
+    private static final Map<Operator, RPNOperationSupplier<?>> ACTIONS = Maps.of(
             Operators.ADDITION, new AdditionOperation(),
             Operators.SUBTRACTION, new SubtractionOperation(),
 

@@ -16,11 +16,16 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.logical;
 
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.number.NumberOperationAction;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNSimplifiedAction;
 
-public abstract class ComparisonOperatorAction extends NumberOperationAction {
+public abstract class ComparisonOperatorAction extends RPNSimplifiedAction<Number, Number, Boolean> {
+
+    protected ComparisonOperatorAction(Expression a, Expression b) {
+        super(a, b);
+    }
 
     @Override
     public Prototype returnType(ModuleLoader loader) {

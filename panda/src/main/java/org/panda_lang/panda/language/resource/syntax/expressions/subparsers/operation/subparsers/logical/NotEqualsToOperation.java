@@ -21,8 +21,8 @@ import org.panda_lang.framework.design.runtime.ProcessStack;
 public final class NotEqualsToOperation extends EqualsToOperation {
 
     @Override
-    public Boolean get(ProcessStack stack, Object a, Object b) {
-        return !super.get(stack, a, b);
+    public Boolean get(ProcessStack stack, Object instance, Object a, Object b) {
+        return !super.get(stack, instance, a, b);
     }
 
 }

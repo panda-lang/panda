@@ -27,7 +27,7 @@ public final class RPNOperationBuilder {
     private Context context;
     private Operation operation;
     protected Map<Operator, Integer> priorities;
-    protected Map<Operator, RPNOperationSupplier> suppliers;
+    protected Map<Operator, RPNOperationSupplier<?>> suppliers;
 
     public RPNOperationBuilder withOperation(Operation operation) {
         this.operation = operation;
@@ -44,7 +44,7 @@ public final class RPNOperationBuilder {
         return this;
     }
 
-    public RPNOperationBuilder withActions(Map<Operator, RPNOperationSupplier> actions) {
+    public RPNOperationBuilder withActions(Map<Operator, RPNOperationSupplier<?>> actions) {
         this.suppliers = actions;
         return this;
     }

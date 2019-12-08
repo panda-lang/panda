@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.math;
 
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
@@ -24,10 +25,10 @@ import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.oper
 public final class DivisionOperation extends MathOperation {
 
     @Override
-    public RPNOperationAction of(Prototype returnType, int priority) {
-        return new MathOperationAction(returnType) {
+    public RPNOperationAction<Number> of(Prototype returnType, int priority, Expression a, Expression b) {
+        return new MathOperationAction(returnType, a, b) {
             @Override
-            public Object get(ProcessStack stack, Number a, Number b) {
+            public Number get(ProcessStack stack, Object instance, Number a, Number b) {
                 try {
                     switch (priority) {
                         case INT:

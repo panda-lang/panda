@@ -23,25 +23,31 @@ import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNOperationAction;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNOperationSupplier;
 
-public class OrOperation implements RPNOperationSupplier, RPNOperationAction<Boolean, Boolean, Boolean> {
+public class OrOperation implements RPNOperationSupplier {
 
     @Override
-    public Boolean get(ProcessStack stack, Boolean aValue, Boolean bValue) {
-        return aValue || bValue;
-    }
+    public RPNOperationAction<Boolean> of(ModuleLoader loader, Expression a, Expression b) {
+        return new RPNOperationAction<Boolean>() {
+            @Override
+            public Boolean get(ProcessStack stack, Object instance) throws Exception {
+                Boolean aValue = a.evaluate(stack, instance);
 
-    @Override
-    public RPNOperationAction<Boolean, Boolean, Boolean> of(ModuleLoader loader, Expression a, Expression b) {
-        return this;
+                if (aValue) {
+                    return true;
+                }
+
+                return b.evaluate(stack, instance);
+            }
+
+            @Override
+            public Prototype returnType(ModuleLoader loader) {
+                return requiredType(loader);
+            }
+        };
     }
 
     @Override
     public Prototype returnType(ModuleLoader loader, Prototype a, Prototype b) {
-        return returnType(loader);
-    }
-
-    @Override
-    public Prototype returnType(ModuleLoader loader) {
         return requiredType(loader);
     }
 

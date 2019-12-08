@@ -56,7 +56,7 @@ public final class LogicalOperatorSubparser implements OperationSubparser {
             Operators.LESS_THAN_OR_EQUAL_TO, COMPARE
     );
 
-    private static final Map<Operator, RPNOperationSupplier> ACTIONS = Maps.of(
+    private static final Map<Operator, RPNOperationSupplier<?>> ACTIONS = Maps.of(
             Operators.EQUAL_TO, new EqualsToOperation(),
             Operators.NOT_EQUAL_TO, new NotEqualsToOperation(),
 
