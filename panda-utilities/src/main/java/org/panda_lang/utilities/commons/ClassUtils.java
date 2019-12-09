@@ -44,16 +44,17 @@ public final class ClassUtils {
     private ClassUtils() { }
 
     /**
-     * Get classes of the given values
+     * Get non primitive class
      *
-     * @param values the values to check
-     * @return array of classes
+     * @param clazz the class to get
+     * @return non primitive class
      */
-    public static Class<?>[] getClasses(Object... values) {
-        //noinspection ReturnOfNull
-        return Arrays.stream(values)
-                .map(object -> object != null ? object.getClass() : null)
-                .toArray(Class[]::new);
+    public static Class<?> getNonPrimitiveClass(Class<?> clazz) {
+        if (!clazz.isPrimitive()) {
+            return clazz;
+        }
+
+        return PRIMITIVE_EQUIVALENT.get(clazz);
     }
 
     /**
@@ -111,6 +112,19 @@ public final class ClassUtils {
 
         return toClass.isAssignableFrom(fromClass);
 
+    }
+
+    /**
+     * Get classes of the given values
+     *
+     * @param values the values to check
+     * @return array of classes
+     */
+    public static Class<?>[] getClasses(Object... values) {
+        //noinspection ReturnOfNull
+        return Arrays.stream(values)
+                       .map(object -> object != null ? object.getClass() : null)
+                       .toArray(Class[]::new);
     }
 
     /**
