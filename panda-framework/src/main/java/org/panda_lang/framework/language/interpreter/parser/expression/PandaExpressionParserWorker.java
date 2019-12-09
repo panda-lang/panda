@@ -24,6 +24,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionS
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserPostProcessor;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserType;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction.Commit;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.utilities.commons.collection.Maps;
 
@@ -128,6 +129,7 @@ public final class PandaExpressionParserWorker {
 
         long time = System.nanoTime();
         int cachedIndex = context.getSynchronizedSource().getIndex();
+        int cachedCommits = context.getCommits().size();
 
         ExpressionResult result = worker.next(context, token);
         Maps.update(TIMES, subparser.getSubparserName(), () -> 0L, cachedTime -> cachedTime + (System.nanoTime() - time));
@@ -135,6 +137,7 @@ public final class PandaExpressionParserWorker {
         // if something went wrong
         if (result == null || result.containsError()) {
             context.getSynchronizedSource().setIndex(cachedIndex);
+            rollback(context, cachedCommits);
 
             // do not override previous error
             if (result != null && error == null) {
@@ -152,18 +155,36 @@ public final class PandaExpressionParserWorker {
             return true;
         }
 
-        // save the result
-        context.getResults().push(result.get());
-
         // increase usage
         subparsers.get(index).increaseUsages();
         cachedWorkers.push(worker);
 
+        // only one expr on stack
+        if (context.hasResults()) {
+            context.getSynchronizedSource().setIndex(cachedIndex);
+            rollback(context, cachedCommits);
+            return false;
+        }
+
+        // save the result
+        context.getResults().push(result.get());
+
         // cleanup cache, move the index
         lastSucceededRead = context.getSynchronizedSource().getIndex();
         error = subparser instanceof PartialResultSubparser ? error : null;
-
         return true;
+    }
+
+    private void rollback(ExpressionContext context, int cachedCommits) {
+        List<Commit> commits = context.getCommits();
+
+        if (commits.size() <= cachedCommits) {
+            return;
+        }
+
+        List<Commit> latestCommits = commits.subList(cachedCommits, commits.size());
+        latestCommits.forEach(Commit::rollback);
+        commits.removeAll(latestCommits);
     }
 
     public boolean hasError() {

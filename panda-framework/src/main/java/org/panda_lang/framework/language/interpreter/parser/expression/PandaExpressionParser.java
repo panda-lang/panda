@@ -120,7 +120,7 @@ public final class PandaExpressionParser implements ExpressionParser {
             throw new PandaExpressionParserFailure(expressionContext, source.toSnippet(), "Unknown expression");
         }
 
-        // if worker couldn't prepare the final result
+        // if worker couldn't prepare the final result (in theory it should never happen)
         if (expressionContext.getResults().size() > 1) {
             transaction.rollback();
             throw new PandaExpressionParserFailure(expressionContext, source.toSnippet(), "Source contains " + expressionContext.getResults().size() + " expressions");
