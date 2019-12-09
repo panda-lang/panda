@@ -25,7 +25,7 @@ import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Stack;
 
 final public class PandaExpressionContext implements ExpressionContext {
@@ -35,7 +35,7 @@ final public class PandaExpressionContext implements ExpressionContext {
     private final SourceStream source;
     private final SynchronizedSource synchronizedSource;
     private final Stack<Expression> results = new Stack<>();
-    private final Collection<Commit> commits = new ArrayList<>(1);
+    private final List<Commit> commits = new ArrayList<>(1);
 
     public PandaExpressionContext(ExpressionParser parser, Context context, SourceStream source) {
         this.parser = parser;
@@ -74,7 +74,8 @@ final public class PandaExpressionContext implements ExpressionContext {
         return source;
     }
 
-    public Collection<Commit> getCommits() {
+    @Override
+    public List<Commit> getCommits() {
         return commits;
     }
 

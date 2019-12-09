@@ -22,6 +22,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionT
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -70,6 +71,13 @@ public interface ExpressionContext {
      * @return the original source
      */
     SourceStream getSource();
+
+    /**
+     * Get commits
+     *
+     * @return list of commits
+     */
+    List<Commit> getCommits();
 
     /**
      * Get results
