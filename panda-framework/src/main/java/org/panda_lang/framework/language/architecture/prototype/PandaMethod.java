@@ -24,11 +24,13 @@ public final class PandaMethod extends AbstractExecutableProperty implements Pro
     private final PrototypeExecutableCallback methodBody;
     private final boolean isAbstract;
     private final boolean isStatic;
+    private final boolean isNative;
 
     protected PandaMethod(PandaMethodBuilder builder) {
         super(builder);
         this.methodBody = builder.methodBody;
         this.isAbstract = builder.isAbstract;
+        this.isNative = false;
         this.isStatic = builder.isStatic;
     }
 
@@ -41,6 +43,11 @@ public final class PandaMethod extends AbstractExecutableProperty implements Pro
     @Override
     public boolean isAbstract() {
         return isAbstract;
+    }
+
+    @Override
+    public boolean isNative() {
+        return isNative;
     }
 
     @Override

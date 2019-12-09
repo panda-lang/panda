@@ -55,14 +55,14 @@ final class MicroTemplateProcessor {
     }
 
     protected String insertPrefix(String content, String prefix) {
-        String[] lines = StringUtils.split(content, System.lineSeparator());
+        String[] lines = StringUtils.split(content, "\n");
 
         for (int i = 0; i < lines.length; i++) {
             lines[i] = CharacterUtils.BACKSPACE + prefix + lines[i];
         }
 
         //noinspection ConfusingArgumentToVarargsMethod
-        return ContentJoiner.on(System.lineSeparator())
+        return ContentJoiner.on("\n")
                 .join(lines)
                 .toString();
     }
