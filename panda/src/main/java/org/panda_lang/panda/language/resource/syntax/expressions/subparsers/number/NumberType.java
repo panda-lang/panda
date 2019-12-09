@@ -51,11 +51,17 @@ public enum NumberType {
         return priority;
     }
 
-    public static @Nullable NumberType of(char c) {
-        if (c == 0) {
-            return null;
+    public static @Nullable NumberType of(Class<?> clazz) {
+        for (NumberType type : values()) {
+            if (type.getJavaType().equals(clazz)) {
+                return type;
+            }
         }
 
+        return null;
+    }
+
+    public static @Nullable NumberType of(char c) {
         for (NumberType type : values()) {
             if (type.letter == c || type.lowerLetter == c) {
                 return type;
