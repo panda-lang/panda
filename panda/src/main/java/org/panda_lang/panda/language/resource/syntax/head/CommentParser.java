@@ -23,46 +23,20 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.Token;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
-import org.panda_lang.framework.language.resource.syntax.TokenTypes;
+import org.panda_lang.framework.language.resource.syntax.sequence.SequencesUtils;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RegistrableParser(pipeline = Pipelines.ALL_LABEL)
 public final class CommentParser implements ContextParser<CommentStatement>, Handler {
 
     @Override
     public Boolean handle(Context context, Channel channel, Snippet source) {
-        return isComment(source.getFirst().getToken());
+        return SequencesUtils.isComment(source.getFirst().getToken());
     }
 
     @Override
     public CommentStatement parse(Context context) {
         return new CommentStatement(context.getComponent(Components.STREAM).read());
-    }
-
-    public static Snippet uncommented(Snippet source) {
-        List<TokenRepresentation> uncommentedSource = new ArrayList<>(source.size());
-
-        for (TokenRepresentation tokenRepresentation : source) {
-            Token token = tokenRepresentation.getToken();
-
-            if (isComment(token)) {
-                continue;
-            }
-
-            uncommentedSource.add(tokenRepresentation);
-        }
-
-        return new PandaSnippet(uncommentedSource);
-    }
-
-    private static boolean isComment(Token token) {
-        return token.getType() == TokenTypes.SEQUENCE && token.getName().isPresent() && token.getName().get().equals("Comment");
     }
 
 }
