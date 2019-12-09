@@ -89,7 +89,8 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
             }
 
             // fetch method instance
-            Expression instance = null;
+            Expression instance;
+            boolean autofilled = false;
 
             // fetch instance from stack if token before name was period
             if (context.hasResults() && TokenUtils.contentEquals(source.getPrevious(1), Separators.PERIOD)) {
@@ -98,6 +99,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
             // use current instance (this) if source contains only name and section
             else /* if (source.getIndex() == 2) ^ not really */ {
                 instance = ThisExpression.of(context.getContext());
+                autofilled = true;
             }
 
             // instance required
@@ -114,7 +116,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
             Expression expression = parseMethod(context, instance, nameToken, section.getContent());
 
             // drop used instance
-            if (context.hasResults()) {
+            if (context.hasResults() && !autofilled) {
                 context.popExpression();
             }
 
