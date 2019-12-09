@@ -96,7 +96,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
                 instance = context.peekExpression();
             }
             // use current instance (this) if source contains only name and section
-            else if (source.getIndex() == 2) {
+            else /* if (source.getIndex() == 2) ^ not really */ {
                 instance = ThisExpression.of(context.getContext());
             }
 

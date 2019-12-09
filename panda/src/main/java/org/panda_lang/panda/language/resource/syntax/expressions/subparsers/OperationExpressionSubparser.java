@@ -29,6 +29,7 @@ import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.Operation;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.Operation.OperationElement;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.OperationParser;
 
 import java.util.ArrayList;
@@ -86,8 +87,12 @@ public final class OperationExpressionSubparser implements ExpressionSubparser {
                 this.elements = new ArrayList<>(3);
             }
 
-            elements.add(new Operation.OperationElement(context.popExpression()));
-            elements.add(new Operation.OperationElement(token));
+            elements.add(new OperationElement(context.popExpression()));
+            elements.add(new OperationElement(token));
+
+            //ExpressionTransaction transaction = context.getParser().parse(context.getContext(), context.getSynchronizedSource());
+            //context.commit(transaction::rollback);
+            //elements.add(new OperationElement(transaction.getExpression()));
 
             return ExpressionResult.empty();
         }

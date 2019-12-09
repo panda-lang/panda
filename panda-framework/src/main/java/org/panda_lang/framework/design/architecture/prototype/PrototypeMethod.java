@@ -29,6 +29,14 @@ public interface PrototypeMethod extends ExecutableProperty {
     boolean isAbstract();
 
     /**
+     * Check if method comes from Java mappings.
+     * It may be important data for e.g. setting value.
+     *
+     * @return true if field comes from java
+     */
+    boolean isNative();
+
+    /**
      * Check if method is static
      *
      * @return true if method is static
