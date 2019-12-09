@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
@@ -26,8 +27,12 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionS
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.language.resource.syntax.operator.Operators;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number.NumberType;
+import org.panda_lang.utilities.commons.ClassUtils;
 
-public final class NegateExpressionSubparser implements ExpressionSubparser {
+import java.security.InvalidParameterException;
+
+public final class NegativeExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker(Context context) {
@@ -46,21 +51,29 @@ public final class NegateExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public String getSubparserName() {
-        return "negate";
+        return "negative";
     }
 
     private static final class NegateWorker extends AbstractExpressionSubparserWorker {
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
-            if (!token.contentEquals(Operators.NOT)) {
+            if (!token.contentEquals(Operators.SUBTRACTION)) {
                 return null;
             }
 
             ExpressionTransaction transaction = context.getParser().parse(context.getContext(), context.getSynchronizedSource());
             context.commit(transaction::rollback);
 
-            return ExpressionResult.of(new NegateLogicalExpression(transaction.getExpression()).toExpression());
+            Expression expression = transaction.getExpression();
+            Class<?> numberClass = ClassUtils.getNonPrimitiveClass(expression.getReturnType().getAssociatedClass());
+
+            if (!Number.class.isAssignableFrom(numberClass)) {
+                throw new InvalidParameterException("Cannot reverse non logical value");
+            }
+
+            NegativeExpression negativeExpression = new NegativeExpression(expression, NumberType.of(numberClass));
+            return ExpressionResult.of(negativeExpression.toExpression());
         }
 
     }

@@ -34,6 +34,8 @@ main {
     // assign new value to the s variable
     s = "Hello Panda v2"
 
+    // negative number
+    log -1
     // assign integer in hex format to the i variable
     Int i = 0x000001
     // perform some math operations

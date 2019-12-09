@@ -26,6 +26,7 @@ import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.IsEx
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.LiteralExpressionSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.MethodExpressionSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.NegateExpressionSubparser;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.NegativeExpressionSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.NumberExpressionSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.OperationExpressionSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.SectionExpressionSubparser;
@@ -49,6 +50,7 @@ public final class PandaExpressions {
             LiteralExpressionSubparser.class,
             MethodExpressionSubparser.class,
             NegateExpressionSubparser.class,
+            NegativeExpressionSubparser.class,
             NumberExpressionSubparser.class,
             OperationExpressionSubparser.class,
             SectionExpressionSubparser.class,
