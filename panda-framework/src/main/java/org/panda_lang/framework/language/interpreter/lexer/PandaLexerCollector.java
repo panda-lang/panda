@@ -46,8 +46,6 @@ final class PandaLexerCollector {
             return;
         }
 
-        // System.out.println("[LEXER] " + StringUtils.buildSpace(sections.size() * 2) + representation.toString());
-
         if (representation.getToken() instanceof Separator) {
             if (processSeparator(representation)) {
                 return;
