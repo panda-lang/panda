@@ -50,7 +50,7 @@ public final class FieldAssigner extends AbstractAssigner<PrototypeField> {
         }
 
         if (field.isStatic()) {
-            field.setStaticValue(value);
+            field.setStaticValue(() -> value);
             return value;
         }
 

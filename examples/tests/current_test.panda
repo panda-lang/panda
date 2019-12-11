@@ -202,6 +202,9 @@ class Test {
         this.message2 = message2
     }
 
+    // static field that creates instance of the current class
+    public static Test TEST = new Test('Static initialization of class instance')
+
     shared echo(Object message3) {
         log message3
     }
