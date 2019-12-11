@@ -18,22 +18,17 @@ package org.panda_lang.panda.manager;
 
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.utilities.commons.FileUtils;
-import org.panda_lang.utilities.commons.IOUtils;
-import org.panda_lang.utilities.commons.ZipUtils;
 import org.panda_lang.utilities.commons.function.ThrowingRunnable;
 import org.slf4j.event.Level;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.zip.ZipInputStream;
 
 final class Install implements ThrowingRunnable<IOException> {
 
@@ -114,7 +109,9 @@ final class Install implements ThrowingRunnable<IOException> {
 
         CustomInstallFactory customInstallFactory = new CustomInstallFactory();
         CustomInstall customInstall = customInstallFactory.createCustomInstall(dependency);
-        customInstall.install((status, loaded) -> log(status, loaded), ownerDirectory, packageInfoFile);
+
+        List<Dependency> dependencies = customInstall.install(this::log, ownerDirectory, packageInfoFile);
+        dependenciesToLoad.addAll(dependencies);
     }
 
     protected void scan(Map<String, Dependency> dependenciesMap, File ownerDirectory) {
