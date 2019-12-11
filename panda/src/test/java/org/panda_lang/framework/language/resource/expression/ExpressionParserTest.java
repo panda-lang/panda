@@ -28,7 +28,7 @@ class ExpressionParserTest extends ExpressionParserTestBootstrap {
     @Test
     public void parseSequences() {
         parse("'hello panda'");
-        parse("'hello panda' 'hello expressions'", "Source contains 2 expressions");
+        parse("'hello panda' 'hello expressions'", RuntimeException.class, "Unread source: 'hello expressions'");
     }
 
     @Test
