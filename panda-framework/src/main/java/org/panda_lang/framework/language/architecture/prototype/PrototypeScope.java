@@ -41,7 +41,12 @@ public final class PrototypeScope extends AbstractFramedScope implements FramedS
         ClassPrototypeFrame classInstance = new ClassPrototypeFrame(this, prototype);
 
         for (PrototypeField field : prototype.getFields().getDeclaredProperties()) {
-            if (!field.hasDefaultValue() || field.isStatic()) {
+            if (!field.hasDefaultValue()) {
+                continue;
+            }
+
+            if (field.isStatic()) {
+                field.fetchStaticValue(); // just init
                 continue;
             }
 
@@ -58,7 +63,7 @@ public final class PrototypeScope extends AbstractFramedScope implements FramedS
 
     public static final class ClassPrototypeFrame extends AbstractFrame<PrototypeScope> {
 
-        private static final AtomicInteger idAssigner = new AtomicInteger();
+        private static final AtomicInteger ID = new AtomicInteger();
 
         private final int id;
         private final Prototype prototype;
@@ -66,7 +71,7 @@ public final class PrototypeScope extends AbstractFramedScope implements FramedS
         public ClassPrototypeFrame(PrototypeScope frame, Prototype classPrototype) {
             super(frame, classPrototype.getFields().getDeclaredProperties().size());
 
-            this.id = idAssigner.getAndIncrement();
+            this.id = ID.getAndIncrement();
             this.prototype = classPrototype;
         }
 

@@ -44,7 +44,7 @@ final class FieldExpression implements DynamicExpression {
         PrototypeField field = accessor.getVariable();
 
         if (field.isStatic()) {
-            return field.getStaticValue();
+            return field.fetchStaticValue();
         }
 
         if (field.isNative()) {

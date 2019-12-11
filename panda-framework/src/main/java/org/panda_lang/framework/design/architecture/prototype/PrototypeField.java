@@ -19,6 +19,8 @@ package org.panda_lang.framework.design.architecture.prototype;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.statement.Variable;
 
+import java.util.function.Supplier;
+
 /**
  * Represents field property
  */
@@ -37,7 +39,7 @@ public interface PrototypeField extends ExecutableProperty, Variable {
      *
      * @param staticValue the static value
      */
-    void setStaticValue(Object staticValue);
+    void setStaticValue(Supplier<?> staticValue);
 
     /**
      * Check if field is static
@@ -67,7 +69,7 @@ public interface PrototypeField extends ExecutableProperty, Variable {
      * @param <T> type of value
      * @return the static value
      */
-    <T> T getStaticValue();
+    <T> T fetchStaticValue();
 
     /**
      * Get default value

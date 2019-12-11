@@ -16,10 +16,16 @@
 
 package org.panda_lang.framework.design.architecture.expression;
 
+import org.panda_lang.framework.design.runtime.Process;
 import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.language.runtime.PandaProcess;
+import org.panda_lang.framework.language.runtime.PandaProcessStack;
+import org.panda_lang.framework.language.runtime.PandaRuntimeConstants;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 
 public final class ExpressionUtils {
+
+    private static final Process PROCESS = new PandaProcess(null, null);
 
     private ExpressionUtils() { }
 
@@ -32,9 +38,10 @@ public final class ExpressionUtils {
      */
     public static <T> T evaluateConstExpression(Expression expression) {
         try {
-            return expression.evaluate(null, null);
+            return expression.evaluate(new PandaProcessStack(PROCESS, PandaRuntimeConstants.DEFAULT_STACK_SIZE), null);
         } catch (Exception e) {
-            throw new PandaRuntimeException("Cannot evaluate static expression: " + expression);
+            e.printStackTrace();
+            throw new PandaRuntimeException("Cannot evaluate static expression: " + expression, e);
         }
     }
 

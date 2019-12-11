@@ -19,6 +19,9 @@ package org.panda_lang.framework.language.architecture.prototype;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
+import org.panda_lang.utilities.commons.function.CachedSupplier;
+
+import java.util.function.Supplier;
 
 public final class PandaPrototypeField extends AbstractExecutableProperty implements PrototypeField {
 
@@ -29,7 +32,7 @@ public final class PandaPrototypeField extends AbstractExecutableProperty implem
     private final boolean nillable;
 
     private Expression defaultValue;
-    private Object staticValue;
+    private CachedSupplier<?> staticValue;
     private boolean initialized;
 
     protected PandaPrototypeField(PandaPrototypeFieldBuilder builder) {
@@ -47,7 +50,7 @@ public final class PandaPrototypeField extends AbstractExecutableProperty implem
         this.initialized = true;
 
         if (isStatic && defaultValue != null) {
-            this.staticValue = ExpressionUtils.evaluateConstExpression(defaultValue);
+            this.staticValue = new CachedSupplier<>(() -> ExpressionUtils.evaluateConstExpression(defaultValue));
         }
 
         return this;
@@ -59,8 +62,8 @@ public final class PandaPrototypeField extends AbstractExecutableProperty implem
     }
 
     @Override
-    public void setStaticValue(Object staticValue) {
-        this.staticValue = staticValue;
+    public void setStaticValue(Supplier<?> staticValue) {
+        this.staticValue = new CachedSupplier<>(staticValue);
     }
 
     @Override
@@ -95,8 +98,8 @@ public final class PandaPrototypeField extends AbstractExecutableProperty implem
 
     @Override
     @SuppressWarnings("unchecked")
-    public Object getStaticValue() {
-        return staticValue;
+    public Object fetchStaticValue() {
+        return staticValue.get();
     }
 
     @Override

@@ -70,7 +70,7 @@ final class FieldGenerator {
         });
 
         prototypeField.setDefaultValue(fieldExpression);
-        prototypeField.setStaticValue(prototypeField.isStatic() ? ExpressionUtils.evaluateConstExpression(fieldExpression) : null);
+        prototypeField.setStaticValue(prototypeField.isStatic() ? () -> ExpressionUtils.evaluateConstExpression(fieldExpression) : null);
 
         return prototypeField;
     }
