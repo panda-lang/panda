@@ -60,7 +60,8 @@ final class PandaLexerWorker {
             throw new IllegalArgumentException("Source is empty");
         }
 
-        char[] sourceArray = (content + System.lineSeparator()).toCharArray();
+        content = StringUtils.replace(content, System.lineSeparator(), "\n");
+        char[] sourceArray = (content + "\n").toCharArray();
 
         for (char character : sourceArray) {
             next(character);
@@ -107,7 +108,7 @@ final class PandaLexerWorker {
     }
 
     private void checkLine() {
-        if (!linePreview.toString().endsWith(System.lineSeparator())) {
+        if (!linePreview.toString().endsWith("\n")) {
             return;
         }
 
