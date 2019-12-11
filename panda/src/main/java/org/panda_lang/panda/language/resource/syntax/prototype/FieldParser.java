@@ -30,6 +30,7 @@ import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.language.architecture.module.PandaImportsUtils;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototypeField;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
 import org.panda_lang.framework.language.interpreter.pattern.custom.Result;
@@ -102,11 +103,15 @@ public final class FieldParser extends ParserBootstrap {
         local.allocated(field);
     }
 
-    @Autowired(order = 2)
-    void parseAssignation(@Local PrototypeField field, @Src("assignation") @Nullable Expression assignationValue) {
+    @Autowired(order = 2, cycle = GenerationCycles.CONTENT_LABEL)
+    void parseAssignation(Context context, @Inter Snippet source, @Local PrototypeField field, @Src("assignation") @Nullable Expression assignationValue) {
         if (assignationValue == null) {
             //throw new PandaParserFailure("Cannot parse expression '" + assignationValue + "'", context, name);
             return;
+        }
+
+        if (!field.getType().isAssignableFrom(assignationValue.getReturnType())) {
+            throw new PandaParserFailure(context, source, "Cannot assign type " + assignationValue.getReturnType().getPropertyName() + " to " + field.getPropertyName());
         }
 
         field.setDefaultValue(assignationValue);

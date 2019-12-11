@@ -116,7 +116,7 @@ public final class PandaPrototypeField extends AbstractExecutableProperty implem
 
     @Override
     public String toString() {
-        return "field" + getPropertyName();
+        return "field" + getType().getSimpleName() + " " + getPropertyName();
     }
 
     public static PandaPrototypeFieldBuilder builder() {

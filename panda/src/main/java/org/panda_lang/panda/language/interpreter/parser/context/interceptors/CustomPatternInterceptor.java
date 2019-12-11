@@ -53,7 +53,7 @@ public final class CustomPatternInterceptor implements BootstrapInterceptor {
         }
 
         interceptorData.addElement(currentSource.getLocation());
-        interceptorData.addElement(result);
+        interceptorData.addElement(result.getSource());
         interceptorData.addElement(result);
         return interceptorData;
     }
