@@ -235,6 +235,10 @@ local class TestArray {
         log "Value at array[test.index]: " + this.getArray()[test.INDEX]
     }
 
+    shared varargs(nil mut Object... varargs) {
+        log varargs
+    }
+
     // get array
     local String[] getArray() {
         return array

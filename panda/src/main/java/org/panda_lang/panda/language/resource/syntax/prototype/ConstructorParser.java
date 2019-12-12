@@ -25,8 +25,8 @@ import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.language.architecture.dynamic.AbstractFrame;
 import org.panda_lang.framework.language.architecture.prototype.PandaConstructor;
+import org.panda_lang.framework.language.architecture.prototype.PandaConstructor.ConstructorFrame;
 import org.panda_lang.framework.language.architecture.prototype.PandaConstructor.PandaConstructorScope;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeScope;
 import org.panda_lang.framework.language.architecture.prototype.utils.ParameterUtils;
@@ -48,13 +48,13 @@ import org.panda_lang.panda.language.interpreter.parser.context.interceptors.Lin
 import java.util.List;
 
 @RegistrableParser(pipeline = Pipelines.PROTOTYPE_LABEL)
-public final class ConstructorParser extends ParserBootstrap {
+public final class ConstructorParser extends ParserBootstrap<Object> {
 
     private static final ParameterParser PARAMETER_PARSER = new ParameterParser();
     private static final ScopeParser SCOPE_PARSER = new ScopeParser();
 
     @Override
-    protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
+    protected BootstrapInitializer<Object> initialize(Context context, BootstrapInitializer<Object> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.CONSTRUCTOR))
                 .interceptor(new LinearPatternInterceptor())
@@ -74,7 +74,7 @@ public final class ConstructorParser extends ParserBootstrap {
                 .callback((stack, instance, arguments) -> {
                     Frame prototypeInstance = prototypeScope.revive(stack, instance);
 
-                    AbstractFrame<?> constructorInstance = constructorScope.revive(stack, prototypeInstance);
+                    ConstructorFrame constructorInstance = constructorScope.revive(stack, prototypeInstance);
                     ParameterUtils.assignValues(constructorInstance, arguments);
 
                     stack.callFrame(prototypeInstance, constructorInstance);

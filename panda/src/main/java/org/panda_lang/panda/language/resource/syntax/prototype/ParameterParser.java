@@ -29,6 +29,7 @@ import org.panda_lang.framework.design.interpreter.token.SnippetUtils;
 import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.language.architecture.prototype.PandaPropertyParameter;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.utilities.commons.ArrayUtils;
 
@@ -51,6 +52,8 @@ public final class ParameterParser implements Parser {
             return parameters;
         }
 
+        Imports imports = context.getComponent(Components.IMPORTS);
+
         for (int index = 0; index < parametersSource.length; index++) {
             Snippet source = parametersSource[index];
             Token name = source.getLast();
@@ -59,27 +62,31 @@ public final class ParameterParser implements Parser {
                 throw new PandaParserFailure(context, snippet, "Missing parameter at " + index + " position");
             }
 
+            int start = 0;
             int end = source.size() - 1;
 
-            if (source.contains(Separators.PERIOD)) {
-                end -= 3;
-            }
+            boolean mutable = source.contains(Keywords.MUT);
+            boolean nillable = source.contains(Keywords.NIL);
+            boolean varargs = source.contains(Separators.VARARGS);
 
-            Imports imports = context.getComponent(Components.IMPORTS);
-            Optional<Reference> reference = imports.forName(source.subSource(0, end).asSource());
+            start += mutable ? 1 : 0;
+            start += nillable ? 1 : 0;
+            end -= varargs ? 1 : 0;
+
+            Snippet typeSource = source.subSource(start, end);
+            Optional<Reference> reference = imports.forName(typeSource.asSource());
 
             if (!reference.isPresent()) {
-                throw new PandaParserFailure(context, source.subSource(0, end), "Unknown type", "Make sure that type is imported");
+                throw new PandaParserFailure(context, typeSource, "Unknown type", "Make sure that type is imported");
             }
 
             Prototype prototype = reference.get().fetch();
-            boolean varargs = end + 1 < source.size();
 
             if (varargs) {
                 prototype = prototype.toArray(context.getComponent(Components.MODULE_LOADER));
             }
 
-            PropertyParameter parameter = new PandaPropertyParameter(index, prototype, name.getValue(), varargs, false);
+            PropertyParameter parameter = new PandaPropertyParameter(index, prototype, name.getValue(), varargs, mutable, nillable);
             parameters.add(parameter);
         }
 

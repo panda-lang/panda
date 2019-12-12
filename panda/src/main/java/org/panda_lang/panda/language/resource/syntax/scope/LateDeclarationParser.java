@@ -43,10 +43,10 @@ import org.panda_lang.panda.language.interpreter.parser.context.interceptors.Cus
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_LATE_DECLARATION)
-public final class LateDeclarationParser extends ParserBootstrap {
+public final class LateDeclarationParser extends ParserBootstrap<Object> {
 
     @Override
-    protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
+    protected BootstrapInitializer<Object> initialize(Context context, BootstrapInitializer<Object> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.LATE))
                 .interceptor(new CustomPatternInterceptor())

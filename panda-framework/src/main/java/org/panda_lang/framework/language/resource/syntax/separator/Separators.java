@@ -30,6 +30,7 @@ public final class Separators {
     public static final Separator SEMICOLON = new Separator(";", null);
     public static final Separator COMMA = new Separator(",", null);
     public static final Separator PERIOD = new Separator(".", null);
+    public static final Separator VARARGS = new Separator("...", null);
 
     public static final Separator PARENTHESIS_RIGHT = new Separator(")", null);
     public static final Separator PARENTHESIS_LEFT = new Separator("(", PARENTHESIS_RIGHT);

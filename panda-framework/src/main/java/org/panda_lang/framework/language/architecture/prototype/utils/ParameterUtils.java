@@ -19,9 +19,11 @@ package org.panda_lang.framework.language.architecture.prototype.utils;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.language.architecture.dynamic.AbstractFrame;
-import org.panda_lang.framework.language.architecture.dynamic.AbstractLivingFrameUtils;
+import org.panda_lang.framework.language.architecture.statement.AbstractPropertyFramedScope;
+import org.panda_lang.framework.language.architecture.statement.PandaPropertyFrame;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
+
+import java.util.List;
 
 public final class ParameterUtils {
 
@@ -29,12 +31,26 @@ public final class ParameterUtils {
 
     private ParameterUtils() { }
 
-    public static void assignValues(AbstractFrame<?> instance, Object[] parameterValues) {
+    public static void assignValues(PandaPropertyFrame<? extends AbstractPropertyFramedScope> instance, Object[] parameterValues) {
         if (instance.getMemorySize() < parameterValues.length) {
             throw new PandaRuntimeException("Incompatible number of parameters");
         }
 
-        System.arraycopy(parameterValues, 0, AbstractLivingFrameUtils.extractMemory(instance), 0, parameterValues.length);
+        List<? extends PropertyParameter> parameters = instance.getFramedScope().getParameters();
+
+        for (int index = 0; index < parameterValues.length; index++) {
+            Object value = parameterValues[index];
+
+            if (value == null) {
+                PropertyParameter parameter = parameters.get(index);
+
+                if (!parameter.isNillable()) {
+                    throw new PandaRuntimeException("Cannot assign null to  the '" + parameter.getName() + "' parameter without nil modifier");
+                }
+            }
+
+            instance.set(index, value);
+        }
     }
 
     public static Prototype[] toTypes(Expression... expressions) {
