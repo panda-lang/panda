@@ -32,7 +32,7 @@ final class PrototypeGeneratorUtils {
 
         for (int index = 0; index < parameters.length; index++) {
             Parameter parameter = parameters[index];
-            mappedParameters[index] = new PandaPropertyParameter(index, GENERATOR.findOrGenerate(module, parameter.getType()).fetch(), parameter.getName(), parameter.isVarArgs(), false);
+            mappedParameters[index] = new PandaPropertyParameter(index, GENERATOR.findOrGenerate(module, parameter.getType()).fetch(), parameter.getName(), parameter.isVarArgs(), false, false);
         }
 
         return mappedParameters;

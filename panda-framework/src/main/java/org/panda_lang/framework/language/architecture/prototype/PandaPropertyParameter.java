@@ -24,13 +24,13 @@ public final class PandaPropertyParameter extends PandaVariable implements Prope
 
     private final boolean varargs;
 
-    public PandaPropertyParameter(int parameterIndex, Referencable referencable, String name, boolean varargs, boolean nillable) {
-        super(parameterIndex, referencable.toReference(), name, false, nillable);
+    public PandaPropertyParameter(int parameterIndex, Referencable referencable, String name, boolean varargs, boolean mutable, boolean nillable) {
+        super(parameterIndex, referencable.toReference(), name, mutable, nillable);
         this.varargs = varargs;
     }
 
     public PandaPropertyParameter(int parameterIndex, Referencable referencable, String name) {
-        this(parameterIndex, referencable, name, false, false);
+        this(parameterIndex, referencable, name, false, false, false);
     }
 
     @Override
