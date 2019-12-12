@@ -19,6 +19,7 @@ package org.panda_lang.framework.design.interpreter;
 import org.panda_lang.framework.design.architecture.Application;
 import org.panda_lang.framework.design.architecture.Environment;
 import org.panda_lang.framework.design.interpreter.source.Source;
+import org.panda_lang.utilities.commons.function.ThrowingConsumer;
 
 import java.util.Optional;
 
@@ -31,6 +32,14 @@ public interface Interpreter {
      * Starts the process of interpretation
      */
     Optional<Application> interpret(Source source);
+
+    /**
+     * Starts the process of interpretation and gives access to the interpretation process
+     *
+     * @param interpretationConsumer the interpretation process consumer
+     * @return interpreted application
+     */
+    Optional<Application> interpret(Source source, ThrowingConsumer<Interpretation, ?> interpretationConsumer);
 
     /**
      * Get associated environment

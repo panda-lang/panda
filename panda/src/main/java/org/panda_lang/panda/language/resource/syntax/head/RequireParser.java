@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.Environment;
 import org.panda_lang.framework.design.architecture.module.Imports;
 import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.interpreter.Interpretation;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
@@ -99,8 +100,10 @@ public final class RequireParser extends ParserBootstrap<Object> {
             throw new PandaParserFailure(context, requiredFile, "Invalid token", "You should use string sequence to import file");
         }
 
-        Environment environment = context.getComponent(Components.ENVIRONMENT);
-        File environmentDirectory = context.getComponent(Components.ENVIRONMENT).getDirectory();
+        Interpretation interpretation = context.getComponent(Components.INTERPRETATION);
+        Environment environment = interpretation.getInterpreter().getEnvironment();
+
+        File environmentDirectory = environment.getDirectory();
         File file = new File(environmentDirectory, requiredFile.getValue() + ".panda");
 
         if (!file.exists()) {
@@ -111,7 +114,7 @@ public final class RequireParser extends ParserBootstrap<Object> {
             }
 
             try {
-                PackageManagerUtils.loadToEnvironment(environment, file);
+                PackageManagerUtils.loadToEnvironment(interpretation, file);
             } catch (IOException e) {
                 throw new PandaParserFailure(context, requiredFile, e.getMessage());
             }
