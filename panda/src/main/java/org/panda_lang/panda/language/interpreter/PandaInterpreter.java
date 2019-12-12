@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.Application;
 import org.panda_lang.framework.design.architecture.Environment;
 import org.panda_lang.framework.design.interpreter.Interpretation;
@@ -28,6 +29,7 @@ import org.panda_lang.framework.language.interpreter.pattern.descriptive.extract
 import org.panda_lang.panda.language.architecture.PandaApplication;
 import org.panda_lang.panda.language.interpreter.parser.ApplicationParser;
 import org.panda_lang.utilities.commons.TimeUtils;
+import org.panda_lang.utilities.commons.function.ThrowingConsumer;
 import org.slf4j.event.Level;
 
 import java.util.Optional;
@@ -42,10 +44,21 @@ public final class PandaInterpreter implements Interpreter {
 
     @Override
     public Optional<Application> interpret(Source source) {
-        Interpretation interpretation = new PandaInterpretation(this);
-        long uptime = System.nanoTime();
+        return interpret(source, interpretation -> {});
+    }
 
+    @Override
+    public Optional<Application> interpret(Source source, @Nullable ThrowingConsumer<Interpretation, ?> interpretationConsumer) {
+        Interpretation interpretation = new PandaInterpretation(this);
         ApplicationParser parser = new ApplicationParser(interpretation);
+
+        if (interpretationConsumer != null) {
+            interpretation.execute(() -> {
+                interpretationConsumer.accept(interpretation);
+            });
+        }
+
+        long uptime = System.nanoTime();
         PandaApplication application = parser.parse(source);
 
         if (!interpretation.isHealthy()) {

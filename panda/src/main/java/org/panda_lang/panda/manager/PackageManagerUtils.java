@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.manager;
 
-import org.panda_lang.framework.design.architecture.Environment;
+import org.panda_lang.framework.design.interpreter.Interpretation;
 import org.panda_lang.framework.design.interpreter.source.Source;
 import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
 
@@ -31,16 +31,18 @@ public final class PackageManagerUtils {
     /**
      * Load module
      *
-     * @param environment the environment
+     * @param interpretation the interpretation process to use
      * @param moduleDirectory the module directory to load
      * @throws IOException when module directory or module file does not exist
      */
-    public static void loadToEnvironment(Environment environment, File moduleDirectory) throws IOException {
+    public static void loadToEnvironment(Interpretation interpretation, File moduleDirectory) throws IOException {
         PackageDocument packageInfo = new PackageDocumentFile(new File(moduleDirectory, PackageManagerConstants.PACKAGE_INFO)).getContent();
 
-        environment.getModulePath().include(moduleDirectory.getName(), () -> {
-            Source source = PandaURLSource.fromFile(new File(moduleDirectory, Objects.requireNonNull(packageInfo.getMainScript())));
-            environment.getInterpreter().interpret(source);
+        interpretation.getInterpreter().getEnvironment().getModulePath().include(moduleDirectory.getName(), () -> {
+            interpretation.execute(() -> {
+                Source source = PandaURLSource.fromFile(new File(moduleDirectory, Objects.requireNonNull(packageInfo.getMainScript())));
+                interpretation.getInterpreter().interpret(source);
+            });
         });
     }
 
