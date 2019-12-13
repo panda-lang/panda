@@ -18,6 +18,7 @@ package org.panda_lang.framework.language.resource.internal;
 
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototypeUtils;
 
 public final class PandaResourcesUtils {
@@ -26,12 +27,12 @@ public final class PandaResourcesUtils {
         return PandaPrototypeUtils.of(module, type, name).fetch();
     }
 
-    public static Prototype generate(Module module, Class<?> type) {
+    public static Reference generate(Module module, Class<?> type) {
         return generate(module, type, type.getSimpleName());
     }
 
-    public static Prototype generate(Module module, Class<?> type, String name) {
-        return PandaPrototypeUtils.generateOf(module, type, name).fetch();
+    public static Reference generate(Module module, Class<?> type, String name) {
+        return PandaPrototypeUtils.generateOf(module, type, name);
     }
 
 }

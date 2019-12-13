@@ -17,11 +17,12 @@
 package org.panda_lang.framework.language.resource.internal.java;
 
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
 import org.panda_lang.framework.language.resource.internal.PandaResourcesUtils;
 import org.panda_lang.utilities.commons.ClassUtils;
+
+import java.util.Arrays;
 
 public final class JavaModule implements InternalModuleInfo {
 
@@ -30,21 +31,22 @@ public final class JavaModule implements InternalModuleInfo {
         PandaResourcesUtils.of(module, void.class, "void");
         PandaResourcesUtils.generate(module, Object.class);
 
-        generate(module, boolean.class, "Bool");
-        generate(module, char.class, "Char");
-        generate(module, byte.class, "Byte");
-        generate(module, short.class, "Short");
-        generate(module, int.class, "Int");
-        generate(module, long.class, "Long");
-        generate(module, float.class, "Float");
-        generate(module, double.class, "Double");
+        Arrays.asList(
+                generate(module, boolean.class, "Bool"),
+                generate(module, char.class, "Char"),
+                generate(module, byte.class, "Byte"),
+                generate(module, short.class, "Short"),
+                generate(module, int.class, "Int"),
+                generate(module, long.class, "Long"),
+                generate(module, float.class, "Float"),
+                generate(module, double.class, "Double")
+        ).forEach(Runnable::run);
     }
 
-    private void generate(Module module, Class<?> primitiveClass, String name) {
-        Prototype primitiveType = PandaResourcesUtils.generate(module, primitiveClass, "Primitive" + name);
-        Prototype type = PandaResourcesUtils.generate(module, ClassUtils.PRIMITIVE_EQUIVALENT.get(primitiveClass), name);
-
-        type.addBase(primitiveType);
+    private Runnable generate(Module module, Class<?> primitiveClass, String name) {
+        Reference primitiveType = PandaResourcesUtils.generate(module, primitiveClass, "Primitive" + name);
+        Reference type = PandaResourcesUtils.generate(module, ClassUtils.PRIMITIVE_EQUIVALENT.get(primitiveClass), name);
+        return () -> type.fetch().addBase(primitiveType.fetch());
     }
 
     @Override

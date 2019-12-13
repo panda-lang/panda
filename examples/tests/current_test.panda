@@ -36,11 +36,15 @@ main {
 
     // negative number
     log -1
+    // hexagonal number
+    log 0x5A, 0x5F // expected: 90, 95
+    // int overflow
+    log Int.MAX_VALUE + 1
+
     // assign integer in hex format to the i variable
     Int i = 0x000001
     // perform some math operations
     Number math = (10.1 + (3 + 4.2 + i) * 2) - (2 / 1) /* expected: 24.5 */
-    log 0x5A, 0x5F // expected: 90, 95
     // compare values and assign result to the flag variable
     Bool flag = i == 1
 
