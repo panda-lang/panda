@@ -40,7 +40,7 @@ final class PrototypeGenerator {
 
     protected final Map<String, Reference> cachedReferences = new HashMap<>();
 
-    protected Reference generate(Module module, Class<?> type, String name) {
+    protected Reference generate(Module module, String name, Class<?> type) {
         Reference reference = cachedReferences.get(getId(module, name));
 
         if (reference == null) {
@@ -121,7 +121,7 @@ final class PrototypeGenerator {
             return reference;
         }
 
-        return generate(module, type, type.getSimpleName());
+        return generate(module, type.getSimpleName(), type);
     }
 
     private String getId(Module module, String name) {

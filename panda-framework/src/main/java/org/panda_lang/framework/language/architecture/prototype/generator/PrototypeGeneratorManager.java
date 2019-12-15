@@ -25,9 +25,9 @@ public final class PrototypeGeneratorManager {
 
     private final PrototypeGenerator generator = new PrototypeGenerator();
 
-    public Reference generate(Module module, Class<?> clazz, String name) {
+    public Reference generate(Module module, String name, Class<?> clazz) {
         boolean exists = module.forClass(clazz).isPresent();
-        Reference reference = generator.generate(module, clazz, name);
+        Reference reference = generator.generate(module, name, clazz);
 
         if (!exists) {
             module.add(reference);

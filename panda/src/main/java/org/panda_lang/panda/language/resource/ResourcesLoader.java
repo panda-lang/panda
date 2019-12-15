@@ -49,7 +49,7 @@ public final class ResourcesLoader {
 
         for (String name : internalModuleInfo.getNames()) {
             Class<?> type = Class.forName((internalModuleInfo.getPackageName().isEmpty() ? "" : internalModuleInfo.getPackageName() + ".") + name);
-            module.add(PrototypeGeneratorManager.getInstance().generate(module, type, type.getSimpleName()));
+            module.add(PrototypeGeneratorManager.getInstance().generate(module, type.getSimpleName(), type));
         }
 
         internalModuleInfo.initialize(module);

@@ -45,8 +45,12 @@ public final class PandaPrototypeUtils {
         ));
     }
 
-    public static Reference generateOf(Module module, Class<?> type, String name) {
-        return PrototypeGeneratorManager.getInstance().generate(module, type, name);
+    public static Reference generateOf(Module module, Class<?> type) {
+        return generateOf(module, type.getSimpleName(), type);
+    }
+
+    public static Reference generateOf(Module module, String name, Class<?> type) {
+        return PrototypeGeneratorManager.getInstance().generate(module, name, type);
     }
 
 }

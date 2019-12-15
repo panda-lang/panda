@@ -42,7 +42,7 @@ final class ConveyanceUtils {
         Class<?> clazz = importedClass.get();
         String className = clazz.getSimpleName();
 
-        return PrototypeGeneratorManager.getInstance().generate(module, clazz, className);
+        return PrototypeGeneratorManager.getInstance().generate(module, className, clazz);
     }
 
 }

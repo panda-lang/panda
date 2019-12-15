@@ -21,10 +21,7 @@ import org.panda_lang.framework.design.architecture.prototype.Autocast;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototypeUtils;
 import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
-import org.panda_lang.framework.language.resource.internal.PandaResourcesUtils;
 import org.panda_lang.utilities.commons.ClassUtils;
-
-import java.util.Arrays;
 
 public final class JavaModule implements InternalModuleInfo {
 
@@ -41,7 +38,7 @@ public final class JavaModule implements InternalModuleInfo {
         prototype(module, "Float", float.class);
         prototype(module, "Double", double.class);
 
-        PandaResourcesUtils.generate(module, Object.class);
+        PandaPrototypeUtils.generateOf(module, Object.class);
         Prototype intType = generate(module, int.class, "Int");
         Prototype boolType = generate(module, boolean.class, "Bool");
         Prototype charType = generate(module, char.class, "Char");
@@ -69,9 +66,9 @@ public final class JavaModule implements InternalModuleInfo {
     }
 
     private Prototype generate(Module module, Class<?> primitiveClass, String name) {
-        Prototype primitiveType = PandaResourcesUtils.generate(module, primitiveClass, "Primitive" + name);
+        Prototype primitiveType = PandaPrototypeUtils.generateOf(module, "Primitive" + name, primitiveClass).fetch();
 
-        Prototype type = PandaResourcesUtils.generate(module, ClassUtils.PRIMITIVE_EQUIVALENT.get(primitiveClass), name);
+        Prototype type = PandaPrototypeUtils.generateOf(module, name, ClassUtils.PRIMITIVE_EQUIVALENT.get(primitiveClass)).fetch();
         type.addBase(primitiveType);
 
         return type;
