@@ -46,11 +46,11 @@ final class FieldGenerator {
                 .name(field.getName())
                 .prototype(prototype)
                 .location(prototype.getLocation())
-                .fieldIndex(prototype.getFields().getDeclaredProperties().size())
+                .fieldIndex(prototype.getFields().size())
                 .returnType(generator.findOrGenerate(prototype.getModule(), field.getType()))
                 .isStatic(Modifier.isStatic(field.getModifiers()))
+                .mutable(!Modifier.isFinal(field.getModifiers()))
                 .isNative(true)
-                .mutable(true)
                 .nillable(true)
                 .build();
 

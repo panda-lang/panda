@@ -24,6 +24,8 @@ import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
 import org.panda_lang.framework.language.resource.internal.PandaResourcesUtils;
 import org.panda_lang.utilities.commons.ClassUtils;
 
+import java.util.Arrays;
+
 public final class JavaModule implements InternalModuleInfo {
 
     @Override

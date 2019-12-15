@@ -26,6 +26,10 @@ import org.panda_lang.framework.design.interpreter.source.IndicatedSource;
  */
 public abstract class InterpreterFailure extends PandaFrameworkException implements Failure {
 
+    protected InterpreterFailure(String message, Throwable cause) {
+        super(message, cause);
+    }
+
     protected InterpreterFailure(String message) {
         super(message);
     }

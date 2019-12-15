@@ -103,7 +103,7 @@ public final class PandaExpressionParser implements ExpressionParser {
                 throw e;
             }
 
-            throw new PandaExpressionParserFailure(expressionContext, expressionContext.getSynchronizedSource().getSource(), e.getMessage());
+            throw new PandaExpressionParserFailure(expressionContext, expressionContext.getSynchronizedSource().getSource(), e.toString());
         }
 
         PandaExpressionTransaction transaction = new PandaExpressionTransaction(null, expressionContext.getCommits());
