@@ -43,6 +43,14 @@ public interface Prototype extends Property, Referencable {
     void addBase(Prototype basePrototype);
 
     /**
+     * Support automatic casting to other type
+     *
+     * @param to the type to cast to
+     * @param autocast the autocast
+     */
+    void addAutocast(Prototype to, Autocast<?, ?> autocast);
+
+    /**
      * Check if current declaration is assignable from the given declaration
      *
      * @param prototype to compare with
@@ -86,6 +94,14 @@ public interface Prototype extends Property, Referencable {
      * @return the properties
      */
     <T extends ExecutableProperty> Optional<Properties<T>> getProperties(Class<T> propertyType);
+
+    /**
+     * Get autocast for the given type
+     *
+     * @param to the type to search for
+     * @return the autocast
+     */
+    Optional<Autocast<?, ?>> getAutocast(Prototype to);
 
     /**
      * Get supertypes of prototype

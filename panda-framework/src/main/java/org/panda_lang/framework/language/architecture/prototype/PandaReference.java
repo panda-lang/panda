@@ -88,6 +88,11 @@ public final class PandaReference implements Reference {
     }
 
     @Override
+    public int getAmountOfInitializers() {
+        return initializers.size();
+    }
+
+    @Override
     public Class<?> getAssociatedClass() {
         return associatedClass;
     }

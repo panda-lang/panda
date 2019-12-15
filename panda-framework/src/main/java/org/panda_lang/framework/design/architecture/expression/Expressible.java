@@ -16,39 +16,16 @@
 
 package org.panda_lang.framework.design.architecture.expression;
 
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
-
 /**
- * Represents dynamic values
+ * Represents objects that can be converted to the expression
  */
-public interface Expression extends ExpressionEvaluator, Expressible {
+public interface Expressible {
 
     /**
-     * Check if the expression returns null value
+     * Convert current object to expression
      *
-     * @return true if expression returns null
+     * @return the expression
      */
-    default boolean isNull() {
-        return getReturnType() == null;
-    }
-
-    /**
-     * Get return type
-     *
-     * @return the return type
-     */
-    Prototype getReturnType();
-
-    /**
-     * Get expression type
-     *
-     * @return the type
-     */
-    ExpressionValueType getType();
-
-    @Override
-    default Expression toExpression() {
-        return this;
-    }
+    Expression toExpression();
 
 }

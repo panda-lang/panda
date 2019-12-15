@@ -16,14 +16,16 @@
 
 package org.panda_lang.framework.language.architecture.expression;
 
+import org.panda_lang.framework.design.architecture.expression.Expressible;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.expression.ExpressionEvaluator;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 
-public interface DynamicExpression extends ExpressionEvaluator {
+public interface DynamicExpression extends ExpressionEvaluator, Expressible {
 
     Prototype getReturnType();
 
+    @Override
     default Expression toExpression() {
         return new PandaExpression(this);
     }

@@ -14,20 +14,8 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.architecture.dynamic.assigner;
+package org.panda_lang.panda.shell.repl;
 
-import org.panda_lang.framework.design.architecture.dynamic.Executable;
-import org.panda_lang.framework.design.architecture.expression.Expressible;
-import org.panda_lang.framework.design.architecture.statement.Variable;
-import org.panda_lang.framework.language.architecture.dynamic.accessor.Accessor;
-
-public interface Assigner<T extends Variable> extends Executable, Expressible {
-
-    Accessor<T> getAccessor();
-
-    @Override
-    default AssignerExpression toExpression() {
-        return new AssignerExpression(this);
-    }
+final class ShellPrototype {
 
 }

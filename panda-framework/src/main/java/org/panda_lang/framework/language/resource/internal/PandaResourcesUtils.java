@@ -23,7 +23,7 @@ import org.panda_lang.framework.language.architecture.prototype.PandaPrototypeUt
 public final class PandaResourcesUtils {
 
     public static Prototype of(Module module, Class<?> type, String name) {
-        return PandaPrototypeUtils.of(module, type, name).fetch();
+        return PandaPrototypeUtils.of(module, name, type).fetch();
     }
 
     public static Prototype generate(Module module, Class<?> type) {

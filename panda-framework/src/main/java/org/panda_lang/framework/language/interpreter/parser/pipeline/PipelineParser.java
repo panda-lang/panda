@@ -58,7 +58,7 @@ public final class PipelineParser<T extends ContextParser> implements Parser {
 
     public boolean parse() throws Exception {
         if (context == null) {
-            throw new IllegalArgumentException("Cannot parser pipeline without context");
+            throw new IllegalArgumentException("Cannot parse pipeline without context");
         }
 
         return parse(context, false);

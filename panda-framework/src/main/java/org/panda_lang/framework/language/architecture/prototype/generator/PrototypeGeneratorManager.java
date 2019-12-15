@@ -26,7 +26,14 @@ public final class PrototypeGeneratorManager {
     private final PrototypeGenerator generator = new PrototypeGenerator();
 
     public Reference generate(Module module, Class<?> clazz, String name) {
-        return module.add(generator.generate(module, clazz, name));
+        boolean exists = module.forClass(clazz).isPresent();
+        Reference reference = generator.generate(module, clazz, name);
+
+        if (!exists) {
+            module.add(reference);
+        }
+
+        return reference;
     }
 
     public int getCacheSize() {

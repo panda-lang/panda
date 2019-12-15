@@ -17,6 +17,7 @@
 package org.panda_lang.framework.design.interpreter.parser.expression;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.architecture.expression.Expressible;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
@@ -29,20 +30,20 @@ import java.util.function.Supplier;
  */
 public final class ExpressionResult {
 
-    private static final ExpressionResult EMPTY = of(null);
+    private static final ExpressionResult EMPTY = new ExpressionResult(null);
 
     private final @Nullable Expression expression;
     private final @Nullable String errorMessage;
     private final @Nullable Snippetable source;
 
-    ExpressionResult(@Nullable Expression expression, @Nullable Snippetable source, @Nullable String errorMessage) {
-        this.expression = expression;
+    ExpressionResult(@Nullable Expressible expressible, @Nullable Snippetable source, @Nullable String errorMessage) {
+        this.expression = (expressible != null ? expressible.toExpression() : null);
         this.source = source;
         this.errorMessage = errorMessage;
     }
 
-    ExpressionResult(@Nullable Expression expression) {
-        this(expression, null, null);
+    ExpressionResult(@Nullable Expressible expressible) {
+        this(expressible, null, null);
     }
 
     ExpressionResult(String errorMessage, TokenRepresentation source) {
@@ -110,11 +111,11 @@ public final class ExpressionResult {
     /**
      * Create result
      *
-     * @param expression the result expression
+     * @param expressible the result expression
      * @return the result
      */
-    public static ExpressionResult of(Expression expression) {
-        return new ExpressionResult(expression);
+    public static ExpressionResult of(Expressible expressible) {
+        return new ExpressionResult(expressible.toExpression());
     }
 
     /**

@@ -17,6 +17,7 @@
 package org.panda_lang.framework.language.architecture.prototype.generator;
 
 import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
@@ -33,6 +34,7 @@ import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 final class PrototypeGenerator {
 
@@ -41,50 +43,60 @@ final class PrototypeGenerator {
     protected Reference generate(Module module, Class<?> type, String name) {
         Reference reference = cachedReferences.get(getId(module, name));
 
-        if (reference != null) {
+        if (reference == null) {
+            reference = module.forClass(type).orElse(null);
+        }
+
+        if (reference != null && reference.getAmountOfInitializers() > 0) {
             return reference;
         }
 
-        // System.out.println("TO GENERATE: " + type + " as " + name + " | " + (i++));
-
-        reference = new PandaReference(name, type, (ref) -> {
-            ref.addInitializer(prototype -> {
-                if (!Modifier.isPublic(type.getModifiers())) {
-                    return;
-                }
-
-                for (Field field : type.getFields()) {
-                    if (!Modifier.isPublic(field.getModifiers())) {
-                        continue;
-                    }
-
-                    FieldGenerator generator = new FieldGenerator(this, prototype, field);
-                    prototype.getFields().declare(field.getName(), generator::generate);
-                }
-
-                for (Constructor<?> constructor : ReflectionUtils.getByModifier(type.getConstructors(), Modifier.PUBLIC)) {
-                    ConstructorGenerator generator = new ConstructorGenerator(prototype, constructor);
-                    prototype.getConstructors().declare(ref.getName(), generator::generate);
-                }
-
-                for (Method method : ReflectionUtils.getByModifier(type.getMethods(), Modifier.PUBLIC)) {
-                    MethodGenerator generator = new MethodGenerator(this, prototype, method);
-                    prototype.getMethods().declare(method.getName(), generator::generate);
-                }
-            });
-
-            return PandaPrototype.builder()
+        if (reference == null) {
+            reference = new PandaReference(name, type, ref -> PandaPrototype.builder()
                     .name(name)
+                    .reference(ref)
                     .module(module)
                     .location(new PandaClassSource(type).toLocation())
                     .associated(type)
                     .type(type.isInterface() ? "interface" : "class")
                     .state(State.of(type))
                     .visibility(Visibility.PUBLIC)
-                    .build();
-        });
+                    .build()
+            );
+        }
 
-        cachedReferences.put(getId(module, reference.getName()), reference);
+        Consumer<Prototype> initializer = prototype -> {
+            if (!Modifier.isPublic(type.getModifiers())) {
+                return;
+            }
+
+            for (Field field : type.getFields()) {
+                if (!Modifier.isPublic(field.getModifiers())) {
+                    continue;
+                }
+
+                FieldGenerator generator = new FieldGenerator(this, prototype, field);
+                prototype.getFields().declare(field.getName(), generator::generate);
+            }
+
+            for (Constructor<?> constructor : ReflectionUtils.getByModifier(type.getConstructors(), Modifier.PUBLIC)) {
+                ConstructorGenerator generator = new ConstructorGenerator(prototype, constructor);
+                prototype.getConstructors().declare(name, generator::generate);
+            }
+
+            for (Method method : ReflectionUtils.getByModifier(type.getMethods(), Modifier.PUBLIC)) {
+                MethodGenerator generator = new MethodGenerator(this, prototype, method);
+                prototype.getMethods().declare(method.getName(), generator::generate);
+            }
+        };
+
+        reference.addInitializer(initializer);
+
+        if (reference.isInitialized()) {
+            initializer.accept(reference.fetch());
+        }
+
+        cachedReferences.put(getId(module, name), reference);
         return reference;
     }
 

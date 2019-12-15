@@ -17,23 +17,24 @@
 package org.panda_lang.framework.language.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.language.architecture.prototype.generator.PrototypeGeneratorManager;
 import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
-import org.panda_lang.utilities.commons.ClassUtils;
-
-import java.util.Collection;
 
 public final class PandaPrototypeUtils {
 
     private PandaPrototypeUtils() { }
 
-    public static Reference of(Module module, Class<?> type, String name) {
-        return module.add(PandaPrototype.builder()
+    public static Reference of(Module module, Class<?> type) {
+        return of(module, type.getSimpleName(), type);
+    }
+
+    public static Reference of(Module module, String name, Class<?> type) {
+        return module.add(new PandaReference(name, type, reference -> PandaPrototype.builder()
                 .name(name)
+                .reference(reference)
                 .module(module)
                 .associated(type)
                 .visibility(Visibility.PUBLIC)
@@ -41,31 +42,11 @@ public final class PandaPrototypeUtils {
                 .type(type.isInterface() ? "interface" : "class")
                 .location(new PandaClassSource(type).toLocation())
                 .build()
-        ).toReference();
+        ));
     }
 
     public static Reference generateOf(Module module, Class<?> type, String name) {
         return PrototypeGeneratorManager.getInstance().generate(module, type, name);
-    }
-
-    public static boolean hasCommonPrototypes(Collection<? extends Prototype> fromPrototypes, Collection<? extends Prototype> toPrototypes) {
-        for (Prototype from : fromPrototypes) {
-            for (Prototype to : toPrototypes) {
-                if (from.equals(to)) {
-                    return true;
-                }
-
-                if (isAssignableFrom(from.getAssociatedClass(), to.getAssociatedClass())) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    public static boolean isAssignableFrom(Class<?> from, Class<?> to) {
-        return from != null && to != null && (from == to || ClassUtils.isAssignableFrom(from, to));
     }
 
 }

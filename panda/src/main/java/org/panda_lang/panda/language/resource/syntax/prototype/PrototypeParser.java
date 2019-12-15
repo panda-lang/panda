@@ -88,22 +88,22 @@ public final class PrototypeParser extends ParserBootstrap {
     void parse(Context context, @Inter SourceLocation location, @Inter Result result, @Component Script script, @Src("state") String state, @Src("name") String name) throws Exception {
         Visibility visibility = result.has("visibility") ? Visibility.of(result.get("visibility")) : Visibility.LOCAL;
 
-        Prototype prototype = PandaPrototype.builder()
+        Prototype prototype = script.getModule().add(new PandaReference(name, PrototypeParserUtils.generateType(name), ref -> PandaPrototype.builder()
                 .name(name)
+                .reference(ref)
                 .location(location)
                 .module(script.getModule())
                 .type(state)
                 .state(State.of(state))
                 .visibility(visibility)
-                .associated(PrototypeParserUtils.generateType(name))
-                .build();
+                .associated(ref.getAssociatedClass())
+                .build()
+        )).fetch();
 
         PrototypeScope prototypeScope = new PrototypeScope(location, prototype);
         context.withComponent(Components.SCOPE, prototypeScope)
                 .withComponent(PrototypeComponents.PROTOTYPE_SCOPE, prototypeScope)
                 .withComponent(PrototypeComponents.PROTOTYPE, prototype);
-
-        prototype.getModule().add(new PandaReference(prototype));
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
