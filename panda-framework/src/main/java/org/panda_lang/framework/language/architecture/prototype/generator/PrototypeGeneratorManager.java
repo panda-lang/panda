@@ -36,12 +36,16 @@ public final class PrototypeGeneratorManager {
         return reference;
     }
 
-    public int getCacheSize() {
-        return generator.cachedReferences.size();
+    public void disposeCache() {
+        generator.disposeCache();
     }
 
-    public PrototypeGenerator getGenerator() {
+    protected PrototypeGenerator getGenerator() {
         return generator;
+    }
+
+    public int getCacheSize() {
+        return generator.cachedReferences.size();
     }
 
     public static PrototypeGeneratorManager getInstance() {

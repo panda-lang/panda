@@ -19,11 +19,15 @@ package org.panda_lang.panda.language.resource;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.language.architecture.module.PandaModuleFactory;
 import org.panda_lang.framework.language.architecture.prototype.generator.PrototypeGeneratorManager;
 import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
 import org.panda_lang.framework.language.resource.internal.PandaFrameworkModules;
 import org.panda_lang.panda.language.resource.internal.PandaModules;
+import org.panda_lang.utilities.commons.StringUtils;
+
+import java.util.Arrays;
 
 public final class ResourcesLoader {
 
@@ -33,6 +37,7 @@ public final class ResourcesLoader {
     }
 
     public void load(ModuleLoader loader, Class<? extends InternalModuleInfo>[] internalModuleInfoClasses) {
+        System.out.println("LOADING " + Arrays.toString(internalModuleInfoClasses));
         PandaModuleFactory moduleFactory = new PandaModuleFactory(loader);
 
         for (Class<? extends InternalModuleInfo> internalModuleInfoClass : internalModuleInfoClasses) {
@@ -48,10 +53,14 @@ public final class ResourcesLoader {
         Module module = factory.computeIfAbsent(internalModuleInfo.getModule());
 
         for (String name : internalModuleInfo.getNames()) {
-            Class<?> type = Class.forName((internalModuleInfo.getPackageName().isEmpty() ? "" : internalModuleInfo.getPackageName() + ".") + name);
-            module.add(PrototypeGeneratorManager.getInstance().generate(module, type.getSimpleName(), type));
+            String packageName = internalModuleInfo.getPackageName().isEmpty() ? StringUtils.EMPTY : internalModuleInfo.getPackageName() + ".";
+            Class<?> type = Class.forName(packageName + name);
+
+            Reference mappedPrototype = PrototypeGeneratorManager.getInstance().generate(module, type.getSimpleName(), type);
+            module.add(mappedPrototype);
         }
 
+        System.out.println("INT INITIALIZE " + module);
         internalModuleInfo.initialize(module);
     }
 

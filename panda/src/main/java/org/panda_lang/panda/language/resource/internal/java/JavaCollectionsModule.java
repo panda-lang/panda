@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.resource.internal.java;
 
+import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
 
 public final class JavaCollectionsModule implements InternalModuleInfo {
@@ -44,6 +45,9 @@ public final class JavaCollectionsModule implements InternalModuleInfo {
             "Vector",
             "WeakHashMap"
     };
+
+    @Override
+    public void initialize(Module module) { }
 
     @Override
     public String[] getNames() {

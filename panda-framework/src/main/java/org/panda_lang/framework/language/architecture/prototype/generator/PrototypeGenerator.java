@@ -41,13 +41,15 @@ final class PrototypeGenerator {
     protected final Map<String, Reference> cachedReferences = new HashMap<>();
 
     protected Reference generate(Module module, String name, Class<?> type) {
+        // System.out.println("Request for " + name + " as " + type);
         Reference reference = cachedReferences.get(getId(module, name));
 
         if (reference == null) {
             reference = module.forClass(type).orElse(null);
         }
 
-        if (reference != null && reference.getAmountOfInitializers() > 0) {
+        if (reference != null && reference.getAmountOfInitializers() > 1 && reference.isInitialized()) {
+            // System.out.println("Exists and initialized with" + reference.fetch().getFields().getProperties());
             return reference;
         }
 
@@ -102,11 +104,7 @@ final class PrototypeGenerator {
 
     protected Reference findOrGenerate(Module module, Class<?> type) {
         if (type.isPrimitive()) {
-            Class<?> equivalent = ClassUtils.PRIMITIVE_EQUIVALENT.get(type);
-
-            if (equivalent != null) {
-                return findOrGenerate(module, equivalent);
-            }
+            type = ClassUtils.getNonPrimitiveClass(type);
         }
 
         Optional<Reference> referenceValue = module.getModuleLoader().forClass(type);
@@ -122,6 +120,10 @@ final class PrototypeGenerator {
         }
 
         return generate(module, type.getSimpleName(), type);
+    }
+
+    protected void disposeCache() {
+        cachedReferences.clear();
     }
 
     private String getId(Module module, String name) {

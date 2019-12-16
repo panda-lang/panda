@@ -60,7 +60,7 @@ final class PandaReferencesMap extends HashMap<String, Reference> implements Ref
 
         if (prototypeName == null) {
             if (associatedClass.isPrimitive()) {
-                Class<?> primitiveClass = ClassUtils.PRIMITIVE_EQUIVALENT.get(associatedClass);
+                Class<?> primitiveClass = ClassUtils.getNonPrimitiveClass(associatedClass);
 
                 if (primitiveClass != null) {
                     return forClass(primitiveClass);

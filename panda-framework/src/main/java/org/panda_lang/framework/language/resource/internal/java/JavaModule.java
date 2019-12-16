@@ -27,6 +27,8 @@ public final class JavaModule implements InternalModuleInfo {
 
     @Override
     public void initialize(Module module) {
+        System.out.println("INITIALIZE JAVA MODULE");
+
         PandaPrototypeUtils.of(module, void.class);
         PandaPrototypeUtils.of(module, Object.class);
         prototype(module, "Int", int.class);
@@ -51,13 +53,13 @@ public final class JavaModule implements InternalModuleInfo {
         intType.addAutocast(longType, (Autocast<Number, Long>) (originalType, object, resultType) -> object.longValue());
         intType.addAutocast(doubleType, (Autocast<Number, Double>) (originalType, object, resultType) -> object.doubleValue());
         intType.addAutocast(floatType, (Autocast<Number, Float>) (originalType, object, resultType) -> object.floatValue());
-
         floatType.addAutocast(doubleType, (Autocast<Number, Double>) (originalType, object, resultType) -> object.doubleValue());
-        boolType.addAutocast(shortType, (Autocast<Boolean, Number>) (originalType, object, resultType) -> object ?  1 : 0);
 
         charType.addAutocast(intType, (Autocast<Character, Integer>) (originalType, object, resultType) -> Character.getNumericValue(object));
         byteType.addAutocast(intType, (Autocast<Number, Integer>) (originalType, object, resultType) -> object.intValue());
         shortType.addAutocast(intType, (Autocast<Number, Integer>) (originalType, object, resultType) -> object.intValue());
+
+         System.out.println("JM: " + intType.getFields().getProperties());
     }
 
     private void prototype(Module module, String name, Class<?> primitiveClass) {
@@ -68,7 +70,7 @@ public final class JavaModule implements InternalModuleInfo {
     private Prototype generate(Module module, Class<?> primitiveClass, String name) {
         Prototype primitiveType = PandaPrototypeUtils.generateOf(module, "Primitive" + name, primitiveClass).fetch();
 
-        Prototype type = PandaPrototypeUtils.generateOf(module, name, ClassUtils.PRIMITIVE_EQUIVALENT.get(primitiveClass)).fetch();
+        Prototype type = PandaPrototypeUtils.generateOf(module, name, ClassUtils.getNonPrimitiveClass(primitiveClass)).fetch();
         type.addBase(primitiveType);
 
         return type;

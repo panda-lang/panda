@@ -16,19 +16,25 @@
 
 package org.panda_lang.panda.language.resource.internal.java;
 
+import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
 
 public final class JavaUtilsModule implements InternalModuleInfo {
 
+    private static final String[] NAMES = {
+            "Arrays",
+            "Objects",
+            "Optional",
+            "Random",
+            "UUID"
+    };
+
+    @Override
+    public void initialize(Module module) { }
+
     @Override
     public String[] getNames() {
-        return new String[] {
-                "Arrays",
-                "Objects",
-                "Optional",
-                "Random",
-                "UUID"
-        };
+        return NAMES;
     }
 
     @Override
