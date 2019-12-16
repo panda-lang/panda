@@ -48,8 +48,6 @@ public final class PandaFileLoader {
 
     public Optional<Application> load(Source script, File workingDirectory) {
         PandaEnvironment environment = new PandaEnvironment(panda, workingDirectory);
-
-        System.out.println("INITIALIZE");
         environment.initialize();
 
         return environment.getInterpreter().interpret(script);

@@ -107,12 +107,7 @@ public final class VariableExpressionSubparser implements ExpressionSubparser {
         }
 
         private Optional<ExpressionResult> fromInstance(ExpressionContext context, Expression instance, TokenRepresentation name) {
-            System.out.println("---");
-
-            Prototype prototype = instance.getReturnType();
-            System.out.println(prototype + "; " + prototype.getFields().getProperties());
-            Optional<PrototypeField> fieldValue = prototype.getFields().getField(name.getValue());
-            System.out.println(fieldValue);
+            Optional<PrototypeField> fieldValue = instance.getReturnType().getFields().getField(name.getValue());
 
             if (fieldValue.isPresent()) {
                 Optional<String> issue = VisibilityComparator.canAccess(fieldValue.get(), context.getContext());

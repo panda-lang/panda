@@ -27,8 +27,6 @@ import org.panda_lang.framework.language.resource.internal.PandaFrameworkModules
 import org.panda_lang.panda.language.resource.internal.PandaModules;
 import org.panda_lang.utilities.commons.StringUtils;
 
-import java.util.Arrays;
-
 public final class ResourcesLoader {
 
     public void load(ModuleLoader loader) {
@@ -37,7 +35,6 @@ public final class ResourcesLoader {
     }
 
     public void load(ModuleLoader loader, Class<? extends InternalModuleInfo>[] internalModuleInfoClasses) {
-        System.out.println("LOADING " + Arrays.toString(internalModuleInfoClasses));
         PandaModuleFactory moduleFactory = new PandaModuleFactory(loader);
 
         for (Class<? extends InternalModuleInfo> internalModuleInfoClass : internalModuleInfoClasses) {
@@ -60,7 +57,6 @@ public final class ResourcesLoader {
             module.add(mappedPrototype);
         }
 
-        System.out.println("INT INITIALIZE " + module);
         internalModuleInfo.initialize(module);
     }
 

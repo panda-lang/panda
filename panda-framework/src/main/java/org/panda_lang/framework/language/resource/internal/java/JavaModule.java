@@ -27,8 +27,6 @@ public final class JavaModule implements InternalModuleInfo {
 
     @Override
     public void initialize(Module module) {
-        System.out.println("INITIALIZE JAVA MODULE");
-
         PandaPrototypeUtils.of(module, void.class);
         PandaPrototypeUtils.of(module, Object.class);
         prototype(module, "Int", int.class);
@@ -58,8 +56,6 @@ public final class JavaModule implements InternalModuleInfo {
         charType.addAutocast(intType, (Autocast<Character, Integer>) (originalType, object, resultType) -> Character.getNumericValue(object));
         byteType.addAutocast(intType, (Autocast<Number, Integer>) (originalType, object, resultType) -> object.intValue());
         shortType.addAutocast(intType, (Autocast<Number, Integer>) (originalType, object, resultType) -> object.intValue());
-
-         System.out.println("JM: " + intType.getFields().getProperties());
     }
 
     private void prototype(Module module, String name, Class<?> primitiveClass) {
