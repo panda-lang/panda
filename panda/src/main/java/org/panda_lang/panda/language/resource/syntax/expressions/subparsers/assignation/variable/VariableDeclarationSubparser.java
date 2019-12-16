@@ -18,6 +18,7 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ass
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
@@ -29,6 +30,7 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.framework.language.architecture.prototype.utils.TypeDeclarationUtils;
 import org.panda_lang.framework.language.architecture.statement.PandaVariableDataInitializer;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
@@ -123,9 +125,11 @@ public final class VariableDeclarationSubparser extends AssignationSubparserBoot
             );
         }
 
-        return ExpressionResult.of(new VariableAccessor(variable.initialize())
-                .toAssigner(location, true, expression)
-                .toExpression());
+        Expression equalizedExpression = ExpressionUtils.equalize(expression, variable.getType());
+        VariableAccessor accessor = new VariableAccessor(variable.initialize());
+        Assigner<Variable> assigner = accessor.toAssigner(location, true, equalizedExpression);
+
+        return ExpressionResult.of(assigner);
     }
 
     private static final class Elements {

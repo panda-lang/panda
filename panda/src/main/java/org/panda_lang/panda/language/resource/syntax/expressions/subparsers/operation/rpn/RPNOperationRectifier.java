@@ -63,7 +63,8 @@ public final class RPNOperationRectifier {
                     Object constValue = action.get(null, null);
                     values.push(new PandaExpression(action.returnType(loader), constValue));
                 } catch (Exception e) {
-                    throw new PandaParserFailure(context, "Cannot evaluate static expression: " + e.getMessage());
+                    e.printStackTrace();
+                    throw new PandaParserFailure(context, "Cannot evaluate static expression: " + e.toString());
                 }
 
                 continue;

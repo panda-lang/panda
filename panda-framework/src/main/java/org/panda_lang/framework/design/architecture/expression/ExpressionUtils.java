@@ -16,12 +16,17 @@
 
 package org.panda_lang.framework.design.architecture.expression;
 
+import org.panda_lang.framework.design.architecture.prototype.Autocast;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.runtime.Process;
 import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.language.architecture.prototype.AutocastDynamicExpression;
 import org.panda_lang.framework.language.runtime.PandaProcess;
 import org.panda_lang.framework.language.runtime.PandaProcessStack;
 import org.panda_lang.framework.language.runtime.PandaRuntimeConstants;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
+
+import java.util.Optional;
 
 public final class ExpressionUtils {
 
@@ -62,6 +67,27 @@ public final class ExpressionUtils {
         }
 
         return values;
+    }
+
+    /**
+     * Prepare expression to be in the same type as the requested type (supports autocasts)
+     *
+     * @param expression the expression to equalize
+     * @param target the target type
+     * @return expression in the given type
+     */
+    public static Expression equalize(Expression expression, Prototype target) {
+        if (expression.isNull()) {
+            return expression;
+        }
+
+        Optional<Autocast<?, ?>> autocast = expression.getReturnType().getAutocast(target);
+
+        if (autocast.isPresent()) {
+            return new AutocastDynamicExpression(expression, target, autocast.get()).toExpression();
+        }
+
+        return expression;
     }
 
 }

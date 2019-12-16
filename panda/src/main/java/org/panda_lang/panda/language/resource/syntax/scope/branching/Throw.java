@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.language.resource.syntax.scope.branching;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.dynamic.Controller;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
@@ -35,8 +34,8 @@ final class Throw extends AbstractExecutableStatement implements Controller {
     }
 
     @Override
-    public @Nullable Object execute(ProcessStack stack, Object instance) throws Exception {
-        UnsafeUtils.getUnsafe().throwException(value.evaluate(stack, instance));
+    public Object execute(ProcessStack stack, Object instance) throws Exception {
+        UnsafeUtils.throwException(value.evaluate(stack, instance));
         return null;
     }
 

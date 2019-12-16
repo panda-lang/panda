@@ -17,13 +17,12 @@
 package org.panda_lang.framework.language.architecture.prototype.generator;
 
 import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.language.architecture.prototype.PandaPropertyParameter;
 
 import java.lang.reflect.Parameter;
 
 final class PrototypeGeneratorUtils {
-
-    private static final PrototypeGenerator GENERATOR = PrototypeGeneratorManager.getInstance().getGenerator();
 
     private PrototypeGeneratorUtils() { }
 
@@ -32,7 +31,8 @@ final class PrototypeGeneratorUtils {
 
         for (int index = 0; index < parameters.length; index++) {
             Parameter parameter = parameters[index];
-            mappedParameters[index] = new PandaPropertyParameter(index, GENERATOR.findOrGenerate(module, parameter.getType()).fetch(), parameter.getName(), parameter.isVarArgs(), false, false);
+            Prototype type = PrototypeGeneratorManager.getInstance().getGenerator().findOrGenerate(module, parameter.getType()).fetch();
+            mappedParameters[index] = new PandaPropertyParameter(index, type, parameter.getName(), parameter.isVarArgs(), false, false);
         }
 
         return mappedParameters;

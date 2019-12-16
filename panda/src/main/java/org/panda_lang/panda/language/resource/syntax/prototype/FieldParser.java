@@ -18,6 +18,7 @@ package org.panda_lang.panda.language.resource.syntax.prototype;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
@@ -111,10 +112,10 @@ public final class FieldParser extends ParserBootstrap<Object> {
         }
 
         if (!field.getType().isAssignableFrom(assignationValue.getReturnType())) {
-            throw new PandaParserFailure(context, source, "Cannot assign type " + assignationValue.getReturnType().getPropertyName() + " to " + field.getPropertyName());
+            throw new PandaParserFailure(context, source, "Cannot assign type " + assignationValue.getReturnType().getPropertyName() + " to " + field.getType().getPropertyName());
         }
 
-        field.setDefaultValue(assignationValue);
+        field.setDefaultValue(ExpressionUtils.equalize(assignationValue, field.getType()));
         field.initialize();
     }
 

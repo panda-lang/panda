@@ -160,6 +160,10 @@ main {
 
     // Use class from imported local module
     LocalModuleClass.hello()
+
+    // Autocast
+    Long value = new Int(10)
+    log value.getClass()
 }
 
 // simple interface

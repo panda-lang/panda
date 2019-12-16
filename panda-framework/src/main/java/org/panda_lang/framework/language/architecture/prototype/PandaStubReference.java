@@ -23,11 +23,11 @@ import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 
 import java.util.function.Consumer;
 
-final class PandaStubReference implements Reference {
+public final class PandaStubReference implements Reference {
 
     private final Prototype prototype;
 
-    PandaStubReference(Prototype prototype) {
+    public PandaStubReference(Prototype prototype) {
         this.prototype = prototype;
     }
 
@@ -44,6 +44,11 @@ final class PandaStubReference implements Reference {
     @Override
     public boolean isInitialized() {
         return true;
+    }
+
+    @Override
+    public int getAmountOfInitializers() {
+        return 1;
     }
 
     @Override

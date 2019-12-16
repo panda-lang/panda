@@ -24,9 +24,9 @@ import org.panda_lang.utilities.commons.StringUtils;
 
 import java.util.Optional;
 
-final class PandaModulesUtils {
+final class PandaModuleLoaderUtils {
 
-    private PandaModulesUtils() { }
+    private PandaModuleLoaderUtils() { }
 
     protected static Optional<Module> fetch(ModuleLoader loader, Modules modules, String moduleQualifier, boolean compute) {
         String[] names = moduleQualifier.split(":");
@@ -50,6 +50,10 @@ final class PandaModulesUtils {
 
             module = nextModule;
             modules = module;
+        }
+
+        if (module != null) {
+            loader.loadIfAbsent(module);
         }
 
         return Optional.ofNullable(module);

@@ -27,6 +27,7 @@ import org.panda_lang.framework.design.runtime.Process;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
+import org.panda_lang.framework.language.architecture.prototype.PandaReference;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeScope;
 import org.panda_lang.framework.language.architecture.statement.PandaVariableData;
@@ -54,14 +55,18 @@ public final class ReplCreator {
     ReplCreator(FrameworkController frameworkController) {
         this.context = PandaContextUtils.createStubContext(frameworkController);
 
-        Prototype prototype = PandaPrototype.builder()
+        Prototype prototype = new PandaReference("ShellPrototype", ShellPrototype.class, ref -> PandaPrototype.builder()
+                .name(ref.getName())
+                .reference(ref)
                 .module(context.getComponent(Components.SCRIPT).getModule())
-                .name("ShellPrototype")
+                .associated(ref.getAssociatedClass())
                 .location(new PandaClassSource(ReplCreator.class).toLocation())
                 .state(State.FINAL)
                 .type("class")
                 .visibility(Visibility.PUBLIC)
-                .build();
+                .build()
+        ).fetch();
+
         context.withComponent(PrototypeComponents.PROTOTYPE, prototype);
         this.prototypeScope = new PrototypeScope(PandaSourceLocationUtils.unknownLocation("repl"), prototype);
 

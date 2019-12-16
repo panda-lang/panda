@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-package org.panda_lang.utilities.commons;
+package org.panda_lang.panda.shell.repl;
 
-class UnsafeUtilsTest {
+final class ShellPrototype {
 
 }

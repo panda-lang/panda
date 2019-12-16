@@ -14,8 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.utilities.commons;
+package org.panda_lang.framework.design.architecture.prototype;
 
-class UnsafeUtilsTest {
+
+@FunctionalInterface
+public interface Autocast<T, R> {
+
+    R cast(Prototype originalType, T object, Prototype resultType);
 
 }

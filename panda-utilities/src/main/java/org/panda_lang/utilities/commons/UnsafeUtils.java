@@ -16,34 +16,16 @@
 
 package org.panda_lang.utilities.commons;
 
-import sun.misc.Unsafe;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 public final class UnsafeUtils {
 
-    private static Unsafe unsafe;
-
     private UnsafeUtils() { }
 
-    /**
-     * Get access to the Unsafe instance
-     *
-     * @return the unsafe
-     */
-    public static Unsafe getUnsafe() {
-        if (unsafe == null) {
-            try {
-                Field theUnsafeField = Unsafe.class.getDeclaredField("theUnsafe");
-                theUnsafeField.setAccessible(true);
-                unsafe = (Unsafe) theUnsafeField.get(null);
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        return unsafe;
+    @SuppressWarnings("unchecked")
+    public static <E extends Exception> void throwException(Exception e) throws E {
+        throw (E) e;
     }
 
     /**

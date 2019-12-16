@@ -25,16 +25,27 @@ public final class PrototypeGeneratorManager {
 
     private final PrototypeGenerator generator = new PrototypeGenerator();
 
-    public Reference generate(Module module, Class<?> clazz, String name) {
-        return module.add(generator.generate(module, clazz, name));
+    public Reference generate(Module module, String name, Class<?> clazz) {
+        boolean exists = module.forClass(clazz).isPresent();
+        Reference reference = generator.generate(module, name, clazz);
+
+        if (!exists) {
+            module.add(reference);
+        }
+
+        return reference;
+    }
+
+    public void disposeCache() {
+        generator.disposeCache();
+    }
+
+    protected PrototypeGenerator getGenerator() {
+        return generator;
     }
 
     public int getCacheSize() {
         return generator.cachedReferences.size();
-    }
-
-    public PrototypeGenerator getGenerator() {
-        return generator;
     }
 
     public static PrototypeGeneratorManager getInstance() {

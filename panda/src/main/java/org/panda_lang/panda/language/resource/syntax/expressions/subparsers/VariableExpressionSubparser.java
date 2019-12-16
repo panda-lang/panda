@@ -74,8 +74,10 @@ public final class VariableExpressionSubparser implements ExpressionSubparser {
 
             // if there is anything on stack, we can search only for fields
             if (context.hasResults()) {
-                ExpressionResult result = fromInstance(context, context.peekExpression(), token)
-                        .orElseGet(() -> ExpressionResult.error("Cannot find field called '" + name + "'", token));
+                ExpressionResult result = fromInstance(context, context.peekExpression(), token).orElseGet(() -> {
+
+                    return ExpressionResult.error("Cannot find field called '" + name + "'", token);
+                });
 
                 if (result.isPresent()) {
                     context.popExpression();
@@ -105,8 +107,7 @@ public final class VariableExpressionSubparser implements ExpressionSubparser {
         }
 
         private Optional<ExpressionResult> fromInstance(ExpressionContext context, Expression instance, TokenRepresentation name) {
-            Prototype prototype = instance.getReturnType();
-            Optional<PrototypeField> fieldValue = prototype.getFields().getField(name.getValue());
+            Optional<PrototypeField> fieldValue = instance.getReturnType().getFields().getField(name.getValue());
 
             if (fieldValue.isPresent()) {
                 Optional<String> issue = VisibilityComparator.canAccess(fieldValue.get(), context.getContext());

@@ -31,6 +31,7 @@ import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.design.resource.Resources;
 import org.panda_lang.framework.language.architecture.module.PandaImports;
 import org.panda_lang.framework.language.architecture.module.PandaModuleLoader;
+import org.panda_lang.framework.language.architecture.prototype.generator.PrototypeGeneratorManager;
 import org.panda_lang.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.framework.language.interpreter.parser.PandaContext;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
@@ -50,6 +51,8 @@ public final class ApplicationParser implements Parser {
     }
 
     public PandaApplication parse(Source source) {
+        PrototypeGeneratorManager.getInstance().disposeCache();
+
         Environment environment = interpretation.getInterpreter().getEnvironment();
         Resources resources = environment.getController().getResources();
         PandaApplication application = new PandaApplication(environment);

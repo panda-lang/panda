@@ -47,6 +47,13 @@ public interface Reference extends Referencable {
     boolean isInitialized();
 
     /**
+     * Count registered initializers
+     *
+     * @return amount of initializers
+     */
+    int getAmountOfInitializers();
+
+    /**
      * Get associated with prototype class
      *
      * @return the associated class

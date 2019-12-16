@@ -38,14 +38,6 @@ public final class PandaImports implements Imports {
         this.loader = loader;
     }
 
-    public PandaImports(ModuleLoader loader, Module... modules) {
-        this(loader);
-
-        for (Module module : modules) {
-            importModule(module);
-        }
-    }
-
     @Override
     public void importModule(String name) {
         Optional<Module> module = loader.getPath().get(name, loader);

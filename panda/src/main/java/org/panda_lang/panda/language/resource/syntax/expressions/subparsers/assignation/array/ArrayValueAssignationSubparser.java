@@ -18,6 +18,7 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ass
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
@@ -90,8 +91,8 @@ public final class ArrayValueAssignationSubparser extends AssignationSubparserBo
     ExpressionResult parse(
             Context context,
             @Component SourceStream source, @Component Channel channel,
-            @Component(AssignationComponents.EXPRESSION_LABEL) Expression value,
-            @Component AssignationType type, @Component TokenRepresentation operator
+            @Component AssignationType type, @Component TokenRepresentation operator,
+            @Component(AssignationComponents.EXPRESSION_LABEL) Expression value
     ) {
         if (type != AssignationType.DEFAULT) {
             throw new PandaParserFailure(context, operator, "Unsupported operator");
@@ -107,8 +108,8 @@ public final class ArrayValueAssignationSubparser extends AssignationSubparserBo
             );
         }
 
-        ArrayAssigner assigner = accessor.toAssignerExpression(value);
-        return ExpressionResult.of(assigner.toExpression());
+        Expression equalizedExpression = ExpressionUtils.equalize(value, accessor.getReturnType());
+        return ExpressionResult.of(accessor.toAssignerExpression(equalizedExpression));
     }
 
 }

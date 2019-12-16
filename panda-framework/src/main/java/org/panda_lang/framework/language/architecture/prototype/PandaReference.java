@@ -53,7 +53,7 @@ public final class PandaReference implements Reference {
     }
 
     @Override
-    public Prototype fetch() {
+    public synchronized Prototype fetch() {
         if (isInitialized()) {
             return prototype;
         }
@@ -63,6 +63,8 @@ public final class PandaReference implements Reference {
         for (Consumer<Prototype> initializer : initializers) {
             initializer.accept(prototype);
         }
+
+        // System.out.println("Generate " + prototype);
 
         for (PrototypeField field : prototype.getFields().getDeclaredProperties()) {
             if (!field.hasDefaultValue() || !field.isStatic()) {
@@ -85,6 +87,11 @@ public final class PandaReference implements Reference {
     @Override
     public boolean isInitialized() {
         return prototype != null;
+    }
+
+    @Override
+    public int getAmountOfInitializers() {
+        return initializers.size();
     }
 
     @Override

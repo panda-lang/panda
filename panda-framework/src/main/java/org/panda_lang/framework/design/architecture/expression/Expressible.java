@@ -14,8 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.utilities.commons;
+package org.panda_lang.framework.design.architecture.expression;
 
-class UnsafeUtilsTest {
+/**
+ * Represents objects that can be converted to the expression
+ */
+public interface Expressible {
+
+    /**
+     * Convert current object to expression
+     *
+     * @return the expression
+     */
+    Expression toExpression();
 
 }

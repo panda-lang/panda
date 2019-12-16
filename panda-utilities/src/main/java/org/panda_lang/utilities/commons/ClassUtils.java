@@ -97,7 +97,7 @@ public final class ClassUtils {
      * @param fromClass the {@link java.lang.Class} object to be checked
      * @return true if toClass is assignable to fromClass
      */
-    public static boolean isAssignableFrom(Class<?> toClass, Class<?> fromClass) {
+    public static boolean isAssignableFrom(@Nullable Class<?> toClass, @Nullable Class<?> fromClass) {
         if (toClass == null || fromClass == null) {
             return false;
         }

@@ -16,15 +16,13 @@
 
 package org.panda_lang.framework.language.architecture.prototype.array;
 
-import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
+import org.panda_lang.framework.language.architecture.prototype.PandaStubReference;
 import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
-
-import java.util.Optional;
 
 public final class ArrayPrototype extends PandaPrototype {
 
@@ -35,7 +33,7 @@ public final class ArrayPrototype extends PandaPrototype {
     }
 
     public ArrayPrototype(Module module, String name, Class<?> associated, Prototype type) {
-        super(module, name, new PandaClassSource(associated).toLocation(), associated, type.getType(), type.getState(), Visibility.PUBLIC);
+        super(type.toReference(), module, name, new PandaClassSource(associated).toLocation(), associated, type.getType(), type.getState(), Visibility.PUBLIC);
         this.prototype = type;
     }
 
@@ -46,6 +44,11 @@ public final class ArrayPrototype extends PandaPrototype {
 
     public Prototype getArrayType() {
         return prototype;
+    }
+
+    @Override
+    public Reference toReference() {
+        return new PandaStubReference(this);
     }
 
 }

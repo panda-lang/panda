@@ -31,7 +31,7 @@ public final class PandaModuleFactory {
     }
 
     public Module computeIfAbsent(String moduleQualifier) {
-        return PandaModulesUtils.fetch(loader, loader.getPath(), moduleQualifier, true).orElseThrow((Supplier<? extends PandaFrameworkException>) () -> {
+        return PandaModuleLoaderUtils.fetch(loader, loader.getPath(), moduleQualifier, true).orElseThrow((Supplier<? extends PandaFrameworkException>) () -> {
             throw new PandaFrameworkException("Cannot fetch module " + moduleQualifier);
         });
     }

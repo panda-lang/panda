@@ -40,7 +40,7 @@ abstract class PandaModules implements Modules {
             return Optional.ofNullable(modules.get(moduleQualifier));
         }
 
-        return PandaModulesUtils.fetch(loader, this, moduleQualifier, false);
+        return PandaModuleLoaderUtils.fetch(loader, this, moduleQualifier, false);
     }
 
     @Override

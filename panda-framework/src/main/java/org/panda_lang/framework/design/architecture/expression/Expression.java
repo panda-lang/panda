@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.architecture.prototype.Prototype;
 /**
  * Represents dynamic values
  */
-public interface Expression extends ExpressionEvaluator {
+public interface Expression extends ExpressionEvaluator, Expressible {
 
     /**
      * Check if the expression returns null value
@@ -45,5 +45,10 @@ public interface Expression extends ExpressionEvaluator {
      * @return the type
      */
     ExpressionValueType getType();
+
+    @Override
+    default Expression toExpression() {
+        return this;
+    }
 
 }
