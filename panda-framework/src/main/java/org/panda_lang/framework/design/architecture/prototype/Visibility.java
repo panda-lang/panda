@@ -32,7 +32,7 @@ public enum Visibility {
     /**
      * May be accessed only from the same source file or by inheritance
      */
-    LOCAL(2);
+    INTERNAL(2);
 
     private final int modifier;
 

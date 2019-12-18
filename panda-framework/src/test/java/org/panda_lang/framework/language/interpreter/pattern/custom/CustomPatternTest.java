@@ -75,7 +75,7 @@ class CustomPatternTest {
         fakeContext.withComponent(Components.EXPRESSION, new PandaExpressionParser(Collections::emptyList));
 
         CustomPattern pattern = CustomPattern.of(
-                VariantElement.create("visibility").content(Keywords.PUBLIC.getValue(), Keywords.SHARED.getValue(), Keywords.LOCAL.getValue()),
+                VariantElement.create("visibility").content(Keywords.PUBLIC.getValue(), Keywords.SHARED.getValue(), Keywords.INTERNAL.getValue()),
                 KeywordElement.create(Keywords.STATIC).optional(),
                 KeywordElement.create(Keywords.MUT).optional(),
                 KeywordElement.create(Keywords.NIL).optional(),

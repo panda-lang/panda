@@ -76,7 +76,7 @@ public final class MethodParser extends ParserBootstrap<Object> {
                 .interceptor(new CustomPatternInterceptor())
                 .pattern(CustomPattern.of(
                         KeywordElement.create(Keywords.OVERRIDE).optional(),
-                        VariantElement.create("visibility").content("public", "shared", "local").map(value -> Visibility.valueOf(value.toString().toUpperCase())),
+                        VariantElement.create("visibility").content("public", "shared", "internal").map(value -> Visibility.valueOf(value.toString().toUpperCase())),
                         UnitElement.create("static").content("static").optional(),
                         TypeElement.create("type").optional().verify(new NextTokenTypeVerifier(TokenTypes.UNKNOWN)),
                         WildcardElement.create("name").verify(new TokenTypeVerifier(TokenTypes.UNKNOWN)),

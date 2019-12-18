@@ -67,7 +67,7 @@ public final class FieldParser extends ParserBootstrap<Object> {
                 .handler(new CustomPatternHandler())
                 .interceptor(new CustomPatternInterceptor())
                 .pattern(CustomPattern.of(
-                        VariantElement.create("visibility").content(Keywords.PUBLIC.getValue(), Keywords.SHARED.getValue(), Keywords.LOCAL.getValue()),
+                        VariantElement.create("visibility").content(Keywords.PUBLIC.getValue(), Keywords.SHARED.getValue(), Keywords.INTERNAL.getValue()),
                         KeywordElement.create(Keywords.STATIC).optional(),
                         KeywordElement.create(Keywords.MUT).optional(),
                         KeywordElement.create(Keywords.NIL).optional(),

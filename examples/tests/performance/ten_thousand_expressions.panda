@@ -3,7 +3,7 @@ module example-test
 /*
  * Collect expressions
  */
-local class Collector {
+internal class Collector {
     
     shared static collect(Object... args) {
         // ignore or log
