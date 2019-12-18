@@ -32,11 +32,11 @@ public final class ArrayAccessor implements DynamicExpression {
     private final Expression indexExpression;
 
     public ArrayAccessor(Expression instanceExpression, Expression indexExpression) {
-        if (!(instanceExpression.getReturnType() instanceof ArrayPrototype)) {
+        if (!(instanceExpression.getType() instanceof ArrayPrototype)) {
             throw new PandaFrameworkException("Array required");
         }
 
-        this.type = ((ArrayPrototype) instanceExpression.getReturnType()).getArrayType();
+        this.type = ((ArrayPrototype) instanceExpression.getType()).getArrayType();
         this.instanceExpression = instanceExpression;
         this.indexExpression = indexExpression;
     }

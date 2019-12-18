@@ -57,7 +57,7 @@ public final class ArrayValueAccessorParser implements Parser {
         ExpressionParser parser = context.getComponent(Components.EXPRESSION);
         Expression index = parser.parse(context, indexSource.getContent()).getExpression();
 
-        if (!Integer.class.isAssignableFrom(index.getReturnType().getAssociatedClass())) {
+        if (!Integer.class.isAssignableFrom(index.getType().getAssociatedClass())) {
             throw new PandaParserFailure(context, source, "The specified index is not an integer", "Change array index to expression that returns int");
         }
 
@@ -65,11 +65,11 @@ public final class ArrayValueAccessorParser implements Parser {
     }
 
     public ArrayAccessor of(Context context, Snippetable source, Expression instance, Expression index) {
-        if (!instance.getReturnType().isArray()) {
-            throw new PandaParserFailure(context, source, "Cannot use index on non-array type (" + instance.getReturnType() + ")");
+        if (!instance.getType().isArray()) {
+            throw new PandaParserFailure(context, source, "Cannot use index on non-array type (" + instance.getType() + ")");
         }
 
-        ArrayPrototype arrayPrototype = (ArrayPrototype) instance.getReturnType();
+        ArrayPrototype arrayPrototype = (ArrayPrototype) instance.getType();
 
         if (arrayPrototype == null) {
             throw new PandaParserFailure(context, source, "Cannot locate array class");

@@ -14,35 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.architecture.expression;
-
-import org.panda_lang.framework.design.architecture.prototype.Typed;
+package org.panda_lang.framework.design.architecture.prototype;
 
 /**
- * Represents dynamic values
+ * Represents typed properties
  */
-public interface Expression extends Typed, ExpressionEvaluator, Expressible {
+public interface Typed {
 
     /**
-     * Get expression type
+     * Get return type
      *
-     * @return the type
+     * @return the type of result
      */
-    ExpressionValueType getExpressionType();
-
-    /**
-     * Check if the expression returns null value
-     *
-     * @return true if expression returns null
-     */
-    default boolean isNull() {
-        return getType() == null;
-    }
-
-
-    @Override
-    default Expression toExpression() {
-        return this;
-    }
+    Prototype getType();
 
 }

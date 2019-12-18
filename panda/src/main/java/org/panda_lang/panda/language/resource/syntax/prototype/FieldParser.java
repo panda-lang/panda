@@ -111,8 +111,8 @@ public final class FieldParser extends ParserBootstrap<Object> {
             return;
         }
 
-        if (!field.getType().isAssignableFrom(assignationValue.getReturnType())) {
-            throw new PandaParserFailure(context, source, "Cannot assign type " + assignationValue.getReturnType().getPropertyName() + " to " + field.getType().getPropertyName());
+        if (!field.getType().isAssignableFrom(assignationValue.getType())) {
+            throw new PandaParserFailure(context, source, "Cannot assign type " + assignationValue.getType().getPropertyName() + " to " + field.getType().getPropertyName());
         }
 
         field.setDefaultValue(ExpressionUtils.equalize(assignationValue, field.getType()));

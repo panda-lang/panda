@@ -1,8 +1,7 @@
 
 &b- - ~ ~< Severe Failure >~ ~ - -&r
 
-Caused by:
-  {{message}}
+{{message}}
 
 % note %
 Note:

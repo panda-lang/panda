@@ -18,14 +18,37 @@ package org.panda_lang.framework.language.resource.internal;
 
 import org.panda_lang.framework.design.architecture.module.Module;
 
+/**
+ * Supports simplified mapping of Java classes
+ */
 public interface InternalModuleInfo {
 
+    /**
+     * Custom initializer of module
+     *
+     * @param module current module
+     */
     default void initialize(Module module) { }
 
+    /**
+     * Get names of classes in the given package to map
+     *
+     * @return names to map
+     */
     String[] getNames();
 
+    /**
+     * Get associated with the module package
+     *
+     * @return the name of package
+     */
     String getPackageName();
 
+    /**
+     * Get the name of represented module
+     *
+     * @return the name of module
+     */
     String getModule();
 
 }

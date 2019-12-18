@@ -48,6 +48,7 @@ public final class ResourcesLoader {
 
     private void load(PandaModuleFactory factory, InternalModuleInfo internalModuleInfo) throws ClassNotFoundException {
         Module module = factory.computeIfAbsent(internalModuleInfo.getModule());
+        internalModuleInfo.initialize(module);
 
         for (String name : internalModuleInfo.getNames()) {
             String packageName = internalModuleInfo.getPackageName().isEmpty() ? StringUtils.EMPTY : internalModuleInfo.getPackageName() + ".";
@@ -56,8 +57,6 @@ public final class ResourcesLoader {
             Reference mappedPrototype = PrototypeGeneratorManager.getInstance().generate(module, type.getSimpleName(), type);
             module.add(mappedPrototype);
         }
-
-        internalModuleInfo.initialize(module);
     }
 
 }

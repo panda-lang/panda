@@ -37,7 +37,7 @@ public interface Module extends Modules, ModuleResource {
     Reference add(Referencable reference);
 
     /**
-     * Count initialized Prototypes
+     * Count initialized prototypes
      *
      * @return the amount of used prototypes
      */

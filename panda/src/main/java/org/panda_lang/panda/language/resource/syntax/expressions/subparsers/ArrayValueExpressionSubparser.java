@@ -79,7 +79,7 @@ public final class ArrayValueExpressionSubparser implements ExpressionSubparser 
             }
 
             // require array type
-            if (!instance.getReturnType().isArray()) {
+            if (!instance.getType().isArray()) {
                 ExpressionResult.error("Cannot use array index on non-array return type", section.getContent());
             }
 
@@ -88,7 +88,7 @@ public final class ArrayValueExpressionSubparser implements ExpressionSubparser 
             Expression indexExpression = indexTransaction.getExpression();
 
             // require int as index
-            if (!Integer.class.isAssignableFrom(indexExpression.getReturnType().getAssociatedClass())) {
+            if (!Integer.class.isAssignableFrom(indexExpression.getType().getAssociatedClass())) {
                 return ExpressionResult.error("Index of array has to be Integer", section.getContent());
             }
 

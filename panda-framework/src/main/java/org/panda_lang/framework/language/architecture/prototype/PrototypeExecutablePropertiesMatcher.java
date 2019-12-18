@@ -71,7 +71,7 @@ final class PrototypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
             if (!parameter.isVarargs()) {
                 target[required] = index;
 
-                if (!parameter.getType()/*.fetch()*/.isAssignableFrom(requiredTypes[required++])) {
+                if (!parameter.getType().isAssignableFrom(requiredTypes[required++])) {
                     return null;
                 }
 
@@ -79,7 +79,7 @@ final class PrototypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
             }
 
             // varargs parameter has to be array
-            Prototype type = ((ArrayPrototype) parameter.getType()/*.fetch()*/).getArrayType();
+            Prototype type = ((ArrayPrototype) parameter.getType()).getArrayType();
             varArgs++;
 
             // read vararg
@@ -87,11 +87,15 @@ final class PrototypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
                 Prototype nextType = requiredTypes[required];
 
                 if (!type.isAssignableFrom(nextType)) {
+                    // array was directly passed to the varargs
+                    if (parameter.getType().isAssignableFrom(nextType)) {
+                        target[required++] = index;
+                    }
+
                     break;
                 }
 
-                target[required] = index;
-                required++;
+                target[required++] = index;
             }
         }
 

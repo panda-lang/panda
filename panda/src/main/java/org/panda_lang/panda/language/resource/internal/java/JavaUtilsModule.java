@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.language.resource.internal.java;
 
-import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
 
 public final class JavaUtilsModule implements InternalModuleInfo {
@@ -28,9 +27,6 @@ public final class JavaUtilsModule implements InternalModuleInfo {
             "Random",
             "UUID"
     };
-
-    @Override
-    public void initialize(Module module) { }
 
     @Override
     public String[] getNames() {

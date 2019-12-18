@@ -28,7 +28,7 @@ public abstract class MathOperation extends NumericOperation<Number> {
 
     @Override
     public RPNOperationAction<Number> of(ModuleLoader loader, Expression a, Expression b) {
-        Prototype returnType = returnType(loader, a.getReturnType(), b.getReturnType());
+        Prototype returnType = returnType(loader, a.getType(), b.getType());
         return of(returnType, super.getPriority(returnType), a, b);
     }
 

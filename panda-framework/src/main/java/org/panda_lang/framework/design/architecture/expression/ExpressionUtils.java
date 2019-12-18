@@ -81,7 +81,7 @@ public final class ExpressionUtils {
             return expression;
         }
 
-        Optional<Autocast<?, ?>> autocast = expression.getReturnType().getAutocast(target);
+        Optional<Autocast<?, ?>> autocast = expression.getType().getAutocast(target);
 
         if (autocast.isPresent()) {
             return new AutocastDynamicExpression(expression, target, autocast.get()).toExpression();

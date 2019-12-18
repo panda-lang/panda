@@ -58,7 +58,7 @@ public final class ParameterUtils {
 
         for (int index = 0; index < prototypes.length; index++) {
             Expression expression = expressions[index];
-            prototypes[index] = expression.getReturnType();
+            prototypes[index] = expression.getType();
         }
 
         return prototypes;

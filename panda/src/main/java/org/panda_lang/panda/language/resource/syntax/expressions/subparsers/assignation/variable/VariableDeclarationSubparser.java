@@ -118,9 +118,9 @@ public final class VariableDeclarationSubparser extends AssignationSubparserBoot
         Variable variable = scope.createVariable(variableData);
         expressionContext.commit(() -> scope.removeVariable(variable.getName()));
 
-        if (!variable.getType().isAssignableFrom(expression.getReturnType())) {
+        if (!variable.getType().isAssignableFrom(expression.getType())) {
             throw new PandaParserFailure(context,
-                    "Cannot assign " + expression.getReturnType().getSimpleName() + " to " + variable.getType().getSimpleName(),
+                    "Cannot assign " + expression.getType().getSimpleName() + " to " + variable.getType().getSimpleName(),
                     "Change variable type or ensure the expression has compatible return type"
             );
         }
