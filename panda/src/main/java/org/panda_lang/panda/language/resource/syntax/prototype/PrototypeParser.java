@@ -73,7 +73,7 @@ public final class PrototypeParser extends ParserBootstrap {
                 .handler(new CustomPatternHandler())
                 .interceptor(new CustomPatternInterceptor())
                 .pattern(CustomPattern.of(
-                        VariantElement.create("visibility").content(Keywords.PUBLIC, Keywords.SHARED, Keywords.LOCAL).optional(),
+                        VariantElement.create("visibility").content(Keywords.PUBLIC, Keywords.SHARED, Keywords.INTERNAL).optional(),
                         VariantElement.create("state").content(Keywords.CLASS, Keywords.INTERFACE),
                         WildcardElement.create("name").verify(new TokenTypeVerifier(TokenTypes.UNKNOWN)),
                         SubPatternElement.create("extended").optional().of(
@@ -86,7 +86,7 @@ public final class PrototypeParser extends ParserBootstrap {
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL)
     void parse(Context context, @Inter SourceLocation location, @Inter Result result, @Component Script script, @Src("state") String state, @Src("name") String name) throws Exception {
-        Visibility visibility = result.has("visibility") ? Visibility.of(result.get("visibility")) : Visibility.LOCAL;
+        Visibility visibility = result.has("visibility") ? Visibility.of(result.get("visibility")) : Visibility.INTERNAL;
 
         Prototype prototype = script.getModule().add(new PandaReference(name, PrototypeParserUtils.generateType(name), ref -> PandaPrototype.builder()
                 .name(name)

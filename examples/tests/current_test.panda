@@ -5,7 +5,7 @@ require java:collections
 
 // import current_test_required.panda file
 require 'current_test_required'
-// import 'test-local-module' local module
+// import 'test-local-module' internal module
 require 'test-local-module'
 
 // import java class
@@ -158,7 +158,7 @@ main {
     log primitiveArray[0]
     log new String(primitiveArray)
 
-    // Use class from imported local module
+    // Use class from imported internal module
     LocalModuleClass.hello()
 
     // Autocast
@@ -173,7 +173,7 @@ shared interface IEcho {
     shared static anotherEcho(String doSth)
 
     // standard method to impl
-    local test()
+    internal test()
 
 }
 
@@ -186,22 +186,22 @@ shared class Foo : Test, IEcho {
     }
 
     // we need to impl all methods
-    override local test() { }
+    override internal test() { }
 
 }
 
 // random Test class
-class Test {
+internal class Test {
 
     // public static field INDEX with assigned value
     public static Int INDEX = 1
 
     // shared between submodules field
     shared Test testField
-    // local mutable field
-    local mut Double double = 1.5D
-    // local immutable field
-    local String message2
+    // internal mutable field
+    internal mut Double double = 1.5D
+    // internal immutable field
+    internal String message2
 
     // constructor prints random message and assigns itself to testField field
     constructor(String message2) {
@@ -225,7 +225,7 @@ class Test {
 }
 
 // array test
-local class TestArray {
+internal class TestArray {
 
     // shared array
     shared String[] array
@@ -249,7 +249,7 @@ local class TestArray {
     }
 
     // get array
-    local String[] getArray() {
+    internal String[] getArray() {
         return array
     }
 

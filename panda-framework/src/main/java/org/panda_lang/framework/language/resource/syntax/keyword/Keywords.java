@@ -59,13 +59,13 @@ public final class Keywords {
 
     public static final Keyword INTERFACE = new Keyword("interface");
 
+    public static final Keyword INTERNAL = new Keyword("internal");
+
     public static final Keyword IS = new Keyword("is");
 
     public static final Keyword LATE = new Keyword("late");
 
     public static final Keyword LAZY = new Keyword("lazy");
-
-    public static final Keyword LOCAL = new Keyword("local");
 
     public static final Keyword LOG = new Keyword("log");
 

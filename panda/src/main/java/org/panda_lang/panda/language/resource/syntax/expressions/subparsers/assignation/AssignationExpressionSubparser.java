@@ -80,6 +80,10 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
             Context context = expressionContext.getContext();
             Snippet declaration = source.subSource(0, index);
 
+            if (declaration.size() > 16 /* implement max declaration size in assignation subparser in the future*/) {
+                return null;
+            }
+
             Context assignationContext = context.fork()
                     .withComponent(Components.CHANNEL, new PandaChannel())
                     .withComponent(AssignationComponents.CONTEXT, expressionContext)
