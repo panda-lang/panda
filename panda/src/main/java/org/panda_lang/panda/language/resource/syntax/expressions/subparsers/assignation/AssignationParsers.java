@@ -16,18 +16,18 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation;
 
-import org.panda_lang.framework.language.interpreter.parser.PandaParsersUtils;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.array.ArrayValueAssignationSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.variable.VariableAssignationSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.variable.VariableDeclarationSubparser;
 
 public final class AssignationParsers {
 
-    public static final Class<? extends AssignationSubparser>[] SUBPARSERS = PandaParsersUtils.of(
+    @SuppressWarnings("unchecked")
+    public static final Class<? extends AssignationSubparser<?>>[] SUBPARSERS = new Class[] {
             VariableAssignationSubparser.class,
             VariableDeclarationSubparser.class,
             ArrayValueAssignationSubparser.class
-    );
+    };
 
     private AssignationParsers() { }
 
