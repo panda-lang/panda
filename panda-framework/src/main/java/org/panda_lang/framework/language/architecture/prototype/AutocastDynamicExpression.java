@@ -37,7 +37,7 @@ public final class AutocastDynamicExpression implements DynamicExpression {
     @Override
     @SuppressWarnings("unchecked")
     public Object evaluate(ProcessStack stack, Object instance) throws Exception {
-        return autocast.cast(original.getReturnType(), original.evaluate(stack, instance), to);
+        return autocast.cast(original.getType(), original.evaluate(stack, instance), to);
     }
 
     @Override

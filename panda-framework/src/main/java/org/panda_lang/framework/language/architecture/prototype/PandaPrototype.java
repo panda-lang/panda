@@ -153,22 +153,6 @@ public class PandaPrototype extends AbstractProperty implements Prototype {
     public boolean isArray() {
         return false;
     }
-
-    @Override
-    public Methods getMethods() {
-        return methods;
-    }
-
-    @Override
-    public Fields getFields() {
-        return fields;
-    }
-
-    @Override
-    public Constructors getConstructors() {
-        return constructors;
-    }
-
     @Override
     @SuppressWarnings("unchecked")
     public <T extends ExecutableProperty> Optional<Properties<T>> getProperties(Class<T> propertyType) {
@@ -199,6 +183,22 @@ public class PandaPrototype extends AbstractProperty implements Prototype {
     }
 
     @Override
+    public Methods getMethods() {
+        return methods;
+    }
+
+    @Override
+    public Fields getFields() {
+        return fields;
+    }
+
+    @Override
+    public Constructors getConstructors() {
+        return constructors;
+    }
+
+
+    @Override
     public Collection<Prototype> getBases() {
         return bases;
     }
@@ -209,8 +209,13 @@ public class PandaPrototype extends AbstractProperty implements Prototype {
     }
 
     @Override
-    public String getType() {
+    public String getModel() {
         return type;
+    }
+
+    @Override
+    public Prototype getType() {
+        return this;
     }
 
     @Override
@@ -240,78 +245,6 @@ public class PandaPrototype extends AbstractProperty implements Prototype {
 
     public static <T> PandaPrototypeBuilder<?, ?> builder() {
         return new PandaPrototypeBuilder<>();
-    }
-
-    public static final class PandaPrototypeBuilder<BUILDER extends PandaPrototypeBuilder<BUILDER, ?>, TYPE extends PandaPrototype> {
-
-        protected Reference reference;
-        protected String name;
-        protected Module module;
-        protected SourceLocation location;
-        protected Class<?> associated;
-        protected String type;
-        protected State state;
-        protected Visibility visibility;
-
-        protected PandaPrototypeBuilder() {
-            this.associated = Object.class;
-        }
-
-        public BUILDER name(String name) {
-            this.name = name;
-            return getThis();
-        }
-
-        public BUILDER reference(Reference reference) {
-            this.reference = reference;
-            return getThis();
-        }
-
-        public BUILDER module(Module module) {
-            this.module = module;
-            return getThis();
-        }
-
-        public BUILDER location(SourceLocation location) {
-            this.location = location;
-            return getThis();
-        }
-
-        public BUILDER associated(Class<?> associated) {
-            this.associated = associated;
-
-            if (name == null) {
-                this.name = associated.getCanonicalName();
-            }
-
-            return getThis();
-        }
-
-        public BUILDER type(String type) {
-            this.type = type;
-            return getThis();
-        }
-
-        public BUILDER state(State state) {
-            this.state = state;
-            return getThis();
-        }
-
-        public BUILDER visibility(Visibility visibility) {
-            this.visibility = visibility;
-            return getThis();
-        }
-
-        @SuppressWarnings("unchecked")
-        public TYPE build() {
-            return (TYPE) new PandaPrototype(this);
-        }
-
-        @SuppressWarnings("unchecked")
-        protected BUILDER getThis() {
-            return (BUILDER) this;
-        }
-
     }
 
 }

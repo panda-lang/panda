@@ -241,9 +241,10 @@ local class TestArray {
         array[6] = String.valueOf(this)
 
         log "Value at array[test.index]: " + this.getArray()[test.INDEX]
+        varargs(array)
     }
 
-    shared varargs(nil mut Object... varargs) {
+    shared varargs(nil mut String... varargs) {
         log varargs
     }
 

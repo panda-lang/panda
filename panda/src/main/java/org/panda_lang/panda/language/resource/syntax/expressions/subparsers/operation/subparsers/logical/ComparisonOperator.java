@@ -28,7 +28,7 @@ public abstract class ComparisonOperator extends NumericOperation<Boolean> {
 
     @Override
     public RPNOperationAction<Boolean> of(ModuleLoader loader, Expression a, Expression b) {
-        Prototype comparedType = estimateType(a.getReturnType(), b.getReturnType());
+        Prototype comparedType = estimateType(a.getType(), b.getType());
         return of(super.getPriority(comparedType), a, b);
     }
 

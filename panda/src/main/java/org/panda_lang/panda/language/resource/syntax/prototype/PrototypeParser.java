@@ -111,7 +111,7 @@ public final class PrototypeParser extends ParserBootstrap {
         Optional.ofNullable(inherited)
                 .ifPresent(classes -> classes.forEach(typeSource -> PrototypeParserUtils.appendExtended(context, prototype, typeSource)));
 
-        if (prototype.getBases().stream().noneMatch(base -> base.getType().equals("class"))) {
+        if (prototype.getBases().stream().noneMatch(base -> base.getModel().equals("class"))) {
             prototype.addBase(loader.requirePrototype(Object.class));
         }
     }

@@ -36,18 +36,18 @@ public final class StaticExpression implements Expression {
     }
 
     @Override
-    public Prototype getReturnType() {
+    public Prototype getType() {
         return prototype;
     }
 
     @Override
-    public ExpressionValueType getType() {
+    public ExpressionValueType getExpressionType() {
         return ExpressionValueType.CONST;
     }
 
     @Override
     public String toString() {
-        return "static " + getReturnType().getSimpleName();
+        return "static " + getType().getSimpleName();
     }
 
 }

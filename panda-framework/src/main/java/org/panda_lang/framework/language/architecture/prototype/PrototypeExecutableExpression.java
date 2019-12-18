@@ -54,18 +54,18 @@ public final class PrototypeExecutableExpression implements Expression {
     }
 
     @Override
-    public Prototype getReturnType() {
+    public Prototype getType() {
         return executable.getType();
     }
 
     @Override
-    public ExpressionValueType getType() {
+    public ExpressionValueType getExpressionType() {
         return ExpressionValueType.DYNAMIC;
     }
 
     @Override
     public String toString() {
-        return executable + " -> " + getReturnType().getSimpleName();
+        return executable + " -> " + getType().getSimpleName();
     }
 
 }

@@ -33,7 +33,7 @@ public final class ArrayPrototype extends PandaPrototype {
     }
 
     public ArrayPrototype(Module module, String name, Class<?> associated, Prototype type) {
-        super(type.toReference(), module, name, new PandaClassSource(associated).toLocation(), associated, type.getType(), type.getState(), Visibility.PUBLIC);
+        super(type.toReference(), module, name, new PandaClassSource(associated).toLocation(), associated, type.getModel(), type.getState(), Visibility.PUBLIC);
         this.prototype = type;
     }
 

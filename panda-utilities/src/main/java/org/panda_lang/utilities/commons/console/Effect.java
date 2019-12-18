@@ -18,6 +18,8 @@ package org.panda_lang.utilities.commons.console;
 
 public enum Effect {
 
+    LINE_SEPARATOR("\n", "n"),
+
     RESET("\033[0m", "r"),
     BOLD("\033[0;1m", "b"),
 

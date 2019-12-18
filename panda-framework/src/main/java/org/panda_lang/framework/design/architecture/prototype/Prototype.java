@@ -122,7 +122,7 @@ public interface Prototype extends Property, Referencable {
      *
      * @return the prototype type
      */
-    String getType();
+    String getModel();
 
     /**
      * Get Java class associated with the type

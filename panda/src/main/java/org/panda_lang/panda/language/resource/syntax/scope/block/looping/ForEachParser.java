@@ -26,7 +26,6 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionP
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.expression.PandaDynamicExpression;
-import org.panda_lang.framework.language.architecture.expression.PandaExpression;
 import org.panda_lang.framework.language.architecture.statement.PandaVariable;
 import org.panda_lang.framework.language.architecture.statement.PandaVariableDataInitializer;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
@@ -66,7 +65,7 @@ public final class ForEachParser extends BlockSubparserBootstrap {
 
         Expression iterableExpression = parser.parse(context, elements[1]).getExpression();
 
-        if (iterableExpression.getReturnType().isArray()) {
+        if (iterableExpression.getType().isArray()) {
             Expression arrayExpression = iterableExpression;
 
             iterableExpression = new PandaDynamicExpression(loader.requirePrototype(Iterable.class), new ExpressionEvaluator() {
@@ -83,7 +82,7 @@ public final class ForEachParser extends BlockSubparserBootstrap {
         VariableData variableData = dataInitializer.createVariableData(elements[0], true, true);
         forEach.addVariable(new PandaVariable(forEach.getValuePointer(), variableData));
 
-        if (!Iterable.class.isAssignableFrom(forEach.getIterableExpression().getReturnType().getAssociatedClass())) {
+        if (!Iterable.class.isAssignableFrom(forEach.getIterableExpression().getType().getAssociatedClass())) {
             throw new PandaParserException("ForEach requires Iterable value");
         }
 

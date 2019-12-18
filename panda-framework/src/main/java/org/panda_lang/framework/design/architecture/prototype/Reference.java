@@ -32,10 +32,10 @@ public interface Reference extends Referencable {
     Prototype fetch() throws ReferenceFetchException;
 
     /**
-     * Add initializer to the fetcher. If Prototype is already initialized, the initializer is executed immediately
+     * Add initializer to the fetcher. If prototype is already initialized, the initializer is executed immediately
      *
      * @param initializer the initializer to add
-     * @return current Prototype
+     * @return current reference
      */
     Reference addInitializer(Consumer<Prototype> initializer);
 

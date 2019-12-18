@@ -57,12 +57,12 @@ public class PandaExpression implements Expression {
     }
 
     @Override
-    public Prototype getReturnType() {
+    public Prototype getType() {
         return returnType;
     }
 
     @Override
-    public ExpressionValueType getType() {
+    public ExpressionValueType getExpressionType() {
         return type;
     }
 

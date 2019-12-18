@@ -22,7 +22,7 @@ import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 /**
  * Element of prototype
  */
-public interface Property {
+public interface Property extends Typed {
 
     /**
      * Get visibility of executable
@@ -34,7 +34,7 @@ public interface Property {
     /**
      * Get associated prototype
      *
-     * @return the Prototype to prototype
+     * @return the associated to prototype
      */
     Prototype getPrototype();
 
@@ -55,19 +55,19 @@ public interface Property {
     SourceLocation getLocation();
 
     /**
-     * Get simple name of property (without prototype name)
+     * Get simple name of property (without extra data)
      *
      * @return the name
      */
     String getSimpleName();
 
     /**
-     * Get property name {prototype-name}::{property::name}
+     * Get property name
      *
      * @return the name of property
      */
     default String getPropertyName() {
-        return getPrototype().getSimpleName() + "::" + getSimpleName();
+        return getSimpleName();
     }
 
 }

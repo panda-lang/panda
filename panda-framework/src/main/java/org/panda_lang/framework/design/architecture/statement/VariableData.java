@@ -16,12 +16,12 @@
 
 package org.panda_lang.framework.design.architecture.statement;
 
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.prototype.Typed;
 
 /**
  * Represents basic data about variable
  */
-public interface VariableData {
+public interface VariableData extends Typed {
 
     /**
      * Check if variable is nillable (accepts null values)
@@ -36,13 +36,6 @@ public interface VariableData {
      * @return true if variable is mutable
      */
     boolean isMutable();
-
-    /**
-     * Get type of variable
-     *
-     * @return the type
-     */
-    Prototype getType();
 
     /**
      * Get name of parameter

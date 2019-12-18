@@ -17,6 +17,7 @@
 package org.panda_lang.framework.design.architecture.prototype;
 
 import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.language.architecture.prototype.utils.TypedUtils;
 
 /**
  * PrototypeExecutable is equivalent to {@link java.lang.reflect.Executable}
@@ -52,8 +53,13 @@ public interface ExecutableProperty extends Property {
     /**
      * Get return type of executable
      *
-     * @return the return type Prototype
+     * @return the return type prototype
      */
     Prototype getType();
+
+    @Override
+    default String getPropertyName() {
+        return getSimpleName() + " (" + TypedUtils.toString(getParameters()) + ")";
+    }
 
 }

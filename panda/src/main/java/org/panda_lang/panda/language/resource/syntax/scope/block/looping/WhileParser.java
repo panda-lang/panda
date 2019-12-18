@@ -16,17 +16,11 @@
 
 package org.panda_lang.panda.language.resource.syntax.scope.block.looping;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.Snippetable;
-import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.framework.language.interpreter.pattern.PatternMapping;
-import org.panda_lang.framework.language.interpreter.pattern.PatternResult;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
@@ -53,7 +47,7 @@ public final class WhileParser extends BlockSubparserBootstrap {
 
     @Autowired
     BlockData parseWhile(Context context, @Component Scope parent, @Inter SourceLocation location, @Src("value") Expression expression) {
-        if (!Boolean.class.isAssignableFrom(expression.getReturnType().getAssociatedClass())) {
+        if (!Boolean.class.isAssignableFrom(expression.getType().getAssociatedClass())) {
             throw new PandaParserFailure(context, "Loop requires boolean as an argument");
         }
 

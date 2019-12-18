@@ -58,7 +58,7 @@ final class NegativeExpression implements DynamicExpression {
 
     @Override
     public Prototype getReturnType() {
-        return logicalExpression.getReturnType();
+        return logicalExpression.getType();
     }
 
 }

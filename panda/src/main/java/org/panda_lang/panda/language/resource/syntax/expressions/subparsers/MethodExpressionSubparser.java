@@ -19,7 +19,6 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.prototype.Adjustment;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionCategory;
@@ -32,6 +31,7 @@ import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.language.architecture.expression.StaticExpression;
 import org.panda_lang.framework.language.architecture.expression.ThisExpression;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeExecutableExpression;
+import org.panda_lang.framework.language.architecture.prototype.utils.TypedUtils;
 import org.panda_lang.framework.language.architecture.prototype.utils.VisibilityComparator;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
@@ -40,9 +40,10 @@ import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.utilities.commons.ObjectUtils;
+import org.panda_lang.utilities.commons.console.Effect;
 import org.panda_lang.utilities.commons.text.ContentJoiner;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 public final class MethodExpressionSubparser implements ExpressionSubparser {
@@ -108,7 +109,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
             }
 
             // check if prototype of instance contains required method
-            if (!instance.getReturnType().getMethods().hasPropertyLike(nameToken.getValue())) {
+            if (!instance.getType().getMethods().hasPropertyLike(nameToken.getValue())) {
                 return ExpressionResult.error("Cannot find method called '" + nameToken.getValue() + "'", nameToken);
             }
 
@@ -125,18 +126,24 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
 
         private Expression parseMethod(ExpressionContext context, Expression instance, TokenRepresentation methodName, Snippet argumentsSource) {
             Expression[] arguments = ARGUMENT_PARSER.parse(context, argumentsSource);
-            Optional<Adjustment<PrototypeMethod>> adjustedArguments = instance.getReturnType().getMethods().getAdjustedArguments(methodName.getValue(), arguments);
+            Optional<Adjustment<PrototypeMethod>> adjustedArguments = instance.getType().getMethods().getAdjustedArguments(methodName.getValue(), arguments);
 
             if (!adjustedArguments.isPresent()) {
-                String types = ContentJoiner.on(", ").join(Arrays.stream(arguments)
-                        .map(Expression::getReturnType)
-                        .map(Prototype::getSimpleName)
-                        .toArray()
-                ).toString();
+                String types = TypedUtils.toString(arguments);
+
+                List<? extends PrototypeMethod> propertiesLike = instance.getType().getMethods().getPropertiesLike(methodName.getValue());
+                String similar = "";
+
+                if (!propertiesLike.isEmpty()) {
+                    similar = "Similar methods:" + Effect.LINE_SEPARATOR;
+                    similar += ContentJoiner.on(Effect.LINE_SEPARATOR.toString()).join(propertiesLike, method -> {
+                        return "  • &7" + method.getPropertyName() + "&r";
+                    });
+                }
 
                 throw new PandaExpressionParserFailure(context, argumentsSource,
-                        "Class " + instance.getReturnType().getSimpleName() + " does not have method &1" + methodName + "&r with parameters &1" + types + "&r",
-                        "Change arguments or add a new method with the provided types of parameters"
+                        "Class " + instance.getType().getSimpleName() + " does not have method &1" + methodName + "&r with parameters &1" + types + "&r",
+                        "Change arguments or add a new method with the provided types of parameters. " + similar
                 );
             }
 

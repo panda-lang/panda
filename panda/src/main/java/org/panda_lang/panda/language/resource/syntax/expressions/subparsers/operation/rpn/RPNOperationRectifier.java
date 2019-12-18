@@ -58,7 +58,7 @@ public final class RPNOperationRectifier {
             Expression a = values.pop();
             RPNOperationAction<?> action = supplier.of(loader, a, b);
 
-            if (a.getType() == ExpressionValueType.CONST && b.getType() == ExpressionValueType.CONST) {
+            if (a.getExpressionType() == ExpressionValueType.CONST && b.getExpressionType() == ExpressionValueType.CONST) {
                 try {
                     Object constValue = action.get(null, null);
                     values.push(new PandaExpression(action.returnType(loader), constValue));
