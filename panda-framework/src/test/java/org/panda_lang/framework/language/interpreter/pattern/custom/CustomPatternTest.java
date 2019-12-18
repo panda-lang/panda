@@ -45,7 +45,7 @@ class CustomPatternTest {
     @Test
     void method() {
         CustomPattern customPattern = CustomPattern.of(
-                VariantElement.create("visibility").content("public", "shared", "local"),
+                VariantElement.create("visibility").content("public", "shared", "internal"),
                 UnitElement.create("isStatic").content("static").optional(),
                 TypeElement.create("type").optional().verify(new NextTokenTypeVerifier(TokenTypes.UNKNOWN)),
                 WildcardElement.create("name").verify(new TokenTypeVerifier(TokenTypes.UNKNOWN)),
@@ -87,7 +87,7 @@ class CustomPatternTest {
                 )
         );
 
-        Result result = pattern.match(convert("local mut Test testField"));
+        Result result = pattern.match(convert("internal mut Test testField"));
         Assertions.assertTrue(result.isMatched());
     }
 
