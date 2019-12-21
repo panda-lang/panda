@@ -18,6 +18,8 @@ package org.panda_lang.panda.shell.repl;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.FrameworkController;
+import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.architecture.prototype.DynamicClass;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
@@ -25,6 +27,7 @@ import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.runtime.Process;
 import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.language.architecture.prototype.PandaDynamicClass;
 import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
 import org.panda_lang.framework.language.architecture.prototype.PandaReference;
@@ -55,10 +58,13 @@ public final class ReplCreator {
     ReplCreator(FrameworkController frameworkController) {
         this.context = PandaContextUtils.createStubContext(frameworkController);
 
-        Prototype prototype = new PandaReference("ShellPrototype", ShellPrototype.class, ref -> PandaPrototype.builder()
+        Module module = context.getComponent(Components.SCRIPT).getModule();
+        DynamicClass shellType = new PandaDynamicClass(module, "ShellPrototype", ShellPrototype.class);
+
+        Prototype prototype = new PandaReference(shellType.getSimpleName(), shellType, ref -> PandaPrototype.builder()
                 .name(ref.getName())
                 .reference(ref)
-                .module(context.getComponent(Components.SCRIPT).getModule())
+                .module(module)
                 .associated(ref.getAssociatedClass())
                 .location(new PandaClassSource(ReplCreator.class).toLocation())
                 .state(State.FINAL)

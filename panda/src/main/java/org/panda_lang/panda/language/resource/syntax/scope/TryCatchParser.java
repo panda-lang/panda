@@ -68,7 +68,7 @@ public final class TryCatchParser extends ParserBootstrap {
         Variable variable = catchBlock.createVariable(variableData);
 
         SCOPE_PARSER.parse(context, catchBlock, catchBody);
-        Class<?> type = variableData.getType().getAssociatedClass();
+        Class<?> type = variableData.getType().getAssociatedClass().getImplementation();
 
         if (Throwable.class.isAssignableFrom(type)) {
             //noinspection unchecked

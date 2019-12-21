@@ -61,7 +61,7 @@ public final class ArrayClassPrototypeFetcher {
 
     public static Prototype getArrayOf(Module module, Referencable baseReferencable, int dimensions) {
         Reference baseReference = baseReferencable.toReference();
-        Class<?> componentType = ArrayUtils.getDimensionalArrayType(baseReference.getAssociatedClass(), dimensions);
+        Class<?> componentType = ArrayUtils.getDimensionalArrayType(baseReference.getAssociatedClass().getImplementation(), dimensions);
         Class<?> arrayType = ArrayUtils.getArrayClass(componentType);
         Reference componentReference;
 

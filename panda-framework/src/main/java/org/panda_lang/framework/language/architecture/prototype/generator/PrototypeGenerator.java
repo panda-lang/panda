@@ -17,10 +17,12 @@
 package org.panda_lang.framework.language.architecture.prototype.generator;
 
 import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.architecture.prototype.DynamicClass;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
+import org.panda_lang.framework.language.architecture.prototype.PandaDynamicClass;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
 import org.panda_lang.framework.language.architecture.prototype.PandaReference;
 import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
@@ -54,12 +56,14 @@ final class PrototypeGenerator {
         }
 
         if (reference == null) {
-            reference = new PandaReference(name, type, ref -> PandaPrototype.builder()
+            DynamicClass dynamicType = new PandaDynamicClass(module, name, type);
+
+            reference = new PandaReference(name, dynamicType, ref -> PandaPrototype.builder()
                     .name(name)
                     .reference(ref)
                     .module(module)
                     .location(new PandaClassSource(type).toLocation())
-                    .associated(type)
+                    .associated(ref.getAssociatedClass())
                     .type(type.isInterface() ? "interface" : "class")
                     .state(State.of(type))
                     .visibility(Visibility.PUBLIC)

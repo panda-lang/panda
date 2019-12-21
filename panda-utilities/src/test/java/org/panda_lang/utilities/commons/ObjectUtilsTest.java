@@ -48,11 +48,15 @@ final class ObjectUtilsTest {
     @Test
     void cast() {
         Assertions.assertEquals("text", ObjectUtils.cast("text"));
+        Assertions.assertNull(ObjectUtils.cast(String.class, 5));
 
         Object unknown = "content";
         Assertions.assertEquals("content", ObjectUtils.cast(String.class, unknown));
 
-        Assertions.assertNull(ObjectUtils.cast(String.class, 5));
+        Assertions.assertDoesNotThrow(() -> {
+            @SuppressWarnings("unused")
+            String value = ObjectUtils.cast(null);
+        });
     }
 
     @Test

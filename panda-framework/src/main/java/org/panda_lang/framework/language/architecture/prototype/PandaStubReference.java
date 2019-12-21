@@ -16,6 +16,7 @@
 
 package org.panda_lang.framework.language.architecture.prototype;
 
+import org.panda_lang.framework.design.architecture.prototype.DynamicClass;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.ReferenceFetchException;
@@ -52,7 +53,7 @@ public final class PandaStubReference implements Reference {
     }
 
     @Override
-    public Class<?> getAssociatedClass() {
+    public DynamicClass getAssociatedClass() {
         return prototype.getAssociatedClass();
     }
 

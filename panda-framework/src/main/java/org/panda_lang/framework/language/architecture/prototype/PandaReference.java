@@ -18,6 +18,7 @@ package org.panda_lang.framework.language.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
+import org.panda_lang.framework.design.architecture.prototype.DynamicClass;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
@@ -31,12 +32,12 @@ import java.util.function.Consumer;
 public final class PandaReference implements Reference {
 
     private final String name;
-    private final Class<?> associatedClass;
+    private final DynamicClass associatedClass;
     private final ThrowingFunction<Reference, Prototype, ReferenceFetchException> prototypeSupplier;
     private final List<Consumer<Prototype>> initializers = new ArrayList<>(1);
     private Prototype prototype;
 
-    public PandaReference(String name, Class<?> associatedClass, ThrowingFunction<Reference, Prototype, ReferenceFetchException> prototypeSupplier) {
+    public PandaReference(String name, DynamicClass associatedClass, ThrowingFunction<Reference, Prototype, ReferenceFetchException> prototypeSupplier) {
         this.name = name;
         this.associatedClass = associatedClass;
         this.prototypeSupplier = prototypeSupplier;
@@ -63,8 +64,6 @@ public final class PandaReference implements Reference {
         for (Consumer<Prototype> initializer : initializers) {
             initializer.accept(prototype);
         }
-
-        // System.out.println("Generate " + prototype);
 
         for (PrototypeField field : prototype.getFields().getDeclaredProperties()) {
             if (!field.hasDefaultValue() || !field.isStatic()) {
@@ -95,7 +94,7 @@ public final class PandaReference implements Reference {
     }
 
     @Override
-    public Class<?> getAssociatedClass() {
+    public DynamicClass getAssociatedClass() {
         return associatedClass;
     }
 

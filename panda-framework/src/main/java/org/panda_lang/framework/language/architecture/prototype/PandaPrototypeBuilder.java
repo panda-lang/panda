@@ -17,6 +17,7 @@
 package org.panda_lang.framework.language.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.architecture.prototype.DynamicClass;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
@@ -28,14 +29,13 @@ public class PandaPrototypeBuilder<BUILDER extends PandaPrototypeBuilder<BUILDER
     protected String name;
     protected Module module;
     protected SourceLocation location;
-    protected Class<?> associated;
+    protected DynamicClass associated;
     protected String type;
     protected State state;
     protected Visibility visibility;
+    protected boolean isNative;
 
-    protected PandaPrototypeBuilder() {
-        this.associated = Object.class;
-    }
+    protected PandaPrototypeBuilder() { }
 
     public BUILDER name(String name) {
         this.name = name;
@@ -57,11 +57,11 @@ public class PandaPrototypeBuilder<BUILDER extends PandaPrototypeBuilder<BUILDER
         return getThis();
     }
 
-    public BUILDER associated(Class<?> associated) {
+    public BUILDER associated(DynamicClass associated) {
         this.associated = associated;
 
         if (name == null) {
-            this.name = associated.getCanonicalName();
+            this.name = associated.getSimpleName();
         }
 
         return getThis();
@@ -79,6 +79,11 @@ public class PandaPrototypeBuilder<BUILDER extends PandaPrototypeBuilder<BUILDER
 
     public BUILDER visibility(Visibility visibility) {
         this.visibility = visibility;
+        return getThis();
+    }
+
+    public BUILDER isNative(boolean isNative) {
+        this.isNative = isNative;
         return getThis();
     }
 
