@@ -16,7 +16,9 @@
 
 package org.panda_lang.framework.language.architecture.module;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.ReferencesMap;
+import org.panda_lang.framework.design.architecture.prototype.DynamicClass;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.utilities.commons.ClassUtils;
 
@@ -28,7 +30,7 @@ import java.util.Optional;
 
 final class PandaReferencesMap extends HashMap<String, Reference> implements ReferencesMap {
 
-    private final Map<Class<?>, String> associatedClasses = new HashMap<>();
+    private final Map<DynamicClass, String> associatedClasses = new HashMap<>();
 
     @Override
     public boolean put(Reference reference) {
@@ -56,7 +58,7 @@ final class PandaReferencesMap extends HashMap<String, Reference> implements Ref
 
     @Override
     public Optional<Reference> forClass(Class<?> associatedClass) {
-        String prototypeName = associatedClasses.get(associatedClass);
+        String prototypeName = get(associatedClass);
 
         if (prototypeName == null) {
             if (associatedClass.isPrimitive()) {
@@ -71,6 +73,16 @@ final class PandaReferencesMap extends HashMap<String, Reference> implements Ref
         }
 
         return forName(prototypeName);
+    }
+
+    private @Nullable String get(Class<?> associatedClass) {
+        for (Entry<DynamicClass, String> entry : associatedClasses.entrySet()) {
+            if (entry.getKey().getImplementation().equals(associatedClass)) {
+                return entry.getValue();
+            }
+        }
+
+        return null;
     }
 
     @Override

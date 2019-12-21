@@ -19,6 +19,7 @@ package org.panda_lang.panda.language.resource.syntax.prototype;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.Script;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.framework.design.architecture.prototype.DynamicClass;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
@@ -31,6 +32,7 @@ import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.language.architecture.prototype.PandaConstructor;
+import org.panda_lang.framework.language.architecture.prototype.PandaDynamicClass;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
 import org.panda_lang.framework.language.architecture.prototype.PandaReference;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
@@ -87,8 +89,9 @@ public final class PrototypeParser extends ParserBootstrap {
     @Autowired(cycle = GenerationCycles.TYPES_LABEL)
     void parse(Context context, @Inter SourceLocation location, @Inter Result result, @Component Script script, @Src("state") String state, @Src("name") String name) throws Exception {
         Visibility visibility = result.has("visibility") ? Visibility.of(result.get("visibility")) : Visibility.INTERNAL;
+        DynamicClass dynamicType = new PandaDynamicClass(script.getModule(), name, PrototypeParserUtils.generateType(name));
 
-        Prototype prototype = script.getModule().add(new PandaReference(name, PrototypeParserUtils.generateType(name), ref -> PandaPrototype.builder()
+        Prototype prototype = script.getModule().add(new PandaReference(name, dynamicType, ref -> PandaPrototype.builder()
                 .name(name)
                 .reference(ref)
                 .location(location)

@@ -21,6 +21,7 @@ import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.prototype.Autocast;
 import org.panda_lang.framework.design.architecture.prototype.Constructors;
+import org.panda_lang.framework.design.architecture.prototype.DynamicClass;
 import org.panda_lang.framework.design.architecture.prototype.ExecutableProperty;
 import org.panda_lang.framework.design.architecture.prototype.Fields;
 import org.panda_lang.framework.design.architecture.prototype.Methods;
@@ -31,10 +32,7 @@ import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.State;
-import org.panda_lang.framework.design.architecture.prototype.Visibility;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.language.architecture.prototype.array.ArrayClassPrototypeFetcher;
-import org.panda_lang.utilities.commons.ClassUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -48,7 +46,7 @@ public class PandaPrototype extends AbstractProperty implements Prototype {
 
     protected final Reference reference;
     protected final Module module;
-    protected final Class<?> associated;
+    protected final DynamicClass associated;
     protected final String type;
     protected final State state;
     protected final Collection<Prototype> bases = new ArrayList<>(1);
@@ -57,38 +55,30 @@ public class PandaPrototype extends AbstractProperty implements Prototype {
     protected final Constructors constructors = new PandaConstructors(this);
     protected final Methods methods = new PandaMethods(this);
 
-    public PandaPrototype(Reference reference, Module module, String name, SourceLocation location, Class<?> associated, String type, State state, Visibility visibility) {
-        super(name, location, visibility);
+    public PandaPrototype(PandaPrototypeBuilder<?, ?> builder) {
+        super(builder.name, builder.location, builder.visibility, builder.isNative);
 
-        if (reference == null) {
+        if (builder.reference == null) {
             throw new IllegalArgumentException("Prototype has to be referenced");
         }
 
-        if (module == null) {
+        if (builder.module == null) {
             throw new IllegalArgumentException("Prototype needs module");
         }
 
-        if (associated == null) {
-            throw new IllegalArgumentException("Prototype has to be associated with a java class");
-        }
-
-        if (type == null) {
+        if (builder.type == null) {
             throw new IllegalArgumentException("Prototype requires defined type");
         }
 
-        if (state == null) {
+        if (builder.state == null) {
             throw new IllegalArgumentException("State of prototype is missing");
         }
 
-        this.reference = reference;
-        this.module = module;
-        this.associated = associated;
-        this.type = type;
-        this.state = state;
-    }
-
-    protected PandaPrototype(PandaPrototypeBuilder<?, ?> builder) {
-        this(builder.reference, builder.module, builder.name, builder.location, builder.associated, builder.type, builder.state, builder.visibility);
+        this.reference = builder.reference;
+        this.module = builder.module;
+        this.type = builder.type;
+        this.state = builder.state;
+        this.associated = builder.associated;
     }
 
     @Override
@@ -128,7 +118,7 @@ public class PandaPrototype extends AbstractProperty implements Prototype {
         }
 
         return prototype.equals(this)
-                || ClassUtils.isAssignableFrom(associated, prototype.getAssociatedClass())
+                || getAssociatedClass().isAssignableFrom(prototype.getAssociatedClass())
                 || hasCommonPrototypes(bases, prototype.getBases())
                 || prototype.getAutocast(this).isPresent();
     }
@@ -140,7 +130,7 @@ public class PandaPrototype extends AbstractProperty implements Prototype {
                     return true;
                 }
 
-                if (ClassUtils.isAssignableFrom(from.getAssociatedClass(), to.getAssociatedClass())) {
+                if (from.getAssociatedClass().isAssignableFrom(to.getAssociatedClass())) {
                     return true;
                 }
             }
@@ -219,7 +209,7 @@ public class PandaPrototype extends AbstractProperty implements Prototype {
     }
 
     @Override
-    public Class<?> getAssociatedClass() {
+    public DynamicClass getAssociatedClass() {
         return associated;
     }
 

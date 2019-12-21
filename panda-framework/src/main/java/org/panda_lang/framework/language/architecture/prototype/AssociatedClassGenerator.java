@@ -14,31 +14,50 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.syntax.prototype;
+package org.panda_lang.framework.language.architecture.prototype;
 
 import javassist.ClassPool;
 import javassist.CtClass;
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
 import org.panda_lang.utilities.commons.ClassUtils;
 
-final class TypeGenerator {
+final class AssociatedClassGenerator {
 
     private static final ClassPool CLASS_POOL = ClassPool.getDefault();
 
+    private final Prototype prototype;
+    private final boolean locked;
+    private Class<?> currentClass;
 
-    public Class<?> generateType(Prototype prototype, String className) throws Exception {
-        if (ClassUtils.exists(className)) {
-            return Class.forName(className);
-        }
-
-        CtClass generatedClass = CLASS_POOL.makeClass(className);
-
-        for (PrototypeMethod method : prototype.getMethods().getProperties()) {
-
-        }
-
-        return generatedClass.toClass();
+    AssociatedClassGenerator(Prototype prototype, @Nullable Class<?> predefinedClass) {
+        this.prototype = prototype;
+        this.currentClass = predefinedClass;
+        this.locked = predefinedClass != null;
     }
 
+    void regenerate() throws Exception {
+        if (locked) {
+            return;
+        }
+
+        if (ClassUtils.exists(prototype.getSimpleName())) {
+            this.currentClass = Class.forName(prototype.getSimpleName());
+            return;
+        }
+
+        CtClass generatedClass = CLASS_POOL.makeClass(prototype.getSimpleName());
+
+        for (PrototypeMethod method : prototype.getMethods().getProperties()) {
+            System.out.println(method.isNative());
+        }
+
+        this.currentClass = generatedClass.toClass();
+    }
+
+    Class<?> getCurrentClass() {
+        return currentClass;
+    }
+    
 }

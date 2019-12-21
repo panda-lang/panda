@@ -58,7 +58,7 @@ public interface Reference extends Referencable {
      *
      * @return the associated class
      */
-    Class<?> getAssociatedClass();
+    DynamicClass getAssociatedClass();
 
     /**
      * Get name of prototype

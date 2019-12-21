@@ -36,8 +36,8 @@ public abstract class AbstractExecutableProperty extends AbstractProperty implem
     private final Prototype returnType;
     private final PrototypeExecutableCallback callback;
 
-    protected AbstractExecutableProperty(PandaParametrizedExecutableBuilder builder) {
-        super(builder.name, builder.location, builder.visibility);
+    protected AbstractExecutableProperty(PandaParametrizedExecutableBuilder<?> builder) {
+        super(builder.name, builder.location, builder.visibility, builder.isNative);
 
         this.prototype = builder.prototype;
         this.returnType = builder.returnType.fetch();
@@ -73,15 +73,16 @@ public abstract class AbstractExecutableProperty extends AbstractProperty implem
         return prototype;
     }
 
-    public abstract static class PandaParametrizedExecutableBuilder<T extends PandaParametrizedExecutableBuilder> {
+    public abstract static class PandaParametrizedExecutableBuilder<T extends PandaParametrizedExecutableBuilder<?>> {
 
         protected String name;
         protected Reference returnType;
         protected Prototype prototype;
         protected SourceLocation location;
-        protected PrototypeExecutableCallback callback;
+        protected PrototypeExecutableCallback<?> callback;
         protected Visibility visibility = Visibility.PUBLIC;
         protected PropertyParameter[] parameters = ParameterUtils.PARAMETERLESS;
+        protected boolean isNative;
 
         public T type(Prototype prototype) {
             prototype(prototype).returnType(prototype.toReference());
@@ -123,7 +124,12 @@ public abstract class AbstractExecutableProperty extends AbstractProperty implem
             return returnThis();
         }
 
-        public T callback(PrototypeExecutableCallback callback) {
+        public T isNative(boolean isNative) {
+            this.isNative = isNative;
+            return returnThis();
+        }
+
+        public T callback(PrototypeExecutableCallback<?> callback) {
             this.callback = callback;
             return returnThis();
         }
