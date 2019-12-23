@@ -30,6 +30,7 @@ import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.language.architecture.prototype.MethodScope;
 import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
+import org.panda_lang.framework.language.architecture.prototype.utils.TypedUtils;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
@@ -103,6 +104,15 @@ public final class MethodParser extends ParserBootstrap<Object> {
         List<PropertyParameter> parameters = PARAMETER_PARSER.parse(context, result.get("parameters"));
         MethodScope methodScope = local.allocated(new MethodScope(name.getLocation(), parameters));
 
+        Optional<PrototypeMethod> existingMethod = prototype.getMethods().getMethod(name.getValue(), TypedUtils.toTypes(parameters));
+
+        if (existingMethod.isPresent() && !result.has(Keywords.OVERRIDE.getValue())) {
+            throw new PandaParserFailure(context, name,
+                    "Method &b" + name + "&r overrides &b" + existingMethod.get() + "&r but does not contain&b override&r modifier",
+                    "Add missing modifier if you want to override that method or rename current method"
+            );
+        }
+
         PandaMethod method = PandaMethod.builder()
                 .prototype(prototype)
                 .parameters(parameters)
@@ -112,17 +122,9 @@ public final class MethodParser extends ParserBootstrap<Object> {
                 .visibility(result.get("visibility"))
                 .returnType(returnTypeReferencable.toReference().fetch())
                 .isStatic(result.has("static"))
+                .isNative(existingMethod.isPresent() && existingMethod.get().isNative())
                 .methodBody(methodScope)
                 .build();
-
-        Optional<PrototypeMethod> existingMethod = prototype.getMethods().getMethod(method.getSimpleName(), method.getParameterTypes());
-
-        if (existingMethod.isPresent() && !result.has(Keywords.OVERRIDE.getValue())) {
-            throw new PandaParserFailure(context, name,
-                    "Method &b" + method.getPropertyName() + "&r overrides &b" + existingMethod.get() + "&r but does not contain&b override&r modifier",
-                    "Add missing modifier if you want to override that method or rename current method"
-            );
-        }
 
         prototype.getMethods().declare(method);
     }

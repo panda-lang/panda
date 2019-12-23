@@ -96,6 +96,7 @@ final class MethodGenerator {
         return PandaMethod.builder()
                 .name(method.getName())
                 .prototype(prototype)
+                .isNative(true)
                 .isStatic(Modifier.isStatic(method.getModifiers()))
                 .returnType(generator.findOrGenerate(prototype.getModule(), method.getReturnType()))
                 .location(prototype.getLocation())

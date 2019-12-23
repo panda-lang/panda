@@ -25,8 +25,9 @@ public abstract class AbstractProperty implements Property {
     private final String name;
     private final SourceLocation location;
     private final Visibility visibility;
+    private final boolean isNative;
 
-    protected AbstractProperty(String name, SourceLocation location, Visibility visibility) {
+    protected AbstractProperty(String name, SourceLocation location, Visibility visibility, boolean isNative) {
         if (name == null) {
             throw new IllegalArgumentException("Prototype name is not defined");
         }
@@ -42,6 +43,12 @@ public abstract class AbstractProperty implements Property {
         this.name = name;
         this.location = location;
         this.visibility = visibility;
+        this.isNative = isNative;
+    }
+
+    @Override
+    public boolean isNative() {
+        return isNative;
     }
 
     @Override

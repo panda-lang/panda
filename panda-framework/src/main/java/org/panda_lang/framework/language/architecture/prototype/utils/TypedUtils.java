@@ -22,10 +22,33 @@ import org.panda_lang.utilities.commons.text.ContentJoiner;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.stream.Stream;
 
 public final class TypedUtils {
 
     private TypedUtils() { }
+
+    private static Stream<Prototype> toPrototypes(Collection<? extends Typed> typed) {
+        return typed.stream().map(Typed::getType);
+    }
+
+    public static Prototype[] toTypes(Typed... typed) {
+        return toTypes(Arrays.asList(typed));
+    }
+
+    public static Prototype[] toTypes(Collection<? extends Typed> typed) {
+        return toPrototypes(typed).toArray(Prototype[]::new);
+    }
+
+    public static Class<?>[] toClasses(Typed... typed) {
+        return toClasses(Arrays.asList(typed));
+    }
+
+    public static Class<?>[] toClasses(Collection<? extends Typed> typed) {
+        return toPrototypes(typed)
+                .map(prototype -> prototype.getAssociatedClass().getImplementation())
+                .toArray(Class[]::new);
+    }
 
     public static String toString(Typed... typed) {
         return toString(Arrays.asList(typed));
@@ -33,8 +56,7 @@ public final class TypedUtils {
 
     public static String toString(Collection<? extends Typed> typed) {
         return ContentJoiner.on(", ")
-                .join(typed.stream()
-                    .map(Typed::getType)
+                .join(toPrototypes(typed)
                     .map(Prototype::getSimpleName)
                     .toArray())
                 .toString();

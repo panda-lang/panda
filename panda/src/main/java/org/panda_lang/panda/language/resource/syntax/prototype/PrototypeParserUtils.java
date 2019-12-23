@@ -24,11 +24,13 @@ import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
+import org.panda_lang.framework.language.architecture.prototype.PrototypeClass;
 import org.panda_lang.framework.language.architecture.prototype.utils.StateComparator;
 import org.panda_lang.framework.language.architecture.prototype.utils.TypeDeclarationUtils;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.utilities.commons.ClassPoolUtils;
 import org.panda_lang.utilities.commons.ClassUtils;
 
 import java.util.ArrayList;
@@ -62,7 +64,7 @@ final class PrototypeParserUtils {
             return Class.forName(className);
         }
 
-        CtClass generatedClass = POOL.makeClass(className);
+        CtClass generatedClass = POOL.makeClass(className, ClassPoolUtils.get(PrototypeClass.class));
         return generatedClass.toClass();
     }
 

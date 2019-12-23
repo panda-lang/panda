@@ -45,7 +45,7 @@ final class ArrayInstanceExpression extends AbstractDynamicExpression {
             capacitiesValues[index] = capacities[index].evaluate(stack, instance);
         }
 
-        return Array.newInstance(prototype.getAssociatedClass(), capacitiesValues);
+        return Array.newInstance(prototype.getAssociatedClass().getImplementation(), capacitiesValues);
     }
 
 }

@@ -16,15 +16,18 @@
 
 package org.panda_lang.framework.language.architecture.prototype;
 
+import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.statement.FramedScope;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.runtime.Process;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractFrame;
 import org.panda_lang.framework.language.architecture.statement.AbstractFramedScope;
 
+import java.lang.reflect.Constructor;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class PrototypeScope extends AbstractFramedScope implements FramedScope {
@@ -37,8 +40,8 @@ public final class PrototypeScope extends AbstractFramedScope implements FramedS
     }
 
     @Override
-    public ClassPrototypeFrame revive(ProcessStack stack, Object instance) throws Exception {
-        ClassPrototypeFrame classInstance = new ClassPrototypeFrame(this, prototype);
+    public PrototypeFrame revive(ProcessStack stack, Object instance) throws Exception {
+        PrototypeFrame classFrame = getConstructor().newInstance(this, stack.getProcess());
 
         for (PrototypeField field : prototype.getFields().getDeclaredProperties()) {
             if (!field.hasDefaultValue()) {
@@ -51,33 +54,45 @@ public final class PrototypeScope extends AbstractFramedScope implements FramedS
             }
 
             Expression expression = field.getDefaultValue();
-            classInstance.set(field.getPointer(), expression.evaluate(stack, classInstance));
+            classFrame.set(field.getPointer(), expression.evaluate(stack, classFrame));
         }
 
-        return classInstance;
+        return classFrame;
+    }
+
+    @SuppressWarnings("unchecked")
+    private Constructor<? extends PrototypeFrame> getConstructor() {
+        try {
+            return (Constructor<? extends PrototypeFrame>) prototype.getAssociatedClass().getImplementation().getConstructor(PrototypeScope.class, Process.class);
+        } catch (NoSuchMethodException e) {
+            throw new PandaFrameworkException("Class " + prototype.getAssociatedClass().getImplementation() + " does not implement PrototypeClass constructor");
+        }
     }
 
     public Prototype getPrototype() {
         return prototype;
     }
 
-    public static final class ClassPrototypeFrame extends AbstractFrame<PrototypeScope> {
+    abstract static class PrototypeFrame extends AbstractFrame<PrototypeScope> {
 
         private static final AtomicInteger ID = new AtomicInteger();
 
         private final int id;
-        private final Prototype prototype;
+        private final Process process;
 
-        public ClassPrototypeFrame(PrototypeScope frame, Prototype classPrototype) {
-            super(frame, classPrototype.getFields().getDeclaredProperties().size());
-
+        public PrototypeFrame(PrototypeScope scope, Process process) {
+            super(scope, scope.getPrototype().getFields().getDeclaredProperties().size());
             this.id = ID.getAndIncrement();
-            this.prototype = classPrototype;
+            this.process = process;
+        }
+
+        public Process getProcess() {
+            return process;
         }
 
         @Override
         public String toString() {
-            return prototype.getSimpleName() + "#" + String.format("%06X", id & 0xFFFFF);
+            return frame.getPrototype().getSimpleName() + "#" + String.format("%06X", id & 0xFFFFF);
         }
 
     }

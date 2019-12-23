@@ -25,6 +25,13 @@ import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 public interface Property extends Typed {
 
     /**
+     * Check if refers to the native context
+     *
+     * @return true if property is based on Java property
+     */
+    boolean isNative();
+
+    /**
      * Get visibility of executable
      *
      * @return the visibility

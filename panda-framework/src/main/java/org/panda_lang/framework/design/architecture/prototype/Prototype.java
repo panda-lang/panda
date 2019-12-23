@@ -129,6 +129,6 @@ public interface Prototype extends Property, Referencable {
      *
      * @return the associated class
      */
-    Class<?> getAssociatedClass();
+    DynamicClass getAssociatedClass();
 
 }

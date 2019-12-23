@@ -72,13 +72,13 @@ public final class ConstructorParser extends ParserBootstrap<Object> {
                 .location(location)
                 .parameters(parameters)
                 .callback((stack, instance, arguments) -> {
-                    Frame prototypeInstance = prototypeScope.revive(stack, instance);
+                    Frame prototypeFrame = prototypeScope.revive(stack, instance);
 
-                    ConstructorFrame constructorInstance = constructorScope.revive(stack, prototypeInstance);
+                    ConstructorFrame constructorInstance = constructorScope.revive(stack, prototypeFrame);
                     ParameterUtils.assignValues(constructorInstance, arguments);
+                    stack.callFrame(prototypeFrame, constructorInstance);
 
-                    stack.callFrame(prototypeInstance, constructorInstance);
-                    return prototypeInstance;
+                    return prototypeFrame;
                 })
                 .build();
 

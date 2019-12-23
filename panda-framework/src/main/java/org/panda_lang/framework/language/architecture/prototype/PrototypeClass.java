@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.shell.repl;
+package org.panda_lang.framework.language.architecture.prototype;
 
 import org.panda_lang.framework.design.runtime.Process;
-import org.panda_lang.framework.language.architecture.prototype.PrototypeClass;
-import org.panda_lang.framework.language.architecture.prototype.PrototypeScope;
+import org.panda_lang.framework.language.architecture.prototype.PrototypeScope.PrototypeFrame;
 
-public final class ShellPrototype extends PrototypeClass {
+public abstract class PrototypeClass extends PrototypeFrame {
 
-    public ShellPrototype(PrototypeScope scope, Process process) {
+    protected PrototypeClass(PrototypeScope scope, Process process) {
         super(scope, process);
     }
 

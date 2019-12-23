@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.architecture.prototype.Adjustment;
 import org.panda_lang.framework.design.architecture.prototype.Constructors;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
-import org.panda_lang.framework.language.architecture.prototype.utils.ParameterUtils;
+import org.panda_lang.framework.language.architecture.prototype.utils.TypedUtils;
 
 import java.util.Optional;
 
@@ -40,7 +40,7 @@ final class PandaConstructors extends AbstractProperties<PrototypeConstructor> i
 
     @Override
     public Optional<Adjustment<PrototypeConstructor>> getAdjustedConstructor(Expression[] arguments) {
-        return MATCHER.match(getDeclaredProperties(), ParameterUtils.toTypes(arguments), arguments);
+        return MATCHER.match(getDeclaredProperties(), TypedUtils.toTypes(arguments), arguments);
     }
 
 }

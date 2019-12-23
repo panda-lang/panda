@@ -20,6 +20,7 @@ import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
+import org.panda_lang.framework.language.architecture.prototype.PandaDynamicClass;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
 import org.panda_lang.framework.language.architecture.prototype.PandaStubReference;
 import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
@@ -33,7 +34,17 @@ public final class ArrayPrototype extends PandaPrototype {
     }
 
     public ArrayPrototype(Module module, String name, Class<?> associated, Prototype type) {
-        super(type.toReference(), module, name, new PandaClassSource(associated).toLocation(), associated, type.getModel(), type.getState(), Visibility.PUBLIC);
+        super(builder()
+                .reference(type.toReference())
+                .module(module)
+                .name(name)
+                .location(new PandaClassSource(associated).toLocation())
+                .associated(new PandaDynamicClass(module, name, associated))
+                .type(type.getModel())
+                .state(type.getState())
+                .visibility(Visibility.PUBLIC)
+        );
+
         this.prototype = type;
     }
 

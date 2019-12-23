@@ -14,16 +14,27 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.shell.repl;
+package org.panda_lang.framework.design.architecture.prototype;
 
-import org.panda_lang.framework.design.runtime.Process;
-import org.panda_lang.framework.language.architecture.prototype.PrototypeClass;
-import org.panda_lang.framework.language.architecture.prototype.PrototypeScope;
+/**
+ * Wrapper for Java class
+ */
+public interface DynamicClass {
 
-public final class ShellPrototype extends PrototypeClass {
+    void reimplement(Class<?> cls);
 
-    public ShellPrototype(PrototypeScope scope, Process process) {
-        super(scope, process);
+    default boolean isAssignableFrom(DynamicClass cls) {
+        return isAssignableFrom(cls.getImplementation());
     }
+
+    boolean isAssignableFrom(Class<?> cls);
+
+    Class<?> getImplementation();
+
+    String getModule();
+
+    String getSimpleName();
+
+    String getName();
 
 }

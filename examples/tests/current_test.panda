@@ -164,6 +164,24 @@ main {
     // Autocast
     Long value = new Int(10)
     log value.getClass()
+
+    Entity a = new Entity("same")
+    Entity b = new Entity("same")
+    log a == b
+}
+
+internal class Entity {
+
+    internal String name
+
+    constructor(String name) {
+        this.name = name
+    }
+
+    override public PrimitiveBool equals(Object obj) {
+        return obj is Entity && name == (obj as Entity).name
+    }
+
 }
 
 // simple interface

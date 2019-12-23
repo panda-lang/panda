@@ -19,6 +19,7 @@ package org.panda_lang.panda.language.resource.syntax.prototype;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.Script;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.framework.design.architecture.prototype.DynamicClass;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
@@ -30,7 +31,9 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
+import org.panda_lang.framework.language.architecture.prototype.AssociatedClassGenerator;
 import org.panda_lang.framework.language.architecture.prototype.PandaConstructor;
+import org.panda_lang.framework.language.architecture.prototype.PandaDynamicClass;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
 import org.panda_lang.framework.language.architecture.prototype.PandaReference;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
@@ -65,10 +68,12 @@ import java.util.Collection;
 import java.util.Optional;
 
 @RegistrableParser(pipeline = Pipelines.HEAD_LABEL)
-public final class PrototypeParser extends ParserBootstrap {
+public final class PrototypeParser extends ParserBootstrap<Void> {
+
+    private static final AssociatedClassGenerator GENERATOR = new AssociatedClassGenerator();
 
     @Override
-    protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
+    protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new CustomPatternHandler())
                 .interceptor(new CustomPatternInterceptor())
@@ -87,8 +92,9 @@ public final class PrototypeParser extends ParserBootstrap {
     @Autowired(cycle = GenerationCycles.TYPES_LABEL)
     void parse(Context context, @Inter SourceLocation location, @Inter Result result, @Component Script script, @Src("state") String state, @Src("name") String name) throws Exception {
         Visibility visibility = result.has("visibility") ? Visibility.of(result.get("visibility")) : Visibility.INTERNAL;
+        DynamicClass dynamicType = new PandaDynamicClass(script.getModule(), name, PrototypeParserUtils.generateType(name));
 
-        Prototype prototype = script.getModule().add(new PandaReference(name, PrototypeParserUtils.generateType(name), ref -> PandaPrototype.builder()
+        Prototype prototype = script.getModule().add(new PandaReference(name, dynamicType, ref -> PandaPrototype.builder()
                 .name(name)
                 .reference(ref)
                 .location(location)
@@ -122,7 +128,7 @@ public final class PrototypeParser extends ParserBootstrap {
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
-    void verifyProperties(Context context, @Component Prototype prototype, @Component PrototypeScope scope) {
+    void verifyProperties(Context context, @Component Prototype prototype, @Component PrototypeScope scope) throws Exception {
         if (prototype.getState() != State.ABSTRACT) {
             prototype.getBases().stream()
                     .flatMap(base -> base.getMethods().getProperties().stream())
@@ -140,6 +146,8 @@ public final class PrototypeParser extends ParserBootstrap {
                     .location(prototype.getLocation())
                     .build());
         }
+
+        prototype.getAssociatedClass().reimplement(GENERATOR.generate(prototype));
     }
 
     @Autowired(order = 2, cycle = GenerationCycles.CONTENT_LABEL, delegation = Delegation.CURRENT_AFTER)

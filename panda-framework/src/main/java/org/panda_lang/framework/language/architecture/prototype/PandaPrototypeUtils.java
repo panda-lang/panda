@@ -17,6 +17,7 @@
 package org.panda_lang.framework.language.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.architecture.prototype.DynamicClass;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
@@ -32,11 +33,13 @@ public final class PandaPrototypeUtils {
     }
 
     public static Reference of(Module module, String name, Class<?> type) {
-        return module.add(new PandaReference(name, type, reference -> PandaPrototype.builder()
+        DynamicClass associatedClass = new PandaDynamicClass(module, name, type);
+
+        return module.add(new PandaReference(name, associatedClass, reference -> PandaPrototype.builder()
                 .name(name)
                 .reference(reference)
                 .module(module)
-                .associated(type)
+                .associated(associatedClass)
                 .visibility(Visibility.PUBLIC)
                 .state(State.DEFAULT)
                 .type(type.isInterface() ? "interface" : "class")
