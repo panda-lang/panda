@@ -178,7 +178,7 @@ internal class Entity {
         this.name = name
     }
 
-    override public Bool equals(Object obj) {
+    override public PrimitiveBool equals(Object obj) {
         return obj is Entity && name == (obj as Entity).name
     }
 
