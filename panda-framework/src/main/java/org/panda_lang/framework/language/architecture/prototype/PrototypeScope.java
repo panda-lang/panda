@@ -16,6 +16,7 @@
 
 package org.panda_lang.framework.language.architecture.prototype;
 
+import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
@@ -60,15 +61,19 @@ public final class PrototypeScope extends AbstractFramedScope implements FramedS
     }
 
     @SuppressWarnings("unchecked")
-    private Constructor<? extends PrototypeFrame> getConstructor() throws NoSuchMethodException {
-        return (Constructor<? extends PrototypeFrame>) prototype.getAssociatedClass().getImplementation().getConstructor(PrototypeScope.class, Process.class);
+    private Constructor<? extends PrototypeFrame> getConstructor() {
+        try {
+            return (Constructor<? extends PrototypeFrame>) prototype.getAssociatedClass().getImplementation().getConstructor(PrototypeScope.class, Process.class);
+        } catch (NoSuchMethodException e) {
+            throw new PandaFrameworkException("Class " + prototype.getAssociatedClass().getImplementation() + " does not implement PrototypeClass constructor");
+        }
     }
 
     public Prototype getPrototype() {
         return prototype;
     }
 
-    public abstract static class PrototypeFrame extends AbstractFrame<PrototypeScope> {
+    abstract static class PrototypeFrame extends AbstractFrame<PrototypeScope> {
 
         private static final AtomicInteger ID = new AtomicInteger();
 

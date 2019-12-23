@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.resource.syntax.prototype;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.architecture.dynamic.Frame;
 import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
@@ -28,7 +29,6 @@ import org.panda_lang.framework.language.architecture.prototype.PandaConstructor
 import org.panda_lang.framework.language.architecture.prototype.PandaConstructor.ConstructorFrame;
 import org.panda_lang.framework.language.architecture.prototype.PandaConstructor.PandaConstructorScope;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeScope;
-import org.panda_lang.framework.language.architecture.prototype.PrototypeScope.PrototypeFrame;
 import org.panda_lang.framework.language.architecture.prototype.utils.ParameterUtils;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
@@ -72,7 +72,7 @@ public final class ConstructorParser extends ParserBootstrap<Object> {
                 .location(location)
                 .parameters(parameters)
                 .callback((stack, instance, arguments) -> {
-                    PrototypeFrame prototypeFrame = prototypeScope.revive(stack, instance);
+                    Frame prototypeFrame = prototypeScope.revive(stack, instance);
 
                     ConstructorFrame constructorInstance = constructorScope.revive(stack, prototypeFrame);
                     ParameterUtils.assignValues(constructorInstance, arguments);
