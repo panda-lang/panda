@@ -18,46 +18,73 @@ package org.panda_lang.framework.language.architecture.prototype;
 
 import javassist.ClassPool;
 import javassist.CtClass;
-import org.jetbrains.annotations.Nullable;
+import javassist.CtConstructor;
+import javassist.CtField;
+import javassist.CtMethod;
+import javassist.Modifier;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
-import org.panda_lang.utilities.commons.ClassUtils;
+import org.panda_lang.framework.design.runtime.Process;
+import org.panda_lang.framework.language.architecture.prototype.utils.TypedUtils;
+import org.panda_lang.framework.language.runtime.PandaProcessStack;
+import org.panda_lang.utilities.commons.ClassPoolUtils;
 
-final class AssociatedClassGenerator {
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.atomic.AtomicInteger;
 
+public final class AssociatedClassGenerator {
+
+    private static final AtomicInteger ID = new AtomicInteger();
     private static final ClassPool CLASS_POOL = ClassPool.getDefault();
 
-    private final Prototype prototype;
-    private final boolean locked;
-    private Class<?> currentClass;
+    public Class<?> generate(Prototype prototype) throws Exception {
+        String className = prototype.getAssociatedClass().getSimpleName();
 
-    AssociatedClassGenerator(Prototype prototype, @Nullable Class<?> predefinedClass) {
-        this.prototype = prototype;
-        this.currentClass = predefinedClass;
-        this.locked = predefinedClass != null;
-    }
+        CtClass superclass = ClassPoolUtils.get(prototype.getAssociatedClass().getImplementation());
+        CtClass classPrototype = CLASS_POOL.makeClass(className + ID.incrementAndGet(), superclass);
 
-    void regenerate() throws Exception {
-        if (locked) {
-            return;
+        CtConstructor constructor = new CtConstructor(ClassPoolUtils.toCtClasses(PrototypeScope.class, Process.class), classPrototype);
+        constructor.setBody("super($$);");
+        classPrototype.addConstructor(constructor);
+
+        CtClass methodClass = ClassPoolUtils.get(PrototypeMethod.class);
+        Map<String, PrototypeMethod> methods = new HashMap<>();
+
+        for (PrototypeMethod method : prototype.getMethods().getDeclaredProperties()) {
+            if (!method.isNative()) {
+                continue;
+            }
+
+            String generatedName = method.getPropertyName().replaceAll("[:,-.() ]", "");
+            methods.put(generatedName, method);
+
+            CtField methodField = new CtField(methodClass, generatedName, classPrototype);
+            methodField.setModifiers(Modifier.PUBLIC | Modifier.STATIC);
+            classPrototype.addField(methodField);
+
+            CtClass returnType = ClassPoolUtils.get(method.getType().getAssociatedClass().getImplementation());
+            CtClass[] parameters = ClassPoolUtils.toCtClasses(TypedUtils.toClasses(method.getParameterTypes()));
+
+            CtMethod nativeMethod = new CtMethod(returnType, method.getSimpleName(), parameters, classPrototype);
+            nativeMethod.setBody("{ " +
+                    PandaProcessStack.class.getName() + " stack = new " + PandaProcessStack.class.getName() + "(this.getProcess(), 1);" +
+                    "return ($r) " + generatedName + ".invoke(stack, $0, $args);" +
+            "}");
+
+            classPrototype.addMethod(nativeMethod);
         }
 
-        if (ClassUtils.exists(prototype.getSimpleName())) {
-            this.currentClass = Class.forName(prototype.getSimpleName());
-            return;
+        Class<?> generatedClass = classPrototype.toClass();
+
+        for (Entry<String, PrototypeMethod> entry : methods.entrySet()) {
+            Field methodField = generatedClass.getDeclaredField(entry.getKey());
+            methodField.set(null, entry.getValue());
         }
 
-        CtClass generatedClass = CLASS_POOL.makeClass(prototype.getSimpleName());
-
-        for (PrototypeMethod method : prototype.getMethods().getProperties()) {
-            System.out.println(method.isNative());
-        }
-
-        this.currentClass = generatedClass.toClass();
-    }
-
-    Class<?> getCurrentClass() {
-        return currentClass;
+        return generatedClass;
     }
     
 }

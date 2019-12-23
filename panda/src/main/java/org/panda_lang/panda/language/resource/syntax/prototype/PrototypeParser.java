@@ -31,6 +31,7 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
+import org.panda_lang.framework.language.architecture.prototype.AssociatedClassGenerator;
 import org.panda_lang.framework.language.architecture.prototype.PandaConstructor;
 import org.panda_lang.framework.language.architecture.prototype.PandaDynamicClass;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
@@ -67,10 +68,12 @@ import java.util.Collection;
 import java.util.Optional;
 
 @RegistrableParser(pipeline = Pipelines.HEAD_LABEL)
-public final class PrototypeParser extends ParserBootstrap {
+public final class PrototypeParser extends ParserBootstrap<Void> {
+
+    private static final AssociatedClassGenerator GENERATOR = new AssociatedClassGenerator();
 
     @Override
-    protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
+    protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new CustomPatternHandler())
                 .interceptor(new CustomPatternInterceptor())
@@ -125,7 +128,7 @@ public final class PrototypeParser extends ParserBootstrap {
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
-    void verifyProperties(Context context, @Component Prototype prototype, @Component PrototypeScope scope) {
+    void verifyProperties(Context context, @Component Prototype prototype, @Component PrototypeScope scope) throws Exception {
         if (prototype.getState() != State.ABSTRACT) {
             prototype.getBases().stream()
                     .flatMap(base -> base.getMethods().getProperties().stream())
@@ -143,6 +146,8 @@ public final class PrototypeParser extends ParserBootstrap {
                     .location(prototype.getLocation())
                     .build());
         }
+
+        prototype.getAssociatedClass().reimplement(GENERATOR.generate(prototype));
     }
 
     @Autowired(order = 2, cycle = GenerationCycles.CONTENT_LABEL, delegation = Delegation.CURRENT_AFTER)

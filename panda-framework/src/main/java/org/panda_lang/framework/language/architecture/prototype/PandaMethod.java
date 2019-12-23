@@ -30,7 +30,7 @@ public final class PandaMethod extends AbstractExecutableProperty implements Pro
         super(builder);
         this.methodBody = builder.methodBody;
         this.isAbstract = builder.isAbstract;
-        this.isNative = false;
+        this.isNative = builder.isNative;
         this.isStatic = builder.isStatic;
     }
 

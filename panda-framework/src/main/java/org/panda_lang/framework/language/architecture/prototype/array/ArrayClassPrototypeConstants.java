@@ -42,6 +42,7 @@ final class ArrayClassPrototypeConstants {
             .location(LOCATION)
             .returnType(loader.requirePrototype(String.class))
             .methodBody((branch, instance, arguments) -> Arrays.toString((Object[]) instance))
+            .isNative(true)
             .build();
 
     private ArrayClassPrototypeConstants() { }
