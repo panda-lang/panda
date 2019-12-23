@@ -16,6 +16,14 @@
 
 package org.panda_lang.panda.shell.repl;
 
-final class ShellPrototype {
+import org.panda_lang.framework.design.runtime.Process;
+import org.panda_lang.framework.language.architecture.prototype.PrototypeClass;
+import org.panda_lang.framework.language.architecture.prototype.PrototypeScope;
+
+public final class ShellPrototype extends PrototypeClass {
+
+    public ShellPrototype(PrototypeScope scope, Process process) {
+        super(scope, process);
+    }
 
 }
