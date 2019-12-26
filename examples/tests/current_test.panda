@@ -237,7 +237,12 @@ internal class Test {
 
     // get test instance
     shared Test getTestField() {
-        return this.testField
+        if true {
+            return this.testField
+        }
+        else {
+            return null
+        }
     }
 
 }

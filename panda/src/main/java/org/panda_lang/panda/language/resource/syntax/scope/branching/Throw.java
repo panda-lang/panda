@@ -24,7 +24,7 @@ import org.panda_lang.framework.design.runtime.Status;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractExecutableStatement;
 import org.panda_lang.utilities.commons.UnsafeUtils;
 
-final class Throw extends AbstractExecutableStatement implements Controller {
+final class Throw extends AbstractExecutableStatement implements Returnable, Controller {
 
     private final Expression value;
 

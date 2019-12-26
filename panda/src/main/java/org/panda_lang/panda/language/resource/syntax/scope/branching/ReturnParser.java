@@ -34,10 +34,10 @@ import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHa
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.LinearPatternInterceptor;
 
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL)
-public final class ReturnParser extends ParserBootstrap {
+public final class ReturnParser extends ParserBootstrap<Object> {
 
     @Override
-    protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
+    protected BootstrapInitializer<Object> initialize(Context context, BootstrapInitializer<Object> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.RETURN))
                 .interceptor(new LinearPatternInterceptor())
@@ -45,8 +45,8 @@ public final class ReturnParser extends ParserBootstrap {
     }
 
     @Autowired
-    void parse(@Component Scope block, @Inter SourceLocation location, @Src("value") @Nullable Expression value) {
-        block.addStatement(new Return(location, value));
+    void parse(@Component Scope scope, @Inter SourceLocation location, @Src("value") @Nullable Expression value) {
+        scope.addStatement(new Return(location, value));
     }
 
 }

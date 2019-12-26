@@ -39,6 +39,8 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
 
+import java.util.Arrays;
+
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL)
 public final class LogParser extends ParserBootstrap<Object> {
 
@@ -55,11 +57,9 @@ public final class LogParser extends ParserBootstrap<Object> {
 
     @Autowired
     void parse(Context context, @Component ExpressionParser parser, @Component Scope scope, @Inter SourceLocation location, @Src("arguments") ExpressionTransaction[] transactions) {
-        Expression[] expressions = new Expression[transactions.length];
-
-        for (int index = 0; index < transactions.length; index++) {
-            expressions[index] = transactions[index].getExpression();
-        }
+        Expression[] expressions = Arrays.stream(transactions)
+                .map(ExpressionTransaction::getExpression)
+                .toArray(Expression[]::new);
 
         Messenger messenger = context.getComponent(Components.ENVIRONMENT).getMessenger();
         scope.addStatement(new LogStatement(location, messenger, expressions));
