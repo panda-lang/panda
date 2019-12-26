@@ -67,13 +67,13 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 @RegistrableParser(pipeline = Pipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_METHOD)
-public final class MethodParser extends ParserBootstrap<Object> {
+public final class MethodParser extends ParserBootstrap<Void> {
 
     private static final ParameterParser PARAMETER_PARSER = new ParameterParser();
     private static final ScopeParser SCOPE_PARSER = new ScopeParser();
 
     @Override
-    protected BootstrapInitializer<Object> initialize(Context context, BootstrapInitializer<Object> initializer) {
+    protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new CustomPatternHandler())
                 .interceptor(new CustomPatternInterceptor())
