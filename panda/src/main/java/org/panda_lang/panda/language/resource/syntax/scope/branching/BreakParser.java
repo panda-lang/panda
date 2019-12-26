@@ -35,10 +35,10 @@ import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHa
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.LinearPatternInterceptor;
 
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL)
-public final class BreakParser extends ParserBootstrap {
+public final class BreakParser extends ParserBootstrap<Object> {
 
     @Override
-    protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
+    protected BootstrapInitializer<Object> initialize(Context context, BootstrapInitializer<Object> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.BREAK))
                 .interceptor(new LinearPatternInterceptor())

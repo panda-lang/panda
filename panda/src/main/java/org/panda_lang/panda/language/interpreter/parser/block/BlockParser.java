@@ -17,8 +17,8 @@
 package org.panda_lang.panda.language.interpreter.parser.block;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.statement.Cell;
 import org.panda_lang.framework.design.architecture.statement.Scope;
+import org.panda_lang.framework.design.architecture.statement.Statement;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
@@ -74,11 +74,11 @@ public final class BlockParser extends ParserBootstrap {
         BlockSubparser blockParser = channel.get("result", BlockSubparser.class);
         Context delegatedContext = local.allocated(context.fork()).withComponent(Components.CHANNEL, channel);
 
-        if (!parent.getCells().isEmpty()) {
-            Cell cell = parent.getCells().get(parent.getCells().size() - 1);
+        if (!parent.getStatements().isEmpty()) {
+            Statement statement = parent.getStatements().get(parent.getStatements().size() - 1);
 
-            if (cell.getStatement() instanceof BlockStatement) {
-                delegatedContext.withComponent(BlockComponents.PREVIOUS_BLOCK, ((BlockStatement) cell.getStatement()).getBlock());
+            if (statement instanceof BlockStatement) {
+                delegatedContext.withComponent(BlockComponents.PREVIOUS_BLOCK, ((BlockStatement) statement).getBlock());
             }
         }
 

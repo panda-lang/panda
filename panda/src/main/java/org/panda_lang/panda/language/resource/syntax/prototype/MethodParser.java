@@ -27,6 +27,7 @@ import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.token.SnippetUtils;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.language.architecture.prototype.MethodScope;
 import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
@@ -59,6 +60,7 @@ import org.panda_lang.panda.language.interpreter.parser.context.data.LocalData;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.CustomPatternHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
+import org.panda_lang.panda.language.resource.syntax.scope.branching.Returnable;
 
 import java.util.List;
 import java.util.Optional;
@@ -113,7 +115,7 @@ public final class MethodParser extends ParserBootstrap<Object> {
             );
         }
 
-        PandaMethod method = PandaMethod.builder()
+        PandaMethod method = local.allocated(PandaMethod.builder()
                 .prototype(prototype)
                 .parameters(parameters)
                 .name(name.getValue())
@@ -124,15 +126,19 @@ public final class MethodParser extends ParserBootstrap<Object> {
                 .isStatic(result.has("static"))
                 .isNative(existingMethod.isPresent() && existingMethod.get().isNative())
                 .methodBody(methodScope)
-                .build();
+                .build());
 
         prototype.getMethods().declare(method);
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
-    void parse(Context delegatedContext, @Local MethodScope methodScope, @Nullable @Src("body") Snippet body) throws Exception {
-        if (body != null) {
-            SCOPE_PARSER.parse(delegatedContext, methodScope, body);
+    void parse(Context context, @Local MethodScope methodScope, @Local PrototypeMethod method, @Nullable @Src("body") Snippet body) throws Exception {
+        if (!SnippetUtils.isEmpty(body)) {
+            SCOPE_PARSER.parse(context, methodScope, body);
+        }
+
+        if (!void.class.isAssignableFrom(method.getType().getAssociatedClass().getImplementation()) && !methodScope.hasEffective(Returnable.class)) {
+            throw new PandaParserFailure(context, "Missing return statement in method " + method.getPropertyName());
         }
     }
 

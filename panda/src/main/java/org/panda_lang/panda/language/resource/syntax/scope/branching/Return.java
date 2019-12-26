@@ -24,7 +24,7 @@ import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Status;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractExecutableStatement;
 
-final class Return extends AbstractExecutableStatement implements Controller {
+final class Return extends AbstractExecutableStatement implements Returnable, Controller {
 
     private final Expression value;
 

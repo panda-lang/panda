@@ -39,7 +39,7 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Inte
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_EXPRESSION)
-public final class StandaloneExpressionParser extends ParserBootstrap {
+public final class StandaloneExpressionParser extends ParserBootstrap<Object> {
 
     private static final ExpressionParserSettings SETTINGS = ExpressionParserSettings.create()
             .onlyStandalone()
@@ -48,7 +48,7 @@ public final class StandaloneExpressionParser extends ParserBootstrap {
     private ExpressionParser expressionParser;
 
     @Override
-    protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
+    protected BootstrapInitializer<Object> initialize(Context context, BootstrapInitializer<Object> initializer) {
         this.expressionParser = context.getComponent(Components.EXPRESSION);
         return initializer;
     }
