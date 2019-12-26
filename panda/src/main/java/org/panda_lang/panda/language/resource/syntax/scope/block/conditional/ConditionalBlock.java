@@ -57,6 +57,14 @@ final class ConditionalBlock extends AbstractBlock implements ControlledScope {
         return null;
     }
 
+    @Override
+    public boolean hasEffective(Class<? extends Statement> statementClass) {
+        boolean current = super.hasEffective(statementClass);
+        boolean otherwise = elseBlock == null || elseBlock.hasEffective(statementClass);
+
+        return current && otherwise;
+    }
+
     public void setElseBlock(Scope elseBlock) {
         this.elseBlock = elseBlock;
     }

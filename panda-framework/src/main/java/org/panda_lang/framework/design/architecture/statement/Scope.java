@@ -28,9 +28,17 @@ public interface Scope extends Statement {
      * Add given statement to the current scope
      *
      * @param statement the statement to add
-     * @return a cell where the statement was placed
+     * @return the statement
      */
-    Cell addStatement(Statement statement);
+    Statement addStatement(Statement statement);
+
+    /**
+     * Check if scope has effective (statement that is always reachable) statement of the given type
+     *
+     * @param statementClass type of statements to search for
+     * @return true if scope has effective statement of the given type, otherwise false
+     */
+    boolean hasEffective(Class<? extends Statement> statementClass);
 
     /**
      * Create variable with given properties in the current scope
@@ -71,11 +79,11 @@ public interface Scope extends Statement {
     List<? extends Variable> getVariables();
 
     /**
-     * Get all statements wrapped into cells
+     * Get all statements
      *
-     * @return list of all cells
+     * @return list of all statements
      */
-    List<? extends Cell> getCells();
+    List<? extends Statement> getStatements();
 
     /**
      * Get parent scope
