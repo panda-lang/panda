@@ -16,14 +16,21 @@
 
 package org.panda_lang.framework.language.architecture.statement;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.statement.Block;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.runtime.ProcessStack;
 
 public abstract class AbstractBlock extends AbstractScope implements Block {
 
     protected AbstractBlock(Scope parent, SourceLocation location) {
         super(parent, location);
+    }
+
+    @Override
+    public @Nullable Object execute(ProcessStack stack, Object instance) throws Exception {
+        return stack.callScope(instance, this);
     }
 
 }
