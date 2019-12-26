@@ -42,12 +42,12 @@ import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.Argu
 import java.util.Optional;
 
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL)
-public final class BaseConstructorParser extends ParserBootstrap {
+public final class BaseConstructorParser extends ParserBootstrap<Void> {
 
     private static final ArgumentsParser ARGUMENTS_PARSER = new ArgumentsParser();
 
     @Override
-    protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
+    protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.BASE))
                 .interceptor(new LinearPatternInterceptor())

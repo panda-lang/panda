@@ -24,7 +24,7 @@ import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Status;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractExecutableStatement;
 
-final class Return extends AbstractExecutableStatement implements Returnable, Controller {
+public final class Return extends AbstractExecutableStatement implements Returnable, Controller {
 
     private final Expression value;
 
@@ -35,7 +35,11 @@ final class Return extends AbstractExecutableStatement implements Returnable, Co
 
     @Override
     public @Nullable Object execute(ProcessStack stack, Object instance) throws Exception {
-        return value != null ? value.evaluate(stack, instance) : null;
+        return hasReturnValue() ? value.evaluate(stack, instance) : null;
+    }
+
+    public boolean hasReturnValue() {
+        return value != null;
     }
 
     @Override

@@ -26,7 +26,7 @@ import org.slf4j.Logger;
 /**
  * The framework controller of Panda language.
  *
- * @see org.panda_lang.panda.Panda.PandaBuilder
+ * @see Panda#builder()
  */
 public final class Panda extends PandaFramework implements FrameworkController {
 

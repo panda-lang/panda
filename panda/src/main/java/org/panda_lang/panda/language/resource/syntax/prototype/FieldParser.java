@@ -59,10 +59,10 @@ import org.panda_lang.panda.language.interpreter.parser.context.interceptors.Cus
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 
 @RegistrableParser(pipeline = Pipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_FIELD)
-public final class FieldParser extends ParserBootstrap<Object> {
+public final class FieldParser extends ParserBootstrap<Void> {
 
     @Override
-    protected BootstrapInitializer<Object> initialize(Context context, BootstrapInitializer<Object> initializer) {
+    protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new CustomPatternHandler())
                 .interceptor(new CustomPatternInterceptor())

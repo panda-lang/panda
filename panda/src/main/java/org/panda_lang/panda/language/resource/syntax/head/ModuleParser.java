@@ -43,10 +43,10 @@ import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHa
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
 
 @RegistrableParser(pipeline = Pipelines.HEAD_LABEL)
-public final class ModuleParser extends ParserBootstrap<Object> {
+public final class ModuleParser extends ParserBootstrap<Void> {
 
     @Override
-    protected BootstrapInitializer<Object> initialize(Context context, BootstrapInitializer<Object> initializer) {
+    protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.MODULE))
                 .interceptor(new CustomPatternInterceptor())

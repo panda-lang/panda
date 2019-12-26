@@ -48,13 +48,13 @@ import org.panda_lang.panda.language.interpreter.parser.context.interceptors.Lin
 import java.util.List;
 
 @RegistrableParser(pipeline = Pipelines.PROTOTYPE_LABEL)
-public final class ConstructorParser extends ParserBootstrap<Object> {
+public final class ConstructorParser extends ParserBootstrap<Void> {
 
     private static final ParameterParser PARAMETER_PARSER = new ParameterParser();
     private static final ScopeParser SCOPE_PARSER = new ScopeParser();
 
     @Override
-    protected BootstrapInitializer<Object> initialize(Context context, BootstrapInitializer<Object> initializer) {
+    protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.CONSTRUCTOR))
                 .interceptor(new LinearPatternInterceptor())

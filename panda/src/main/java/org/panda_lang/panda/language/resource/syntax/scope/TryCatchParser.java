@@ -40,12 +40,12 @@ import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHa
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.LinearPatternInterceptor;
 
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL)
-public final class TryCatchParser extends ParserBootstrap<Object> {
+public final class TryCatchParser extends ParserBootstrap<Void> {
 
     private static final ScopeParser SCOPE_PARSER = new ScopeParser();
 
     @Override
-    protected BootstrapInitializer<Object> initialize(Context context, BootstrapInitializer<Object> initializer) {
+    protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.TRY))
                 .interceptor(new LinearPatternInterceptor())

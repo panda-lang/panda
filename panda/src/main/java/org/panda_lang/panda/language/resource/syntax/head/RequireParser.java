@@ -56,10 +56,10 @@ import java.util.Objects;
 import java.util.Optional;
 
 @RegistrableParser(pipeline = Pipelines.HEAD_LABEL)
-public final class RequireParser extends ParserBootstrap<Object> {
+public final class RequireParser extends ParserBootstrap<Void> {
 
     @Override
-    protected BootstrapInitializer<Object> initialize(Context context, BootstrapInitializer<Object> initializer) {
+    protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.REQUIRE))
                 .interceptor(new CustomPatternInterceptor())

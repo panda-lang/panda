@@ -42,10 +42,10 @@ import org.panda_lang.panda.language.interpreter.parser.context.interceptors.Cus
 import java.util.Arrays;
 
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL)
-public final class LogParser extends ParserBootstrap<Object> {
+public final class LogParser extends ParserBootstrap<Void> {
 
     @Override
-    protected BootstrapInitializer<Object> initialize(Context context, BootstrapInitializer<Object> initializer) {
+    protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.LOG))
                 .interceptor(new CustomPatternInterceptor())
