@@ -16,9 +16,11 @@
 
 package org.panda_lang.framework.design.architecture.statement;
 
+import org.panda_lang.framework.design.architecture.dynamic.Executable;
+
 /**
  * Represents block scopes
  */
-public interface Block extends Scope {
+public interface Block extends Scope, Executable {
 
 }
