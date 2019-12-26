@@ -17,7 +17,7 @@
 package org.panda_lang.framework.language.architecture.statement;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.statement.Cell;
+import org.panda_lang.framework.design.architecture.dynamic.Executable;
 import org.panda_lang.framework.design.architecture.statement.FramedScope;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.Statement;
@@ -29,13 +29,14 @@ import org.panda_lang.utilities.commons.collection.Lists;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public abstract class AbstractScope extends AbstractStatement implements Scope {
 
     protected final FramedScope scope;
     protected final Scope parent;
     protected final List<Variable> variables = new ArrayList<>();
-    protected final List<Cell> cells = new ArrayList<>();
+    protected final List<Statement> statements = new ArrayList<>();
 
     protected AbstractScope(FramedScope scope, @Nullable Scope parent, SourceLocation location) {
         super(location);
@@ -48,8 +49,28 @@ public abstract class AbstractScope extends AbstractStatement implements Scope {
     }
 
     @Override
-    public Cell addStatement(Statement executable) {
-        return Lists.add(cells, new PandaCell(executable));
+    public Statement addStatement(Statement executable) {
+        return Lists.add(statements, executable);
+    }
+
+    @Override
+    public boolean hasEffective(Class<? extends Statement> statementClass) {
+        List<? extends Executable> executables = getExecutables();
+        Executable executable = Lists.get(executables, executables.size() - 1);
+
+        if (executable == null) {
+            return false;
+        }
+
+        if (statementClass.isAssignableFrom(executable.getClass())) {
+            return true;
+        }
+
+        if (executable instanceof Scope) {
+            return ((Scope) executable).hasEffective(statementClass);
+        }
+
+        return false;
     }
 
     @Override
@@ -85,9 +106,16 @@ public abstract class AbstractScope extends AbstractStatement implements Scope {
         return variables;
     }
 
+    private List<? extends Executable> getExecutables() {
+        return statements.stream()
+                .filter(statement -> statement instanceof Executable)
+                .map(statement -> (Executable) statement)
+                .collect(Collectors.toList());
+    }
+
     @Override
-    public List<? extends Cell> getCells() {
-        return cells;
+    public List<? extends Statement> getStatements() {
+        return statements;
     }
 
     @Override

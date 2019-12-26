@@ -21,7 +21,6 @@ import org.panda_lang.framework.design.architecture.dynamic.ControlledScope;
 import org.panda_lang.framework.design.architecture.dynamic.Controller;
 import org.panda_lang.framework.design.architecture.dynamic.Executable;
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
-import org.panda_lang.framework.design.architecture.statement.Cell;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.Statement;
 import org.panda_lang.framework.design.runtime.Process;
@@ -67,6 +66,14 @@ public final class PandaProcessStack implements ProcessStack {
     }
 
     private @Nullable Result<?> callInternal(Object instance, Statement statement) throws Exception {
+        if (statement instanceof Scope) {
+            if (statement instanceof ControlledScope) {
+                return ((ControlledScope) statement).controlledCall(this, instance);
+            }
+
+            return callScope(instance, (Scope) statement);
+        }
+
         if (statement instanceof Executable) {
             if (statement instanceof Controller) {
                 Controller controller = (Controller) statement;
@@ -77,21 +84,13 @@ public final class PandaProcessStack implements ProcessStack {
             return null;
         }
 
-        if (statement instanceof Scope) {
-            if (statement instanceof ControlledScope) {
-                return ((ControlledScope) statement).controlledCall(this, instance);
-            }
-
-            return callScope(instance, (Scope) statement);
-        }
-
         return null;
     }
 
     @Override
     public @Nullable Result<?> callScope(Object instance, Scope scope) throws Exception {
-        for (Cell cell : scope.getCells()) {
-            Result<?> result = callStatement(instance, cell.getStatement());
+        for (Statement statement : scope.getStatements()) {
+            Result<?> result = callStatement(instance, statement);
 
             if (result != null) {
                 return result;
