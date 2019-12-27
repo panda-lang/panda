@@ -49,7 +49,7 @@ public final class PandaDynamicClass implements DynamicClass {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o) { // lgtm [java/unchecked-cast-in-equals]
         DynamicClass that = ObjectUtils.cast(o);
         return that != null && name.equals(that.getName()) && module.equals(that.getModule());
     }
