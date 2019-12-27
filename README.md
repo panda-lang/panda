@@ -15,7 +15,7 @@
    </p>
    
    <p align="center">
-     <img src="https://panda-lang.org/github/v1/carbon-5.png" alt="Preview">
+     <img src="https://panda-lang.org/github/v1/carbon-6.png" alt="Preview">
    </p>
 </p>
 
