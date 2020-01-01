@@ -47,7 +47,7 @@ class ReplTest {
                         .location(new PandaClassSource(ReplTest.class).toLocation())
                         .build())
                 .addVariableChangeListener((variable, previous, current) -> {
-                    panda.getLogger().debug("// variable change :: " + variable.getName() + " = " + previous + " -> " + current);
+                    panda.getLogger().info("// variable change :: " + variable.getName() + " = " + previous + " -> " + current);
                 })
                 .create();
 

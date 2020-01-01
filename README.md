@@ -19,14 +19,14 @@
    </p>
 </p>
 
-#### 〽️ Maven
+#### 〽️ Usage
 The latest indev build
 
 ```xml
 <dependency>
     <groupId>org.panda-lang</groupId>
     <artifactId>panda</artifactId>
-    <version>indev-19.12.27</version>
+    <version>indev-20.1.1</version>
 </dependency>
 ```
 
