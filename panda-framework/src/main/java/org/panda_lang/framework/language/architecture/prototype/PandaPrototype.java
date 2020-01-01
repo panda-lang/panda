@@ -143,6 +143,7 @@ public class PandaPrototype extends AbstractProperty implements Prototype {
     public boolean isArray() {
         return false;
     }
+
     @Override
     @SuppressWarnings("unchecked")
     public <T extends ExecutableProperty> Optional<Properties<T>> getProperties(Class<T> propertyType) {
@@ -186,7 +187,6 @@ public class PandaPrototype extends AbstractProperty implements Prototype {
     public Constructors getConstructors() {
         return constructors;
     }
-
 
     @Override
     public Collection<Prototype> getBases() {
