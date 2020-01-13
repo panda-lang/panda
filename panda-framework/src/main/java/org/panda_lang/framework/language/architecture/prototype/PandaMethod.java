@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 Dzikoysk
+ * Copyright (c) 2015-2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,7 +57,7 @@ public final class PandaMethod extends AbstractExecutableProperty implements Pro
 
     @Override
     public String toString() {
-        return "method " + getPropertyName();
+        return "method " + getName();
     }
 
     public static PandaMethodBuilder builder() {

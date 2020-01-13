@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 Dzikoysk
+ * Copyright (c) 2015-2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package org.panda_lang.utilities.commons;
 
+import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.NotFoundException;
@@ -34,6 +35,14 @@ public final class ClassPoolUtils {
         }
 
         return ctClasses;
+    }
+
+    public static Class<?> toClass(CtClass clazz) {
+        try {
+            return clazz.toClass();
+        } catch (CannotCompileException e) {
+            throw new RuntimeException(e.getCause().getCause());
+        }
     }
 
     public static CtClass get(Class<?> clazz) throws NotFoundException {

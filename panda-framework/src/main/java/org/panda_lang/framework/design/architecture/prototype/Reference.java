@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 Dzikoysk
+ * Copyright (c) 2015-2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,20 +52,6 @@ public interface Reference extends Referencable {
      * @return amount of initializers
      */
     int getAmountOfInitializers();
-
-    /**
-     * Get associated with prototype class
-     *
-     * @return the associated class
-     */
-    DynamicClass getAssociatedClass();
-
-    /**
-     * Get name of prototype
-     *
-     * @return the name
-     */
-    String getName();
 
     @Override
     default Reference toReference() {

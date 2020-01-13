@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 Dzikoysk
+ * Copyright (c) 2015-2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,11 +80,11 @@ public final class PackageUtils {
     /**
      * Package to string
      *
-     * @param pack the package to stringify
+     * @param pkg the package to stringify
      * @return the package name or null if the package is null
      */
-    public static @Nullable String toString(@Nullable Package pack) {
-        return toString(pack, null);
+    public static @Nullable String toString(@Nullable Package pkg) {
+        return toString(pkg, null);
     }
 
 }

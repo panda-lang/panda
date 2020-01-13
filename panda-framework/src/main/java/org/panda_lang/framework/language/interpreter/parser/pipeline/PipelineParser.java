@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 Dzikoysk
+ * Copyright (c) 2015-2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -85,7 +85,7 @@ public final class PipelineParser<T extends ContextParser> implements Parser {
 
             HandleResult<T> result = pipeline.handle(context, channel, source);
 
-            ContextParser parser = result.getParser().orElseThrow((Supplier<? extends Exception>) () -> {
+            ContextParser<?> parser = result.getParser().orElseThrow((Supplier<? extends Exception>) () -> {
                 if (result.getFailure().isPresent()) {
                     throw result.getFailure().get();
                 }
@@ -94,7 +94,11 @@ public final class PipelineParser<T extends ContextParser> implements Parser {
             });
 
             int sourceLength = stream.getUnreadLength();
-            parser.parse(delegatedContext);
+            try {
+                parser.parse(delegatedContext);
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
 
             if (sourceLength == stream.getUnreadLength()) {
                 throw new PandaParserFailure(delegatedContext, parser.getClass().getSimpleName() + " did nothing with the current source");

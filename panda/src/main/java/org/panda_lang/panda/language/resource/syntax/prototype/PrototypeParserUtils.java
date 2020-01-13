@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 Dzikoysk
+ * Copyright (c) 2015-2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -64,8 +64,8 @@ final class PrototypeParserUtils {
             return Class.forName(className);
         }
 
-        CtClass generatedClass = POOL.makeClass(className, ClassPoolUtils.get(PrototypeClass.class));
-        return generatedClass.toClass();
+        CtClass generatedClass = POOL.makeInterface(className, ClassPoolUtils.get(PrototypeClass.class));
+        return ClassPoolUtils.toClass(POOL.makeInterface(className, ClassPoolUtils.get(PrototypeClass.class)));
     }
 
     public static Collection<Snippetable> readTypes(SynchronizedSource source) {

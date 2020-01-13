@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 Dzikoysk
+ * Copyright (c) 2015-2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,14 +16,6 @@
 
 package org.panda_lang.panda.shell.repl;
 
-import org.panda_lang.framework.design.runtime.Process;
-import org.panda_lang.framework.language.architecture.prototype.PrototypeClass;
-import org.panda_lang.framework.language.architecture.prototype.PrototypeScope;
-
-public final class ShellPrototype extends PrototypeClass {
-
-    public ShellPrototype(PrototypeScope scope, Process process) {
-        super(scope, process);
-    }
+public class ShellPrototype {
 
 }

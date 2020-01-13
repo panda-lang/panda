@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 Dzikoysk
+ * Copyright (c) 2015-2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +20,9 @@ import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
-import org.panda_lang.framework.language.architecture.prototype.PandaDynamicClass;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
 import org.panda_lang.framework.language.architecture.prototype.PandaStubReference;
+import org.panda_lang.framework.language.architecture.prototype.dynamic.PandaDynamicClass;
 import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
 
 public final class ArrayPrototype extends PandaPrototype {
@@ -39,8 +39,8 @@ public final class ArrayPrototype extends PandaPrototype {
                 .module(module)
                 .name(name)
                 .location(new PandaClassSource(associated).toLocation())
-                .associated(new PandaDynamicClass(module, name, associated))
-                .type(type.getModel())
+                .associated(new PandaDynamicClass(associated))
+                .model(type.getModel())
                 .state(type.getState())
                 .visibility(Visibility.PUBLIC)
         );

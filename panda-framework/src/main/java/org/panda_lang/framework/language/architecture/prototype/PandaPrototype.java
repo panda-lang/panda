@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 Dzikoysk
+ * Copyright (c) 2015-2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,9 +46,9 @@ public class PandaPrototype extends AbstractProperty implements Prototype {
 
     protected final Reference reference;
     protected final Module module;
-    protected final DynamicClass associated;
-    protected final String type;
+    protected final String model;
     protected final State state;
+    protected final DynamicClass associated;
     protected final Collection<Prototype> bases = new ArrayList<>(1);
     protected final Map<Prototype, Autocast<?, ?>> autocasts = new HashMap<>();
     protected final Fields fields = new PandaFields(this);
@@ -66,7 +66,7 @@ public class PandaPrototype extends AbstractProperty implements Prototype {
             throw new IllegalArgumentException("Prototype needs module");
         }
 
-        if (builder.type == null) {
+        if (builder.model == null) {
             throw new IllegalArgumentException("Prototype requires defined type");
         }
 
@@ -76,7 +76,7 @@ public class PandaPrototype extends AbstractProperty implements Prototype {
 
         this.reference = builder.reference;
         this.module = builder.module;
-        this.type = builder.type;
+        this.model = builder.model;
         this.state = builder.state;
         this.associated = builder.associated;
     }
@@ -200,7 +200,7 @@ public class PandaPrototype extends AbstractProperty implements Prototype {
 
     @Override
     public String getModel() {
-        return type;
+        return model;
     }
 
     @Override
@@ -224,13 +224,8 @@ public class PandaPrototype extends AbstractProperty implements Prototype {
     }
 
     @Override
-    public String getPropertyName() {
-        return module.getName() + "::" + getSimpleName();
-    }
-
-    @Override
     public String toString() {
-        return "prototype " + getPropertyName();
+        return "prototype " + getName();
     }
 
     public static <T> PandaPrototypeBuilder<?, ?> builder() {

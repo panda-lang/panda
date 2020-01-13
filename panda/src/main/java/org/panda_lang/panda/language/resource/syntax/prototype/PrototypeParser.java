@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 Dzikoysk
+ * Copyright (c) 2015-2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +19,11 @@ package org.panda_lang.panda.language.resource.syntax.prototype;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.Script;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.framework.design.architecture.prototype.DynamicClass;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeModels;
+import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.design.interpreter.parser.Components;
@@ -31,13 +32,12 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
-import org.panda_lang.framework.language.architecture.prototype.AssociatedClassGenerator;
 import org.panda_lang.framework.language.architecture.prototype.PandaConstructor;
-import org.panda_lang.framework.language.architecture.prototype.PandaDynamicClass;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
 import org.panda_lang.framework.language.architecture.prototype.PandaReference;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
 import org.panda_lang.framework.language.architecture.prototype.PrototypeScope;
+import org.panda_lang.framework.language.architecture.prototype.dynamic.DynamicClassGenerator;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PipelineParser;
@@ -70,7 +70,7 @@ import java.util.Optional;
 @RegistrableParser(pipeline = Pipelines.HEAD_LABEL)
 public final class PrototypeParser extends ParserBootstrap<Void> {
 
-    private static final AssociatedClassGenerator GENERATOR = new AssociatedClassGenerator();
+    private static final DynamicClassGenerator CLASS_GENERATOR = new DynamicClassGenerator();
 
     @Override
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
@@ -79,7 +79,7 @@ public final class PrototypeParser extends ParserBootstrap<Void> {
                 .interceptor(new CustomPatternInterceptor())
                 .pattern(CustomPattern.of(
                         VariantElement.create("visibility").content(Keywords.PUBLIC, Keywords.SHARED, Keywords.INTERNAL).optional(),
-                        VariantElement.create("state").content(Keywords.CLASS, Keywords.INTERFACE),
+                        VariantElement.create("model").content(Keywords.CLASS, Keywords.INTERFACE),
                         WildcardElement.create("name").verify(new TokenTypeVerifier(TokenTypes.UNKNOWN)),
                         SubPatternElement.create("extended").optional().of(
                                 UnitElement.create("extends").content(":"),
@@ -90,23 +90,23 @@ public final class PrototypeParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL)
-    void parse(Context context, @Inter SourceLocation location, @Inter Result result, @Component Script script, @Src("state") String state, @Src("name") String name) throws Exception {
+    void parse(Context context, @Inter SourceLocation location, @Inter Result result, @Component Script script, @Src("model") String model, @Src("name") String name) throws Exception {
         Visibility visibility = result.has("visibility") ? Visibility.of(result.get("visibility")) : Visibility.INTERNAL;
-        DynamicClass dynamicType = new PandaDynamicClass(script.getModule(), name, PrototypeParserUtils.generateType(name));
 
-        Prototype prototype = script.getModule().add(new PandaReference(name, dynamicType, ref -> PandaPrototype.builder()
+        Reference reference = new PandaReference(name, script.getModule(), model, ref -> PandaPrototype.builder()
                 .name(name)
                 .reference(ref)
                 .location(location)
-                .module(script.getModule())
-                .type(state)
-                .state(State.of(state))
+                .module(ref.getModule())
+                .model(model)
+                .state(State.of(model))
                 .visibility(visibility)
                 .associated(ref.getAssociatedClass())
-                .build()
-        )).fetch();
+                .build());
 
+        Prototype prototype = script.getModule().add(reference).fetch();
         PrototypeScope prototypeScope = new PrototypeScope(location, prototype);
+
         context.withComponent(Components.SCOPE, prototypeScope)
                 .withComponent(PrototypeComponents.PROTOTYPE_SCOPE, prototypeScope)
                 .withComponent(PrototypeComponents.PROTOTYPE, prototype);
@@ -117,7 +117,7 @@ public final class PrototypeParser extends ParserBootstrap<Void> {
         Optional.ofNullable(inherited)
                 .ifPresent(classes -> classes.forEach(typeSource -> PrototypeParserUtils.appendExtended(context, prototype, typeSource)));
 
-        if (prototype.getBases().stream().noneMatch(base -> base.getModel().equals("class"))) {
+        if (prototype.getBases().stream().noneMatch(PrototypeModels::isClass)) {
             prototype.addBase(loader.requirePrototype(Object.class));
         }
     }
@@ -147,7 +147,8 @@ public final class PrototypeParser extends ParserBootstrap<Void> {
                     .build());
         }
 
-        prototype.getAssociatedClass().reimplement(GENERATOR.generate(prototype));
+        // CLASS_GENERATOR.generate(context, prototype)
+        prototype.getAssociatedClass().regenerate();
     }
 
     @Autowired(order = 2, cycle = GenerationCycles.CONTENT_LABEL, delegation = Delegation.CURRENT_AFTER)

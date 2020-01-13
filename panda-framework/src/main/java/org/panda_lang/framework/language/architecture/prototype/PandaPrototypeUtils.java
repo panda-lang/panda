@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 Dzikoysk
+ * Copyright (c) 2015-2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,11 @@
 package org.panda_lang.framework.language.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.prototype.DynamicClass;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeModels;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
+import org.panda_lang.framework.language.architecture.prototype.dynamic.PandaDynamicClass;
 import org.panda_lang.framework.language.architecture.prototype.generator.PrototypeGeneratorManager;
 import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
 
@@ -33,18 +34,21 @@ public final class PandaPrototypeUtils {
     }
 
     public static Reference of(Module module, String name, Class<?> type) {
-        DynamicClass associatedClass = new PandaDynamicClass(module, name, type);
+        return module.add(new PandaReference(new PandaDynamicClass(type, name, module.getName()), module, reference -> {
+            PandaPrototype prototype = PandaPrototype.builder()
+                    .name(name)
+                    .reference(reference)
+                    .module(module)
+                    .associated(reference.getAssociatedClass())
+                    .visibility(Visibility.PUBLIC)
+                    .state(State.DEFAULT)
+                    .model(type.isInterface() ? PrototypeModels.INTERFACE : PrototypeModels.CLASS)
+                    .location(new PandaClassSource(type).toLocation())
+                    .build();
 
-        return module.add(new PandaReference(name, associatedClass, reference -> PandaPrototype.builder()
-                .name(name)
-                .reference(reference)
-                .module(module)
-                .associated(associatedClass)
-                .visibility(Visibility.PUBLIC)
-                .state(State.DEFAULT)
-                .type(type.isInterface() ? "interface" : "class")
-                .location(new PandaClassSource(type).toLocation())
-                .build()
+            prototype.getAssociatedClass().append(type);
+            return prototype;
+        }
         ));
     }
 

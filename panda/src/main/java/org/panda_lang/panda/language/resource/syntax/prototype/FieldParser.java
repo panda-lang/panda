@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 Dzikoysk
+ * Copyright (c) 2015-2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -112,7 +112,7 @@ public final class FieldParser extends ParserBootstrap<Void> {
         }
 
         if (!field.getType().isAssignableFrom(assignationValue.getType())) {
-            throw new PandaParserFailure(context, source, "Cannot assign type " + assignationValue.getType().getPropertyName() + " to " + field.getType().getPropertyName());
+            throw new PandaParserFailure(context, source, "Cannot assign type " + assignationValue.getType().getName() + " to " + field.getType().getName());
         }
 
         field.setDefaultValue(ExpressionUtils.equalize(assignationValue, field.getType()));

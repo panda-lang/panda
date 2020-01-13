@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 Dzikoysk
+ * Copyright (c) 2015-2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -73,7 +73,7 @@ public final class PrototypeScope extends AbstractFramedScope implements FramedS
         return prototype;
     }
 
-    abstract static class PrototypeFrame extends AbstractFrame<PrototypeScope> {
+    public abstract static class PrototypeFrame extends AbstractFrame<PrototypeScope> implements PrototypeClass {
 
         private static final AtomicInteger ID = new AtomicInteger();
 
@@ -86,7 +86,8 @@ public final class PrototypeScope extends AbstractFramedScope implements FramedS
             this.process = process;
         }
 
-        public Process getProcess() {
+        @Override
+        public Process _panda_get_process() {
             return process;
         }
 

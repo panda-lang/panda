@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 Dzikoysk
+ * Copyright (c) 2015-2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,11 @@
 
 package org.panda_lang.framework.language.architecture.prototype;
 
+import org.panda_lang.framework.design.architecture.dynamic.Frame;
 import org.panda_lang.framework.design.runtime.Process;
-import org.panda_lang.framework.language.architecture.prototype.PrototypeScope.PrototypeFrame;
 
-public abstract class PrototypeClass extends PrototypeFrame {
+public interface PrototypeClass extends Frame {
 
-    protected PrototypeClass(PrototypeScope scope, Process process) {
-        super(scope, process);
-    }
+    Process _panda_get_process();
 
 }

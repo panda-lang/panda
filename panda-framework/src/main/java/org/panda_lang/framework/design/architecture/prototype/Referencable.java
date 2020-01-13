@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 Dzikoysk
+ * Copyright (c) 2015-2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,42 @@
 
 package org.panda_lang.framework.design.architecture.prototype;
 
+import org.panda_lang.framework.design.architecture.module.Module;
+
 /**
  * Represent objects that can be reduced to the reference
  */
 public interface Referencable {
+
+    /**
+     * Get Java class associated with the type
+     *
+     * @return the associated class
+     */
+    DynamicClass getAssociatedClass();
+
+    /**
+     * Get associated module
+     *
+     * @return the associated module
+     */
+    Module getModule();
+
+    /**
+     * Get simple name of property (without extra data)
+     *
+     * @return the name
+     */
+    String getSimpleName();
+
+    /**
+     * Get name of prototype
+     *
+     * @return the name
+     */
+    default String getName() {
+        return getModule().getName() + "::" + getSimpleName();
+    }
 
     /**
      * Fetch reference to prototype
