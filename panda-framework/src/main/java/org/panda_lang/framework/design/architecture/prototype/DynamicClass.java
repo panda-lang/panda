@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 Dzikoysk
+ * Copyright (c) 2015-2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,13 @@ package org.panda_lang.framework.design.architecture.prototype;
  */
 public interface DynamicClass {
 
-    void reimplement(Class<?> cls);
+    void regenerate() throws Exception;
+
+    void append(Class<?> dynamicClass);
+
+    void extendClass(DynamicClass superclass);
+
+    void implementInterface(DynamicClass interfaceClass);
 
     default boolean isAssignableFrom(DynamicClass cls) {
         return isAssignableFrom(cls.getImplementation());
@@ -29,7 +35,15 @@ public interface DynamicClass {
 
     boolean isAssignableFrom(Class<?> cls);
 
+    boolean isInterface();
+
+    boolean isClass();
+
     Class<?> getImplementation();
+
+    Class<?> getStructure();
+
+    String getModel();
 
     String getModule();
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 Dzikoysk
+ * Copyright (c) 2015-2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,14 +17,14 @@
 package org.panda_lang.framework.language.architecture.prototype.generator;
 
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.prototype.DynamicClass;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeModels;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
-import org.panda_lang.framework.language.architecture.prototype.PandaDynamicClass;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
 import org.panda_lang.framework.language.architecture.prototype.PandaReference;
+import org.panda_lang.framework.language.architecture.prototype.dynamic.PandaDynamicClass;
 import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
 import org.panda_lang.utilities.commons.ClassUtils;
 import org.panda_lang.utilities.commons.ReflectionUtils;
@@ -56,15 +56,14 @@ final class PrototypeGenerator {
         }
 
         if (reference == null) {
-            DynamicClass dynamicType = new PandaDynamicClass(module, name, type);
-
-            reference = new PandaReference(name, dynamicType, ref -> PandaPrototype.builder()
+            reference = new PandaReference(new PandaDynamicClass(type, name, module.getName()), module, ref -> PandaPrototype.builder()
                     .name(name)
                     .reference(ref)
                     .module(module)
+                    .associated(ref.getAssociatedClass())
                     .location(new PandaClassSource(type).toLocation())
                     .associated(ref.getAssociatedClass())
-                    .type(type.isInterface() ? "interface" : "class")
+                    .model(PrototypeModels.of(type))
                     .state(State.of(type))
                     .visibility(Visibility.PUBLIC)
                     .build()

@@ -11,6 +11,7 @@ require 'test-local-module'
 // import java class
 import org.panda_lang.panda.PandaConstants
 import java.util.Arrays
+import java.lang.Thread
 
 // main statement is called when the script is launched
 main {
@@ -165,23 +166,14 @@ main {
     Long value = new Int(10)
     log value.getClass()
 
+    // Verify implementation of native equals
     Entity a = new Entity("same")
     Entity b = new Entity("same")
     log a == b
-}
 
-internal class Entity {
-
-    internal String name
-
-    constructor(String name) {
-        this.name = name
-    }
-
-    override public PrimitiveBool equals(Object obj) {
-        return obj is Entity && name == (obj as Entity).name
-    }
-
+    // Test implementation of Java class
+    CustomThread thread = new CustomThread()
+    thread.start()
 }
 
 // simple interface
@@ -205,6 +197,22 @@ shared class Foo : Test, IEcho {
 
     // we need to impl all methods
     override internal test() { }
+
+}
+
+// simple entity to test equality implemented as native method
+internal class Entity {
+
+    internal String name
+
+    constructor(String name) {
+        this.name = name
+    }
+
+    // override native equals and name-based equality
+    override public PrimitiveBool equals(Object obj) {
+        return obj is Entity && name == (obj as Entity).name
+    }
 
 }
 
@@ -274,6 +282,18 @@ internal class TestArray {
     // get array
     internal String[] getArray() {
         return array
+    }
+
+}
+
+internal class CustomThread : Thread {
+
+    constructor() {
+        this.setName('CustomThread')
+    }
+
+    override public run() {
+        log 'Called in ' + Thread.currentThread().getName()
     }
 
 }

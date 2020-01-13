@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 Dzikoysk
+ * Copyright (c) 2015-2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,13 +21,14 @@ import org.panda_lang.framework.FrameworkController;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.prototype.DynamicClass;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.prototype.PrototypeModels;
 import org.panda_lang.framework.design.architecture.prototype.State;
 import org.panda_lang.framework.design.architecture.prototype.Visibility;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.runtime.Process;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.language.architecture.prototype.PandaDynamicClass;
+import org.panda_lang.framework.language.architecture.prototype.dynamic.PandaDynamicClass;
 import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
 import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
 import org.panda_lang.framework.language.architecture.prototype.PandaReference;
@@ -59,16 +60,16 @@ public final class ReplCreator {
         this.context = PandaContextUtils.createStubContext(frameworkController);
 
         Module module = context.getComponent(Components.SCRIPT).getModule();
-        DynamicClass shellType = new PandaDynamicClass(module, "ShellPrototype", ShellPrototype.class);
+        DynamicClass shellType = new PandaDynamicClass("ShellPrototype", module.getName(), PrototypeModels.CLASS);
 
-        Prototype prototype = new PandaReference(shellType.getSimpleName(), shellType, ref -> PandaPrototype.builder()
+        Prototype prototype = new PandaReference(shellType.getSimpleName(), module, PrototypeModels.CLASS, ref -> PandaPrototype.builder()
                 .name(ref.getName())
                 .reference(ref)
                 .module(module)
                 .associated(ref.getAssociatedClass())
                 .location(new PandaClassSource(ReplCreator.class).toLocation())
                 .state(State.FINAL)
-                .type("class")
+                .model(PrototypeModels.CLASS)
                 .visibility(Visibility.PUBLIC)
                 .build()
         ).fetch();

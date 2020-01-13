@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 Dzikoysk
+ * Copyright (c) 2015-2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -77,5 +77,8 @@ public interface PrototypeField extends ExecutableProperty, Variable {
      * @return expression that returns default value
      */
     Expression getDefaultValue();
+
+    @Override
+    String getName();
 
 }

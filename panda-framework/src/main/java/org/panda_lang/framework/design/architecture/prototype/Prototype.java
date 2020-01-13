@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 Dzikoysk
+ * Copyright (c) 2015-2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package org.panda_lang.framework.design.architecture.prototype;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 
 import java.util.Collection;
@@ -118,17 +119,23 @@ public interface Prototype extends Property, Referencable {
     State getState();
 
     /**
-     * Get type of prototype
+     * Get represented model of prototype
      *
-     * @return the prototype type
+     * @return the model that represents prototype
      */
     String getModel();
 
     /**
-     * Get Java class associated with the type
+     * Get associated module
      *
-     * @return the associated class
+     * @return the associated module
      */
-    DynamicClass getAssociatedClass();
+    @Override
+    Module getModule();
+
+    @Override
+    default String getName() {
+        return getModule().getName() + "::" + getSimpleName();
+    }
 
 }

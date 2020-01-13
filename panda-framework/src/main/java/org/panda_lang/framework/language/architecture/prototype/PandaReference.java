@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 Dzikoysk
+ * Copyright (c) 2015-2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,11 +18,13 @@ package org.panda_lang.framework.language.architecture.prototype;
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
+import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.prototype.DynamicClass;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
 import org.panda_lang.framework.design.architecture.prototype.ReferenceFetchException;
+import org.panda_lang.framework.language.architecture.prototype.dynamic.PandaDynamicClass;
 import org.panda_lang.utilities.commons.function.ThrowingFunction;
 
 import java.util.ArrayList;
@@ -32,19 +34,21 @@ import java.util.function.Consumer;
 public final class PandaReference implements Reference {
 
     private final String name;
+    private final Module module;
     private final DynamicClass associatedClass;
     private final ThrowingFunction<Reference, Prototype, ReferenceFetchException> prototypeSupplier;
     private final List<Consumer<Prototype>> initializers = new ArrayList<>(1);
     private Prototype prototype;
 
-    public PandaReference(String name, DynamicClass associatedClass, ThrowingFunction<Reference, Prototype, ReferenceFetchException> prototypeSupplier) {
-        this.name = name;
+    public PandaReference(DynamicClass associatedClass, Module module, ThrowingFunction<Reference, Prototype, ReferenceFetchException> prototypeSupplier) {
+        this.name = associatedClass.getSimpleName();
+        this.module = module;
         this.associatedClass = associatedClass;
         this.prototypeSupplier = prototypeSupplier;
     }
 
-    public PandaReference(Prototype prototype) {
-        this(prototype.getSimpleName(), prototype.getAssociatedClass(), reference -> prototype);
+    public PandaReference(String name, Module module, String model, ThrowingFunction<Reference, Prototype, ReferenceFetchException> prototypeSupplier) {
+        this(new PandaDynamicClass(name, module.getName(), model), module, prototypeSupplier);
     }
 
     @Override
@@ -96,6 +100,16 @@ public final class PandaReference implements Reference {
     @Override
     public DynamicClass getAssociatedClass() {
         return associatedClass;
+    }
+
+    @Override
+    public Module getModule() {
+        return module;
+    }
+
+    @Override
+    public String getSimpleName() {
+        return name;
     }
 
     @Override

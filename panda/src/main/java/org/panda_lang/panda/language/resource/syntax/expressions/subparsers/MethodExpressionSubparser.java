@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 Dzikoysk
+ * Copyright (c) 2015-2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -137,7 +137,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
                 if (!propertiesLike.isEmpty()) {
                     similar = "Similar methods:" + Effect.LINE_SEPARATOR;
                     similar += ContentJoiner.on(Effect.LINE_SEPARATOR.toString()).join(propertiesLike, method -> {
-                        return "  • &7" + method.getPropertyName() + "&r";
+                        return "  • &7" + method.getName() + "&r";
                     });
                 }
 

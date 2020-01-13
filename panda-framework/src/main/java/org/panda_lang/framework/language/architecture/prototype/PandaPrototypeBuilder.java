@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 Dzikoysk
+ * Copyright (c) 2015-2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ public class PandaPrototypeBuilder<BUILDER extends PandaPrototypeBuilder<BUILDER
     protected Module module;
     protected SourceLocation location;
     protected DynamicClass associated;
-    protected String type;
+    protected String model;
     protected State state;
     protected Visibility visibility;
     protected boolean isNative;
@@ -67,8 +67,8 @@ public class PandaPrototypeBuilder<BUILDER extends PandaPrototypeBuilder<BUILDER
         return getThis();
     }
 
-    public BUILDER type(String type) {
-        this.type = type;
+    public BUILDER model(String model) {
+        this.model = model;
         return getThis();
     }
 

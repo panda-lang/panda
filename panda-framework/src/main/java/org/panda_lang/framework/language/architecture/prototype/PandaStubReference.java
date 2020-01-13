@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 Dzikoysk
+ * Copyright (c) 2015-2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package org.panda_lang.framework.language.architecture.prototype;
 
+import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.prototype.DynamicClass;
 import org.panda_lang.framework.design.architecture.prototype.Prototype;
 import org.panda_lang.framework.design.architecture.prototype.Reference;
@@ -55,6 +56,16 @@ public final class PandaStubReference implements Reference {
     @Override
     public DynamicClass getAssociatedClass() {
         return prototype.getAssociatedClass();
+    }
+
+    @Override
+    public Module getModule() {
+        return prototype.getModule();
+    }
+
+    @Override
+    public String getSimpleName() {
+        return prototype.getSimpleName();
     }
 
     @Override
