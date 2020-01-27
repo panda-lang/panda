@@ -118,7 +118,8 @@ public final class PrototypeParser extends ParserBootstrap<Void> {
                 .ifPresent(classes -> classes.forEach(typeSource -> PrototypeParserUtils.appendExtended(context, prototype, typeSource)));
 
         if (prototype.getBases().stream().noneMatch(PrototypeModels::isClass)) {
-            prototype.addBase(loader.requirePrototype(Object.class));
+            Prototype objectType = loader.requirePrototype(Object.class);
+            prototype.addBase(objectType);
         }
     }
 
@@ -148,7 +149,7 @@ public final class PrototypeParser extends ParserBootstrap<Void> {
         }
 
         // CLASS_GENERATOR.generate(context, prototype)
-        prototype.getAssociatedClass().regenerate();
+        // prototype.getAssociatedClass().regenerate();
     }
 
     @Autowired(order = 2, cycle = GenerationCycles.CONTENT_LABEL, delegation = Delegation.CURRENT_AFTER)

@@ -137,7 +137,7 @@ public final class MethodParser extends ParserBootstrap<Void> {
             SCOPE_PARSER.parse(context, methodScope, body);
         }
 
-        if (!void.class.isAssignableFrom(method.getType().getAssociatedClass().getImplementation()) && !methodScope.hasEffective(Returnable.class)) {
+        if (!method.getType().getAssociatedClass().isAssignableTo(void.class) && !methodScope.hasEffective(Returnable.class)) {
             throw new PandaParserFailure(context, "Missing return statement in method " + method.getName());
         }
     }

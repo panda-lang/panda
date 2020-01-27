@@ -63,9 +63,9 @@ public final class PrototypeScope extends AbstractFramedScope implements FramedS
     @SuppressWarnings("unchecked")
     private Constructor<? extends PrototypeFrame> getConstructor() {
         try {
-            return (Constructor<? extends PrototypeFrame>) prototype.getAssociatedClass().getImplementation().getConstructor(PrototypeScope.class, Process.class);
+            return (Constructor<? extends PrototypeFrame>) prototype.getAssociatedClass().fetchImplementation().getConstructor(PrototypeScope.class, Process.class);
         } catch (NoSuchMethodException e) {
-            throw new PandaFrameworkException("Class " + prototype.getAssociatedClass().getImplementation() + " does not implement PrototypeClass constructor");
+            throw new PandaFrameworkException("Class " + prototype.getAssociatedClass().fetchImplementation() + " does not implement PrototypeClass constructor");
         }
     }
 

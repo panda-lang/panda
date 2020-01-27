@@ -14,14 +14,22 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.interpreter.pattern.descriptive;
+package org.panda_lang.framework.language.architecture.prototype.dynamic;
 
 import org.panda_lang.framework.PandaFrameworkException;
 
-public class DescriptivePatternException extends PandaFrameworkException {
+public final class DynamicClassException extends PandaFrameworkException {
 
-    public DescriptivePatternException(String message) {
+    public DynamicClassException(String message) {
         super(message);
+    }
+
+    public DynamicClassException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public DynamicClassException(Throwable cause) {
+        super(cause);
     }
 
 }

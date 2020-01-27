@@ -64,7 +64,7 @@ public final class DynamicClassGenerator {
         boolean isInterface = prototype.getModel().equalsIgnoreCase("interface");
 
         List<CtClass> interfaces = new ArrayList<>();
-        CtClass superclass = ClassPoolUtils.get(prototype.getAssociatedClass().getImplementation());
+        CtClass superclass = ClassPoolUtils.get(prototype.getAssociatedClass().fetchImplementation());
 
         if (superclass.isInterface()) {
             if (!superclass.getName().equals(Object.class.getName())) {
@@ -76,7 +76,7 @@ public final class DynamicClassGenerator {
 
         for (Prototype basis : prototype.getBases()) {
             if (basis.getModel().equalsIgnoreCase("interface")) {
-                interfaces.add(ClassPoolUtils.get(basis.getAssociatedClass().getImplementation()));
+                interfaces.add(ClassPoolUtils.get(basis.getAssociatedClass().fetchImplementation()));
                 continue;
             }
 
@@ -88,11 +88,11 @@ public final class DynamicClassGenerator {
                 throw new PandaParserFailure(context, "Cannot extend more than one class");
             }
 
-            if (isInterface && basis.getAssociatedClass().getImplementation().getName().equals(Object.class.getName())) {
+            if (isInterface && basis.getAssociatedClass().fetchImplementation().getName().equals(Object.class.getName())) {
                 continue;
             }
 
-            superclass = ClassPoolUtils.get(basis.getAssociatedClass().getImplementation());
+            superclass = ClassPoolUtils.get(basis.getAssociatedClass().fetchImplementation());
         }
 
         CtClass generated;
@@ -161,7 +161,7 @@ public final class DynamicClassGenerator {
             methodField.setModifiers(Modifier.PUBLIC | Modifier.STATIC);
             generated.addField(methodField);
 
-            CtClass returnType = ClassPoolUtils.get(method.getType().getAssociatedClass().getImplementation());
+            CtClass returnType = ClassPoolUtils.get(method.getType().getAssociatedClass().fetchImplementation());
             CtClass[] parameters = ClassPoolUtils.toCtClasses(TypedUtils.toClasses(method.getParameterTypes()));
 
             CtMethod nativeMethod = new CtMethod(returnType, method.getSimpleName(), parameters, generated);

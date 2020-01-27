@@ -36,21 +36,21 @@ import java.util.concurrent.atomic.AtomicInteger;
 public final class PandaDynamicClass implements DynamicClass {
 
     private static final AtomicInteger ID = new AtomicInteger();
+    private static final DynamicClassGenerator GENERATOR = new DynamicClassGenerator();
 
-    protected final String name;
     protected final String module;
     protected final String model;
+
+    protected String name;
     protected final Collection<DynamicClass> interfaces = new ArrayList<>();
     protected DynamicClass superclass = null;
-    protected Class<?> structure = Object.class;
-    protected Class<?> implementation = Object.class;
     protected boolean frozen;
+    protected boolean changed;
+
+    protected Class<?> structure;
+    protected Class<?> implementation;
 
     public PandaDynamicClass(String name, String module, String model) {
-        if (name == null) {
-            throw new IllegalArgumentException("Name cannot be null");
-        }
-
         if (module == null) {
             throw new IllegalArgumentException("Module cannot be null");
         }
@@ -60,8 +60,9 @@ public final class PandaDynamicClass implements DynamicClass {
         }
 
         this.name = name;
-        this.module = StringUtils.replace(module, ":", ".");
         this.model = model;
+        this.module = StringUtils.replace(module, ":", ".");
+        this.changed = true;
     }
 
     public PandaDynamicClass(Class<?> clazz, String customName, String module) {
@@ -75,49 +76,71 @@ public final class PandaDynamicClass implements DynamicClass {
         this(clazz, clazz.getSimpleName(), PackageUtils.toString(clazz.getPackage(), StringUtils.EMPTY));
     }
 
-    @Override
-    public void regenerate() throws Exception {
-        if (frozen) {
+    private void recreate() throws DynamicClassException {
+        if (frozen || changed) {
             return;
         }
 
-        CtClass generatedClass = ClassPool.getDefault().makeInterface(module + "." + name, ClassPoolUtils.get(PrototypeClass.class));
+        String className = module + "." + name + ID.incrementAndGet();
+        CtClass generatedClass;
 
         if (superclass != null) {
-            CtClass ctSuperclass = ClassPoolUtils.get(superclass.getStructure());
+            generatedClass = ClassPool.getDefault().makeClass(name, DynamicClassUtils.get(superclass.fetchStructure()));
+        }
+        else {
+            generatedClass = ClassPool.getDefault().makeInterface(name, DynamicClassUtils.get(PrototypeClass.class));
+        }
+
+        if (structure != null) {
+            generatedClass.addInterface(DynamicClassUtils.get(structure));
+        }
+
+        if (superclass != null) {
+            if (superclass.isInterface()) {
+
+            }
+            CtClass ctSuperclass = DynamicClassUtils.get(superclass.fetchStructure());
 
             this.structure = ClassPoolUtils.toClass(generatedClass);
         }
 
     }
 
-    @Override
-    public void append(Class<?> clazz) {
-        DynamicClass dynamicClass = new PandaDynamicClass(clazz);
-
-        if (dynamicClass.isClass()) {
-            extendClass(dynamicClass);
-        }
-        else if (dynamicClass.isInterface()) {
-            implementInterface(dynamicClass);
-        }
-        else {
-            throw new PandaFrameworkException("Unsupported model " + model);
-        }
+    private DynamicClass update(Runnable action) {
+        action.run();
+        this.changed = true;
+        return this;
     }
 
     @Override
-    public void extendClass(DynamicClass superclass) {
+    public DynamicClass append(Class<?> clazz) {
+        return update(() -> {
+            DynamicClass dynamicClass = new PandaDynamicClass(clazz);
+
+            if (dynamicClass.isClass()) {
+                extendClass(dynamicClass);
+            }
+            else if (dynamicClass.isInterface()) {
+                implementInterface(dynamicClass);
+            }
+            else {
+                throw new PandaFrameworkException("Unsupported model " + model);
+            }
+        });
+    }
+
+    @Override
+    public DynamicClass extendClass(DynamicClass superclass) {
         if (this.superclass != null) {
             throw new IllegalStateException("Class cannot extend more than one class");
         }
 
-        this.superclass = superclass;
+        return update(() -> this.superclass = superclass);
     }
 
     @Override
-    public void implementInterface(DynamicClass interfaceClass) {
-        interfaces.add(interfaceClass);
+    public DynamicClass implementInterface(DynamicClass interfaceClass) {
+        return update(() -> interfaces.add(interfaceClass));
     }
 
     @Override
@@ -137,6 +160,11 @@ public final class PandaDynamicClass implements DynamicClass {
     }
 
     @Override
+    public boolean isAssignableTo(Class<?> cls) {
+        return ClassUtils.isAssignableFrom(cls, implementation);
+    }
+
+    @Override
     public boolean isClass() {
         return PrototypeModels.CLASS.equals(model);
     }
@@ -147,12 +175,12 @@ public final class PandaDynamicClass implements DynamicClass {
     }
 
     @Override
-    public Class<?> getImplementation() {
+    public Class<?> fetchImplementation() {
         return implementation;
     }
 
     @Override
-    public Class<?> getStructure() {
+    public Class<?> fetchStructure() {
         return structure;
     }
 

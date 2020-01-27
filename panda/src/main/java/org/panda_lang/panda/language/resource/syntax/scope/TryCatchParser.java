@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.resource.syntax.scope;
 
+import org.panda_lang.framework.design.architecture.prototype.DynamicClass;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
@@ -68,11 +69,11 @@ public final class TryCatchParser extends ParserBootstrap<Void> {
         Variable variable = catchBlock.createVariable(variableData);
 
         SCOPE_PARSER.parse(context, catchBlock, catchBody);
-        Class<?> type = variableData.getType().getAssociatedClass().getImplementation();
+        DynamicClass type = variableData.getType().getAssociatedClass();
 
-        if (Throwable.class.isAssignableFrom(type)) {
+        if (type.isAssignableTo(Throwable.class)) {
             //noinspection unchecked
-            tryCatch.addHandler((Class<? extends Throwable>) type, variable, catchBlock);
+            tryCatch.addHandler((Class<? extends Throwable>) type.fetchImplementation(), variable, catchBlock);
         }
     }
 

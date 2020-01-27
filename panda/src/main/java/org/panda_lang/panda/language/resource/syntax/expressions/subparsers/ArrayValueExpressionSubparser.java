@@ -88,7 +88,7 @@ public final class ArrayValueExpressionSubparser implements ExpressionSubparser 
             Expression indexExpression = indexTransaction.getExpression();
 
             // require int as index
-            if (!Integer.class.isAssignableFrom(indexExpression.getType().getAssociatedClass().getImplementation())) {
+            if (!indexExpression.getType().getAssociatedClass().isAssignableTo(Integer.class)) {
                 return ExpressionResult.error("Index of array has to be Integer", section.getContent());
             }
 

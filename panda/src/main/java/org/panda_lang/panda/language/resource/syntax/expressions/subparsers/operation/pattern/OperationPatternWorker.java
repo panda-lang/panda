@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.interpreter.pattern.progressive;
+package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.pattern;
 
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Token;
@@ -24,20 +24,20 @@ import org.panda_lang.framework.language.resource.syntax.separator.Separator;
 
 import java.util.Stack;
 
-final class ProgressivePatternWorker {
+final class OperationPatternWorker {
 
-    private final ProgressivePattern extractor;
-    private final ProgressivePatternResult result;
+    private final OperationPattern extractor;
+    private final OperationPatternResult result;
 
     private final Stack<Separator> separators = new Stack<>();
     private PandaSnippet expression = new PandaSnippet();
 
-    ProgressivePatternWorker(ProgressivePattern extractor, Snippet source) {
+    OperationPatternWorker(OperationPattern extractor, Snippet source) {
         this.extractor = extractor;
-        this.result = new ProgressivePatternResult(source);
+        this.result = new OperationPatternResult(source);
     }
 
-    ProgressivePatternResult extract() {
+    OperationPatternResult extract() {
         for (TokenRepresentation representation : result.getSource()) {
             verify(representation);
         }
@@ -120,12 +120,12 @@ final class ProgressivePatternWorker {
     }
 
     private void addExpression(Snippet expressionSource) {
-        ProgressivePatternElement expressionElement = new ProgressivePatternElement(expressionSource);
+        OperationPatternElement expressionElement = new OperationPatternElement(expressionSource);
         this.result.addElement(expressionElement);
     }
 
     private void addOperator(TokenRepresentation operatorRepresentation) {
-        ProgressivePatternElement operatorElement = new ProgressivePatternElement(operatorRepresentation);
+        OperationPatternElement operatorElement = new OperationPatternElement(operatorRepresentation);
         this.result.addElement(operatorElement);
     }
 

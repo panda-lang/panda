@@ -28,7 +28,7 @@ final class NegateLogicalExpression implements DynamicExpression {
     private final Expression logicalExpression;
 
     public NegateLogicalExpression(Expression logicalExpression) {
-        if (!Boolean.class.isAssignableFrom(logicalExpression.getType().getAssociatedClass().getImplementation())) {
+        if (!logicalExpression.getType().getAssociatedClass().isAssignableTo(Boolean.class)) {
             throw new InvalidParameterException("Cannot reverse non logical value");
         }
 
