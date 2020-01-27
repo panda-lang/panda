@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.interpreter.pattern.progressive;
+package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.pattern;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
@@ -23,13 +23,13 @@ import org.panda_lang.framework.language.interpreter.pattern.PatternResult;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class ProgressivePatternResult implements PatternResult {
+public final class OperationPatternResult implements PatternResult {
 
     private final Snippet source;
-    private final List<ProgressivePatternElement> elements;
+    private final List<OperationPatternElement> elements;
     private boolean matched;
 
-    protected ProgressivePatternResult(Snippet source) {
+    protected OperationPatternResult(Snippet source) {
         this.elements = new ArrayList<>(3);
         this.source = source;
     }
@@ -38,7 +38,7 @@ public final class ProgressivePatternResult implements PatternResult {
         this.matched = true;
     }
 
-    protected void addElement(ProgressivePatternElement element) {
+    protected void addElement(OperationPatternElement element) {
         this.elements.add(element);
     }
 
@@ -59,7 +59,7 @@ public final class ProgressivePatternResult implements PatternResult {
         return elements.get(index).toString();
     }
 
-    public List<ProgressivePatternElement> getElements() {
+    public List<OperationPatternElement> getElements() {
         return elements;
     }
 

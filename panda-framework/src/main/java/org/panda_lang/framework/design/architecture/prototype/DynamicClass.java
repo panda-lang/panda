@@ -17,31 +17,31 @@
 package org.panda_lang.framework.design.architecture.prototype;
 
 /**
- * Wrapper for Java class
+ * Wrapper for regenerated Java classes
  */
 public interface DynamicClass {
 
-    void regenerate() throws Exception;
+    DynamicClass append(Class<?> dynamicClass);
 
-    void append(Class<?> dynamicClass);
+    DynamicClass extendClass(DynamicClass superclass);
 
-    void extendClass(DynamicClass superclass);
+    DynamicClass implementInterface(DynamicClass interfaceClass);
 
-    void implementInterface(DynamicClass interfaceClass);
+    Class<?> fetchImplementation();
+
+    Class<?> fetchStructure();
 
     default boolean isAssignableFrom(DynamicClass cls) {
-        return isAssignableFrom(cls.getImplementation());
+        return isAssignableFrom(cls.fetchImplementation());
     }
 
     boolean isAssignableFrom(Class<?> cls);
 
+    boolean isAssignableTo(Class<?> cls);
+
     boolean isInterface();
 
     boolean isClass();
-
-    Class<?> getImplementation();
-
-    Class<?> getStructure();
 
     String getModel();
 

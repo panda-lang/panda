@@ -16,14 +16,11 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation;
 
-import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Token;
-import org.panda_lang.framework.language.interpreter.pattern.progressive.ProgressivePattern;
-import org.panda_lang.framework.language.interpreter.pattern.progressive.ProgressivePatternElement;
-import org.panda_lang.framework.language.interpreter.pattern.progressive.ProgressivePatternResult;
 import org.panda_lang.framework.language.resource.syntax.operator.OperatorFamilies;
 import org.panda_lang.framework.language.resource.syntax.operator.Operators;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.pattern.OperationPattern;
 import org.panda_lang.utilities.commons.ArrayUtils;
 
 final class OperationExpressionUtils {
@@ -33,37 +30,8 @@ final class OperationExpressionUtils {
             Operators.getFamily(OperatorFamilies.LOGICAL)
     );
 
-    static final ProgressivePattern OPERATION_PATTERN = new ProgressivePattern(Separators.getOpeningSeparators(), OPERATORS);
+    static final OperationPattern OPERATION_PATTERN = new OperationPattern(Separators.getOpeningSeparators(), OPERATORS);
 
     private OperationExpressionUtils() { }
-
-    static boolean isOperationExpression(Snippet source) {
-        return isOperationExpression(OPERATION_PATTERN.extract(source));
-    }
-
-    static boolean isOperationExpression(ProgressivePatternResult source) {
-        if (source.size() % 2 == 0) {
-            return false;
-        }
-
-        int expression = 0;
-        int operators = 0;
-
-        for (ProgressivePatternElement element : source.getElements()) {
-            if (element.isExpression()) {
-                expression++;
-            }
-
-            if (element.isOperator()) {
-                operators++;
-            }
-
-            if (operators > 0 && expression > 1) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 
 }

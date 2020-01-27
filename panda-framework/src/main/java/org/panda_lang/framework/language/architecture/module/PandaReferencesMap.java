@@ -77,7 +77,7 @@ final class PandaReferencesMap extends HashMap<String, Reference> implements Ref
 
     private @Nullable String get(Class<?> associatedClass) {
         for (Entry<DynamicClass, String> entry : associatedClasses.entrySet()) {
-            if (entry.getKey().getImplementation().equals(associatedClass)) {
+            if (entry.getKey().fetchImplementation().equals(associatedClass)) {
                 return entry.getValue();
             }
         }

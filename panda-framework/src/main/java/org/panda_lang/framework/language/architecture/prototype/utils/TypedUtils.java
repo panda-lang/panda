@@ -46,7 +46,7 @@ public final class TypedUtils {
 
     public static Class<?>[] toClasses(Collection<? extends Typed> typed) {
         return toPrototypes(typed)
-                .map(prototype -> prototype.getAssociatedClass().getImplementation())
+                .map(prototype -> prototype.getAssociatedClass().fetchImplementation())
                 .toArray(Class[]::new);
     }
 

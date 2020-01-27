@@ -24,8 +24,8 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionP
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.language.interpreter.pattern.progressive.ProgressivePatternElement;
-import org.panda_lang.framework.language.interpreter.pattern.progressive.ProgressivePatternResult;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.pattern.OperationPatternElement;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.pattern.OperationPatternResult;
 import org.panda_lang.framework.language.resource.syntax.operator.Operator;
 
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public final class Operation {
         return elements;
     }
 
-    private static OperationElement asOperatorElement(ExpressionParser parser, Context context, ExpressionContext expressionContext, ProgressivePatternElement element) {
+    private static OperationElement asOperatorElement(ExpressionParser parser, Context context, ExpressionContext expressionContext, OperationPatternElement element) {
         if (element.isOperator()) {
             return new OperationElement(element.getOperator());
         }
@@ -59,10 +59,10 @@ public final class Operation {
         return new OperationElement(transaction.getExpression());
     }
 
-    public static Operation of(ExpressionParser parser, Context context, ExpressionContext expressionContext, ProgressivePatternResult result) {
+    public static Operation of(ExpressionParser parser, Context context, ExpressionContext expressionContext, OperationPatternResult result) {
         List<OperationElement> elements = new ArrayList<>(result.size());
 
-        for (ProgressivePatternElement element : result.getElements()) {
+        for (OperationPatternElement element : result.getElements()) {
             elements.add(asOperatorElement(parser, context, expressionContext, element));
         }
 

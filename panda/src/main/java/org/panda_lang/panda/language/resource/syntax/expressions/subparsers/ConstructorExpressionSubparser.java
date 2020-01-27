@@ -155,7 +155,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
                 context.commit(capacityTransaction::rollback);
                 Expression capacity = capacityTransaction.getExpression();
 
-                if (!Integer.class.isAssignableFrom(capacity.getType().getAssociatedClass().getImplementation())) {
+                if (!capacity.getType().getAssociatedClass().isAssignableTo(Integer.class)) {
                     return ExpressionResult.error("Capacity has to be Int", content);
                 }
 

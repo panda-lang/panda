@@ -14,24 +14,24 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.interpreter.pattern.progressive;
+package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.pattern;
 
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.language.resource.syntax.separator.Separator;
 
-public final class ProgressivePattern {
+public final class OperationPattern {
 
     private final Separator[] separators;
     private final Token[] dividers;
 
-    public ProgressivePattern(Separator[] separators, Token[] dividers) {
+    public OperationPattern(Separator[] separators, Token[] dividers) {
         this.separators = separators;
         this.dividers = dividers;
     }
 
-    public ProgressivePatternResult extract(Snippet source) {
-        ProgressivePatternWorker worker = new ProgressivePatternWorker(this, source);
+    public OperationPatternResult extract(Snippet source) {
+        OperationPatternWorker worker = new OperationPatternWorker(this, source);
         return worker.extract();
     }
 

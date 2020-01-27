@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.interpreter.pattern.progressive;
+package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.pattern;
 
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 
-public final class ProgressivePatternElement {
+public final class OperationPatternElement {
 
     private TokenRepresentation operator;
     private Snippet expression;
 
-    public ProgressivePatternElement(TokenRepresentation operator) {
+    public OperationPatternElement(TokenRepresentation operator) {
         this.operator = operator;
     }
 
-    public ProgressivePatternElement(Snippet expression) {
+    public OperationPatternElement(Snippet expression) {
         this.expression = expression;
     }
 

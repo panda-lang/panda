@@ -35,7 +35,7 @@ final class ConditionalBlock extends AbstractBlock implements ControlledScope {
     public ConditionalBlock(Scope parent, SourceLocation location, Expression condition) {
         super(parent, location);
 
-        if (!Boolean.class.isAssignableFrom(condition.getType().getAssociatedClass().getImplementation())) {
+        if (!condition.getType().getAssociatedClass().isAssignableTo(Boolean.class)) {
             throw new PandaParserException("Condition has to return boolean");
         }
 

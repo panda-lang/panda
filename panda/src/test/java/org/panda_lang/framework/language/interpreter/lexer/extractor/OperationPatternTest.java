@@ -22,18 +22,18 @@ import org.panda_lang.framework.design.interpreter.source.Source;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.language.interpreter.lexer.PandaLexer;
-import org.panda_lang.framework.language.interpreter.pattern.progressive.ProgressivePattern;
-import org.panda_lang.framework.language.interpreter.pattern.progressive.ProgressivePatternResult;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.pattern.OperationPattern;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.pattern.OperationPatternResult;
 import org.panda_lang.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.framework.language.resource.syntax.PandaSyntax;
 import org.panda_lang.framework.language.resource.syntax.operator.Operators;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 
-class ProgressivePatternTest {
+class OperationPatternTest {
 
-    private static final Source SOURCE = new PandaSource(ProgressivePatternTest.class, "(new Integer(5).intValue() + 3) + 2");
+    private static final Source SOURCE = new PandaSource(OperationPatternTest.class, "(new Integer(5).intValue() + 3) + 2");
 
-    private static final ProgressivePattern EXTRACTOR = new ProgressivePattern(Separators.getOpeningSeparators(), new Token[] {
+    private static final OperationPattern EXTRACTOR = new OperationPattern(Separators.getOpeningSeparators(), new Token[] {
             Operators.ADDITION,
             Operators.SUBTRACTION,
             Operators.DIVISION,
@@ -46,7 +46,7 @@ class ProgressivePatternTest {
                 .build()
                 .convert(SOURCE);
 
-        ProgressivePatternResult result = EXTRACTOR.extract(snippet);
+        OperationPatternResult result = EXTRACTOR.extract(snippet);
 
         Assertions.assertNotNull(result);
         Assertions.assertTrue(result.isMatched());
