@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.utilities.commons.text.pattern.text;
+package org.panda_lang.framework.language.interpreter.pattern;
 
-public enum TextHollowSymbolType {
+public interface PatternMatcher {
 
-    BASIS,
-    HOLLOW,
-    OPTIONAL
+    /**
+     * @param expression the text to pattern
+     * @return true if the expression is matched
+     */
+    boolean match(String expression);
 
 }
