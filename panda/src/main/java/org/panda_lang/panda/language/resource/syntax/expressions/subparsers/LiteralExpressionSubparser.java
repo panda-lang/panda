@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.ModuleLoaderUtils;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
@@ -50,7 +50,7 @@ public final class LiteralExpressionSubparser implements ExpressionSubparser {
 
     private static final class SequenceWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
-        private final Prototype boolType;
+        private final Type boolType;
 
         public SequenceWorker(Context context) {
             this.boolType = ModuleLoaderUtils.forClass(context, boolean.class);

@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.design.interpreter.parser.pipeline;
 
-import org.jetbrains.annotations.Nullable;
+import io.vavr.control.Option;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.utilities.commons.collection.Component;
 
@@ -65,14 +65,14 @@ public final class PipelineComponent<P extends Parser> extends Component<P> {
      * @return a found component
      */
     @SuppressWarnings("unchecked")
-    public static @Nullable PipelineComponent<Parser> get(String name) {
+    public static Option<PipelineComponent<Parser>> get(String name) {
         for (Map.Entry<String, PipelineComponent<? extends Parser>> entry : COMPONENTS.entrySet()) {
             if (entry.getKey().equals(name)) {
-                return (PipelineComponent<Parser>) entry.getValue();
+                return Option.of((PipelineComponent<Parser>) entry.getValue());
             }
         }
 
-        return null;
+        return Option.none();
     }
 
 }

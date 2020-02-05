@@ -36,8 +36,8 @@ import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Component;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Inter;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Interceptor;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
@@ -57,7 +57,7 @@ public final class ModuleParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL)
-    void parse(@Component Environment environment, @Component Imports imports, @Component PandaScript script, @Inter SourceLocation location, @Src("module") Snippet source) {
+    void parse(@Ctx Environment environment, @Ctx Imports imports, @Ctx PandaScript script, @Interceptor SourceLocation location, @Src("module") Snippet source) {
         if (script.select(ModuleStatement.class).size() > 0) {
             throw new PandaParserException("Script contains more than one declaration of the group");
         }

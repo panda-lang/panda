@@ -18,7 +18,7 @@ package org.panda_lang.panda.shell.repl;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
-import org.panda_lang.framework.design.architecture.prototype.PropertyFrame;
+import org.panda_lang.framework.design.architecture.type.PropertyFrame;
 import org.panda_lang.framework.design.architecture.statement.FramedScope;
 
 import java.util.HashMap;

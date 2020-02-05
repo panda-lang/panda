@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.design.architecture.statement;
 
-import org.panda_lang.framework.design.architecture.prototype.Typed;
+import org.panda_lang.framework.design.architecture.type.Typed;
 
 /**
  * Represents basic data about variable

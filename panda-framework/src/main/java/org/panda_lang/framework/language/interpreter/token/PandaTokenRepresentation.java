@@ -23,6 +23,7 @@ import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.utilities.commons.ObjectUtils;
+import org.panda_lang.utilities.commons.ValidationUtils;
 
 import java.security.InvalidParameterException;
 import java.util.Objects;
@@ -41,7 +42,7 @@ public final class PandaTokenRepresentation implements TokenRepresentation {
             throw new InvalidParameterException("Location of token cannot be null");
         }
 
-        this.token = token;
+        this.token = ValidationUtils.notNull(token);
         this.location = location;
     }
 

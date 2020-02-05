@@ -16,18 +16,18 @@
 
 package org.panda_lang.framework.language.architecture.module;
 
+import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.module.ReferencesMap;
-import org.panda_lang.framework.design.architecture.prototype.Referencable;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
-import org.panda_lang.framework.language.architecture.prototype.array.ArrayClassPrototypeFetcher;
-import org.panda_lang.framework.language.architecture.prototype.array.PandaArray;
+import org.panda_lang.framework.design.architecture.type.Referencable;
+import org.panda_lang.framework.design.architecture.type.Reference;
+import org.panda_lang.framework.language.architecture.type.array.ArrayClassTypeFetcher;
+import org.panda_lang.framework.language.architecture.type.array.PandaArray;
 
 import java.util.Collection;
 import java.util.Map.Entry;
-import java.util.Optional;
 
 public class PandaModule extends PandaModules implements Module {
 
@@ -66,9 +66,9 @@ public class PandaModule extends PandaModules implements Module {
 
     @Override
     public boolean isSubmodule(Module module) {
-        Optional<Module> parentModule = module.getParent();
+        Option<Module> parentModule = module.getParent();
 
-        while (parentModule.isPresent()) {
+        while (parentModule.isDefined()) {
             Module parent = parentModule.get();
 
             if (parent.equals(this)) {
@@ -82,17 +82,17 @@ public class PandaModule extends PandaModules implements Module {
     }
 
     @Override
-    public Optional<Reference> forClass(Class<?> associatedClass) {
+    public Option<Reference> forClass(Class<?> associatedClass) {
         return references.forClass(associatedClass);
     }
 
     @Override
-    public Optional<Reference> forName(CharSequence prototypeName) {
-        if (prototypeName.toString().endsWith(PandaArray.IDENTIFIER)) {
-            return ArrayClassPrototypeFetcher.fetch(this, prototypeName.toString());
+    public Option<Reference> forName(CharSequence typeName) {
+        if (typeName.toString().endsWith(PandaArray.IDENTIFIER)) {
+            return ArrayClassTypeFetcher.fetch(this, typeName.toString());
         }
 
-        return references.forName(prototypeName);
+        return references.forName(typeName);
     }
 
     @Override
@@ -112,8 +112,8 @@ public class PandaModule extends PandaModules implements Module {
     }
 
     @Override
-    public Optional<Module> getParent() {
-        return Optional.ofNullable(parent);
+    public Option<Module> getParent() {
+        return Option.of(parent);
     }
 
     @Override

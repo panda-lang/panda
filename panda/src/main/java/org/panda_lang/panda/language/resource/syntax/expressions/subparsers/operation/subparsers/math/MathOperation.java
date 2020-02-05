@@ -18,27 +18,27 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ope
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNOperationAction;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.number.NumericOperation;
 
 public abstract class MathOperation extends NumericOperation<Number> {
 
-    public abstract RPNOperationAction<Number> of(Prototype returnType, int priority, Expression a, Expression b);
+    public abstract RPNOperationAction<Number> of(Type returnType, int priority, Expression a, Expression b);
 
     @Override
     public RPNOperationAction<Number> of(ModuleLoader loader, Expression a, Expression b) {
-        Prototype returnType = returnType(loader, a.getType(), b.getType());
+        Type returnType = returnType(loader, a.getType(), b.getType());
         return of(returnType, super.getPriority(returnType), a, b);
     }
 
     @Override
-    public Prototype returnType(ModuleLoader loader, Prototype a, Prototype b) {
+    public Type returnType(ModuleLoader loader, Type a, Type b) {
         return estimateType(a, b);
     }
 
     @Override
-    public Prototype requiredType(ModuleLoader loader) {
+    public Type requiredType(ModuleLoader loader) {
         return loader.requirePrototype(Number.class);
     }
 

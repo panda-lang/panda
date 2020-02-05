@@ -43,7 +43,7 @@ import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Component;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
@@ -73,7 +73,7 @@ public final class RequireParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL)
-    void parse(Context context, @Component Imports imports, @Src("required") @Nullable Snippetable require, @Src("requiredFile") @Nullable TokenRepresentation requiredFile) {
+    void parse(Context context, @Ctx Imports imports, @Src("required") @Nullable Snippetable require, @Src("requiredFile") @Nullable TokenRepresentation requiredFile) {
         if (require != null) {
             parseModule(context, imports, require.toSnippet());
             return;

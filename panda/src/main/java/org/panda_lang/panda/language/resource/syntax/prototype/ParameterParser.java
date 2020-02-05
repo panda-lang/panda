@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.syntax.prototype;
+package org.panda_lang.panda.language.resource.syntax.type;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.Imports;
-import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.type.PropertyParameter;
+import org.panda_lang.framework.design.architecture.type.Type;
+import org.panda_lang.framework.design.architecture.type.Reference;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SnippetUtils;
 import org.panda_lang.framework.design.interpreter.token.Token;
-import org.panda_lang.framework.language.architecture.prototype.PandaPropertyParameter;
+import org.panda_lang.framework.language.architecture.type.PandaPropertyParameter;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
@@ -36,7 +36,6 @@ import org.panda_lang.utilities.commons.ArrayUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 public final class ParameterParser implements Parser {
 
@@ -74,19 +73,17 @@ public final class ParameterParser implements Parser {
             end -= varargs ? 1 : 0;
 
             Snippet typeSource = source.subSource(start, end);
-            Optional<Reference> reference = imports.forName(typeSource.asSource());
-
-            if (!reference.isPresent()) {
-                throw new PandaParserFailure(context, typeSource, "Unknown type", "Make sure that type is imported");
-            }
-
-            Prototype prototype = reference.get().fetch();
+            Type type = imports.forName(typeSource.asSource())
+                    .map(Reference::fetch)
+                    .getOrElseThrow(() -> {
+                        throw new PandaParserFailure(context, typeSource, "Unknown type", "Make sure that type is imported");
+                    });
 
             if (varargs) {
-                prototype = prototype.toArray(context.getComponent(Components.MODULE_LOADER));
+                type = type.toArray(context.getComponent(Components.MODULE_LOADER));
             }
 
-            PropertyParameter parameter = new PandaPropertyParameter(index, prototype, name.getValue(), varargs, mutable, nillable);
+            PropertyParameter parameter = new PandaPropertyParameter(index, type, name.getValue(), varargs, mutable, nillable);
             parameters.add(parameter);
         }
 

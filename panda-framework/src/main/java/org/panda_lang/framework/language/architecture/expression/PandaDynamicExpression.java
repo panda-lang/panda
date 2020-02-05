@@ -17,7 +17,7 @@
 package org.panda_lang.framework.language.architecture.expression;
 
 import org.panda_lang.framework.design.architecture.expression.ExpressionEvaluator;
-import org.panda_lang.framework.design.architecture.prototype.Referencable;
+import org.panda_lang.framework.design.architecture.type.Referencable;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 
 public final class PandaDynamicExpression extends AbstractDynamicExpression {

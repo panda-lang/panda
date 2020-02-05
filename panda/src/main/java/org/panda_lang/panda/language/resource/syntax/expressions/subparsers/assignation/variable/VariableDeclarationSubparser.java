@@ -31,7 +31,7 @@ import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.language.architecture.dynamic.assigner.Assigner;
-import org.panda_lang.framework.language.architecture.prototype.utils.TypeDeclarationUtils;
+import org.panda_lang.framework.language.architecture.type.utils.TypeDeclarationUtils;
 import org.panda_lang.framework.language.architecture.statement.PandaVariableDataInitializer;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
@@ -40,8 +40,8 @@ import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Component;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Inter;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Interceptor;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationPriorities;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationSubparserBootstrap;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationType;
@@ -106,10 +106,10 @@ public final class VariableDeclarationSubparser extends AssignationSubparserBoot
     @Autowired
     ExpressionResult parse(
             Context context,
-            @Component Scope scope, @Component Channel channel,
-            @Component Expression expression, @Component ExpressionContext expressionContext,
-            @Component AssignationType type,
-            @Inter SourceLocation location
+            @Ctx Scope scope, @Ctx Channel channel,
+            @Ctx Expression expression, @Ctx ExpressionContext expressionContext,
+            @Ctx AssignationType type,
+            @Interceptor SourceLocation location
     ) {
         Elements elements = channel.get("elements", Elements.class);
         PandaVariableDataInitializer dataInitializer = new PandaVariableDataInitializer(context, scope);

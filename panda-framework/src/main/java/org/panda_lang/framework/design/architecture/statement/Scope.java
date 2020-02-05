@@ -16,8 +16,9 @@
 
 package org.panda_lang.framework.design.architecture.statement;
 
+import io.vavr.control.Option;
+
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Represents statement that contains child statements
@@ -69,7 +70,7 @@ public interface Scope extends Statement {
      * @param name the name to search for
      * @return the variable
      */
-    Optional<Variable> getVariable(String name);
+    Option<Variable> getVariable(String name);
 
     /**
      * Get variables
@@ -90,7 +91,7 @@ public interface Scope extends Statement {
      *
      * @return the parent scope
      */
-    Optional<Scope> getParent();
+    Option<Scope> getParent();
 
     /**
      * Get parent frame

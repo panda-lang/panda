@@ -34,9 +34,9 @@ public interface Modules {
     void include(Module module);
 
     /**
-     * Count used prototypes
+     * Count used types
      *
-     * @return the amount of used prototypes
+     * @return the amount of used types
      */
     default int countUsedPrototypes() {
         return StreamUtils.sum(getModules(), Module::countUsedPrototypes);

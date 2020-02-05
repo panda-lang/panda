@@ -17,8 +17,8 @@
 package org.panda_lang.framework.language.resource.internal.panda;
 
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.language.architecture.prototype.PandaPrototypeUtils;
-import org.panda_lang.framework.language.architecture.prototype.array.PandaArray;
+import org.panda_lang.framework.language.architecture.type.PandaTypeUtils;
+import org.panda_lang.framework.language.architecture.type.array.PandaArray;
 import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
 import org.panda_lang.utilities.commons.StringUtils;
 
@@ -26,7 +26,7 @@ public final class PandaModule implements InternalModuleInfo {
 
     @Override
     public void initialize(Module module) {
-        PandaPrototypeUtils.generateOf(module, PandaArray.class);
+        PandaTypeUtils.generateOf(module, PandaArray.class);
     }
 
     @Override

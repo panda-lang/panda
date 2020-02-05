@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.language.interpreter.parser.expression;
 
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.language.architecture.expression.PandaExpression;
 
@@ -24,7 +24,7 @@ public final class ExpressionParserUtils {
 
     private ExpressionParserUtils() { }
 
-    public static ExpressionResult toExpressionResult(Prototype type, Object value) {
+    public static ExpressionResult toExpressionResult(Type type, Object value) {
         return ExpressionResult.of(new PandaExpression(type, value));
     }
 

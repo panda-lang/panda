@@ -19,12 +19,12 @@ package org.panda_lang.panda.language.resource.syntax;
 public final class PandaPriorities {
 
     /**
-     * Used by {@link org.panda_lang.panda.language.resource.syntax.prototype.MethodParser}
+     * Used by {@link org.panda_lang.panda.language.resource.syntax.type.MethodParser}
      */
     public static final int PROTOTYPE_METHOD = 1;
 
     /**
-     * Used by {@link org.panda_lang.panda.language.resource.syntax.prototype.FieldParser}
+     * Used by {@link org.panda_lang.panda.language.resource.syntax.type.FieldParser}
      */
     public static final int PROTOTYPE_FIELD = 2;
 

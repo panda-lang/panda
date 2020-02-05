@@ -16,6 +16,7 @@
 
 package org.panda_lang.framework.language.architecture.statement;
 
+import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.dynamic.Executable;
 import org.panda_lang.framework.design.architecture.statement.FramedScope;
@@ -28,7 +29,6 @@ import org.panda_lang.utilities.commons.collection.Lists;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public abstract class AbstractScope extends AbstractStatement implements Scope {
@@ -87,14 +87,14 @@ public abstract class AbstractScope extends AbstractStatement implements Scope {
     public boolean removeVariable(String name) {
         return getVariable(name)
                 .map(variables::remove)
-                .orElse(false);
+                .getOrElse(false);
     }
 
     @Override
-    public Optional<Variable> getVariable(String name) {
+    public Option<Variable> getVariable(String name) {
         for (Variable variable : variables) {
             if (variable.getName().equals(name)) {
-                return Optional.of(variable);
+                return Option.of(variable);
             }
         }
 
@@ -119,8 +119,8 @@ public abstract class AbstractScope extends AbstractStatement implements Scope {
     }
 
     @Override
-    public Optional<Scope> getParent() {
-        return Optional.ofNullable(parent);
+    public Option<Scope> getParent() {
+        return Option.of(parent);
     }
 
     @Override

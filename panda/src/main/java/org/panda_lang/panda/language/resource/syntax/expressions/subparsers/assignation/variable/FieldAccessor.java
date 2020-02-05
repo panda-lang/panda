@@ -17,20 +17,26 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.variable;
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
+import org.panda_lang.framework.design.architecture.type.Type;
+import org.panda_lang.framework.design.architecture.type.TypeField;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.language.architecture.dynamic.accessor.AbstractAccessor;
 import org.panda_lang.framework.language.architecture.dynamic.assigner.Assigner;
 
-public final class FieldAccessor extends AbstractAccessor<PrototypeField> {
+public final class FieldAccessor extends AbstractAccessor<TypeField> {
 
-    public FieldAccessor(Expression instance, PrototypeField field) {
+    public FieldAccessor(Expression instance, TypeField field) {
         super(new FieldAccessorFunction(instance), field, field.getPointer());
     }
 
     @Override
-    public Assigner<PrototypeField> toAssigner(SourceLocation location, boolean initialize, Expression value) {
+    public Assigner<TypeField> toAssigner(SourceLocation location, boolean initialize, Expression value) {
         return new FieldAssigner(location, this, initialize, value);
+    }
+
+    @Override
+    public Type getType() {
+        return super.getVariable().getReturnType();
     }
 
 }

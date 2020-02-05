@@ -16,11 +16,12 @@
 
 package org.panda_lang.framework.language.architecture.module;
 
+import io.vavr.control.Option;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.module.ModulePath;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.type.Reference;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 import org.panda_lang.utilities.commons.ClassUtils;
 import org.panda_lang.utilities.commons.StringUtils;
@@ -80,16 +81,16 @@ public final class PandaModuleLoader implements ModuleLoader {
     }
 
     @Override
-    public Optional<Reference> forClass(Class<?> associatedClass) {
+    public Option<Reference> forClass(Class<?> associatedClass) {
         if (associatedClass.isPrimitive() && associatedClass != void.class) {
             associatedClass = ClassUtils.PRIMITIVE_EQUIVALENT.get(associatedClass);
         }
 
         for (Module module : modules.values()) {
-            Optional<Reference> prototypePrototype = module.forClass(associatedClass);
+            Option<Reference> typePrototype = module.forClass(associatedClass);
 
-            if (prototypePrototype.isPresent()) {
-                return prototypePrototype;
+            if (typePrototype.isDefined()) {
+                return typePrototype;
             }
         }
 
@@ -97,16 +98,16 @@ public final class PandaModuleLoader implements ModuleLoader {
             return parent.forClass(associatedClass);
         }
 
-        return Optional.empty();
+        return Option.none();
     }
 
     @Override
-    public Optional<Reference> forName(CharSequence prototypeName) {
-        String name = prototypeName.toString();
+    public Option<Reference> forName(CharSequence typeName) {
+        String name = typeName.toString();
         String[] path = StringUtils.split(name, "::");
 
         if (path.length == 1) {
-            throw new PandaRuntimeException("Cannot load prototype without module");
+            throw new PandaRuntimeException("Cannot load type without module");
         }
 
         return load(path[0]).forName(path[1]);

@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.logical;
 
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNSimplifiedSupplier;
 
@@ -31,12 +31,12 @@ public class EqualsToOperation extends RPNSimplifiedSupplier<Object, Object, Boo
     }
 
     @Override
-    public Prototype returnType(ModuleLoader loader) {
+    public Type returnType(ModuleLoader loader) {
         return loader.requirePrototype(boolean.class);
     }
 
     @Override
-    public Prototype requiredType(ModuleLoader loader) {
+    public Type requiredType(ModuleLoader loader) {
         return loader.requirePrototype(Object.class);
     }
 

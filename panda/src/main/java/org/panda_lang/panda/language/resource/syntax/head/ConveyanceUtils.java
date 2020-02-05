@@ -17,11 +17,11 @@
 package org.panda_lang.panda.language.resource.syntax.head;
 
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.type.Reference;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.language.architecture.prototype.generator.PrototypeGeneratorManager;
+import org.panda_lang.framework.language.architecture.type.generator.TypeGeneratorManager;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.utilities.commons.ClassUtils;
 
@@ -42,7 +42,7 @@ final class ConveyanceUtils {
         Class<?> clazz = importedClass.get();
         String className = clazz.getSimpleName();
 
-        return PrototypeGeneratorManager.getInstance().generate(module, className, clazz);
+        return TypeGeneratorManager.getInstance().generate(module, className, clazz);
     }
 
 }

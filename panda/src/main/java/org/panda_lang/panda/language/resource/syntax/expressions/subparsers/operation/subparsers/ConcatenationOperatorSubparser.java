@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ope
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.language.resource.syntax.operator.Operators;
@@ -54,7 +54,7 @@ public final class ConcatenationOperatorSubparser implements OperationSubparser 
             return null;
         }
 
-        Prototype stringType = context.getComponent(Components.MODULE_LOADER).requirePrototype(String.class);
+        Type stringType = context.getComponent(Components.MODULE_LOADER).requirePrototype(String.class);
         return new ConcatenationExpressionCallback(stringType, values).toExpression();
     }
 

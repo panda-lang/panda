@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.syntax.prototype;
+package org.panda_lang.panda.language.resource.syntax.type;
 
+import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
-import org.panda_lang.framework.design.architecture.prototype.Referencable;
-import org.panda_lang.framework.design.architecture.prototype.Visibility;
+import org.panda_lang.framework.design.architecture.type.PropertyParameter;
+import org.panda_lang.framework.design.architecture.type.Referencable;
+import org.panda_lang.framework.design.architecture.type.Type;
+import org.panda_lang.framework.design.architecture.type.TypeMethod;
+import org.panda_lang.framework.design.architecture.type.Visibility;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
@@ -29,9 +30,9 @@ import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SnippetUtils;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.language.architecture.prototype.MethodScope;
-import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
-import org.panda_lang.framework.language.architecture.prototype.utils.TypedUtils;
+import org.panda_lang.framework.language.architecture.type.MethodScope;
+import org.panda_lang.framework.language.architecture.type.PandaMethod;
+import org.panda_lang.framework.language.architecture.type.utils.TypedUtils;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
@@ -51,8 +52,8 @@ import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Component;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Inter;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Interceptor;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Local;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.data.Delegation;
@@ -69,7 +70,7 @@ import java.util.function.Supplier;
 @RegistrableParser(pipeline = Pipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_METHOD)
 public final class MethodParser extends ParserBootstrap<Void> {
 
-    private static final ParameterParser PARAMETER_PARSER = new ParameterParser();
+    private static final org.panda_lang.panda.language.resource.syntax.type.ParameterParser PARAMETER_PARSER = new org.panda_lang.panda.language.resource.syntax.type.ParameterParser();
     private static final ScopeParser SCOPE_PARSER = new ScopeParser();
 
     @Override
@@ -89,24 +90,24 @@ public final class MethodParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
-    void parse(Context context, LocalData local, @Component Prototype prototype, @Inter SourceLocation location, @Inter Result result, @Src("type") Snippet type, @Src("body") Snippet body) {
-        Referencable returnTypeReferencable = Optional.ofNullable(type)
+    void parse(Context context, LocalData local, @Ctx Type type, @Interceptor SourceLocation location, @Interceptor Result result, @Src("type") Snippet typeName, @Src("body") Snippet body) {
+        Referencable returnTypeReferencable = Option.of(typeName)
                 .map(value -> context.getComponent(Components.IMPORTS)
-                        .forName(type.asSource())
+                        .forName(typeName.asSource())
                         .map(reference -> (Referencable) reference)
-                        .orElseThrow((Supplier<? extends PandaParserFailure>) () -> {
-                            throw new PandaParserFailure(context, type,
+                        .getOrElseThrow((Supplier<? extends PandaParserFailure>) () -> {
+                            throw new PandaParserFailure(context, typeName,
                                     "Unknown type",
                                     "Make sure that the name does not have a typo and module which should contain that class is imported"
                             );
                         }))
-                .orElseGet(() -> prototype.getModule().getModuleLoader().requirePrototype(void.class));
+                .getOrElse(() -> type.getModule().getModuleLoader().requirePrototype(void.class));
 
         TokenRepresentation name = result.get("name");
         List<PropertyParameter> parameters = PARAMETER_PARSER.parse(context, result.get("parameters"));
         MethodScope methodScope = local.allocated(new MethodScope(name.getLocation(), parameters));
 
-        Optional<PrototypeMethod> existingMethod = prototype.getMethods().getMethod(name.getValue(), TypedUtils.toTypes(parameters));
+        Optional<TypeMethod> existingMethod = type.getMethods().getMethod(name.getValue(), TypedUtils.toTypes(parameters));
 
         if (existingMethod.isPresent() && !result.has(Keywords.OVERRIDE.getValue())) {
             throw new PandaParserFailure(context, name,
@@ -116,7 +117,7 @@ public final class MethodParser extends ParserBootstrap<Void> {
         }
 
         PandaMethod method = local.allocated(PandaMethod.builder()
-                .prototype(prototype)
+                .type(type)
                 .parameters(parameters)
                 .name(name.getValue())
                 .location(location)
@@ -128,16 +129,16 @@ public final class MethodParser extends ParserBootstrap<Void> {
                 .methodBody(methodScope)
                 .build());
 
-        prototype.getMethods().declare(method);
+        type.getMethods().declare(method);
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
-    void parse(Context context, @Local MethodScope methodScope, @Local PrototypeMethod method, @Nullable @Src("body") Snippet body) throws Exception {
+    void parse(Context context, @Local MethodScope methodScope, @Local TypeMethod method, @Nullable @Src("body") Snippet body) throws Exception {
         if (!SnippetUtils.isEmpty(body)) {
             SCOPE_PARSER.parse(context, methodScope, body);
         }
 
-        if (!method.getType().getAssociatedClass().isAssignableTo(void.class) && !methodScope.hasEffective(Returnable.class)) {
+        if (!method.getReturnType().getAssociatedClass().isAssignableTo(void.class) && !methodScope.hasEffective(Returnable.class)) {
             throw new PandaParserFailure(context, "Missing return statement in method " + method.getName());
         }
     }

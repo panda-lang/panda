@@ -17,18 +17,18 @@
 package org.panda_lang.framework.language.architecture.expression;
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.prototype.PropertyFrame;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.type.PropertyFrame;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
+import org.panda_lang.framework.language.architecture.type.TypeComponents;
 import org.panda_lang.utilities.commons.ObjectUtils;
 
 public final class ThisExpression implements DynamicExpression {
 
-    private final Prototype type;
+    private final Type type;
 
-    private ThisExpression(Prototype type) {
+    private ThisExpression(Type type) {
         this.type = type;
     }
 
@@ -38,16 +38,16 @@ public final class ThisExpression implements DynamicExpression {
     }
 
     @Override
-    public Prototype getReturnType() {
+    public Type getReturnType() {
         return type;
     }
 
-    public static Expression of(Prototype type) {
+    public static Expression of(Type type) {
         return new PandaExpression(new ThisExpression(type));
     }
 
     public static Expression of(Context context) {
-        return of(context.getComponent(PrototypeComponents.PROTOTYPE));
+        return of(context.getComponent(TypeComponents.PROTOTYPE));
     }
 
 }

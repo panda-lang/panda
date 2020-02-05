@@ -17,6 +17,7 @@
 package org.panda_lang.framework.language.interpreter.pattern.custom;
 
 import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.language.interpreter.pattern.PatternMapping;
 import org.panda_lang.framework.language.interpreter.pattern.PatternResult;
 
@@ -36,6 +37,10 @@ public final class Result implements PatternResult, PatternMapping {
 
     public boolean has(String id) {
         return results.containsKey(id);
+    }
+
+    public boolean has(Token token) {
+        return results.containsKey(token.getValue());
     }
 
     @Override

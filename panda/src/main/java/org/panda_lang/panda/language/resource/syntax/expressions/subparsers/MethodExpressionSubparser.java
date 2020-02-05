@@ -18,8 +18,8 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.prototype.Adjustment;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeMethod;
+import org.panda_lang.framework.design.architecture.type.Adjustment;
+import org.panda_lang.framework.design.architecture.type.TypeMethod;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
@@ -30,9 +30,9 @@ import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.language.architecture.expression.StaticExpression;
 import org.panda_lang.framework.language.architecture.expression.ThisExpression;
-import org.panda_lang.framework.language.architecture.prototype.PrototypeExecutableExpression;
-import org.panda_lang.framework.language.architecture.prototype.utils.TypedUtils;
-import org.panda_lang.framework.language.architecture.prototype.utils.VisibilityComparator;
+import org.panda_lang.framework.language.architecture.type.TypeExecutableExpression;
+import org.panda_lang.framework.language.architecture.type.utils.TypedUtils;
+import org.panda_lang.framework.language.architecture.type.utils.VisibilityComparator;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.framework.language.interpreter.token.TokenUtils;
@@ -108,7 +108,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            // check if prototype of instance contains required method
+            // check if type of instance contains required method
             if (!instance.getType().getMethods().hasPropertyLike(nameToken.getValue())) {
                 return ExpressionResult.error("Cannot find method called '" + nameToken.getValue() + "'", nameToken);
             }
@@ -126,12 +126,12 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
 
         private Expression parseMethod(ExpressionContext context, Expression instance, TokenRepresentation methodName, Snippet argumentsSource) {
             Expression[] arguments = ARGUMENT_PARSER.parse(context, argumentsSource);
-            Optional<Adjustment<PrototypeMethod>> adjustedArguments = instance.getType().getMethods().getAdjustedArguments(methodName.getValue(), arguments);
+            Optional<Adjustment<TypeMethod>> adjustedArguments = instance.getType().getMethods().getAdjustedArguments(methodName.getValue(), arguments);
 
             if (!adjustedArguments.isPresent()) {
                 String types = TypedUtils.toString(arguments);
 
-                List<? extends PrototypeMethod> propertiesLike = instance.getType().getMethods().getPropertiesLike(methodName.getValue());
+                List<? extends TypeMethod> propertiesLike = instance.getType().getMethods().getPropertiesLike(methodName.getValue());
                 String similar = "";
 
                 if (!propertiesLike.isEmpty()) {
@@ -147,7 +147,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
                 );
             }
 
-            PrototypeMethod method = adjustedArguments.get().getExecutable();
+            TypeMethod method = adjustedArguments.get().getExecutable();
 
             if (!method.isStatic() && instance instanceof StaticExpression) {
                 throw new PandaExpressionParserFailure(context, methodName,
@@ -162,7 +162,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
                 throw new PandaExpressionParserFailure(context, methodName, issue.get(), VisibilityComparator.NOTE_MESSAGE);
             }
 
-            return new PrototypeExecutableExpression(instance, adjustedArguments.get());
+            return new TypeExecutableExpression(instance, adjustedArguments.get());
         }
 
     }

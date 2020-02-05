@@ -16,17 +16,17 @@
 
 package org.panda_lang.framework.language.architecture.module;
 
-import org.jetbrains.annotations.Nullable;
+import io.vavr.collection.Stream;
+import io.vavr.control.Option;
 import org.panda_lang.framework.design.architecture.module.ReferencesMap;
-import org.panda_lang.framework.design.architecture.prototype.DynamicClass;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.type.DynamicClass;
+import org.panda_lang.framework.design.architecture.type.Reference;
 import org.panda_lang.utilities.commons.ClassUtils;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Optional;
 
 final class PandaReferencesMap extends HashMap<String, Reference> implements ReferencesMap {
 
@@ -45,49 +45,26 @@ final class PandaReferencesMap extends HashMap<String, Reference> implements Ref
 
     @Override
     public int countUsedPrototypes() {
-        int sum = 0;
-
-        for (Entry<String, Reference> entry : entrySet()) {
-            if (entry.getValue().isInitialized()) {
-                sum++;
-            }
-        }
-
-        return sum;
+        return Stream.ofAll(entrySet())
+                .count(entry -> entry.getValue().isInitialized());
     }
 
     @Override
-    public Optional<Reference> forClass(Class<?> associatedClass) {
-        String prototypeName = get(associatedClass);
-
-        if (prototypeName == null) {
-            if (associatedClass.isPrimitive()) {
-                Class<?> primitiveClass = ClassUtils.getNonPrimitiveClass(associatedClass);
-
-                if (primitiveClass != null) {
-                    return forClass(primitiveClass);
-                }
-            }
-
-            return Optional.empty();
-        }
-
-        return forName(prototypeName);
+    public Option<Reference> forClass(Class<?> associatedClass) {
+        return get(associatedClass)
+                .flatMap(this::forName)
+                .orElse(() -> associatedClass.isPrimitive() ? forClass(ClassUtils.getNonPrimitiveClass(associatedClass)) : Option.none());
     }
 
-    private @Nullable String get(Class<?> associatedClass) {
-        for (Entry<DynamicClass, String> entry : associatedClasses.entrySet()) {
-            if (entry.getKey().fetchImplementation().equals(associatedClass)) {
-                return entry.getValue();
-            }
-        }
-
-        return null;
+    private Option<String> get(Class<?> associatedClass) {
+        return Stream.ofAll(associatedClasses.entrySet())
+                .find(entry -> entry.getKey().fetchImplementation().equals(associatedClass))
+                .map(Entry::getValue);
     }
 
     @Override
-    public Optional<Reference> forName(CharSequence prototypeName) {
-        return Optional.ofNullable(get(prototypeName.toString()));
+    public Option<Reference> forName(CharSequence typeName) {
+        return Option.of(get(typeName.toString()));
     }
 
     @Override

@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers;
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.expression.DynamicExpression;
 
@@ -25,10 +25,10 @@ import java.util.List;
 
 public final class ConcatenationExpressionCallback implements DynamicExpression {
 
-    private final Prototype stringType;
+    private final Type stringType;
     private final List<Expression> values;
 
-    public ConcatenationExpressionCallback(Prototype stringType, List<Expression> values) {
+    public ConcatenationExpressionCallback(Type stringType, List<Expression> values) {
         this.stringType = stringType;
         this.values = values;
     }
@@ -45,7 +45,7 @@ public final class ConcatenationExpressionCallback implements DynamicExpression 
     }
 
     @Override
-    public Prototype getReturnType() {
+    public Type getReturnType() {
         return stringType;
     }
 

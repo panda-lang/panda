@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.resource.syntax.expressions;
 
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.ModuleLoaderUtils;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparsers;
@@ -48,7 +48,7 @@ public final class PandaExpressionUtils {
                 .collect(Collectors.toList()));
     }
 
-    public static Prototype forClass(ExpressionContext expressionContext, Class<?> associatedClass) {
+    public static Type forClass(ExpressionContext expressionContext, Class<?> associatedClass) {
         return ModuleLoaderUtils.forClass(expressionContext.getContext(), associatedClass);
     }
 

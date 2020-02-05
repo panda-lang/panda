@@ -16,12 +16,12 @@
 
 package org.panda_lang.framework.design.architecture.module;
 
-import org.panda_lang.framework.design.architecture.prototype.Referencable;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
+import io.vavr.control.Option;
+import org.panda_lang.framework.design.architecture.type.Referencable;
+import org.panda_lang.framework.design.architecture.type.Reference;
 
 import java.util.Collection;
 import java.util.Map.Entry;
-import java.util.Optional;
 
 /**
  * Identifiable container of resources
@@ -29,7 +29,7 @@ import java.util.Optional;
 public interface Module extends Modules, ModuleResource {
 
     /**
-     * Add reference to prototype to the module
+     * Add reference to type to the module
      *
      * @param reference the reference to add
      * @return the added reference
@@ -37,9 +37,9 @@ public interface Module extends Modules, ModuleResource {
     Reference add(Referencable reference);
 
     /**
-     * Count initialized prototypes
+     * Count initialized types
      *
-     * @return the amount of used prototypes
+     * @return the amount of used types
      */
     int countUsedPrototypes();
 
@@ -59,13 +59,23 @@ public interface Module extends Modules, ModuleResource {
     boolean isSubmodule(Module module);
 
     /**
-     * Check if the module contains prototype associated with the specified class
+     * Check if the module contains type associated with the specified class
      *
      * @param clazz the class to check
      * @return true if module contains Prototype associated with the provided class
      */
-    default boolean hasPrototype(Class<?> clazz) {
-        return forClass(clazz).isPresent();
+    default boolean hasReference(Class<?> clazz) {
+        return forClass(clazz).isDefined();
+    }
+
+    /**
+     * Check if the module contains a reference to type with the given name
+     *
+     * @param name the name to search for
+     * @return true if module contains such a reference
+     */
+    default boolean hasReference(CharSequence name) {
+        return forName(name).isDefined();
     }
 
     /**
@@ -88,7 +98,7 @@ public interface Module extends Modules, ModuleResource {
      *
      * @return the parent module
      */
-    Optional<Module> getParent();
+    Option<Module> getParent();
 
     /**
      * Get name of module

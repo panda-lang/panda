@@ -28,7 +28,7 @@ import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Component;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
@@ -48,7 +48,7 @@ public final class ImportParser extends ParserBootstrap<Void> {
     }
 
     @Autowired
-    void parseImport(Context context, @Component Imports imports, @Src("class") Snippet className) {
+    void parseImport(Context context, @Ctx Imports imports, @Src("class") Snippet className) {
         imports.importPrototype(className.toString(), ConveyanceUtils.fetchPrototype(context, className));
     }
 

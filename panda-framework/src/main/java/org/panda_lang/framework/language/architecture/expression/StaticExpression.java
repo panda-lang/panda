@@ -19,15 +19,15 @@ package org.panda_lang.framework.language.architecture.expression;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.expression.ExpressionValueType;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 
 public final class StaticExpression implements Expression {
 
-    private final Prototype prototype;
+    private final Type type;
 
-    public StaticExpression(Prototype prototype) {
-        this.prototype = prototype;
+    public StaticExpression(Type type) {
+        this.type = type;
     }
 
     @Override
@@ -36,8 +36,8 @@ public final class StaticExpression implements Expression {
     }
 
     @Override
-    public Prototype getType() {
-        return prototype;
+    public Type getType() {
+        return type;
     }
 
     @Override

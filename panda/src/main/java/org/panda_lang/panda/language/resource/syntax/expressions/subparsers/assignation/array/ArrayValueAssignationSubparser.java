@@ -37,7 +37,7 @@ import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Component;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationComponents;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationPriorities;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationSubparserBootstrap;
@@ -90,9 +90,9 @@ public final class ArrayValueAssignationSubparser extends AssignationSubparserBo
     @Autowired
     ExpressionResult parse(
             Context context,
-            @Component SourceStream source, @Component Channel channel,
-            @Component AssignationType type, @Component TokenRepresentation operator,
-            @Component(AssignationComponents.EXPRESSION_LABEL) Expression value
+            @Ctx SourceStream source, @Ctx Channel channel,
+            @Ctx AssignationType type, @Ctx TokenRepresentation operator,
+            @Ctx(AssignationComponents.EXPRESSION_LABEL) Expression value
     ) {
         if (type != AssignationType.DEFAULT) {
             throw new PandaParserFailure(context, operator, "Unsupported operator");

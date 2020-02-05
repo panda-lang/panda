@@ -34,8 +34,8 @@ import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Component;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Inter;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Interceptor;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_EXPRESSION)
@@ -67,7 +67,7 @@ public final class StandaloneExpressionParser extends ParserBootstrap<Object> {
     }
 
     @Autowired
-    void parseExpression(@Component SourceStream source, @Component Scope parent, @Component Channel channel, @Inter SourceLocation location) {
+    void parseExpression(@Ctx SourceStream source, @Ctx Scope parent, @Ctx Channel channel, @Interceptor SourceLocation location) {
         StandaloneExpression statement = new StandaloneExpression(source.getCurrent().getLocation(), channel.get("expression", Expression.class));
         parent.addStatement(statement);
         source.read(channel.get("read", int.class));

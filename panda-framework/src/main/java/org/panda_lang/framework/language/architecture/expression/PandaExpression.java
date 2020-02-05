@@ -19,7 +19,7 @@ package org.panda_lang.framework.language.architecture.expression;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.expression.ExpressionEvaluator;
 import org.panda_lang.framework.design.architecture.expression.ExpressionValueType;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 
 import java.security.InvalidParameterException;
@@ -27,11 +27,11 @@ import java.security.InvalidParameterException;
 public class PandaExpression implements Expression {
 
     private final ExpressionValueType type;
-    private final Prototype returnType;
+    private final Type returnType;
     private final ExpressionEvaluator evaluator;
     private final Object value;
 
-    public PandaExpression(Prototype returnType, Object value) {
+    public PandaExpression(Type returnType, Object value) {
         this(ExpressionValueType.CONST, returnType, null, value);
     }
 
@@ -39,7 +39,7 @@ public class PandaExpression implements Expression {
         this(ExpressionValueType.DYNAMIC, expression.getReturnType(), expression, null);
     }
 
-    protected PandaExpression(ExpressionValueType type, Prototype returnType, ExpressionEvaluator evaluator, Object value) {
+    protected PandaExpression(ExpressionValueType type, Type returnType, ExpressionEvaluator evaluator, Object value) {
         if (type == null) {
             throw new InvalidParameterException("ExpressionType cannot be null");
         }
@@ -57,7 +57,7 @@ public class PandaExpression implements Expression {
     }
 
     @Override
-    public Prototype getType() {
+    public Type getType() {
         return returnType;
     }
 

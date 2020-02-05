@@ -18,14 +18,15 @@ package org.panda_lang.framework.language.architecture.dynamic.accessor;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.type.Type;
+import org.panda_lang.framework.design.architecture.type.Typed;
 import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.MemoryContainer;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.dynamic.assigner.Assigner;
 
-public interface Accessor<T extends Variable> {
+public interface Accessor<T extends Variable> extends Typed {
 
     MemoryContainer fetchMemoryContainer(ProcessStack stack, Object instance) throws Exception;
 
@@ -33,8 +34,9 @@ public interface Accessor<T extends Variable> {
 
     @Nullable <R> R getValue(ProcessStack stack, Object instance) throws Exception;
 
-    default Prototype getTypePrototype() {
-        return getVariable().getType()/*.fetch()*/;
+    @Override
+    default Type getType() {
+        return getVariable().getType();
     }
 
     int getMemoryPointer();

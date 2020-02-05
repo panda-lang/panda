@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.design.architecture.module;
 
-import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.type.Reference;
 
 import java.util.Collection;
 import java.util.Map;
@@ -35,14 +35,14 @@ public interface ReferencesMap extends Map<String, Reference>, ModuleResource {
     boolean put(Reference reference);
 
     /**
-     * Count used prototypes
+     * Count used types
      *
-     * @return the amount of used prototypes
+     * @return the amount of used types
      */
     int countUsedPrototypes();
 
     /**
-     * Get collection of entries that contains prototypes
+     * Get collection of entries that contains types
      *
      * @return the collection of Prototypes
      */

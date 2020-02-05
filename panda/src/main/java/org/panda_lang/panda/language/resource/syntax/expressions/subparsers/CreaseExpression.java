@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.runtime.MemoryContainer;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.dynamic.accessor.Accessor;
@@ -37,7 +37,7 @@ final class CreaseExpression extends NumberPriorities implements DynamicExpressi
         this.accessor = accessor;
         this.grow = grow;
         this.post = post;
-        this.priority = getPriority(accessor.getTypePrototype());
+        this.priority = getPriority(accessor.getType());
     }
 
     @Override
@@ -78,7 +78,7 @@ final class CreaseExpression extends NumberPriorities implements DynamicExpressi
     }
 
     @Override
-    public Prototype getReturnType() {
+    public Type getReturnType() {
         return accessor.getVariable().getType();
     }
 

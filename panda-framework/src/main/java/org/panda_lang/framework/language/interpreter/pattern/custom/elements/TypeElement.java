@@ -16,12 +16,9 @@
 
 package org.panda_lang.framework.language.interpreter.pattern.custom.elements;
 
-import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
-import org.panda_lang.framework.language.architecture.prototype.utils.TypeDeclarationUtils;
+import org.panda_lang.framework.language.architecture.type.utils.TypeDeclarationUtils;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPatternElementBuilder;
-
-import java.util.Optional;
 
 public final class TypeElement extends CustomPatternElementBuilder<Snippetable, TypeElement> {
 
@@ -30,16 +27,11 @@ public final class TypeElement extends CustomPatternElementBuilder<Snippetable, 
     }
 
     public static TypeElement create(String id) {
-        return new TypeElement(id).custom((data, source) -> {
-            Optional<Snippet> type = TypeDeclarationUtils.readType(source.getAvailableSource());
-
-            if (!type.isPresent()) {
-                return null;
-            }
-
-            source.next(type.get().size());
-            return type.get();
-        });
+        return new TypeElement(id)
+                .custom((data, source) -> TypeDeclarationUtils.readType(source.getAvailableSource())
+                    .peek(type -> source.next(type.size()))
+                    .getOrNull()
+                );
     }
 
 }

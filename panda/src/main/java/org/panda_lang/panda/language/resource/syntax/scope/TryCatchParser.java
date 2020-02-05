@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.resource.syntax.scope;
 
-import org.panda_lang.framework.design.architecture.prototype.DynamicClass;
+import org.panda_lang.framework.design.architecture.type.DynamicClass;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
@@ -32,8 +32,8 @@ import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Component;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Inter;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Interceptor;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Local;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.data.LocalData;
@@ -54,14 +54,14 @@ public final class TryCatchParser extends ParserBootstrap<Void> {
     }
 
     @Autowired
-    void parse(Context context, LocalData data, @Component Scope parent, @Inter SourceLocation location, @Src("try-body") Snippet tryBody) throws Exception {
+    void parse(Context context, LocalData data, @Ctx Scope parent, @Interceptor SourceLocation location, @Src("try-body") Snippet tryBody) throws Exception {
         Scope tryBlock = SCOPE_PARSER.parse(context, new PandaBlock(parent, location), tryBody);
         TryCatch tryCatch = data.allocated(new TryCatch(location, tryBlock, new PandaBlock(parent, location)));
         parent.addStatement(tryCatch);
     }
 
     @Autowired(order = 1)
-    void parse(Context context, @Component Scope parent, @Local TryCatch tryCatch, @Src("catch-what") Snippet catchWhat, @Src("catch-body") Snippet catchBody) throws Exception {
+    void parse(Context context, @Ctx Scope parent, @Local TryCatch tryCatch, @Src("catch-what") Snippet catchWhat, @Src("catch-body") Snippet catchBody) throws Exception {
         Scope catchBlock = new PandaBlock(parent, catchWhat.getLocation());
 
         PandaVariableDataInitializer dataInitializer = new PandaVariableDataInitializer(context, catchBlock);

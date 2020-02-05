@@ -16,35 +16,35 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
-import org.panda_lang.framework.design.architecture.prototype.Reference;
+import io.vavr.control.Option;
+import org.panda_lang.framework.design.architecture.type.Reference;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.language.architecture.prototype.utils.TypeDeclarationUtils;
+import org.panda_lang.framework.language.architecture.type.utils.TypeDeclarationUtils;
 import org.panda_lang.utilities.commons.function.Produce;
-
-import java.util.Optional;
 
 final class SubparsersUtils {
 
     private SubparsersUtils() { }
 
     protected static Produce<Reference, ExpressionResult> readType(ExpressionContext context) {
-        Optional<Snippet> typeSource = TypeDeclarationUtils.readType(context.getSynchronizedSource().getAvailableSource());
+        Option<Snippet> typeSource = TypeDeclarationUtils.readType(context.getSynchronizedSource().getAvailableSource());
 
-        if (!typeSource.isPresent()) {
+        if (!typeSource.isDefined()) {
             return new Produce<>(() -> ExpressionResult.error("Cannot read type", context.getSynchronizedSource().getAvailableSource()));
         }
 
-        Optional<Reference> typePrototype = context.getContext().getComponent(Components.IMPORTS).forName(typeSource.get().asSource());
-
-        if (!typePrototype.isPresent()) {
-            return new Produce<>(() -> ExpressionResult.error("Unknown type", context.getSynchronizedSource().getAvailableSource()));
-        }
-
-        context.getSynchronizedSource().next(typeSource.get().size());
-        return new Produce<>(typePrototype.get());
+        return context.getContext().getComponent(Components.IMPORTS)
+                .forName(typeSource.get().asSource())
+                .map(type -> {
+                    context.getSynchronizedSource().next(typeSource.get().size());
+                    return new Produce<Reference, ExpressionResult>(type);
+                })
+                .getOrElse(() -> {
+                    return new Produce<>(() -> ExpressionResult.error("Unknown type", context.getSynchronizedSource().getAvailableSource()));
+                });
     }
 
 }

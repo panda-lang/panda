@@ -17,30 +17,30 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.expression.DynamicExpression;
 
 final class IsExpression implements DynamicExpression {
 
-    private final Prototype returnType;
+    private final Type returnType;
     private final Expression value;
-    private final Prototype requestedTypePrototype;
+    private final Type requestedTypeType;
 
-    IsExpression(Prototype returnType, Expression value, Prototype requestedTypePrototype) {
+    IsExpression(Type returnType, Expression value, Type requestedTypeType) {
         this.returnType = returnType;
         this.value = value;
-        this.requestedTypePrototype = requestedTypePrototype;
+        this.requestedTypeType = requestedTypeType;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public Object evaluate(ProcessStack stack, Object instance) throws Exception {
-        return requestedTypePrototype.getAssociatedClass().isAssignableFrom(value.evaluate(stack, instance).getClass());
+        return requestedTypeType.getAssociatedClass().isAssignableFrom(value.evaluate(stack, instance).getClass());
     }
 
     @Override
-    public Prototype getReturnType() {
+    public Type getReturnType() {
         return returnType;
     }
 

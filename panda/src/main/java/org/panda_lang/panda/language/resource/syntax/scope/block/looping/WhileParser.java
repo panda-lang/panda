@@ -28,8 +28,8 @@ import org.panda_lang.panda.language.interpreter.parser.block.BlockData;
 import org.panda_lang.panda.language.interpreter.parser.block.BlockSubparserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Component;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Inter;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Interceptor;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.LinearPatternInterceptor;
@@ -46,7 +46,7 @@ public final class WhileParser extends BlockSubparserBootstrap {
     }
 
     @Autowired
-    BlockData parseWhile(Context context, @Component Scope parent, @Inter SourceLocation location, @Src("value") Expression expression) {
+    BlockData parseWhile(Context context, @Ctx Scope parent, @Interceptor SourceLocation location, @Src("value") Expression expression) {
         if (!expression.getType().getAssociatedClass().isAssignableTo(Boolean.class)) {
             throw new PandaParserFailure(context, "Loop requires boolean as an argument");
         }

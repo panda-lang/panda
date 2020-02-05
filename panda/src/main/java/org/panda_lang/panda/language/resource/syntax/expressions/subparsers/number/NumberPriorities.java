@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.utilities.commons.collection.Maps;
 
@@ -53,11 +53,11 @@ public class NumberPriorities {
             "double", DOUBLE
     );
 
-    public int getPriority(Prototype prototype) {
-        @Nullable Integer priority = HIERARCHY.get(prototype.getSimpleName());
+    public int getPriority(Type type) {
+        @Nullable Integer priority = HIERARCHY.get(type.getSimpleName());
 
         if (priority == null) {
-            throw new PandaParserException("Unknown number type: " + prototype.getName());
+            throw new PandaParserException("Unknown number type: " + type.getName());
         }
 
         return priority;

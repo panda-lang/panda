@@ -19,9 +19,9 @@ package org.panda_lang.panda.language.resource;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.type.Reference;
 import org.panda_lang.framework.language.architecture.module.PandaModuleFactory;
-import org.panda_lang.framework.language.architecture.prototype.generator.PrototypeGeneratorManager;
+import org.panda_lang.framework.language.architecture.type.generator.TypeGeneratorManager;
 import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
 import org.panda_lang.framework.language.resource.internal.PandaFrameworkModules;
 import org.panda_lang.panda.language.resource.internal.PandaModules;
@@ -54,7 +54,7 @@ public final class ResourcesLoader {
             String packageName = internalModuleInfo.getPackageName().isEmpty() ? StringUtils.EMPTY : internalModuleInfo.getPackageName() + ".";
             Class<?> type = Class.forName(packageName + name);
 
-            Reference mappedPrototype = PrototypeGeneratorManager.getInstance().generate(module, type.getSimpleName(), type);
+            Reference mappedPrototype = TypeGeneratorManager.getInstance().generate(module, type.getSimpleName(), type);
             module.add(mappedPrototype);
         }
     }
