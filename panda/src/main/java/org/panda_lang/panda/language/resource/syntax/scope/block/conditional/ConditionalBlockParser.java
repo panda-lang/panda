@@ -39,8 +39,8 @@ import org.panda_lang.panda.language.interpreter.parser.block.BlockData;
 import org.panda_lang.panda.language.interpreter.parser.block.BlockSubparserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Component;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Inter;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Interceptor;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
 
@@ -71,8 +71,8 @@ public final class ConditionalBlockParser extends BlockSubparserBootstrap {
     @Autowired
     BlockData parse(
             Context context,
-            @Component Scope parent, @Component ModuleLoader loader, @Component(BlockComponents.PREVIOUS_BLOCK_LABEL) Block previous,
-            @Inter Result result, @Inter SourceLocation location
+            @Ctx Scope parent, @Ctx ModuleLoader loader, @Ctx(BlockComponents.PREVIOUS_BLOCK_LABEL) Block previous,
+            @Interceptor Result result, @Interceptor SourceLocation location
     ) {
         Expression condition = result.has("condition") ? result.get("condition") : new PandaExpression(loader.requirePrototype(Boolean.class), true);
         ConditionalBlock conditionalBlock = new ConditionalBlock(parent, location, condition);

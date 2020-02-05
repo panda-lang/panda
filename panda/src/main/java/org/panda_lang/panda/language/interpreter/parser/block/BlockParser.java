@@ -37,7 +37,7 @@ import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Component;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Local;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.data.LocalData;
@@ -70,7 +70,7 @@ public final class BlockParser extends ParserBootstrap {
     }
 
     @Autowired(order = 1)
-    void parse(Context context, LocalData local, @Component Channel channel, @Component Scope parent, @Src("declaration") Snippet declaration) throws Exception {
+    void parse(Context context, LocalData local, @Ctx Channel channel, @Ctx Scope parent, @Src("declaration") Snippet declaration) throws Exception {
         BlockSubparser blockParser = channel.get("result", BlockSubparser.class);
         Context delegatedContext = local.allocated(context.fork()).withComponent(Components.CHANNEL, channel);
 

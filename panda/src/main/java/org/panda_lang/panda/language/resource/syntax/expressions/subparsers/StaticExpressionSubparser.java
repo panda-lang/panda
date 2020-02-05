@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.type.Reference;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
@@ -25,7 +25,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionR
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.language.architecture.expression.StaticExpression;
-import org.panda_lang.framework.language.architecture.prototype.utils.VisibilityComparator;
+import org.panda_lang.framework.language.architecture.type.utils.VisibilityComparator;
 import org.panda_lang.framework.language.interpreter.parser.expression.PartialResultSubparser;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 
@@ -53,8 +53,8 @@ public final class StaticExpressionSubparser implements PartialResultSubparser {
                     .forName(token.getValue())
                     .map(Reference::fetch)
                     .filter(reference -> VisibilityComparator.requireAccess(reference, context.getContext(), token))
-                    .map(prototype -> ExpressionResult.of(new StaticExpression(prototype)))
-                    .orElse(null);
+                    .map(type -> ExpressionResult.of(new StaticExpression(type)))
+                    .getOrNull();
         }
 
     }

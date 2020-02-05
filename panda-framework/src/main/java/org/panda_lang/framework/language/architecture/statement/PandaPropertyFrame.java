@@ -17,7 +17,7 @@
 package org.panda_lang.framework.language.architecture.statement;
 
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
-import org.panda_lang.framework.design.architecture.prototype.PropertyFrame;
+import org.panda_lang.framework.design.architecture.type.PropertyFrame;
 import org.panda_lang.framework.design.architecture.statement.FramedScope;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractFrame;
 

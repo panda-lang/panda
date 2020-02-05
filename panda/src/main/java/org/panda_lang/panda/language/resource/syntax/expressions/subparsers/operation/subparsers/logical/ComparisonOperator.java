@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ope
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNOperationAction;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.number.NumericOperation;
 
@@ -28,17 +28,17 @@ public abstract class ComparisonOperator extends NumericOperation<Boolean> {
 
     @Override
     public RPNOperationAction<Boolean> of(ModuleLoader loader, Expression a, Expression b) {
-        Prototype comparedType = estimateType(a.getType(), b.getType());
+        Type comparedType = estimateType(a.getType(), b.getType());
         return of(super.getPriority(comparedType), a, b);
     }
 
     @Override
-    public Prototype returnType(ModuleLoader loader, Prototype a, Prototype b) {
+    public Type returnType(ModuleLoader loader, Type a, Type b) {
         return loader.requirePrototype(boolean.class);
     }
 
     @Override
-    public Prototype requiredType(ModuleLoader loader) {
+    public Type requiredType(ModuleLoader loader) {
         return loader.requirePrototype(Number.class);
     }
 

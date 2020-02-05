@@ -16,14 +16,14 @@
 
 package org.panda_lang.framework.language.architecture.statement;
 
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.Referencable;
+import org.panda_lang.framework.design.architecture.type.Type;
+import org.panda_lang.framework.design.architecture.type.Referencable;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
 
 public class PandaVariableData implements VariableData {
 
     private final String name;
-    private final Prototype type;
+    private final Type type;
     private final boolean mutable;
     private final boolean nillable;
 
@@ -57,7 +57,7 @@ public class PandaVariableData implements VariableData {
     }
 
     @Override
-    public Prototype getType() {
+    public Type getType() {
         return type;
     }
 

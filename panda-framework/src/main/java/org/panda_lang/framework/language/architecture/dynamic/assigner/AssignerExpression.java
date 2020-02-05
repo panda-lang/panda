@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.language.architecture.dynamic.assigner;
 
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.expression.DynamicExpression;
 import org.panda_lang.framework.language.architecture.expression.PandaExpression;
@@ -42,8 +42,8 @@ public final class AssignerExpression extends PandaExpression {
         }
 
         @Override
-        public Prototype getReturnType() {
-            return assigner.getAccessor().getTypePrototype();
+        public Type getReturnType() {
+            return assigner.getAccessor().getType();
         }
 
     }

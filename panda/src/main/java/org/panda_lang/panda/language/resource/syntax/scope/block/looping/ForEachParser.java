@@ -38,7 +38,7 @@ import org.panda_lang.panda.language.interpreter.parser.block.BlockData;
 import org.panda_lang.panda.language.interpreter.parser.block.BlockSubparserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Component;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.LinearPatternInterceptor;
@@ -56,7 +56,7 @@ public final class ForEachParser extends BlockSubparserBootstrap {
     }
 
     @Autowired
-    BlockData parseBlock(Context context, @Component Scope parent, @Component ModuleLoader loader, @Component ExpressionParser parser, @Src("content") Snippet content) {
+    BlockData parseBlock(Context context, @Ctx Scope parent, @Ctx ModuleLoader loader, @Ctx ExpressionParser parser, @Src("content") Snippet content) {
         Snippet[] elements = content.split(Operators.COLON);
 
         if (elements.length != 2) {

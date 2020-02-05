@@ -14,30 +14,30 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.syntax.prototype;
+package org.panda_lang.panda.language.resource.syntax.type;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
-import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
+import org.panda_lang.framework.design.architecture.type.PropertyParameter;
+import org.panda_lang.framework.design.architecture.type.Type;
+import org.panda_lang.framework.design.architecture.type.TypeConstructor;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.language.architecture.prototype.PandaConstructor;
-import org.panda_lang.framework.language.architecture.prototype.PandaConstructor.ConstructorFrame;
-import org.panda_lang.framework.language.architecture.prototype.PandaConstructor.PandaConstructorScope;
-import org.panda_lang.framework.language.architecture.prototype.PrototypeScope;
-import org.panda_lang.framework.language.architecture.prototype.utils.ParameterUtils;
+import org.panda_lang.framework.language.architecture.type.PandaConstructor;
+import org.panda_lang.framework.language.architecture.type.PandaConstructor.ConstructorFrame;
+import org.panda_lang.framework.language.architecture.type.PandaConstructor.PandaConstructorScope;
+import org.panda_lang.framework.language.architecture.type.TypeScope;
+import org.panda_lang.framework.language.architecture.type.utils.ParameterUtils;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Component;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Inter;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Interceptor;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Local;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.data.Delegation;
@@ -62,27 +62,27 @@ public final class ConstructorParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1)
-    void parse(Context context, LocalData local, @Inter SourceLocation location, @Component PrototypeScope prototypeScope, @Src("parameters") @Nullable Snippet parametersSource) {
-        Prototype prototype = prototypeScope.getPrototype();
+    void parse(Context context, LocalData local, @Interceptor SourceLocation location, @Ctx TypeScope typeScope, @Src("parameters") @Nullable Snippet parametersSource) {
+        Type type = typeScope.getType();
         List<PropertyParameter> parameters = PARAMETER_PARSER.parse(context, parametersSource);
         PandaConstructorScope constructorScope = local.allocated(new PandaConstructorScope(location, parameters));
 
-        PrototypeConstructor constructor = PandaConstructor.builder()
-                .type(prototype)
+        TypeConstructor constructor = PandaConstructor.builder()
+                .type(type)
                 .location(location)
                 .parameters(parameters)
                 .callback((stack, instance, arguments) -> {
-                    Frame prototypeFrame = prototypeScope.revive(stack, instance);
+                    Frame typeFrame = typeScope.revive(stack, instance);
 
-                    ConstructorFrame constructorInstance = constructorScope.revive(stack, prototypeFrame);
+                    ConstructorFrame constructorInstance = constructorScope.revive(stack, typeFrame);
                     ParameterUtils.assignValues(constructorInstance, arguments);
-                    stack.callFrame(prototypeFrame, constructorInstance);
+                    stack.callFrame(typeFrame, constructorInstance);
 
-                    return prototypeFrame;
+                    return typeFrame;
                 })
                 .build();
 
-        prototypeScope.getPrototype().getConstructors().declare(constructor);
+        typeScope.getType().getConstructors().declare(constructor);
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)

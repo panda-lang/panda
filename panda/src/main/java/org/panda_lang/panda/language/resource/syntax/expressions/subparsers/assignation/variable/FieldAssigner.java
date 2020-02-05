@@ -17,19 +17,19 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.variable;
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
+import org.panda_lang.framework.design.architecture.type.TypeField;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.framework.language.architecture.dynamic.assigner.AbstractAssigner;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 
-public final class FieldAssigner extends AbstractAssigner<PrototypeField> {
+public final class FieldAssigner extends AbstractAssigner<TypeField> {
 
     private final boolean initialize;
     private final Expression valueExpression;
 
-    public FieldAssigner(SourceLocation location, Accessor<PrototypeField> accessor, boolean initialize, Expression valueExpression) {
+    public FieldAssigner(SourceLocation location, Accessor<TypeField> accessor, boolean initialize, Expression valueExpression) {
         super(location, accessor);
         this.initialize = initialize;
         this.valueExpression = valueExpression;
@@ -37,7 +37,7 @@ public final class FieldAssigner extends AbstractAssigner<PrototypeField> {
 
     @Override
     public Object execute(ProcessStack stack, Object instance) throws Exception {
-        PrototypeField field = accessor.getVariable();
+        TypeField field = accessor.getVariable();
 
         if (!initialize && !field.isMutable()) {
             throw new PandaRuntimeException("Cannot change value of immutable field '" + field.getSimpleName() + "'");
@@ -59,7 +59,7 @@ public final class FieldAssigner extends AbstractAssigner<PrototypeField> {
 
     @Override
     public String toString() {
-        return accessor.getVariable().getPrototype().getSimpleName() + "assigner@f_memory[" + accessor.getMemoryPointer() + "] << " + valueExpression;
+        return accessor.getVariable().getReturnType().getSimpleName() + "assigner@f_memory[" + accessor.getMemoryPointer() + "] << " + valueExpression;
     }
 
 }

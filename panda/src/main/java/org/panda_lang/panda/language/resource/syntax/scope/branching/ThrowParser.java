@@ -26,8 +26,8 @@ import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Component;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Inter;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Interceptor;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.LinearPatternInterceptor;
@@ -44,7 +44,7 @@ public final class ThrowParser extends ParserBootstrap<Void> {
     }
 
     @Autowired
-    void parse(@Component Scope block, @Inter SourceLocation location, @Src("value") Expression expression) {
+    void parse(@Ctx Scope block, @Interceptor SourceLocation location, @Src("value") Expression expression) {
         block.addStatement(new Throw(location, expression));
     }
 

@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.language.architecture.statement;
 
-import org.panda_lang.framework.design.architecture.prototype.PropertyParameter;
+import org.panda_lang.framework.design.architecture.type.PropertyParameter;
 import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 

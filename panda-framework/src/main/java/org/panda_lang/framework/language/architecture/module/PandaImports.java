@@ -16,12 +16,13 @@
 
 package org.panda_lang.framework.language.architecture.module;
 
+import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Imports;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.type.Reference;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 
 import java.util.HashMap;
@@ -67,31 +68,31 @@ public final class PandaImports implements Imports {
     /**
      * Imports does not support this method
      *
-     * @param associatedClass the class associated with prototype to search for
+     * @param associatedClass the class associated with type to search for
      * @return always empty optional
      */
     @Override
-    public Optional<Reference> forClass(@Nullable Class<?> associatedClass) {
+    public Option<Reference> forClass(@Nullable Class<?> associatedClass) {
         throw new PandaRuntimeException("Not supported");
     }
 
     @Override
-    public Optional<Reference> forName(CharSequence name) {
+    public Option<Reference> forName(CharSequence name) {
         Reference localPrototype = importedPrototypes.get(name.toString());
 
         if (localPrototype != null) {
-            return Optional.of(localPrototype);
+            return Option.of(localPrototype);
         }
 
         for (Module module : importedModules.values()) {
-            Optional<Reference> reference = module.forName(name);
+            Option<Reference> reference = module.forName(name);
 
-            if (reference.isPresent()) {
+            if (reference.isDefined()) {
                 return reference;
             }
         }
 
-        return Optional.empty();
+        return Option.none();
     }
 
     @Override

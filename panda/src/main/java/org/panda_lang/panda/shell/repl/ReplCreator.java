@@ -19,21 +19,21 @@ package org.panda_lang.panda.shell.repl;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.FrameworkController;
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.prototype.DynamicClass;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeModels;
-import org.panda_lang.framework.design.architecture.prototype.State;
-import org.panda_lang.framework.design.architecture.prototype.Visibility;
+import org.panda_lang.framework.design.architecture.type.DynamicClass;
+import org.panda_lang.framework.design.architecture.type.Type;
+import org.panda_lang.framework.design.architecture.type.TypeModels;
+import org.panda_lang.framework.design.architecture.type.State;
+import org.panda_lang.framework.design.architecture.type.Visibility;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.runtime.Process;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.language.architecture.prototype.dynamic.PandaDynamicClass;
-import org.panda_lang.framework.language.architecture.prototype.PandaMethod;
-import org.panda_lang.framework.language.architecture.prototype.PandaPrototype;
-import org.panda_lang.framework.language.architecture.prototype.PandaReference;
-import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
-import org.panda_lang.framework.language.architecture.prototype.PrototypeScope;
+import org.panda_lang.framework.language.architecture.type.dynamic.PandaDynamicClass;
+import org.panda_lang.framework.language.architecture.type.PandaMethod;
+import org.panda_lang.framework.language.architecture.type.PandaType;
+import org.panda_lang.framework.language.architecture.type.PandaReference;
+import org.panda_lang.framework.language.architecture.type.TypeComponents;
+import org.panda_lang.framework.language.architecture.type.TypeScope;
 import org.panda_lang.framework.language.architecture.statement.PandaVariableData;
 import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceLocationUtils;
@@ -50,7 +50,7 @@ import java.util.function.Supplier;
 public final class ReplCreator {
 
     protected final Context context;
-    protected final PrototypeScope prototypeScope;
+    protected final TypeScope typeScope;
     protected final ReplScope replScope;
     protected ReplExceptionListener exceptionListener;
     protected Supplier<Process> processSupplier;
@@ -60,24 +60,24 @@ public final class ReplCreator {
         this.context = PandaContextUtils.createStubContext(frameworkController);
 
         Module module = context.getComponent(Components.SCRIPT).getModule();
-        DynamicClass shellType = new PandaDynamicClass("ShellPrototype", module.getName(), PrototypeModels.CLASS);
+        DynamicClass shellType = new PandaDynamicClass("ShellPrototype", module.getName(), TypeModels.CLASS);
 
-        Prototype prototype = new PandaReference(shellType.getSimpleName(), module, PrototypeModels.CLASS, ref -> PandaPrototype.builder()
+        Type type = new PandaReference(shellType.getSimpleName(), module, TypeModels.CLASS, ref -> PandaType.builder()
                 .name(ref.getName())
                 .reference(ref)
                 .module(module)
                 .associated(ref.getAssociatedClass())
                 .location(new PandaClassSource(ReplCreator.class).toLocation())
                 .state(State.FINAL)
-                .model(PrototypeModels.CLASS)
+                .model(TypeModels.CLASS)
                 .visibility(Visibility.PUBLIC)
                 .build()
         ).fetch();
 
-        context.withComponent(PrototypeComponents.PROTOTYPE, prototype);
-        this.prototypeScope = new PrototypeScope(PandaSourceLocationUtils.unknownLocation("repl"), prototype);
+        context.withComponent(TypeComponents.PROTOTYPE, type);
+        this.typeScope = new TypeScope(PandaSourceLocationUtils.unknownLocation("repl"), type);
 
-        this.replScope = new ReplScope(prototypeScope.getSourceLocation(), Collections.emptyList());
+        this.replScope = new ReplScope(typeScope.getSourceLocation(), Collections.emptyList());
         context.withComponent(Components.SCOPE, replScope);
     }
 
@@ -89,19 +89,19 @@ public final class ReplCreator {
      */
     public Repl create() throws Exception {
         this.processSupplier = () -> new PandaProcess(context.getComponent(Components.APPLICATION), replScope);
-        this.instanceSupplier = stack -> prototypeScope.revive(stack, null);
+        this.instanceSupplier = stack -> typeScope.revive(stack, null);
 
         return new Repl(this);
     }
 
     /**
-     * Define a method in the repl prototype
+     * Define a method in the repl type
      *
      * @param method the method to register
      * @return the REPL creator instance
      */
     public ReplCreator define(PandaMethod method) {
-        prototypeScope.getPrototype().getMethods().declare(method);
+        typeScope.getType().getMethods().declare(method);
         return this;
     }
 

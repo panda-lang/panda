@@ -28,12 +28,12 @@ import org.panda_lang.panda.language.resource.syntax.head.ImportParser;
 import org.panda_lang.panda.language.resource.syntax.head.MainParser;
 import org.panda_lang.panda.language.resource.syntax.head.ModuleParser;
 import org.panda_lang.panda.language.resource.syntax.head.RequireParser;
-import org.panda_lang.panda.language.resource.syntax.prototype.BaseConstructorParser;
-import org.panda_lang.panda.language.resource.syntax.prototype.ConstructorParser;
-import org.panda_lang.panda.language.resource.syntax.prototype.FieldParser;
-import org.panda_lang.panda.language.resource.syntax.prototype.MethodParser;
-import org.panda_lang.panda.language.resource.syntax.prototype.ParameterParser;
-import org.panda_lang.panda.language.resource.syntax.prototype.PrototypeParser;
+import org.panda_lang.panda.language.resource.syntax.type.BaseConstructorParser;
+import org.panda_lang.panda.language.resource.syntax.type.ConstructorParser;
+import org.panda_lang.panda.language.resource.syntax.type.FieldParser;
+import org.panda_lang.panda.language.resource.syntax.type.MethodParser;
+import org.panda_lang.panda.language.resource.syntax.type.ParameterParser;
+import org.panda_lang.panda.language.resource.syntax.type.PrototypeParser;
 import org.panda_lang.panda.language.resource.syntax.scope.LateDeclarationParser;
 import org.panda_lang.panda.language.resource.syntax.scope.LogParser;
 import org.panda_lang.panda.language.resource.syntax.scope.StandaloneExpressionParser;
@@ -68,7 +68,7 @@ public final class PandaParsers {
             MainParser.class,
             ModuleParser.class,
 
-            // prototype
+            // type
             PrototypeParser.class,
             ConstructorParser.class,
             BaseConstructorParser.class,

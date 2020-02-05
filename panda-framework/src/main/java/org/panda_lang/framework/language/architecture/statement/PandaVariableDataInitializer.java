@@ -16,19 +16,17 @@
 
 package org.panda_lang.framework.language.architecture.statement;
 
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.type.Reference;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
-import org.panda_lang.framework.language.architecture.prototype.utils.VisibilityComparator;
+import org.panda_lang.framework.language.architecture.type.utils.VisibilityComparator;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 
 import java.util.Objects;
-import java.util.Optional;
 
 public final class PandaVariableDataInitializer {
 
@@ -53,7 +51,7 @@ public final class PandaVariableDataInitializer {
         return createVariableData(type, name, mutable, nillable);
     }
 
-    public VariableData createVariableData(Snippetable type, Snippetable name, boolean mutable, boolean nillable) {
+    public VariableData createVariableData(Snippetable typeName, Snippetable name, boolean mutable, boolean nillable) {
         Snippet nameSource = name.toSnippet();
 
         if (nameSource.size() > 1) {
@@ -62,19 +60,20 @@ public final class PandaVariableDataInitializer {
 
         String variableName = nameSource.asSource();
 
-        if (scope.getVariable(variableName).isPresent()) {
+        if (scope.getVariable(variableName).isDefined()) {
             throw new PandaParserFailure(context, name, "Variable name is already used in the scope '" + variableName + "'");
         }
 
-        Optional<Reference> reference = context.getComponent(Components.IMPORTS).forName(type.toSnippet().asSource());
-
-        if (!reference.isPresent()) {
-            throw new PandaParserFailure(context, type, "Cannot recognize variable type: " + type);
-        }
-
-        Prototype prototype = reference.get().fetch();
-        VisibilityComparator.requireAccess(prototype, context, type);
-        return new PandaVariableData(prototype, nameSource.asSource(), mutable, nillable);
+        return context.getComponent(Components.IMPORTS)
+                .forName(typeName.toSnippet().asSource())
+                .map(Reference::fetch)
+                .map(type -> {
+                    VisibilityComparator.requireAccess(type, context, typeName);
+                    return new PandaVariableData(type, nameSource.asSource(), mutable, nillable);
+                })
+                .getOrElseThrow(() -> {
+                    throw new PandaParserFailure(context, typeName, "Cannot recognize variable type: " + typeName);
+                });
     }
 
 }

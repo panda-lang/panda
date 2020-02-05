@@ -16,11 +16,11 @@
 
 package org.panda_lang.framework.design.architecture.module;
 
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
+import io.vavr.control.Option;
+import org.panda_lang.framework.design.architecture.type.Type;
+import org.panda_lang.framework.design.architecture.type.Reference;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 
-import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
@@ -29,51 +29,51 @@ import java.util.function.Supplier;
 public interface ModuleResource {
 
     /**
-     * Get prototype associated with the given class.
-     * Use this method only if you are absolutely sure that the requested prototype exists
+     * Get type associated with the given class.
+     * Use this method only if you are absolutely sure that the requested type exists
      *
      * @param associatedClass the associated class to search for
-     * @return the found prototype
-     * @throws org.panda_lang.framework.language.runtime.PandaRuntimeException if prototype does not exist
+     * @return the found type
+     * @throws org.panda_lang.framework.language.runtime.PandaRuntimeException if type does not exist
      */
-    default Prototype requirePrototype(Class<?> associatedClass) throws PandaRuntimeException {
+    default Type requirePrototype(Class<?> associatedClass) throws PandaRuntimeException {
         return forClass(associatedClass)
                 .map(Reference::fetch)
-                .orElseThrow((Supplier<? extends PandaRuntimeException>) () -> {
-                    throw new PandaRuntimeException("Cannot find prototype associated with " + associatedClass);
+                .getOrElseThrow((Supplier<? extends PandaRuntimeException>) () -> {
+                    throw new PandaRuntimeException("Cannot find type associated with " + associatedClass);
                 });
     }
 
     /**
-     * Get prototype with the given name.
-     * Use this method only if you are absolutely sure that the request prototype exists
+     * Get type with the given name.
+     * Use this method only if you are absolutely sure that the request type exists
      *
      * @param name the name to search for
-     * @return the found prototype
-     * @throws org.panda_lang.framework.language.runtime.PandaRuntimeException if prototype does not exist
+     * @return the found type
+     * @throws org.panda_lang.framework.language.runtime.PandaRuntimeException if type does not exist
      */
-    default Prototype requirePrototype(String name) throws PandaRuntimeException {
+    default Type requirePrototype(String name) throws PandaRuntimeException {
         return forName(name)
                 .map(Reference::fetch)
-                .orElseThrow((Supplier<? extends PandaRuntimeException>) () -> {
-                    throw new PandaRuntimeException("Cannot find prototype " + name);
+                .getOrElseThrow((Supplier<? extends PandaRuntimeException>) () -> {
+                    throw new PandaRuntimeException("Cannot find type " + name);
                 });
     }
 
     /**
      * Find reference using the given class
      *
-     * @param associatedClass the class associated with prototype to search for
+     * @param associatedClass the class associated with type to search for
      * @return the reference
      */
-    Optional<Reference> forClass(Class<?> associatedClass);
+    Option<Reference> forClass(Class<?> associatedClass);
 
     /**
      * Find reference using the given name
      *
-     * @param prototypeName the name to search for
+     * @param typeName the name to search for
      * @return the reference
      */
-    Optional<Reference> forName(CharSequence prototypeName);
+    Option<Reference> forName(CharSequence typeName);
 
 }

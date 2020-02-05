@@ -16,12 +16,13 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
+import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.prototype.Adjustment;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeConstructor;
+import org.panda_lang.framework.design.architecture.type.Adjustment;
+import org.panda_lang.framework.design.architecture.type.Type;
+import org.panda_lang.framework.design.architecture.type.TypeConstructor;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
@@ -32,11 +33,11 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionT
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.language.architecture.module.PandaImportsUtils;
-import org.panda_lang.framework.language.architecture.prototype.PrototypeExecutableExpression;
-import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
-import org.panda_lang.framework.language.architecture.prototype.utils.StateComparator;
-import org.panda_lang.framework.language.architecture.prototype.utils.TypeDeclarationUtils;
-import org.panda_lang.framework.language.architecture.prototype.utils.VisibilityComparator;
+import org.panda_lang.framework.language.architecture.type.TypeExecutableExpression;
+import org.panda_lang.framework.language.architecture.type.array.ArrayType;
+import org.panda_lang.framework.language.architecture.type.utils.StateComparator;
+import org.panda_lang.framework.language.architecture.type.utils.TypeDeclarationUtils;
+import org.panda_lang.framework.language.architecture.type.utils.VisibilityComparator;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
@@ -90,9 +91,9 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             }
 
             // read type
-            Optional<Snippet> typeValue = TypeDeclarationUtils.readType(source.getAvailableSource());
+            Option<Snippet> typeValue = TypeDeclarationUtils.readType(source.getAvailableSource());
 
-            if (!typeValue.isPresent()) {
+            if (!typeValue.isDefined()) {
                 return null;
             }
 
@@ -123,20 +124,20 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             }
 
             // parse constructor call
-            Prototype type = PandaImportsUtils.getReferenceThrow(context.getContext(), typeSource.asSource(), typeSource).fetch();
+            Type type = PandaImportsUtils.getReferenceOrThrow(context.getContext(), typeSource.asSource(), typeSource).fetch();
             VisibilityComparator.requireAccess(type, context.getContext(), typeSource);
             StateComparator.requireInstantiation(context.getContext(), type, typeSource);
 
             return parseDefault(context, type, next);
         }
 
-        private ExpressionResult parseDefault(ExpressionContext context, Prototype type, TokenRepresentation section) {
+        private ExpressionResult parseDefault(ExpressionContext context, Type type, TokenRepresentation section) {
             Snippet argsSource = section.toToken(Section.class).getContent();
             Expression[] arguments = ARGUMENT_PARSER.parse(context, argsSource);
-            Optional<Adjustment<PrototypeConstructor>> adjustedConstructor = type.getConstructors().getAdjustedConstructor(arguments);
+            Optional<Adjustment<TypeConstructor>> adjustedConstructor = type.getConstructors().getAdjustedConstructor(arguments);
 
             return adjustedConstructor
-                    .map(constructorArguments -> ExpressionResult.of(new PrototypeExecutableExpression(null, constructorArguments)))
+                    .map(constructorArguments -> ExpressionResult.of(new TypeExecutableExpression(null, constructorArguments)))
                     .orElseGet(() -> ExpressionResult.error(type.getSimpleName() + " does not have constructor with the required parameters: " + Arrays.toString(arguments), section));
         }
 
@@ -169,17 +170,17 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             String baseClassName = typeSource.subSource(0, typeSource.size() - sections.size()).asSource();
             String endTypeName = baseClassName + StringUtils.repeated(sections.size(), "[]");
 
-            ArrayPrototype instanceType = (ArrayPrototype) PandaImportsUtils.getReferenceThrow(context.getContext(), endTypeName, typeSource).fetch();
-            ArrayPrototype baseType = instanceType;
+            ArrayType instanceType = (ArrayType) PandaImportsUtils.getReferenceOrThrow(context.getContext(), endTypeName, typeSource).fetch();
+            ArrayType baseType = instanceType;
 
             for (int declaredCapacities = 0; declaredCapacities < capacities.size() - 1; declaredCapacities++) {
-                Prototype componentType = baseType.getArrayType();
+                Type componentType = baseType.getArrayType();
 
-                if (!(componentType instanceof ArrayPrototype)) {
+                if (!(componentType instanceof ArrayType)) {
                     throw new PandaFrameworkException("Should not happen");
                 }
 
-                baseType = (ArrayPrototype) componentType;
+                baseType = (ArrayType) componentType;
             }
 
             return ExpressionResult.of(new ArrayInstanceExpression(instanceType, baseType.getArrayType(), capacities.toArray(new Expression[0])).toExpression());

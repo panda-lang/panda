@@ -33,15 +33,15 @@ import org.panda_lang.framework.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.framework.language.architecture.dynamic.accessor.AccessorExpression;
 import org.panda_lang.framework.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.framework.language.architecture.dynamic.assigner.AssignerExpression;
-import org.panda_lang.framework.language.architecture.prototype.PandaConstructor.PandaConstructorScope;
+import org.panda_lang.framework.language.architecture.type.PandaConstructor.PandaConstructorScope;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Component;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Inter;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Interceptor;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationPriorities;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationSubparserBootstrap;
 
@@ -78,7 +78,7 @@ public final class VariableAssignationSubparser extends AssignationSubparserBoot
     }
 
     @Autowired
-    ExpressionResult parse(@Component Channel channel, @Component Scope block, @Component Expression expression, @Inter SourceLocation location) {
+    ExpressionResult parse(@Ctx Channel channel, @Ctx Scope block, @Ctx Expression expression, @Interceptor SourceLocation location) {
         Accessor<?> accessor = channel.get("accessor", AccessorExpression.class).getAccessor();
         boolean initialization = block.getFramedScope() instanceof PandaConstructorScope;
         Assigner<?> assigner = accessor.toAssigner(location, initialization, expression);

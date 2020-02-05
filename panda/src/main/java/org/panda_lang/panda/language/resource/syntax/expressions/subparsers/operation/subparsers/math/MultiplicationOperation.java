@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.math;
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNOperationAction;
@@ -25,7 +25,7 @@ import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.oper
 public final class MultiplicationOperation extends MathOperation {
 
     @Override
-    public RPNOperationAction<Number> of(Prototype returnType, int priority, Expression a, Expression b) {
+    public RPNOperationAction<Number> of(Type returnType, int priority, Expression a, Expression b) {
         return new MathOperationAction(returnType, a, b) {
             @Override
             public Number get(ProcessStack stack, Object instance, Number a, Number b) {

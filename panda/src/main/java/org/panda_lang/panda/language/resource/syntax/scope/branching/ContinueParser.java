@@ -29,8 +29,8 @@ import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Component;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Inter;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Interceptor;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.LinearPatternInterceptor;
 
@@ -46,7 +46,7 @@ public final class ContinueParser extends ParserBootstrap<Void> {
     }
 
     @Autowired
-    void parseContinue(Context context, @Component Scope scope, @Inter SourceLocation location, @Inter Snippet source) {
+    void parseContinue(Context context, @Ctx Scope scope, @Interceptor SourceLocation location, @Interceptor Snippet source) {
         if (!ScopeUtils.lookFor(scope, ControlledScope.class)) {
             throw new PandaParserFailure(context, source, "Continue cannot be used outside of the looping block");
         }

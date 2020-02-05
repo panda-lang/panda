@@ -16,10 +16,11 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
+import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
+import org.panda_lang.framework.design.architecture.type.Type;
+import org.panda_lang.framework.design.architecture.type.TypeField;
 import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
@@ -29,8 +30,8 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionS
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.language.architecture.expression.ThisExpression;
-import org.panda_lang.framework.language.architecture.prototype.PrototypeComponents;
-import org.panda_lang.framework.language.architecture.prototype.utils.VisibilityComparator;
+import org.panda_lang.framework.language.architecture.type.TypeComponents;
+import org.panda_lang.framework.language.architecture.type.utils.VisibilityComparator;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
@@ -75,7 +76,6 @@ public final class VariableExpressionSubparser implements ExpressionSubparser {
             // if there is anything on stack, we can search only for fields
             if (context.hasResults()) {
                 ExpressionResult result = fromInstance(context, context.peekExpression(), token).orElseGet(() -> {
-
                     return ExpressionResult.error("Cannot find field called '" + name + "'", token);
                 });
 
@@ -86,18 +86,18 @@ public final class VariableExpressionSubparser implements ExpressionSubparser {
                 return result;
             }
 
-            Optional<Variable> variableValue = context.getContext().getComponent(Components.SCOPE).getVariable(name);
+            Option<Variable> variableValue = context.getContext().getComponent(Components.SCOPE).getVariable(name);
 
             // respect local variables before fields
-            if (variableValue.isPresent()) {
+            if (variableValue.isDefined()) {
                 Variable variable = variableValue.get();
                 return ExpressionResult.of(new VariableExpression(variable).toExpression());
             }
 
-            Prototype prototype = context.getContext().getComponent(PrototypeComponents.PROTOTYPE);
+            Type type = context.getContext().getComponent(TypeComponents.PROTOTYPE);
 
-            if (prototype != null) {
-                return fromInstance(context, ThisExpression.of(prototype), token).orElseGet(() -> {
+            if (type != null) {
+                return fromInstance(context, ThisExpression.of(type), token).orElseGet(() -> {
                     return ExpressionResult.error("Cannot find class/variable '" + name + "'", token);
                 });
             }
@@ -107,7 +107,7 @@ public final class VariableExpressionSubparser implements ExpressionSubparser {
         }
 
         private Optional<ExpressionResult> fromInstance(ExpressionContext context, Expression instance, TokenRepresentation name) {
-            Optional<PrototypeField> fieldValue = instance.getType().getFields().getField(name.getValue());
+            Optional<TypeField> fieldValue = instance.getType().getFields().getField(name.getValue());
 
             if (fieldValue.isPresent()) {
                 Optional<String> issue = VisibilityComparator.canAccess(fieldValue.get(), context.getContext());

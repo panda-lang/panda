@@ -17,8 +17,8 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.type.Type;
+import org.panda_lang.framework.design.architecture.type.Reference;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
@@ -26,7 +26,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionS
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.language.architecture.expression.PandaDynamicExpression;
-import org.panda_lang.framework.language.architecture.prototype.utils.VisibilityComparator;
+import org.panda_lang.framework.language.architecture.type.utils.VisibilityComparator;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.utilities.commons.function.Produce;
 
@@ -61,9 +61,9 @@ public final class CastExpressionSubparser implements ExpressionSubparser {
                 return result.getError();
             }
 
-            Prototype prototype = result.getResult().fetch();
-            VisibilityComparator.requireAccess(prototype, context.getContext(), token);
-            return ExpressionResult.of(new PandaDynamicExpression(prototype, context.popExpression()).toExpression());
+            Type type = result.getResult().fetch();
+            VisibilityComparator.requireAccess(type, context.getContext(), token);
+            return ExpressionResult.of(new PandaDynamicExpression(type, context.popExpression()).toExpression());
         }
 
     }

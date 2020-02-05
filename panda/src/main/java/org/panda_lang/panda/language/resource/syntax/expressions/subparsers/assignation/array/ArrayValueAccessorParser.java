@@ -25,7 +25,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionP
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
+import org.panda_lang.framework.language.architecture.type.array.ArrayType;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
@@ -69,7 +69,7 @@ public final class ArrayValueAccessorParser implements Parser {
             throw new PandaParserFailure(context, source, "Cannot use index on non-array type (" + instance.getType() + ")");
         }
 
-        ArrayPrototype arrayPrototype = (ArrayPrototype) instance.getType();
+        ArrayType arrayPrototype = (ArrayType) instance.getType();
 
         if (arrayPrototype == null) {
             throw new PandaParserFailure(context, source, "Cannot locate array class");

@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.syntax.prototype;
+package org.panda_lang.panda.language.resource.syntax.type;
 
+import io.vavr.control.Option;
 import javassist.ClassPool;
 import javassist.CtClass;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.type.Type;
+import org.panda_lang.framework.design.architecture.type.Reference;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
-import org.panda_lang.framework.language.architecture.prototype.PrototypeClass;
-import org.panda_lang.framework.language.architecture.prototype.utils.StateComparator;
-import org.panda_lang.framework.language.architecture.prototype.utils.TypeDeclarationUtils;
+import org.panda_lang.framework.language.architecture.type.TypeClass;
+import org.panda_lang.framework.language.architecture.type.utils.StateComparator;
+import org.panda_lang.framework.language.architecture.type.utils.TypeDeclarationUtils;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
@@ -35,7 +36,6 @@ import org.panda_lang.utilities.commons.ClassUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
 
 final class PrototypeParserUtils {
 
@@ -43,13 +43,13 @@ final class PrototypeParserUtils {
 
     private PrototypeParserUtils() { }
 
-    public static void appendExtended(Context context, Prototype prototype, Snippetable typeSource) {
+    public static void appendExtended(Context context, Type type, Snippetable typeSource) {
         String name = typeSource.toString();
-        Optional<Reference> extendedPrototype = context.getComponent(Components.IMPORTS).forName(name);
+        Option<Reference> extendedPrototype = context.getComponent(Components.IMPORTS).forName(name);
 
-        if (extendedPrototype.isPresent()) {
+        if (extendedPrototype.isDefined()) {
             StateComparator.requireInheritance(context, extendedPrototype.get().fetch(), typeSource);
-            prototype.addBase(extendedPrototype.get().fetch());
+            type.addBase(extendedPrototype.get().fetch());
             return;
         }
 
@@ -64,8 +64,8 @@ final class PrototypeParserUtils {
             return Class.forName(className);
         }
 
-        CtClass generatedClass = POOL.makeInterface(className, ClassPoolUtils.get(PrototypeClass.class));
-        return ClassPoolUtils.toClass(POOL.makeInterface(className, ClassPoolUtils.get(PrototypeClass.class)));
+        CtClass generatedClass = POOL.makeInterface(className, ClassPoolUtils.get(TypeClass.class));
+        return ClassPoolUtils.toClass(POOL.makeInterface(className, ClassPoolUtils.get(TypeClass.class)));
     }
 
     public static Collection<Snippetable> readTypes(SynchronizedSource source) {
@@ -80,9 +80,9 @@ final class PrototypeParserUtils {
                 source.next();
             }
 
-            Optional<Snippet> type = TypeDeclarationUtils.readType(source);
+            Option<Snippet> type = TypeDeclarationUtils.readType(source);
 
-            if (!type.isPresent()) {
+            if (!type.isDefined()) {
                 break;
             }
 

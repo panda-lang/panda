@@ -16,33 +16,29 @@
 
 package org.panda_lang.framework.language.architecture.module;
 
+import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.Imports;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.type.Reference;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 
-import java.util.Optional;
 import java.util.function.Function;
 
 public final class PandaImportsUtils {
 
     private PandaImportsUtils() { }
 
-    public static Reference getReferenceThrow(Context context, String className, @Nullable Snippet source) {
-        return getReferenceThrow(context, imports -> imports.forName(className), "Unknown type " + className, source);
+    public static Reference getReferenceOrThrow(Context context, String className, @Nullable Snippet source) {
+        return getReferenceOrThrow(context, imports -> imports.forName(className), "Unknown type " + className, source);
     }
 
-    static Reference getReferenceThrow(Context context, Function<Imports, Optional<Reference>> mapper, String message, Snippet source) {
-        Optional<Reference> reference = mapper.apply(context.getComponent(Components.IMPORTS));
-
-        if (!reference.isPresent()) {
+    private static Reference getReferenceOrThrow(Context context, Function<Imports, Option<Reference>> mapper, String message, Snippet source) {
+        return mapper.apply(context.getComponent(Components.IMPORTS)).getOrElse(() -> {
             throw new PandaParserFailure(context, source, message);
-        }
-
-        return reference.get();
+        });
     }
 
 }

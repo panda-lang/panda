@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.design.architecture.module;
 
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 
@@ -24,11 +24,11 @@ public final class ModuleLoaderUtils {
 
     private ModuleLoaderUtils() { }
 
-    public static Prototype forClass(Context context, Class<?> associatedClass) {
+    public static Type forClass(Context context, Class<?> associatedClass) {
         return context.getComponent(Components.MODULE_LOADER).requirePrototype(associatedClass);
     }
 
-    public static Prototype forName(Context context, String name) {
+    public static Type forName(Context context, String name) {
         return context.getComponent(Components.MODULE_LOADER).requirePrototype(name);
     }
 

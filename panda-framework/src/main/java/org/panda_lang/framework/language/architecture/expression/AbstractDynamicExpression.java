@@ -16,9 +16,9 @@
 
 package org.panda_lang.framework.language.architecture.expression;
 
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.Referencable;
-import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.type.Type;
+import org.panda_lang.framework.design.architecture.type.Referencable;
+import org.panda_lang.framework.design.architecture.type.Reference;
 
 public abstract class AbstractDynamicExpression implements DynamicExpression {
 
@@ -29,7 +29,7 @@ public abstract class AbstractDynamicExpression implements DynamicExpression {
     }
 
     @Override
-    public Prototype getReturnType() {
+    public Type getReturnType() {
         return returnType.fetch();
     }
 

@@ -35,8 +35,8 @@ import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Component;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Inter;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Interceptor;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
@@ -60,7 +60,7 @@ public final class LateDeclarationParser extends ParserBootstrap<Void> {
     }
 
     @Autowired
-    void parse(Context context, @Inter Result result, @Component Scope scope, @Src("type") Snippetable type, @Src("name") Snippetable name) {
+    void parse(Context context, @Interceptor Result result, @Ctx Scope scope, @Src("type") Snippetable type, @Src("name") Snippetable name) {
         PandaVariableDataInitializer dataInitializer = new PandaVariableDataInitializer(context, scope);
         VariableData variableData = dataInitializer.createVariableData(type, name, result.has(Keywords.MUT.getValue()), result.has(Keywords.NIL.getValue()));
         scope.createVariable(variableData);

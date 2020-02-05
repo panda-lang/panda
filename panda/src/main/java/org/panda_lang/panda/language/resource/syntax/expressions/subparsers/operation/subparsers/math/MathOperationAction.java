@@ -18,21 +18,21 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ope
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNSimplifiedAction;
 
 public abstract class MathOperationAction extends RPNSimplifiedAction<Number, Number, Number> {
 
-    private final Prototype prototype;
+    private final Type type;
 
-    protected MathOperationAction(Prototype prototype, Expression a, Expression b) {
+    protected MathOperationAction(Type type, Expression a, Expression b) {
         super(a, b);
-        this.prototype = prototype;
+        this.type = type;
     }
 
     @Override
-    public Prototype returnType(ModuleLoader loader) {
-        return prototype;
+    public Type returnType(ModuleLoader loader) {
+        return type;
     }
 
 }

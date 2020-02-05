@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ope
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNOperationAction;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNOperationSupplier;
@@ -40,19 +40,19 @@ public class OrOperation implements RPNOperationSupplier {
             }
 
             @Override
-            public Prototype returnType(ModuleLoader loader) {
+            public Type returnType(ModuleLoader loader) {
                 return requiredType(loader);
             }
         };
     }
 
     @Override
-    public Prototype returnType(ModuleLoader loader, Prototype a, Prototype b) {
+    public Type returnType(ModuleLoader loader, Type a, Type b) {
         return requiredType(loader);
     }
 
     @Override
-    public Prototype requiredType(ModuleLoader loader) {
+    public Type requiredType(ModuleLoader loader) {
         return loader.requirePrototype(boolean.class);
     }
 

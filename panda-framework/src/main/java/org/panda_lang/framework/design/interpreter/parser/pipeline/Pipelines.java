@@ -42,13 +42,13 @@ public final class Pipelines implements PipelineComponents {
     public static final PipelineComponent<ContextParser> HEAD = PipelineComponent.of(Pipelines.class, HEAD_LABEL, ContextParser.class);
 
     /**
-     * Text representation of {@link Pipelines#PROTOTYPE}
+     * Text representation of {@link Pipelines#TYPE}
      */
-    public static final String PROTOTYPE_LABEL = "prototype";
+    public static final String PROTOTYPE_LABEL = "type";
     /**
-     * Class prototype parsers, used by prototype parser
+     * Class type parsers, used by type parser
      */
-    public static final PipelineComponent<ContextParser> PROTOTYPE = PipelineComponent.of(Pipelines.class, PROTOTYPE_LABEL, ContextParser.class);
+    public static final PipelineComponent<ContextParser> TYPE = PipelineComponent.of(Pipelines.class, PROTOTYPE_LABEL, ContextParser.class);
 
     /**
      * Text representation of {@link Pipelines#SCOPE}

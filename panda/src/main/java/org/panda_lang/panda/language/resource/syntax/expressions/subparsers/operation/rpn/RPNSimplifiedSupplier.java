@@ -18,14 +18,14 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ope
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 
 public abstract class RPNSimplifiedSupplier<A, B, T> implements RPNOperationSupplier {
 
     public abstract T get(ProcessStack stack, Object instance, A a, B b);
 
-    public abstract Prototype returnType(ModuleLoader loader);
+    public abstract Type returnType(ModuleLoader loader);
 
     @Override
     public RPNOperationAction<T> of(ModuleLoader moduleLoader, Expression a, Expression b) {
@@ -36,14 +36,14 @@ public abstract class RPNSimplifiedSupplier<A, B, T> implements RPNOperationSupp
             }
 
             @Override
-            public Prototype returnType(ModuleLoader loader) {
+            public Type returnType(ModuleLoader loader) {
                 return RPNSimplifiedSupplier.this.returnType(loader);
             }
         };
     }
 
     @Override
-    public Prototype returnType(ModuleLoader loader, Prototype a, Prototype b) {
+    public Type returnType(ModuleLoader loader, Type a, Type b) {
         return returnType(loader);
     }
 

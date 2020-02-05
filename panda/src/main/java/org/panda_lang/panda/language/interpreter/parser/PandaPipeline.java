@@ -31,7 +31,7 @@ public final class PandaPipeline implements PipelineComponents {
      */
     public static final String BLOCK_LABEL = "block";
     /**
-     * Class prototype parsers, used by {@link org.panda_lang.panda.language.interpreter.parser.block.BlockParser}
+     * Class type parsers, used by {@link org.panda_lang.panda.language.interpreter.parser.block.BlockParser}
      */
     public static final PipelineComponent<BlockSubparser> BLOCK = PipelineComponent.of(PandaPipeline.class, BLOCK_LABEL, BlockSubparser.class);
 

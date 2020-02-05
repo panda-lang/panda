@@ -27,8 +27,8 @@ import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Component;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Inter;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Interceptor;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.LinearPatternInterceptor;
@@ -45,7 +45,7 @@ public final class ReturnParser extends ParserBootstrap<Void> {
     }
 
     @Autowired
-    void parse(@Component Scope scope, @Inter SourceLocation location, @Src("value") @Nullable Expression value) {
+    void parse(@Ctx Scope scope, @Interceptor SourceLocation location, @Src("value") @Nullable Expression value) {
         scope.addStatement(new Return(location, value));
     }
 

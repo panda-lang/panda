@@ -17,8 +17,8 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
-import org.panda_lang.framework.design.architecture.prototype.PrototypeField;
+import org.panda_lang.framework.design.architecture.type.Type;
+import org.panda_lang.framework.design.architecture.type.TypeField;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.framework.language.architecture.dynamic.accessor.AccessorExpression;
@@ -28,20 +28,20 @@ import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assi
 
 final class FieldExpression implements DynamicExpression {
 
-    private final Accessor<? extends PrototypeField> accessor;
+    private final Accessor<? extends TypeField> accessor;
 
-    public FieldExpression(Accessor<? extends PrototypeField> accessor) {
+    public FieldExpression(Accessor<? extends TypeField> accessor) {
         this.accessor = accessor;
     }
 
-    public FieldExpression(Expression instanceExpression, PrototypeField field) {
+    public FieldExpression(Expression instanceExpression, TypeField field) {
         this(new FieldAccessor(instanceExpression, field));
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public Object evaluate(ProcessStack stack, Object instance) throws Exception {
-        PrototypeField field = accessor.getVariable();
+        TypeField field = accessor.getVariable();
 
         if (field.isStatic()) {
             return field.fetchStaticValue();
@@ -61,8 +61,8 @@ final class FieldExpression implements DynamicExpression {
     }
 
     @Override
-    public Prototype getReturnType() {
-        return accessor.getTypePrototype();
+    public Type getReturnType() {
+        return accessor.getType();
     }
 
     @Override

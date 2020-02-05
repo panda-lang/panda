@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.design.architecture.module;
 
-import org.panda_lang.framework.design.architecture.prototype.Reference;
+import org.panda_lang.framework.design.architecture.type.Reference;
 
 /**
  * Represents references imported in the specific space, e.g. file
@@ -34,16 +34,16 @@ public interface Imports extends ModuleResource {
      * Import module
      *
      * @param module the module to import
-     * // @return if prototype with the given name is already imported, the method will interrupt importing and return the name of that prototype
+     * // @return if type with the given name is already imported, the method will interrupt importing and return the name of that type
      */
     void importModule(Module module);
 
     /**
      * Import reference
      *
-     * @param name the name of prototype to import as (may be different than prototype name)
-     * @param reference the reference to prototype
-     * @return if prototype with the given name is already imported, the method will return false, otherwise true
+     * @param name the name of type to import as (may be different than type name)
+     * @param reference the reference to type
+     * @return if type with the given name is already imported, the method will return false, otherwise true
      */
     boolean importPrototype(String name, Reference reference);
 

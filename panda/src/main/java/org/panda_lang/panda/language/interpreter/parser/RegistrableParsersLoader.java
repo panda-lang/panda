@@ -24,7 +24,6 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaParserRepresentation;
-import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaPipelinePath;
 import org.panda_lang.panda.PandaException;
 import org.panda_lang.utilities.annotations.AnnotationsScannerProcess;
 import org.slf4j.Logger;
@@ -40,19 +39,11 @@ public final class RegistrableParsersLoader {
         this.logger = logger;
     }
 
-    public PipelinePath load(AnnotationsScannerProcess scannerProcess) {
-        return load(new PandaPipelinePath(), scannerProcess);
-    }
-
     public PipelinePath load(PipelinePath path, AnnotationsScannerProcess scannerProcess) {
-        return loadPipelines(path, scannerProcess);
-    }
-
-    @SuppressWarnings("unchecked")
-    private PipelinePath loadPipelines(PipelinePath path, AnnotationsScannerProcess scannerProcess) {
         logger.debug("");
         logger.debug("--- Loading pipelines ");
 
+        @SuppressWarnings("unchecked")
         Collection<Class<? extends Parser>> loaded = scannerProcess.createSelector()
                 .selectTypesAnnotatedWith(RegistrableParser.class)
                 .stream()
@@ -94,30 +85,27 @@ public final class RegistrableParsersLoader {
             ParserRepresentation<Parser> representation = new PandaParserRepresentation<>(parser, handler, registrable.priority());
 
             for (String target : registrable.pipeline()) {
-                PipelineComponent<Parser> component = PipelineComponent.get(target);
+                PipelineComponent.get(target)
+                        .onEmpty(() -> logger.warn("Pipeline '" + target + "' does not exist or its component was not initialized"))
+                        .peek(component -> {
+                            if (!path.hasPipeline(component)) {
+                                path.createPipeline(component);
+                            }
 
-                if (component == null) {
-                    logger.warn("Pipeline '" + target + "' does not exist or its component was not initialized");
-                    continue;
-                }
-
-                if (!path.hasPipeline(component)) {
-                    path.createPipeline(component);
-                }
-
-                path.getPipeline(component).register(representation);
+                            path.getPipeline(component).register(representation);
+                        });
             }
         }
 
         return path;
     }
 
-    private ContextParser createParserInstance(Class<?> currentClass, Class<? extends ContextParser> parserClass) throws IllegalAccessException, InstantiationException {
+    private ContextParser<?> createParserInstance(Class<?> currentClass, Class<? extends ContextParser> parserClass) throws IllegalAccessException, InstantiationException {
         if (parserClass != ContextParser.class) {
             return parserClass.newInstance();
         }
         else if (ContextParser.class.isAssignableFrom(currentClass)) {
-            return (ContextParser) currentClass.newInstance();
+            return (ContextParser<?>) currentClass.newInstance();
         }
 
         throw new PandaException("Cannot create parser instance (source: " + currentClass + ")");

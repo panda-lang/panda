@@ -18,25 +18,25 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ass
 
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.prototype.Prototype;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.expression.DynamicExpression;
-import org.panda_lang.framework.language.architecture.prototype.array.ArrayPrototype;
+import org.panda_lang.framework.language.architecture.type.array.ArrayType;
 
 import java.lang.reflect.Array;
 
 public final class ArrayAccessor implements DynamicExpression {
 
-    private final Prototype type;
+    private final Type type;
     private final Expression instanceExpression;
     private final Expression indexExpression;
 
     public ArrayAccessor(Expression instanceExpression, Expression indexExpression) {
-        if (!(instanceExpression.getType() instanceof ArrayPrototype)) {
+        if (!(instanceExpression.getType() instanceof ArrayType)) {
             throw new PandaFrameworkException("Array required");
         }
 
-        this.type = ((ArrayPrototype) instanceExpression.getType()).getArrayType();
+        this.type = ((ArrayType) instanceExpression.getType()).getArrayType();
         this.instanceExpression = instanceExpression;
         this.indexExpression = indexExpression;
     }
@@ -60,7 +60,7 @@ public final class ArrayAccessor implements DynamicExpression {
     }
 
     @Override
-    public Prototype getReturnType() {
+    public Type getReturnType() {
         return type;
     }
 
