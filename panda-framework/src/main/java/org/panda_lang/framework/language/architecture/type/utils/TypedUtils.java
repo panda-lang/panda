@@ -28,7 +28,7 @@ public final class TypedUtils {
 
     private TypedUtils() { }
 
-    private static Stream<Type> toPrototypes(Collection<? extends Typed> typed) {
+    private static Stream<Type> toTypesStream(Collection<? extends Typed> typed) {
         return typed.stream().map(Typed::getType);
     }
 
@@ -37,7 +37,7 @@ public final class TypedUtils {
     }
 
     public static Type[] toTypes(Collection<? extends Typed> typed) {
-        return toPrototypes(typed).toArray(Type[]::new);
+        return toTypesStream(typed).toArray(Type[]::new);
     }
 
     public static Class<?>[] toClasses(Typed... typed) {
@@ -45,7 +45,7 @@ public final class TypedUtils {
     }
 
     public static Class<?>[] toClasses(Collection<? extends Typed> typed) {
-        return toPrototypes(typed)
+        return toTypesStream(typed)
                 .map(type -> type.getAssociatedClass().fetchImplementation())
                 .toArray(Class[]::new);
     }
@@ -56,7 +56,7 @@ public final class TypedUtils {
 
     public static String toString(Collection<? extends Typed> typed) {
         return ContentJoiner.on(", ")
-                .join(toPrototypes(typed)
+                .join(toTypesStream(typed)
                     .map(Type::getSimpleName)
                     .toArray())
                 .toString();

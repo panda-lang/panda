@@ -49,7 +49,7 @@ public final class ImportParser extends ParserBootstrap<Void> {
 
     @Autowired
     void parseImport(Context context, @Ctx Imports imports, @Src("class") Snippet className) {
-        imports.importPrototype(className.toString(), ConveyanceUtils.fetchPrototype(context, className));
+        imports.importType(className.toString(), ConveyanceUtils.fetchType(context, className));
     }
 
 }

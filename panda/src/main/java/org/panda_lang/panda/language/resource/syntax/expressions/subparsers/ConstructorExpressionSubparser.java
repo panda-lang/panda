@@ -97,7 +97,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
                 return null;
             }
 
-            // fetch type Prototype and update source index
+            // fetch type type and update source index
             Snippet typeSource = typeValue.get();
             source.setIndex(source.getIndex() + typeSource.size());
 

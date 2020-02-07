@@ -32,12 +32,12 @@ public class EqualsToOperation extends RPNSimplifiedSupplier<Object, Object, Boo
 
     @Override
     public Type returnType(ModuleLoader loader) {
-        return loader.requirePrototype(boolean.class);
+        return loader.requireType(boolean.class);
     }
 
     @Override
     public Type requiredType(ModuleLoader loader) {
-        return loader.requirePrototype(Object.class);
+        return loader.requireType(Object.class);
     }
 
 }

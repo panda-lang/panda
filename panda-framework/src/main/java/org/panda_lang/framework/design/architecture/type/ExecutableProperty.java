@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.type.utils.TypedUtils;
 
 /**
- * PrototypeExecutable is equivalent to {@link java.lang.reflect.Executable}
+ * ExecutableProperty is equivalent to {@link java.lang.reflect.Executable} 
  */
 public interface ExecutableProperty extends Property {
 

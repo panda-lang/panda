@@ -54,8 +54,8 @@ public final class ResourcesLoader {
             String packageName = internalModuleInfo.getPackageName().isEmpty() ? StringUtils.EMPTY : internalModuleInfo.getPackageName() + ".";
             Class<?> type = Class.forName(packageName + name);
 
-            Reference mappedPrototype = TypeGeneratorManager.getInstance().generate(module, type.getSimpleName(), type);
-            module.add(mappedPrototype);
+            Reference mappedType = TypeGeneratorManager.getInstance().generate(module, type.getSimpleName(), type);
+            module.add(mappedType);
         }
     }
 

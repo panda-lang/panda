@@ -38,17 +38,17 @@ public interface Modules {
      *
      * @return the amount of used types
      */
-    default int countUsedPrototypes() {
-        return StreamUtils.sum(getModules(), Module::countUsedPrototypes);
+    default int countUsedTypes() {
+        return StreamUtils.sum(getModules(), Module::countUsedTypes);
     }
 
     /**
-     * Count all available Prototypes
+     * Count all available types
      *
-     * @return the amount of Prototypes
+     * @return the amount of types
      */
-    default int countPrototypes() {
-        return StreamUtils.sum(getModules(), Module::countPrototypes);
+    default int countTypes() {
+        return StreamUtils.sum(getModules(), Module::countTypes);
     }
 
     /**

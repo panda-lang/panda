@@ -33,7 +33,7 @@ public final class PandaImports implements Imports {
 
     private final ModuleLoader loader;
     private final Map<String, Module> importedModules = new HashMap<>();
-    private final Map<String, Reference> importedPrototypes = new HashMap<>();
+    private final Map<String, Reference> importedTypes = new HashMap<>();
 
     public PandaImports(ModuleLoader loader) {
         this.loader = loader;
@@ -56,12 +56,12 @@ public final class PandaImports implements Imports {
     }
 
     @Override
-    public boolean importPrototype(String name, Reference reference) {
-        if (importedPrototypes.containsKey(name)) {
+    public boolean importType(String name, Reference reference) {
+        if (importedTypes.containsKey(name)) {
             return false;
         }
 
-        importedPrototypes.put(name, reference);
+        importedTypes.put(name, reference);
         return true;
     }
 
@@ -78,10 +78,10 @@ public final class PandaImports implements Imports {
 
     @Override
     public Option<Reference> forName(CharSequence name) {
-        Reference localPrototype = importedPrototypes.get(name.toString());
+        Reference localType = importedTypes.get(name.toString());
 
-        if (localPrototype != null) {
-            return Option.of(localPrototype);
+        if (localType != null) {
+            return Option.of(localType);
         }
 
         for (Module module : importedModules.values()) {

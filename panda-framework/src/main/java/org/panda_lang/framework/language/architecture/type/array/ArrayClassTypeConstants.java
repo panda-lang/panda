@@ -33,14 +33,14 @@ final class ArrayClassTypeConstants {
     protected static final Function<ModuleLoader, TypeMethod> SIZE = loader -> PandaMethod.builder()
             .name("size")
             .location(LOCATION)
-            .returnType(loader.requirePrototype(Integer.class))
+            .returnType(loader.requireType(Integer.class))
             .methodBody((branch, instance, arguments) -> ((Object[]) Objects.requireNonNull(instance)).length)
             .build();
 
     protected static final Function<ModuleLoader, TypeMethod> TO_STRING = loader -> PandaMethod.builder()
             .name("toString")
             .location(LOCATION)
-            .returnType(loader.requirePrototype(String.class))
+            .returnType(loader.requireType(String.class))
             .methodBody((branch, instance, arguments) -> Arrays.toString((Object[]) instance))
             .isNative(true)
             .build();

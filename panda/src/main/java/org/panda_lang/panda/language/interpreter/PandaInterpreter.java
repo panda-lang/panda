@@ -69,8 +69,8 @@ public final class PandaInterpreter implements Interpreter {
 
         environment.getMessenger().send(Level.DEBUG, "--- Interpretation of " + source.getId() + " details ");
         environment.getMessenger().send(Level.DEBUG, "• Parse time: " + parseTime);
-        environment.getMessenger().send(Level.DEBUG, "• Amount of Prototypes: " + environment.getModulePath().countPrototypes());
-        environment.getMessenger().send(Level.DEBUG, "• Amount of used types: " + environment.getModulePath().countUsedPrototypes());
+        environment.getMessenger().send(Level.DEBUG, "• Amount of types: " + environment.getModulePath().countTypes());
+        environment.getMessenger().send(Level.DEBUG, "• Amount of used types: " + environment.getModulePath().countUsedTypes());
         environment.getMessenger().send(Level.DEBUG, "• Amount of cached references: " + TypeGeneratorManager.getInstance().getCacheSize());
         environment.getMessenger().send(Level.DEBUG, "• Expression Parser Time: " + TimeUtils.toMilliseconds(PandaExpressionParser.time) + " (" + PandaExpressionParser.amount + ")");
         environment.getMessenger().send(Level.DEBUG, "• Pipeline Handle Time: " + TimeUtils.toMilliseconds(environment.getController().getResources().getPipelinePath().getTotalHandleTime()));

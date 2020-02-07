@@ -44,7 +44,7 @@ final class PandaReferencesMap extends HashMap<String, Reference> implements Ref
     }
 
     @Override
-    public int countUsedPrototypes() {
+    public int countUsedTypes() {
         return Stream.ofAll(entrySet())
                 .count(entry -> entry.getValue().isInitialized());
     }
@@ -69,7 +69,7 @@ final class PandaReferencesMap extends HashMap<String, Reference> implements Ref
 
     @Override
     @SuppressWarnings("unchecked")
-    public Collection<Entry<String, Reference>> getPrototypes() {
+    public Collection<Entry<String, Reference>> getTypes() {
         Object sharedSet = entrySet(); // due to javac 1.8 bug
         return new HashSet<>((Collection<? extends Entry<String, Reference>>) sharedSet);
     }

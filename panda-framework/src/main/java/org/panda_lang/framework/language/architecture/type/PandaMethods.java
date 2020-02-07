@@ -63,7 +63,7 @@ final class PandaMethods extends AbstractProperties<TypeMethod> implements Metho
 
     @Override
     public String toString() {
-        return "PrototypeMethods[" + size() + "]";
+        return "Methods[" + size() + "]";
     }
 
 }

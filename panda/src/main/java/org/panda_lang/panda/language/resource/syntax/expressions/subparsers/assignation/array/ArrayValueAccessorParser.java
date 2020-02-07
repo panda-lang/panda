@@ -69,9 +69,9 @@ public final class ArrayValueAccessorParser implements Parser {
             throw new PandaParserFailure(context, source, "Cannot use index on non-array type (" + instance.getType() + ")");
         }
 
-        ArrayType arrayPrototype = (ArrayType) instance.getType();
+        ArrayType arrayType = (ArrayType) instance.getType();
 
-        if (arrayPrototype == null) {
+        if (arrayType == null) {
             throw new PandaParserFailure(context, source, "Cannot locate array class");
         }
 

@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.shell.repl;
 
-public class ShellPrototype {
+@SuppressWarnings("unused")
+public class ShellType {
 
 }

@@ -101,7 +101,7 @@ public final class MethodParser extends ParserBootstrap<Void> {
                                     "Make sure that the name does not have a typo and module which should contain that class is imported"
                             );
                         }))
-                .getOrElse(() -> type.getModule().getModuleLoader().requirePrototype(void.class));
+                .getOrElse(() -> type.getModule().getModuleLoader().requireType(void.class));
 
         TokenRepresentation name = result.get("name");
         List<PropertyParameter> parameters = PARAMETER_PARSER.parse(context, result.get("parameters"));

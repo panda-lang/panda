@@ -59,15 +59,15 @@ public class PandaType extends AbstractProperty implements Type {
         super(builder.name, builder.location, builder.visibility, builder.isNative);
 
         if (builder.reference == null) {
-            throw new IllegalArgumentException("Prototype has to be referenced");
+            throw new IllegalArgumentException("Type requires reference");
         }
 
         if (builder.module == null) {
-            throw new IllegalArgumentException("Prototype needs module");
+            throw new IllegalArgumentException("Type needs module");
         }
 
         if (builder.model == null) {
-            throw new IllegalArgumentException("Prototype requires defined type");
+            throw new IllegalArgumentException("Type requires defined model");
         }
 
         if (builder.state == null) {
@@ -119,13 +119,13 @@ public class PandaType extends AbstractProperty implements Type {
 
         return type.equals(this)
                 || getAssociatedClass().isAssignableFrom(type.getAssociatedClass())
-                || hasCommonPrototypes(bases, type.getBases())
+                || hasCommonTypes(bases, type.getBases())
                 || type.getAutocast(this).isPresent();
     }
 
-    private boolean hasCommonPrototypes(Collection<? extends Type> fromPrototypes, Collection<? extends Type> toPrototypes) {
-        for (Type from : fromPrototypes) {
-            for (Type to : toPrototypes) {
+    private boolean hasCommonTypes(Collection<? extends Type> fromTypes, Collection<? extends Type> toTypes) {
+        for (Type from : fromTypes) {
+            for (Type to : toTypes) {
                 if (from.equals(to)) {
                     return true;
                 }

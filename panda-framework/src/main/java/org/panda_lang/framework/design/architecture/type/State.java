@@ -26,15 +26,15 @@ import java.lang.reflect.Modifier;
 public enum State {
 
     /**
-     * Prototype cannot be instantiated but can be extended
+     * Type cannot be instantiated but can be extended
      */
     ABSTRACT(false, true),
     /**
-     * Prototype can be instantiated and can be extended
+     * Type can be instantiated and can be extended
      */
     DEFAULT(true, true),
     /**
-     * Prototype can be instantiated but can't be extended
+     * Type can be instantiated but can't be extended
      */
     FINAL(true, false);
 

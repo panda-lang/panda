@@ -29,8 +29,8 @@ final class ArrayInstanceExpression extends AbstractDynamicExpression {
     private final Type type;
     private final Expression[] capacities;
 
-    public ArrayInstanceExpression(ArrayType instancePrototype, Type baseType, Expression[] capacities) {
-        super(instancePrototype);
+    public ArrayInstanceExpression(ArrayType instanceType, Type baseType, Expression[] capacities) {
+        super(instanceType);
 
         this.type = baseType;
         this.capacities = capacities;

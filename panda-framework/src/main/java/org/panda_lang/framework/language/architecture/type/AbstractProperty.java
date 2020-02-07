@@ -29,7 +29,7 @@ public abstract class AbstractProperty implements Property {
 
     protected AbstractProperty(String name, SourceLocation location, Visibility visibility, boolean isNative) {
         if (name == null) {
-            throw new IllegalArgumentException("Prototype name is not defined");
+            throw new IllegalArgumentException("Name is not defined");
         }
 
         if (location == null) {

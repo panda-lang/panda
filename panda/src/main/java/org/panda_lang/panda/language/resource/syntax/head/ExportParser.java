@@ -49,7 +49,7 @@ public final class ExportParser extends ParserBootstrap<Void> {
 
     @Autowired
     void parseImport(Context context, @Ctx PandaScript script, @Src("class") Snippet className) {
-        script.getModule().add(ConveyanceUtils.fetchPrototype(context, className));
+        script.getModule().add(ConveyanceUtils.fetchType(context, className));
     }
 
 }

@@ -60,7 +60,7 @@ public final class ReplCreator {
         this.context = PandaContextUtils.createStubContext(frameworkController);
 
         Module module = context.getComponent(Components.SCRIPT).getModule();
-        DynamicClass shellType = new PandaDynamicClass("ShellPrototype", module.getName(), TypeModels.CLASS);
+        DynamicClass shellType = new PandaDynamicClass("ShellType", module.getName(), TypeModels.CLASS);
 
         Type type = new PandaReference(shellType.getSimpleName(), module, TypeModels.CLASS, ref -> PandaType.builder()
                 .name(ref.getName())

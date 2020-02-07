@@ -37,19 +37,19 @@ import org.panda_lang.utilities.commons.ClassUtils;
 import java.util.ArrayList;
 import java.util.Collection;
 
-final class PrototypeParserUtils {
+final class TypeParserUtils {
 
     private static final ClassPool POOL = ClassPool.getDefault();
 
-    private PrototypeParserUtils() { }
+    private TypeParserUtils() { }
 
     public static void appendExtended(Context context, Type type, Snippetable typeSource) {
         String name = typeSource.toString();
-        Option<Reference> extendedPrototype = context.getComponent(Components.IMPORTS).forName(name);
+        Option<Reference> extendedType = context.getComponent(Components.IMPORTS).forName(name);
 
-        if (extendedPrototype.isDefined()) {
-            StateComparator.requireInheritance(context, extendedPrototype.get().fetch(), typeSource);
-            type.addBase(extendedPrototype.get().fetch());
+        if (extendedType.isDefined()) {
+            StateComparator.requireInheritance(context, extendedType.get().fetch(), typeSource);
+            type.addBase(extendedType.get().fetch());
             return;
         }
 

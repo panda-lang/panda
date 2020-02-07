@@ -33,7 +33,7 @@ import org.panda_lang.panda.language.resource.syntax.type.ConstructorParser;
 import org.panda_lang.panda.language.resource.syntax.type.FieldParser;
 import org.panda_lang.panda.language.resource.syntax.type.MethodParser;
 import org.panda_lang.panda.language.resource.syntax.type.ParameterParser;
-import org.panda_lang.panda.language.resource.syntax.type.PrototypeParser;
+import org.panda_lang.panda.language.resource.syntax.type.TypeParser;
 import org.panda_lang.panda.language.resource.syntax.scope.LateDeclarationParser;
 import org.panda_lang.panda.language.resource.syntax.scope.LogParser;
 import org.panda_lang.panda.language.resource.syntax.scope.StandaloneExpressionParser;
@@ -69,7 +69,7 @@ public final class PandaParsers {
             ModuleParser.class,
 
             // type
-            PrototypeParser.class,
+            TypeParser.class,
             ConstructorParser.class,
             BaseConstructorParser.class,
             FieldParser.class,
