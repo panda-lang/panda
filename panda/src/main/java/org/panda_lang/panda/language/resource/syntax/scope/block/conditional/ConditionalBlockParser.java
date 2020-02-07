@@ -74,7 +74,7 @@ public final class ConditionalBlockParser extends BlockSubparserBootstrap {
             @Ctx Scope parent, @Ctx ModuleLoader loader, @Ctx(BlockComponents.PREVIOUS_BLOCK_LABEL) Block previous,
             @Interceptor Result result, @Interceptor SourceLocation location
     ) {
-        Expression condition = result.has("condition") ? result.get("condition") : new PandaExpression(loader.requirePrototype(Boolean.class), true);
+        Expression condition = result.has("condition") ? result.get("condition") : new PandaExpression(loader.requireType(Boolean.class), true);
         ConditionalBlock conditionalBlock = new ConditionalBlock(parent, location, condition);
 
         if (result.has("else")) {

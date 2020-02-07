@@ -65,7 +65,7 @@ public final class TypeScope extends AbstractFramedScope implements FramedScope 
         try {
             return (Constructor<? extends TypeFrame>) type.getAssociatedClass().fetchImplementation().getConstructor(TypeScope.class, Process.class);
         } catch (NoSuchMethodException e) {
-            throw new PandaFrameworkException("Class " + type.getAssociatedClass().fetchImplementation() + " does not implement PrototypeClass constructor");
+            throw new PandaFrameworkException("Class " + type.getAssociatedClass().fetchImplementation() + " does not implement TypeClass constructor");
         }
     }
 

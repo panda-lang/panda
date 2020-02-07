@@ -34,12 +34,12 @@ public abstract class ComparisonOperator extends NumericOperation<Boolean> {
 
     @Override
     public Type returnType(ModuleLoader loader, Type a, Type b) {
-        return loader.requirePrototype(boolean.class);
+        return loader.requireType(boolean.class);
     }
 
     @Override
     public Type requiredType(ModuleLoader loader) {
-        return loader.requirePrototype(Number.class);
+        return loader.requireType(Number.class);
     }
 
 }

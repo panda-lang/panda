@@ -37,20 +37,6 @@ public interface Module extends Modules, ModuleResource {
     Reference add(Referencable reference);
 
     /**
-     * Count initialized types
-     *
-     * @return the amount of used types
-     */
-    int countUsedPrototypes();
-
-    /**
-     * Count all Prototypes
-     *
-     * @return the amount of Prototypes
-     */
-    int countPrototypes();
-
-    /**
      * Check if the given module is submodule of the current module
      *
      * @param module the module to check
@@ -62,7 +48,7 @@ public interface Module extends Modules, ModuleResource {
      * Check if the module contains type associated with the specified class
      *
      * @param clazz the class to check
-     * @return true if module contains Prototype associated with the provided class
+     * @return true if module contains type associated with the provided class
      */
     default boolean hasReference(Class<?> clazz) {
         return forClass(clazz).isDefined();
@@ -79,12 +65,12 @@ public interface Module extends Modules, ModuleResource {
     }
 
     /**
-     * Get all Prototypes.
+     * Get all types.
      * Iterable is used instead of collection because of the performance reasons.
      *
-     * @return the iterable that contains all Prototypes
+     * @return the iterable that contains all types
      */
-    Collection<Entry<String, Reference>> getPrototypes();
+    Collection<Entry<String, Reference>> getTypes();
 
     /**
      * Get the loader used to load this module

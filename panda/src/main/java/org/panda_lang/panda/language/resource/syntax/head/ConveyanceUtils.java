@@ -31,7 +31,7 @@ final class ConveyanceUtils {
 
     private ConveyanceUtils() { }
 
-    protected static Reference fetchPrototype(Context context, Snippet classNameSource) {
+    protected static Reference fetchType(Context context, Snippet classNameSource) {
         Optional<Class<?>> importedClass = ClassUtils.forName(classNameSource.asSource());
 
         if (!importedClass.isPresent()) {

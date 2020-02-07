@@ -87,10 +87,10 @@ public final class PandaModuleLoader implements ModuleLoader {
         }
 
         for (Module module : modules.values()) {
-            Option<Reference> typePrototype = module.forClass(associatedClass);
+            Option<Reference> reference = module.forClass(associatedClass);
 
-            if (typePrototype.isDefined()) {
-                return typePrototype;
+            if (reference.isDefined()) {
+                return reference;
             }
         }
 

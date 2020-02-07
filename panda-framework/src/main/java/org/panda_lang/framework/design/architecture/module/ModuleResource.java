@@ -36,7 +36,7 @@ public interface ModuleResource {
      * @return the found type
      * @throws org.panda_lang.framework.language.runtime.PandaRuntimeException if type does not exist
      */
-    default Type requirePrototype(Class<?> associatedClass) throws PandaRuntimeException {
+    default Type requireType(Class<?> associatedClass) throws PandaRuntimeException {
         return forClass(associatedClass)
                 .map(Reference::fetch)
                 .getOrElseThrow((Supplier<? extends PandaRuntimeException>) () -> {
@@ -52,7 +52,7 @@ public interface ModuleResource {
      * @return the found type
      * @throws org.panda_lang.framework.language.runtime.PandaRuntimeException if type does not exist
      */
-    default Type requirePrototype(String name) throws PandaRuntimeException {
+    default Type requireType(String name) throws PandaRuntimeException {
         return forName(name)
                 .map(Reference::fetch)
                 .getOrElseThrow((Supplier<? extends PandaRuntimeException>) () -> {

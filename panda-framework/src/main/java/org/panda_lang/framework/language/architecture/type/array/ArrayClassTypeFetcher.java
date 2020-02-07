@@ -36,7 +36,7 @@ public final class ArrayClassTypeFetcher {
 
     public static Option<Reference> fetch(Module module, Class<?> type) {
         Class<?> baseClass = ArrayUtils.getBaseClass(type);
-        Type baseReference = module.getModuleLoader().requirePrototype(baseClass);
+        Type baseReference = module.getModuleLoader().requireType(baseClass);
         return fetch(module, baseReference.getSimpleName() + type.getSimpleName().replace(baseClass.getSimpleName(), StringUtils.EMPTY));
     }
 
@@ -69,15 +69,15 @@ public final class ArrayClassTypeFetcher {
             });
         }
 
-        ArrayType arrayPrototype = new ArrayType(module, arrayType, componentReference.fetch());
-        ARRAY_PROTOTYPES.put(baseReference.getName() + dimensions, arrayPrototype);
+        ArrayType arraType = new ArrayType(module, arrayType, componentReference.fetch());
+        ARRAY_PROTOTYPES.put(baseReference.getName() + dimensions, arraType);
         ModuleLoader loader = module.getModuleLoader();
 
-        arrayPrototype.getMethods().declare("size", () -> ArrayClassTypeConstants.SIZE.apply(loader));
-        arrayPrototype.getMethods().declare("toString", () -> ArrayClassTypeConstants.TO_STRING.apply(loader));
+        arraType.getMethods().declare("size", () -> ArrayClassTypeConstants.SIZE.apply(loader));
+        arraType.getMethods().declare("toString", () -> ArrayClassTypeConstants.TO_STRING.apply(loader));
 
-        module.add(arrayPrototype);
-        return arrayPrototype;
+        module.add(arraType);
+        return arraType;
     }
 
 }

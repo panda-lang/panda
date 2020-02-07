@@ -39,7 +39,7 @@ public abstract class MathOperation extends NumericOperation<Number> {
 
     @Override
     public Type requiredType(ModuleLoader loader) {
-        return loader.requirePrototype(Number.class);
+        return loader.requireType(Number.class);
     }
 
 }

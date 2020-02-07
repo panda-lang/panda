@@ -55,12 +55,12 @@ public class PandaModule extends PandaModules implements Module {
     }
 
     @Override
-    public int countUsedPrototypes() {
-        return references.countUsedPrototypes();
+    public int countUsedTypes() {
+        return references.countUsedTypes();
     }
 
     @Override
-    public int countPrototypes() {
+    public int countTypes() {
         return references.size();
     }
 
@@ -96,11 +96,11 @@ public class PandaModule extends PandaModules implements Module {
     }
 
     @Override
-    public Collection<Entry<String, Reference>> getPrototypes() {
-        Collection<Entry<String, Reference>> entries = references.getPrototypes();
+    public Collection<Entry<String, Reference>> getTypes() {
+        Collection<Entry<String, Reference>> entries = references.getTypes();
 
         for (Module submodule : getModules()) {
-            entries.addAll(submodule.getPrototypes());
+            entries.addAll(submodule.getTypes());
         }
 
         return entries;

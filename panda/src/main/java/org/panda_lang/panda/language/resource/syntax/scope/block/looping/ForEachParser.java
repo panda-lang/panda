@@ -68,7 +68,7 @@ public final class ForEachParser extends BlockSubparserBootstrap {
         if (iterableExpression.getType().isArray()) {
             Expression arrayExpression = iterableExpression;
 
-            iterableExpression = new PandaDynamicExpression(loader.requirePrototype(Iterable.class), new ExpressionEvaluator() {
+            iterableExpression = new PandaDynamicExpression(loader.requireType(Iterable.class), new ExpressionEvaluator() {
                 @Override
                 @SuppressWarnings("unchecked")
                 public Object evaluate(ProcessStack stack, Object instance) throws Exception {

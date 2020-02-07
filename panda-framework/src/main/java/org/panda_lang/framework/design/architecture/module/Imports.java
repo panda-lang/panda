@@ -45,7 +45,7 @@ public interface Imports extends ModuleResource {
      * @param reference the reference to type
      * @return if type with the given name is already imported, the method will return false, otherwise true
      */
-    boolean importPrototype(String name, Reference reference);
+    boolean importType(String name, Reference reference);
 
     /**
      * Get the module loader used by current imports

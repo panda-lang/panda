@@ -68,7 +68,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 @RegistrableParser(pipeline = Pipelines.HEAD_LABEL)
-public final class PrototypeParser extends ParserBootstrap<Void> {
+public final class TypeParser extends ParserBootstrap<Void> {
 
     private static final DynamicClassGenerator CLASS_GENERATOR = new DynamicClassGenerator();
 
@@ -83,7 +83,7 @@ public final class PrototypeParser extends ParserBootstrap<Void> {
                         WildcardElement.create("name").verify(new TokenTypeVerifier(TokenTypes.UNKNOWN)),
                         SubPatternElement.create("extended").optional().of(
                                 UnitElement.create("extends").content(":"),
-                                CustomElement.create("inherited").custom((data, source) -> org.panda_lang.panda.language.resource.syntax.type.PrototypeParserUtils.readTypes(source))
+                                CustomElement.create("inherited").custom((data, source) -> TypeParserUtils.readTypes(source))
                         ),
                         SectionElement.create("body")
                 ));
@@ -115,10 +115,10 @@ public final class PrototypeParser extends ParserBootstrap<Void> {
     @Autowired(cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
     void parseDeclaration(Context context, @Ctx Type type, @Ctx ModuleLoader loader, @Nullable @Src("inherited") Collection<Snippetable> inherited) {
         Optional.ofNullable(inherited)
-                .ifPresent(classes -> classes.forEach(typeSource -> org.panda_lang.panda.language.resource.syntax.type.PrototypeParserUtils.appendExtended(context, type, typeSource)));
+                .ifPresent(classes -> classes.forEach(typeSource -> TypeParserUtils.appendExtended(context, type, typeSource)));
 
         if (type.getBases().stream().noneMatch(TypeModels::isClass)) {
-            Type objectType = loader.requirePrototype(Object.class);
+            Type objectType = loader.requireType(Object.class);
             type.addBase(objectType);
         }
     }

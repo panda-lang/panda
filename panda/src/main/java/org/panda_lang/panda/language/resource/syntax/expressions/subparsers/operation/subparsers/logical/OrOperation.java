@@ -53,7 +53,7 @@ public class OrOperation implements RPNOperationSupplier {
 
     @Override
     public Type requiredType(ModuleLoader loader) {
-        return loader.requirePrototype(boolean.class);
+        return loader.requireType(boolean.class);
     }
 
 }

@@ -54,7 +54,7 @@ public final class ConcatenationOperatorSubparser implements OperationSubparser 
             return null;
         }
 
-        Type stringType = context.getComponent(Components.MODULE_LOADER).requirePrototype(String.class);
+        Type stringType = context.getComponent(Components.MODULE_LOADER).requireType(String.class);
         return new ConcatenationExpressionCallback(stringType, values).toExpression();
     }
 

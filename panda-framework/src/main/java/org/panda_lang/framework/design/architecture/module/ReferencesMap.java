@@ -22,7 +22,7 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * Custom implementation of map to store Prototypes with support for associated classes and {@link org.panda_lang.framework.design.architecture.module.ModuleResource}
+ * Custom implementation of map to store types with support for associated classes and {@link org.panda_lang.framework.design.architecture.module.ModuleResource}
  */
 public interface ReferencesMap extends Map<String, Reference>, ModuleResource {
 
@@ -39,13 +39,13 @@ public interface ReferencesMap extends Map<String, Reference>, ModuleResource {
      *
      * @return the amount of used types
      */
-    int countUsedPrototypes();
+    int countUsedTypes();
 
     /**
      * Get collection of entries that contains types
      *
-     * @return the collection of Prototypes
+     * @return the collection of types
      */
-    Collection<Entry<String, Reference>> getPrototypes();
+    Collection<Entry<String, Reference>> getTypes();
 
 }
