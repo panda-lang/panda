@@ -26,6 +26,7 @@ import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.runtime.Process;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.statement.PandaVariableData;
+import org.panda_lang.framework.language.architecture.type.PandaConstructor;
 import org.panda_lang.framework.language.architecture.type.PandaMethod;
 import org.panda_lang.framework.language.architecture.type.PandaType;
 import org.panda_lang.framework.language.architecture.type.TypeComponents;
@@ -64,6 +65,12 @@ public final class ReplCreator {
 
         context.withComponent(TypeComponents.PROTOTYPE, type);
         this.typeScope = new TypeScope(PandaSourceLocationUtils.unknownLocation("repl"), type);
+
+        type.getConstructors().declare(PandaConstructor.builder()
+                .type(type)
+                .callback((frame, instance, arguments) -> typeScope.createInstance(frame, new Class<?>[0], arguments))
+                .location(type.getLocation())
+                .build());
 
         this.replScope = new ReplScope(typeScope.getSourceLocation(), Collections.emptyList());
         context.withComponent(Components.SCOPE, replScope);

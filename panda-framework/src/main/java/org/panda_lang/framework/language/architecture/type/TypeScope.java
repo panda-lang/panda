@@ -74,8 +74,10 @@ public final class TypeScope extends AbstractFramedScope {
 
     @SuppressWarnings("unchecked")
     private Constructor<? extends TypeInstance> getConstructor(Class<?>[] parameterTypes) {
+        parameterTypes = ArrayUtils.merge(TypeFrame.class, parameterTypes, Class[]::new);
+
         try {
-            return (Constructor<? extends TypeInstance>) type.getAssociatedClass().fetchImplementation().getConstructor(ArrayUtils.merge(TypeFrame.class, parameterTypes, Class[]::new));
+            return (Constructor<? extends TypeInstance>) type.getAssociatedClass().fetchImplementation().getConstructor(parameterTypes);
         } catch (NoSuchMethodException e) {
             throw new PandaFrameworkException(type.getAssociatedClass().fetchImplementation() + " does not implement " + Arrays.toString(parameterTypes) + " constructor");
         }

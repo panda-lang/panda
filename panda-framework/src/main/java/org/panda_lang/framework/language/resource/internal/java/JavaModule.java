@@ -70,12 +70,8 @@ public final class JavaModule implements CustomInitializer {
     }
 
     private Type generate(Module module, Class<?> primitiveClass, String name) {
-        Type primitiveType = PandaTypeUtils.generateOf(module, "Primitive" + name, primitiveClass);
-
-        Type type = PandaTypeUtils.generateOf(module, name, ClassUtils.getNonPrimitiveClass(primitiveClass));
-        type.addBase(primitiveType);
-
-        return type;
+        PandaTypeUtils.generateOf(module, "Primitive" + name, primitiveClass);
+        return PandaTypeUtils.generateOf(module, name, ClassUtils.getNonPrimitiveClass(primitiveClass));
     }
 
 }

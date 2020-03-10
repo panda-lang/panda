@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
 import org.panda_lang.framework.design.architecture.type.PropertyFrame;
 import org.panda_lang.framework.design.architecture.statement.StandardizedFramedScope;
+import org.panda_lang.framework.language.architecture.type.TypeInstance;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,9 +31,9 @@ final class ReplFrame implements Frame, PropertyFrame {
     private final Frame instance;
     private final Map<Integer, Object> memory = new HashMap<>();
 
-    protected ReplFrame(ReplScope scope, Frame instance) {
+    protected ReplFrame(ReplScope scope, TypeInstance instance) {
         this.scope = scope;
-        this.instance = instance;
+        this.instance = instance.__panda__get_frame();
     }
 
     @Override
