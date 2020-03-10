@@ -22,6 +22,7 @@ import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.language.architecture.statement.AbstractPropertyFramedScope;
 import org.panda_lang.framework.language.architecture.statement.PandaPropertyFrame;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
+import org.panda_lang.utilities.commons.text.ContentJoiner;
 
 import java.util.List;
 
@@ -62,6 +63,12 @@ public final class ParameterUtils {
         }
 
         return types;
+    }
+
+    public static String toString(PropertyParameter... parameters) {
+        return ContentJoiner.on(", ")
+                .join(parameters, parameter -> parameter.getType().getName() + " " + parameter.getName())
+                .toString();
     }
 
 }

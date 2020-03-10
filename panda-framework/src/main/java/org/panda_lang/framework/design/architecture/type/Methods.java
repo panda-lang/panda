@@ -16,9 +16,8 @@
 
 package org.panda_lang.framework.design.architecture.type;
 
+import io.vavr.control.Option;
 import org.panda_lang.framework.design.architecture.expression.Expression;
-
-import java.util.Optional;
 
 /**
  * Container for methods
@@ -31,7 +30,7 @@ public interface Methods extends Properties<TypeMethod> {
      * @param arguments arguments to match and adjust
      * @return the adjusted executable
      */
-    Optional<Adjustment<TypeMethod>> getAdjustedArguments(String name, Expression[] arguments);
+    Option<Adjustment<TypeMethod>> getAdjustedArguments(String name, Expression[] arguments);
 
     /**
      * Get method with the given name and types
@@ -40,6 +39,6 @@ public interface Methods extends Properties<TypeMethod> {
      * @param parameterTypes the parameter types to search for
      * @return the found method
      */
-    Optional<TypeMethod> getMethod(String name, Referencable[] parameterTypes);
+    Option<TypeMethod> getMethod(String name, Type[] parameterTypes);
 
 }

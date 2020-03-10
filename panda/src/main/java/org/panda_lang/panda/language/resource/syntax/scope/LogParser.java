@@ -34,7 +34,7 @@ import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitial
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Interceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
@@ -56,7 +56,7 @@ public final class LogParser extends ParserBootstrap<Void> {
     }
 
     @Autowired
-    void parse(Context context, @Ctx ExpressionParser parser, @Ctx Scope scope, @Interceptor SourceLocation location, @Src("arguments") ExpressionTransaction[] transactions) {
+    void parse(Context context, @Ctx ExpressionParser parser, @Ctx Scope scope, @Int SourceLocation location, @Src("arguments") ExpressionTransaction[] transactions) {
         Expression[] expressions = Arrays.stream(transactions)
                 .map(ExpressionTransaction::getExpression)
                 .toArray(Expression[]::new);

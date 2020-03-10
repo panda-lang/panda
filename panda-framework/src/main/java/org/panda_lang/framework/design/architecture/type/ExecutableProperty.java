@@ -19,6 +19,8 @@ package org.panda_lang.framework.design.architecture.type;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.type.utils.TypedUtils;
 
+import java.util.Arrays;
+
 /**
  * ExecutableProperty is equivalent to {@link java.lang.reflect.Executable} 
  */
@@ -35,6 +37,17 @@ public interface ExecutableProperty extends Property {
      * @throws Exception if something happen
      */
     <T> T invoke(ProcessStack stack, Object instance, Object... arguments) throws Exception;
+
+    /**
+     * Get parameter types as java types
+     *
+     * @return array of java types
+     */
+    default Class<?>[] getJavaParameterTypes() {
+        return Arrays.stream(getParameterTypes())
+                .map(parameterType -> parameterType.getAssociatedClass().fetchStructure())
+                .toArray(Class[]::new);
+    }
 
     /**
      * Get references to types of executable's parameters

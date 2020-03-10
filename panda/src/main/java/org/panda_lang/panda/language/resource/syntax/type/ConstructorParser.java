@@ -17,7 +17,6 @@
 package org.panda_lang.panda.language.resource.syntax.type;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.dynamic.Frame;
 import org.panda_lang.framework.design.architecture.type.PropertyParameter;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.architecture.type.TypeConstructor;
@@ -26,10 +25,11 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.architecture.type.PandaConstructor;
-import org.panda_lang.framework.language.architecture.type.PandaConstructor.ConstructorFrame;
-import org.panda_lang.framework.language.architecture.type.PandaConstructor.PandaConstructorScope;
+import org.panda_lang.framework.language.architecture.type.ConstructorScope;
+import org.panda_lang.framework.language.architecture.type.ConstructorScope.ConstructorFrame;
+import org.panda_lang.framework.language.architecture.type.TypeInstance;
 import org.panda_lang.framework.language.architecture.type.TypeScope;
-import org.panda_lang.framework.language.architecture.type.utils.ParameterUtils;
+import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
@@ -37,17 +37,18 @@ import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitial
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Interceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Local;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.data.Delegation;
 import org.panda_lang.panda.language.interpreter.parser.context.data.LocalData;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.LinearPatternInterceptor;
+import org.panda_lang.utilities.commons.collection.Lists;
 
 import java.util.List;
 
-@RegistrableParser(pipeline = Pipelines.PROTOTYPE_LABEL)
+@RegistrableParser(pipeline = Pipelines.TYPE_LABEL)
 public final class ConstructorParser extends ParserBootstrap<Void> {
 
     private static final ParameterParser PARAMETER_PARSER = new ParameterParser();
@@ -62,32 +63,45 @@ public final class ConstructorParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1)
-    void parse(Context context, LocalData local, @Interceptor SourceLocation location, @Ctx TypeScope typeScope, @Src("parameters") @Nullable Snippet parametersSource) {
-        Type type = typeScope.getType();
+    void parse(Context context, LocalData local, @Int SourceLocation location, @Ctx TypeScope typeScope, @Src("parameters") @Nullable Snippet parametersSource) {
         List<PropertyParameter> parameters = PARAMETER_PARSER.parse(context, parametersSource);
-        PandaConstructorScope constructorScope = local.allocated(new PandaConstructorScope(location, parameters));
+        ConstructorScope constructorScope = local.allocated(new ConstructorScope(location, parameters));
 
-        TypeConstructor constructor = PandaConstructor.builder()
-                .type(type)
+        Class<?>[] parameterTypes = parameters.stream()
+                .map(PropertyParameter::getType)
+                .map(parameterType -> parameterType.getAssociatedClass().fetchStructure())
+                .toArray(Class[]::new);
+
+        TypeConstructor constructor = local.allocated(PandaConstructor.builder()
+                .type(typeScope.getType())
                 .location(location)
                 .parameters(parameters)
                 .callback((stack, instance, arguments) -> {
-                    Frame typeFrame = typeScope.revive(stack, instance);
-
-                    ConstructorFrame constructorInstance = constructorScope.revive(stack, typeFrame);
-                    ParameterUtils.assignValues(constructorInstance, arguments);
-                    stack.callFrame(typeFrame, constructorInstance);
-
-                    return typeFrame;
+                    TypeInstance typeInstance = typeScope.createInstance(stack, parameterTypes, arguments);
+                    ConstructorFrame constructorInstance = constructorScope.revive(stack, typeInstance);
+                    return constructorInstance.initialize(stack, typeInstance, arguments);
                 })
-                .build();
+                .build());
 
         typeScope.getType().getConstructors().declare(constructor);
+        System.out.println("parse " + constructor);
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
-    void parseBody(Context context, @Local PandaConstructorScope pandaConstructorFrame, @Src("body") @Nullable Snippet body) throws Exception {
-        SCOPE_PARSER.parse(context, pandaConstructorFrame, body);
+    void parse(Context context, @Ctx TypeScope typeScope, @Local ConstructorScope scope, @Local TypeConstructor constructor, @Int Snippet src, @Src("body") @Nullable Snippet body) throws Exception {
+        SCOPE_PARSER.parse(context, scope, body);
+
+        typeScope.getType().getSuperclass()
+                .filterNot(superclass -> superclass.getName().equals("java::Object"))
+                .filterNot(superclass -> superclass.getConstructors().getConstructor(new Type[0]).isDefined())
+                .map(superclass -> Lists.get(scope.getStatements(), 0))
+                .filterNot(statement -> statement instanceof Base)
+                .peek(superclass -> {
+                    throw new PandaParserFailure(context, src, src,
+                            "&1Missing call to the base constructor in " + constructor + "&r",
+                            "Using the &1base&r statement call one of the base constructors"
+                    );
+                });
     }
 
 }

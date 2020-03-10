@@ -19,22 +19,17 @@ package org.panda_lang.panda.shell.repl;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.FrameworkController;
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.type.DynamicClass;
-import org.panda_lang.framework.design.architecture.type.Type;
-import org.panda_lang.framework.design.architecture.type.TypeModels;
 import org.panda_lang.framework.design.architecture.type.State;
-import org.panda_lang.framework.design.architecture.type.Visibility;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.runtime.Process;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.language.architecture.type.dynamic.PandaDynamicClass;
+import org.panda_lang.framework.language.architecture.statement.PandaVariableData;
 import org.panda_lang.framework.language.architecture.type.PandaMethod;
 import org.panda_lang.framework.language.architecture.type.PandaType;
-import org.panda_lang.framework.language.architecture.type.PandaReference;
 import org.panda_lang.framework.language.architecture.type.TypeComponents;
 import org.panda_lang.framework.language.architecture.type.TypeScope;
-import org.panda_lang.framework.language.architecture.statement.PandaVariableData;
 import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceLocationUtils;
 import org.panda_lang.framework.language.runtime.PandaProcess;
@@ -60,19 +55,12 @@ public final class ReplCreator {
         this.context = PandaContextUtils.createStubContext(frameworkController);
 
         Module module = context.getComponent(Components.SCRIPT).getModule();
-        DynamicClass shellType = new PandaDynamicClass("ShellType", module.getName(), TypeModels.CLASS);
-
-        Type type = new PandaReference(shellType.getSimpleName(), module, TypeModels.CLASS, ref -> PandaType.builder()
-                .name(ref.getName())
-                .reference(ref)
+        Type type = PandaType.builder()
+                .name("ShellType")
                 .module(module)
-                .associated(ref.getAssociatedClass())
                 .location(new PandaClassSource(ReplCreator.class).toLocation())
                 .state(State.FINAL)
-                .model(TypeModels.CLASS)
-                .visibility(Visibility.PUBLIC)
-                .build()
-        ).fetch();
+                .build();
 
         context.withComponent(TypeComponents.PROTOTYPE, type);
         this.typeScope = new TypeScope(PandaSourceLocationUtils.unknownLocation("repl"), type);
@@ -89,7 +77,7 @@ public final class ReplCreator {
      */
     public Repl create() throws Exception {
         this.processSupplier = () -> new PandaProcess(context.getComponent(Components.APPLICATION), replScope);
-        this.instanceSupplier = stack -> typeScope.revive(stack, null);
+        this.instanceSupplier = stack -> typeScope.createInstance(stack, new Class<?>[0], new Object[0]);
 
         return new Repl(this);
     }

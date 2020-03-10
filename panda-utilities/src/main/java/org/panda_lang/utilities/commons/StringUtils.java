@@ -458,6 +458,22 @@ public final class StringUtils {
     }
 
     /**
+     * Join string into the one string
+     *
+     * @param strings strings to join
+     * @return joined string
+     */
+    public static String join(String... strings) {
+        StringBuilder content = new StringBuilder();
+
+        for (String string : strings) {
+            content.append(string);
+        }
+
+        return content.toString();
+    }
+
+    /**
      * Object to string with array support
      *
      * @param object the object to stringify

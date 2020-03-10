@@ -18,9 +18,9 @@ package org.panda_lang.framework.language.architecture.module;
 
 import io.vavr.collection.Stream;
 import io.vavr.control.Option;
-import org.panda_lang.framework.design.architecture.module.ReferencesMap;
+import org.panda_lang.framework.design.architecture.module.TypesMap;
 import org.panda_lang.framework.design.architecture.type.DynamicClass;
-import org.panda_lang.framework.design.architecture.type.Reference;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.utilities.commons.ClassUtils;
 
 import java.util.Collection;
@@ -28,50 +28,49 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-final class PandaReferencesMap extends HashMap<String, Reference> implements ReferencesMap {
+final class PandaTypesMap extends HashMap<String, Type> implements TypesMap {
 
     private final Map<DynamicClass, String> associatedClasses = new HashMap<>();
 
     @Override
-    public boolean put(Reference reference) {
-        if (associatedClasses.containsKey(reference.getAssociatedClass()) || containsKey(reference.getName())) {
+    public boolean put(Type type) {
+        if (associatedClasses.containsKey(type.getAssociatedClass()) || containsKey(type.getSimpleName())) {
             return false;
         }
 
-        super.put(reference.getName(), reference);
-        associatedClasses.put(reference.getAssociatedClass(), reference.getName());
+        super.put(type.getSimpleName(), type);
+        associatedClasses.put(type.getAssociatedClass(), type.getSimpleName());
         return true;
     }
 
     @Override
     public int countUsedTypes() {
-        return Stream.ofAll(entrySet())
-                .count(entry -> entry.getValue().isInitialized());
+        return Stream.ofAll(entrySet()).count(entry -> entry.getValue().isInitialized());
     }
 
     @Override
-    public Option<Reference> forClass(Class<?> associatedClass) {
+    public Option<Type> forClass(Class<?> associatedClass) {
         return get(associatedClass)
                 .flatMap(this::forName)
                 .orElse(() -> associatedClass.isPrimitive() ? forClass(ClassUtils.getNonPrimitiveClass(associatedClass)) : Option.none());
     }
 
+    @Override
+    public Option<Type> forName(CharSequence typeName) {
+        return Option.of(get(typeName.toString()));
+    }
+
     private Option<String> get(Class<?> associatedClass) {
         return Stream.ofAll(associatedClasses.entrySet())
-                .find(entry -> entry.getKey().fetchImplementation().equals(associatedClass))
+                .find(entry -> entry.getKey().fetchStructure().equals(associatedClass))
                 .map(Entry::getValue);
     }
 
     @Override
-    public Option<Reference> forName(CharSequence typeName) {
-        return Option.of(get(typeName.toString()));
-    }
-
-    @Override
     @SuppressWarnings("unchecked")
-    public Collection<Entry<String, Reference>> getTypes() {
+    public Collection<Entry<String, Type>> getTypes() {
         Object sharedSet = entrySet(); // due to javac 1.8 bug
-        return new HashSet<>((Collection<? extends Entry<String, Reference>>) sharedSet);
+        return new HashSet<>((Collection<? extends Entry<String, Type>>) sharedSet);
     }
 
 }

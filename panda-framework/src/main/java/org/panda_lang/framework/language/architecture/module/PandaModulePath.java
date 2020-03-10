@@ -16,27 +16,20 @@
 
 package org.panda_lang.framework.language.architecture.module;
 
+import io.vavr.control.Option;
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.module.ModulePath;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public final class PandaModulePath extends PandaModules implements ModulePath {
 
-    private final Map<String, Runnable> modules = new HashMap<>();
-
-    public PandaModulePath(Module... modules) {
-        for (Module module : modules) {
-            include(module);
-        }
-    }
+    private final Map<String, Runnable> modulesInitializers = new HashMap<>();
 
     @Override
     public void include(String name, Runnable initializer) {
-        Runnable cachedInitialize = modules.get(name);
+        Runnable cachedInitialize = modulesInitializers.get(name);
 
         if (cachedInitialize != null) {
             Runnable nextInitialize = initializer;
@@ -47,19 +40,19 @@ public final class PandaModulePath extends PandaModules implements ModulePath {
             };
         }
 
-        modules.put(name, initializer);
+        modulesInitializers.put(name, initializer);
     }
 
     @Override
-    public Optional<Module> get(String moduleQualifier, ModuleLoader loader) {
-        Runnable initialize = modules.get(moduleQualifier);
+    public Option<Module> get(String moduleQualifier) {
+        Runnable initialize = modulesInitializers.get(moduleQualifier);
 
         if (initialize != null) {
-            modules.remove(moduleQualifier);
+            modulesInitializers.remove(moduleQualifier);
             initialize.run();
         }
 
-        return super.get(moduleQualifier, loader);
+        return super.get(moduleQualifier);
     }
 
 }

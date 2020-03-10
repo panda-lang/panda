@@ -103,6 +103,7 @@ public final class PandaExpressionParser implements ExpressionParser {
                 throw e;
             }
 
+            e.printStackTrace();
             throw new PandaExpressionParserFailure(expressionContext, expressionContext.getSynchronizedSource().getSource(), e.toString());
         }
 

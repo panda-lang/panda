@@ -20,10 +20,11 @@ import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.architecture.type.TypeField;
+import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.expression.AbstractDynamicExpression;
 import org.panda_lang.framework.language.architecture.expression.PandaExpression;
-import org.panda_lang.framework.language.architecture.type.PandaTypeField;
+import org.panda_lang.framework.language.architecture.type.PandaField;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 
 import java.lang.reflect.Field;
@@ -41,13 +42,13 @@ final class FieldGenerator {
         this.field = field;
     }
 
-    protected TypeField generate() {
-        TypeField typeField = PandaTypeField.builder()
+    protected TypeField generate(TypeLoader typeLoader) {
+        TypeField typeField = PandaField.builder()
                 .name(field.getName())
                 .type(type)
                 .location(type.getLocation())
                 .fieldIndex(type.getFields().size())
-                .returnType(generator.findOrGenerate(type.getModule(), field.getType()))
+                .returnType(generator.findOrGenerate(typeLoader, type.getModule(), field.getType()))
                 .isStatic(Modifier.isStatic(field.getModifiers()))
                 .mutable(!Modifier.isFinal(field.getModifiers()))
                 .isNative(true)

@@ -19,7 +19,7 @@ package org.panda_lang.panda.shell.repl;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
 import org.panda_lang.framework.design.architecture.type.PropertyFrame;
-import org.panda_lang.framework.design.architecture.statement.FramedScope;
+import org.panda_lang.framework.design.architecture.statement.StandardizedFramedScope;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -58,7 +58,7 @@ final class ReplFrame implements Frame, PropertyFrame {
     }
 
     @Override
-    public FramedScope getFramedScope() {
+    public StandardizedFramedScope getFramedScope() {
         return scope;
     }
 

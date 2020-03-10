@@ -19,10 +19,8 @@ package org.panda_lang.framework.language.architecture.type.array;
 import io.vavr.control.Option;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.type.Type;
-import org.panda_lang.framework.design.architecture.type.Referencable;
-import org.panda_lang.framework.design.architecture.type.Reference;
+import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.StringUtils;
 
@@ -32,34 +30,35 @@ import java.util.function.Supplier;
 
 public final class ArrayClassTypeFetcher {
 
-    private static final Map<String, Referencable> ARRAY_PROTOTYPES = new HashMap<>();
+    private static final Map<String, Type> ARRAY_PROTOTYPES = new HashMap<>();
 
-    public static Option<Reference> fetch(Module module, Class<?> type) {
+    public static Option<Type> fetch(TypeLoader typeLoader, Class<?> type) {
         Class<?> baseClass = ArrayUtils.getBaseClass(type);
-        Type baseReference = module.getModuleLoader().requireType(baseClass);
-        return fetch(module, baseReference.getSimpleName() + type.getSimpleName().replace(baseClass.getSimpleName(), StringUtils.EMPTY));
+        Type baseType = typeLoader.requireType(baseClass);
+        return fetch(typeLoader, baseType.getSimpleName() + type.getSimpleName().replace(baseClass.getSimpleName(), StringUtils.EMPTY));
     }
 
-    public static Option<Reference> fetch(Module module, String type) {
-        return Option.of(ARRAY_PROTOTYPES.get(type))
+    public static Option<Type> fetch(TypeLoader typeLoader, String typeName) {
+        return Option.of(ARRAY_PROTOTYPES.get(typeName))
                 .orElse(() -> {
-                    String arrayType = StringUtils.replace(type, PandaArray.IDENTIFIER, StringUtils.EMPTY);
-                    return module.forName(arrayType);
+                    String arrayType = StringUtils.replace(typeName, PandaArray.IDENTIFIER, StringUtils.EMPTY);
+                    return typeLoader.forName(arrayType);
                 })
-                .map(reference -> {
-                    int dimensions = StringUtils.countOccurrences(type, PandaArray.IDENTIFIER);
-                    return getArrayOf(module, reference, dimensions).toReference();
+                .map(type -> {
+                    int dimensions = StringUtils.countOccurrences(typeName, PandaArray.IDENTIFIER);
+                    return getArrayOf(typeLoader, type, dimensions);
                 });
     }
 
-    public static Type getArrayOf(Module module, Referencable baseReferencable, int dimensions) {
-        Reference baseReference = baseReferencable.toReference();
-        Class<?> componentType = ArrayUtils.getDimensionalArrayType(baseReference.getAssociatedClass().fetchImplementation(), dimensions);
-        Class<?> arrayType = ArrayUtils.getArrayClass(componentType);
-        Reference componentReference;
+    public static Type getArrayOf(TypeLoader typeLoader, Type baseType, int dimensions) {
+        Class<?> componentType = ArrayUtils.getDimensionalArrayType(baseType.getAssociatedClass().fetchStructure(), dimensions);
+        Class<?> arrayClass = ArrayUtils.getArrayClass(componentType);
+
+        Module module = baseType.getModule();
+        Type componentReference;
 
         if (componentType.isArray()) {
-            componentReference = fetch(module, componentType).getOrElseThrow((Supplier<PandaFrameworkException>) () -> {
+            componentReference = fetch(typeLoader, componentType).getOrElseThrow((Supplier<PandaFrameworkException>) () -> {
                 throw new PandaFrameworkException("Cannot fetch array class for array type " + componentType);
             });
         }
@@ -69,15 +68,14 @@ public final class ArrayClassTypeFetcher {
             });
         }
 
-        ArrayType arraType = new ArrayType(module, arrayType, componentReference.fetch());
-        ARRAY_PROTOTYPES.put(baseReference.getName() + dimensions, arraType);
-        ModuleLoader loader = module.getModuleLoader();
+        ArrayType arrayType = new ArrayType(module, arrayClass, componentReference);
+        ARRAY_PROTOTYPES.put(baseType.getName() + dimensions, arrayType);
 
-        arraType.getMethods().declare("size", () -> ArrayClassTypeConstants.SIZE.apply(loader));
-        arraType.getMethods().declare("toString", () -> ArrayClassTypeConstants.TO_STRING.apply(loader));
+        arrayType.getMethods().declare("size", () -> ArrayClassTypeConstants.SIZE.apply(typeLoader));
+        arrayType.getMethods().declare("toString", () -> ArrayClassTypeConstants.TO_STRING.apply(typeLoader));
 
-        module.add(arraType);
-        return arraType;
+        module.add(arrayType);
+        return arrayType;
     }
 
 }

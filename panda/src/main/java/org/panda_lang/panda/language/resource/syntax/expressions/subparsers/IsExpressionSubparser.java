@@ -19,7 +19,6 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.framework.design.architecture.type.Type;
-import org.panda_lang.framework.design.architecture.type.Reference;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
@@ -53,7 +52,7 @@ public final class IsExpressionSubparser implements ExpressionSubparser {
         private final Type boolType;
 
         private IsWorker(Context context) {
-            this.boolType = ModuleLoaderUtils.forClass(context, boolean.class);
+            this.boolType = ModuleLoaderUtils.requireType(context, boolean.class);
         }
 
         @Override
@@ -62,13 +61,13 @@ public final class IsExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            Produce<Reference, ExpressionResult> result = SubparsersUtils.readType(context);
+            Produce<Type, ExpressionResult> result = SubparsersUtils.readType(context);
 
             if (result.hasError()) {
                 return result.getError();
             }
 
-            Type type = result.getResult().fetch();
+            Type type = result.getResult();
             VisibilityComparator.requireAccess(type, context.getContext(), token);
 
             DynamicExpression expression = new IsExpression(boolType, context.popExpression(), type);

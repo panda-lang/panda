@@ -20,28 +20,14 @@ import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.language.architecture.type.PandaTypeUtils;
 import org.panda_lang.framework.language.architecture.type.array.PandaArray;
 import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
-import org.panda_lang.utilities.commons.StringUtils;
+import org.panda_lang.framework.language.resource.internal.InternalModuleInfo.CustomInitializer;
 
-public final class PandaModule implements InternalModuleInfo {
+@InternalModuleInfo(module = "panda", pkg = "org.panda_lang")
+public final class PandaModule implements CustomInitializer {
 
     @Override
     public void initialize(Module module) {
         PandaTypeUtils.generateOf(module, PandaArray.class);
-    }
-
-    @Override
-    public String[] getNames() {
-        return StringUtils.EMPTY_ARRAY;
-    }
-
-    @Override
-    public String getPackageName() {
-        return "org.panda_lang";
-    }
-
-    @Override
-    public String getModule() {
-        return "panda";
     }
 
 }

@@ -59,7 +59,7 @@ public final class PandaGenerationPhase implements GenerationPhase {
     }
 
     @Override
-    public GenerationPhase delegate(GenerationTaskPriority priority, GenerationTask task, Context delegated) {
+    public GenerationPhase delegate(GenerationTaskPriority priority, GenerationTask<?> task, Context delegated) {
         tasks.computeIfAbsent(priority, (key) -> new ArrayList<>(2)).add(new GenerationUnit(task, delegated));
         return this;
     }
@@ -69,14 +69,13 @@ public final class PandaGenerationPhase implements GenerationPhase {
         return tasks.size();
     }
 
+    public GenerationUnit getCurrentUnit() {
+        return currentUnit;
+    }
+
     @Override
     public String toString() {
-        if (countTasks() == 0) {
-            return "layer: empty";
-        }
-
-        String layerName = currentUnit != null ? currentUnit.getTask().toString() : "<ne";
-        return layerName + ":" + id + ">/" + countTasks();
+        return "GenerationPhase " + id + ": " + countTasks() + " tasks";
     }
 
 }

@@ -38,12 +38,12 @@ class ReplTest {
         Context context = creator.getContext();
 
         Repl repl = creator
-                .variable(new PandaVariableData(ModuleLoaderUtils.forClass(context, int.class), "i"), 5)
+                .variable(new PandaVariableData(ModuleLoaderUtils.requireType(context, int.class), "i"), 5)
                 .define(PandaMethod.builder()
                         .name("sqrt")
-                        .parameters(new PandaPropertyParameter(0, ModuleLoaderUtils.forClass(context, Double.class), "i"))
+                        .parameters(new PandaPropertyParameter(0, ModuleLoaderUtils.requireType(context, Double.class), "i"))
                         .methodBody((stack, instance, arguments) -> Math.sqrt(((Number) arguments[0]).doubleValue()))
-                        .returnType(ModuleLoaderUtils.forClass(context, Double.class))
+                        .returnType(ModuleLoaderUtils.requireType(context, Double.class))
                         .location(new PandaClassSource(ReplTest.class).toLocation())
                         .build())
                 .addVariableChangeListener((variable, previous, current) -> {

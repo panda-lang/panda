@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation;
 
-import org.jetbrains.annotations.Nullable;
+import io.vavr.control.Option;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
@@ -29,6 +29,10 @@ import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.oper
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.LogicalOperatorSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.MathOperationSubparser;
 
+import static io.vavr.API.$;
+import static io.vavr.API.Case;
+import static io.vavr.API.Match;
+
 public final class OperationParser implements Parser {
 
     public Expression parse(Context context, ExpressionContext expressionContext, Snippet source) {
@@ -36,29 +40,17 @@ public final class OperationParser implements Parser {
     }
 
     public Expression parse(Context context, ExpressionContext expressionContext, Snippet source, OperationPatternResult result) {
-        Expression expression = parse(context, Operation.of(context.getComponent(Components.EXPRESSION), context, expressionContext, result));
-
-        if (expression == null) {
+        return parse(context, Operation.of(context.getComponent(Components.EXPRESSION), context, expressionContext, result)).getOrElseThrow(() -> {
             throw new PandaExpressionParserFailure(expressionContext, source, "Unknown operation");
-        }
-
-        return expression;
+        });
     }
 
-    public @Nullable Expression parse(Context context, Operation operation) {
-        if (OperationUtils.isNumeric(operation)) {
-            return new MathOperationSubparser().parse(this, context, operation);
-        }
-
-        if (OperationUtils.isLogical(operation)) {
-            return new LogicalOperatorSubparser().parse(this, context, operation);
-        }
-
-        if (OperationUtils.isConcatenation(operation)) {
-            return new ConcatenationOperatorSubparser().parse(this, context, operation);
-        }
-
-        return null;
+    public Option<Expression> parse(Context context, Operation operation) {
+        return Match(operation).option(
+                Case($(OperationUtils::isNumeric), () -> new MathOperationSubparser().parse(this, context, operation)),
+                Case($(OperationUtils::isLogical), () -> new LogicalOperatorSubparser().parse(this, context, operation)),
+                Case($(OperationUtils::isConcatenation), () -> new ConcatenationOperatorSubparser().parse(this, context, operation))
+        );
     }
 
 }

@@ -25,6 +25,7 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.HandleResult;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipeline;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
@@ -79,6 +80,10 @@ public final class PipelineParser<T extends ContextParser> implements Parser {
             Channel channel = new PandaChannel();
             Snippet source = stream.toSnippet();
 
+            if (pipeline.getName().equals(Pipelines.HEAD_LABEL)) {
+                //System.out.println("current " + stream.getCurrent());
+            }
+
             Context delegatedContext = (fork ? context.fork() : context)
                     .withComponent(Components.CURRENT_SOURCE, source)
                     .withComponent(Components.CHANNEL, channel);
@@ -94,11 +99,7 @@ public final class PipelineParser<T extends ContextParser> implements Parser {
             });
 
             int sourceLength = stream.getUnreadLength();
-            try {
-                parser.parse(delegatedContext);
-            } catch (Throwable t) {
-                t.printStackTrace();
-            }
+            parser.parse(delegatedContext);
 
             if (sourceLength == stream.getUnreadLength()) {
                 throw new PandaParserFailure(delegatedContext, parser.getClass().getSimpleName() + " did nothing with the current source");

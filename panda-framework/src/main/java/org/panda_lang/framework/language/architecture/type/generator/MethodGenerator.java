@@ -18,6 +18,7 @@ package org.panda_lang.framework.language.architecture.type.generator;
 
 import org.panda_lang.framework.design.architecture.type.PropertyParameter;
 import org.panda_lang.framework.design.architecture.type.Type;
+import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.design.architecture.type.TypeMethod;
 import org.panda_lang.framework.language.architecture.type.PandaMethod;
 import org.panda_lang.framework.language.architecture.type.TypeExecutableCallback;
@@ -45,8 +46,8 @@ final class MethodGenerator {
         this.method = method;
     }
 
-    protected TypeMethod generate() {
-        PropertyParameter[] mappedParameters = TypeGeneratorUtils.toParameters(type.getModule(), method.getParameters());
+    protected TypeMethod generate(TypeLoader typeLoader) {
+        PropertyParameter[] mappedParameters = TypeGeneratorUtils.toParameters(typeLoader, type.getModule(), method.getParameters());
         // TODO: Generate bytecode
         method.setAccessible(true);
 
@@ -90,6 +91,9 @@ final class MethodGenerator {
                 }
 
                 throw new PandaRuntimeException("Internal error", throwable);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+                throw e;
             }
         };
 
@@ -98,7 +102,7 @@ final class MethodGenerator {
                 .type(type)
                 .isNative(true)
                 .isStatic(Modifier.isStatic(method.getModifiers()))
-                .returnType(generator.findOrGenerate(type.getModule(), method.getReturnType()))
+                .returnType(generator.findOrGenerate(typeLoader, type.getModule(), method.getReturnType()))
                 .location(type.getLocation())
                 .methodBody(methodBody)
                 .parameters(mappedParameters)

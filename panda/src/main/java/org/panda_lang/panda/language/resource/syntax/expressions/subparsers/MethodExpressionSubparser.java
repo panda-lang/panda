@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
+import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.type.Adjustment;
@@ -110,7 +111,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
 
             // check if type of instance contains required method
             if (!instance.getType().getMethods().hasPropertyLike(nameToken.getValue())) {
-                return ExpressionResult.error("Cannot find method called '" + nameToken.getValue() + "'", nameToken);
+                return ExpressionResult.error("Cannot find method called '" + nameToken.getValue() + "' in type " + instance.getType(), nameToken);
             }
 
             // parse method
@@ -126,9 +127,9 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
 
         private Expression parseMethod(ExpressionContext context, Expression instance, TokenRepresentation methodName, Snippet argumentsSource) {
             Expression[] arguments = ARGUMENT_PARSER.parse(context, argumentsSource);
-            Optional<Adjustment<TypeMethod>> adjustedArguments = instance.getType().getMethods().getAdjustedArguments(methodName.getValue(), arguments);
+            Option<Adjustment<TypeMethod>> adjustedArguments = instance.getType().getMethods().getAdjustedArguments(methodName.getValue(), arguments);
 
-            if (!adjustedArguments.isPresent()) {
+            if (!adjustedArguments.isDefined()) {
                 String types = TypedUtils.toString(arguments);
 
                 List<? extends TypeMethod> propertiesLike = instance.getType().getMethods().getPropertiesLike(methodName.getValue());

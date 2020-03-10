@@ -190,6 +190,10 @@ shared interface IEcho {
 // simple class that extends class Test and implements interface IEcho
 shared class Foo : Test, IEcho {
 
+    constructor() {
+        base('We need to call base constructor if we extend another type with custom constructor')
+    }
+
     // we need to mark overridden methods by the keyword
     override shared static anotherEcho(String message1) {
         log message1
@@ -289,7 +293,7 @@ internal class TestArray {
 internal class CustomThread : Thread {
 
     constructor() {
-        this.setName('CustomThread')
+        //base('CustomThread')
     }
 
     override public run() {

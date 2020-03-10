@@ -17,6 +17,7 @@
 package org.panda_lang.framework.language.interpreter.parser.expression;
 
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
+import org.panda_lang.framework.design.interpreter.source.IndicatedSource;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 
@@ -26,6 +27,11 @@ public final class PandaExpressionParserFailure extends PandaParserFailure {
 
     public PandaExpressionParserFailure(ExpressionContext context, Snippetable indicated, String message, String note) {
         super(context.getContext(), indicated, message, note);
+        this.expressionMessage = message;
+    }
+
+    public PandaExpressionParserFailure(Throwable cause, ExpressionContext context, IndicatedSource indicatedSource, String message) {
+        super(cause, context.getContext(), indicatedSource, message, null);
         this.expressionMessage = message;
     }
 

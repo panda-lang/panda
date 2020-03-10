@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.ParserFailure;
+import org.panda_lang.framework.design.interpreter.source.IndicatedSource;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.language.interpreter.PandaInterpreterFailure;
 import org.panda_lang.framework.language.interpreter.source.PandaIndicatedSource;
@@ -30,6 +31,16 @@ public class PandaParserFailure extends PandaInterpreterFailure implements Parse
 
     public PandaParserFailure(Context context, Snippetable source, Snippetable indicated, String message, @Nullable String note) {
         super(new PandaIndicatedSource(source, indicated), message, note);
+        this.context = context;
+    }
+
+    public PandaParserFailure(Context context, Snippetable source, Snippetable indicated, String message) {
+        super(new PandaIndicatedSource(source, indicated), message, null);
+        this.context = context;
+    }
+
+    public PandaParserFailure(Throwable cause, Context context, IndicatedSource indicatedSource, String message, String note) {
+        super(indicatedSource, message, cause, note);
         this.context = context;
     }
 

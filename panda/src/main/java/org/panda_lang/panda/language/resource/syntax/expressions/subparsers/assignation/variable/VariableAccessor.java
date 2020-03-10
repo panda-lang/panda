@@ -25,7 +25,7 @@ import org.panda_lang.framework.language.architecture.dynamic.assigner.Assigner;
 public final class VariableAccessor extends AbstractAccessor<Variable> {
 
     public VariableAccessor(Variable variable) {
-        super((stack, instance) -> stack.getCurrentScope(), variable, variable.getPointer());
+        super((stack, instance) -> stack.getCurrentFrame(), variable, variable.getPointer());
     }
 
     @Override

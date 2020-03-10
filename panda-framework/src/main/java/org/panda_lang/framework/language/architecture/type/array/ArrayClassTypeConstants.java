@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.language.architecture.type.array;
 
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.design.architecture.type.TypeMethod;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.language.architecture.type.PandaMethod;
@@ -30,14 +30,14 @@ final class ArrayClassTypeConstants {
 
     private static final SourceLocation LOCATION = new PandaClassSource(ArrayClassTypeConstants.class).toLocation();
 
-    protected static final Function<ModuleLoader, TypeMethod> SIZE = loader -> PandaMethod.builder()
+    protected static final Function<TypeLoader, TypeMethod> SIZE = loader -> PandaMethod.builder()
             .name("size")
             .location(LOCATION)
             .returnType(loader.requireType(Integer.class))
             .methodBody((branch, instance, arguments) -> ((Object[]) Objects.requireNonNull(instance)).length)
             .build();
 
-    protected static final Function<ModuleLoader, TypeMethod> TO_STRING = loader -> PandaMethod.builder()
+    protected static final Function<TypeLoader, TypeMethod> TO_STRING = loader -> PandaMethod.builder()
             .name("toString")
             .location(LOCATION)
             .returnType(loader.requireType(String.class))

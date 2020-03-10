@@ -53,7 +53,7 @@ public final class LiteralExpressionSubparser implements ExpressionSubparser {
         private final Type boolType;
 
         public SequenceWorker(Context context) {
-            this.boolType = ModuleLoaderUtils.forClass(context, boolean.class);
+            this.boolType = ModuleLoaderUtils.requireType(context, boolean.class);
         }
 
         @Override

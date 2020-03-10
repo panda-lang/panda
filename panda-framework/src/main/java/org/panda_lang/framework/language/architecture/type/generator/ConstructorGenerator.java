@@ -19,6 +19,7 @@ package org.panda_lang.framework.language.architecture.type.generator;
 import org.panda_lang.framework.design.architecture.type.PropertyParameter;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.architecture.type.TypeConstructor;
+import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.language.architecture.type.PandaConstructor;
 
 import java.lang.reflect.Constructor;
@@ -33,8 +34,8 @@ final class ConstructorGenerator {
         this.constructor = constructor;
     }
 
-    protected TypeConstructor generate() {
-        PropertyParameter[] typeParameters = TypeGeneratorUtils.toParameters(type.getModule(), constructor.getParameters());
+    protected TypeConstructor generate(TypeLoader typeLoader) {
+        PropertyParameter[] typeParameters = TypeGeneratorUtils.toParameters(typeLoader, type.getModule(), constructor.getParameters());
 
         // TODO: Generate bytecode
         constructor.setAccessible(true);
@@ -44,7 +45,7 @@ final class ConstructorGenerator {
                 .location(type.getLocation())
                 .parameters(typeParameters)
                 .type(type)
-                .returnType(type.toReference())
+                .returnType(type)
                 .callback((frame, instance, arguments) -> constructor.newInstance(arguments))
                 .build();
     }

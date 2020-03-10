@@ -24,12 +24,12 @@ public final class ModuleLoaderUtils {
 
     private ModuleLoaderUtils() { }
 
-    public static Type forClass(Context context, Class<?> associatedClass) {
-        return context.getComponent(Components.MODULE_LOADER).requireType(associatedClass);
+    public static Type requireType(Context context, Class<?> associatedClass) {
+        return context.getComponent(Components.TYPE_LOADER).requireType(associatedClass);
     }
 
-    public static Type forName(Context context, String name) {
-        return context.getComponent(Components.MODULE_LOADER).requireType(name);
+    public static Type requireType(Context context, String name) {
+        return context.getComponent(Components.TYPE_LOADER).requireType(name);
     }
 
 }

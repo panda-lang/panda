@@ -23,19 +23,19 @@ import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 
 public abstract class AbstractFrame<T extends FramedScope> implements Frame {
 
-    protected final T frame;
+    protected final T framedScope;
     protected final Object[] localMemory;
 
-    protected AbstractFrame(T frame, int memorySize) {
-        this.frame = frame;
+    protected AbstractFrame(T framedScope, int memorySize) {
+        this.framedScope = framedScope;
         this.localMemory = new Object[memorySize];
     }
 
-    protected AbstractFrame(T frame) {
-        this(frame, frame.getRequiredMemorySize());
+    protected AbstractFrame(T framedScope) {
+        this(framedScope, framedScope.getRequiredMemorySize());
     }
 
-    private void checkIndex(int index) {
+    protected void checkIndex(int index) {
         if (index < 0 || index >= localMemory.length) {
             throw new PandaRuntimeException("Invalid variable index: " + index + "; Local memory size: " + getMemorySize());
         }
@@ -62,7 +62,7 @@ public abstract class AbstractFrame<T extends FramedScope> implements Frame {
 
     @Override
     public T getFramedScope() {
-        return frame;
+        return framedScope;
     }
 
 }

@@ -17,15 +17,15 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.logical;
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.type.Type;
+import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNOperationAction;
 
 public final class AndOperator extends OrOperation {
 
     @Override
-    public RPNOperationAction<Boolean> of(ModuleLoader loader, Expression a, Expression b) {
+    public RPNOperationAction<Boolean> of(TypeLoader typeLoader, Expression a, Expression b) {
         return new RPNOperationAction<Boolean>() {
             @Override
             public Boolean get(ProcessStack stack, Object instance) throws Exception {
@@ -39,7 +39,7 @@ public final class AndOperator extends OrOperation {
             }
 
             @Override
-            public Type returnType(ModuleLoader loader) {
+            public Type returnType(TypeLoader loader) {
                 return AndOperator.super.requiredType(loader);
             }
         };

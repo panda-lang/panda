@@ -18,17 +18,21 @@ package org.panda_lang.panda.language.interpreter.messenger.formatters;
 
 import org.panda_lang.framework.design.interpreter.messenger.MessengerTypeFormatter;
 import org.panda_lang.panda.language.interpreter.messenger.MessengerDataFormatter;
+import org.panda_lang.panda.language.interpreter.messenger.mappers.StacktraceMapper;
 import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.StackTraceUtils;
 
 public final class ExceptionFormatter implements MessengerDataFormatter<Exception> {
 
     @Override
     public void onInitialize(MessengerTypeFormatter<Exception> typeFormatter) {
         typeFormatter.register("{{exception.short}}", (formatter, exception) -> {
+            StackTraceElement[] stacktrace = StackTraceUtils.filter(exception.getStackTrace(), StacktraceMapper.IGNORED);
+
             return "Stack: " + System.lineSeparator() +
                     //"  at " + exception.getClass().getName() + (exception.getMessage() != null ? ": " + exception.getMessage() : "") + System.lineSeparator() +
-                    "  " + ArrayUtils.get(exception.getStackTrace(), 0).map(StackTraceElement::toString).orElse("") + System.lineSeparator() +
-                    "  " + ArrayUtils.get(exception.getStackTrace(), 1).map(StackTraceElement::toString).orElse("");
+                    "  " + ArrayUtils.get(stacktrace, 0).map(StackTraceElement::toString).orElse("") + System.lineSeparator() +
+                    "  " + ArrayUtils.get(stacktrace, 1).map(StackTraceElement::toString).orElse("");
         });
     }
 

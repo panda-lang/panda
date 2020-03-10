@@ -38,14 +38,14 @@ public interface GenerationPhase {
      * @param delegated the data to associate with task
      * @return current phase
      */
-    GenerationPhase delegate(GenerationTaskPriority priority, GenerationTask task, Context delegated);
+    GenerationPhase delegate(GenerationTaskPriority priority, GenerationTask<?> task, Context delegated);
 
     /**
      * Delegate task using {@link GenerationTaskPriority#DEFAULT}
      *
      * @see #delegate(GenerationTaskPriority, GenerationTask, org.panda_lang.framework.design.interpreter.parser.Context)
      */
-    default GenerationPhase delegate(GenerationTask task, Context delegated) {
+    default GenerationPhase delegate(GenerationTask<?> task, Context delegated) {
         return delegate(GenerationTaskPriority.DEFAULT, task, delegated);
     }
 
@@ -54,7 +54,7 @@ public interface GenerationPhase {
      *
      * @see #delegate(GenerationTaskPriority, GenerationTask, org.panda_lang.framework.design.interpreter.parser.Context)
      */
-    default GenerationPhase delegateBefore(GenerationTask task, Context delegated) {
+    default GenerationPhase delegateBefore(GenerationTask<?> task, Context delegated) {
         return delegate(GenerationTaskPriority.BEFORE, task, delegated);
     }
 
@@ -63,7 +63,7 @@ public interface GenerationPhase {
      *
      * @see #delegate(GenerationTaskPriority, GenerationTask, org.panda_lang.framework.design.interpreter.parser.Context)
      */
-    default GenerationPhase delegateAfter(GenerationTask task, Context delegated) {
+    default GenerationPhase delegateAfter(GenerationTask<?> task, Context delegated) {
         return delegate(GenerationTaskPriority.AFTER, task, delegated);
     }
 

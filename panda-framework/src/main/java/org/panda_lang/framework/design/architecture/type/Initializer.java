@@ -14,18 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.context.annotations;
+package org.panda_lang.framework.design.architecture.type;
 
-import org.panda_lang.utilities.inject.annotations.Injectable;
+import org.panda_lang.framework.design.architecture.module.TypeLoader;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.util.function.BiConsumer;
 
-@Injectable
-@Target(ElementType.PARAMETER)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Interceptor {
+@FunctionalInterface
+public interface Initializer<T extends Type> extends BiConsumer<TypeLoader, T> {
 
 }

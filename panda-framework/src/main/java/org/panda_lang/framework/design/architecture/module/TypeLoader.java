@@ -14,14 +14,25 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.architecture.type;
+package org.panda_lang.framework.design.architecture.module;
 
-import org.panda_lang.framework.design.architecture.dynamic.Frame;
-import org.panda_lang.framework.design.runtime.Process;
+import org.panda_lang.framework.design.architecture.type.Type;
 
-public interface TypeClass extends Frame {
+public interface TypeLoader extends ModuleResource {
 
-    @SuppressWarnings("unused")
-    Process _panda_get_process();
+    /**
+     * Load type by this loader
+     *
+     * @param type the type to load
+     * @return loaded type
+     */
+    Type load(Type type);
+
+    /**
+     * Load all types that belongs to the given module
+     *
+     * @param module the module to load
+     */
+    void load(Module module);
 
 }

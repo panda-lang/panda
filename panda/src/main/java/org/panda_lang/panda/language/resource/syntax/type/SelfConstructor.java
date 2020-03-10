@@ -25,18 +25,18 @@ import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractExecutableStatement;
 
-public final class BaseConstructor extends AbstractExecutableStatement {
+public final class SelfConstructor extends AbstractExecutableStatement {
 
     private final TypeConstructor constructor;
     private final Expression[] arguments;
 
-    public BaseConstructor(SourceLocation location, TypeConstructor constructor, Expression[] arguments) {
+    public SelfConstructor(SourceLocation location, TypeConstructor constructor, Expression[] arguments) {
         super(location);
         this.constructor = constructor;
         this.arguments = arguments;
     }
 
-    public BaseConstructor(SourceLocation location, Adjustment<TypeConstructor> adjustment) {
+    public SelfConstructor(SourceLocation location, Adjustment<TypeConstructor> adjustment) {
         this(location, adjustment.getExecutable(), adjustment.getArguments());
     }
 

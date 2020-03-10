@@ -14,20 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.architecture.type.dynamic;
+package org.panda_lang.framework.language.architecture.type;
 
-import javassist.CtClass;
-import javassist.NotFoundException;
-import org.panda_lang.utilities.commons.ClassPoolUtils;
+public interface TypeInstance {
 
-final class DynamicClassUtils {
+    @SuppressWarnings("unused")
+    void __panda__set_frame(TypeFrame frame);
 
-    public static CtClass get(Class<?> clazz) throws DynamicClassException {
-        try {
-            return ClassPoolUtils.get(clazz);
-        } catch (NotFoundException e) {
-            throw new DynamicClassException(e);
-        }
-    }
+    @SuppressWarnings("unused")
+    TypeFrame __panda__get_frame();
 
 }

@@ -44,11 +44,11 @@ public final class Pipelines implements PipelineComponents {
     /**
      * Text representation of {@link Pipelines#TYPE}
      */
-    public static final String PROTOTYPE_LABEL = "type";
+    public static final String TYPE_LABEL = "type";
     /**
      * Class type parsers, used by type parser
      */
-    public static final PipelineComponent<ContextParser> TYPE = PipelineComponent.of(Pipelines.class, PROTOTYPE_LABEL, ContextParser.class);
+    public static final PipelineComponent<ContextParser> TYPE = PipelineComponent.of(Pipelines.class, TYPE_LABEL, ContextParser.class);
 
     /**
      * Text representation of {@link Pipelines#SCOPE}

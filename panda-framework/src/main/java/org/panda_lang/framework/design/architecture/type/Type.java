@@ -16,9 +16,10 @@
 
 package org.panda_lang.framework.design.architecture.type;
 
+import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.framework.design.architecture.module.TypeLoader;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -26,15 +27,20 @@ import java.util.Optional;
 /**
  * Extensible owner of properties
  */
-public interface Type extends Property, Referencable {
+public interface Type extends Property {
+
+    /**
+     * Execute all registered initializers
+     */
+    void initialize(TypeLoader typeLoader);
 
     /**
      * Get type to the array type of this type
      *
-     * @param moduleLoader the loader to use
+     * @param typeLoader the loader to use
      * @return the array type
      */
-    Type toArray(ModuleLoader moduleLoader);
+    Type toArray(TypeLoader typeLoader);
 
     /**
      * Inherit the given type
@@ -52,6 +58,13 @@ public interface Type extends Property, Referencable {
     void addAutocast(Type to, Autocast<?, ?> autocast);
 
     /**
+     * Add static initializer
+     *
+     * @param staticInitializer the static initializer to add
+     */
+    void addInitializer(Initializer<Type> staticInitializer);
+
+    /**
      * Check if current declaration is assignable from the given declaration
      *
      * @param type to compare with
@@ -65,6 +78,13 @@ public interface Type extends Property, Referencable {
      * @return true if the type represents array type, otherwise false
      */
     boolean isArray();
+
+    /**
+     * Check if the type has been initialized
+     *
+     * @return true if initializers was called
+     */
+    boolean isInitialized();
 
     /**
      * Get methods that belongs to the type
@@ -112,6 +132,20 @@ public interface Type extends Property, Referencable {
     Collection<? extends Type> getBases();
 
     /**
+     * Get super class
+     *
+     * @return the superclass
+     */
+    Option<Type> getSuperclass();
+
+    /**
+     * Get Java class associated with the type
+     *
+     * @return the associated class
+     */
+    DynamicClass getAssociatedClass();
+
+    /**
      * Get state of type
      *
      * @return the state
@@ -126,12 +160,26 @@ public interface Type extends Property, Referencable {
     String getModel();
 
     /**
+     * Get loader that loaded this type
+     *
+     * @return a type loader
+     */
+    Option<TypeLoader> getTypeLoader();
+
+    /**
      * Get associated module
      *
      * @return the associated module
      */
     @Override
     Module getModule();
+
+    /**
+     * Get simple name of property (without extra data)
+     *
+     * @return the name
+     */
+    String getSimpleName();
 
     @Override
     default String getName() {

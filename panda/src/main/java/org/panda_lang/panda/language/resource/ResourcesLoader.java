@@ -16,45 +16,43 @@
 
 package org.panda_lang.panda.language.resource;
 
+import org.atteo.classindex.ClassIndex;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.framework.design.architecture.type.Reference;
-import org.panda_lang.framework.language.architecture.module.PandaModuleFactory;
+import org.panda_lang.framework.design.architecture.module.ModulePath;
+import org.panda_lang.framework.design.architecture.type.Type;
+import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.language.architecture.type.generator.TypeGeneratorManager;
 import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
-import org.panda_lang.framework.language.resource.internal.PandaFrameworkModules;
-import org.panda_lang.panda.language.resource.internal.PandaModules;
+import org.panda_lang.framework.language.resource.internal.InternalModuleInfo.CustomInitializer;
 import org.panda_lang.utilities.commons.StringUtils;
 
 public final class ResourcesLoader {
 
-    public void load(ModuleLoader loader) {
-        load(loader, PandaFrameworkModules.getClasses());
-        load(loader, PandaModules.getClasses());
-    }
-
-    public void load(ModuleLoader loader, Class<? extends InternalModuleInfo>[] internalModuleInfoClasses) {
-        PandaModuleFactory moduleFactory = new PandaModuleFactory(loader);
-
-        for (Class<? extends InternalModuleInfo> internalModuleInfoClass : internalModuleInfoClasses) {
+    public void load(ModulePath modulePath, TypeLoader typeLoader) {
+        for (Class<?> annotatedClass : ClassIndex.getAnnotated(InternalModuleInfo.class)) {
             try {
-                load(moduleFactory, internalModuleInfoClass.newInstance());
+                load(modulePath, typeLoader, annotatedClass);
             } catch (Exception e) {
                 throw new PandaFrameworkException("Cannot load internal module", e);
             }
         }
     }
 
-    private void load(PandaModuleFactory factory, InternalModuleInfo internalModuleInfo) throws ClassNotFoundException {
-        Module module = factory.computeIfAbsent(internalModuleInfo.getModule());
-        internalModuleInfo.initialize(module);
+    private void load(ModulePath modulePath, TypeLoader typeLoader, Class<?> annotatedClass) throws Exception {
+        InternalModuleInfo moduleInfo = annotatedClass.getAnnotation(InternalModuleInfo.class);
+        Module module = modulePath.allocate(moduleInfo.module());
 
-        for (String name : internalModuleInfo.getNames()) {
-            String packageName = internalModuleInfo.getPackageName().isEmpty() ? StringUtils.EMPTY : internalModuleInfo.getPackageName() + ".";
+        if (CustomInitializer.class.isAssignableFrom(annotatedClass)) {
+            CustomInitializer initializer = (CustomInitializer) annotatedClass.newInstance();
+            initializer.initialize(module);
+        }
+
+        String packageName = moduleInfo.pkg().isEmpty() ? StringUtils.EMPTY : moduleInfo.pkg() + ".";
+
+        for (String name : moduleInfo.classes()) {
             Class<?> type = Class.forName(packageName + name);
-
-            Reference mappedType = TypeGeneratorManager.getInstance().generate(module, type.getSimpleName(), type);
+            Type mappedType = TypeGeneratorManager.getInstance().generate(module, type.getSimpleName(), type);
             module.add(mappedType);
         }
     }

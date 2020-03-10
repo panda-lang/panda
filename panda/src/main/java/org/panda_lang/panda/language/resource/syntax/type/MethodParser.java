@@ -18,8 +18,8 @@ package org.panda_lang.panda.language.resource.syntax.type;
 
 import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.design.architecture.type.PropertyParameter;
-import org.panda_lang.framework.design.architecture.type.Referencable;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.architecture.type.TypeMethod;
 import org.panda_lang.framework.design.architecture.type.Visibility;
@@ -53,7 +53,7 @@ import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitial
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Interceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Local;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.data.Delegation;
@@ -64,13 +64,12 @@ import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 import org.panda_lang.panda.language.resource.syntax.scope.branching.Returnable;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Supplier;
 
-@RegistrableParser(pipeline = Pipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_METHOD)
+@RegistrableParser(pipeline = Pipelines.TYPE_LABEL, priority = PandaPriorities.PROTOTYPE_METHOD)
 public final class MethodParser extends ParserBootstrap<Void> {
 
-    private static final org.panda_lang.panda.language.resource.syntax.type.ParameterParser PARAMETER_PARSER = new org.panda_lang.panda.language.resource.syntax.type.ParameterParser();
+    private static final ParameterParser PARAMETER_PARSER = new ParameterParser();
     private static final ScopeParser SCOPE_PARSER = new ScopeParser();
 
     @Override
@@ -90,26 +89,28 @@ public final class MethodParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
-    void parse(Context context, LocalData local, @Ctx Type type, @Interceptor SourceLocation location, @Interceptor Result result, @Src("type") Snippet typeName, @Src("body") Snippet body) {
-        Referencable returnTypeReferencable = Option.of(typeName)
+    void parse(Context context, LocalData local, @Ctx Type type, @Int SourceLocation location, @Int Result result, @Src("type") Snippet typeName, @Src("body") Snippet body) {
+        Type returnType = Option.of(typeName)
                 .map(value -> context.getComponent(Components.IMPORTS)
                         .forName(typeName.asSource())
-                        .map(reference -> (Referencable) reference)
                         .getOrElseThrow((Supplier<? extends PandaParserFailure>) () -> {
                             throw new PandaParserFailure(context, typeName,
                                     "Unknown type",
                                     "Make sure that the name does not have a typo and module which should contain that class is imported"
                             );
                         }))
-                .getOrElse(() -> type.getModule().getModuleLoader().requireType(void.class));
+                .getOrElse(() -> {
+                    TypeLoader typeLoader = context.getComponent(Components.TYPE_LOADER);
+                    return typeLoader.requireType(void.class);
+                });
 
         TokenRepresentation name = result.get("name");
         List<PropertyParameter> parameters = PARAMETER_PARSER.parse(context, result.get("parameters"));
         MethodScope methodScope = local.allocated(new MethodScope(name.getLocation(), parameters));
 
-        Optional<TypeMethod> existingMethod = type.getMethods().getMethod(name.getValue(), TypedUtils.toTypes(parameters));
+        Option<TypeMethod> existingMethod = type.getMethods().getMethod(name.getValue(), TypedUtils.toTypes(parameters));
 
-        if (existingMethod.isPresent() && !result.has(Keywords.OVERRIDE.getValue())) {
+        if (existingMethod.isDefined() && !result.has(Keywords.OVERRIDE.getValue())) {
             throw new PandaParserFailure(context, name,
                     "Method &b" + name + "&r overrides &b" + existingMethod.get() + "&r but does not contain&b override&r modifier",
                     "Add missing modifier if you want to override that method or rename current method"
@@ -123,9 +124,9 @@ public final class MethodParser extends ParserBootstrap<Void> {
                 .location(location)
                 .isAbstract(body == null)
                 .visibility(result.get("visibility"))
-                .returnType(returnTypeReferencable.toReference().fetch())
+                .returnType(returnType)
                 .isStatic(result.has("static"))
-                .isNative(existingMethod.isPresent() && existingMethod.get().isNative())
+                .isNative(existingMethod.isDefined() && existingMethod.get().isNative())
                 .methodBody(methodScope)
                 .build());
 

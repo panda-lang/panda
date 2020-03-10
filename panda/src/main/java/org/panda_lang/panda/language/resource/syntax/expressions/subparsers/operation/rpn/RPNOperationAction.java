@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn;
 
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.type.Type;
+import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 
 public interface RPNOperationAction<R> {
 
     R get(ProcessStack stack, Object instance) throws Exception;
 
-    Type returnType(ModuleLoader loader);
+    Type returnType(TypeLoader typeLoader);
 
 }

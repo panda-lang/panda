@@ -19,12 +19,10 @@ package org.panda_lang.panda.language.resource.syntax.head;
 import org.panda_lang.framework.design.architecture.Environment;
 import org.panda_lang.framework.design.architecture.module.Imports;
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.language.architecture.module.PandaModule;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
@@ -37,7 +35,7 @@ import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitial
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Interceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
@@ -57,24 +55,17 @@ public final class ModuleParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL)
-    void parse(@Ctx Environment environment, @Ctx Imports imports, @Ctx PandaScript script, @Interceptor SourceLocation location, @Src("module") Snippet source) {
+    void parse(@Ctx Environment environment, @Ctx Imports imports, @Ctx PandaScript script, @Int SourceLocation location, @Src("module") Snippet source) {
         if (script.select(ModuleStatement.class).size() > 0) {
             throw new PandaParserException("Script contains more than one declaration of the group");
         }
 
-        String moduleName = source.asSource();
-        ModuleLoader moduleLoader = imports.getModuleLoader();
-
-        Module module = environment.getModulePath().get(moduleName, moduleLoader).orElseGet(() -> {
-            Module pandaModule = new PandaModule(moduleName, moduleLoader);
-            environment.getModulePath().include(pandaModule);
-            return pandaModule;
-        });
+        Module module = environment.getModulePath().allocate(source.asSource());
+        imports.importModule(module);
 
         ModuleStatement moduleStatement = new ModuleStatement(location, module);
         script.addStatement(moduleStatement);
         script.setModule(module);
-        imports.importModule(module);
     }
 
 }

@@ -51,7 +51,7 @@ public final class MethodScope extends AbstractPropertyFramedScope {
 
     }
 
-    public static final class PandaMethodCallback implements TypeExecutableCallback<Frame> {
+    public static final class PandaMethodCallback implements TypeExecutableCallback<TypeInstance> {
 
         private final MethodScope scope;
 
@@ -60,8 +60,8 @@ public final class MethodScope extends AbstractPropertyFramedScope {
         }
 
         @Override
-        public @Nullable Object invoke(ProcessStack stack, @Nullable Frame instance, Object[] arguments) throws Exception {
-            MethodFrame scopeInstance = scope.revive(stack, instance);
+        public @Nullable Object invoke(ProcessStack stack, @Nullable TypeInstance instance, Object[] arguments) throws Exception {
+            MethodFrame scopeInstance = scope.revive(stack, instance != null ? instance.__panda__get_frame() : null);
             ParameterUtils.assignValues(scopeInstance, arguments);
             Result<?> result = stack.callFrame(scopeInstance, scopeInstance);
 

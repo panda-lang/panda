@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.language.resource.syntax.type;
 
+import io.vavr.collection.Stream;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.Script;
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.framework.design.architecture.type.Reference;
+import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.design.architecture.type.State;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.architecture.type.TypeField;
@@ -33,11 +33,9 @@ import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.language.architecture.type.PandaConstructor;
-import org.panda_lang.framework.language.architecture.type.PandaReference;
 import org.panda_lang.framework.language.architecture.type.PandaType;
 import org.panda_lang.framework.language.architecture.type.TypeComponents;
 import org.panda_lang.framework.language.architecture.type.TypeScope;
-import org.panda_lang.framework.language.architecture.type.dynamic.DynamicClassGenerator;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PipelineParser;
@@ -58,19 +56,16 @@ import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitial
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Interceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.data.Delegation;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.CustomPatternHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
 
 import java.util.Collection;
-import java.util.Optional;
 
 @RegistrableParser(pipeline = Pipelines.HEAD_LABEL)
 public final class TypeParser extends ParserBootstrap<Void> {
-
-    private static final DynamicClassGenerator CLASS_GENERATOR = new DynamicClassGenerator();
 
     @Override
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
@@ -79,7 +74,7 @@ public final class TypeParser extends ParserBootstrap<Void> {
                 .interceptor(new CustomPatternInterceptor())
                 .pattern(CustomPattern.of(
                         VariantElement.create("visibility").content(Keywords.PUBLIC, Keywords.SHARED, Keywords.INTERNAL).optional(),
-                        VariantElement.create("model").content(Keywords.CLASS, Keywords.INTERFACE),
+                        VariantElement.create("model").content(Keywords.CLASS, Keywords.TYPE, Keywords.INTERFACE),
                         WildcardElement.create("name").verify(new TokenTypeVerifier(TokenTypes.UNKNOWN)),
                         SubPatternElement.create("extended").optional().of(
                                 UnitElement.create("extends").content(":"),
@@ -90,77 +85,89 @@ public final class TypeParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL)
-    void parse(Context context, @Interceptor SourceLocation location, @Interceptor Result result, @Ctx Script script, @Src("model") String model, @Src("name") String name) throws Exception {
+    void parse(Context context, @Int SourceLocation location, @Int Result result, @Ctx Script script, @Src("model") String model, @Src("name") String name) throws Exception {
         Visibility visibility = result.has("visibility") ? Visibility.of(result.get("visibility")) : Visibility.INTERNAL;
 
-        Reference reference = new PandaReference(name, script.getModule(), model, ref -> PandaType.builder()
+        if (Keywords.TYPE.getValue().equals(model)) {
+            model = Keywords.CLASS.getValue();
+        }
+
+        Type type = PandaType.builder()
                 .name(name)
-                .reference(ref)
                 .location(location)
-                .module(ref.getModule())
+                .module(script.getModule())
                 .model(model)
                 .state(State.of(model))
                 .visibility(visibility)
-                .associated(ref.getAssociatedClass())
-                .build());
+                .build();
 
-        Type type = script.getModule().add(reference).fetch();
         TypeScope typeScope = new TypeScope(location, type);
+        script.getModule().add(type);
 
         context.withComponent(Components.SCOPE, typeScope)
                 .withComponent(TypeComponents.PROTOTYPE_SCOPE, typeScope)
                 .withComponent(TypeComponents.PROTOTYPE, type);
+
+        System.out.println("parse " + type);
     }
 
-    @Autowired(cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
-    void parseDeclaration(Context context, @Ctx Type type, @Ctx ModuleLoader loader, @Nullable @Src("inherited") Collection<Snippetable> inherited) {
-        Optional.ofNullable(inherited)
-                .ifPresent(classes -> classes.forEach(typeSource -> TypeParserUtils.appendExtended(context, type, typeSource)));
+    @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
+    void parseDeclaration(Context context, @Ctx Type type, @Ctx TypeLoader loader, @Nullable @Src("inherited") Collection<Snippetable> inherited) {
+        System.out.println("parse declaration " + type);
 
-        if (type.getBases().stream().noneMatch(TypeModels::isClass)) {
-            Type objectType = loader.requireType(Object.class);
-            type.addBase(objectType);
+        if (inherited != null) {
+            inherited.forEach(typeSource -> TypeParserUtils.appendExtended(context, type, typeSource));
+        }
+
+        if (TypeModels.isClass(type) && type.getBases().stream().noneMatch(TypeModels::isClass)) {
+            type.addBase(loader.requireType(Object.class));
         }
     }
 
-    @Autowired(cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.NEXT_AFTER)
-    Object parseBody(Context context, @Src("body") Snippet body) throws Exception {
+    @Autowired(order = 2, cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.NEXT_BEFORE)
+    Object parseBody(Context context, @Ctx Type type, @Src("body") Snippet body) throws Exception {
+        System.out.println("parse body " + type);
         return new PipelineParser<>(Pipelines.TYPE, new PandaSourceStream(body), context).parse();
     }
 
-    @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
-    void verifyProperties(Context context, @Ctx Type type, @Ctx TypeScope scope) throws Exception {
+    @Autowired(order = 3, cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
+    void verifyProperties(Context context, @Ctx Type type, @Ctx TypeScope scope) {
+        System.out.println("verify " + type);
+
         if (type.getState() != State.ABSTRACT) {
             type.getBases().stream()
                     .flatMap(base -> base.getMethods().getProperties().stream())
                     .filter(TypeMethod::isAbstract)
-                    .filter(method -> !type.getMethods().getMethod(method.getSimpleName(), method.getParameterTypes()).isPresent())
+                    .filter(method -> !type.getMethods().getMethod(method.getSimpleName(), method.getParameterTypes()).isDefined())
                     .forEach(method -> {
                         throw new PandaParserFailure(context, "Missing implementation of &1" + method + "&r in &1" + type + "&r");
                     });
         }
 
         if (type.getConstructors().getDeclaredProperties().isEmpty()) {
+            type.getSuperclass().peek(superclass -> Stream.ofAll(superclass.getConstructors().getDeclaredProperties())
+                    .find(constructor -> constructor.getParameters().length > 0)
+                    .peek(constructorWithParameters -> {
+                        throw new PandaParserFailure(context, "Type " + type + " does not implement any constructor from the base type " + constructorWithParameters.getType());
+                    })
+            );
+
             type.getConstructors().declare(PandaConstructor.builder()
                     .type(type)
-                    .callback((frame, instance, arguments) -> scope.revive(frame, instance))
+                    .callback((frame, instance, arguments) -> scope.createInstance(frame, new Class<?>[0], arguments))
                     .location(type.getLocation())
                     .build());
         }
-
-        // CLASS_GENERATOR.generate(context, type)
-        // type.getAssociatedClass().regenerate();
     }
 
-    @Autowired(order = 2, cycle = GenerationCycles.CONTENT_LABEL, delegation = Delegation.CURRENT_AFTER)
+    @Autowired(order = 4, cycle = GenerationCycles.CONTENT_LABEL, delegation = Delegation.CURRENT_AFTER)
     void verifyContent(Context context, @Ctx Type type) {
         for (TypeField field : type.getFields().getDeclaredProperties()) {
-            if (field.isInitialized() || (field.isNillable() && field.isMutable())) {
-                field.initialize();
-                continue;
+            if (!field.isInitialized() && !(field.isNillable() && field.isMutable())) {
+                throw new PandaParserFailure(context, "Field " + field + " is not initialized");
             }
 
-            throw new PandaParserFailure(context, "Field " + field + " is not initialized");
+            field.initialize();
         }
     }
 

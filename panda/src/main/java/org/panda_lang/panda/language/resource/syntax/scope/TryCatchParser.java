@@ -33,7 +33,7 @@ import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitial
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Interceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Local;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.data.LocalData;
@@ -54,7 +54,7 @@ public final class TryCatchParser extends ParserBootstrap<Void> {
     }
 
     @Autowired
-    void parse(Context context, LocalData data, @Ctx Scope parent, @Interceptor SourceLocation location, @Src("try-body") Snippet tryBody) throws Exception {
+    void parse(Context context, LocalData data, @Ctx Scope parent, @Int SourceLocation location, @Src("try-body") Snippet tryBody) throws Exception {
         Scope tryBlock = SCOPE_PARSER.parse(context, new PandaBlock(parent, location), tryBody);
         TryCatch tryCatch = data.allocated(new TryCatch(location, tryBlock, new PandaBlock(parent, location)));
         parent.addStatement(tryCatch);
@@ -73,7 +73,7 @@ public final class TryCatchParser extends ParserBootstrap<Void> {
 
         if (type.isAssignableTo(Throwable.class)) {
             //noinspection unchecked
-            tryCatch.addHandler((Class<? extends Throwable>) type.fetchImplementation(), variable, catchBlock);
+            tryCatch.addHandler((Class<? extends Throwable>) type.fetchStructure(), variable, catchBlock);
         }
     }
 

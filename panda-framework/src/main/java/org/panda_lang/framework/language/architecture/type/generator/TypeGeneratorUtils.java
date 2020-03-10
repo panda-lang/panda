@@ -18,6 +18,7 @@ package org.panda_lang.framework.language.architecture.type.generator;
 
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.type.Type;
+import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.language.architecture.type.PandaPropertyParameter;
 
 import java.lang.reflect.Parameter;
@@ -26,12 +27,12 @@ final class TypeGeneratorUtils {
 
     private TypeGeneratorUtils() { }
 
-    static PandaPropertyParameter[] toParameters(Module module, Parameter[] parameters) {
+    static PandaPropertyParameter[] toParameters(TypeLoader typeLoader, Module module, Parameter[] parameters) {
         PandaPropertyParameter[] mappedParameters = new PandaPropertyParameter[parameters.length];
 
         for (int index = 0; index < parameters.length; index++) {
             Parameter parameter = parameters[index];
-            Type type = TypeGeneratorManager.getInstance().getGenerator().findOrGenerate(module, parameter.getType()).fetch();
+            Type type = TypeGeneratorManager.getInstance().getGenerator().findOrGenerate(typeLoader, module, parameter.getType());
             mappedParameters[index] = new PandaPropertyParameter(index, type, parameter.getName(), parameter.isVarArgs(), false, false);
         }
 

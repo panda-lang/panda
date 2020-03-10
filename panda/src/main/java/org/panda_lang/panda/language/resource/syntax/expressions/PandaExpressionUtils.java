@@ -49,7 +49,7 @@ public final class PandaExpressionUtils {
     }
 
     public static Type forClass(ExpressionContext expressionContext, Class<?> associatedClass) {
-        return ModuleLoaderUtils.forClass(expressionContext.getContext(), associatedClass);
+        return ModuleLoaderUtils.requireType(expressionContext.getContext(), associatedClass);
     }
 
 }

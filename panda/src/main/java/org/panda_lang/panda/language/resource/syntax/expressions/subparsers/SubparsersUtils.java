@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import io.vavr.control.Option;
-import org.panda_lang.framework.design.architecture.type.Reference;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
@@ -29,7 +29,7 @@ final class SubparsersUtils {
 
     private SubparsersUtils() { }
 
-    protected static Produce<Reference, ExpressionResult> readType(ExpressionContext context) {
+    protected static Produce<Type, ExpressionResult> readType(ExpressionContext context) {
         Option<Snippet> typeSource = TypeDeclarationUtils.readType(context.getSynchronizedSource().getAvailableSource());
 
         if (!typeSource.isDefined()) {
@@ -40,7 +40,7 @@ final class SubparsersUtils {
                 .forName(typeSource.get().asSource())
                 .map(type -> {
                     context.getSynchronizedSource().next(typeSource.get().size());
-                    return new Produce<Reference, ExpressionResult>(type);
+                    return new Produce<Type, ExpressionResult>(type);
                 })
                 .getOrElse(() -> {
                     return new Produce<>(() -> ExpressionResult.error("Unknown type", context.getSynchronizedSource().getAvailableSource()));

@@ -18,14 +18,12 @@ package org.panda_lang.framework.language.architecture.type.generator;
 
 import io.vavr.control.Option;
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.type.Type;
-import org.panda_lang.framework.design.architecture.type.TypeModels;
-import org.panda_lang.framework.design.architecture.type.Reference;
 import org.panda_lang.framework.design.architecture.type.State;
+import org.panda_lang.framework.design.architecture.type.Type;
+import org.panda_lang.framework.design.architecture.module.TypeLoader;
+import org.panda_lang.framework.design.architecture.type.TypeModels;
 import org.panda_lang.framework.design.architecture.type.Visibility;
 import org.panda_lang.framework.language.architecture.type.PandaType;
-import org.panda_lang.framework.language.architecture.type.PandaReference;
-import org.panda_lang.framework.language.architecture.type.dynamic.PandaDynamicClass;
 import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
 import org.panda_lang.utilities.commons.ClassUtils;
 import org.panda_lang.utilities.commons.ReflectionUtils;
@@ -36,95 +34,79 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
 
 final class TypeGenerator {
 
-    protected final Map<String, Reference> cachedReferences = new HashMap<>();
+    protected final Map<String, Type> initializedTypes = new HashMap<>();
 
-    protected Reference generate(Module module, String name, Class<?> javaType) {
-        Reference reference = cachedReferences.get(getId(module, name));
+    protected Type generate(Module module, String name, Class<?> javaType) {
+        String identifier = getId(module, name);
 
-        if (reference == null) {
-            reference = module.forClass(javaType).getOrElse((Reference) null);
-        }
+        return Option.of(initializedTypes.get(identifier))
+                .orElse(() -> module.forClass(javaType))
+                .getOrElse(() -> {
+                    Type type = PandaType.builder()
+                            .name(name)
+                            .module(module)
+                            .javaType(javaType)
+                            .location(new PandaClassSource(javaType).toLocation())
+                            .model(TypeModels.of(javaType))
+                            .state(State.of(javaType))
+                            .visibility(Visibility.PUBLIC)
+                            .build();
 
-        if (reference != null && reference.getAmountOfInitializers() > 1 && reference.isInitialized()) {
-            return reference;
-        }
+                    type.addInitializer((typeLoader, initializedType) -> {
+                        if (!Modifier.isPublic(javaType.getModifiers())) {
+                            return;
+                        }
 
-        if (reference == null) {
-            reference = new PandaReference(new PandaDynamicClass(javaType, name, module.getName()), module, ref -> PandaType.builder()
-                    .name(name)
-                    .reference(ref)
-                    .module(module)
-                    .associated(ref.getAssociatedClass())
-                    .location(new PandaClassSource(javaType).toLocation())
-                    .associated(ref.getAssociatedClass())
-                    .model(TypeModels.of(javaType))
-                    .state(State.of(javaType))
-                    .visibility(Visibility.PUBLIC)
-                    .build()
-            );
-        }
+                        for (Field field : javaType.getFields()) {
+                            if (!Modifier.isPublic(field.getModifiers())) {
+                                continue;
+                            }
 
-        Consumer<Type> initializer = type -> {
-            if (!Modifier.isPublic(javaType.getModifiers())) {
-                return;
-            }
+                            FieldGenerator generator = new FieldGenerator(this, initializedType, field);
+                            initializedType.getFields().declare(field.getName(), () -> generator.generate(typeLoader));
+                        }
 
-            for (Field field : javaType.getFields()) {
-                if (!Modifier.isPublic(field.getModifiers())) {
-                    continue;
-                }
+                        for (Constructor<?> constructor : ReflectionUtils.getByModifier(javaType.getConstructors(), Modifier.PUBLIC)) {
+                            ConstructorGenerator generator = new ConstructorGenerator(initializedType, constructor);
+                            initializedType.getConstructors().declare(name, () -> generator.generate(typeLoader));
+                        }
 
-                FieldGenerator generator = new FieldGenerator(this, type, field);
-                type.getFields().declare(field.getName(), generator::generate);
-            }
+                        for (Method method : ReflectionUtils.getByModifier(javaType.getMethods(), Modifier.PUBLIC)) {
+                            MethodGenerator generator = new MethodGenerator(this, initializedType, method);
+                            initializedType.getMethods().declare(method.getName(), () -> generator.generate(typeLoader));
+                        }
+                    });
 
-            for (Constructor<?> constructor : ReflectionUtils.getByModifier(javaType.getConstructors(), Modifier.PUBLIC)) {
-                ConstructorGenerator generator = new ConstructorGenerator(type, constructor);
-                type.getConstructors().declare(name, generator::generate);
-            }
-
-            for (Method method : ReflectionUtils.getByModifier(javaType.getMethods(), Modifier.PUBLIC)) {
-                MethodGenerator generator = new MethodGenerator(this, type, method);
-                type.getMethods().declare(method.getName(), generator::generate);
-            }
-        };
-
-        reference.addInitializer(initializer);
-
-        if (reference.isInitialized()) {
-            initializer.accept(reference.fetch());
-        }
-
-        cachedReferences.put(getId(module, name), reference);
-        return reference;
+                    initializedTypes.put(identifier, type);
+                    return type;
+                });
     }
 
-    protected Reference findOrGenerate(Module module, Class<?> type) {
-        if (type.isPrimitive()) {
-            type = ClassUtils.getNonPrimitiveClass(type);
+    protected Type findOrGenerate(TypeLoader typeLoader, Module module, Class<?> javaType) {
+        if (javaType.isPrimitive()) {
+            javaType = ClassUtils.getNonPrimitiveClass(javaType);
         }
 
-        Option<Reference> referenceValue = module.getModuleLoader().forClass(type);
+        Option<Type> typeValue = typeLoader.forClass(javaType);
 
-        if (referenceValue.isDefined()) {
-            return referenceValue.get();
+        if (typeValue.isDefined()) {
+            return typeValue.get();
         }
 
-        Reference reference = cachedReferences.get(getId(module, type.getSimpleName()));
+        Type type = initializedTypes.get(getId(module, javaType.getSimpleName()));
 
-        if (reference != null) {
-            return reference;
+        if (type != null) {
+            return type;
         }
 
-        return generate(module, type.getSimpleName(), type);
+        return generate(module, javaType.getSimpleName(), javaType);
     }
 
     protected void disposeCache() {
-        cachedReferences.clear();
+        initializedTypes.clear();
     }
 
     private String getId(Module module, String name) {

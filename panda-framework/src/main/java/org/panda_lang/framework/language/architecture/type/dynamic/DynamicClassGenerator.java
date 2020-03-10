@@ -16,164 +16,138 @@
 
 package org.panda_lang.framework.language.architecture.type.dynamic;
 
-import javassist.ClassPool;
+import javassist.CannotCompileException;
 import javassist.CtClass;
 import javassist.CtConstructor;
 import javassist.CtField;
 import javassist.CtMethod;
-import javassist.CtNewConstructor;
-import javassist.CtNewMethod;
 import javassist.Modifier;
 import javassist.NotFoundException;
-import javassist.bytecode.AccessFlag;
-import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.type.Type;
+import org.panda_lang.framework.design.architecture.type.TypeConstructor;
 import org.panda_lang.framework.design.architecture.type.TypeMethod;
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.language.architecture.type.TypeScope.TypeFrame;
+import org.panda_lang.framework.design.architecture.type.TypeModels;
+import org.panda_lang.framework.language.architecture.type.TypeFrame;
+import org.panda_lang.framework.language.architecture.type.TypeInstance;
 import org.panda_lang.framework.language.architecture.type.utils.TypedUtils;
-import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.runtime.PandaProcessStack;
-import org.panda_lang.framework.language.runtime.PandaRuntimeException;
+import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.ClassPoolUtils;
+import org.panda_lang.utilities.commons.CtUtils;
+import org.panda_lang.utilities.commons.javassist.CtCode;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.atomic.AtomicInteger;
 
-public final class DynamicClassGenerator {
+final class DynamicClassGenerator {
 
-    private static final AtomicInteger ID = new AtomicInteger();
-    private static final ClassPool CLASS_POOL = ClassPool.getDefault();
-    private static final CtClass FRAME;
+    private static final CtClass CT_VOID = ClassPoolUtils.require(void.class);
+    private static final CtClass CT_TYPE_FRAME = ClassPoolUtils.require(TypeFrame.class);
+    private static final CtClass CT_TYPE_INSTANCE = ClassPoolUtils.require(TypeInstance.class);
+    private static final CtClass CT_TYPE_METHOD = ClassPoolUtils.require(TypeMethod.class);
 
-    static {
-        try {
-            FRAME = ClassPoolUtils.get(TypeFrame.class);
-        } catch (NotFoundException e) {
-            throw new PandaFrameworkException(e);
+    private final Type type;
+    private final CtClass generatedStructure;
+    private boolean isInterface;
+
+    DynamicClassGenerator(Type type, CtClass generatedStructure) {
+        this.type = type;
+        this.generatedStructure = generatedStructure;
+        this.isInterface = TypeModels.isInterface(type);
+    }
+
+    protected void generateDeclaration() {
+        generatedStructure.addInterface(CT_TYPE_INSTANCE);
+    }
+
+    protected void generateFields() throws CannotCompileException {
+        if (isInterface) {
+            return;
+        }
+
+        CtField frameField = new CtField(CT_TYPE_FRAME, "__panda__frame", generatedStructure);
+        generatedStructure.addField(frameField);
+    }
+
+
+    protected void generateConstructor() throws CannotCompileException, NotFoundException {
+        if (isInterface) {
+            return;
+        }
+
+        for (TypeConstructor constructor : type.getConstructors().getDeclaredProperties()) {
+            CtClass[] constructorParameters = ArrayUtils.mergeArrays(new CtClass[] { CT_TYPE_FRAME }, ClassPoolUtils.require(constructor.getJavaParameterTypes()));
+            CtConstructor typeConstructor = new CtConstructor(constructorParameters, generatedStructure);
+            StringBuilder constructorBody = new StringBuilder("{ ");
+
+            if (CtUtils.hasCustomSuperclass(generatedStructure) && constructorParameters.length > 1) {
+                constructorBody.append("super(");
+
+                for (int index = 0; index < constructorParameters.length - 1; index++) {
+                    constructorBody.append("$").append(index + 2).append(", ");
+                }
+
+                constructorBody.setLength(constructorBody.length() - 2);
+                constructorBody.append(");");
+            }
+            else {
+                constructorBody.append("super();");
+            }
+
+            constructorBody.append("$0.__panda__frame = $1; }");
+            System.out.println(constructorBody);
+
+            typeConstructor.setBody(constructorBody.toString());
+            generatedStructure.addConstructor(typeConstructor);
         }
     }
 
-    public Class<?> generate(Context context, Type type) throws Exception {
-        String className = type.getAssociatedClass().getSimpleName();
-        boolean isInterface = type.getModel().equalsIgnoreCase("interface");
-
-        List<CtClass> interfaces = new ArrayList<>();
-        CtClass superclass = ClassPoolUtils.get(type.getAssociatedClass().fetchImplementation());
-
-        if (superclass.isInterface()) {
-            if (!superclass.getName().equals(Object.class.getName())) {
-                interfaces.add(superclass);
-            }
-
-            superclass = null;
+    protected void generateInstanceMethods() throws CannotCompileException {
+        if (isInterface) {
+            return;
         }
 
-        for (Type basis : type.getBases()) {
-            if (basis.getModel().equalsIgnoreCase("interface")) {
-                interfaces.add(ClassPoolUtils.get(basis.getAssociatedClass().fetchImplementation()));
-                continue;
-            }
+        CtMethod setter = new CtMethod(CT_VOID, "__panda__set_frame", new CtClass[]{ CT_TYPE_FRAME }, generatedStructure);
+        setter.setBody("{ $0.__panda__frame = $1; }");
+        generatedStructure.addMethod(setter);
 
-            if (!basis.getModel().equalsIgnoreCase("class")) {
-                continue;
-            }
+        CtMethod getter = new CtMethod(CT_TYPE_FRAME, "__panda__get_frame", new CtClass[0], generatedStructure);
+        getter.setBody("{ return $0.__panda__frame; }");
+        generatedStructure.addMethod(getter);
+    }
 
-            if (superclass != null) {
-                throw new PandaParserFailure(context, "Cannot extend more than one class");
-            }
-
-            if (isInterface && basis.getAssociatedClass().fetchImplementation().getName().equals(Object.class.getName())) {
-                continue;
-            }
-
-            superclass = ClassPoolUtils.get(basis.getAssociatedClass().fetchImplementation());
-        }
-
-        CtClass generated;
-
-        if (type.getModel().equalsIgnoreCase("class")) {
-            generated = CLASS_POOL.makeClass(className + ID.incrementAndGet(), superclass);
-        }
-        else if (isInterface) {
-            generated = CLASS_POOL.makeInterface(className + ID.incrementAndGet(), superclass);
-
-            if (superclass != null) {
-                throw new PandaRuntimeException("Interface cannot extend class");
-            }
-        }
-        else {
-            throw new PandaRuntimeException("Unsupported model: " + type.getModel());
-        }
-
-        interfaces.forEach(generated::addInterface);
-
-        if (!isInterface) {
-            for (CtField field : FRAME.getFields()) {
-                if (Modifier.isStatic(field.getModifiers())) {
-                    continue;
-                }
-
-                CtField copy = new CtField(field.getType(), field.getName(), generated);
-                copy.setModifiers(field.getModifiers());
-                generated.addField(copy);
-            }
-
-            for (CtConstructor constructor : FRAME.getConstructors()) {
-                generated.addConstructor(CtNewConstructor.copy(constructor, generated, null));
-            }
-        }
-
-        for (CtMethod method : FRAME.getMethods()) {
-            if (Modifier.isFinal(method.getModifiers())) {
-                continue;
-            }
-
-            CtMethod copy = CtNewMethod.copy(method, generated, null);
-
-            if (isInterface) {
-                copy.setModifiers(copy.getModifiers() & ~Modifier.NATIVE);
-                copy.setModifiers(copy.getModifiers() & ~Modifier.SYNCHRONIZED);
-                copy.setModifiers(copy.getModifiers() & ~Modifier.NATIVE);
-                copy.setModifiers(AccessFlag.setPublic(copy.getModifiers()));
-            }
-
-            generated.addMethod(copy);
-        }
-
-        CtClass methodClass = ClassPoolUtils.get(TypeMethod.class);
+    protected Class<?> generate() throws Exception {
         Map<String, TypeMethod> methods = new HashMap<>();
 
         for (TypeMethod method : type.getMethods().getDeclaredProperties()) {
-            if (!method.isNative()) {
+            if (!method.isNative() || isInterface) {
                 continue;
             }
 
             String generatedName = method.getName().replaceAll("[:,-.() ]", "");
             methods.put(generatedName, method);
 
-            CtField methodField = new CtField(methodClass, generatedName, generated);
+            CtField methodField = new CtField(CT_TYPE_METHOD, generatedName, generatedStructure);
             methodField.setModifiers(Modifier.PUBLIC | Modifier.STATIC);
-            generated.addField(methodField);
+            generatedStructure.addField(methodField);
 
-            CtClass returnType = ClassPoolUtils.get(method.getReturnType().getAssociatedClass().fetchImplementation());
+            CtClass returnType = ClassPoolUtils.get(method.getReturnType().getAssociatedClass().fetchStructure());
             CtClass[] parameters = ClassPoolUtils.toCtClasses(TypedUtils.toClasses(method.getParameterTypes()));
 
-            CtMethod nativeMethod = new CtMethod(returnType, method.getSimpleName(), parameters, generated);
-            nativeMethod.setBody("{ " +
-                    PandaProcessStack.class.getName() + " stack = new " + PandaProcessStack.class.getName() + "(this._panda_get_process(), 1);" +
-                    "return ($r) " + generatedName + ".invoke(stack, $0, $args);" +
-            "}");
+            CtMethod nativeMethod = CtCode.of(new CtMethod(returnType, method.getSimpleName(), parameters, generatedStructure))
+                    .alias("{ProcessStack}", PandaProcessStack.class.getName())
+                    .alias("{generatedName}", generatedName)
+                    .compile(
+                            "{ProcessStack} stack = new {ProcessStack}($0.__panda__get_frame().getProcess(), 1);",
+                            "return ($r) {generatedName}.invoke(stack, $0, $args);"
+                    );
 
-            generated.addMethod(nativeMethod);
+            generatedStructure.addMethod(nativeMethod);
         }
 
-        Class<?> generatedClass = ClassPoolUtils.toClass(generated);
+        Class<?> generatedClass = ClassPoolUtils.toClass(generatedStructure);
 
         for (Entry<String, TypeMethod> entry : methods.entrySet()) {
             Field methodField = generatedClass.getDeclaredField(entry.getKey());

@@ -18,9 +18,9 @@ package org.panda_lang.panda.language.resource.syntax.scope.block.looping;
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.expression.ExpressionEvaluator;
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
+import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
@@ -56,7 +56,7 @@ public final class ForEachParser extends BlockSubparserBootstrap {
     }
 
     @Autowired
-    BlockData parseBlock(Context context, @Ctx Scope parent, @Ctx ModuleLoader loader, @Ctx ExpressionParser parser, @Src("content") Snippet content) {
+    BlockData parseBlock(Context context, @Ctx Scope parent, @Ctx TypeLoader loader, @Ctx ExpressionParser parser, @Src("content") Snippet content) {
         Snippet[] elements = content.split(Operators.COLON);
 
         if (elements.length != 2) {

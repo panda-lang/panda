@@ -17,7 +17,7 @@
 package org.panda_lang.framework.language.architecture.type.generator;
 
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.type.Reference;
+import org.panda_lang.framework.design.architecture.type.Type;
 
 public final class TypeGeneratorManager {
 
@@ -25,9 +25,9 @@ public final class TypeGeneratorManager {
 
     private final TypeGenerator generator = new TypeGenerator();
 
-    public Reference generate(Module module, String name, Class<?> clazz) {
+    public Type generate(Module module, String name, Class<?> clazz) {
         boolean exists = module.forClass(clazz).isDefined();
-        Reference reference = generator.generate(module, name, clazz);
+        Type reference = generator.generate(module, name, clazz);
 
         if (!exists) {
             module.add(reference);
@@ -45,7 +45,7 @@ public final class TypeGeneratorManager {
     }
 
     public int getCacheSize() {
-        return generator.cachedReferences.size();
+        return generator.initializedTypes.size();
     }
 
     public static TypeGeneratorManager getInstance() {

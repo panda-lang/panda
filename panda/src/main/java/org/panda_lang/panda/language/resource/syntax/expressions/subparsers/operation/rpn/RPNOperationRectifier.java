@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ope
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.expression.ExpressionValueType;
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.runtime.ProcessStack;
@@ -38,7 +38,7 @@ public final class RPNOperationRectifier {
 
     public Expression rectify(Context context, Map<Operator, RPNOperationSupplier<?>> suppliers, Stack<?> elements) {
         Stack<Expression> values = new Stack<>();
-        ModuleLoader loader = context.getComponent(Components.MODULE_LOADER);
+        TypeLoader loader = context.getComponent(Components.TYPE_LOADER);
 
         for (Object element : elements) {
             if (!(element instanceof Operator)) {

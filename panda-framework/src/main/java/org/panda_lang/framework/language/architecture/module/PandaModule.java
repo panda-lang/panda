@@ -19,49 +19,42 @@ package org.panda_lang.framework.language.architecture.module;
 import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.framework.design.architecture.module.ReferencesMap;
-import org.panda_lang.framework.design.architecture.type.Referencable;
-import org.panda_lang.framework.design.architecture.type.Reference;
-import org.panda_lang.framework.language.architecture.type.array.ArrayClassTypeFetcher;
-import org.panda_lang.framework.language.architecture.type.array.PandaArray;
+import org.panda_lang.framework.design.architecture.module.TypesMap;
+import org.panda_lang.framework.design.architecture.type.Type;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map.Entry;
 
 public class PandaModule extends PandaModules implements Module {
 
     protected final String name;
-    protected final ModuleLoader loader;
-    protected final ReferencesMap references;
-    protected Module parent;
+    protected final TypesMap types;
+    protected @Nullable Module parent;
 
-    public PandaModule(@Nullable Module parent, String name, ModuleLoader loader) {
+    public PandaModule(Module parent, String name) {
         this.name = name;
-        this.loader = loader;
         this.parent = parent;
-        this.references = new PandaReferencesMap();
+        this.types = new PandaTypesMap();
     }
 
-    public PandaModule(String name, ModuleLoader loader) {
-        this(null, name, loader);
+    public PandaModule(String name) {
+        this(null, name);
     }
 
     @Override
-    public Reference add(Referencable referencable) {
-        Reference reference = referencable.toReference();
-        references.put(reference);
-        return reference;
+    public Type add(Type type) {
+        types.put(type);
+        return type;
     }
 
     @Override
     public int countUsedTypes() {
-        return references.countUsedTypes();
+        return types.countUsedTypes();
     }
 
     @Override
     public int countTypes() {
-        return references.size();
+        return types.size();
     }
 
     @Override
@@ -82,33 +75,29 @@ public class PandaModule extends PandaModules implements Module {
     }
 
     @Override
-    public Option<Reference> forClass(Class<?> associatedClass) {
-        return references.forClass(associatedClass);
+    public Option<Type> forClass(Class<?> associatedClass) {
+        return types.forClass(associatedClass);
     }
 
     @Override
-    public Option<Reference> forName(CharSequence typeName) {
-        if (typeName.toString().endsWith(PandaArray.IDENTIFIER)) {
-            return ArrayClassTypeFetcher.fetch(this, typeName.toString());
-        }
-
-        return references.forName(typeName);
+    public Option<Type> forName(CharSequence typeName) {
+        return types.forName(typeName);
     }
 
     @Override
-    public Collection<Entry<String, Reference>> getTypes() {
-        Collection<Entry<String, Reference>> entries = references.getTypes();
+    public Collection<Type> getAllTypes() {
+        Collection<Type> entries = new ArrayList<>(types.values());
 
         for (Module submodule : getModules()) {
-            entries.addAll(submodule.getTypes());
+            entries.addAll(submodule.getAllTypes());
         }
 
         return entries;
     }
 
     @Override
-    public ModuleLoader getModuleLoader() {
-        return loader;
+    public Collection<Type> getTypes() {
+        return new ArrayList<>(types.values());
     }
 
     @Override

@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.design.architecture.module;
 
-import org.panda_lang.framework.design.architecture.type.Reference;
+import org.panda_lang.framework.design.architecture.type.Type;
 
 import java.util.Collection;
 import java.util.Map;
@@ -24,15 +24,15 @@ import java.util.Map;
 /**
  * Custom implementation of map to store types with support for associated classes and {@link org.panda_lang.framework.design.architecture.module.ModuleResource}
  */
-public interface ReferencesMap extends Map<String, Reference>, ModuleResource {
+public interface TypesMap extends Map<String, Type>, ModuleResource {
 
     /**
      * Add reference to map
      *
-     * @param reference the reference to add
+     * @param type the reference to add
      * @return false if a name or type is already stored, otherwise true
      */
-    boolean put(Reference reference);
+    boolean put(Type type);
 
     /**
      * Count used types
@@ -46,6 +46,6 @@ public interface ReferencesMap extends Map<String, Reference>, ModuleResource {
      *
      * @return the collection of types
      */
-    Collection<Entry<String, Reference>> getTypes();
+    Collection<Entry<String, Type>> getTypes();
 
 }

@@ -43,6 +43,13 @@ public final class Operation {
         this.elements = elements;
     }
 
+    @Override
+    public String toString() {
+        return "Operation{" +
+                "elements=" + elements +
+                '}';
+    }
+
     public List<OperationElement> getElements() {
         return elements;
     }
@@ -104,6 +111,13 @@ public final class Operation {
             return expression;
         }
 
+        @Override
+        public String toString() {
+            return "OperationElement{" +
+                    "expression=" + expression +
+                    ", operator=" + operator +
+                    '}';
+        }
     }
 
 }

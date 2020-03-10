@@ -20,7 +20,6 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.Imports;
 import org.panda_lang.framework.design.architecture.type.PropertyParameter;
 import org.panda_lang.framework.design.architecture.type.Type;
-import org.panda_lang.framework.design.architecture.type.Reference;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
@@ -71,16 +70,14 @@ public final class ParameterParser implements Parser {
             start += mutable ? 1 : 0;
             start += nillable ? 1 : 0;
             end -= varargs ? 1 : 0;
-
             Snippet typeSource = source.subSource(start, end);
-            Type type = imports.forName(typeSource.asSource())
-                    .map(Reference::fetch)
-                    .getOrElseThrow(() -> {
-                        throw new PandaParserFailure(context, typeSource, "Unknown type", "Make sure that type is imported");
-                    });
+
+            Type type = imports.forName(typeSource.asSource()).getOrElseThrow(() -> {
+                throw new PandaParserFailure(context, typeSource, "Unknown type", "Make sure that type is imported");
+            });
 
             if (varargs) {
-                type = type.toArray(context.getComponent(Components.MODULE_LOADER));
+                type = type.toArray(context.getComponent(Components.TYPE_LOADER));
             }
 
             PropertyParameter parameter = new PandaPropertyParameter(index, type, name.getValue(), varargs, mutable, nillable);

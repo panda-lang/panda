@@ -16,14 +16,13 @@
 
 package org.panda_lang.framework.language.architecture.type;
 
+import io.vavr.control.Option;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.type.Adjustment;
 import org.panda_lang.framework.design.architecture.type.Constructors;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.architecture.type.TypeConstructor;
 import org.panda_lang.framework.language.architecture.type.utils.TypedUtils;
-
-import java.util.Optional;
 
 final class PandaConstructors extends AbstractProperties<TypeConstructor> implements Constructors {
 
@@ -34,12 +33,12 @@ final class PandaConstructors extends AbstractProperties<TypeConstructor> implem
     }
 
     @Override
-    public Optional<TypeConstructor> getConstructor(Type[] types) {
+    public Option<TypeConstructor> getConstructor(Type[] types) {
         return MATCHER.match(getDeclaredProperties(), types, null).map(Adjustment::getExecutable);
     }
 
     @Override
-    public Optional<Adjustment<TypeConstructor>> getAdjustedConstructor(Expression[] arguments) {
+    public Option<Adjustment<TypeConstructor>> getAdjustedConstructor(Expression[] arguments) {
         return MATCHER.match(getDeclaredProperties(), TypedUtils.toTypes(arguments), arguments);
     }
 

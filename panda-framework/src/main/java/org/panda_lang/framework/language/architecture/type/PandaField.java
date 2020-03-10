@@ -23,7 +23,7 @@ import org.panda_lang.utilities.commons.function.CachedSupplier;
 
 import java.util.function.Supplier;
 
-public final class PandaTypeField extends AbstractExecutableProperty implements TypeField {
+public final class PandaField extends AbstractExecutableProperty implements TypeField {
 
     private final int fieldIndex;
     private final boolean isStatic;
@@ -35,7 +35,7 @@ public final class PandaTypeField extends AbstractExecutableProperty implements 
     private CachedSupplier<?> staticValue;
     private boolean initialized;
 
-    protected PandaTypeField(PandaTypeFieldBuilder builder) {
+    protected PandaField(PandaTypeFieldBuilder builder) {
         super(builder);
 
         this.fieldIndex = builder.fieldIndex;
@@ -46,7 +46,7 @@ public final class PandaTypeField extends AbstractExecutableProperty implements 
     }
 
     @Override
-    public synchronized PandaTypeField initialize() {
+    public synchronized PandaField initialize() {
         this.initialized = true;
 
         if (isStatic && defaultValue != null) {
@@ -119,7 +119,7 @@ public final class PandaTypeField extends AbstractExecutableProperty implements 
 
     @Override
     public String toString() {
-        return "field " + getType().getSimpleName() + "." + this.getName();
+        return getType().getSimpleName() + "." + this.getName();
     }
 
     public static PandaTypeFieldBuilder builder() {
@@ -161,8 +161,8 @@ public final class PandaTypeField extends AbstractExecutableProperty implements 
             return this;
         }
 
-        public PandaTypeField build() {
-            return new PandaTypeField(this);
+        public PandaField build() {
+            return new PandaField(this);
         }
 
     }

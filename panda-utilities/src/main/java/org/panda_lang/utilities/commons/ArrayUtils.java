@@ -23,6 +23,7 @@ import java.lang.reflect.Array;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public final class ArrayUtils {
@@ -84,6 +85,22 @@ public final class ArrayUtils {
         }
 
         return mergedArray;
+    }
+
+    /**
+     * Create a new array with the given element at the first position and copy the rest of array
+     *
+     * @param firstElement the element to add at the first position
+     * @param array the array to copy
+     * @param arrayFunction array instance supplier with array size as an argument
+     * @param <T> type of array
+     * @return the merged array
+     */
+    public static <T> T[] merge(T firstElement, T[] array, Function<Integer, T[]> arrayFunction) {
+        T[] merged = arrayFunction.apply(array.length + 1);
+        merged[0] = firstElement;
+        System.arraycopy(array, 0, merged, 1, array.length);
+        return merged;
     }
 
     /**

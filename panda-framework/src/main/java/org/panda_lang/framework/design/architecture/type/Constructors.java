@@ -16,9 +16,8 @@
 
 package org.panda_lang.framework.design.architecture.type;
 
+import io.vavr.control.Option;
 import org.panda_lang.framework.design.architecture.expression.Expression;
-
-import java.util.Optional;
 
 /**
  * Container for constructors
@@ -31,7 +30,7 @@ public interface Constructors extends Properties<TypeConstructor> {
      * @param arguments arguments to match and adjust
      * @return the adjusted executable
      */
-    Optional<Adjustment<TypeConstructor>> getAdjustedConstructor(Expression[] arguments);
+    Option<Adjustment<TypeConstructor>> getAdjustedConstructor(Expression[] arguments);
 
     /**
      * Get constructor that fits to the given types
@@ -39,6 +38,6 @@ public interface Constructors extends Properties<TypeConstructor> {
      * @param types types to search for
      * @return the result constructor
      */
-    Optional<TypeConstructor> getConstructor(Type[] types);
+    Option<TypeConstructor> getConstructor(Type[] types);
 
 }

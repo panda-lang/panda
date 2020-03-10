@@ -26,12 +26,12 @@ public final class TypeModels {
 
     private TypeModels() { }
 
-    public static boolean isClass(Referencable referencable) {
-        return CLASS.equals(referencable.toReference().fetch().getModel());
+    public static boolean isClass(Type type) {
+        return CLASS.equals(type.getModel());
     }
 
-    public static boolean isInterface(Referencable referencable) {
-        return INTERFACE.equals(referencable.toReference().fetch().getModel());
+    public static boolean isInterface(Type type) {
+        return INTERFACE.equals(type.getModel());
     }
 
     public static String of(Class<?> clazz) {

@@ -52,4 +52,9 @@ final class BootstrapMethod {
         return method;
     }
 
+    @Override
+    public String toString() {
+        return "Bootstrap Method: " + method + " / " + autowired;
+    }
+
 }

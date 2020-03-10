@@ -21,13 +21,22 @@ import org.junit.jupiter.api.Test;
 
 class StackTraceUtilsTest {
 
-    @Test
-    void filter() {
-        Exception exception = new Exception();
-        exception.fillInStackTrace();
+    private static final  Exception EXCEPTION = new Exception();
 
-        StackTraceElement[] filtered = StackTraceUtils.filter(exception.getStackTrace(), StackTraceUtilsTest.class);
+    static {
+        EXCEPTION.fillInStackTrace();
+    }
+
+    @Test
+    void filterClass() {
+        StackTraceElement[] filtered = StackTraceUtils.filter(EXCEPTION.getStackTrace(), StackTraceUtilsTest.class);
         Assertions.assertFalse(ArrayUtils.findIn(filtered, element -> element.getClassName().equals(StackTraceUtilsTest.class.getName())).isPresent());
+    }
+
+    @Test
+    void filterString() {
+        StackTraceElement[] filtered = StackTraceUtils.filter(EXCEPTION.getStackTrace(), "org.panda_lang");
+        Assertions.assertFalse(ArrayUtils.findIn(filtered, element -> element.getClassName().contains("org.panda_lang")).isPresent());
     }
 
 }

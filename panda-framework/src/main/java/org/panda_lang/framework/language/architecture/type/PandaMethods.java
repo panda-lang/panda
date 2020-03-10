@@ -16,17 +16,16 @@
 
 package org.panda_lang.framework.language.architecture.type;
 
+import io.vavr.control.Option;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.type.Adjustment;
 import org.panda_lang.framework.design.architecture.type.Methods;
+import org.panda_lang.framework.design.architecture.type.State;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.architecture.type.TypeMethod;
-import org.panda_lang.framework.design.architecture.type.Referencable;
-import org.panda_lang.framework.design.architecture.type.State;
 import org.panda_lang.framework.language.architecture.type.utils.ParameterUtils;
 
 import java.util.List;
-import java.util.Optional;
 
 final class PandaMethods extends AbstractProperties<TypeMethod> implements Methods {
 
@@ -37,12 +36,12 @@ final class PandaMethods extends AbstractProperties<TypeMethod> implements Metho
     }
 
     @Override
-    public Optional<TypeMethod> getMethod(String name, Referencable[] parameterTypes) {
+    public Option<TypeMethod> getMethod(String name, Type[] parameterTypes) {
         return MATCHER.match(getPropertiesLike(name), parameterTypes, null).map(Adjustment::getExecutable);
     }
 
     @Override
-    public Optional<Adjustment<TypeMethod>> getAdjustedArguments(String name, Expression[] arguments) {
+    public Option<Adjustment<TypeMethod>> getAdjustedArguments(String name, Expression[] arguments) {
         return MATCHER.match(getPropertiesLike(name), ParameterUtils.toTypes(arguments), arguments);
     }
 

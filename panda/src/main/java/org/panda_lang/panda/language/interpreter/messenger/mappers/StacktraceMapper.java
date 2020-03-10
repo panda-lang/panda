@@ -23,27 +23,21 @@ import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrapU
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.StackTraceUtils;
 
-import java.util.Arrays;
-
 public final class StacktraceMapper implements MessengerDataMapper<StackTraceElement[], StackTraceElement[]> {
 
-    private static final Class<?>[] IGNORED_CLASSES = ArrayUtils.mergeArrays(
+    public static final Class<?>[] IGNORED_CLASSES = ArrayUtils.mergeArrays(
             ParserBootstrapUtils.getInternalClasses(),
             ArrayUtils.of(PandaParserFailure.class, ParserBootstrap.class)
     );
 
-    private static final String[] IGNORED = {
+    public static final String[] IGNORED = {
             "sun.reflect", "java.lang.reflect", "org.panda_lang.utilities.inject",
             "ParserLayerGenerator", "PandaGeneration", "PandaInterpretation", "AssignationSubparserBootstrap"
     };
 
     @Override
-    public StackTraceElement[] apply(StackTraceElement[] stackTraceElements) {
-        StackTraceElement[] stacktrace = StackTraceUtils.filter(stackTraceElements, IGNORED_CLASSES);
-
-        return Arrays.stream(stacktrace)
-                .filter(element -> !ArrayUtils.findIn(IGNORED, value -> element.getClassName().contains(value)).isPresent())
-                .toArray(StackTraceElement[]::new);
+    public StackTraceElement[] apply(StackTraceElement[] stacktrace) {
+        return StackTraceUtils.filter(StackTraceUtils.filter(stacktrace, IGNORED_CLASSES), IGNORED);
     }
 
     @Override

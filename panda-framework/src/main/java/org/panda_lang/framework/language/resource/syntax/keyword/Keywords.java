@@ -99,6 +99,8 @@ public final class Keywords {
 
     public static final Keyword TRY = new Keyword("try");
 
+    public static final Keyword TYPE = new Keyword("type");
+
     public static final Keyword WHILE = new Keyword("while");
 
     private static final Collection<Keyword> VALUES;

@@ -16,27 +16,35 @@
 
 package org.panda_lang.framework.language.architecture.type;
 
+import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.type.Autocast;
 import org.panda_lang.framework.design.architecture.type.Constructors;
 import org.panda_lang.framework.design.architecture.type.DynamicClass;
 import org.panda_lang.framework.design.architecture.type.ExecutableProperty;
 import org.panda_lang.framework.design.architecture.type.Fields;
+import org.panda_lang.framework.design.architecture.type.Initializer;
 import org.panda_lang.framework.design.architecture.type.Methods;
 import org.panda_lang.framework.design.architecture.type.Properties;
+import org.panda_lang.framework.design.architecture.type.ReferenceFetchException;
+import org.panda_lang.framework.design.architecture.type.State;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.architecture.type.TypeConstructor;
 import org.panda_lang.framework.design.architecture.type.TypeField;
+import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.design.architecture.type.TypeMethod;
-import org.panda_lang.framework.design.architecture.type.Reference;
-import org.panda_lang.framework.design.architecture.type.State;
+import org.panda_lang.framework.design.architecture.type.TypeModels;
 import org.panda_lang.framework.language.architecture.type.array.ArrayClassTypeFetcher;
+import org.panda_lang.framework.language.architecture.type.dynamic.PandaDynamicClass;
+import org.panda_lang.utilities.commons.ValidationUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -44,46 +52,67 @@ import java.util.Optional;
 
 public class PandaType extends AbstractProperty implements Type {
 
-    protected final Reference reference;
     protected final Module module;
     protected final String model;
     protected final State state;
     protected final DynamicClass associated;
     protected final Collection<Type> bases = new ArrayList<>(1);
     protected final Map<Type, Autocast<?, ?>> autocasts = new HashMap<>();
+    protected final List<Initializer<Type>> initializers = new ArrayList<>(2);
     protected final Fields fields = new PandaFields(this);
     protected final Constructors constructors = new PandaConstructors(this);
     protected final Methods methods = new PandaMethods(this);
+    protected TypeLoader typeLoader;
 
-    public PandaType(PandaTypeBuilder<?, ?> builder) {
-        super(builder.name, builder.location, builder.visibility, builder.isNative);
+    public PandaType(PandaTypeMetadata<?, ?> metadata) {
+        super(metadata.name, metadata.location, metadata.visibility, metadata.isNative);
 
-        if (builder.reference == null) {
-            throw new IllegalArgumentException("Type requires reference");
+        this.module = ValidationUtils.notNull(metadata.module, "Type needs module");
+        this.model = ValidationUtils.notNull(metadata.model, "Type requires defined model");
+        this.state = ValidationUtils.notNull(metadata.state, "State of type is missing");
+
+        if (metadata.javaType == null) {
+            this.associated = new PandaDynamicClass(this, getName(), getModule().getName(), getModel());
+        }
+        else {
+            this.associated = new PandaDynamicClass(this, metadata.javaType);
+        }
+    }
+
+    @Override
+    public void initialize(TypeLoader typeLoader) {
+        if (isInitialized()) {
+            return;
         }
 
-        if (builder.module == null) {
-            throw new IllegalArgumentException("Type needs module");
+        this.typeLoader = typeLoader;
+
+        for (Initializer<Type> initializer : initializers) {
+            initializer.accept(typeLoader, this);
         }
 
-        if (builder.model == null) {
-            throw new IllegalArgumentException("Type requires defined model");
-        }
+        initializers.clear();
 
-        if (builder.state == null) {
-            throw new IllegalArgumentException("State of type is missing");
-        }
+        for (TypeField field : getFields().getDeclaredProperties()) {
+            if (!field.hasDefaultValue() || !field.isStatic()) {
+                continue;
+            }
 
-        this.reference = builder.reference;
-        this.module = builder.module;
-        this.model = builder.model;
-        this.state = builder.state;
-        this.associated = builder.associated;
+            Expression expression = field.getDefaultValue();
+
+            try {
+                Object value = ExpressionUtils.evaluateConstExpression(expression);
+                field.setStaticValue(() -> value);
+            } catch (Exception e) {
+                throw new ReferenceFetchException("Cannot evaluate static value of field " + field, e);
+            }
+        }
     }
 
     @Override
     public void addBase(Type baseType) {
         bases.add(baseType);
+        associated.append(baseType);
     }
 
     @Override
@@ -92,13 +121,18 @@ public class PandaType extends AbstractProperty implements Type {
     }
 
     @Override
-    public Type toArray(ModuleLoader loader) {
-        return ArrayClassTypeFetcher.getArrayOf(getModule(), this, 1);
+    public void addInitializer(Initializer<Type> staticInitializer) {
+        if (isInitialized()) {
+            staticInitializer.accept(typeLoader, this);
+        }
+        else {
+            initializers.add(staticInitializer);
+        }
     }
 
     @Override
-    public Reference toReference() {
-        return reference;
+    public Type toArray(TypeLoader loader) {
+        return ArrayClassTypeFetcher.getArrayOf(typeLoader, this, 1);
     }
 
     @Override
@@ -142,6 +176,11 @@ public class PandaType extends AbstractProperty implements Type {
     @Override
     public boolean isArray() {
         return false;
+    }
+
+    @Override
+    public boolean isInitialized() {
+        return typeLoader != null;
     }
 
     @Override
@@ -194,6 +233,17 @@ public class PandaType extends AbstractProperty implements Type {
     }
 
     @Override
+    public Option<Type> getSuperclass() {
+        for (Type base : getBases()) {
+            if (TypeModels.isClass(base)) {
+                return Option.of(base);
+            }
+        }
+
+        return Option.none();
+    }
+
+    @Override
     public State getState() {
         return state;
     }
@@ -214,17 +264,22 @@ public class PandaType extends AbstractProperty implements Type {
     }
 
     @Override
+    public Option<TypeLoader> getTypeLoader() {
+        return Option.of(typeLoader);
+    }
+
+    @Override
     public Module getModule() {
         return module;
     }
 
     @Override
     public String toString() {
-        return "type " + getName();
+        return getName();
     }
 
-    public static <T> PandaTypeBuilder<?, ?> builder() {
-        return new PandaTypeBuilder<>();
+    public static <T> PandaTypeMetadata<?, ?> builder() {
+        return new PandaTypeMetadata<>();
     }
 
 }

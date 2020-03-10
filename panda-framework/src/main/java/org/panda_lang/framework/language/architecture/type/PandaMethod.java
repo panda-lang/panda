@@ -18,6 +18,7 @@ package org.panda_lang.framework.language.architecture.type;
 
 import org.panda_lang.framework.design.architecture.type.TypeMethod;
 import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.framework.language.architecture.type.utils.ParameterUtils;
 
 public final class PandaMethod extends AbstractExecutableProperty implements TypeMethod {
 
@@ -56,8 +57,8 @@ public final class PandaMethod extends AbstractExecutableProperty implements Typ
     }
 
     @Override
-    public String toString() {
-        return "method " + getName();
+    public String getName() {
+        return getType().getName() + "#" + getSimpleName() + "(" + ParameterUtils.toString(getParameters()) + ")";
     }
 
     public static PandaMethodBuilder builder() {
@@ -66,7 +67,7 @@ public final class PandaMethod extends AbstractExecutableProperty implements Typ
 
     public static final class PandaMethodBuilder extends PandaParametrizedExecutableBuilder<PandaMethodBuilder> {
 
-        protected TypeExecutableCallback methodBody;
+        protected TypeExecutableCallback<?> methodBody;
         protected boolean isAbstract;
         protected boolean isStatic;
 
@@ -76,7 +77,7 @@ public final class PandaMethod extends AbstractExecutableProperty implements Typ
             return methodBody(scope.toCallback());
         }
 
-        public PandaMethodBuilder methodBody(TypeExecutableCallback callback) {
+        public PandaMethodBuilder methodBody(TypeExecutableCallback<?> callback) {
             this.methodBody = callback;
             return this;
         }

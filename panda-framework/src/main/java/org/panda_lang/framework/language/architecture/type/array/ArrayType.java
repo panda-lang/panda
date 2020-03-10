@@ -18,12 +18,8 @@ package org.panda_lang.framework.language.architecture.type.array;
 
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.type.Type;
-import org.panda_lang.framework.design.architecture.type.Reference;
 import org.panda_lang.framework.design.architecture.type.Visibility;
 import org.panda_lang.framework.language.architecture.type.PandaType;
-import org.panda_lang.framework.language.architecture.type.PandaStubReference;
-import org.panda_lang.framework.language.architecture.type.dynamic.PandaDynamicClass;
-import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
 
 public final class ArrayType extends PandaType {
 
@@ -35,11 +31,10 @@ public final class ArrayType extends PandaType {
 
     public ArrayType(Module module, String name, Class<?> associated, Type type) {
         super(builder()
-                .reference(type.toReference())
                 .module(module)
                 .name(name)
-                .location(new PandaClassSource(associated).toLocation())
-                .associated(new PandaDynamicClass(associated))
+                .location(associated)
+                .javaType(associated)
                 .model(type.getModel())
                 .state(type.getState())
                 .visibility(Visibility.PUBLIC)
@@ -55,11 +50,6 @@ public final class ArrayType extends PandaType {
 
     public Type getArrayType() {
         return type;
-    }
-
-    @Override
-    public Reference toReference() {
-        return new PandaStubReference(this);
     }
 
 }

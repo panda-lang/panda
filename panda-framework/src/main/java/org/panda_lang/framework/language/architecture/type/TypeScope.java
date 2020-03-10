@@ -20,17 +20,19 @@ import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.architecture.type.TypeField;
-import org.panda_lang.framework.design.architecture.statement.FramedScope;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
-import org.panda_lang.framework.design.runtime.Process;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.language.architecture.dynamic.AbstractFrame;
 import org.panda_lang.framework.language.architecture.statement.AbstractFramedScope;
+import org.panda_lang.framework.language.runtime.PandaRuntimeException;
+import org.panda_lang.utilities.commons.ArrayUtils;
 
 import java.lang.reflect.Constructor;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 
-public final class TypeScope extends AbstractFramedScope implements FramedScope {
+public final class TypeScope extends AbstractFramedScope {
+
+    private static final Class<?>[] TYPE_FRAME_ARRAY = { TypeFrame.class };
 
     private final Type type;
 
@@ -39,9 +41,19 @@ public final class TypeScope extends AbstractFramedScope implements FramedScope 
         this.type = type;
     }
 
-    @Override
-    public TypeFrame revive(ProcessStack stack, Object instance) throws Exception {
-        TypeFrame classFrame = getConstructor().newInstance(this, stack.getProcess());
+    public TypeInstance createInstance(ProcessStack stack, Class<?>[] parameterTypes, Object[] arguments) throws Exception {
+        TypeFrame typeFrame = new TypeFrame(this, stack.getProcess());
+        TypeInstance typeInstance;
+
+        try {
+            //System.out.println(getConstructor() + " | " + this + " | " + stack.getProcess());
+            typeInstance = getConstructor(parameterTypes).newInstance(ArrayUtils.merge(typeFrame, arguments, Object[]::new));
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+            throw new PandaRuntimeException(e.getTargetException().getMessage(), e.getTargetException());
+        }
+
+        // typeInstance.__panda__set_frame();
 
         for (TypeField field : type.getFields().getDeclaredProperties()) {
             if (!field.hasDefaultValue()) {
@@ -54,48 +66,27 @@ public final class TypeScope extends AbstractFramedScope implements FramedScope 
             }
 
             Expression expression = field.getDefaultValue();
-            classFrame.set(field.getPointer(), expression.evaluate(stack, classFrame));
+            typeInstance.__panda__get_frame().set(field.getPointer(), expression.evaluate(stack, typeInstance));
         }
 
-        return classFrame;
+        return typeInstance;
     }
 
     @SuppressWarnings("unchecked")
-    private Constructor<? extends TypeFrame> getConstructor() {
+    private Constructor<? extends TypeInstance> getConstructor(Class<?>[] parameterTypes) {
         try {
-            return (Constructor<? extends TypeFrame>) type.getAssociatedClass().fetchImplementation().getConstructor(TypeScope.class, Process.class);
+            return (Constructor<? extends TypeInstance>) type.getAssociatedClass().fetchImplementation().getConstructor(ArrayUtils.merge(TypeFrame.class, parameterTypes, Class[]::new));
         } catch (NoSuchMethodException e) {
-            throw new PandaFrameworkException("Class " + type.getAssociatedClass().fetchImplementation() + " does not implement TypeClass constructor");
+            throw new PandaFrameworkException(type.getAssociatedClass().fetchImplementation() + " does not implement " + Arrays.toString(parameterTypes) + " constructor");
         }
+    }
+
+    public SourceLocation getLocation() {
+        return location;
     }
 
     public Type getType() {
         return type;
-    }
-
-    public abstract static class TypeFrame extends AbstractFrame<TypeScope> implements TypeClass {
-
-        private static final AtomicInteger ID = new AtomicInteger();
-
-        private final int id;
-        private final Process process;
-
-        public TypeFrame(TypeScope scope, Process process) {
-            super(scope, scope.getType().getFields().getDeclaredProperties().size());
-            this.id = ID.getAndIncrement();
-            this.process = process;
-        }
-
-        @Override
-        public Process _panda_get_process() {
-            return process;
-        }
-
-        @Override
-        public String toString() {
-            return frame.getType().getSimpleName() + "#" + String.format("%06X", id & 0xFFFFF);
-        }
-
     }
 
 }

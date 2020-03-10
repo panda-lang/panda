@@ -19,7 +19,7 @@ package org.panda_lang.framework.language.runtime;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.Application;
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
-import org.panda_lang.framework.design.architecture.statement.FramedScope;
+import org.panda_lang.framework.design.architecture.statement.StandardizedFramedScope;
 import org.panda_lang.framework.design.runtime.Process;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Result;
@@ -28,9 +28,9 @@ public final class PandaProcess implements Process {
 
     private final Application application;
     private final String[] parameters;
-    private final FramedScope mainScope;
+    private final StandardizedFramedScope mainScope;
 
-    public PandaProcess(Application application, FramedScope mainScope, String... parameters) {
+    public PandaProcess(Application application, StandardizedFramedScope mainScope, String... parameters) {
         this.application = application;
         this.mainScope = mainScope;
         this.parameters = parameters;
