@@ -16,10 +16,10 @@
 
 package org.panda_lang.framework.design.architecture.module;
 
+import io.vavr.control.Option;
 import org.panda_lang.utilities.commons.StreamUtils;
 
 import java.util.Collection;
-import java.util.Optional;
 
 /**
  * Modules container
@@ -32,6 +32,13 @@ public interface Modules {
      * @param module the module to add
      */
     void include(Module module);
+
+    /**
+     * Allocates module with the given qualifier
+     *
+     * @return a module with the given name
+     */
+    Module allocate(String moduleQualifier);
 
     /**
      * Count used types
@@ -57,7 +64,7 @@ public interface Modules {
      * @param moduleQualifier the name of module
      * @return the module
      */
-    Optional<Module> get(String moduleQualifier, ModuleLoader loader);
+    Option<Module> get(String moduleQualifier);
 
     /**
      * Get all names of modules

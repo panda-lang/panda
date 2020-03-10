@@ -18,11 +18,11 @@ package org.panda_lang.panda.language.architecture;
 
 import org.panda_lang.framework.FrameworkController;
 import org.panda_lang.framework.design.architecture.Environment;
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.module.ModulePath;
+import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.design.interpreter.messenger.Messenger;
-import org.panda_lang.framework.language.architecture.module.PandaModuleLoader;
 import org.panda_lang.framework.language.architecture.module.PandaModulePath;
+import org.panda_lang.framework.language.architecture.module.PandaTypeLoader;
 import org.panda_lang.framework.language.interpreter.messenger.PandaMessenger;
 import org.panda_lang.panda.PandaException;
 import org.panda_lang.panda.language.interpreter.PandaInterpreter;
@@ -37,7 +37,7 @@ public final class PandaEnvironment implements Environment {
     private final File workingDirectory;
     private final Messenger messenger;
     private final ModulePath modulePath;
-    private final ModuleLoader moduleLoader;
+    private final TypeLoader typeLoader;
     private final PandaInterpreter interpreter;
     private boolean initialized;
 
@@ -46,7 +46,7 @@ public final class PandaEnvironment implements Environment {
         this.workingDirectory = workingDirectory;
         this.messenger = new PandaMessenger(controller.getLogger());
         this.modulePath = new PandaModulePath();
-        this.moduleLoader = new PandaModuleLoader(modulePath);
+        this.typeLoader = new PandaTypeLoader();
         this.interpreter = new PandaInterpreter(this);
     }
 
@@ -59,7 +59,7 @@ public final class PandaEnvironment implements Environment {
         controller.getResources().getMessengerInitializer().onInitialize(messenger);
 
         ResourcesLoader resourcesLoader = new ResourcesLoader();
-        resourcesLoader.load(moduleLoader);
+        resourcesLoader.load(modulePath, typeLoader);
     }
 
     @Override
@@ -82,8 +82,8 @@ public final class PandaEnvironment implements Environment {
     }
 
     @Override
-    public ModuleLoader getModuleLoader() {
-        return moduleLoader;
+    public TypeLoader getTypeLoader() {
+        return typeLoader;
     }
 
     @Override

@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.language.interpreter.pattern.PatternMapping;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Interceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Local;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.data.InterceptorData;
@@ -64,7 +64,7 @@ final class BootstrapInjectorController implements InjectorController {
             return findLocal(annotation, type);
         });
 
-        resources.annotatedWithMetadata(Interceptor.class).assignHandler((type, annotation) -> {
+        resources.annotatedWithMetadata(Int.class).assignHandler((type, annotation) -> {
             return interceptorData.getValue(type);
         });
     }

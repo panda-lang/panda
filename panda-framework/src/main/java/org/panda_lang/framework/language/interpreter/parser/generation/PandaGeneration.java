@@ -104,18 +104,7 @@ public final class PandaGeneration implements Generation {
 
     @Override
     public String toString() {
-        StringBuilder message = new StringBuilder("Panda Generation { ");
-
-        for (GenerationCycle cycle : cycles.values()) {
-            if (cycle.countTasks() == 0) {
-                continue;
-            }
-
-            message.append(cycle.toString()).append(", ");
-        }
-
-        message.setLength(message.length() - 2);
-        return message.append(" }").toString();
+        return "Generation { cycles: " + cycles.toString() + " }";
     }
 
 }

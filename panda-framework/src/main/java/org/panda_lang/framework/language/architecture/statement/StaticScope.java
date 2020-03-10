@@ -17,13 +17,14 @@
 package org.panda_lang.framework.language.architecture.statement;
 
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
+import org.panda_lang.framework.design.architecture.statement.StandardizedFramedScope;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractFrame;
 
 import java.util.Map;
 
-public final class StaticScope extends AbstractFramedScope {
+public final class StaticScope extends AbstractFramedScope implements StandardizedFramedScope {
 
     private final Map<VariableData, Object> variables;
 

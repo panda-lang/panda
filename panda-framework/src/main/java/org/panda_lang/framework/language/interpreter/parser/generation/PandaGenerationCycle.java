@@ -85,11 +85,7 @@ public final class PandaGenerationCycle implements GenerationCycle {
 
     @Override
     public String toString() {
-        if (countTasks() == 0) {
-            return name + " { <empty> }";
-        }
-
-        return name + " { current: " + currentPhase + " | next: " + nextPhase + " }";
+        return "GenerationCycle#" + name + " { currentPhase: " + currentPhase + ", nextPhase: " + nextPhase + " }";
     }
 
 }

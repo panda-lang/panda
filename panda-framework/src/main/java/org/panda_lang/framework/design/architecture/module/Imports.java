@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.design.architecture.module;
 
-import org.panda_lang.framework.design.architecture.type.Reference;
+import org.panda_lang.framework.design.architecture.type.Type;
 
 /**
  * Represents references imported in the specific space, e.g. file
@@ -42,16 +42,15 @@ public interface Imports extends ModuleResource {
      * Import reference
      *
      * @param name the name of type to import as (may be different than type name)
-     * @param reference the reference to type
+     * @param type the reference to type
      * @return if type with the given name is already imported, the method will return false, otherwise true
      */
-    boolean importType(String name, Reference reference);
+    boolean importType(String name, Type type);
 
     /**
-     * Get the module loader used by current imports
+     * Get associated type loader
      *
-     * @return the module loader
+     * @return the associated type loader
      */
-    ModuleLoader getModuleLoader();
-
+    TypeLoader getTypeLoader();
 }

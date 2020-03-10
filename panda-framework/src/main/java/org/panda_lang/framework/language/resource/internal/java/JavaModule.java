@@ -21,14 +21,20 @@ import org.panda_lang.framework.design.architecture.type.Autocast;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.language.architecture.type.PandaTypeUtils;
 import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
+import org.panda_lang.framework.language.resource.internal.InternalModuleInfo.CustomInitializer;
 import org.panda_lang.utilities.commons.ClassUtils;
 
-public final class JavaModule implements InternalModuleInfo {
+@InternalModuleInfo(module = "java", pkg = "java.lang", classes = {
+        "String",
+        "Number",
+        "Iterable"
+})
+public final class JavaModule implements CustomInitializer {
 
     @Override
     public void initialize(Module module) {
         PandaTypeUtils.of(module, void.class);
-        PandaTypeUtils.of(module, Object.class);
+
         type(module, "Int", int.class);
         type(module, "Bool", boolean.class);
         type(module, "Char", char.class);
@@ -60,35 +66,16 @@ public final class JavaModule implements InternalModuleInfo {
 
     private void type(Module module, String name, Class<?> primitiveClass) {
         PandaTypeUtils.of(module, "Primitive" + name, primitiveClass);
-        PandaTypeUtils.of(module, name, ClassUtils.getNonPrimitiveClass(primitiveClass));
+        PandaTypeUtils.generateOf(module, name, ClassUtils.getNonPrimitiveClass(primitiveClass));
     }
 
     private Type generate(Module module, Class<?> primitiveClass, String name) {
-        Type primitiveType = PandaTypeUtils.generateOf(module, "Primitive" + name, primitiveClass).fetch();
+        Type primitiveType = PandaTypeUtils.generateOf(module, "Primitive" + name, primitiveClass);
 
-        Type type = PandaTypeUtils.generateOf(module, name, ClassUtils.getNonPrimitiveClass(primitiveClass)).fetch();
+        Type type = PandaTypeUtils.generateOf(module, name, ClassUtils.getNonPrimitiveClass(primitiveClass));
         type.addBase(primitiveType);
 
         return type;
-    }
-
-    @Override
-    public String[] getNames() {
-        return new String[] {
-                "String",
-                "Number",
-                "Iterable"
-        };
-    }
-
-    @Override
-    public String getPackageName() {
-        return "java.lang";
-    }
-
-    @Override
-    public String getModule() {
-        return "java";
     }
 
 }

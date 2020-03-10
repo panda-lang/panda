@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers;
 
+import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.type.Type;
@@ -54,25 +55,21 @@ public final class ConcatenationOperatorSubparser implements OperationSubparser 
             return null;
         }
 
-        Type stringType = context.getComponent(Components.MODULE_LOADER).requireType(String.class);
+        Type stringType = context.getComponent(Components.TYPE_LOADER).requireType(String.class);
         return new ConcatenationExpressionCallback(stringType, values).toExpression();
     }
 
     private boolean parseSubOperation(OperationParser parser, Context context, List<Expression> values, Operation operation, int start, int end) {
-        if (end - start == 1) {
+        if ((end - start) == 1) {
             values.add(operation.getElements().get(start).getExpression());
             return true;
         }
 
         Operation subOperation = new Operation(operation.getElements().subList(start, end));
-        Expression expression = parser.parse(context, subOperation);
+        Option<Expression> expression = parser.parse(context, subOperation);
 
-        if (expression == null) {
-            return false;
-        }
-
-        values.add(expression);
-        return true;
+        expression.peek(values::add);
+        return expression.isDefined();
     }
 
 }

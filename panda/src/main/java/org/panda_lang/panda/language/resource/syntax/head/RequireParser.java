@@ -53,7 +53,6 @@ import org.slf4j.event.Level;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.Optional;
 
 @RegistrableParser(pipeline = Pipelines.HEAD_LABEL)
 public final class RequireParser extends ParserBootstrap<Void> {
@@ -76,23 +75,21 @@ public final class RequireParser extends ParserBootstrap<Void> {
     void parse(Context context, @Ctx Imports imports, @Src("required") @Nullable Snippetable require, @Src("requiredFile") @Nullable TokenRepresentation requiredFile) {
         if (require != null) {
             parseModule(context, imports, require.toSnippet());
-            return;
         }
-
-        parseFile(context, imports, Objects.requireNonNull(requiredFile));
+        else {
+            parseFile(context, imports, Objects.requireNonNull(requiredFile));
+        }
     }
 
-    private void parseModule(Context context, Imports imports, Snippet require) {
-        Environment environment = context.getComponent(Components.ENVIRONMENT);
-
+    private Module parseModule(Context context, Imports imports, Snippet require) {
         String moduleName = require.asSource();
-        Optional<Module> module = environment.getModulePath().get(moduleName, imports.getModuleLoader());
 
-        if (!module.isPresent()) {
-            throw new PandaParserFailure(context, require, "Unknown module " + moduleName, "Make sure that the name does not have a typo and module is added to the module path");
-        }
-
-        imports.importModule(module.get());
+        return context.getComponent(Components.ENVIRONMENT).getModulePath().get(moduleName)
+                .peek(imports::importModule)
+                .getOrElseThrow(() -> new PandaParserFailure(context, require,
+                            "Unknown module " + moduleName,
+                            "Make sure that the name does not have a typo and module is added to the module path"
+                ));
     }
 
     private void parseFile(Context context, Imports imports, TokenRepresentation requiredFile) {
@@ -106,31 +103,28 @@ public final class RequireParser extends ParserBootstrap<Void> {
         File environmentDirectory = environment.getDirectory();
         File file = new File(environmentDirectory, requiredFile.getValue() + ".panda");
 
-        if (!file.exists()) {
-            file = new File(environmentDirectory, requiredFile.getValue());
-
-            if (!file.exists()) {
-                throw new PandaParserFailure(context, requiredFile, "File " + file + " does not exist", "Make sure that the path does not have a typo");
-            }
-
-            try {
-                PackageManagerUtils.loadToEnvironment(interpretation, file);
-            } catch (IOException e) {
-                throw new PandaParserFailure(context, requiredFile, e.getMessage());
-            }
-
-            Optional<Module> module = environment.getModulePath().get(requiredFile.getValue(), context.getComponent(Components.MODULE_LOADER));
-
-            if (!module.isPresent()) {
-                environment.getMessenger().send(Level.WARN, "Imported local package " + requiredFile.getValue() + " does not have module with the same name");
-                return;
-            }
-
-            imports.importModule(module.get());
+        if (file.exists()) {
+            context.getComponent(Components.SOURCES).addSource(PandaURLSource.fromFile(file));
             return;
         }
 
-        context.getComponent(Components.SOURCES).addSource(PandaURLSource.fromFile(file));
+        file = new File(environmentDirectory, requiredFile.getValue());
+
+        if (!file.exists()) {
+            throw new PandaParserFailure(context, requiredFile, "File " + file + " does not exist", "Make sure that the path does not have a typo");
+        }
+
+        try {
+            PackageManagerUtils.loadToEnvironment(interpretation, file);
+        } catch (IOException e) {
+            throw new PandaParserFailure(context, requiredFile, e.getMessage());
+        }
+
+        environment.getModulePath().get(requiredFile.getValue())
+                .peek(imports::importModule)
+                .onEmpty(() -> {
+                    environment.getMessenger().send(Level.WARN, "Imported local package " + requiredFile.getValue() + " does not have module with the same name");
+                });
     }
 
 }

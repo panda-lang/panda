@@ -18,46 +18,28 @@ package org.panda_lang.panda.language.resource.internal.java;
 
 import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
 
-public final class JavaCollectionsModule implements InternalModuleInfo {
+@InternalModuleInfo(module = "java:collections", pkg = "java.util", classes = {
+        "Collection",
+        "Comparator",
+        "Deque",
+        "Iterator",
+        "List",
+        "Map",
+        "Map$Entry",
 
-    private static final String[] NAMES = {
-            "Collection",
-            "Comparator",
-            "Deque",
-            "Iterator",
-            "List",
-            "Map",
-            "Map$Entry",
-
-            "ArrayDeque",
-            "ArrayList",
-            "HashMap",
-            "HashSet",
-            "Hashtable",
-            "IdentityHashMap",
-            "LinkedHashMap",
-            "LinkedHashSet",
-            "LinkedList",
-            "Stack",
-            "TreeMap",
-            "TreeSet",
-            "Vector",
-            "WeakHashMap"
-    };
-
-    @Override
-    public String[] getNames() {
-        return NAMES;
-    }
-
-    @Override
-    public String getPackageName() {
-        return "java.util";
-    }
-
-    @Override
-    public String getModule() {
-        return "java:collections";
-    }
-
-}
+        "ArrayDeque",
+        "ArrayList",
+        "HashMap",
+        "HashSet",
+        "Hashtable",
+        "IdentityHashMap",
+        "LinkedHashMap",
+        "LinkedHashSet",
+        "LinkedList",
+        "Stack",
+        "TreeMap",
+        "TreeSet",
+        "Vector",
+        "WeakHashMap"
+})
+public final class JavaCollectionsModule { }

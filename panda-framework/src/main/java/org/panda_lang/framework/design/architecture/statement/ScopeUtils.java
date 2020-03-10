@@ -35,7 +35,7 @@ public final class ScopeUtils {
                 return true;
             }
 
-            parent = parent.getParent().getOrNull();
+            parent = parent.getParentScope().getOrNull();
         } while (parent != null);
 
         return false;

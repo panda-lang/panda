@@ -21,7 +21,7 @@ package org.panda_lang.framework.design.architecture.type;
  */
 public interface DynamicClass {
 
-    DynamicClass append(Class<?> dynamicClass);
+    DynamicClass append(Type type);
 
     DynamicClass extendClass(DynamicClass superclass);
 
@@ -32,7 +32,7 @@ public interface DynamicClass {
     Class<?> fetchStructure();
 
     default boolean isAssignableFrom(DynamicClass cls) {
-        return isAssignableFrom(cls.fetchImplementation());
+        return isAssignableFrom(cls.fetchStructure());
     }
 
     boolean isAssignableFrom(Class<?> cls);

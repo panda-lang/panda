@@ -19,7 +19,7 @@ package org.panda_lang.framework.language.architecture.module;
 import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.Imports;
-import org.panda_lang.framework.design.architecture.type.Reference;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
@@ -31,11 +31,11 @@ public final class PandaImportsUtils {
 
     private PandaImportsUtils() { }
 
-    public static Reference getReferenceOrThrow(Context context, String className, @Nullable Snippet source) {
-        return getReferenceOrThrow(context, imports -> imports.forName(className), "Unknown type " + className, source);
+    public static Type getTypeOrThrow(Context context, String className, @Nullable Snippet source) {
+        return getTypeOrThrow(context, imports -> imports.forName(className), "Unknown type " + className, source);
     }
 
-    private static Reference getReferenceOrThrow(Context context, Function<Imports, Option<Reference>> mapper, String message, Snippet source) {
+    private static Type getTypeOrThrow(Context context, Function<Imports, Option<Type>> mapper, String message, Snippet source) {
         return mapper.apply(context.getComponent(Components.IMPORTS)).getOrElse(() -> {
             throw new PandaParserFailure(context, source, message);
         });

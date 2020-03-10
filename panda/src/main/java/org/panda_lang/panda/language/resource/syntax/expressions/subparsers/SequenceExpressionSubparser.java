@@ -45,7 +45,7 @@ public final class SequenceExpressionSubparser implements ExpressionSubparser {
         private final Type stringType;
 
         private SequenceWorker(Context context) {
-            this.stringType = ModuleLoaderUtils.forClass(context, String.class);
+            this.stringType = ModuleLoaderUtils.requireType(context, String.class);
         }
 
         @Override

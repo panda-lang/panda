@@ -66,7 +66,7 @@ public final class NegativeExpressionSubparser implements ExpressionSubparser {
             context.commit(transaction::rollback);
 
             Expression expression = transaction.getExpression();
-            Class<?> numberClass = ClassUtils.getNonPrimitiveClass(expression.getType().getAssociatedClass().fetchImplementation());
+            Class<?> numberClass = ClassUtils.getNonPrimitiveClass(expression.getType().getAssociatedClass().fetchStructure());
 
             if (!Number.class.isAssignableFrom(numberClass)) {
                 throw new InvalidParameterException("Cannot reverse non logical value");

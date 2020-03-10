@@ -60,7 +60,7 @@ public final class NumberParser implements SourceParser<Expression> {
             numberType = numberTypeDefinition;
         }
 
-        Type type = ModuleLoaderUtils.forClass(context, numberType.getJavaType());
+        Type type = ModuleLoaderUtils.requireType(context, numberType.getJavaType());
 
         switch (numberType) {
             case BYTE:

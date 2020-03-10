@@ -30,7 +30,6 @@ import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.design.resource.Resources;
 import org.panda_lang.framework.language.architecture.module.PandaImports;
-import org.panda_lang.framework.language.architecture.module.PandaModuleLoader;
 import org.panda_lang.framework.language.architecture.type.generator.TypeGeneratorManager;
 import org.panda_lang.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.framework.language.interpreter.parser.PandaContext;
@@ -72,27 +71,26 @@ public final class ApplicationParser implements Parser {
                 .withComponent(Components.ENVIRONMENT, environment)
                 .withComponent(Components.INTERPRETATION, interpretation)
                 .withComponent(Components.GENERATION, generation)
-                .withComponent(Components.MODULE_LOADER, environment.getModuleLoader())
+                .withComponent(Components.TYPE_LOADER, environment.getTypeLoader())
                 .withComponent(Components.PIPELINE, resources.getPipelinePath())
                 .withComponent(Components.EXPRESSION, resources.getExpressionSubparsers().toParser())
                 .withComponent(Components.SOURCES, sources);
 
         for (Source current : sources) {
-            PandaScript script = new PandaScript(current.getId(), new PandaModuleLoader(environment.getModuleLoader()));
+            PandaScript script = new PandaScript(current.getId());
             application.addScript(script);
 
             interpretation.execute(() -> {
                 Snippet snippet = lexer.convert(current);
                 SourceStream stream = new PandaSourceStream(snippet);
 
-                Imports imports = new PandaImports(environment.getModuleLoader());
+                Imports imports = new PandaImports(environment.getModulePath(), environment.getTypeLoader());
                 imports.importModule("java");
                 imports.importModule("panda");
 
                 Context delegatedContext = context.fork()
                         .withComponent(PandaComponents.PANDA_SCRIPT, script)
                         .withComponent(Components.SCRIPT, script)
-                        .withComponent(Components.MODULE_LOADER, script.getModuleLoader())
                         .withComponent(Components.IMPORTS, imports)
                         .withComponent(Components.SOURCE, snippet)
                         .withComponent(Components.STREAM, stream)

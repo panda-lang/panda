@@ -16,27 +16,18 @@
 
 package org.panda_lang.framework.language.architecture.type;
 
-import org.panda_lang.framework.design.architecture.dynamic.Frame;
-import org.panda_lang.framework.design.architecture.type.PropertyParameter;
-import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.architecture.type.TypeConstructor;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
-import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.language.architecture.statement.AbstractPropertyFramedScope;
-import org.panda_lang.framework.language.architecture.statement.PandaPropertyFrame;
-
-import java.lang.reflect.Constructor;
-import java.util.List;
+import org.panda_lang.framework.language.architecture.type.utils.ParameterUtils;
 
 public final class PandaConstructor extends AbstractExecutableProperty implements TypeConstructor {
 
-    private PandaConstructor(PandaConstructorBuilder builder) {
+    private PandaConstructor(PandaParametrizedExecutableBuilder<?> builder) {
         super(builder);
     }
 
     @Override
     public String toString() {
-        return "constructor " + getName();
+        return getType().getName() + "(" + ParameterUtils.toString(getParameters()) + ")";
     }
 
     public static PandaConstructorBuilder builder() {
@@ -47,37 +38,8 @@ public final class PandaConstructor extends AbstractExecutableProperty implement
 
         private PandaConstructorBuilder() { }
 
-        public PandaConstructorBuilder constructor(Type type, Constructor<?> constructor) {
-            return type(type).name(type.getSimpleName());
-        }
-
         public PandaConstructor build() {
             return new PandaConstructor(this);
-        }
-
-    }
-
-    public static final class PandaConstructorScope extends AbstractPropertyFramedScope {
-
-        public PandaConstructorScope(SourceLocation location, List<PropertyParameter> parameters) {
-            super(location, parameters);
-        }
-
-        @Override
-        public ConstructorFrame revive(ProcessStack stack, Object instance) {
-            return new ConstructorFrame(this, (Frame) instance);
-        }
-
-        public List<PropertyParameter> getParameters() {
-            return parameters;
-        }
-
-    }
-
-    public static final class ConstructorFrame extends PandaPropertyFrame<PandaConstructorScope> {
-
-        public ConstructorFrame(PandaConstructorScope scope, Frame instance) {
-            super(scope, instance);
         }
 
     }

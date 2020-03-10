@@ -18,29 +18,11 @@ package org.panda_lang.panda.language.resource.internal.java;
 
 import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
 
-public final class JavaUtilsModule implements InternalModuleInfo {
-
-    private static final String[] NAMES = {
-            "Arrays",
-            "Objects",
-            "Optional",
-            "Random",
-            "UUID"
-    };
-
-    @Override
-    public String[] getNames() {
-        return NAMES;
-    }
-
-    @Override
-    public String getPackageName() {
-        return "java.util";
-    }
-
-    @Override
-    public String getModule() {
-        return "java";
-    }
-
-}
+@InternalModuleInfo(module = "java", pkg = "java.util", classes = {
+        "Arrays",
+        "Objects",
+        "Optional",
+        "Random",
+        "UUID"
+})
+public final class JavaUtilsModule { }

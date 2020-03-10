@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.architecture.statement.FramedScope;
 import org.panda_lang.framework.design.runtime.MemoryContainer;
 
 /**
- * Specific type of memory container, associated with the {@link org.panda_lang.framework.design.architecture.statement.FramedScope}.
+ * Specific type of memory container, associated with the {@link org.panda_lang.framework.design.architecture.statement.StandardizedFramedScope}.
  *
  */
 public interface Frame extends MemoryContainer {

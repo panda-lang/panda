@@ -16,14 +16,15 @@
 
 package org.panda_lang.framework.language.architecture.module;
 
+import io.vavr.control.Option;
+import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.module.Modules;
+import org.panda_lang.utilities.commons.StringUtils;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 abstract class PandaModules implements Modules {
 
@@ -35,12 +36,47 @@ abstract class PandaModules implements Modules {
     }
 
     @Override
-    public Optional<Module> get(String moduleQualifier, ModuleLoader loader) {
+    public Option<Module> get(String moduleQualifier) {
         if (!moduleQualifier.contains(":")) {
-            return Optional.ofNullable(modules.get(moduleQualifier));
+            return Option.of(modules.get(moduleQualifier));
         }
 
-        return PandaModuleLoaderUtils.fetch(loader, this, moduleQualifier, false);
+        return fetch(moduleQualifier, false);
+    }
+
+    @Override
+    public Module allocate(String moduleQualifier) {
+        return fetch(moduleQualifier, true).getOrElseThrow(() -> {
+            throw new PandaFrameworkException("Cannot create module " + moduleQualifier);
+        });
+    }
+
+    protected Option<Module> fetch(String moduleQualifier, boolean compute) {
+        String[] names = moduleQualifier.split(":");
+        Modules modules = this;
+        Module module = null;
+
+        for (String name : names) {
+            if (StringUtils.isEmpty(name)) {
+                throw new PandaFrameworkException("Illegal name " + moduleQualifier);
+            }
+
+            Module nextModule = modules.get(name).getOrNull();
+
+            if (nextModule == null && compute) {
+                nextModule = new PandaModule(module, name);
+                modules.include(nextModule);
+            }
+
+            if (nextModule == null) {
+                return Option.none();
+            }
+
+            module = nextModule;
+            modules = module;
+        }
+
+        return Option.of(module);
     }
 
     @Override

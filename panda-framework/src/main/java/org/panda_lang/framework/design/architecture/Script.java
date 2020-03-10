@@ -17,7 +17,6 @@
 package org.panda_lang.framework.design.architecture;
 
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.statement.Statement;
 
 import java.util.List;
@@ -40,13 +39,6 @@ public interface Script {
      * @param statement the statement to add
      */
     void addStatement(Statement statement);
-
-    /**
-     * Get module loader used by script
-     *
-     * @return the module loader
-     */
-    ModuleLoader getModuleLoader();
 
     /**
      * Get associated module

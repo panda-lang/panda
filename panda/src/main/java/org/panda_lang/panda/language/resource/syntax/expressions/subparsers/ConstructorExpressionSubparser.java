@@ -48,7 +48,6 @@ import org.panda_lang.utilities.commons.StringUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 public final class ConstructorExpressionSubparser implements ExpressionSubparser {
 
@@ -124,7 +123,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             }
 
             // parse constructor call
-            Type type = PandaImportsUtils.getReferenceOrThrow(context.getContext(), typeSource.asSource(), typeSource).fetch();
+            Type type = PandaImportsUtils.getTypeOrThrow(context.getContext(), typeSource.asSource(), typeSource);
             VisibilityComparator.requireAccess(type, context.getContext(), typeSource);
             StateComparator.requireInstantiation(context.getContext(), type, typeSource);
 
@@ -134,11 +133,11 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
         private ExpressionResult parseDefault(ExpressionContext context, Type type, TokenRepresentation section) {
             Snippet argsSource = section.toToken(Section.class).getContent();
             Expression[] arguments = ARGUMENT_PARSER.parse(context, argsSource);
-            Optional<Adjustment<TypeConstructor>> adjustedConstructor = type.getConstructors().getAdjustedConstructor(arguments);
+            Option<Adjustment<TypeConstructor>> adjustedConstructor = type.getConstructors().getAdjustedConstructor(arguments);
 
             return adjustedConstructor
                     .map(constructorArguments -> ExpressionResult.of(new TypeExecutableExpression(null, constructorArguments)))
-                    .orElseGet(() -> ExpressionResult.error(type.getSimpleName() + " does not have constructor with the required parameters: " + Arrays.toString(arguments), section));
+                    .getOrElse(() -> ExpressionResult.error(type.getSimpleName() + " does not have constructor with the required parameters: " + Arrays.toString(arguments), section));
         }
 
         private ExpressionResult parseArray(ExpressionContext context, Snippet typeSource) {
@@ -170,7 +169,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             String baseClassName = typeSource.subSource(0, typeSource.size() - sections.size()).asSource();
             String endTypeName = baseClassName + StringUtils.repeated(sections.size(), "[]");
 
-            ArrayType instanceType = (ArrayType) PandaImportsUtils.getReferenceOrThrow(context.getContext(), endTypeName, typeSource).fetch();
+            ArrayType instanceType = (ArrayType) PandaImportsUtils.getTypeOrThrow(context.getContext(), endTypeName, typeSource);
             ArrayType baseType = instanceType;
 
             for (int declaredCapacities = 0; declaredCapacities < capacities.size() - 1; declaredCapacities++) {

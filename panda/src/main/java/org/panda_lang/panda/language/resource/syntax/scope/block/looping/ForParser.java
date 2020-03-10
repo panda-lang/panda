@@ -36,7 +36,7 @@ import org.panda_lang.panda.language.interpreter.parser.block.BlockSubparserBoot
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Interceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.LinearPatternInterceptor;
@@ -48,7 +48,7 @@ public final class ForParser extends BlockSubparserBootstrap {
 
     @Override
     protected BootstrapInitializer<BlockData> initialize(Context context, BootstrapInitializer<BlockData> initializer) {
-        this.defaultCondition = new PandaExpression(ModuleLoaderUtils.forClass(context, boolean.class), true);
+        this.defaultCondition = new PandaExpression(ModuleLoaderUtils.requireType(context, boolean.class), true);
 
         return initializer
                 .handler(new TokenHandler(Keywords.FOR))
@@ -57,7 +57,7 @@ public final class ForParser extends BlockSubparserBootstrap {
     }
 
     @Autowired
-    BlockData parseBlock(Context context, @Ctx Scope parent, @Interceptor SourceLocation location, @Src("content") Snippet content, @Ctx ExpressionParser expressionParser) {
+    BlockData parseBlock(Context context, @Ctx Scope parent, @Int SourceLocation location, @Src("content") Snippet content, @Ctx ExpressionParser expressionParser) {
         Snippet[] forEachElements = content.split(Separators.SEMICOLON);
 
         if (forEachElements.length != 3) {

@@ -106,7 +106,7 @@ public final class PandaProcessStack implements ProcessStack {
     }
 
     @Override
-    public Frame getCurrentScope() {
+    public Frame getCurrentFrame() {
         return currentFrame;
     }
 

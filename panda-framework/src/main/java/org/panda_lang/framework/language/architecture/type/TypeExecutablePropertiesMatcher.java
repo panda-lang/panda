@@ -16,6 +16,7 @@
 
 package org.panda_lang.framework.language.architecture.type;
 
+import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
@@ -23,7 +24,6 @@ import org.panda_lang.framework.design.architecture.type.Adjustment;
 import org.panda_lang.framework.design.architecture.type.ExecutableProperty;
 import org.panda_lang.framework.design.architecture.type.PropertyParameter;
 import org.panda_lang.framework.design.architecture.type.Type;
-import org.panda_lang.framework.design.architecture.type.Referencable;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.expression.AbstractDynamicExpression;
 import org.panda_lang.framework.language.architecture.type.array.ArrayType;
@@ -32,24 +32,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 final class TypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
 
-    public Optional<Adjustment<T>> match(Collection<? extends T> collection, Referencable[] requiredTypes, @Nullable Expression[] arguments) {
+    public Option<Adjustment<T>> match(Collection<? extends T> collection, Type[] requiredTypes, @Nullable Expression[] arguments) {
         Type[] required = Arrays.stream(requiredTypes)
-                .map(referencable -> referencable.toReference().fetch())
                 .toArray(Type[]::new);
 
         for (T executable : collection) {
             Adjustment<T> args = match(executable, required, arguments);
 
             if (args != null) {
-                return Optional.of(args);
+                return Option.of(args);
             }
         }
 
-        return Optional.empty();
+        return Option.none();
     }
 
     private @Nullable Adjustment<T> match(T executable, Type[] requiredTypes, @Nullable Expression[] arguments) {
@@ -144,7 +142,7 @@ final class TypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
             Expression[] expressionsArray = expressions.toArray(new Expression[0]);
 
             // generate varargs array expression
-            fixedArguments[argumentIndex] = new AbstractDynamicExpression(((ArrayType) parameters[argumentIndex].getType()/*.fetch()*/).getArrayType().toReference()) {
+            fixedArguments[argumentIndex] = new AbstractDynamicExpression(((ArrayType) parameters[argumentIndex].getType()/*.fetch()*/).getArrayType()) {
                 @Override
                 @SuppressWarnings("unchecked")
                 public Object evaluate(ProcessStack stack, Object instance) throws Exception {

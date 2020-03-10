@@ -17,7 +17,6 @@
 package org.panda_lang.framework.language.architecture.statement;
 
 import org.panda_lang.framework.design.architecture.type.Type;
-import org.panda_lang.framework.design.architecture.type.Referencable;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
 
 public class PandaVariableData implements VariableData {
@@ -27,7 +26,7 @@ public class PandaVariableData implements VariableData {
     private final boolean mutable;
     private final boolean nillable;
 
-    public PandaVariableData(Referencable type, String name, boolean mutable, boolean nillable) {
+    public PandaVariableData(Type type, String name, boolean mutable, boolean nillable) {
         if (type == null) {
             throw new IllegalArgumentException("Variable type cannot be null");
         }
@@ -37,12 +36,12 @@ public class PandaVariableData implements VariableData {
         }
 
         this.name = name;
-        this.type = type.toReference().fetch();
+        this.type = type;
         this.mutable = mutable;
         this.nillable = nillable;
     }
 
-    public PandaVariableData(Referencable type, String name) {
+    public PandaVariableData(Type type, String name) {
         this(type, name, true, true);
     }
 

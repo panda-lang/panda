@@ -78,7 +78,7 @@ public interface ProcessStack {
     /**
      * @return instance of the current scope
      */
-    Frame getCurrentScope();
+    Frame getCurrentFrame();
 
     /**
      * Get associated process

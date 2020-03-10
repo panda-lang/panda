@@ -17,11 +17,9 @@
 package org.panda_lang.framework.design.architecture.module;
 
 import io.vavr.control.Option;
-import org.panda_lang.framework.design.architecture.type.Referencable;
-import org.panda_lang.framework.design.architecture.type.Reference;
+import org.panda_lang.framework.design.architecture.type.Type;
 
 import java.util.Collection;
-import java.util.Map.Entry;
 
 /**
  * Identifiable container of resources
@@ -31,10 +29,10 @@ public interface Module extends Modules, ModuleResource {
     /**
      * Add reference to type to the module
      *
-     * @param reference the reference to add
+     * @param type the reference to add
      * @return the added reference
      */
-    Reference add(Referencable reference);
+    Type add(Type type);
 
     /**
      * Check if the given module is submodule of the current module
@@ -50,7 +48,7 @@ public interface Module extends Modules, ModuleResource {
      * @param clazz the class to check
      * @return true if module contains type associated with the provided class
      */
-    default boolean hasReference(Class<?> clazz) {
+    default boolean hasType(Class<?> clazz) {
         return forClass(clazz).isDefined();
     }
 
@@ -60,24 +58,24 @@ public interface Module extends Modules, ModuleResource {
      * @param name the name to search for
      * @return true if module contains such a reference
      */
-    default boolean hasReference(CharSequence name) {
+    default boolean hasType(CharSequence name) {
         return forName(name).isDefined();
     }
 
     /**
-     * Get all types.
+     * Get all types (also from submodules)
      * Iterable is used instead of collection because of the performance reasons.
      *
      * @return the iterable that contains all types
      */
-    Collection<Entry<String, Reference>> getTypes();
+    Collection<Type> getAllTypes();
 
     /**
-     * Get the loader used to load this module
+     * Get types that belongs to the module
      *
-     * @return the module loader
+     * @return collection of types
      */
-    ModuleLoader getModuleLoader();
+    Collection<Type> getTypes();
 
     /**
      * Get parent module

@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.resource.internal;
+package org.panda_lang.framework.design.architecture.statement;
 
-import org.panda_lang.framework.language.resource.internal.java.JavaModule;
-import org.panda_lang.framework.language.resource.internal.panda.PandaModule;
+import org.panda_lang.framework.design.architecture.dynamic.Frame;
+import org.panda_lang.framework.design.runtime.ProcessStack;
 
-public final class PandaFrameworkModules {
+/**
+ * Specific type of scope which contains own memory, independence, etc. and we can create frame based on this scope in a standard way
+ */
+public interface StandardizedFramedScope extends FramedScope {
 
-    @SuppressWarnings("unchecked")
-    private static final Class<? extends InternalModuleInfo>[] MODULES = new Class[] {
-            JavaModule.class,
-            PandaModule.class
-    };
-
-    public static Class<? extends InternalModuleInfo>[] getClasses() {
-        return MODULES;
-    }
-
-}
+    /**
+     * Creates a new instance of the frame
+     *
+     * @return instance of the frame
+     */
+    Frame revive(ProcessStack stack, Object instance) throws Exception;
+    
+}   

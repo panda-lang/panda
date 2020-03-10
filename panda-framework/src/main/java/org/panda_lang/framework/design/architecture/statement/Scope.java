@@ -91,7 +91,11 @@ public interface Scope extends Statement {
      *
      * @return the parent scope
      */
-    Option<Scope> getParent();
+    Option<Scope> getParentScope();
+
+    default Option<StandardizedFramedScope> getStandardizedFramedScope() {
+        return Option.when(getFramedScope() instanceof StandardizedFramedScope, (StandardizedFramedScope) getFramedScope());
+    }
 
     /**
      * Get parent frame

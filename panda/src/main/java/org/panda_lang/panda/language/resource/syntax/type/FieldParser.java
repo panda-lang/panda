@@ -29,7 +29,7 @@ import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.framework.language.architecture.module.PandaImportsUtils;
-import org.panda_lang.framework.language.architecture.type.PandaTypeField;
+import org.panda_lang.framework.language.architecture.type.PandaField;
 import org.panda_lang.framework.language.architecture.type.TypeComponents;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
@@ -50,7 +50,7 @@ import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Interceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Local;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.data.LocalData;
@@ -58,7 +58,7 @@ import org.panda_lang.panda.language.interpreter.parser.context.handlers.CustomP
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 
-@RegistrableParser(pipeline = Pipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_FIELD)
+@RegistrableParser(pipeline = Pipelines.TYPE_LABEL, priority = PandaPriorities.PROTOTYPE_FIELD)
 public final class FieldParser extends ParserBootstrap<Void> {
 
     @Override
@@ -81,14 +81,14 @@ public final class FieldParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
-    void parse(Context context, LocalData local, @Interceptor Result result, @Interceptor SourceLocation location, @Src("type") Snippet typeName, @Src("name") TokenRepresentation name) {
-        Type returnType = PandaImportsUtils.getReferenceOrThrow(context, typeName.asSource(), typeName).fetch();
+    void parse(Context context, LocalData local, @Int Result result, @Int SourceLocation location, @Src("type") Snippet typeName, @Src("name") TokenRepresentation name) {
+        Type returnType = PandaImportsUtils.getTypeOrThrow(context, typeName.asSource(), typeName);
         Visibility visibility = Visibility.valueOf(result.get("visibility").toString().toUpperCase());
 
         Type type = context.getComponent(TypeComponents.PROTOTYPE);
         int fieldIndex = type.getFields().getDeclaredProperties().size();
 
-        TypeField field = PandaTypeField.builder()
+        TypeField field = PandaField.builder()
                 .name(name.getValue())
                 .type(type)
                 .returnType(returnType)
@@ -105,7 +105,7 @@ public final class FieldParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 2, cycle = GenerationCycles.CONTENT_LABEL)
-    void parseAssignation(Context context, @Interceptor Snippet source, @Local TypeField field, @Src("assignation") @Nullable Expression assignationValue) {
+    void parseAssignation(Context context, @Int Snippet source, @Local TypeField field, @Src("assignation") @Nullable Expression assignationValue) {
         if (assignationValue == null) {
             //throw new PandaParserFailure("Cannot parse expression '" + assignationValue + "'", context, name);
             return;

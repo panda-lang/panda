@@ -21,47 +21,54 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Imports;
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.framework.design.architecture.type.Reference;
+import org.panda_lang.framework.design.architecture.module.ModulePath;
+import org.panda_lang.framework.design.architecture.module.TypeLoader;
+import org.panda_lang.framework.design.architecture.type.Type;
+import org.panda_lang.framework.language.architecture.type.array.ArrayClassTypeFetcher;
+import org.panda_lang.framework.language.architecture.type.array.PandaArray;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public final class PandaImports implements Imports {
 
-    private final ModuleLoader loader;
+    private final ModulePath modulePath;
+    private final TypeLoader typeLoader;
     private final Map<String, Module> importedModules = new HashMap<>();
-    private final Map<String, Reference> importedTypes = new HashMap<>();
+    private final Map<String, Type> importedTypes = new HashMap<>();
 
-    public PandaImports(ModuleLoader loader) {
-        this.loader = loader;
+    public PandaImports(ModulePath modulePath, TypeLoader typeLoader) {
+        this.modulePath = modulePath;
+        this.typeLoader = typeLoader;
     }
 
     @Override
     public void importModule(String name) {
-        Optional<Module> module = loader.getPath().get(name, loader);
-
-        if (!module.isPresent()) {
-            throw new PandaFrameworkException("Module " + name + " does not exist");
-        }
-
-        importedModules.put(name, loader.loadIfAbsent(module.get()));
+        modulePath.get(name)
+                .peek(module -> {
+                    typeLoader.load(module);
+                    importedModules.put(name, module);
+                })
+                .onEmpty(() -> {
+                    throw new PandaFrameworkException("Module " + name + " does not exist");
+                });
     }
 
     @Override
     public void importModule(Module module) {
-        importedModules.computeIfAbsent(module.getName(), name -> loader.loadIfAbsent(module));
+        importedModules.putIfAbsent(module.getName(), module);
     }
 
     @Override
-    public boolean importType(String name, Reference reference) {
+    public boolean importType(String name, Type type) {
+        type = typeLoader.load(type);
+
         if (importedTypes.containsKey(name)) {
             return false;
         }
 
-        importedTypes.put(name, reference);
+        importedTypes.put(name, type);
         return true;
     }
 
@@ -72,32 +79,24 @@ public final class PandaImports implements Imports {
      * @return always empty optional
      */
     @Override
-    public Option<Reference> forClass(@Nullable Class<?> associatedClass) {
+    public Option<Type> forClass(@Nullable Class<?> associatedClass) {
         throw new PandaRuntimeException("Not supported");
     }
 
     @Override
-    public Option<Reference> forName(CharSequence name) {
-        Reference localType = importedTypes.get(name.toString());
-
-        if (localType != null) {
-            return Option.of(localType);
+    public Option<Type> forName(CharSequence name) {
+        if (name.toString().endsWith(PandaArray.IDENTIFIER)) {
+            return ArrayClassTypeFetcher.fetch(typeLoader, name.toString());
         }
 
-        for (Module module : importedModules.values()) {
-            Option<Reference> reference = module.forName(name);
-
-            if (reference.isDefined()) {
-                return reference;
-            }
-        }
-
-        return Option.none();
+        return Option.of(importedTypes.get(name.toString()))
+                .orElse(() -> ModuleResourceUtils.forName(importedModules.values(), name))
+                .peek(typeLoader::load);
     }
 
     @Override
-    public ModuleLoader getModuleLoader() {
-        return loader;
+    public TypeLoader getTypeLoader() {
+        return typeLoader;
     }
 
 }

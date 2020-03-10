@@ -17,33 +17,27 @@
 package org.panda_lang.framework.language.architecture.type;
 
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.type.DynamicClass;
-import org.panda_lang.framework.design.architecture.type.Reference;
 import org.panda_lang.framework.design.architecture.type.State;
+import org.panda_lang.framework.design.architecture.type.TypeModels;
 import org.panda_lang.framework.design.architecture.type.Visibility;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
 
-public class PandaTypeBuilder<BUILDER extends PandaTypeBuilder<BUILDER, ?>, TYPE extends PandaType> {
+public class PandaTypeMetadata<BUILDER extends PandaTypeMetadata<BUILDER, ?>, TYPE extends PandaType> {
 
-    protected Reference reference;
     protected String name;
     protected Module module;
     protected SourceLocation location;
-    protected DynamicClass associated;
-    protected String model;
-    protected State state;
-    protected Visibility visibility;
+    protected Class<?> javaType;
+    protected String model = TypeModels.CLASS;
+    protected State state = State.DEFAULT;
+    protected Visibility visibility = Visibility.PUBLIC;
     protected boolean isNative;
 
-    protected PandaTypeBuilder() { }
+    protected PandaTypeMetadata() { }
 
     public BUILDER name(String name) {
         this.name = name;
-        return getThis();
-    }
-
-    public BUILDER reference(Reference reference) {
-        this.reference = reference;
         return getThis();
     }
 
@@ -57,11 +51,15 @@ public class PandaTypeBuilder<BUILDER extends PandaTypeBuilder<BUILDER, ?>, TYPE
         return getThis();
     }
 
-    public BUILDER associated(DynamicClass associated) {
-        this.associated = associated;
+    public BUILDER location(Class<?> javaType) {
+        return location(new PandaClassSource(javaType).toLocation());
+    }
+
+    public BUILDER javaType(Class<?> javaType) {
+        this.javaType = javaType;
 
         if (name == null) {
-            this.name = associated.getSimpleName();
+            this.name = javaType.getSimpleName();
         }
 
         return getThis();

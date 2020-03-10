@@ -17,39 +17,31 @@
 package org.panda_lang.panda.language.resource.syntax.type;
 
 import io.vavr.control.Option;
-import javassist.ClassPool;
-import javassist.CtClass;
 import org.panda_lang.framework.design.architecture.type.Type;
-import org.panda_lang.framework.design.architecture.type.Reference;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
-import org.panda_lang.framework.language.architecture.type.TypeClass;
 import org.panda_lang.framework.language.architecture.type.utils.StateComparator;
 import org.panda_lang.framework.language.architecture.type.utils.TypeDeclarationUtils;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
-import org.panda_lang.utilities.commons.ClassPoolUtils;
-import org.panda_lang.utilities.commons.ClassUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 final class TypeParserUtils {
 
-    private static final ClassPool POOL = ClassPool.getDefault();
-
     private TypeParserUtils() { }
 
     public static void appendExtended(Context context, Type type, Snippetable typeSource) {
         String name = typeSource.toString();
-        Option<Reference> extendedType = context.getComponent(Components.IMPORTS).forName(name);
+        Option<Type> extendedType = context.getComponent(Components.IMPORTS).forName(name);
 
         if (extendedType.isDefined()) {
-            StateComparator.requireInheritance(context, extendedType.get().fetch(), typeSource);
-            type.addBase(extendedType.get().fetch());
+            StateComparator.requireInheritance(context, extendedType.get(), typeSource);
+            type.addBase(extendedType.get());
             return;
         }
 
@@ -57,15 +49,6 @@ final class TypeParserUtils {
                 "Type " + name + " not found",
                 "Make sure that the name does not have a typo and module which should contain that class is imported"
         );
-    }
-
-    protected static Class<?> generateType(String className) throws Exception {
-        if (ClassUtils.exists(className)) {
-            return Class.forName(className);
-        }
-
-        CtClass generatedClass = POOL.makeInterface(className, ClassPoolUtils.get(TypeClass.class));
-        return ClassPoolUtils.toClass(POOL.makeInterface(className, ClassPoolUtils.get(TypeClass.class)));
     }
 
     public static Collection<Snippetable> readTypes(SynchronizedSource source) {

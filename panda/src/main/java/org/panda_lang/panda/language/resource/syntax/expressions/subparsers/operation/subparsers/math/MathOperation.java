@@ -17,8 +17,8 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.math;
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.type.Type;
+import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNOperationAction;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.number.NumericOperation;
 
@@ -27,19 +27,19 @@ public abstract class MathOperation extends NumericOperation<Number> {
     public abstract RPNOperationAction<Number> of(Type returnType, int priority, Expression a, Expression b);
 
     @Override
-    public RPNOperationAction<Number> of(ModuleLoader loader, Expression a, Expression b) {
-        Type returnType = returnType(loader, a.getType(), b.getType());
+    public RPNOperationAction<Number> of(TypeLoader typeLoader, Expression a, Expression b) {
+        Type returnType = returnType(typeLoader, a.getType(), b.getType());
         return of(returnType, super.getPriority(returnType), a, b);
     }
 
     @Override
-    public Type returnType(ModuleLoader loader, Type a, Type b) {
+    public Type returnType(TypeLoader typeLoader, Type a, Type b) {
         return estimateType(a, b);
     }
 
     @Override
-    public Type requiredType(ModuleLoader loader) {
-        return loader.requireType(Number.class);
+    public Type requiredType(TypeLoader typeLoader) {
+        return typeLoader.requireType(Number.class);
     }
 
 }

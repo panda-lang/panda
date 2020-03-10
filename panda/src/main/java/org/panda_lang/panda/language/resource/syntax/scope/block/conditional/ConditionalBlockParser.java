@@ -17,9 +17,9 @@
 package org.panda_lang.panda.language.resource.syntax.scope.block.conditional;
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.statement.Block;
 import org.panda_lang.framework.design.architecture.statement.Scope;
+import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
@@ -40,7 +40,7 @@ import org.panda_lang.panda.language.interpreter.parser.block.BlockSubparserBoot
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Interceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
 
@@ -71,8 +71,8 @@ public final class ConditionalBlockParser extends BlockSubparserBootstrap {
     @Autowired
     BlockData parse(
             Context context,
-            @Ctx Scope parent, @Ctx ModuleLoader loader, @Ctx(BlockComponents.PREVIOUS_BLOCK_LABEL) Block previous,
-            @Interceptor Result result, @Interceptor SourceLocation location
+            @Ctx Scope parent, @Ctx TypeLoader loader, @Ctx(BlockComponents.PREVIOUS_BLOCK_LABEL) Block previous,
+            @Int Result result, @Int SourceLocation location
     ) {
         Expression condition = result.has("condition") ? result.get("condition") : new PandaExpression(loader.requireType(Boolean.class), true);
         ConditionalBlock conditionalBlock = new ConditionalBlock(parent, location, condition);

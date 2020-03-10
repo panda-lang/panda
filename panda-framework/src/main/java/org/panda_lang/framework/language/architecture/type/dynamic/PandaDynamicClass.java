@@ -16,12 +16,13 @@
 
 package org.panda_lang.framework.language.architecture.type.dynamic;
 
+import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
-import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.type.DynamicClass;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.architecture.type.TypeModels;
-import org.panda_lang.framework.language.architecture.type.TypeClass;
+import org.panda_lang.framework.language.architecture.type.TypeInstance;
 import org.panda_lang.utilities.commons.ClassPoolUtils;
 import org.panda_lang.utilities.commons.ClassUtils;
 import org.panda_lang.utilities.commons.ObjectUtils;
@@ -36,76 +37,102 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public final class PandaDynamicClass implements DynamicClass {
 
-    private static final AtomicInteger ID = new AtomicInteger();
-    private static final CtClass PROTOTYPE_CLASS = DynamicClassUtils.get(TypeClass.class);
+    private static final CtClass PROTOTYPE_CLASS = ClassPoolUtils.require(TypeInstance.class);
 
+    protected final Type type;
     protected final String name;
     protected final String module;
     protected final String model;
 
+    protected final AtomicInteger id = new AtomicInteger();
     protected final Collection<DynamicClass> interfaces = new ArrayList<>();
     protected DynamicClass superclass = null;
     protected boolean frozen;
-    protected boolean changed;
 
     protected Class<?> structure;
     protected Class<?> implementation;
+    protected boolean changedStructure = true;
+    protected boolean changedImplementation = true;
 
-    public PandaDynamicClass(String name, String module, String model) {
+    public PandaDynamicClass(Type type, String name, String module, String model) {
+        this.type = ValidationUtils.notNull(type, "Type cannot be null");
         this.name = ValidationUtils.notNull(name, "Name cannot be null");
         this.model = ValidationUtils.notNull(model, "Model cannot be null");
         this.module = StringUtils.replace(ValidationUtils.notNull(module, "Module cannot be null"), ":", ".");
-        this.changed = true;
     }
 
-    public PandaDynamicClass(Class<?> clazz, String customName, String module) {
-        this(customName, module, TypeModels.of(clazz));
+    public PandaDynamicClass(Type type, Class<?> clazz, String customName, String module) {
+        this(type, customName, module, TypeModels.of(clazz));
         this.structure = clazz;
         this.implementation = clazz;
         this.frozen = true;
     }
 
-    public PandaDynamicClass(Class<?> clazz) {
-        this(clazz, clazz.getSimpleName(), PackageUtils.toString(clazz.getPackage(), StringUtils.EMPTY));
+    public PandaDynamicClass(Type type, Class<?> clazz) {
+        this(type, clazz, clazz.getSimpleName(), PackageUtils.toString(clazz.getPackage(), StringUtils.EMPTY));
     }
 
-    private synchronized void recreate() throws DynamicClassException {
-        if (frozen || !changed) {
+    private synchronized void recreateStructure() throws DynamicClassException {
+        if (frozen || !changedStructure) {
             return;
         }
 
-        this.changed = false;
+        this.changedStructure = false;
         String className = module + '.' + name;
 
         if (structure == null) {
             this.structure =  ClassPoolUtils.toClass(ClassPool.getDefault().makeInterface(className, PROTOTYPE_CLASS));
         }
+    }
 
+    private synchronized void recreateImplementation() throws DynamicClassException {
+        if (frozen || !changedImplementation) {
+            return;
+        }
+
+        recreateStructure();
         CtClass superclassCt = null;
 
         if (superclass != null) {
-            superclassCt = DynamicClassUtils.get(superclass.fetchImplementation());
+            superclassCt = ClassPoolUtils.require(superclass.fetchStructure());
         }
 
-        CtClass generatedClass = ClassPool.getDefault().makeClass("Panda::" + name + "$" + ID.incrementAndGet(), superclassCt);
-        this.implementation = ClassPoolUtils.toClass(generatedClass);
+        String generatedClassName = "Panda_" + name.replace("::", "_") + "$" + id.getAndIncrement();
+        CtClass generatedClass;
+
+        if (TypeModels.isInterface(type)) {
+            generatedClass = ClassPool.getDefault().makeInterface("I" + generatedClassName, superclassCt);
+        }
+        else {
+            generatedClass = ClassPool.getDefault().makeClass(generatedClassName, superclassCt);
+        }
+
+        DynamicClassGenerator generator = new DynamicClassGenerator(type, generatedClass);
+
+        try {
+            generator.generateDeclaration();
+            generator.generateFields();
+            generator.generateConstructor();
+            generator.generateInstanceMethods();
+            this.implementation = generator.generate();
+            generatedClass.writeFile("dynamic_classes");
+        } catch (CannotCompileException e) {
+            e.printStackTrace();
+            throw new DynamicClassException(e.getCause());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DynamicClassException(e.getMessage());
+        }
     }
 
     @Override
-    public DynamicClass append(Class<?> clazz) {
-        return update(() -> {
-            DynamicClass dynamicClass = new PandaDynamicClass(clazz);
-
-            if (dynamicClass.isClass()) {
-                extendClass(dynamicClass);
-            }
-            else if (dynamicClass.isInterface()) {
-                implementInterface(dynamicClass);
-            }
-            else {
-                throw new PandaFrameworkException("Unsupported model " + model);
-            }
-        });
+    public DynamicClass append(Type toAppend) {
+        if (TypeModels.isInterface(toAppend)) {
+            return implementInterface(toAppend.getAssociatedClass());
+        }
+        else {
+            return extendClass(toAppend.getAssociatedClass());
+        }
     }
 
     @Override
@@ -124,7 +151,8 @@ public final class PandaDynamicClass implements DynamicClass {
 
     private DynamicClass update(Runnable action) {
         action.run();
-        this.changed = true;
+        this.changedStructure = true;
+        this.changedImplementation = true;
         return this;
     }
 
@@ -161,8 +189,8 @@ public final class PandaDynamicClass implements DynamicClass {
 
     @Override
     public Class<?> fetchImplementation() {
-        if (changed) {
-            recreate();
+        if (changedImplementation) {
+            recreateImplementation();
         }
 
         return implementation;
@@ -170,8 +198,8 @@ public final class PandaDynamicClass implements DynamicClass {
 
     @Override
     public Class<?> fetchStructure() {
-        if (changed) {
-            recreate();
+        if (changedStructure) {
+            recreateStructure();
         }
 
         return structure;

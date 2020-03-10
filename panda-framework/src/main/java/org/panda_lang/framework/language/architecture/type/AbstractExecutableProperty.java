@@ -19,8 +19,6 @@ package org.panda_lang.framework.language.architecture.type;
 import org.panda_lang.framework.design.architecture.type.ExecutableProperty;
 import org.panda_lang.framework.design.architecture.type.PropertyParameter;
 import org.panda_lang.framework.design.architecture.type.Type;
-import org.panda_lang.framework.design.architecture.type.Referencable;
-import org.panda_lang.framework.design.architecture.type.Reference;
 import org.panda_lang.framework.design.architecture.type.Visibility;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
@@ -40,7 +38,7 @@ public abstract class AbstractExecutableProperty extends AbstractProperty implem
         super(builder.name, builder.location, builder.visibility, builder.isNative);
 
         this.type = builder.type;
-        this.returnType = builder.returnType.fetch();
+        this.returnType = builder.returnType;
         this.parameters = builder.parameters;
         this.callback = builder.callback;
     }
@@ -73,10 +71,15 @@ public abstract class AbstractExecutableProperty extends AbstractProperty implem
         return type;
     }
 
+    @Override
+    public String toString() {
+        return getName();
+    }
+
     public abstract static class PandaParametrizedExecutableBuilder<T extends PandaParametrizedExecutableBuilder<?>> {
 
         protected String name;
-        protected Reference returnType;
+        protected Type returnType;
         protected Type type;
         protected SourceLocation location;
         protected TypeExecutableCallback<?> callback;
@@ -88,7 +91,7 @@ public abstract class AbstractExecutableProperty extends AbstractProperty implem
             this.type = type;
 
             if (returnType == null) {
-                this.returnType = type.toReference();
+                this.returnType = type;
             }
 
             return returnThis();
@@ -114,8 +117,8 @@ public abstract class AbstractExecutableProperty extends AbstractProperty implem
             return returnThis();
         }
 
-        public T returnType(Referencable returnType) {
-            this.returnType = returnType.toReference();
+        public T returnType(Type returnType) {
+            this.returnType = returnType;
             return returnThis();
         }
 

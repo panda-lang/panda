@@ -18,7 +18,6 @@ package org.panda_lang.framework.design.architecture.module;
 
 import io.vavr.control.Option;
 import org.panda_lang.framework.design.architecture.type.Type;
-import org.panda_lang.framework.design.architecture.type.Reference;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 
 import java.util.function.Supplier;
@@ -37,11 +36,9 @@ public interface ModuleResource {
      * @throws org.panda_lang.framework.language.runtime.PandaRuntimeException if type does not exist
      */
     default Type requireType(Class<?> associatedClass) throws PandaRuntimeException {
-        return forClass(associatedClass)
-                .map(Reference::fetch)
-                .getOrElseThrow((Supplier<? extends PandaRuntimeException>) () -> {
-                    throw new PandaRuntimeException("Cannot find type associated with " + associatedClass);
-                });
+        return forClass(associatedClass).getOrElseThrow((Supplier<? extends PandaRuntimeException>) () -> {
+            throw new PandaRuntimeException("Cannot find type associated with " + associatedClass);
+        });
     }
 
     /**
@@ -53,11 +50,9 @@ public interface ModuleResource {
      * @throws org.panda_lang.framework.language.runtime.PandaRuntimeException if type does not exist
      */
     default Type requireType(String name) throws PandaRuntimeException {
-        return forName(name)
-                .map(Reference::fetch)
-                .getOrElseThrow((Supplier<? extends PandaRuntimeException>) () -> {
-                    throw new PandaRuntimeException("Cannot find type " + name);
-                });
+        return forName(name).getOrElseThrow((Supplier<? extends PandaRuntimeException>) () -> {
+            throw new PandaRuntimeException("Cannot find type " + name);
+        });
     }
 
     /**
@@ -66,7 +61,7 @@ public interface ModuleResource {
      * @param associatedClass the class associated with type to search for
      * @return the reference
      */
-    Option<Reference> forClass(Class<?> associatedClass);
+    Option<Type> forClass(Class<?> associatedClass);
 
     /**
      * Find reference using the given name
@@ -74,6 +69,6 @@ public interface ModuleResource {
      * @param typeName the name to search for
      * @return the reference
      */
-    Option<Reference> forName(CharSequence typeName);
+    Option<Type> forName(CharSequence typeName);
 
 }

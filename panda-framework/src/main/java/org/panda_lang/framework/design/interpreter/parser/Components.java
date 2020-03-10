@@ -21,8 +21,8 @@ import org.panda_lang.framework.design.architecture.Application;
 import org.panda_lang.framework.design.architecture.Environment;
 import org.panda_lang.framework.design.architecture.Script;
 import org.panda_lang.framework.design.architecture.module.Imports;
-import org.panda_lang.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.framework.design.architecture.statement.Scope;
+import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.design.interpreter.Interpretation;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.framework.design.interpreter.parser.generation.Generation;
@@ -70,7 +70,7 @@ public final class Components {
     /**
      * Represents the application module loader
      */
-    public static final ContextComponent<ModuleLoader> MODULE_LOADER = ContextComponent.of("module-loader", ModuleLoader.class);
+    public static final ContextComponent<TypeLoader> TYPE_LOADER = ContextComponent.of("type-loader", TypeLoader.class);
 
     /**
      * Represents the current application

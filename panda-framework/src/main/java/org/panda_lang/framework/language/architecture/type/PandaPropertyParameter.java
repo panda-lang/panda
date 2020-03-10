@@ -17,20 +17,20 @@
 package org.panda_lang.framework.language.architecture.type;
 
 import org.panda_lang.framework.design.architecture.type.PropertyParameter;
-import org.panda_lang.framework.design.architecture.type.Referencable;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.language.architecture.statement.PandaVariable;
 
 public final class PandaPropertyParameter extends PandaVariable implements PropertyParameter {
 
     private final boolean varargs;
 
-    public PandaPropertyParameter(int parameterIndex, Referencable referencable, String name, boolean varargs, boolean mutable, boolean nillable) {
-        super(parameterIndex, referencable.toReference(), name, mutable, nillable);
+    public PandaPropertyParameter(int parameterIndex, Type type, String name, boolean varargs, boolean mutable, boolean nillable) {
+        super(parameterIndex, type, name, mutable, nillable);
         this.varargs = varargs;
     }
 
-    public PandaPropertyParameter(int parameterIndex, Referencable referencable, String name) {
-        this(parameterIndex, referencable, name, false, false, false);
+    public PandaPropertyParameter(int parameterIndex, Type type, String name) {
+        this(parameterIndex, type, name, false, false, false);
     }
 
     @Override

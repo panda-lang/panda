@@ -29,7 +29,7 @@ import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitial
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Interceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Local;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.data.Delegation;
@@ -51,7 +51,7 @@ public final class MainParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1, delegation = Delegation.NEXT_DEFAULT)
-    void createScope(LocalData localData, @Ctx Script script, @Interceptor SourceLocation location) {
+    void createScope(LocalData localData, @Ctx Script script, @Int SourceLocation location) {
         script.addStatement(localData.allocated(new MainScope(location)));
     }
 

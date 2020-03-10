@@ -30,7 +30,7 @@ import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitial
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Interceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.LinearPatternInterceptor;
 
@@ -46,7 +46,7 @@ public final class BreakParser extends ParserBootstrap<Void> {
     }
 
     @Autowired
-    void parseBreak(Context context, @Ctx Scope scope, @Interceptor SourceLocation location, @Interceptor Snippet source) {
+    void parseBreak(Context context, @Ctx Scope scope, @Int SourceLocation location, @Int Snippet source) {
         if (!ScopeUtils.lookFor(scope, ControlledScope.class)) {
             throw new PandaParserFailure(context, source, "Break cannot be used outside of the looping block");
         }

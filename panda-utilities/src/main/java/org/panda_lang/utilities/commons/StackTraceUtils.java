@@ -18,27 +18,33 @@ package org.panda_lang.utilities.commons;
 
 import java.util.Arrays;
 import java.util.Stack;
+import java.util.function.Predicate;
 
 public final class StackTraceUtils {
 
     private StackTraceUtils() { }
 
     public static StackTraceElement[] filter(StackTraceElement[] stackTrace, Class<?>... ignored) {
-        String[] ignoredClasses = Arrays.stream(ignored)
+        return filter(stackTrace,  Arrays.stream(ignored)
                 .map(Class::getName)
-                .toArray(String[]::new);
+                .toArray(String[]::new)
+        );
+    }
 
-        Stack<StackTraceElement> elements = new Stack<>();
+    public static StackTraceElement[] filter(StackTraceElement[] stacktrace, String... ignored) {
+        return filter(stacktrace, element -> Arrays.stream(ignored).anyMatch(ignoredName -> element.getClassName().startsWith(ignoredName)));
+    }
 
-        for (StackTraceElement element : stackTrace) {
-            if (Arrays.stream(ignoredClasses).anyMatch(name -> element.getClassName().contains(name))) {
-                continue;
+    private static StackTraceElement[] filter(StackTraceElement[] stacktrace, Predicate<StackTraceElement> filter) {
+        Stack<StackTraceElement> filtered = new Stack<>();
+
+        for (StackTraceElement element : stacktrace) {
+            if (!filter.test(element)) {
+                filtered.push(element);
             }
-
-            elements.push(element);
         }
 
-        return elements.toArray(new StackTraceElement[0]);
+        return filtered.toArray(new StackTraceElement[0]);
     }
 
 }

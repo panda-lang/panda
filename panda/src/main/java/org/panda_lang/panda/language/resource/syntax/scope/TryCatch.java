@@ -57,7 +57,7 @@ final class TryCatch extends AbstractExecutableStatement {
                 throw throwable;
             }
 
-            stack.getCurrentScope().set(catchData.variable.getPointer(), throwable);
+            stack.getCurrentFrame().set(catchData.variable.getPointer(), throwable);
             stack.callScope(instance, catchData.block);
         } finally {
             stack.callScope(instance, finallyBlock);

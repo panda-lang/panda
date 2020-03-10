@@ -17,6 +17,7 @@
 package org.panda_lang.panda.shell.repl;
 
 import org.panda_lang.framework.FrameworkController;
+import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.statement.Statement;
@@ -77,7 +78,10 @@ public final class Repl {
     public void regenerate() throws Exception {
         this.history = new StringBuilder();
         this.stack = new PandaProcessStack(processSupplier.get(), PandaRuntimeConstants.DEFAULT_STACK_SIZE);
-        this.instance = context.getComponent(Components.SCOPE).getFramedScope().revive(stack, instanceSupplier.apply(stack));
+
+        this.instance = context.getComponent(Components.SCOPE).getStandardizedFramedScope().getOrElseThrow(() -> {
+            throw new PandaFrameworkException("Required scope has to be standardized");
+        }).revive(stack, instanceSupplier.apply(stack));
 
         if (!customExceptionListener) {
             this.exceptionListener = (exception, runtime) -> {

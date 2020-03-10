@@ -17,20 +17,18 @@
 package org.panda_lang.framework.language.architecture.expression;
 
 import org.panda_lang.framework.design.architecture.type.Type;
-import org.panda_lang.framework.design.architecture.type.Referencable;
-import org.panda_lang.framework.design.architecture.type.Reference;
 
 public abstract class AbstractDynamicExpression implements DynamicExpression {
 
-    private final Reference returnType;
+    private final Type returnType;
 
-    public AbstractDynamicExpression(Referencable returnType) {
-        this.returnType = returnType.toReference();
+    public AbstractDynamicExpression(Type returnType) {
+        this.returnType = returnType;
     }
 
     @Override
     public Type getReturnType() {
-        return returnType.fetch();
+        return returnType;
     }
 
 }

@@ -16,7 +16,6 @@
 
 package org.panda_lang.framework.language.architecture.statement;
 
-import org.panda_lang.framework.design.architecture.type.Reference;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
 import org.panda_lang.framework.design.interpreter.parser.Components;
@@ -66,7 +65,6 @@ public final class PandaVariableDataInitializer {
 
         return context.getComponent(Components.IMPORTS)
                 .forName(typeName.toSnippet().asSource())
-                .map(Reference::fetch)
                 .map(type -> {
                     VisibilityComparator.requireAccess(type, context, typeName);
                     return new PandaVariableData(type, nameSource.asSource(), mutable, nillable);

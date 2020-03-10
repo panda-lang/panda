@@ -28,12 +28,6 @@ import org.panda_lang.panda.language.resource.syntax.head.ImportParser;
 import org.panda_lang.panda.language.resource.syntax.head.MainParser;
 import org.panda_lang.panda.language.resource.syntax.head.ModuleParser;
 import org.panda_lang.panda.language.resource.syntax.head.RequireParser;
-import org.panda_lang.panda.language.resource.syntax.type.BaseConstructorParser;
-import org.panda_lang.panda.language.resource.syntax.type.ConstructorParser;
-import org.panda_lang.panda.language.resource.syntax.type.FieldParser;
-import org.panda_lang.panda.language.resource.syntax.type.MethodParser;
-import org.panda_lang.panda.language.resource.syntax.type.ParameterParser;
-import org.panda_lang.panda.language.resource.syntax.type.TypeParser;
 import org.panda_lang.panda.language.resource.syntax.scope.LateDeclarationParser;
 import org.panda_lang.panda.language.resource.syntax.scope.LogParser;
 import org.panda_lang.panda.language.resource.syntax.scope.StandaloneExpressionParser;
@@ -47,6 +41,13 @@ import org.panda_lang.panda.language.resource.syntax.scope.branching.BreakParser
 import org.panda_lang.panda.language.resource.syntax.scope.branching.ContinueParser;
 import org.panda_lang.panda.language.resource.syntax.scope.branching.ReturnParser;
 import org.panda_lang.panda.language.resource.syntax.scope.branching.ThrowParser;
+import org.panda_lang.panda.language.resource.syntax.type.BaseParser;
+import org.panda_lang.panda.language.resource.syntax.type.ConstructorParser;
+import org.panda_lang.panda.language.resource.syntax.type.FieldParser;
+import org.panda_lang.panda.language.resource.syntax.type.MethodParser;
+import org.panda_lang.panda.language.resource.syntax.type.ParameterParser;
+import org.panda_lang.panda.language.resource.syntax.type.SelfConstructorParser;
+import org.panda_lang.panda.language.resource.syntax.type.TypeParser;
 
 public final class PandaParsers {
 
@@ -69,12 +70,13 @@ public final class PandaParsers {
             ModuleParser.class,
 
             // type
-            TypeParser.class,
+            BaseParser.class,
             ConstructorParser.class,
-            BaseConstructorParser.class,
+            SelfConstructorParser.class,
             FieldParser.class,
             MethodParser.class,
             ParameterParser.class,
+            TypeParser.class,
 
             // scope
             // AssignationParser.class, off

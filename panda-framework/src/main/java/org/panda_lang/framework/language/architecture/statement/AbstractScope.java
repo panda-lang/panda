@@ -33,19 +33,19 @@ import java.util.stream.Collectors;
 
 public abstract class AbstractScope extends AbstractStatement implements Scope {
 
-    protected final FramedScope scope;
-    protected final Scope parent;
+    protected final Scope parentScope;
+    protected final FramedScope framedScope;
     protected final List<Variable> variables = new ArrayList<>();
     protected final List<Statement> statements = new ArrayList<>();
 
-    protected AbstractScope(FramedScope scope, @Nullable Scope parent, SourceLocation location) {
+    protected AbstractScope(FramedScope framedScope, @Nullable Scope parentScope, SourceLocation location) {
         super(location);
-        this.scope = scope;
-        this.parent = parent;
+        this.framedScope = framedScope;
+        this.parentScope = parentScope;
     }
 
-    protected AbstractScope(Scope parent, SourceLocation location) {
-        this(parent.getFramedScope(), parent, location);
+    protected AbstractScope(Scope parentScope, SourceLocation location) {
+        this(parentScope.getFramedScope(), parentScope, location);
     }
 
     @Override
@@ -98,7 +98,7 @@ public abstract class AbstractScope extends AbstractStatement implements Scope {
             }
         }
 
-        return getParent().flatMap(scope -> scope.getVariable(name));
+        return getParentScope().flatMap(scope -> scope.getVariable(name));
     }
 
     @Override
@@ -119,13 +119,13 @@ public abstract class AbstractScope extends AbstractStatement implements Scope {
     }
 
     @Override
-    public Option<Scope> getParent() {
-        return Option.of(parent);
+    public Option<Scope> getParentScope() {
+        return Option.of(parentScope);
     }
 
     @Override
     public FramedScope getFramedScope() {
-        return scope;
+        return framedScope;
     }
 
 }
