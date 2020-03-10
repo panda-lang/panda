@@ -23,6 +23,7 @@ import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.statement.AbstractPropertyFramedScope;
+import org.panda_lang.framework.language.architecture.type.TypeInstance;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,7 +43,7 @@ final class ReplScope extends AbstractPropertyFramedScope {
 
     @Override
     public Frame revive(ProcessStack stack, Object instance) {
-        ReplFrame frame = new ReplFrame(this, (Frame) instance);
+        ReplFrame frame = new ReplFrame(this, (TypeInstance) instance);
 
         for (Entry<Integer, Object> entry : defaultValues.entrySet()) {
             frame.set(entry.getKey(), entry.getValue());
