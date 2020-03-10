@@ -57,6 +57,10 @@ public class NumberPriorities {
         @Nullable Integer priority = HIERARCHY.get(type.getSimpleName());
 
         if (priority == null) {
+            priority = HIERARCHY.get(type.getSimpleName().replace("Primitive", "")); // TODO: prefix hotfix
+        }
+
+        if (priority == null) {
             throw new PandaParserException("Unknown number type: " + type.getName());
         }
 
