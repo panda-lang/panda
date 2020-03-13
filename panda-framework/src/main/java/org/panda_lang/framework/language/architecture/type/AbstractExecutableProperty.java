@@ -27,14 +27,14 @@ import org.panda_lang.framework.language.architecture.type.utils.ParameterUtils;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractExecutableProperty extends AbstractProperty implements ExecutableProperty {
+public abstract class AbstractExecutableProperty<E extends ExecutableProperty> extends AbstractProperty implements ExecutableProperty {
 
     private final Type type;
     private final PropertyParameter[] parameters;
     private final Type returnType;
-    private final TypeExecutableCallback callback;
+    private final TypeExecutableCallback<E, Object> callback;
 
-    protected AbstractExecutableProperty(PandaParametrizedExecutableBuilder<?> builder) {
+    protected AbstractExecutableProperty(PandaParametrizedExecutableBuilder<E, ?> builder) {
         super(builder.name, builder.location, builder.visibility, builder.isNative);
 
         this.type = builder.type;
@@ -46,7 +46,7 @@ public abstract class AbstractExecutableProperty extends AbstractProperty implem
     @Override
     @SuppressWarnings("unchecked")
     public Object invoke(ProcessStack stack, Object instance, Object... arguments) throws Exception {
-        return callback.invoke(stack, instance, arguments);
+        return callback.invoke((E) this, stack, instance, arguments);
     }
 
     @Override
@@ -76,13 +76,13 @@ public abstract class AbstractExecutableProperty extends AbstractProperty implem
         return getName();
     }
 
-    public abstract static class PandaParametrizedExecutableBuilder<T extends PandaParametrizedExecutableBuilder<?>> {
+    public abstract static class PandaParametrizedExecutableBuilder<E extends ExecutableProperty, T extends PandaParametrizedExecutableBuilder<E, ?>> {
 
         protected String name;
         protected Type returnType;
         protected Type type;
         protected SourceLocation location;
-        protected TypeExecutableCallback<?> callback;
+        protected TypeExecutableCallback<E, Object> callback;
         protected Visibility visibility = Visibility.PUBLIC;
         protected PropertyParameter[] parameters = ParameterUtils.PARAMETERLESS;
         protected boolean isNative;
@@ -132,7 +132,7 @@ public abstract class AbstractExecutableProperty extends AbstractProperty implem
             return returnThis();
         }
 
-        public T callback(TypeExecutableCallback<?> callback) {
+        public T callback(TypeExecutableCallback<E, Object> callback) {
             this.callback = callback;
             return returnThis();
         }

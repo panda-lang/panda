@@ -127,7 +127,7 @@ public final class MethodParser extends ParserBootstrap<Void> {
                 .returnType(returnType)
                 .isStatic(result.has("static"))
                 .isNative(existingMethod.isDefined() && existingMethod.get().isNative())
-                .methodBody(methodScope)
+                .body(methodScope)
                 .build());
 
         type.getMethods().declare(method);

@@ -16,13 +16,26 @@
 
 package org.panda_lang.framework.language.architecture.type;
 
+import io.vavr.control.Option;
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.type.TypeConstructor;
 import org.panda_lang.framework.language.architecture.type.utils.ParameterUtils;
+import org.panda_lang.utilities.commons.function.CachedSupplier;
 
-public final class PandaConstructor extends AbstractExecutableProperty implements TypeConstructor {
+import java.util.function.Supplier;
 
-    private PandaConstructor(PandaParametrizedExecutableBuilder<?> builder) {
+public final class PandaConstructor extends AbstractExecutableProperty<TypeConstructor> implements TypeConstructor {
+
+    private final @Nullable CachedSupplier<Option<BaseCall>> baseCallArgumentsSupplier;
+
+    private PandaConstructor(PandaConstructorBuilder builder) {
         super(builder);
+        this.baseCallArgumentsSupplier = builder.baseCallArgumentsSupplier;
+    }
+
+    @Override
+    public Option<BaseCall> getBaseCall() {
+        return Option.of(baseCallArgumentsSupplier).flatMap(Supplier::get);
     }
 
     @Override
@@ -34,9 +47,16 @@ public final class PandaConstructor extends AbstractExecutableProperty implement
         return new PandaConstructorBuilder().name("constructor");
     }
 
-    public static final class PandaConstructorBuilder extends PandaParametrizedExecutableBuilder<PandaConstructorBuilder> {
+    public static final class PandaConstructorBuilder extends PandaParametrizedExecutableBuilder<TypeConstructor, PandaConstructorBuilder> {
+
+        private CachedSupplier<Option<BaseCall>> baseCallArgumentsSupplier;
 
         private PandaConstructorBuilder() { }
+
+        public PandaConstructorBuilder baseCall(Supplier<Option<BaseCall>> baseCallArgumentsSupplier) {
+            this.baseCallArgumentsSupplier = new CachedSupplier<>(baseCallArgumentsSupplier);
+            return this;
+        }
 
         public PandaConstructor build() {
             return new PandaConstructor(this);

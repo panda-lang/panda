@@ -24,9 +24,9 @@ import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.language.architecture.type.PandaConstructor;
 import org.panda_lang.framework.language.architecture.type.ConstructorScope;
 import org.panda_lang.framework.language.architecture.type.ConstructorScope.ConstructorFrame;
+import org.panda_lang.framework.language.architecture.type.PandaConstructor;
 import org.panda_lang.framework.language.architecture.type.TypeInstance;
 import org.panda_lang.framework.language.architecture.type.TypeScope;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
@@ -44,7 +44,6 @@ import org.panda_lang.panda.language.interpreter.parser.context.data.Delegation;
 import org.panda_lang.panda.language.interpreter.parser.context.data.LocalData;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.LinearPatternInterceptor;
-import org.panda_lang.utilities.commons.collection.Lists;
 
 import java.util.List;
 
@@ -76,15 +75,15 @@ public final class ConstructorParser extends ParserBootstrap<Void> {
                 .type(typeScope.getType())
                 .location(location)
                 .parameters(parameters)
-                .callback((stack, instance, arguments) -> {
-                    TypeInstance typeInstance = typeScope.createInstance(stack, parameterTypes, arguments);
+                .baseCall(constructorScope::getBaseCall)
+                .callback((typeConstructor, stack, instance, arguments) -> {
+                    TypeInstance typeInstance = typeScope.createInstance(stack, instance, typeConstructor, parameterTypes, arguments);
                     ConstructorFrame constructorInstance = constructorScope.revive(stack, typeInstance);
                     return constructorInstance.initialize(stack, typeInstance, arguments);
                 })
                 .build());
 
         typeScope.getType().getConstructors().declare(constructor);
-        System.out.println("parse " + constructor);
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
@@ -94,8 +93,7 @@ public final class ConstructorParser extends ParserBootstrap<Void> {
         typeScope.getType().getSuperclass()
                 .filterNot(superclass -> superclass.getName().equals("java::Object"))
                 .filterNot(superclass -> superclass.getConstructors().getConstructor(new Type[0]).isDefined())
-                .map(superclass -> Lists.get(scope.getStatements(), 0))
-                .filterNot(statement -> statement instanceof Base)
+                .filterNot(superclass -> scope.getBaseCall().isDefined())
                 .peek(superclass -> {
                     throw new PandaParserFailure(context, src, src,
                             "&1Missing call to the base constructor in " + constructor + "&r",

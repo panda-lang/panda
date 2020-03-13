@@ -14,26 +14,32 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.syntax.type;
+package org.panda_lang.framework.language.architecture.type;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.expression.ExpressionEvaluator;
 import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.language.architecture.dynamic.AbstractExecutableStatement;
+import org.panda_lang.framework.language.architecture.statement.AbstractStatement;
 
-public final class Base extends AbstractExecutableStatement {
+public final class BaseCall extends AbstractStatement implements ExpressionEvaluator {
 
     private final Expression[] arguments;
 
-    public Base(SourceLocation location, Expression[] arguments) {
+    public BaseCall(SourceLocation location, Expression[] arguments) {
         super(location);
         this.arguments = arguments;
     }
 
     @Override
-    public Object[] execute(ProcessStack stack, Object instance) throws Exception {
+    public Object[] evaluate(ProcessStack stack, @Nullable Object instance) throws Exception {
         return ExpressionUtils.evaluate(stack, instance, arguments);
+    }
+
+    public Expression[] getArguments() {
+        return arguments;
     }
 
 }

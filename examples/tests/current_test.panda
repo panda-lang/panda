@@ -202,6 +202,10 @@ shared class Foo : Test, IEcho {
     // we need to impl all methods
     override internal test() { }
 
+    override public toString() {
+        return 'Foo'
+    }
+
 }
 
 // simple entity to test equality implemented as native method
@@ -293,7 +297,7 @@ internal class TestArray {
 internal class CustomThread : Thread {
 
     constructor() {
-        //base('CustomThread')
+        base('CustomThread')
     }
 
     override public run() {

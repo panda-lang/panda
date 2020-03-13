@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.variable;
 
+import org.panda_lang.framework.design.architecture.dynamic.Frameable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.runtime.MemoryContainer;
 import org.panda_lang.framework.design.runtime.ProcessStack;
@@ -31,7 +32,7 @@ final class FieldAccessorFunction implements ThrowingBiFunction<ProcessStack, Ob
 
     @Override
     public MemoryContainer apply(ProcessStack stack, Object instance) throws Exception {
-        return (MemoryContainer) instanceExpression.evaluate(stack, instance);
+        return ((Frameable) instanceExpression.evaluate(stack, instance)).__panda__to_frame();
     }
 
 }

@@ -24,9 +24,7 @@ import java.util.Objects;
 final class ArrayUtilsTest {
 
     private static final String[] EMPTY_ARRAY = {};
-
     private static final String[] ARRAY = { "a", "b", "c" };
-
     private static final String[] ARRAY_WITH_NULL = { "a", "b", "c", null };
 
     @Test
@@ -51,15 +49,19 @@ final class ArrayUtilsTest {
 
     @Test
     void mergeArrays() {
-        Assertions.assertArrayEquals(new String[] {
+        String[] merged = {
                 "a", "b", "c",
                 "a", "b", "c", null
-        }, ArrayUtils.mergeArrays(ARRAY, ARRAY_WITH_NULL));
+        };
+
+        Assertions.assertArrayEquals(merged, ArrayUtils.mergeArrays(ARRAY, ARRAY_WITH_NULL));
+        Assertions.assertArrayEquals(merged, ArrayUtils.mergeArrays(String[]::new, ARRAY, ARRAY_WITH_NULL));
     }
 
     @Test
     void isEmpty() {
         Assertions.assertTrue(ArrayUtils.isEmpty(EMPTY_ARRAY));
+        Assertions.assertFalse(ArrayUtils.isEmpty(ARRAY));
     }
 
     @Test
@@ -133,6 +135,22 @@ final class ArrayUtilsTest {
     @Test
     void getIndex() {
         Assertions.assertEquals(1, ArrayUtils.getIndex(ARRAY, element -> element.equals("b")));
+    }
+
+    @Test
+    void merge() {
+        String[] merged = ArrayUtils.merge("-a", ARRAY, String[]::new);
+        Assertions.assertArrayEquals(new String[] { "-a", "a", "b", "c" }, merged);
+    }
+
+    @Test
+    void getBaseClass() {
+        Assertions.assertEquals(String.class, ArrayUtils.getBaseClass(ARRAY.getClass()));
+    }
+
+    @Test
+    void length() {
+        Assertions.assertEquals(ARRAY.length + ARRAY_WITH_NULL.length, ArrayUtils.length(ARRAY, ARRAY_WITH_NULL));
     }
 
 }

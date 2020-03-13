@@ -46,7 +46,7 @@ final class ConstructorGenerator {
                 .parameters(typeParameters)
                 .type(type)
                 .returnType(type)
-                .callback((frame, instance, arguments) -> constructor.newInstance(arguments))
+                .callback((pandaConstructor, frame, instance, arguments) -> constructor.newInstance(arguments))
                 .build();
     }
 

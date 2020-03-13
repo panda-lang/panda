@@ -68,7 +68,7 @@ public final class ReplCreator {
 
         type.getConstructors().declare(PandaConstructor.builder()
                 .type(type)
-                .callback((frame, instance, arguments) -> typeScope.createInstance(frame, new Class<?>[0], arguments))
+                .callback((typeConstructor, frame, instance, arguments) -> typeScope.createInstance(frame, instance, typeConstructor, new Class<?>[0], arguments))
                 .location(type.getLocation())
                 .build());
 
@@ -84,7 +84,7 @@ public final class ReplCreator {
      */
     public Repl create() throws Exception {
         this.processSupplier = () -> new PandaProcess(context.getComponent(Components.APPLICATION), replScope);
-        this.instanceSupplier = stack -> typeScope.createInstance(stack, new Class<?>[0], new Object[0]);
+        this.instanceSupplier = stack -> typeScope.createInstance(stack, typeScope, typeScope.getType().getConstructors().getConstructor(new Type[0]).getOrNull(), new Class<?>[0], new Object[0]);
 
         return new Repl(this);
     }

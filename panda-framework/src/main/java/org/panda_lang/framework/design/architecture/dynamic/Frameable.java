@@ -14,14 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.architecture.type;
+package org.panda_lang.framework.design.architecture.dynamic;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.type.ExecutableProperty;
-import org.panda_lang.framework.design.runtime.ProcessStack;
+public interface Frameable {
 
-public interface TypeExecutableCallback<E extends ExecutableProperty, T> {
-
-    Object invoke(E property, ProcessStack stack, @Nullable T instance, Object[] arguments) throws Exception;
+    Frame __panda__to_frame();
 
 }

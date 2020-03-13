@@ -23,7 +23,7 @@ import org.panda_lang.utilities.commons.function.CachedSupplier;
 
 import java.util.function.Supplier;
 
-public final class PandaField extends AbstractExecutableProperty implements TypeField {
+public final class PandaField extends AbstractExecutableProperty<TypeField> implements TypeField {
 
     private final int fieldIndex;
     private final boolean isStatic;
@@ -35,7 +35,7 @@ public final class PandaField extends AbstractExecutableProperty implements Type
     private CachedSupplier<?> staticValue;
     private boolean initialized;
 
-    protected PandaField(PandaTypeFieldBuilder builder) {
+    protected PandaField(PandaFieldBuilder builder) {
         super(builder);
 
         this.fieldIndex = builder.fieldIndex;
@@ -122,11 +122,11 @@ public final class PandaField extends AbstractExecutableProperty implements Type
         return getType().getSimpleName() + "." + this.getName();
     }
 
-    public static PandaTypeFieldBuilder builder() {
-        return new PandaTypeFieldBuilder();
+    public static PandaFieldBuilder builder() {
+        return new PandaFieldBuilder();
     }
 
-    public static final class PandaTypeFieldBuilder extends AbstractExecutableProperty.PandaParametrizedExecutableBuilder<PandaTypeFieldBuilder> {
+    public static final class PandaFieldBuilder extends AbstractExecutableProperty.PandaParametrizedExecutableBuilder<TypeField, PandaFieldBuilder> {
 
         protected int fieldIndex;
         protected boolean isStatic;
@@ -134,29 +134,29 @@ public final class PandaField extends AbstractExecutableProperty implements Type
         protected boolean mutable;
         protected boolean nillable;
 
-        private PandaTypeFieldBuilder() { }
+        private PandaFieldBuilder() { }
 
-        public PandaTypeFieldBuilder fieldIndex(int fieldIndex) {
+        public PandaFieldBuilder fieldIndex(int fieldIndex) {
             this.fieldIndex = fieldIndex;
             return this;
         }
 
-        public PandaTypeFieldBuilder mutable(boolean mutable) {
+        public PandaFieldBuilder mutable(boolean mutable) {
             this.mutable = mutable;
             return this;
         }
 
-        public PandaTypeFieldBuilder nillable(boolean nillable) {
+        public PandaFieldBuilder nillable(boolean nillable) {
             this.nillable = nillable;
             return this;
         }
 
-        public PandaTypeFieldBuilder isStatic(boolean isStatic) {
+        public PandaFieldBuilder isStatic(boolean isStatic) {
             this.isStatic = isStatic;
             return this;
         }
 
-        public PandaTypeFieldBuilder isNative(boolean isNative) {
+        public PandaFieldBuilder isNative(boolean isNative) {
             this.isNative = isNative;
             return this;
         }

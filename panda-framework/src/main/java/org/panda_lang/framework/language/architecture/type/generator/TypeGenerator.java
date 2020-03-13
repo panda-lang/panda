@@ -49,6 +49,7 @@ final class TypeGenerator {
                             .name(name)
                             .module(module)
                             .javaType(javaType)
+                            .isNative(true)
                             .location(new PandaClassSource(javaType).toLocation())
                             .model(TypeModels.of(javaType))
                             .state(State.of(javaType))
