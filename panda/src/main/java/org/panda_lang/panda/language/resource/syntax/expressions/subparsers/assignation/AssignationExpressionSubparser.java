@@ -28,7 +28,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionS
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaChannel;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
@@ -69,7 +69,7 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
     private static final class AssignationExpressionSubparserWorker extends AbstractExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext expressionContext, TokenRepresentation token) {
+        public @Nullable ExpressionResult next(ExpressionContext expressionContext, TokenInfo token) {
             Snippet source = expressionContext.getSynchronizedSource().getSource();
             int index = OperatorUtils.indexOf(source, OperatorFamilies.ASSIGNATION);
 

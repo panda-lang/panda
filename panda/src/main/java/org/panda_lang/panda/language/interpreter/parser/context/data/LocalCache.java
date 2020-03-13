@@ -21,12 +21,16 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class LocalData {
+public final class LocalCache {
 
-    private final Map<String, Object> context;
+    private final Map<String, Object> cache;
 
-    public LocalData() {
-        this.context = new HashMap<>();
+    public LocalCache() {
+        this.cache = new HashMap<>();
+    }
+
+    public boolean hasValue(String element) {
+        return cache.containsKey(element);
     }
 
     public <T> T allocated(T element) {
@@ -38,18 +42,18 @@ public final class LocalData {
     }
 
     public <T> T allocated(String name, T element) {
-        context.put(name, element);
+        cache.put(name, element);
         return element;
     }
 
     @SuppressWarnings("unchecked")
     public @Nullable <T> T getValue(String name) {
-        return (T) context.get(name);
+        return (T) cache.get(name);
     }
 
     @SuppressWarnings("unchecked")
     public @Nullable <T> T getValue(Class<T> type) {
-        for (Object datum : context.values()) {
+        for (Object datum : cache.values()) {
             if (datum == null) {
                 continue;
             }

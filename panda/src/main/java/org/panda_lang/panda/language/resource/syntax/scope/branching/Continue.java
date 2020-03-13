@@ -18,14 +18,14 @@ package org.panda_lang.panda.language.resource.syntax.scope.branching;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.dynamic.Controller;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Status;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractExecutableStatement;
 
 final class Continue extends AbstractExecutableStatement implements Controller {
 
-    Continue(SourceLocation location) {
+    Continue(Location location) {
         super(location);
     }
 

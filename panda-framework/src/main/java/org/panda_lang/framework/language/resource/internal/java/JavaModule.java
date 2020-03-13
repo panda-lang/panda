@@ -34,6 +34,7 @@ public final class JavaModule implements CustomInitializer {
     @Override
     public void initialize(Module module) {
         PandaTypeUtils.of(module, void.class);
+        PandaTypeUtils.of(module, Void.class);
 
         type(module, "Int", int.class);
         type(module, "Bool", boolean.class);

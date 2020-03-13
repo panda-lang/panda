@@ -22,7 +22,7 @@ import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
@@ -32,7 +32,7 @@ import java.util.function.Supplier;
 public abstract class AssignationSubparserBootstrap extends ParserBootstrap<@Nullable ExpressionResult> implements AssignationSubparser {
 
     @Override
-    public final @Nullable ExpressionResult parseAssignment(Context context, Snippet declaration, TokenRepresentation operator, Expression expression) throws Exception {
+    public final @Nullable ExpressionResult parseAssignment(Context context, Snippet declaration, TokenInfo operator, Expression expression) throws Exception {
         context.withComponent(Components.STREAM, new PandaSourceStream(declaration));
         context.withComponent(AssignationComponents.EXPRESSION, expression);
 

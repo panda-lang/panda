@@ -24,7 +24,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionR
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
@@ -48,10 +48,10 @@ public final class NumberExpressionSubparser implements ExpressionSubparser {
     private static final class NumberWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
         private Snippet content;
-        private TokenRepresentation period;
+        private TokenInfo period;
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
+        public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo token) {
             if (Separators.PERIOD.equals(token)) {
                 this.period = token;
                 return ExpressionResult.empty();

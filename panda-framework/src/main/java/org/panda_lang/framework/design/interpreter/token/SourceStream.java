@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.design.interpreter.token;
 
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 
 /**
  * Represents stream of tokens
@@ -28,7 +28,7 @@ public interface SourceStream extends Snippetable {
      *
      * @return the next token
      */
-    TokenRepresentation read();
+    TokenInfo read();
 
     /**
      * Read the specified amount of tokens
@@ -62,7 +62,7 @@ public interface SourceStream extends Snippetable {
      *
      * @return current token
      */
-    TokenRepresentation getCurrent();
+    TokenInfo getCurrent();
 
     /**
      * Get original source used to create the stream
@@ -77,7 +77,7 @@ public interface SourceStream extends Snippetable {
      * @return if there is no available source, the method returns -2, otherwise returns the number of current line
      */
     default int getCurrentLine() {
-        return hasUnreadSource() ? toSnippet().getFirst().getLocation().getLine() : SourceLocation.UNKNOWN_LOCATION;
+        return hasUnreadSource() ? toSnippet().getFirst().getLocation().getLine() : Location.UNKNOWN_LOCATION;
     }
 
     /**

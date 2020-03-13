@@ -17,7 +17,7 @@
 package org.panda_lang.framework.design.interpreter.token;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.utilities.commons.collection.Lists;
@@ -31,7 +31,7 @@ import java.util.List;
  * Snippet is one of the most basic structures used by the Panda Framework.
  * It may be also called syntax tree.
  */
-public interface Snippet extends Iterable<TokenRepresentation>, Snippetable {
+public interface Snippet extends Iterable<TokenInfo>, Snippetable {
 
     /**
      * Constant for not found result
@@ -44,7 +44,7 @@ public interface Snippet extends Iterable<TokenRepresentation>, Snippetable {
      * @return the iterator
      */
     @Override
-    default Iterator<TokenRepresentation> iterator() {
+    default Iterator<TokenInfo> iterator() {
         return new SnippetIterator(this);
     }
 
@@ -87,7 +87,7 @@ public interface Snippet extends Iterable<TokenRepresentation>, Snippetable {
         int previousIndex = 0;
 
         for (int i = 0; i < size(); i++) {
-            TokenRepresentation current = get(i);
+            TokenInfo current = get(i);
 
             if (delimiter.equals(current.getToken())) {
                 snippets.add(subSource(previousIndex, i));
@@ -148,7 +148,7 @@ public interface Snippet extends Iterable<TokenRepresentation>, Snippetable {
      * @return index of token, if snippet does not contain token, the method returns {@link #NOT_FOUND} value
      */
     default int indexOf(Token token) {
-        List<? extends TokenRepresentation> tokens = getTokensRepresentations();
+        List<? extends TokenInfo> tokens = getTokensRepresentations();
 
         for (int index = 0; index < tokens.size(); index++) {
             if (tokens.get(index).contentEquals(token)) {
@@ -169,17 +169,17 @@ public interface Snippet extends Iterable<TokenRepresentation>, Snippetable {
     /**
      * Add token to the snippet
      *
-     * @param tokenRepresentation the token to add
+     * @param tokenInfo the token to add
      */
-    void addToken(TokenRepresentation tokenRepresentation);
+    void addToken(TokenInfo tokenInfo);
 
     /**
      * Remove token from snippet
      *
-     * @param tokenRepresentation the token to remove
+     * @param tokenInfo the token to remove
      */
-    default void removeToken(TokenRepresentation tokenRepresentation) {
-        getTokensRepresentations().remove(tokenRepresentation);
+    default void removeToken(TokenInfo tokenInfo) {
+        getTokensRepresentations().remove(tokenInfo);
     }
 
     /**
@@ -188,7 +188,7 @@ public interface Snippet extends Iterable<TokenRepresentation>, Snippetable {
      * @param index the index to use
      * @return removed token
      */
-    default TokenRepresentation remove(int index) {
+    default TokenInfo remove(int index) {
         return getTokensRepresentations().remove(index);
     }
 
@@ -227,7 +227,7 @@ public interface Snippet extends Iterable<TokenRepresentation>, Snippetable {
      * @return a token at the given position
      * @throws SnippetIndexOutOfBoundsException when index is out of bounds
      */
-    default TokenRepresentation get(int index) {
+    default TokenInfo get(int index) {
         if (!hasElement(index)) {
             throw new SnippetIndexOutOfBoundsException(index);
         }
@@ -240,7 +240,7 @@ public interface Snippet extends Iterable<TokenRepresentation>, Snippetable {
      *
      * @return the first token
      */
-    default TokenRepresentation getFirst() {
+    default TokenInfo getFirst() {
         return get(0);
     }
 
@@ -250,7 +250,7 @@ public interface Snippet extends Iterable<TokenRepresentation>, Snippetable {
      * @param lastIndex the index to use
      * @return token at the given position, otherwise null
      */
-    default @Nullable TokenRepresentation getLast(int lastIndex) {
+    default @Nullable TokenInfo getLast(int lastIndex) {
         int index = size() - lastIndex - 1;
         return hasElement(index) ? get(index) : null;
     }
@@ -260,7 +260,7 @@ public interface Snippet extends Iterable<TokenRepresentation>, Snippetable {
      *
      * @return the last token or null if the snippet is empty
      */
-    default TokenRepresentation getLast() {
+    default TokenInfo getLast() {
         return getLast(0);
     }
 
@@ -271,29 +271,29 @@ public interface Snippet extends Iterable<TokenRepresentation>, Snippetable {
      * @return tokens at the requested line
      */
     default Snippet getLine(int line) {
-        List<TokenRepresentation> selected = new ArrayList<>();
+        List<TokenInfo> selected = new ArrayList<>();
 
-        for (TokenRepresentation tokenRepresentation : getTokensRepresentations()) {
-            if (tokenRepresentation.getLocation().getLine() < line) {
+        for (TokenInfo tokenInfo : getTokensRepresentations()) {
+            if (tokenInfo.getLocation().getLine() < line) {
                 continue;
             }
 
-            if (tokenRepresentation.getLocation().getLine() > line) {
+            if (tokenInfo.getLocation().getLine() > line) {
                 break;
             }
 
-            selected.add(tokenRepresentation);
+            selected.add(tokenInfo);
         }
 
         return new PandaSnippet(selected, false);
     }
 
     /**
-     * Get {@link org.panda_lang.framework.design.interpreter.source.SourceLocation} of first token in snippet
+     * Get {@link org.panda_lang.framework.design.interpreter.source.Location} of first token in snippet
      *
      * @return the current location
      */
-    default SourceLocation getLocation() {
+    default Location getLocation() {
         return getFirst().getLocation();
     }
 
@@ -307,7 +307,7 @@ public interface Snippet extends Iterable<TokenRepresentation>, Snippetable {
     default String asSource() {
         StringBuilder node = new StringBuilder();
 
-        for (TokenRepresentation representation : getTokensRepresentations()) {
+        for (TokenInfo representation : getTokensRepresentations()) {
             Token token = representation.getToken();
 
             if (token instanceof Section) {
@@ -331,14 +331,14 @@ public interface Snippet extends Iterable<TokenRepresentation>, Snippetable {
      *
      * @return the list of tokens used by snippet
      */
-    List<? extends TokenRepresentation> getTokensRepresentations();
+    List<? extends TokenInfo> getTokensRepresentations();
 
     /**
      * Convert snippet into the array of tokens
      *
      * @return a new array containing content of snippet
      */
-    TokenRepresentation[] toArray();
+    TokenInfo[] toArray();
 
     @Override
     default Snippet toSnippet() {

@@ -19,7 +19,7 @@ package org.panda_lang.framework.language.interpreter.pattern.linear;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.StringUtils;
@@ -85,7 +85,7 @@ class LinearPatternTest {
 
     @Test
     void testWildcards() {
-        TokenRepresentation wildcardValue = LinearPattern.compile("wildcard:*")
+        TokenInfo wildcardValue = LinearPattern.compile("wildcard:*")
                 .match(of("random"))
                 .get("wildcard");
 

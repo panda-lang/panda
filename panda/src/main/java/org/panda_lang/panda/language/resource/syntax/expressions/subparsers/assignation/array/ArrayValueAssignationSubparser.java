@@ -27,7 +27,7 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
@@ -57,7 +57,7 @@ public final class ArrayValueAssignationSubparser extends AssignationSubparserBo
 
     @Override
     protected Boolean customHandle(Handler handler, Context context, Channel channel, Snippet source) {
-        TokenRepresentation sectionRepresentation = source.getLast();
+        TokenInfo sectionRepresentation = source.getLast();
 
         if (sectionRepresentation == null || sectionRepresentation.getType() != TokenTypes.SECTION) {
             return false;
@@ -91,7 +91,7 @@ public final class ArrayValueAssignationSubparser extends AssignationSubparserBo
     ExpressionResult parse(
             Context context,
             @Ctx SourceStream source, @Ctx Channel channel,
-            @Ctx AssignationType type, @Ctx TokenRepresentation operator,
+            @Ctx AssignationType type, @Ctx TokenInfo operator,
             @Ctx(AssignationComponents.EXPRESSION_LABEL) Expression value
     ) {
         if (type != AssignationType.DEFAULT) {

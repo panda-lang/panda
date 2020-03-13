@@ -16,8 +16,8 @@
 
 package org.panda_lang.framework.language.interpreter.source;
 
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
-import org.panda_lang.framework.language.interpreter.token.PandaSourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
+import org.panda_lang.framework.language.interpreter.token.PandaLocation;
 
 /**
  * Represents virtual source based on java class
@@ -28,8 +28,8 @@ public final class PandaClassSource extends PandaSource {
         super("java://" + clazz.getName(), "", true);
     }
 
-    public SourceLocation toLocation() {
-        return new PandaSourceLocation(this);
+    public Location toLocation() {
+        return new PandaLocation(this);
     }
 
 }

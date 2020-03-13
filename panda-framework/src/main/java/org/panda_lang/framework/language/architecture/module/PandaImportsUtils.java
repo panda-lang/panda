@@ -23,13 +23,29 @@ import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.utilities.commons.text.MessageFormatter;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public final class PandaImportsUtils {
 
     private PandaImportsUtils() { }
+
+    public static Type getTypeOrThrow(Context context, Snippetable nameSource, String message, String note) {
+        String name = nameSource.toSnippet().asSource();
+
+        return context.getComponent(Components.IMPORTS)
+                .forName(name)
+                .getOrElseThrow((Supplier<? extends PandaParserFailure>) () -> {
+                    MessageFormatter formatter = new MessageFormatter();
+                    formatter.register("{name}", name);
+
+                    throw new PandaParserFailure(context, nameSource, formatter.format(message), formatter.format(note));
+                });
+    }
 
     public static Type getTypeOrThrow(Context context, String className, @Nullable Snippet source) {
         return getTypeOrThrow(context, imports -> imports.forName(className), "Unknown type " + className, source);

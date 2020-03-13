@@ -28,7 +28,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionR
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.architecture.expression.StaticExpression;
 import org.panda_lang.framework.language.architecture.expression.ThisExpression;
 import org.panda_lang.framework.language.architecture.type.TypeExecutableExpression;
@@ -74,7 +74,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
         private static final ArgumentsParser ARGUMENT_PARSER = new ArgumentsParser();
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation nameToken) {
+        public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo nameToken) {
             SynchronizedSource source = context.getSynchronizedSource();
 
             // name has to be declared by unknown type of token
@@ -125,7 +125,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
             return ExpressionResult.of(expression);
         }
 
-        private Expression parseMethod(ExpressionContext context, Expression instance, TokenRepresentation methodName, Snippet argumentsSource) {
+        private Expression parseMethod(ExpressionContext context, Expression instance, TokenInfo methodName, Snippet argumentsSource) {
             Expression[] arguments = ARGUMENT_PARSER.parse(context, argumentsSource);
             Option<Adjustment<TypeMethod>> adjustedArguments = instance.getType().getMethods().getAdjustedArguments(methodName.getValue(), arguments);
 

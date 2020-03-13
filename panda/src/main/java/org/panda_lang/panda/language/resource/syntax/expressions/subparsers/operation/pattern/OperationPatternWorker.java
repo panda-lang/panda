@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ope
 
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Token;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.framework.language.resource.syntax.separator.Separator;
 
@@ -38,7 +38,7 @@ final class OperationPatternWorker {
     }
 
     OperationPatternResult extract() {
-        for (TokenRepresentation representation : result.getSource()) {
+        for (TokenInfo representation : result.getSource()) {
             verify(representation);
         }
 
@@ -50,7 +50,7 @@ final class OperationPatternWorker {
         return result;
     }
 
-    private void verify(TokenRepresentation representation) {
+    private void verify(TokenInfo representation) {
         Token token = representation.getToken();
 
         if (!separators.isEmpty()) {
@@ -91,7 +91,7 @@ final class OperationPatternWorker {
         }
     }
 
-    private boolean pullFragment(TokenRepresentation operatorRepresentation, int requiredSeparators) {
+    private boolean pullFragment(TokenInfo operatorRepresentation, int requiredSeparators) {
         if (this.separators.size() == requiredSeparators) {
             this.pullFragment(operatorRepresentation);
             return true;
@@ -100,7 +100,7 @@ final class OperationPatternWorker {
         return false;
     }
 
-    private void pullFragment(TokenRepresentation operatorRepresentation) {
+    private void pullFragment(TokenInfo operatorRepresentation) {
         if (this.expression.size() != 0) {
             this.addExpression(this.expression);
             this.expression = new PandaSnippet();
@@ -109,7 +109,7 @@ final class OperationPatternWorker {
         this.addOperator(operatorRepresentation);
     }
 
-    private boolean contains(Token[] tokens, TokenRepresentation representation) {
+    private boolean contains(Token[] tokens, TokenInfo representation) {
         for (Token token : tokens) {
             if (representation.contentEquals(token)) {
                 return true;
@@ -124,16 +124,16 @@ final class OperationPatternWorker {
         this.result.addElement(expressionElement);
     }
 
-    private void addOperator(TokenRepresentation operatorRepresentation) {
+    private void addOperator(TokenInfo operatorRepresentation) {
         OperationPatternElement operatorElement = new OperationPatternElement(operatorRepresentation);
         this.result.addElement(operatorElement);
     }
 
-    private boolean isDivider(TokenRepresentation representation) {
+    private boolean isDivider(TokenInfo representation) {
         return contains(extractor.getDividers(), representation);
     }
 
-    private boolean isSeparator(TokenRepresentation representation) {
+    private boolean isSeparator(TokenInfo representation) {
         return contains(extractor.getSeparators(), representation);
     }
 

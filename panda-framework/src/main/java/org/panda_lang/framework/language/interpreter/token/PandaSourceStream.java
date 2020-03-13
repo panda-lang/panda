@@ -18,7 +18,7 @@ package org.panda_lang.framework.language.interpreter.token;
 
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ public final class PandaSourceStream implements SourceStream {
     }
 
     @Override
-    public TokenRepresentation read() {
+    public TokenInfo read() {
         if (!hasUnreadSource()) {
             throw new NoSuchElementException("SourceStream is empty, cannot read next representation");
         }
@@ -57,11 +57,11 @@ public final class PandaSourceStream implements SourceStream {
 
     @Override
     public Snippet readLineResidue() {
-        List<TokenRepresentation> residue = new ArrayList<>();
+        List<TokenInfo> residue = new ArrayList<>();
         int currentLine = this.getCurrentLine();
 
         while (this.hasUnreadSource()) {
-            TokenRepresentation representation = this.read();
+            TokenInfo representation = this.read();
 
             if (representation.getLocation().getLine() != currentLine) {
                 break;
@@ -88,7 +88,7 @@ public final class PandaSourceStream implements SourceStream {
     }
 
     @Override
-    public TokenRepresentation getCurrent() {
+    public TokenInfo getCurrent() {
         return original.get(index);
     }
 

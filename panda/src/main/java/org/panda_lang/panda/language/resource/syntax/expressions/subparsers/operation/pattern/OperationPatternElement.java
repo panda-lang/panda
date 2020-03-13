@@ -17,14 +17,14 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.pattern;
 
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 
 public final class OperationPatternElement {
 
-    private TokenRepresentation operator;
+    private TokenInfo operator;
     private Snippet expression;
 
-    public OperationPatternElement(TokenRepresentation operator) {
+    public OperationPatternElement(TokenInfo operator) {
         this.operator = operator;
     }
 
@@ -44,7 +44,7 @@ public final class OperationPatternElement {
         return expression;
     }
 
-    public TokenRepresentation getOperator() {
+    public TokenInfo getOperator() {
         return operator;
     }
 

@@ -19,7 +19,7 @@ package org.panda_lang.framework.language.architecture.type.utils;
 import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
@@ -41,7 +41,7 @@ public final class TypeDeclarationUtils {
 
     public static Option<Snippet> readType(Snippet source) {
         Snippet type = new PandaSnippet();
-        TokenRepresentation candidate = Objects.requireNonNull(source.get(0));
+        TokenInfo candidate = Objects.requireNonNull(source.get(0));
 
         if (candidate.getType() != TokenTypes.UNKNOWN) {
             return Option.none();
@@ -70,7 +70,7 @@ public final class TypeDeclarationUtils {
 
     public static Optional<Snippet> readTypeBackwards(Snippet source) {
         Snippet type = new PandaSnippet();
-        TokenRepresentation candidate = Objects.requireNonNull(source.getLast());
+        TokenInfo candidate = Objects.requireNonNull(source.getLast());
 
         // read dimensions
         if (isArraySeparator(candidate)) {
@@ -95,7 +95,7 @@ public final class TypeDeclarationUtils {
         return isArraySeparator(type.getLast());
     }
 
-    public static boolean isArraySeparator(@Nullable TokenRepresentation token) {
+    public static boolean isArraySeparator(@Nullable TokenInfo token) {
         return token != null && token.getType() == TokenTypes.SECTION && token.toToken(Section.class).getSeparator().equals(Separators.SQUARE_BRACKET_LEFT);
     }
 

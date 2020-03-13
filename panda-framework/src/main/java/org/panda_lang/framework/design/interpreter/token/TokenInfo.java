@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.design.interpreter.token;
 
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
 
 import java.util.Optional;
@@ -24,7 +24,7 @@ import java.util.Optional;
 /**
  * Wrapper for {@link org.panda_lang.framework.design.interpreter.token.Token} that contains details about location of token in source
  */
-public interface TokenRepresentation extends Token, Snippetable {
+public interface TokenInfo extends Token, Snippetable {
 
     /**
      * Compare wrapped token with another token, utility method
@@ -48,7 +48,7 @@ public interface TokenRepresentation extends Token, Snippetable {
      *
      * @return the location
      */
-    SourceLocation getLocation();
+    Location getLocation();
 
     /**
      * Get token using {@link #getToken()} method and cast it to the requested type

@@ -17,14 +17,14 @@
 package org.panda_lang.panda.language.resource.syntax.head;
 
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.language.architecture.statement.AbstractStatement;
 
 final class ModuleStatement extends AbstractStatement {
 
     private final Module module;
 
-    public ModuleStatement(SourceLocation location, Module module) {
+    public ModuleStatement(Location location, Module module) {
         super(location);
         this.module = module;
     }

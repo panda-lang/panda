@@ -16,15 +16,15 @@
 
 package org.panda_lang.framework.language.interpreter.token;
 
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.language.interpreter.source.PandaSource;
 
 public final class PandaSourceLocationUtils {
 
     private PandaSourceLocationUtils() { }
 
-    public static SourceLocation unknownLocation(String id) {
-        return new PandaSourceLocation(new PandaSource(id, "", true), 0, 0);
+    public static Location unknownLocation(String id) {
+        return new PandaLocation(new PandaSource(id, "", true), 0, 0);
     }
 
 }

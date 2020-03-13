@@ -22,11 +22,11 @@ import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 
 @FunctionalInterface
 public interface AssignationSubparser<T> extends Parser {
 
-    @Nullable ExpressionResult parseAssignment(Context context, Snippet declaration, TokenRepresentation operator, Expression expression) throws Exception;
+    @Nullable ExpressionResult parseAssignment(Context context, Snippet declaration, TokenInfo operator, Expression expression) throws Exception;
 
 }

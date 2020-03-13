@@ -18,7 +18,7 @@ package org.panda_lang.framework.language.interpreter.token;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.token.Token;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.utilities.commons.ArrayUtils;
 
@@ -45,21 +45,21 @@ public final class TokenUtils {
         return false;
     }
 
-    public static boolean isTypeOf(TokenRepresentation representation, TokenType type) {
+    public static boolean isTypeOf(TokenInfo representation, TokenType type) {
         return type.equals(representation.getToken().getType());
     }
 
-    public static TokenRepresentation[] toPseudoRepresentations(Token... tokens) {
-        TokenRepresentation[] representations = new TokenRepresentation[tokens.length];
+    public static TokenInfo[] toPseudoRepresentations(Token... tokens) {
+        TokenInfo[] representations = new TokenInfo[tokens.length];
 
         for (int i = 0; i < tokens.length; i++) {
-            representations[i] = PandaTokenRepresentation.of(tokens[i]);
+            representations[i] = PandaTokenInfo.of(tokens[i]);
         }
 
         return representations;
     }
 
-    public static boolean contentEquals(@Nullable TokenRepresentation representation, Token... tokens) {
+    public static boolean contentEquals(@Nullable TokenInfo representation, Token... tokens) {
         if (representation == null) {
             return ArrayUtils.contains(tokens, null);
         }

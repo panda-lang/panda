@@ -26,7 +26,7 @@ import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
@@ -72,7 +72,7 @@ public final class RequireParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL)
-    void parse(Context context, @Ctx Imports imports, @Src("required") @Nullable Snippetable require, @Src("requiredFile") @Nullable TokenRepresentation requiredFile) {
+    void parse(Context context, @Ctx Imports imports, @Src("required") @Nullable Snippetable require, @Src("requiredFile") @Nullable TokenInfo requiredFile) {
         if (require != null) {
             parseModule(context, imports, require.toSnippet());
         }
@@ -92,7 +92,7 @@ public final class RequireParser extends ParserBootstrap<Void> {
                 ));
     }
 
-    private void parseFile(Context context, Imports imports, TokenRepresentation requiredFile) {
+    private void parseFile(Context context, Imports imports, TokenInfo requiredFile) {
         if (!TokenUtils.hasName(requiredFile, "String")) {
             throw new PandaParserFailure(context, requiredFile, "Invalid token", "You should use string sequence to import file");
         }

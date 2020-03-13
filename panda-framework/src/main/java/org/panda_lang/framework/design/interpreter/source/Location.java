@@ -17,9 +17,9 @@
 package org.panda_lang.framework.design.interpreter.source;
 
 /**
- * Represents the location in a source
+ * Represents the location of element in a source
  */
-public interface SourceLocation {
+public interface Location {
 
     /**
      * Represents unknown location

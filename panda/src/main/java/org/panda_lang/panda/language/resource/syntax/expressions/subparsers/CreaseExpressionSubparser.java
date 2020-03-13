@@ -25,7 +25,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionR
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.architecture.dynamic.accessor.AccessorExpression;
 import org.panda_lang.framework.language.resource.syntax.operator.CreaseType;
 import org.panda_lang.framework.language.resource.syntax.operator.Operators;
@@ -50,7 +50,7 @@ public final class CreaseExpressionSubparser implements ExpressionSubparser {
     private static final class CreaseWorker extends AbstractExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
+        public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo token) {
             CreaseType type = null;
 
             if (token.contentEquals(Operators.INCREMENT)) {

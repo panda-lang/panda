@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
@@ -45,7 +45,7 @@ public final class ReturnParser extends ParserBootstrap<Void> {
     }
 
     @Autowired
-    void parse(@Ctx Scope scope, @Int SourceLocation location, @Src("value") @Nullable Expression value) {
+    void parse(@Ctx Scope scope, @Int Location location, @Src("value") @Nullable Expression value) {
         scope.addStatement(new Return(location, value));
     }
 

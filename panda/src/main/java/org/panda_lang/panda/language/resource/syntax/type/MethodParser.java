@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.resource.syntax.type;
 
 import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.module.TypeLoader;
+import org.panda_lang.framework.design.architecture.module.Imports;
 import org.panda_lang.framework.design.architecture.type.PropertyParameter;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.architecture.type.TypeMethod;
@@ -26,10 +26,11 @@ import org.panda_lang.framework.design.architecture.type.Visibility;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SnippetUtils;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
+import org.panda_lang.framework.language.architecture.module.PandaImportsUtils;
 import org.panda_lang.framework.language.architecture.type.MethodScope;
 import org.panda_lang.framework.language.architecture.type.PandaMethod;
 import org.panda_lang.framework.language.architecture.type.utils.TypedUtils;
@@ -54,17 +55,16 @@ import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Local;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Cache;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.data.Delegation;
-import org.panda_lang.panda.language.interpreter.parser.context.data.LocalData;
+import org.panda_lang.panda.language.interpreter.parser.context.data.LocalCache;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.CustomPatternHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 import org.panda_lang.panda.language.resource.syntax.scope.branching.Returnable;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 @RegistrableParser(pipeline = Pipelines.TYPE_LABEL, priority = PandaPriorities.PROTOTYPE_METHOD)
 public final class MethodParser extends ParserBootstrap<Void> {
@@ -89,52 +89,72 @@ public final class MethodParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
-    void parse(Context context, LocalData local, @Ctx Type type, @Int SourceLocation location, @Int Result result, @Src("type") Snippet typeName, @Src("body") Snippet body) {
-        Type returnType = Option.of(typeName)
-                .map(value -> context.getComponent(Components.IMPORTS)
-                        .forName(typeName.asSource())
-                        .getOrElseThrow((Supplier<? extends PandaParserFailure>) () -> {
-                            throw new PandaParserFailure(context, typeName,
-                                    "Unknown type",
-                                    "Make sure that the name does not have a typo and module which should contain that class is imported"
-                            );
-                        }))
-                .getOrElse(() -> {
-                    TypeLoader typeLoader = context.getComponent(Components.TYPE_LOADER);
-                    return typeLoader.requireType(void.class);
+    void parseReturnType(Context context, LocalCache local, @Ctx Imports imports, @Src("type") Snippet returnTypeName) {
+        Option.of(returnTypeName)
+                .map(value -> PandaImportsUtils.getTypeOrThrow(context, returnTypeName,
+                        "Unknown type {name}",
+                        "Make sure that the name does not have a typo and module which should contain that class is imported"
+                ))
+                .orElse(() -> context.getComponent(Components.IMPORTS).forName("void"))
+                .peek(local::allocated);
+    }
+
+    @Autowired(order = 2, cycle = GenerationCycles.TYPES_LABEL)
+    void parseParameters(Context context, LocalCache local, @Src("name") TokenInfo name, @Src("parameters") Snippet parametersSource) {
+        List<PropertyParameter> parameters = PARAMETER_PARSER.parse(context, parametersSource);
+        MethodScope methodScope = new MethodScope(name.getLocation(), parameters);
+        local.allocated(methodScope);
+    }
+
+    @Autowired(order = 3, cycle = GenerationCycles.TYPES_LABEL)
+    void verifyData(Context context, LocalCache local, @Ctx Type type, @Int Result result, @Int Location location, @Src("name") TokenInfo name, @Cache Type returnType, @Cache MethodScope scope) {
+        Option<TypeMethod> existingMethod = type.getMethods().getMethod(name.getValue(), TypedUtils.toTypes(scope.getParameters()));
+
+        existingMethod
+                .filter(TypeMethod::isNative)
+                .peek(method -> local.allocated("native", true));
+
+        existingMethod
+                .filterNot(method -> result.has(Keywords.OVERRIDE))
+                .peek(method -> {
+                    throw new PandaParserFailure(context, name,
+                            "Method &b" + name + "&r overrides &b" + existingMethod.get() + "&r but does not contain&b override&r modifier",
+                            "Add missing modifier if you want to override that method or rename current method"
+                    );
                 });
 
-        TokenRepresentation name = result.get("name");
-        List<PropertyParameter> parameters = PARAMETER_PARSER.parse(context, result.get("parameters"));
-        MethodScope methodScope = local.allocated(new MethodScope(name.getLocation(), parameters));
+        existingMethod
+                .map(TypeMethod::getReturnType)
+                .filterNot(existingReturnType -> existingReturnType.isAssignableFrom(returnType))
+                .peek(existingReturnType -> {
+                    throw new PandaParserFailure(context, name,
+                            "&rMethod &b" + name + "&r overrides &b" + existingMethod.get() + "&r but does not return the same type",
+                            "Change return type if you want to override that method or rename current method"
+                    );
+                });
+    }
 
-        Option<TypeMethod> existingMethod = type.getMethods().getMethod(name.getValue(), TypedUtils.toTypes(parameters));
-
-        if (existingMethod.isDefined() && !result.has(Keywords.OVERRIDE.getValue())) {
-            throw new PandaParserFailure(context, name,
-                    "Method &b" + name + "&r overrides &b" + existingMethod.get() + "&r but does not contain&b override&r modifier",
-                    "Add missing modifier if you want to override that method or rename current method"
-            );
-        }
-
-        PandaMethod method = local.allocated(PandaMethod.builder()
+    @Autowired(order = 4, cycle = GenerationCycles.TYPES_LABEL)
+    void declareMethod(LocalCache local, @Ctx Type type, @Int Result result, @Src("name") TokenInfo name, @Cache Type returnType, @Cache MethodScope scope, @Src("body") Snippet body) {
+        TypeMethod method = PandaMethod.builder()
                 .type(type)
-                .parameters(parameters)
+                .parameters(scope.getParameters())
                 .name(name.getValue())
-                .location(location)
+                .location(scope.getSourceLocation())
                 .isAbstract(body == null)
                 .visibility(result.get("visibility"))
                 .returnType(returnType)
                 .isStatic(result.has("static"))
-                .isNative(existingMethod.isDefined() && existingMethod.get().isNative())
-                .body(methodScope)
-                .build());
+                .isNative(local.hasValue("native"))
+                .body(scope)
+                .build();
 
         type.getMethods().declare(method);
+        local.allocated(method);
     }
 
-    @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
-    void parse(Context context, @Local MethodScope methodScope, @Local TypeMethod method, @Nullable @Src("body") Snippet body) throws Exception {
+    @Autowired(order = 5, delegation = Delegation.NEXT_DEFAULT)
+    void parse(Context context, @Cache MethodScope methodScope, @Cache TypeMethod method, @Nullable @Src("body") Snippet body) throws Exception {
         if (!SnippetUtils.isEmpty(body)) {
             SCOPE_PARSER.parse(context, methodScope, body);
         }

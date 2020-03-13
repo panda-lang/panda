@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.resource.syntax.scope;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
 import org.panda_lang.framework.design.interpreter.messenger.Messenger;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractExecutableStatement;
 import org.panda_lang.utilities.commons.text.ContentJoiner;
@@ -30,7 +30,7 @@ final class LogStatement extends AbstractExecutableStatement {
     private final Messenger messenger;
     private final Expression[] expressions;
 
-    LogStatement(SourceLocation location, Messenger messenger, Expression[] expressions) {
+    LogStatement(Location location, Messenger messenger, Expression[] expressions) {
         super(location);
         this.messenger = messenger;
         this.expressions = expressions;

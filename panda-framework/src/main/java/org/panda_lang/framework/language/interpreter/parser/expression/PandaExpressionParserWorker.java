@@ -25,7 +25,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionS
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserType;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction.Commit;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.utilities.commons.collection.Maps;
 
 import java.util.HashMap;
@@ -71,7 +71,7 @@ public final class PandaExpressionParserWorker {
         }
     }
 
-    protected boolean next(ExpressionContext context, TokenRepresentation token) {
+    protected boolean next(ExpressionContext context, TokenInfo token) {
         int cachedSubparser = previousSubparser;
 
         // try to use cached subparser
@@ -107,7 +107,7 @@ public final class PandaExpressionParserWorker {
      * @param index   the index of subparser in the array
      * @return true if the result was found using the specified subparser, otherwise false
      */
-    private boolean next(int index, ExpressionContext context, TokenRepresentation token) {
+    private boolean next(int index, ExpressionContext context, TokenInfo token) {
         ExpressionSubparserWorker worker = workers[index];
 
         // skip removed subparsers

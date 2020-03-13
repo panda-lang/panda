@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
 import org.panda_lang.framework.design.architecture.type.PropertyParameter;
 import org.panda_lang.framework.design.architecture.statement.Variable;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.statement.AbstractPropertyFramedScope;
 import org.panda_lang.framework.language.architecture.type.TypeInstance;
@@ -37,7 +37,7 @@ final class ReplScope extends AbstractPropertyFramedScope {
     private final Map<Integer, Object> defaultValues = new HashMap<>();
     private final Collection<ReplVariableChangeListener> variableChangeListeners = new ArrayList<>(1);
 
-    ReplScope(SourceLocation location, List<PropertyParameter> parameters) {
+    ReplScope(Location location, List<PropertyParameter> parameters) {
         super(location, parameters);
     }
 

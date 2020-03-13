@@ -18,7 +18,7 @@ package org.panda_lang.framework.language.architecture.type;
 
 import io.vavr.control.Option;
 import org.panda_lang.framework.design.architecture.type.PropertyParameter;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.statement.AbstractPropertyFramedScope;
 import org.panda_lang.framework.language.architecture.statement.PandaPropertyFrame;
@@ -29,7 +29,7 @@ import java.util.List;
 
 public final class ConstructorScope extends AbstractPropertyFramedScope {
 
-    public ConstructorScope(SourceLocation location, List<PropertyParameter> parameters) {
+    public ConstructorScope(Location location, List<PropertyParameter> parameters) {
         super(location, parameters);
     }
 

@@ -21,7 +21,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.framework.design.architecture.dynamic.Executable;
 import org.panda_lang.framework.design.architecture.statement.Scope;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.statement.AbstractScope;
 import org.panda_lang.framework.language.architecture.statement.AbstractStatement;
@@ -60,7 +60,7 @@ class ProcessStackTest {
 
     private static final class ExecutableStub extends AbstractStatement implements Executable {
 
-        private ExecutableStub(SourceLocation location) {
+        private ExecutableStub(Location location) {
             super(location);
         }
 

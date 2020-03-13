@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
 @Injectable
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Local {
+public @interface Cache {
 
     String value() default StringUtils.EMPTY;
 

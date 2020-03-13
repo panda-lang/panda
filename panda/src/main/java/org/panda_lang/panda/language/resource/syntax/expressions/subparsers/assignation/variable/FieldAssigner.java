@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ass
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.type.TypeField;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.framework.language.architecture.dynamic.assigner.AbstractAssigner;
@@ -29,7 +29,7 @@ public final class FieldAssigner extends AbstractAssigner<TypeField> {
     private final boolean initialize;
     private final Expression valueExpression;
 
-    public FieldAssigner(SourceLocation location, Accessor<TypeField> accessor, boolean initialize, Expression valueExpression) {
+    public FieldAssigner(Location location, Accessor<TypeField> accessor, boolean initialize, Expression valueExpression) {
         super(location, accessor);
         this.initialize = initialize;
         this.valueExpression = valueExpression;

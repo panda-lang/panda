@@ -17,7 +17,7 @@
 package org.panda_lang.framework.language.interpreter.token;
 
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.utilities.commons.ObjectUtils;
 import org.panda_lang.utilities.commons.collection.Lists;
 import org.panda_lang.utilities.commons.text.ContentJoiner;
@@ -28,23 +28,23 @@ import java.util.Objects;
 
 public final class PandaSnippet implements Snippet {
 
-    private final List<TokenRepresentation> tokens;
+    private final List<TokenInfo> tokens;
 
     public PandaSnippet() {
         this.tokens = new ArrayList<>();
     }
 
-    public PandaSnippet(TokenRepresentation... representations) {
+    public PandaSnippet(TokenInfo... representations) {
         this(Lists.mutableOf(representations));
     }
 
-    public PandaSnippet(List<? extends TokenRepresentation> representations) {
+    public PandaSnippet(List<? extends TokenInfo> representations) {
         this(representations, true);
     }
 
     @SuppressWarnings("unchecked")
-    public PandaSnippet(List<? extends TokenRepresentation> representations, boolean clone) {
-        this.tokens = clone ? new ArrayList<>(representations) : (List<TokenRepresentation>) representations;
+    public PandaSnippet(List<? extends TokenInfo> representations, boolean clone) {
+        this.tokens = clone ? new ArrayList<>(representations) : (List<TokenInfo>) representations;
     }
 
     @Override
@@ -53,8 +53,8 @@ public final class PandaSnippet implements Snippet {
     }
 
     @Override
-    public void addToken(TokenRepresentation tokenRepresentation) {
-        tokens.add(tokenRepresentation);
+    public void addToken(TokenInfo tokenInfo) {
+        tokens.add(tokenInfo);
     }
 
     @Override
@@ -76,12 +76,12 @@ public final class PandaSnippet implements Snippet {
     }
 
     @Override
-    public TokenRepresentation[] toArray() {
-        return tokens.toArray(new TokenRepresentation[0]);
+    public TokenInfo[] toArray() {
+        return tokens.toArray(new TokenInfo[0]);
     }
 
     @Override
-    public List<? extends TokenRepresentation> getTokensRepresentations() {
+    public List<? extends TokenInfo> getTokensRepresentations() {
         return tokens;
     }
 

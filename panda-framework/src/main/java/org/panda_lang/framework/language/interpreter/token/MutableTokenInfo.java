@@ -16,20 +16,20 @@
 
 package org.panda_lang.framework.language.interpreter.token;
 
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.Token;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 
-public final class MutableTokenRepresentation implements TokenRepresentation {
+public final class MutableTokenInfo implements TokenInfo {
 
-    private TokenRepresentation representation;
+    private TokenInfo representation;
 
-    public void setRepresentation(TokenRepresentation representation) {
+    public void setRepresentation(TokenInfo representation) {
         this.representation = representation;
     }
 
     @Override
-    public SourceLocation getLocation() {
+    public Location getLocation() {
         return representation.getLocation();
     }
 

@@ -25,7 +25,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionP
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParserFailure;
@@ -67,7 +67,7 @@ public final class StandaloneExpressionParser extends ParserBootstrap<Object> {
     }
 
     @Autowired
-    void parseExpression(@Ctx SourceStream source, @Ctx Scope parent, @Ctx Channel channel, @Int SourceLocation location) {
+    void parseExpression(@Ctx SourceStream source, @Ctx Scope parent, @Ctx Channel channel, @Int Location location) {
         StandaloneExpression statement = new StandaloneExpression(source.getCurrent().getLocation(), channel.get("expression", Expression.class));
         parent.addStatement(statement);
         source.read(channel.get("read", int.class));

@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.interpreter.messenger.formatters;
 
 import org.panda_lang.framework.design.architecture.statement.Statement;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerTypeFormatter;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.language.runtime.PandaProcessFailure;
 import org.panda_lang.panda.language.interpreter.messenger.MessengerDataFormatter;
 import org.panda_lang.utilities.commons.StringUtils;
@@ -37,7 +37,7 @@ public final class ProcessFailureFormatter implements MessengerDataFormatter<Pan
                     StringBuilder message = new StringBuilder();
 
                     for (Statement statement : runtimeException.getStack().getLivingFramesOnStack()) {
-                        SourceLocation location = statement.getSourceLocation();
+                        Location location = statement.getSourceLocation();
 
                         message.append("  at ").append(location.getSource().getId()).append(" [")
                                 .append(Colored.on(location.getDisplayLine()).effect(Effect.RED))

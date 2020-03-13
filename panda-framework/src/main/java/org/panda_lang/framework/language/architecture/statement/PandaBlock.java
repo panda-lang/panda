@@ -17,11 +17,11 @@
 package org.panda_lang.framework.language.architecture.statement;
 
 import org.panda_lang.framework.design.architecture.statement.Scope;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 
 public final class PandaBlock extends AbstractBlock {
 
-    public PandaBlock(Scope parent, SourceLocation location) {
+    public PandaBlock(Scope parent, Location location) {
         super(parent, location);
     }
 

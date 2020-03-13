@@ -19,10 +19,10 @@ package org.panda_lang.framework.language.interpreter.lexer;
 import org.panda_lang.framework.design.interpreter.source.Source;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Token;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
-import org.panda_lang.framework.language.interpreter.token.PandaSourceLocation;
-import org.panda_lang.framework.language.interpreter.token.PandaTokenRepresentation;
+import org.panda_lang.framework.language.interpreter.token.PandaLocation;
+import org.panda_lang.framework.language.interpreter.token.PandaTokenInfo;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Indentation;
 import org.panda_lang.utilities.commons.CharacterUtils;
 import org.panda_lang.utilities.commons.StringUtils;
@@ -86,7 +86,7 @@ final class PandaLexerWorker {
                 return;
             }
 
-            throw new PandaLexerFailure(linePreview, tokenPreview, new PandaSourceLocation(source, line, lineTokens.size()), "Cannot recognize token", null);
+            throw new PandaLexerFailure(linePreview, tokenPreview, new PandaLocation(source, line, lineTokens.size()), "Cannot recognize token", null);
         }
 
         check(character);
@@ -115,14 +115,14 @@ final class PandaLexerWorker {
         if (getConfiguration().includingIndentation) {
             String paragraph = StringUtils.extractParagraph(linePreview.toString());
             Indentation indentation = Indentation.valueOf(paragraph);
-            TokenRepresentation representation = new PandaTokenRepresentation(indentation, new PandaSourceLocation(source, line, 0));
+            TokenInfo representation = new PandaTokenInfo(indentation, new PandaLocation(source, line, 0));
             collector.add(representation);
         }
 
         int position = getConfiguration().includingIndentation ? 1 : 0;
 
         for (Token token : lineTokens) {
-            TokenRepresentation representation = new PandaTokenRepresentation(token, new PandaSourceLocation(source, line, position++));
+            TokenInfo representation = new PandaTokenInfo(token, new PandaLocation(source, line, position++));
             collector.add(representation);
         }
 

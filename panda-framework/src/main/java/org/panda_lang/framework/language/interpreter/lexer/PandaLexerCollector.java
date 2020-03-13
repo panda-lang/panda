@@ -16,12 +16,12 @@
 
 package org.panda_lang.framework.language.interpreter.lexer;
 
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.framework.language.interpreter.token.MutableTokenRepresentation;
+import org.panda_lang.framework.design.interpreter.source.Location;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
+import org.panda_lang.framework.language.interpreter.token.MutableTokenInfo;
 import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
-import org.panda_lang.framework.language.interpreter.token.PandaSourceLocation;
-import org.panda_lang.framework.language.interpreter.token.PandaTokenRepresentation;
+import org.panda_lang.framework.language.interpreter.token.PandaLocation;
+import org.panda_lang.framework.language.interpreter.token.PandaTokenInfo;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.framework.language.resource.syntax.separator.Separator;
 
@@ -32,15 +32,15 @@ import java.util.Stack;
 final class PandaLexerCollector {
 
     private final PandaLexerWorker worker;
-    private final List<TokenRepresentation> representations = new ArrayList<>();
-    private final Stack<TokenRepresentation> sections = new Stack<>();
-    private final Stack<MutableTokenRepresentation> closingSeparators = new Stack<>();
+    private final List<TokenInfo> representations = new ArrayList<>();
+    private final Stack<TokenInfo> sections = new Stack<>();
+    private final Stack<MutableTokenInfo> closingSeparators = new Stack<>();
 
     public PandaLexerCollector(PandaLexerWorker worker) {
         this.worker = worker;
     }
 
-    protected void add(TokenRepresentation representation) {
+    protected void add(TokenInfo representation) {
         if (!worker.getConfiguration().enabledSections) {
             representations.add(representation);
             return;
@@ -61,7 +61,7 @@ final class PandaLexerCollector {
         section.getContent().addToken(representation);
     }
 
-    private boolean processSeparator(TokenRepresentation separatorRepresentation) {
+    private boolean processSeparator(TokenInfo separatorRepresentation) {
         Separator separator = separatorRepresentation.toToken();
 
         if (separator.hasOpposite()) {
@@ -83,19 +83,19 @@ final class PandaLexerCollector {
         return false;
     }
 
-    private void initializeSection(TokenRepresentation openingSeparator) {
-        MutableTokenRepresentation closingSeparator = new MutableTokenRepresentation();
+    private void initializeSection(TokenInfo openingSeparator) {
+        MutableTokenInfo closingSeparator = new MutableTokenInfo();
         Section section = new Section(openingSeparator, new PandaSnippet(), closingSeparator);
 
-        SourceLocation location = openingSeparator.getLocation();
-        SourceLocation sectionLocation = new PandaSourceLocation(location.getSource(), location.getLine(), location.getIndex() - 1);
+        Location location = openingSeparator.getLocation();
+        Location sectionLocation = new PandaLocation(location.getSource(), location.getLine(), location.getIndex() - 1);
 
-        sections.push(new PandaTokenRepresentation(section, sectionLocation));
+        sections.push(new PandaTokenInfo(section, sectionLocation));
         closingSeparators.push(closingSeparator);
     }
 
-    private void popSection(TokenRepresentation separator) {
-        TokenRepresentation section = sections.pop();
+    private void popSection(TokenInfo separator) {
+        TokenInfo section = sections.pop();
 
         if (sections.isEmpty()) {
             representations.add(section);
@@ -108,7 +108,7 @@ final class PandaLexerCollector {
         closingSeparators.pop().setRepresentation(separator);
     }
 
-    protected List<TokenRepresentation> collect() {
+    protected List<TokenInfo> collect() {
         if (!sections.isEmpty() || !closingSeparators.isEmpty()) {
             throw new PandaLexerFailure(worker.getBuilder().toString(), sections.peek().toString(), sections.peek().getLocation(), "Cannot find closing separator", "");
         }

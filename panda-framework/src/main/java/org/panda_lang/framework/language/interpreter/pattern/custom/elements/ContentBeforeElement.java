@@ -18,7 +18,7 @@ package org.panda_lang.framework.language.interpreter.pattern.custom.elements;
 
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPatternElementBuilder;
 import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
@@ -35,7 +35,7 @@ public final class ContentBeforeElement extends CustomPatternElementBuilder<Snip
         return super.custom((data, source) -> {
             Snippet declaration = new PandaSnippet();
 
-            for (TokenRepresentation representation : source) {
+            for (TokenInfo representation : source) {
                 if (representation.getType() == TokenTypes.SECTION && representation.toToken(Section.class).getSeparator().equals(separator)) {
                     source.next(-1);
                     break;

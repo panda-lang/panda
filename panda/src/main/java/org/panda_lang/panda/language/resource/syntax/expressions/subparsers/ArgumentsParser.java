@@ -26,7 +26,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionP
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
@@ -65,7 +65,7 @@ public final class ArgumentsParser implements Parser {
             expressions.add(transaction.getExpression());
 
             if (source.hasUnreadSource()) {
-                TokenRepresentation comma = source.read();
+                TokenInfo comma = source.read();
 
                 if (!Separators.COMMA.equals(comma.getToken())) {
                     throw new PandaParserFailure(context, snippet, comma, "Illegal token", "Remove highlighted comma");

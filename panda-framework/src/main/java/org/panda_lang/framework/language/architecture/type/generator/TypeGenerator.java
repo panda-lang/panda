@@ -18,14 +18,13 @@ package org.panda_lang.framework.language.architecture.type.generator;
 
 import io.vavr.control.Option;
 import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.design.architecture.type.State;
 import org.panda_lang.framework.design.architecture.type.Type;
-import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.design.architecture.type.TypeModels;
 import org.panda_lang.framework.design.architecture.type.Visibility;
 import org.panda_lang.framework.language.architecture.type.PandaType;
 import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
-import org.panda_lang.utilities.commons.ClassUtils;
 import org.panda_lang.utilities.commons.ReflectionUtils;
 
 import java.lang.reflect.Constructor;
@@ -87,9 +86,9 @@ final class TypeGenerator {
     }
 
     protected Type findOrGenerate(TypeLoader typeLoader, Module module, Class<?> javaType) {
-        if (javaType.isPrimitive()) {
+        /*if (javaType.isPrimitive()) {
             javaType = ClassUtils.getNonPrimitiveClass(javaType);
-        }
+        }*/
 
         Option<Type> typeValue = typeLoader.forClass(javaType);
 

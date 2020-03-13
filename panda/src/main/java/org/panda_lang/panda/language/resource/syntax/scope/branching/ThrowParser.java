@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
@@ -44,7 +44,7 @@ public final class ThrowParser extends ParserBootstrap<Void> {
     }
 
     @Autowired
-    void parse(@Ctx Scope block, @Int SourceLocation location, @Src("value") Expression expression) {
+    void parse(@Ctx Scope block, @Int Location location, @Src("value") Expression expression) {
         block.addStatement(new Throw(location, expression));
     }
 

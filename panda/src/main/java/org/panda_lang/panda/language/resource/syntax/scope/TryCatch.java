@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.resource.syntax.scope;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.Variable;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractExecutableStatement;
 
@@ -32,7 +32,7 @@ final class TryCatch extends AbstractExecutableStatement {
     private final Scope finallyBlock;
     private final Map<Class<? extends Throwable>, Data> catchContainers = new HashMap<>();
 
-    public TryCatch(SourceLocation location, Scope tryBlock, Scope finallyBlock) {
+    public TryCatch(Location location, Scope tryBlock, Scope finallyBlock) {
         super(location);
         this.tryBlock = tryBlock;
         this.finallyBlock = finallyBlock;

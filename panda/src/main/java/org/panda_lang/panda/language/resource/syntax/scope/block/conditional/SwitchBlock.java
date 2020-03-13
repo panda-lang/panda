@@ -17,12 +17,12 @@
 package org.panda_lang.panda.language.resource.syntax.scope.block.conditional;
 
 import org.panda_lang.framework.design.architecture.statement.Scope;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.language.architecture.statement.AbstractBlock;
 
 final class SwitchBlock extends AbstractBlock {
 
-    protected SwitchBlock(Scope parent, SourceLocation location) {
+    protected SwitchBlock(Scope parent, Location location) {
         super(parent, location);
     }
 

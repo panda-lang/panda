@@ -20,14 +20,14 @@ import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.type.State;
 import org.panda_lang.framework.design.architecture.type.TypeModels;
 import org.panda_lang.framework.design.architecture.type.Visibility;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
 
 public class PandaTypeMetadata<BUILDER extends PandaTypeMetadata<BUILDER, ?>, TYPE extends PandaType> {
 
     protected String name;
     protected Module module;
-    protected SourceLocation location;
+    protected Location location;
     protected Class<?> javaType;
     protected String model = TypeModels.CLASS;
     protected State state = State.DEFAULT;
@@ -46,7 +46,7 @@ public class PandaTypeMetadata<BUILDER extends PandaTypeMetadata<BUILDER, ?>, TY
         return getThis();
     }
 
-    public BUILDER location(SourceLocation location) {
+    public BUILDER location(Location location) {
         this.location = location;
         return getThis();
     }

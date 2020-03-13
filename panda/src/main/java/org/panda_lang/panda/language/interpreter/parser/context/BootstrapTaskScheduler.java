@@ -24,7 +24,7 @@ import org.panda_lang.framework.design.interpreter.parser.generation.GenerationC
 import org.panda_lang.framework.design.interpreter.parser.generation.GenerationPhase;
 import org.panda_lang.framework.design.interpreter.parser.generation.GenerationTask;
 import org.panda_lang.panda.language.interpreter.parser.context.data.InterceptorData;
-import org.panda_lang.panda.language.interpreter.parser.context.data.LocalData;
+import org.panda_lang.panda.language.interpreter.parser.context.data.LocalCache;
 import org.panda_lang.utilities.inject.DependencyInjection;
 import org.panda_lang.utilities.inject.Injector;
 import org.panda_lang.utilities.inject.InjectorController;
@@ -46,8 +46,8 @@ final class BootstrapTaskScheduler<T> {
         this.methods = methods;
     }
 
-    protected T schedule(Context context, InterceptorData interceptorData, LocalData localData) throws Exception {
-        return schedule(context, new BootstrapInjectorController(context, interceptorData, localData));
+    protected T schedule(Context context, InterceptorData interceptorData, LocalCache cache) throws Exception {
+        return schedule(context, new BootstrapInjectorController(context, interceptorData, cache));
     }
 
     private @Nullable T schedule(Context context, InjectorController controller) throws Exception {

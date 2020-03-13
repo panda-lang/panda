@@ -24,7 +24,7 @@ import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.architecture.type.array.ArrayType;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
@@ -34,7 +34,7 @@ import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 public final class ArrayValueAccessorParser implements Parser {
 
     public @Nullable ArrayAccessor parse(Context context, Snippet source) {
-        TokenRepresentation sectionRepresentation = source.getLast();
+        TokenInfo sectionRepresentation = source.getLast();
 
         if (sectionRepresentation == null || sectionRepresentation.getType() != TokenTypes.SECTION) {
             return null;

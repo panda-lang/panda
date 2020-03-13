@@ -17,7 +17,7 @@
 package org.panda_lang.framework.design.architecture.type;
 
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 
 /**
  * Element of type
@@ -59,7 +59,7 @@ public interface Property extends Typed {
      *
      * @return the location
      */
-    SourceLocation getLocation();
+    Location getLocation();
 
     /**
      * Get simple name of property (without extra data)

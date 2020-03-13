@@ -31,7 +31,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionS
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.architecture.module.PandaImportsUtils;
 import org.panda_lang.framework.language.architecture.type.TypeExecutableExpression;
 import org.panda_lang.framework.language.architecture.type.array.ArrayType;
@@ -76,7 +76,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
         private static final ArgumentsParser ARGUMENT_PARSER = new ArgumentsParser();
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
+        public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo token) {
             // require 'new' keyword
             if (!token.contentEquals(Keywords.NEW)) {
                 return null;
@@ -110,7 +110,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             }
 
             // look for () section
-            TokenRepresentation next = source.next();
+            TokenInfo next = source.next();
 
             if (next.getType() != TokenTypes.SECTION) {
                 return null;
@@ -130,7 +130,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             return parseDefault(context, type, next);
         }
 
-        private ExpressionResult parseDefault(ExpressionContext context, Type type, TokenRepresentation section) {
+        private ExpressionResult parseDefault(ExpressionContext context, Type type, TokenInfo section) {
             Snippet argsSource = section.toToken(Section.class).getContent();
             Expression[] arguments = ARGUMENT_PARSER.parse(context, argsSource);
             Option<Adjustment<TypeConstructor>> adjustedConstructor = type.getConstructors().getAdjustedConstructor(arguments);
@@ -189,7 +189,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             List<Section> sections = new ArrayList<>();
 
             for (int index = type.size() - 1; index >= 0; index--) {
-                TokenRepresentation representation = type.get(index);
+                TokenInfo representation = type.get(index);
 
                 if (representation.getType() != TokenTypes.SECTION) {
                     break;

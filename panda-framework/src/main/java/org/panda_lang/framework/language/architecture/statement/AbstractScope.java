@@ -24,7 +24,7 @@ import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.statement.Statement;
 import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.utilities.commons.collection.Lists;
 
 import java.util.ArrayList;
@@ -38,13 +38,13 @@ public abstract class AbstractScope extends AbstractStatement implements Scope {
     protected final List<Variable> variables = new ArrayList<>();
     protected final List<Statement> statements = new ArrayList<>();
 
-    protected AbstractScope(FramedScope framedScope, @Nullable Scope parentScope, SourceLocation location) {
+    protected AbstractScope(FramedScope framedScope, @Nullable Scope parentScope, Location location) {
         super(location);
         this.framedScope = framedScope;
         this.parentScope = parentScope;
     }
 
-    protected AbstractScope(Scope parentScope, SourceLocation location) {
+    protected AbstractScope(Scope parentScope, Location location) {
         this(parentScope.getFramedScope(), parentScope, location);
     }
 

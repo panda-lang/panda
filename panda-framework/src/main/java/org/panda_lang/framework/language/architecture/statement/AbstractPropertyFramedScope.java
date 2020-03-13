@@ -19,7 +19,7 @@ package org.panda_lang.framework.language.architecture.statement;
 import org.panda_lang.framework.design.architecture.statement.StandardizedFramedScope;
 import org.panda_lang.framework.design.architecture.type.PropertyParameter;
 import org.panda_lang.framework.design.architecture.statement.Variable;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public abstract class AbstractPropertyFramedScope extends AbstractFramedScope im
 
     protected final List<PropertyParameter> parameters;
 
-    public AbstractPropertyFramedScope(SourceLocation location, List<PropertyParameter> parameters) {
+    public AbstractPropertyFramedScope(Location location, List<PropertyParameter> parameters) {
         super(location);
         this.parameters = parameters;
         this.addParameters(parameters);

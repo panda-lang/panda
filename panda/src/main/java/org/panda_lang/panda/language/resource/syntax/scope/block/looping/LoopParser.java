@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.resource.syntax.scope.block.looping;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
@@ -46,7 +46,7 @@ public final class LoopParser extends BlockSubparserBootstrap {
     }
 
     @Autowired
-    BlockData parseContent(Context context, @Ctx Scope parent, @Int SourceLocation location, @Src("value") Expression expression) {
+    BlockData parseContent(Context context, @Ctx Scope parent, @Int Location location, @Src("value") Expression expression) {
         if (!expression.getType().getAssociatedClass().isAssignableTo(Integer.class)) {
             throw new PandaParserException("Loop requires number as an argument");
         }

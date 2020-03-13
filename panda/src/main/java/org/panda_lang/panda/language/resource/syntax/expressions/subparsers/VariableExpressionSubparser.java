@@ -28,7 +28,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionC
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.architecture.expression.ThisExpression;
 import org.panda_lang.framework.language.architecture.type.TypeComponents;
 import org.panda_lang.framework.language.architecture.type.utils.VisibilityComparator;
@@ -55,7 +55,7 @@ public final class VariableExpressionSubparser implements ExpressionSubparser {
     private static final class VariableWorker extends AbstractExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
+        public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo token) {
             boolean period = TokenUtils.contentEquals(context.getSynchronizedSource().getPrevious(), Separators.PERIOD);
 
             if (token.getType() != TokenTypes.UNKNOWN) {
@@ -106,7 +106,7 @@ public final class VariableExpressionSubparser implements ExpressionSubparser {
             return null;
         }
 
-        private Optional<ExpressionResult> fromInstance(ExpressionContext context, Expression instance, TokenRepresentation name) {
+        private Optional<ExpressionResult> fromInstance(ExpressionContext context, Expression instance, TokenInfo name) {
             Optional<TypeField> fieldValue = instance.getType().getFields().getField(name.getValue());
 
             if (fieldValue.isPresent()) {

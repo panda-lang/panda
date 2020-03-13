@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.architecture.dynamic.Frame;
 import org.panda_lang.framework.design.architecture.dynamic.Frameable;
 import org.panda_lang.framework.design.architecture.type.PropertyParameter;
 import org.panda_lang.framework.design.architecture.type.TypeMethod;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Result;
 import org.panda_lang.framework.language.architecture.type.utils.ParameterUtils;
@@ -32,7 +32,7 @@ import java.util.List;
 
 public final class MethodScope extends AbstractPropertyFramedScope {
 
-    public MethodScope(SourceLocation location, List<PropertyParameter> parameters) {
+    public MethodScope(Location location, List<PropertyParameter> parameters) {
         super(location, parameters);
     }
 

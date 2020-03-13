@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.architecture.type.Typed;
 import org.panda_lang.framework.design.architecture.statement.Variable;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.runtime.MemoryContainer;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.dynamic.assigner.Assigner;
@@ -30,7 +30,7 @@ public interface Accessor<T extends Variable> extends Typed {
 
     MemoryContainer fetchMemoryContainer(ProcessStack stack, Object instance) throws Exception;
 
-    Assigner<T> toAssigner(SourceLocation location, boolean initialize, Expression value);
+    Assigner<T> toAssigner(Location location, boolean initialize, Expression value);
 
     @Nullable <R> R getValue(ProcessStack stack, Object instance) throws Exception;
 
