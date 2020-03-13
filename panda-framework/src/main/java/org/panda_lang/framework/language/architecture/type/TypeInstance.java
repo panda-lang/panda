@@ -16,12 +16,17 @@
 
 package org.panda_lang.framework.language.architecture.type;
 
-public interface TypeInstance {
+import org.panda_lang.framework.design.architecture.dynamic.Frame;
+import org.panda_lang.framework.design.architecture.dynamic.Frameable;
 
-    @SuppressWarnings("unused")
-    void __panda__set_frame(TypeFrame frame);
+public interface TypeInstance extends Frameable {
 
     @SuppressWarnings("unused")
     TypeFrame __panda__get_frame();
+
+    @Override
+    default Frame __panda__to_frame() {
+        return __panda__get_frame();
+    }
 
 }

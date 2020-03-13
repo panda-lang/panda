@@ -16,9 +16,20 @@
 
 package org.panda_lang.framework.design.architecture.type;
 
+import io.vavr.control.Option;
+import org.panda_lang.framework.language.architecture.type.BaseCall;
+
 /**
  * Represents constructor property
  */
 public interface TypeConstructor extends ExecutableProperty {
+
+    /**
+     * Get base call expressions.
+     * Constructors mapped from Java does not contain this data.
+     *
+     * @return array of expressions used in base call, otherwise empty option
+     */
+    Option<BaseCall> getBaseCall();
 
 }

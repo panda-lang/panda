@@ -18,7 +18,9 @@ package org.panda_lang.framework.language.architecture.type;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
+import org.panda_lang.framework.design.architecture.dynamic.Frameable;
 import org.panda_lang.framework.design.architecture.type.PropertyParameter;
+import org.panda_lang.framework.design.architecture.type.TypeMethod;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Result;
@@ -51,7 +53,7 @@ public final class MethodScope extends AbstractPropertyFramedScope {
 
     }
 
-    public static final class PandaMethodCallback implements TypeExecutableCallback<TypeInstance> {
+    public static final class PandaMethodCallback implements TypeExecutableCallback<TypeMethod, Frameable> {
 
         private final MethodScope scope;
 
@@ -60,8 +62,8 @@ public final class MethodScope extends AbstractPropertyFramedScope {
         }
 
         @Override
-        public @Nullable Object invoke(ProcessStack stack, @Nullable TypeInstance instance, Object[] arguments) throws Exception {
-            MethodFrame scopeInstance = scope.revive(stack, instance != null ? instance.__panda__get_frame() : null);
+        public @Nullable Object invoke(TypeMethod method, ProcessStack stack, @Nullable Frameable instance, Object[] arguments) throws Exception {
+            MethodFrame scopeInstance = scope.revive(stack, instance != null ? instance.__panda__to_frame() : null);
             ParameterUtils.assignValues(scopeInstance, arguments);
             Result<?> result = stack.callFrame(scopeInstance, scopeInstance);
 

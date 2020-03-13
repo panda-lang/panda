@@ -107,14 +107,10 @@ public final class TypeParser extends ParserBootstrap<Void> {
         context.withComponent(Components.SCOPE, typeScope)
                 .withComponent(TypeComponents.PROTOTYPE_SCOPE, typeScope)
                 .withComponent(TypeComponents.PROTOTYPE, type);
-
-        System.out.println("parse " + type);
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
     void parseDeclaration(Context context, @Ctx Type type, @Ctx TypeLoader loader, @Nullable @Src("inherited") Collection<Snippetable> inherited) {
-        System.out.println("parse declaration " + type);
-
         if (inherited != null) {
             inherited.forEach(typeSource -> TypeParserUtils.appendExtended(context, type, typeSource));
         }
@@ -126,14 +122,11 @@ public final class TypeParser extends ParserBootstrap<Void> {
 
     @Autowired(order = 2, cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.NEXT_BEFORE)
     Object parseBody(Context context, @Ctx Type type, @Src("body") Snippet body) throws Exception {
-        System.out.println("parse body " + type);
         return new PipelineParser<>(Pipelines.TYPE, new PandaSourceStream(body), context).parse();
     }
 
     @Autowired(order = 3, cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
     void verifyProperties(Context context, @Ctx Type type, @Ctx TypeScope scope) {
-        System.out.println("verify " + type);
-
         if (type.getState() != State.ABSTRACT) {
             type.getBases().stream()
                     .flatMap(base -> base.getMethods().getProperties().stream())
@@ -154,7 +147,7 @@ public final class TypeParser extends ParserBootstrap<Void> {
 
             type.getConstructors().declare(PandaConstructor.builder()
                     .type(type)
-                    .callback((frame, instance, arguments) -> scope.createInstance(frame, new Class<?>[0], arguments))
+                    .callback((typeConstructor, frame, instance, arguments) -> scope.createInstance(frame, instance, typeConstructor, new Class<?>[0], arguments))
                     .location(type.getLocation())
                     .build());
         }

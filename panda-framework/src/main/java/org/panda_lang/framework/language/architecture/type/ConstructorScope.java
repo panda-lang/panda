@@ -16,12 +16,14 @@
 
 package org.panda_lang.framework.language.architecture.type;
 
+import io.vavr.control.Option;
 import org.panda_lang.framework.design.architecture.type.PropertyParameter;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.statement.AbstractPropertyFramedScope;
 import org.panda_lang.framework.language.architecture.statement.PandaPropertyFrame;
 import org.panda_lang.framework.language.architecture.type.utils.ParameterUtils;
+import org.panda_lang.utilities.commons.collection.Lists;
 
 import java.util.List;
 
@@ -34,6 +36,13 @@ public final class ConstructorScope extends AbstractPropertyFramedScope {
     @Override
     public ConstructorFrame revive(ProcessStack stack, Object instance) {
         return new ConstructorFrame(this, (TypeInstance) instance);
+    }
+
+    public Option<BaseCall> getBaseCall() {
+        return Option.of(this)
+                .map(scope -> Lists.get(scope.getStatements(), 0))
+                .filter(statement -> statement instanceof BaseCall)
+                .map(statement -> ((BaseCall) statement));
     }
 
     public List<PropertyParameter> getParameters() {

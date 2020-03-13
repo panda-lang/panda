@@ -23,6 +23,7 @@ import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.framework.language.architecture.type.BaseCall;
 import org.panda_lang.framework.language.architecture.type.ConstructorScope;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
@@ -38,7 +39,7 @@ import org.panda_lang.panda.language.interpreter.parser.context.interceptors.Lin
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ArgumentsParser;
 
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL)
-public final class BaseParser extends ParserBootstrap<Void> {
+public final class BaseCallParser extends ParserBootstrap<Void> {
 
     private static final ArgumentsParser ARGUMENTS_PARSER = new ArgumentsParser();
 
@@ -67,7 +68,7 @@ public final class BaseParser extends ParserBootstrap<Void> {
         Expression[] expressions = ARGUMENTS_PARSER.parse(context, args);
 
         type.getSuperclass().get().getConstructors().getAdjustedConstructor(expressions)
-                .peek(constructor -> parent.addStatement(new Base(location, expressions)))
+                .peek(constructor -> parent.addStatement(new BaseCall(location, expressions)))
                 .onEmpty(() -> {
                     throw new PandaParserFailure(context, src, src, "Base type does not contain constructor with the given parameters");
                 });

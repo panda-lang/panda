@@ -41,7 +41,7 @@ import org.panda_lang.panda.language.resource.syntax.scope.branching.BreakParser
 import org.panda_lang.panda.language.resource.syntax.scope.branching.ContinueParser;
 import org.panda_lang.panda.language.resource.syntax.scope.branching.ReturnParser;
 import org.panda_lang.panda.language.resource.syntax.scope.branching.ThrowParser;
-import org.panda_lang.panda.language.resource.syntax.type.BaseParser;
+import org.panda_lang.panda.language.resource.syntax.type.BaseCallParser;
 import org.panda_lang.panda.language.resource.syntax.type.ConstructorParser;
 import org.panda_lang.panda.language.resource.syntax.type.FieldParser;
 import org.panda_lang.panda.language.resource.syntax.type.MethodParser;
@@ -70,7 +70,7 @@ public final class PandaParsers {
             ModuleParser.class,
 
             // type
-            BaseParser.class,
+            BaseCallParser.class,
             ConstructorParser.class,
             SelfConstructorParser.class,
             FieldParser.class,

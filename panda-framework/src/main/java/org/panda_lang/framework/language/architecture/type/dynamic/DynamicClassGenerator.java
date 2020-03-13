@@ -16,24 +16,26 @@
 
 package org.panda_lang.framework.language.architecture.type.dynamic;
 
+import io.vavr.collection.Stream;
 import javassist.CannotCompileException;
 import javassist.CtClass;
 import javassist.CtConstructor;
 import javassist.CtField;
 import javassist.CtMethod;
 import javassist.Modifier;
-import javassist.NotFoundException;
+import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.type.DynamicClass;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.architecture.type.TypeConstructor;
 import org.panda_lang.framework.design.architecture.type.TypeMethod;
 import org.panda_lang.framework.design.architecture.type.TypeModels;
+import org.panda_lang.framework.language.architecture.type.BaseCall;
 import org.panda_lang.framework.language.architecture.type.TypeFrame;
 import org.panda_lang.framework.language.architecture.type.TypeInstance;
 import org.panda_lang.framework.language.architecture.type.utils.TypedUtils;
 import org.panda_lang.framework.language.runtime.PandaProcessStack;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.ClassPoolUtils;
-import org.panda_lang.utilities.commons.CtUtils;
 import org.panda_lang.utilities.commons.javassist.CtCode;
 
 import java.lang.reflect.Field;
@@ -43,7 +45,7 @@ import java.util.Map.Entry;
 
 final class DynamicClassGenerator {
 
-    private static final CtClass CT_VOID = ClassPoolUtils.require(void.class);
+    private static final CtClass CT_OBJECT = ClassPoolUtils.require(Object.class);
     private static final CtClass CT_TYPE_FRAME = ClassPoolUtils.require(TypeFrame.class);
     private static final CtClass CT_TYPE_INSTANCE = ClassPoolUtils.require(TypeInstance.class);
     private static final CtClass CT_TYPE_METHOD = ClassPoolUtils.require(TypeMethod.class);
@@ -68,36 +70,52 @@ final class DynamicClassGenerator {
         }
 
         CtField frameField = new CtField(CT_TYPE_FRAME, "__panda__frame", generatedStructure);
+        frameField.setModifiers(Modifier.PRIVATE);
         generatedStructure.addField(frameField);
     }
 
 
-    protected void generateConstructor() throws CannotCompileException, NotFoundException {
+    protected void generateConstructor() throws CannotCompileException {
         if (isInterface) {
             return;
         }
 
         for (TypeConstructor constructor : type.getConstructors().getDeclaredProperties()) {
-            CtClass[] constructorParameters = ArrayUtils.mergeArrays(new CtClass[] { CT_TYPE_FRAME }, ClassPoolUtils.require(constructor.getJavaParameterTypes()));
+            CtClass[] constructorParameters = ArrayUtils.merge(CT_TYPE_FRAME, ClassPoolUtils.require(constructor.getJavaParameterTypes()), CtClass[]::new);
             CtConstructor typeConstructor = new CtConstructor(constructorParameters, generatedStructure);
             StringBuilder constructorBody = new StringBuilder("{ ");
 
-            if (CtUtils.hasCustomSuperclass(generatedStructure) && constructorParameters.length > 1) {
+            Class<?>[] types = constructor.getBaseCall()
+                    .map(BaseCall::getArguments)
+                    .toStream()
+                    .flatMap(Stream::of)
+                    .map(Expression::getType)
+                    .map(Type::getAssociatedClass)
+                    .map(DynamicClass::fetchStructure)
+                    .toJavaArray(Class[]::new);
+
+            constructor.getBaseCall().peek(parameters -> {
                 constructorBody.append("super(");
 
-                for (int index = 0; index < constructorParameters.length - 1; index++) {
-                    constructorBody.append("$").append(index + 2).append(", ");
+                type.getSuperclass()
+                        .filterNot(Type::isNative)
+                        .peek(supertype -> {
+                            constructorBody.append("$1, ");
+                        });
+
+                for (int index = 0; index < types.length; index++) {
+                    constructorBody.append("(").append(types[index].getName()).append(") $1.getBase()[").append(index).append("], ");
                 }
 
-                constructorBody.setLength(constructorBody.length() - 2);
+                if (constructorBody.toString().endsWith(", ")) {
+                    constructorBody.setLength(constructorBody.length() - 2);
+                }
+
                 constructorBody.append(");");
-            }
-            else {
-                constructorBody.append("super();");
-            }
+            });
 
             constructorBody.append("$0.__panda__frame = $1; }");
-            System.out.println(constructorBody);
+            // System.out.println(constructorBody);
 
             typeConstructor.setBody(constructorBody.toString());
             generatedStructure.addConstructor(typeConstructor);
@@ -109,9 +127,11 @@ final class DynamicClassGenerator {
             return;
         }
 
+        /*
         CtMethod setter = new CtMethod(CT_VOID, "__panda__set_frame", new CtClass[]{ CT_TYPE_FRAME }, generatedStructure);
         setter.setBody("{ $0.__panda__frame = $1; }");
         generatedStructure.addMethod(setter);
+         */
 
         CtMethod getter = new CtMethod(CT_TYPE_FRAME, "__panda__get_frame", new CtClass[0], generatedStructure);
         getter.setBody("{ return $0.__panda__frame; }");
@@ -122,11 +142,11 @@ final class DynamicClassGenerator {
         Map<String, TypeMethod> methods = new HashMap<>();
 
         for (TypeMethod method : type.getMethods().getDeclaredProperties()) {
-            if (!method.isNative() || isInterface) {
+            if (isInterface) {
                 continue;
             }
 
-            String generatedName = method.getName().replaceAll("[:,-.() ]", "");
+            String generatedName = method.getName().replaceAll("[:,-.#\\[\\]() ]", "");
             methods.put(generatedName, method);
 
             CtField methodField = new CtField(CT_TYPE_METHOD, generatedName, generatedStructure);
@@ -140,7 +160,7 @@ final class DynamicClassGenerator {
                     .alias("{ProcessStack}", PandaProcessStack.class.getName())
                     .alias("{generatedName}", generatedName)
                     .compile(
-                            "{ProcessStack} stack = new {ProcessStack}($0.__panda__get_frame().getProcess(), 1);",
+                            "{ProcessStack} stack = new {ProcessStack}($0.__panda__get_frame().getProcess(), 1); \n",
                             "return ($r) {generatedName}.invoke(stack, $0, $args);"
                     );
 

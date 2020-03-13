@@ -23,7 +23,7 @@ import org.panda_lang.framework.design.runtime.MemoryContainer;
  * Specific type of memory container, associated with the {@link org.panda_lang.framework.design.architecture.statement.StandardizedFramedScope}.
  *
  */
-public interface Frame extends MemoryContainer {
+public interface Frame extends MemoryContainer, Frameable {
 
     /**
      * Get associated scope with the frame
@@ -31,5 +31,10 @@ public interface Frame extends MemoryContainer {
      * @return the frame scope
      */
     FramedScope getFramedScope();
+
+    @Override
+    default Frame __panda__to_frame() {
+        return this;
+    }
 
 }

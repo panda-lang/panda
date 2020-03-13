@@ -19,17 +19,18 @@ package org.panda_lang.framework.language.architecture.type;
 import org.panda_lang.framework.design.architecture.type.TypeMethod;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.type.utils.ParameterUtils;
+import org.panda_lang.utilities.commons.ObjectUtils;
 
-public final class PandaMethod extends AbstractExecutableProperty implements TypeMethod {
+public final class PandaMethod extends AbstractExecutableProperty<TypeMethod> implements TypeMethod {
 
-    private final TypeExecutableCallback methodBody;
+    private final TypeExecutableCallback<TypeMethod, Object> methodBody;
     private final boolean isAbstract;
     private final boolean isStatic;
     private final boolean isNative;
 
     protected PandaMethod(PandaMethodBuilder builder) {
         super(builder);
-        this.methodBody = builder.methodBody;
+        this.methodBody = builder.body;
         this.isAbstract = builder.isAbstract;
         this.isNative = builder.isNative;
         this.isStatic = builder.isStatic;
@@ -38,7 +39,7 @@ public final class PandaMethod extends AbstractExecutableProperty implements Typ
     @Override
     @SuppressWarnings({ "unchecked" })
     public Object invoke(ProcessStack stack, Object instance, Object... parameters) throws Exception {
-        return methodBody.invoke(stack, instance, parameters);
+        return methodBody.invoke(this, stack, instance, parameters);
     }
 
     @Override
@@ -65,20 +66,20 @@ public final class PandaMethod extends AbstractExecutableProperty implements Typ
         return new PandaMethodBuilder();
     }
 
-    public static final class PandaMethodBuilder extends PandaParametrizedExecutableBuilder<PandaMethodBuilder> {
+    public static final class PandaMethodBuilder extends PandaParametrizedExecutableBuilder<TypeMethod, PandaMethodBuilder> {
 
-        protected TypeExecutableCallback<?> methodBody;
+        protected TypeExecutableCallback<TypeMethod, Object> body;
         protected boolean isAbstract;
         protected boolean isStatic;
 
         private PandaMethodBuilder() { }
 
-        public PandaMethodBuilder methodBody(MethodScope scope) {
-            return methodBody(scope.toCallback());
+        public PandaMethodBuilder body(MethodScope scope) {
+            return customBody(ObjectUtils.cast(scope.toCallback()));
         }
 
-        public PandaMethodBuilder methodBody(TypeExecutableCallback<?> callback) {
-            this.methodBody = callback;
+        public PandaMethodBuilder customBody(TypeExecutableCallback<TypeMethod, Object> callback) {
+            this.body = callback;
             return this;
         }
 

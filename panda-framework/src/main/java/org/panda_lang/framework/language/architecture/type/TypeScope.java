@@ -16,9 +16,12 @@
 
 package org.panda_lang.framework.language.architecture.type;
 
+import io.vavr.control.Try;
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.type.Type;
+import org.panda_lang.framework.design.architecture.type.TypeConstructor;
 import org.panda_lang.framework.design.architecture.type.TypeField;
 import org.panda_lang.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.framework.design.runtime.ProcessStack;
@@ -32,8 +35,6 @@ import java.util.Arrays;
 
 public final class TypeScope extends AbstractFramedScope {
 
-    private static final Class<?>[] TYPE_FRAME_ARRAY = { TypeFrame.class };
-
     private final Type type;
 
     public TypeScope(SourceLocation location, Type type) {
@@ -41,19 +42,20 @@ public final class TypeScope extends AbstractFramedScope {
         this.type = type;
     }
 
-    public TypeInstance createInstance(ProcessStack stack, Class<?>[] parameterTypes, Object[] arguments) throws Exception {
-        TypeFrame typeFrame = new TypeFrame(this, stack.getProcess());
+    public TypeInstance createInstance(ProcessStack stack, @Nullable Object instance, TypeConstructor constructor, Class<?>[] parameterTypes, Object[] arguments) throws Exception {
+        Object[] baseArguments = constructor.getBaseCall()
+                .flatMap(call -> Try.of(() -> call.evaluate(stack, instance)).toOption())
+                .getOrElse(() -> new Object[0]);
+
+        TypeFrame typeFrame = new TypeFrame(stack.getProcess(), this, baseArguments);
         TypeInstance typeInstance;
 
         try {
-            //System.out.println(getConstructor() + " | " + this + " | " + stack.getProcess());
             typeInstance = getConstructor(parameterTypes).newInstance(ArrayUtils.merge(typeFrame, arguments, Object[]::new));
         } catch (InvocationTargetException e) {
             e.printStackTrace();
             throw new PandaRuntimeException(e.getTargetException().getMessage(), e.getTargetException());
         }
-
-        // typeInstance.__panda__set_frame();
 
         for (TypeField field : type.getFields().getDeclaredProperties()) {
             if (!field.hasDefaultValue()) {

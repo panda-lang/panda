@@ -78,10 +78,21 @@ public final class PandaDynamicClass implements DynamicClass {
         }
 
         this.changedStructure = false;
-        String className = module + '.' + name;
+        String className = "IPanda_" + name.replace("::", "_");
 
         if (structure == null) {
-            this.structure =  ClassPoolUtils.toClass(ClassPool.getDefault().makeInterface(className, PROTOTYPE_CLASS));
+            CtClass generatedStructure = ClassPool.getDefault().makeInterface(className, PROTOTYPE_CLASS);
+
+            try {
+                generatedStructure.writeFile(".dynamic_classes");
+                this.structure =  ClassPoolUtils.toClass(generatedStructure);
+            } catch (CannotCompileException e) {
+                e.printStackTrace();
+                throw new DynamicClassException(e.getCause());
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new DynamicClassException(e.getMessage());
+            }
         }
     }
 
@@ -94,20 +105,24 @@ public final class PandaDynamicClass implements DynamicClass {
         CtClass superclassCt = null;
 
         if (superclass != null) {
-            superclassCt = ClassPoolUtils.require(superclass.fetchStructure());
+            superclassCt = ClassPoolUtils.require(superclass.fetchImplementation());
         }
 
         String generatedClassName = "Panda_" + name.replace("::", "_") + "$" + id.getAndIncrement();
-        CtClass generatedClass;
+        CtClass generatedImplementation;
 
         if (TypeModels.isInterface(type)) {
-            generatedClass = ClassPool.getDefault().makeInterface("I" + generatedClassName, superclassCt);
+            generatedImplementation = ClassPool.getDefault().makeInterface("I" + generatedClassName, superclassCt);
+        }
+        else if (superclassCt != null && superclassCt.isInterface()) {
+            generatedImplementation = ClassPool.getDefault().makeClass(generatedClassName);
+            generatedImplementation.addInterface(superclassCt);
         }
         else {
-            generatedClass = ClassPool.getDefault().makeClass(generatedClassName, superclassCt);
+            generatedImplementation = ClassPool.getDefault().makeClass(generatedClassName, superclassCt);
         }
 
-        DynamicClassGenerator generator = new DynamicClassGenerator(type, generatedClass);
+        DynamicClassGenerator generator = new DynamicClassGenerator(type, generatedImplementation);
 
         try {
             generator.generateDeclaration();
@@ -115,7 +130,7 @@ public final class PandaDynamicClass implements DynamicClass {
             generator.generateConstructor();
             generator.generateInstanceMethods();
             this.implementation = generator.generate();
-            generatedClass.writeFile("dynamic_classes");
+            generatedImplementation.writeFile(".dynamic_classes");
         } catch (CannotCompileException e) {
             e.printStackTrace();
             throw new DynamicClassException(e.getCause());

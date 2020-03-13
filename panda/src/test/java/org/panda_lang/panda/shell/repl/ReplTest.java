@@ -42,7 +42,7 @@ class ReplTest {
                 .define(PandaMethod.builder()
                         .name("sqrt")
                         .parameters(new PandaPropertyParameter(0, ModuleLoaderUtils.requireType(context, Double.class), "i"))
-                        .methodBody((stack, instance, arguments) -> Math.sqrt(((Number) arguments[0]).doubleValue()))
+                        .customBody((method, stack, instance, arguments) -> Math.sqrt(((Number) arguments[0]).doubleValue()))
                         .returnType(ModuleLoaderUtils.requireType(context, Double.class))
                         .location(new PandaClassSource(ReplTest.class).toLocation())
                         .build())

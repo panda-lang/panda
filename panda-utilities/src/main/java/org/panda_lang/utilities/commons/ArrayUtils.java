@@ -67,24 +67,32 @@ public final class ArrayUtils {
     @SafeVarargs
     @SuppressWarnings("unchecked")
     public static <T> T[] mergeArrays(T[]... arrays) {
-        int size = 0;
-        Class<?> type = null;
-
-        for (T[] array : arrays) {
-            size += array.length;
-            type = array.getClass().getComponentType();
+        if (isEmpty(arrays)) {
+            throw new IllegalArgumentException("Merge arrays requires at least one array as argument");
         }
 
-        T[] mergedArray = (T[]) Array.newInstance(type, size);
+        return mergeArrays(length -> (T[]) Array.newInstance(arrays[0].getClass().getComponentType(), length), arrays);
+    }
+
+    /**
+     * Merge arrays into one array
+     *
+     * @param arrayFunction array instance supplier
+     * @param arrays arrays to merge
+     * @param <T> type of arrays
+     * @return the merged array
+     */
+    @SafeVarargs
+    public static <T> T[] mergeArrays(Function<Integer, T[]> arrayFunction, T[]... arrays) {
+        T[] merged = arrayFunction.apply(length(arrays));
         int index = 0;
 
         for (T[] array : arrays) {
-            for (T element : array) {
-                mergedArray[index++] = element;
-            }
+            System.arraycopy(array, 0, merged, index, array.length);
+            index += array.length;
         }
 
-        return mergedArray;
+        return merged;
     }
 
     /**
@@ -145,6 +153,24 @@ public final class ArrayUtils {
         }
 
         return false;
+    }
+
+    /**
+     * Get length of all given arrays
+     *
+     * @param arrays the arrays to sum up
+     * @param <T> type of arrays
+     * @return arrays length
+     */
+    @SafeVarargs
+    public static <T> int length(T[]... arrays) {
+        int size = 0;
+
+        for (T[] array : arrays) {
+            size += array.length;
+        }
+
+        return size;
     }
 
     /**

@@ -51,7 +51,7 @@ final class MethodGenerator {
         // TODO: Generate bytecode
         method.setAccessible(true);
 
-        TypeExecutableCallback<Object> methodBody = (stack, instance, arguments) -> {
+        TypeExecutableCallback<TypeMethod, Object> methodBody = (typeMethod, stack, instance, arguments) -> {
             int amountOfArgs = arguments.length;
             int parameterCount = method.getParameterCount();
             Object varargs = null;
@@ -104,7 +104,7 @@ final class MethodGenerator {
                 .isStatic(Modifier.isStatic(method.getModifiers()))
                 .returnType(generator.findOrGenerate(typeLoader, type.getModule(), method.getReturnType()))
                 .location(type.getLocation())
-                .methodBody(methodBody)
+                .customBody(methodBody)
                 .parameters(mappedParameters)
                 .build();
     }
