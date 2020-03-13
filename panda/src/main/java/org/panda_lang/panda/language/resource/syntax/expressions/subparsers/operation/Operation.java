@@ -23,7 +23,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionC
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.pattern.OperationPatternElement;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.pattern.OperationPatternResult;
 import org.panda_lang.framework.language.resource.syntax.operator.Operator;
@@ -79,14 +79,14 @@ public final class Operation {
     public static final class OperationElement {
 
         private final Expression expression;
-        private final TokenRepresentation operator;
+        private final TokenInfo operator;
 
         public OperationElement(Expression expression) {
             this.expression = expression;
             this.operator = null;
         }
 
-        public OperationElement(TokenRepresentation operator) {
+        public OperationElement(TokenInfo operator) {
             this.operator = operator;
             this.expression = null;
         }
@@ -99,7 +99,7 @@ public final class Operation {
             return operator != null;
         }
 
-        public TokenRepresentation getOperatorRepresentation() {
+        public TokenInfo getOperatorRepresentation() {
             return operator;
         }
 

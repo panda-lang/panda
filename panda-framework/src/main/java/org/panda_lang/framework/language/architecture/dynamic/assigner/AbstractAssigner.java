@@ -17,7 +17,7 @@
 package org.panda_lang.framework.language.architecture.dynamic.assigner;
 
 import org.panda_lang.framework.design.architecture.statement.Variable;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.framework.language.architecture.statement.AbstractStatement;
 
@@ -25,7 +25,7 @@ public abstract class AbstractAssigner<T extends Variable> extends AbstractState
 
     protected final Accessor<T> accessor;
 
-    protected AbstractAssigner(SourceLocation location, Accessor<T> accessor) {
+    protected AbstractAssigner(Location location, Accessor<T> accessor) {
         super(location);
         this.accessor = accessor;
     }

@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.ContextComponent;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 
 public final class AssignationComponents {
 
@@ -34,7 +34,7 @@ public final class AssignationComponents {
     public static final ContextComponent<Expression> EXPRESSION = ContextComponent.of(EXPRESSION_LABEL, Expression.class);
 
     public static final String OPERATOR_LABEL = "assignation-operator";
-    public static final ContextComponent<TokenRepresentation> OPERATOR = ContextComponent.of(OPERATOR_LABEL, TokenRepresentation.class);
+    public static final ContextComponent<TokenInfo> OPERATOR = ContextComponent.of(OPERATOR_LABEL, TokenInfo.class);
 
     public static final String TYPE_LABEL = "assignation-type";
     public static final ContextComponent<AssignationType> TYPE = ContextComponent.of(TYPE_LABEL, AssignationType.class);

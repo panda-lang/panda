@@ -17,9 +17,9 @@
 package org.panda_lang.framework.language.interpreter.token;
 
 import org.panda_lang.framework.design.interpreter.source.Source;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.Token;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.utilities.commons.ObjectUtils;
@@ -28,12 +28,12 @@ import org.panda_lang.utilities.commons.ValidationUtils;
 import java.security.InvalidParameterException;
 import java.util.Objects;
 
-public final class PandaTokenRepresentation implements TokenRepresentation {
+public final class PandaTokenInfo implements TokenInfo {
 
     private final Token token;
-    private final SourceLocation location;
+    private final Location location;
 
-    public PandaTokenRepresentation(Token token, SourceLocation location) {
+    public PandaTokenInfo(Token token, Location location) {
         if (token == null) {
             throw new InvalidParameterException("Token cannot be null");
         }
@@ -52,13 +52,13 @@ public final class PandaTokenRepresentation implements TokenRepresentation {
     }
 
     @Override
-    public SourceLocation getLocation() {
+    public Location getLocation() {
         return location;
     }
 
     @Override
     public boolean equals(Object to) {
-        return ObjectUtils.equals(this, getToken(), to, PandaTokenRepresentation::getToken);
+        return ObjectUtils.equals(this, getToken(), to, PandaTokenInfo::getToken);
     }
 
     @Override
@@ -71,14 +71,14 @@ public final class PandaTokenRepresentation implements TokenRepresentation {
         return token.getValue();
     }
 
-    public static TokenRepresentation of(TokenType type, String value) {
+    public static TokenInfo of(TokenType type, String value) {
         return of(new PandaToken(type, value));
     }
 
-    public static TokenRepresentation of(Token token) {
+    public static TokenInfo of(Token token) {
         Source source = new PandaSource("<unknown>", token.getValue());
-        SourceLocation location = new PandaSourceLocation(source, SourceLocation.UNKNOWN_LOCATION, SourceLocation.UNKNOWN_LOCATION);
-        return new PandaTokenRepresentation(token, location);
+        Location location = new PandaLocation(source, Location.UNKNOWN_LOCATION, Location.UNKNOWN_LOCATION);
+        return new PandaTokenInfo(token, location);
     }
 
 }

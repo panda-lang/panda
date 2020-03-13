@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.architecture.type.ExecutableProperty;
 import org.panda_lang.framework.design.architecture.type.PropertyParameter;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.architecture.type.Visibility;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.type.utils.ParameterUtils;
 
@@ -81,7 +81,7 @@ public abstract class AbstractExecutableProperty<E extends ExecutableProperty> e
         protected String name;
         protected Type returnType;
         protected Type type;
-        protected SourceLocation location;
+        protected Location location;
         protected TypeExecutableCallback<E, Object> callback;
         protected Visibility visibility = Visibility.PUBLIC;
         protected PropertyParameter[] parameters = ParameterUtils.PARAMETERLESS;
@@ -102,7 +102,7 @@ public abstract class AbstractExecutableProperty<E extends ExecutableProperty> e
             return returnThis();
         }
 
-        public T location(SourceLocation location) {
+        public T location(Location location) {
             this.location = location;
             return returnThis();
         }
@@ -112,7 +112,7 @@ public abstract class AbstractExecutableProperty<E extends ExecutableProperty> e
             return returnThis();
         }
 
-        public T parameters(List<PropertyParameter> parameters) {
+        public T parameters(List<? extends PropertyParameter> parameters) {
             this.parameters = parameters.toArray(new PropertyParameter[0]);
             return returnThis();
         }

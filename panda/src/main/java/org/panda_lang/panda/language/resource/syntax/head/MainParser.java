@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.Script;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
@@ -30,10 +30,10 @@ import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Local;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Cache;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.data.Delegation;
-import org.panda_lang.panda.language.interpreter.parser.context.data.LocalData;
+import org.panda_lang.panda.language.interpreter.parser.context.data.LocalCache;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.LinearPatternInterceptor;
 
@@ -51,12 +51,12 @@ public final class MainParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1, delegation = Delegation.NEXT_DEFAULT)
-    void createScope(LocalData localData, @Ctx Script script, @Int SourceLocation location) {
-        script.addStatement(localData.allocated(new MainScope(location)));
+    void createScope(LocalCache cache, @Ctx Script script, @Int Location location) {
+        script.addStatement(cache.allocated(new MainScope(location)));
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_AFTER)
-    void parseScope(Context context, @Local MainScope main, @Src("body") @Nullable Snippet body) throws Exception {
+    void parseScope(Context context, @Cache MainScope main, @Src("body") @Nullable Snippet body) throws Exception {
         SCOPE_PARSER.parse(context.fork(), main, body);
     }
 

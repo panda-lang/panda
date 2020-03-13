@@ -21,10 +21,10 @@ import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.language.interpreter.pattern.PatternMapping;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Local;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Cache;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.data.InterceptorData;
-import org.panda_lang.panda.language.interpreter.parser.context.data.LocalData;
+import org.panda_lang.panda.language.interpreter.parser.context.data.LocalCache;
 import org.panda_lang.utilities.commons.StringUtils;
 import org.panda_lang.utilities.inject.InjectorAnnotation;
 import org.panda_lang.utilities.inject.InjectorController;
@@ -38,19 +38,19 @@ final class BootstrapInjectorController implements InjectorController {
 
     private final Context context;
     private final InterceptorData interceptorData;
-    private final LocalData localData;
+    private final LocalCache cache;
 
-    BootstrapInjectorController(Context context, InterceptorData interceptorData, LocalData localData) {
+    BootstrapInjectorController(Context context, InterceptorData interceptorData, LocalCache cache) {
         this.context = context;
         this.interceptorData = interceptorData;
-        this.localData = localData;
+        this.cache = cache;
     }
 
     @Override
     public void initialize(InjectorResources resources) {
         resources.on(Context.class).assignInstance(() -> context);
         resources.on(InterceptorData.class).assignInstance(() -> interceptorData);
-        resources.on(LocalData.class).assignInstance(() -> localData);
+        resources.on(LocalCache.class).assignInstance(() -> cache);
 
         resources.annotatedWithMetadata(Ctx.class).assignHandler((type, annotation) -> {
             return findComponent(annotation, type);
@@ -60,7 +60,7 @@ final class BootstrapInjectorController implements InjectorController {
             return findSource(annotation, type);
         });
 
-        resources.annotatedWithMetadata(Local.class).assignHandler((type, annotation) -> {
+        resources.annotatedWithMetadata(Cache.class).assignHandler((type, annotation) -> {
             return findLocal(annotation, type);
         });
 
@@ -111,10 +111,10 @@ final class BootstrapInjectorController implements InjectorController {
         String name = annotation.getMetadata().getValue();
 
         if (!StringUtils.isEmpty(name)) {
-            return localData.getValue(name);
+            return cache.getValue(name);
         }
 
-        return localData.getValue(type);
+        return cache.getValue(type);
     }
 
 }

@@ -19,7 +19,7 @@ package org.panda_lang.framework.language.interpreter.pattern.custom.elements;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPatternElementBuilder;
 import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
@@ -30,7 +30,7 @@ import java.util.function.BiPredicate;
 
 public final class ImportElement extends CustomPatternElementBuilder<Snippetable, ImportElement> {
 
-    private BiPredicate<@Nullable TokenRepresentation, TokenRepresentation> condition = (previous, current) -> false;
+    private BiPredicate<@Nullable TokenInfo, TokenInfo> condition = (previous, current) -> false;
 
     private ImportElement(String id) {
         super(id);
@@ -39,7 +39,7 @@ public final class ImportElement extends CustomPatternElementBuilder<Snippetable
             Snippet importSource = new PandaSnippet();
 
             while (source.hasNext()) {
-                TokenRepresentation next = source.getNext();
+                TokenInfo next = source.getNext();
 
                 if (!condition.test(source.getCurrent().orElse(null), next)) {
                     break;

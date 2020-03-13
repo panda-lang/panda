@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.architecture.dynamic.ControlledScope;
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.statement.Scope;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Result;
 import org.panda_lang.framework.language.architecture.statement.AbstractBlock;
@@ -33,7 +33,7 @@ final class ForEachBlock extends AbstractBlock implements ControlledScope {
     private final int valuePointer;
     private final Expression iterableExpression;
 
-    ForEachBlock(Scope parent, SourceLocation location, Expression iterableExpression) {
+    ForEachBlock(Scope parent, Location location, Expression iterableExpression) {
         super(parent, location);
         this.iterableExpression = iterableExpression;
         this.valuePointer = getFramedScope().allocate();

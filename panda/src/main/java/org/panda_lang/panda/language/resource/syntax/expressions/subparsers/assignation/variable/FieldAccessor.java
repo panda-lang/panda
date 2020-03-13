@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ass
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.architecture.type.TypeField;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.language.architecture.dynamic.accessor.AbstractAccessor;
 import org.panda_lang.framework.language.architecture.dynamic.assigner.Assigner;
 
@@ -30,7 +30,7 @@ public final class FieldAccessor extends AbstractAccessor<TypeField> {
     }
 
     @Override
-    public Assigner<TypeField> toAssigner(SourceLocation location, boolean initialize, Expression value) {
+    public Assigner<TypeField> toAssigner(Location location, boolean initialize, Expression value) {
         return new FieldAssigner(location, this, initialize, value);
     }
 

@@ -27,9 +27,9 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionC
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.framework.language.architecture.type.utils.TypeDeclarationUtils;
 import org.panda_lang.framework.language.architecture.statement.PandaVariableDataInitializer;
@@ -63,7 +63,7 @@ public final class VariableDeclarationSubparser extends AssignationSubparserBoot
             return false;
         }
 
-        TokenRepresentation name = Objects.requireNonNull(source.getLast());
+        TokenInfo name = Objects.requireNonNull(source.getLast());
 
         if (name.getType() != TokenTypes.UNKNOWN) {
             return false;
@@ -109,7 +109,7 @@ public final class VariableDeclarationSubparser extends AssignationSubparserBoot
             @Ctx Scope scope, @Ctx Channel channel,
             @Ctx Expression expression, @Ctx ExpressionContext expressionContext,
             @Ctx AssignationType type,
-            @Int SourceLocation location
+            @Int Location location
     ) {
         Elements elements = channel.get("elements", Elements.class);
         PandaVariableDataInitializer dataInitializer = new PandaVariableDataInitializer(context, scope);
@@ -134,12 +134,12 @@ public final class VariableDeclarationSubparser extends AssignationSubparserBoot
 
     private static final class Elements {
 
-        private final TokenRepresentation name;
+        private final TokenInfo name;
         private final Snippet type;
         private final boolean mutable;
         private final boolean nillable;
 
-        Elements(Snippet type, TokenRepresentation name, boolean mutable, boolean nillable) {
+        Elements(Snippet type, TokenInfo name, boolean mutable, boolean nillable) {
             this.type = type;
             this.name = name;
             this.mutable = mutable;

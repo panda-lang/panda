@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.expression.ExpressionEvaluator;
 import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.statement.AbstractStatement;
 
@@ -28,7 +28,7 @@ public final class BaseCall extends AbstractStatement implements ExpressionEvalu
 
     private final Expression[] arguments;
 
-    public BaseCall(SourceLocation location, Expression[] arguments) {
+    public BaseCall(Location location, Expression[] arguments) {
         super(location);
         this.arguments = arguments;
     }

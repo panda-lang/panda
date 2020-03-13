@@ -18,7 +18,7 @@ package org.panda_lang.framework.language.resource.syntax.sequence;
 
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Token;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 
@@ -30,16 +30,16 @@ public final class SequencesUtils {
     private SequencesUtils() { }
 
     public static Snippet uncommented(Snippet source) {
-        List<TokenRepresentation> uncommentedSource = new ArrayList<>(source.size());
+        List<TokenInfo> uncommentedSource = new ArrayList<>(source.size());
 
-        for (TokenRepresentation tokenRepresentation : source) {
-            Token token = tokenRepresentation.getToken();
+        for (TokenInfo tokenInfo : source) {
+            Token token = tokenInfo.getToken();
 
             if (SequencesUtils.isComment(token)) {
                 continue;
             }
 
-            uncommentedSource.add(tokenRepresentation);
+            uncommentedSource.add(tokenInfo);
         }
 
         return new PandaSnippet(uncommentedSource);

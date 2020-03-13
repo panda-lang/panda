@@ -22,7 +22,7 @@ import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.architecture.type.TypeConstructor;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.architecture.type.ConstructorScope;
 import org.panda_lang.framework.language.architecture.type.ConstructorScope.ConstructorFrame;
@@ -38,10 +38,10 @@ import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Local;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Cache;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.data.Delegation;
-import org.panda_lang.panda.language.interpreter.parser.context.data.LocalData;
+import org.panda_lang.panda.language.interpreter.parser.context.data.LocalCache;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.LinearPatternInterceptor;
 
@@ -62,7 +62,7 @@ public final class ConstructorParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1)
-    void parse(Context context, LocalData local, @Int SourceLocation location, @Ctx TypeScope typeScope, @Src("parameters") @Nullable Snippet parametersSource) {
+    void parse(Context context, LocalCache local, @Int Location location, @Ctx TypeScope typeScope, @Src("parameters") @Nullable Snippet parametersSource) {
         List<PropertyParameter> parameters = PARAMETER_PARSER.parse(context, parametersSource);
         ConstructorScope constructorScope = local.allocated(new ConstructorScope(location, parameters));
 
@@ -87,7 +87,7 @@ public final class ConstructorParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
-    void parse(Context context, @Ctx TypeScope typeScope, @Local ConstructorScope scope, @Local TypeConstructor constructor, @Int Snippet src, @Src("body") @Nullable Snippet body) throws Exception {
+    void parse(Context context, @Ctx TypeScope typeScope, @Cache ConstructorScope scope, @Cache TypeConstructor constructor, @Int Snippet src, @Src("body") @Nullable Snippet body) throws Exception {
         SCOPE_PARSER.parse(context, scope, body);
 
         typeScope.getType().getSuperclass()

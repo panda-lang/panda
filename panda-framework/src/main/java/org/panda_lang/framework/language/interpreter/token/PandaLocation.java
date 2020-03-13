@@ -17,21 +17,21 @@
 package org.panda_lang.framework.language.interpreter.token;
 
 import org.panda_lang.framework.design.interpreter.source.Source;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 
-public final class PandaSourceLocation implements SourceLocation {
+public final class PandaLocation implements Location {
 
     private final Source source;
     private final int line;
     private final int position;
 
-    public PandaSourceLocation(Source source, int line, int position) {
+    public PandaLocation(Source source, int line, int position) {
         this.source = source;
         this.line = line;
         this.position = position;
     }
 
-    public PandaSourceLocation(Source source) {
+    public PandaLocation(Source source) {
         this(source, UNKNOWN_LOCATION, UNKNOWN_LOCATION);
     }
 

@@ -18,7 +18,7 @@ package org.panda_lang.framework.design.interpreter.token;
 
 import java.util.Iterator;
 
-final class SnippetIterator implements Iterator<TokenRepresentation> {
+final class SnippetIterator implements Iterator<TokenInfo> {
 
     private final Snippet snippet;
     private int index;
@@ -28,7 +28,7 @@ final class SnippetIterator implements Iterator<TokenRepresentation> {
     }
 
     @Override
-    public TokenRepresentation next() {
+    public TokenInfo next() {
         return snippet.get(index++);
     }
 

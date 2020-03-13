@@ -18,16 +18,16 @@ package org.panda_lang.framework.language.architecture.type;
 
 import org.panda_lang.framework.design.architecture.type.Property;
 import org.panda_lang.framework.design.architecture.type.Visibility;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 
 public abstract class AbstractProperty implements Property {
 
     private final String name;
-    private final SourceLocation location;
+    private final Location location;
     private final Visibility visibility;
     private final boolean isNative;
 
-    protected AbstractProperty(String name, SourceLocation location, Visibility visibility, boolean isNative) {
+    protected AbstractProperty(String name, Location location, Visibility visibility, boolean isNative) {
         if (name == null) {
             throw new IllegalArgumentException("Name is not defined");
         }
@@ -57,7 +57,7 @@ public abstract class AbstractProperty implements Property {
     }
 
     @Override
-    public SourceLocation getLocation() {
+    public Location getLocation() {
         return location;
     }
 

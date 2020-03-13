@@ -17,18 +17,18 @@
 package org.panda_lang.framework.language.architecture.statement;
 
 import org.panda_lang.framework.design.architecture.statement.Statement;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 
 public abstract class AbstractStatement implements Statement {
 
-    protected final SourceLocation location;
+    protected final Location location;
 
-    protected AbstractStatement(SourceLocation location) {
+    protected AbstractStatement(Location location) {
         this.location = location;
     }
 
     @Override
-    public SourceLocation getSourceLocation() {
+    public Location getSourceLocation() {
         return location;
     }
 

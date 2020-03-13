@@ -25,14 +25,14 @@ import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.runtime.Process;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Result;
 import org.panda_lang.framework.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.framework.language.interpreter.source.PandaSource;
-import org.panda_lang.framework.language.interpreter.token.PandaSourceLocation;
+import org.panda_lang.framework.language.interpreter.token.PandaLocation;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.framework.language.runtime.PandaProcessFailure;
 import org.panda_lang.framework.language.runtime.PandaProcessStack;
@@ -154,7 +154,7 @@ public final class Repl {
         }
 
         try {
-            SourceLocation location = new PandaSourceLocation(new PandaSource("REPL source", history.toString(), true), 0, 0);
+            Location location = new PandaLocation(new PandaSource("REPL source", history.toString(), true), 0, 0);
             Statement statement = new ReplStatement(location, expression);
 
             Result<?> result = stack.callCustomFrame(instance, instance, () -> {

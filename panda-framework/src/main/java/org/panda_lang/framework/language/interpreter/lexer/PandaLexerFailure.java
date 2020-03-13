@@ -17,12 +17,12 @@
 package org.panda_lang.framework.language.interpreter.lexer;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.language.interpreter.PandaInterpreterFailure;
 import org.panda_lang.framework.language.interpreter.source.PandaIndicatedSource;
 import org.panda_lang.framework.language.interpreter.token.PandaToken;
-import org.panda_lang.framework.language.interpreter.token.PandaTokenRepresentation;
+import org.panda_lang.framework.language.interpreter.token.PandaTokenInfo;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 
 public final class PandaLexerFailure extends PandaInterpreterFailure {
@@ -31,12 +31,12 @@ public final class PandaLexerFailure extends PandaInterpreterFailure {
         super(new PandaIndicatedSource(line, indicated), message, note);
     }
 
-    public PandaLexerFailure(CharSequence line, CharSequence indicated, SourceLocation location, String message, @Nullable String note) {
+    public PandaLexerFailure(CharSequence line, CharSequence indicated, Location location, String message, @Nullable String note) {
         this(of(line, location), of(indicated, location), message, note);
     }
 
-    private static Snippetable of(CharSequence content, SourceLocation location) {
-        return new PandaTokenRepresentation(new PandaToken(TokenTypes.UNKNOWN, content.toString()), location);
+    private static Snippetable of(CharSequence content, Location location) {
+        return new PandaTokenInfo(new PandaToken(TokenTypes.UNKNOWN, content.toString()), location);
     }
 
 }

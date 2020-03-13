@@ -23,7 +23,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionR
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
@@ -43,7 +43,7 @@ public final class SectionExpressionSubparser implements ExpressionSubparser {
     private static final class SectionWorker extends AbstractExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
+        public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo token) {
             if (token.getType() != TokenTypes.SECTION) {
                 return null;
             }

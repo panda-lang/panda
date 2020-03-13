@@ -59,7 +59,7 @@ public final class PandaMethod extends AbstractExecutableProperty<TypeMethod> im
 
     @Override
     public String getName() {
-        return getType().getName() + "#" + getSimpleName() + "(" + ParameterUtils.toString(getParameters()) + ")";
+        return getType().getName() + "#" + getSimpleName() + "(" + ParameterUtils.toString(getParameters()) + ") → " + getReturnType();
     }
 
     public static PandaMethodBuilder builder() {

@@ -23,7 +23,7 @@ import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.architecture.type.TypeConstructor;
 import org.panda_lang.framework.design.architecture.type.TypeField;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.statement.AbstractFramedScope;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
@@ -37,7 +37,7 @@ public final class TypeScope extends AbstractFramedScope {
 
     private final Type type;
 
-    public TypeScope(SourceLocation location, Type type) {
+    public TypeScope(Location location, Type type) {
         super(location);
         this.type = type;
     }
@@ -85,7 +85,7 @@ public final class TypeScope extends AbstractFramedScope {
         }
     }
 
-    public SourceLocation getLocation() {
+    public Location getLocation() {
         return location;
     }
 

@@ -28,7 +28,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionT
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction.Commit;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.design.interpreter.token.Streamable;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.resource.syntax.sequence.SequencesUtils;
 
 import java.util.Collections;
@@ -83,7 +83,7 @@ public final class PandaExpressionParser implements ExpressionParser {
         PandaExpressionParserWorker worker = new PandaExpressionParserWorker(context, subparsers);
 
         try {
-            for (TokenRepresentation representation : expressionContext.getSynchronizedSource()) {
+            for (TokenInfo representation : expressionContext.getSynchronizedSource()) {
                 if (SequencesUtils.isComment(representation)) {
                     continue;
                 }

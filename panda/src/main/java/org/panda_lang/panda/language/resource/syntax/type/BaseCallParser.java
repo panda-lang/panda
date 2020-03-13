@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.architecture.type.BaseCall;
 import org.panda_lang.framework.language.architecture.type.ConstructorScope;
@@ -52,7 +52,7 @@ public final class BaseCallParser extends ParserBootstrap<Void> {
     }
 
     @Autowired
-    void parse(Context context, @Ctx Scope parent, @Ctx Type type, @Int SourceLocation location, @Int Snippet src, @Src("args") Snippet args) {
+    void parse(Context context, @Ctx Scope parent, @Ctx Type type, @Int Location location, @Int Snippet src, @Src("args") Snippet args) {
         if (!(parent instanceof ConstructorScope)) {
             throw new PandaParserFailure(context, src, src, "Cannot use base constructor outside of the constructor");
         }

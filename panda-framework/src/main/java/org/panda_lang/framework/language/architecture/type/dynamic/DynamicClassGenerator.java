@@ -146,7 +146,7 @@ final class DynamicClassGenerator {
                 continue;
             }
 
-            String generatedName = method.getName().replaceAll("[:,-.#\\[\\]() ]", "");
+            String generatedName = method.getName().replaceAll("[^A-Za-z0-9]", "");
             methods.put(generatedName, method);
 
             CtField methodField = new CtField(CT_TYPE_METHOD, generatedName, generatedStructure);

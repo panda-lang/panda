@@ -24,7 +24,7 @@ import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.ArgumentsElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.KeywordElement;
@@ -56,7 +56,7 @@ public final class LogParser extends ParserBootstrap<Void> {
     }
 
     @Autowired
-    void parse(Context context, @Ctx ExpressionParser parser, @Ctx Scope scope, @Int SourceLocation location, @Src("arguments") ExpressionTransaction[] transactions) {
+    void parse(Context context, @Ctx ExpressionParser parser, @Ctx Scope scope, @Int Location location, @Src("arguments") ExpressionTransaction[] transactions) {
         Expression[] expressions = Arrays.stream(transactions)
                 .map(ExpressionTransaction::getExpression)
                 .toArray(Expression[]::new);

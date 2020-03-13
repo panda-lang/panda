@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.design.interpreter.token.Streamable;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 
 import java.util.Iterator;
 import java.util.Optional;
@@ -28,7 +28,7 @@ import java.util.Optional;
 /**
  * SynchronizedSource works like a shared iterator with its own index and source based on {@link org.panda_lang.framework.design.interpreter.token.Snippet}
  */
-public final class SynchronizedSource implements Iterable<TokenRepresentation>, Iterator<TokenRepresentation>, Streamable { // lgtm [java/iterator-implements-iterable]
+public final class SynchronizedSource implements Iterable<TokenInfo>, Iterator<TokenInfo>, Streamable { // lgtm [java/iterator-implements-iterable]
 
     private final Snippet source;
     private int index;
@@ -46,7 +46,7 @@ public final class SynchronizedSource implements Iterable<TokenRepresentation>, 
     }
 
     @Override
-    public Iterator<TokenRepresentation> iterator() {
+    public Iterator<TokenInfo> iterator() {
         return this;
     }
 
@@ -58,7 +58,7 @@ public final class SynchronizedSource implements Iterable<TokenRepresentation>, 
      * @see #hasNext()
      */
     @Override
-    public TokenRepresentation next() {
+    public TokenInfo next() {
         return source.get(index++);
     }
 
@@ -98,7 +98,7 @@ public final class SynchronizedSource implements Iterable<TokenRepresentation>, 
      *
      * @see #getPrevious(int)
      */
-    public @Nullable TokenRepresentation getPrevious() {
+    public @Nullable TokenInfo getPrevious() {
         return getPrevious(0);
     }
 
@@ -108,7 +108,7 @@ public final class SynchronizedSource implements Iterable<TokenRepresentation>, 
      * @param previous amount of previous tokens to skip (by default 0 - returns previous token)
      * @return requested token or if it's out of index - null
      */
-    public @Nullable TokenRepresentation getPrevious(int previous) {
+    public @Nullable TokenInfo getPrevious(int previous) {
         int previousIndex = index - 2 - previous;
         return previousIndex < 0 ? null : source.get(previousIndex);
     }
@@ -118,7 +118,7 @@ public final class SynchronizedSource implements Iterable<TokenRepresentation>, 
      *
      * @return the current token
      */
-    public Optional<TokenRepresentation> getCurrent() {
+    public Optional<TokenInfo> getCurrent() {
         return index - 1 > -1 ? Optional.of(source.get(index - 1)) : Optional.empty();
     }
 
@@ -127,7 +127,7 @@ public final class SynchronizedSource implements Iterable<TokenRepresentation>, 
      *
      * @return the next token
      */
-    public TokenRepresentation getNext() {
+    public TokenInfo getNext() {
         return source.get(index);
     }
 

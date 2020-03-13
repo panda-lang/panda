@@ -22,7 +22,7 @@ import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.architecture.statement.PandaBlock;
 import org.panda_lang.framework.language.architecture.statement.PandaVariableDataInitializer;
@@ -34,9 +34,9 @@ import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Local;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Cache;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.context.data.LocalData;
+import org.panda_lang.panda.language.interpreter.parser.context.data.LocalCache;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.LinearPatternInterceptor;
 
@@ -54,14 +54,14 @@ public final class TryCatchParser extends ParserBootstrap<Void> {
     }
 
     @Autowired
-    void parse(Context context, LocalData data, @Ctx Scope parent, @Int SourceLocation location, @Src("try-body") Snippet tryBody) throws Exception {
+    void parse(Context context, LocalCache data, @Ctx Scope parent, @Int Location location, @Src("try-body") Snippet tryBody) throws Exception {
         Scope tryBlock = SCOPE_PARSER.parse(context, new PandaBlock(parent, location), tryBody);
         TryCatch tryCatch = data.allocated(new TryCatch(location, tryBlock, new PandaBlock(parent, location)));
         parent.addStatement(tryCatch);
     }
 
     @Autowired(order = 1)
-    void parse(Context context, @Ctx Scope parent, @Local TryCatch tryCatch, @Src("catch-what") Snippet catchWhat, @Src("catch-body") Snippet catchBody) throws Exception {
+    void parse(Context context, @Ctx Scope parent, @Cache TryCatch tryCatch, @Src("catch-what") Snippet catchWhat, @Src("catch-body") Snippet catchBody) throws Exception {
         Scope catchBlock = new PandaBlock(parent, catchWhat.getLocation());
 
         PandaVariableDataInitializer dataInitializer = new PandaVariableDataInitializer(context, catchBlock);

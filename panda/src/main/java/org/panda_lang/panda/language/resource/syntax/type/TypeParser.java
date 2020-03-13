@@ -29,7 +29,7 @@ import org.panda_lang.framework.design.architecture.type.Visibility;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.language.architecture.type.PandaConstructor;
@@ -85,7 +85,7 @@ public final class TypeParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL)
-    void parse(Context context, @Int SourceLocation location, @Int Result result, @Ctx Script script, @Src("model") String model, @Src("name") String name) throws Exception {
+    void parse(Context context, @Int Location location, @Int Result result, @Ctx Script script, @Src("model") String model, @Src("name") String name) throws Exception {
         Visibility visibility = result.has("visibility") ? Visibility.of(result.get("visibility")) : Visibility.INTERNAL;
 
         if (Keywords.TYPE.getValue().equals(model)) {

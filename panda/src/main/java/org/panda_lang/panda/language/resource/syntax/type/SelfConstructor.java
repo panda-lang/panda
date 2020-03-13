@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
 import org.panda_lang.framework.design.architecture.type.Adjustment;
 import org.panda_lang.framework.design.architecture.type.TypeConstructor;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractExecutableStatement;
 
@@ -30,13 +30,13 @@ public final class SelfConstructor extends AbstractExecutableStatement {
     private final TypeConstructor constructor;
     private final Expression[] arguments;
 
-    public SelfConstructor(SourceLocation location, TypeConstructor constructor, Expression[] arguments) {
+    public SelfConstructor(Location location, TypeConstructor constructor, Expression[] arguments) {
         super(location);
         this.constructor = constructor;
         this.arguments = arguments;
     }
 
-    public SelfConstructor(SourceLocation location, Adjustment<TypeConstructor> adjustment) {
+    public SelfConstructor(Location location, Adjustment<TypeConstructor> adjustment) {
         this(location, adjustment.getExecutable(), adjustment.getArguments());
     }
 

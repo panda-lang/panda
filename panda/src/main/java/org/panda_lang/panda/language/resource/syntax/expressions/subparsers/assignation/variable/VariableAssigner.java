@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ass
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.statement.Variable;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.framework.language.architecture.dynamic.assigner.AbstractAssigner;
@@ -29,7 +29,7 @@ public final class VariableAssigner extends AbstractAssigner<Variable> {
     private final boolean initialize;
     private final Expression expression;
 
-    public VariableAssigner(SourceLocation location, Accessor<Variable> accessor, boolean initialize, Expression expression) {
+    public VariableAssigner(Location location, Accessor<Variable> accessor, boolean initialize, Expression expression) {
         super(location, accessor);
         this.initialize = initialize;
         this.expression = expression;

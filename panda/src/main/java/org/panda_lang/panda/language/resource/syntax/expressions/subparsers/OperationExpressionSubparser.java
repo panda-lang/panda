@@ -26,7 +26,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionS
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserType;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.Operation;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.Operation.OperationElement;
@@ -69,7 +69,7 @@ public final class OperationExpressionSubparser implements ExpressionSubparser {
         private List<Operation.OperationElement> elements;
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenRepresentation token) {
+        public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo token) {
             if (!context.hasResults()) {
                 return null;
             }

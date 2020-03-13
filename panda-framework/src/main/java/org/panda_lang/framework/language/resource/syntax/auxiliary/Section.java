@@ -17,7 +17,7 @@
 package org.panda_lang.framework.language.resource.syntax.auxiliary;
 
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.interpreter.token.EqualableToken;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
@@ -25,11 +25,11 @@ import org.panda_lang.framework.language.resource.syntax.separator.Separator;
 
 public final class Section extends EqualableToken {
 
-    private final TokenRepresentation openingSeparator;
-    private final TokenRepresentation closingSeparator;
+    private final TokenInfo openingSeparator;
+    private final TokenInfo closingSeparator;
     private final Snippet content;
 
-    public Section(TokenRepresentation openingSeparator, Snippet content, TokenRepresentation closingSeparator) {
+    public Section(TokenInfo openingSeparator, Snippet content, TokenInfo closingSeparator) {
         this.openingSeparator = openingSeparator;
         this.closingSeparator = closingSeparator;
         this.content = content;
@@ -49,11 +49,11 @@ public final class Section extends EqualableToken {
         return content;
     }
 
-    public TokenRepresentation getOpeningSeparator() {
+    public TokenInfo getOpeningSeparator() {
         return openingSeparator;
     }
 
-    public TokenRepresentation getClosingSeparator() {
+    public TokenInfo getClosingSeparator() {
         return closingSeparator;
     }
 

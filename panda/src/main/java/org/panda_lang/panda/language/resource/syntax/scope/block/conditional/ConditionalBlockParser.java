@@ -22,7 +22,7 @@ import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.language.architecture.expression.PandaExpression;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
@@ -72,7 +72,7 @@ public final class ConditionalBlockParser extends BlockSubparserBootstrap {
     BlockData parse(
             Context context,
             @Ctx Scope parent, @Ctx TypeLoader loader, @Ctx(BlockComponents.PREVIOUS_BLOCK_LABEL) Block previous,
-            @Int Result result, @Int SourceLocation location
+            @Int Result result, @Int Location location
     ) {
         Expression condition = result.has("condition") ? result.get("condition") : new PandaExpression(loader.requireType(Boolean.class), true);
         ConditionalBlock conditionalBlock = new ConditionalBlock(parent, location, condition);

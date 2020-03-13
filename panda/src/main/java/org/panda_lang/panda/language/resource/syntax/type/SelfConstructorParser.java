@@ -22,7 +22,7 @@ import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.architecture.type.ConstructorScope;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
@@ -64,7 +64,7 @@ public final class SelfConstructorParser extends ParserBootstrap<Void> {
     }
 
     @Autowired
-    void parse(Context context, @Ctx Scope parent, @Ctx Type type, @Int SourceLocation location, @Src("args") Snippet args) {
+    void parse(Context context, @Ctx Scope parent, @Ctx Type type, @Int Location location, @Src("args") Snippet args) {
         if (!(parent instanceof ConstructorScope)) {
             throw new PandaParserFailure(context, args, "Cannot use constructor call outside of the constructor");
         }

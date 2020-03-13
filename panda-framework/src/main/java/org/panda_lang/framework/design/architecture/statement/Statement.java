@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.design.architecture.statement;
 
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 
 /**
  * Generalized interface for language elements
@@ -28,6 +28,6 @@ public interface Statement {
      *
      * @return the location of statement
      */
-    SourceLocation getSourceLocation();
+    Location getSourceLocation();
 
 }

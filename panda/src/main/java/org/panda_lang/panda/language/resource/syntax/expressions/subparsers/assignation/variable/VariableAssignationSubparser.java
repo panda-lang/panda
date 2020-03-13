@@ -26,7 +26,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionR
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.language.architecture.dynamic.accessor.Accessor;
@@ -78,7 +78,7 @@ public final class VariableAssignationSubparser extends AssignationSubparserBoot
     }
 
     @Autowired
-    ExpressionResult parse(@Ctx Channel channel, @Ctx Scope block, @Ctx Expression expression, @Int SourceLocation location) {
+    ExpressionResult parse(@Ctx Channel channel, @Ctx Scope block, @Ctx Expression expression, @Int Location location) {
         Accessor<?> accessor = channel.get("accessor", AccessorExpression.class).getAccessor();
         boolean initialization = block.getFramedScope() instanceof ConstructorScope;
         Assigner<?> assigner = accessor.toAssigner(location, initialization, expression);

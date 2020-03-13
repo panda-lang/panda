@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.architecture.expression.Expressible;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 
 import java.util.function.Supplier;
 
@@ -46,7 +46,7 @@ public final class ExpressionResult {
         this(expressible, null, null);
     }
 
-    ExpressionResult(String errorMessage, TokenRepresentation source) {
+    ExpressionResult(String errorMessage, TokenInfo source) {
         this(null, source, errorMessage);
     }
 

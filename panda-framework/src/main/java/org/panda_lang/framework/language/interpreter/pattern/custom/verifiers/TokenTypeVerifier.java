@@ -16,14 +16,14 @@
 
 package org.panda_lang.framework.language.interpreter.pattern.custom.verifiers;
 
-import org.panda_lang.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomVerify;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 
 import java.util.Map;
 
-public final class TokenTypeVerifier implements CustomVerify<TokenRepresentation> {
+public final class TokenTypeVerifier implements CustomVerify<TokenInfo> {
 
     private final TokenType type;
 
@@ -32,7 +32,7 @@ public final class TokenTypeVerifier implements CustomVerify<TokenRepresentation
     }
 
     @Override
-    public boolean verify(Map<String, Object> results, SynchronizedSource source, TokenRepresentation content) {
+    public boolean verify(Map<String, Object> results, SynchronizedSource source, TokenInfo content) {
         return content.getType() == type;
     }
 

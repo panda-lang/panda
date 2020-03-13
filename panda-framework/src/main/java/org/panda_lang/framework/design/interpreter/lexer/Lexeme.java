@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.design.interpreter.lexer;
 
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.Token;
 
 /**
@@ -36,7 +36,7 @@ public interface Lexeme {
      *
      * @return the location in source
      */
-    SourceLocation getLocation();
+    Location getLocation();
 
     /**
      * Get value of token

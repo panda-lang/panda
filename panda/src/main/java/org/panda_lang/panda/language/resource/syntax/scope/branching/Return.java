@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.resource.syntax.scope.branching;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.dynamic.Controller;
 import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Status;
 import org.panda_lang.framework.language.architecture.dynamic.AbstractExecutableStatement;
@@ -28,7 +28,7 @@ public final class Return extends AbstractExecutableStatement implements Returna
 
     private final Expression value;
 
-    public Return(SourceLocation location, Expression value) {
+    public Return(Location location, Expression value) {
         super(location);
         this.value = value;
     }

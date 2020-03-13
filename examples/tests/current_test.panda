@@ -202,7 +202,7 @@ shared class Foo : Test, IEcho {
     // we need to impl all methods
     override internal test() { }
 
-    override public toString() {
+    override public String toString() {
         return 'Foo'
     }
 
