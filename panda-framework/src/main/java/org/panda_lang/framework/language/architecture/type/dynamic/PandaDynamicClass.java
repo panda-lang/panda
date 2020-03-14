@@ -73,7 +73,7 @@ public final class PandaDynamicClass implements DynamicClass {
     }
 
     private synchronized void recreateStructure() throws DynamicClassException {
-        if (frozen || !changedStructure) {
+        if (structure != null && (frozen || !changedStructure)) {
             return;
         }
 
@@ -97,7 +97,7 @@ public final class PandaDynamicClass implements DynamicClass {
     }
 
     private synchronized void recreateImplementation() throws DynamicClassException {
-        if (frozen || !changedImplementation) {
+        if (implementation != null && (frozen || !changedImplementation)) {
             return;
         }
 
@@ -146,8 +146,15 @@ public final class PandaDynamicClass implements DynamicClass {
             return implementInterface(toAppend.getAssociatedClass());
         }
         else {
-            return extendClass(toAppend.getAssociatedClass());
+            extendClass(toAppend.getAssociatedClass());
+
+            if (toAppend.getName().equals("java::Object")) {
+                this.changedStructure = false;
+                this.changedImplementation = false;
+            }
         }
+
+        return this;
     }
 
     @Override
@@ -204,19 +211,13 @@ public final class PandaDynamicClass implements DynamicClass {
 
     @Override
     public Class<?> fetchImplementation() {
-        if (changedImplementation) {
-            recreateImplementation();
-        }
-
+        recreateImplementation();
         return implementation;
     }
 
     @Override
     public Class<?> fetchStructure() {
-        if (changedStructure) {
-            recreateStructure();
-        }
-
+        recreateStructure();
         return structure;
     }
 
