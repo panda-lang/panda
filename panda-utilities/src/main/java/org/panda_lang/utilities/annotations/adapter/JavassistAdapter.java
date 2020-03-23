@@ -38,13 +38,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
+
 public final class JavassistAdapter implements MetadataAdapter<ClassFile, FieldInfo, MethodInfo> {
 
     public static final boolean includeInvisibleTag = true;
 
     @Override
     public boolean acceptsInput(String file) {
-        return file.endsWith(".class");
+        return file.endsWith(".class") && !file.contains("module-info.class");
     }
 
     private List<String> splitDescriptorToTypeNames(String descriptors) {
@@ -171,21 +173,16 @@ public final class JavassistAdapter implements MetadataAdapter<ClassFile, FieldI
     }
 
     @Override
-    public @Nullable ClassFile getOfCreateClassObject(AnnotationsScanner scanner, AnnotationsScannerFile file) {
+    public ClassFile getOfCreateClassObject(AnnotationsScanner scanner, AnnotationsScannerFile file) throws Exception {
         InputStream inputStream = null;
 
         try {
             inputStream = file.openInputStream();
             DataInputStream dis = new DataInputStream(new BufferedInputStream(inputStream));
             return new ClassFile(dis);
-        } catch (Exception e) {
-            scanner.getLogger().exception(e);
-            scanner.getLogger().error("Could not create class file from " + file.getInternalPath());
         } finally {
             IOUtils.close(inputStream);
         }
-
-        return null;
     }
 
     @Override

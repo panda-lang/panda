@@ -35,16 +35,16 @@ public interface InjectorResources {
      *
      * @param annotation the annotation to bind
      * @param <T> type of annotation
-     * @return the bind based on associate annotation
+     * @return the bind based on associated annotation
      */
     <T extends Annotation> InjectorResourceBind<T, T> annotatedWith(Class<T> annotation);
 
     /**
-     * Create bind for parameters annotated with the specified annotation with no
+     * Create bind for parameters annotated with the specified annotation converted into to {@link org.panda_lang.utilities.inject.InjectorAnnotation}
      *
      * @param annotation the annotation to bind
      * @param <T> type of annotation
-     * @return the bind based on associate annotation
+     * @return the bind based on associated annotation
      */
     <T extends Annotation> InjectorResourceBind<T, InjectorAnnotation<T>> annotatedWithMetadata(Class<T> annotation);
 

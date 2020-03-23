@@ -22,6 +22,12 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Annotation data wrapper.
+ * Stores data about the annotation in {@link org.panda_lang.utilities.inject.InjectorAnnotation.Metadata} container.
+ *
+ * @param <T> annotation type
+ */
 public final class InjectorAnnotation<T extends Annotation> {
 
     private final T annotation;
@@ -53,6 +59,11 @@ public final class InjectorAnnotation<T extends Annotation> {
         return annotation;
     }
 
+    /**
+     * Stores in key-value format data about the associated annotation
+     *
+     * @param <T>
+     */
     public static final class Metadata<T extends Annotation> {
 
         private final Class<? extends Annotation> annotationType;

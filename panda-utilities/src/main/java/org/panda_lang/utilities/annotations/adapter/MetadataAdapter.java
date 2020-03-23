@@ -53,7 +53,7 @@ public interface MetadataAdapter<C, F, M> {
 
     String getFieldName(F field);
 
-    C getOfCreateClassObject(AnnotationsScanner scanner, AnnotationsScannerFile file);
+    C getOfCreateClassObject(AnnotationsScanner scanner, AnnotationsScannerFile file) throws Exception;
 
     String getMethodModifier(M method);
 
