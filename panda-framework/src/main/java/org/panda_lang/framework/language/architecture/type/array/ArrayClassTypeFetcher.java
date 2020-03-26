@@ -72,7 +72,7 @@ public final class ArrayClassTypeFetcher {
         ARRAY_PROTOTYPES.put(baseType.getName() + dimensions, arrayType);
 
         arrayType.getMethods().declare("size", () -> ArrayClassTypeConstants.SIZE.apply(typeLoader));
-        arrayType.getMethods().declare("toString", () -> ArrayClassTypeConstants.TO_STRING.apply(typeLoader));
+        arrayType.getMethods().declare("asString", () -> ArrayClassTypeConstants.AS_STRING.apply(typeLoader));
 
         module.add(arrayType);
         return arrayType;

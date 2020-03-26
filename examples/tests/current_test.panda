@@ -98,7 +98,7 @@ main {
     testArray.modify(test)
 
     // print array and some logical expressions
-    log "Hello " + "Array " + testArray.array.toString()
+    log "Content of " + "array " + testArray.array.asString()
     log "OR v AND: " + (false || false) + ", " + false || true, true && false, true && true
     log "Compare: " + 1 > 2, 1 > 2, 1 < 2, 2 < 1
     log "Random",  (false || false) + ", " + false || true, true && false, true && true, (false || false) + ", " + false || true, true && false, true && true
@@ -284,7 +284,7 @@ internal class TestArray {
     }
 
     shared varargs(nil mut String... varargs) {
-        log varargs
+        log varargs.asString()
     }
 
     // get array

@@ -37,8 +37,8 @@ final class ArrayClassTypeConstants {
             .customBody((typeMethod, branch, instance, arguments) -> ((Object[]) Objects.requireNonNull(instance)).length)
             .build();
 
-    protected static final Function<TypeLoader, TypeMethod> TO_STRING = loader -> PandaMethod.builder()
-            .name("toString")
+    protected static final Function<TypeLoader, TypeMethod> AS_STRING = loader -> PandaMethod.builder()
+            .name("asString")
             .location(LOCATION)
             .returnType(loader.requireType(String.class))
             .customBody((typeMethod, branch, instance, arguments) -> Arrays.toString((Object[]) instance))
