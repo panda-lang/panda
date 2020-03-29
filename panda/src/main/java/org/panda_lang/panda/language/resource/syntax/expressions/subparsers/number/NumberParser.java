@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.framework.design.architecture.type.Type;
@@ -35,7 +34,7 @@ public final class NumberParser implements SourceParser<Expression> {
         String unknownNumber = StringUtils.replace(source.asSource(), "_", StringUtils.EMPTY);
 
         char numberTypeDefinitionCharacter = unknownNumber.charAt(unknownNumber.length() - 1);
-        @Nullable NumberType numberTypeDefinition = NumberType.of(numberTypeDefinitionCharacter);
+        NumberType numberTypeDefinition = NumberType.of(numberTypeDefinitionCharacter);
 
         String number = numberTypeDefinition == null ? unknownNumber : unknownNumber.substring(0, unknownNumber.length() - 1);
         NumberType numberType = NumberType.INT;
