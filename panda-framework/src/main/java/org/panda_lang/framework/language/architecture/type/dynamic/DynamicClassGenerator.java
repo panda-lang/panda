@@ -45,7 +45,6 @@ import java.util.Map.Entry;
 
 final class DynamicClassGenerator {
 
-    private static final CtClass CT_OBJECT = ClassPoolUtils.require(Object.class);
     private static final CtClass CT_TYPE_FRAME = ClassPoolUtils.require(TypeFrame.class);
     private static final CtClass CT_TYPE_INSTANCE = ClassPoolUtils.require(TypeInstance.class);
     private static final CtClass CT_TYPE_METHOD = ClassPoolUtils.require(TypeMethod.class);

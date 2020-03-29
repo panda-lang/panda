@@ -84,12 +84,12 @@ public final class PandaDynamicClass implements DynamicClass {
             CtClass generatedStructure = ClassPool.getDefault().makeInterface(className, PROTOTYPE_CLASS);
 
             try {
-                generatedStructure.writeFile(".dynamic_classes");
+                // generatedStructure.writeFile(".dynamic_classes");
                 this.structure =  ClassPoolUtils.toClass(generatedStructure);
-            } catch (CannotCompileException e) {
+            } /* catch (CannotCompileException e) {
                 e.printStackTrace();
                 throw new DynamicClassException(e.getCause());
-            } catch (Exception e) {
+            } */ catch (Exception e) {
                 e.printStackTrace();
                 throw new DynamicClassException(e.getMessage());
             }
@@ -130,7 +130,7 @@ public final class PandaDynamicClass implements DynamicClass {
             generator.generateConstructor();
             generator.generateInstanceMethods();
             this.implementation = generator.generate();
-            generatedImplementation.writeFile(".dynamic_classes");
+            // generatedImplementation.writeFile(".dynamic_classes");
         } catch (CannotCompileException e) {
             e.printStackTrace();
             throw new DynamicClassException(e.getCause());
