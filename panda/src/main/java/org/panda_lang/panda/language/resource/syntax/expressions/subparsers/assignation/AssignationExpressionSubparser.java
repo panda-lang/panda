@@ -115,7 +115,7 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
                 // TODO: Support notes/failures by expression results
                 return ExpressionResult.error(e.getMessage() + (e.hasNote() ? ". Note: " + e.getNote() : ""), expressionSource.getOriginalSource());
             } catch (Exception e) {
-                e.printStackTrace();
+                // e.printStackTrace(); TODO: Improve expression subparser errors
                 throw new PandaParserFailure(context, token, "Cannot parse assigned expression: " + e.toString());
                 // return ExpressionResult.error("Cannot parse assigned expression - " + e.getMessage(), expressionSource.getOriginalSource());
             }

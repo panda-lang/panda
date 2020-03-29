@@ -38,6 +38,7 @@ public final class ReplConsole {
     public void launch() throws Exception {
         Scanner scanner = new Scanner(input);
         panda.getLogger().info("Panda " + PandaConstants.VERSION + " REPL");
+        panda.getLogger().info("Type 'help' for more information.");
 
         Repl repl = Repl.creator(panda)
                 .withCustomExceptionListener(simplified ? (exception, runtime) -> panda.getLogger().error(exception.getMessage()) : null)
