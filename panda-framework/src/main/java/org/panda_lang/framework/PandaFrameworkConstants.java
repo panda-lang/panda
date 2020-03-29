@@ -21,7 +21,7 @@ public final class PandaFrameworkConstants {
     /**
      * Current version of the Panda Framework
      */
-    public static final String VERSION = "indev-20.3.14";
+    public static final String VERSION = "indev-20.3.29";
 
     private PandaFrameworkConstants() { }
 

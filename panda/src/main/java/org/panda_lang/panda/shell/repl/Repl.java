@@ -97,24 +97,49 @@ public final class Repl {
      * @return collection of repl results
      */
     public Collection<ReplResult> evaluate(String source) {
-        return source.startsWith("!!") ? Collections.singletonList(evaluateCommand(source)) : evaluateSource(source);
+        if (source.equals("help")) {
+            source = "? help";
+        }
+
+        if (source.startsWith("?")) {
+            return Collections.singletonList(evaluateCommand(source));
+        }
+
+        return evaluateSource(source);
     }
 
     private ReplResult evaluateCommand(String command) {
-        String content = command.substring(2).toLowerCase().trim();
-        Object result = "-- " + content + System.lineSeparator();
+        String content = command.substring(1).toLowerCase().trim();
 
-        if (content.equals("vars")) {
-            StringBuilder variables = new StringBuilder();
-
-            for (Variable variable : instance.getFramedScope().getVariables()) {
-                variables.append(variable.getName()).append(": ").append((Object) instance.get(variable.getPointer())).append(System.lineSeparator());
-            }
-
-            result += variables.toString();
+        if (content.isEmpty()) {
+            content = "help";
         }
-        else if (content.equals("history")) {
-            result += history.toString();
+
+        Object result = "-- ? " + content + System.lineSeparator();
+
+        switch (content) {
+            case "vars": {
+                StringBuilder variables = new StringBuilder();
+
+                for (Variable variable : instance.getFramedScope().getVariables()) {
+                    variables.append(variable.getName()).append(": ").append((Object) instance.get(variable.getPointer())).append(System.lineSeparator());
+                }
+
+                result += variables.toString();
+                break;
+            }
+            case "history": {
+                result += history.toString();
+                break;
+            }
+            case "help":
+            default: {
+                result += "Default help page of REPL. All the commands should be prefixed with '?' operator. \n";
+                result += "? help - display help page \n";
+                result += "? vars - display all the registered variables in REPL scope \n";
+                result += "? history - display history of evaluated snippets \n";
+                break;
+            }
         }
 
         return new ReplResult(Type.SHELL, result);

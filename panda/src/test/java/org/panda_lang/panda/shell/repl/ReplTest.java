@@ -58,8 +58,8 @@ class ReplTest {
         ReplUtils.print(panda, repl.evaluate("i"));
         ReplUtils.print(panda, repl.evaluate("String text = 'hello'; 'second expression'"));
 
-        ReplUtils.print(panda, repl.evaluate("!! vars"));
-        ReplUtils.print(panda, repl.evaluate("!! source"));
+        ReplUtils.print(panda, repl.evaluate("? vars"));
+        ReplUtils.print(panda, repl.evaluate("? source"));
 
         ReplUtils.print(panda, repl.evaluate("Double double = 9.86960440109"));
         ReplUtils.print(panda, repl.evaluate("sqrt(double)"));
