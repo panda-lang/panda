@@ -16,6 +16,8 @@
 
 package org.panda_lang.utilities.inject;
 
+import io.vavr.control.Option;
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.utilities.commons.ClassUtils;
 
 import java.lang.annotation.Annotation;
@@ -27,7 +29,17 @@ import java.util.stream.Collectors;
 
 final class DefaultInjectorResources implements InjectorResources {
 
-    private final Map<Class<?>, InjectorResourceBind> binds = new HashMap<>();
+    private final Option<InjectorResources> parent;
+    private final Map<Class<?>, InjectorResourceBind> binds;
+
+    DefaultInjectorResources(@Nullable InjectorResources parent, Map<Class<?>, InjectorResourceBind> resources) {
+        this.parent = Option.of(parent);
+        this.binds = new HashMap<>(resources);
+    }
+
+    DefaultInjectorResources() {
+        this(null, new HashMap<>());
+    }
 
     private <T, V> InjectorResourceBind<T, V> with(InjectorResourceBind<T, V> bind) {
         binds.put(bind.getAssociatedType(), bind);
@@ -50,7 +62,7 @@ final class DefaultInjectorResources implements InjectorResources {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public Optional<InjectorResourceBind<?, ? super Object>> getBind(Class<?> requestedType) {
         Optional<InjectorResourceBind<?, ? super Object>> mostRelated = ClassUtils.selectMostRelated(binds.keySet(), requestedType).map(binds::get);
 
@@ -63,11 +75,23 @@ final class DefaultInjectorResources implements InjectorResources {
                 .map(binds::get)
                 .collect(Collectors.toList());
 
-        if (associated.size() != 1) {
-            return Optional.empty();
+        if (associated.size() == 1) {
+            return Optional.ofNullable(associated.get(0));
         }
 
-        return Optional.ofNullable(associated.get(0));
+        return parent
+                .map(parent -> parent.getBind(requestedType))
+                .get();
+    }
+
+    @Override
+    public InjectorResources fork() {
+        return new DefaultInjectorResources(this, new HashMap<>());
+    }
+
+    @Override
+    public InjectorResources duplicate() {
+        return new DefaultInjectorResources(null, binds);
     }
 
 }

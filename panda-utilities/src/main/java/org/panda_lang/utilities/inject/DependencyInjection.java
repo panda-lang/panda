@@ -18,7 +18,7 @@ package org.panda_lang.utilities.inject;
 
 public final class DependencyInjection {
 
-    private static final InjectorFactory INJECTOR_FACTORY = new InjectorFactory();
+    protected static final InjectorFactory INJECTOR_FACTORY = new InjectorFactory();
 
     /**
      * Create injector

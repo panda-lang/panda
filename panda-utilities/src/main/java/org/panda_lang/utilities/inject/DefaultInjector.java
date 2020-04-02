@@ -37,6 +37,16 @@ final class DefaultInjector implements Injector {
         return new MethodInjector(this, method).invoke(instance);
     }
 
+    @Override
+    public Injector fork(InjectorController controller) {
+        return DependencyInjection.INJECTOR_FACTORY.createInjector(controller, resources.fork());
+    }
+
+    @Override
+    public Injector duplicate(InjectorController controller) {
+        return DependencyInjection.INJECTOR_FACTORY.createInjector(controller, resources.duplicate());
+    }
+
     public InjectorResources getResources() {
         return resources;
     }
