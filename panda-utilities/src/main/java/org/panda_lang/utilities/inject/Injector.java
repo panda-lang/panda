@@ -43,6 +43,22 @@ public interface Injector {
     @Nullable <T> T invokeMethod(Method method, @Nullable Object instance) throws Throwable;
 
     /**
+     * Create a fork of resources. The current resources will be used as a parent of a new instance.
+     *
+     * @param controller initializer for a new instance of resources
+     * @return a forked instance of resources
+     */
+    Injector fork(InjectorController controller);
+
+    /**
+     * Duplicate (clone) resources
+     *
+     * @param controller initializer for a new instance of resources
+     * @return a duplicated instance of resources
+     */
+    Injector duplicate(InjectorController controller);
+
+    /**
      * Get resources of injector
      *
      * @return the resources

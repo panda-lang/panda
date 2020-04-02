@@ -56,4 +56,18 @@ public interface InjectorResources {
      */
     Optional<InjectorResourceBind<?, ? super Object>> getBind(Class<?> requestedType);
 
+    /**
+     * Create a fork of resources. The current resources will be used as a parent of a new instance.
+     *
+     * @return a forked instance of resources
+     */
+    InjectorResources fork();
+
+    /**
+     * Duplicate (clone) resources
+     *
+     * @return a duplicated instance of resources
+     */
+    InjectorResources duplicate();
+
 }
