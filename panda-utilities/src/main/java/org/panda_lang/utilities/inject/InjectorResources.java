@@ -40,6 +40,17 @@ public interface InjectorResources {
     <T extends Annotation> InjectorResourceBind<T, T> annotatedWith(Class<T> annotation);
 
     /**
+     * Create bind for parameters annotated with the specified annotation tested by the {@link org.panda_lang.utilities.inject.DependencyInjectionUtils#testAnnotation(Class)} method
+     *
+     * @param annotation the annotation to bind
+     * @param <T> type of annotation
+     * @return the bind based on associated annotation
+     */
+    default <T extends Annotation> InjectorResourceBind<T, T> annotatedWithTested(Class<T> annotation) {
+        return annotatedWith(DependencyInjectionUtils.testAnnotation(annotation));
+    }
+
+    /**
      * Create bind for parameters annotated with the specified annotation converted into to {@link org.panda_lang.utilities.inject.InjectorAnnotation}
      *
      * @param annotation the annotation to bind
