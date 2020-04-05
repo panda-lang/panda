@@ -38,7 +38,7 @@ final class InjectorProcessor {
     protected Object[] fetchValues(Executable executable) throws InjectorException, InvocationTargetException, IllegalAccessException {
         InjectorAnnotation<?>[] injectorAnnotations = mapAnnotations(executable);
 
-        Class<?>[] types = executable.getParameterTypes();
+        Parameter[] types = executable.getParameters();
         Object[] parameters = new Object[injectorAnnotations.length];
 
         for (int index = 0; index < parameters.length; index++) {
@@ -86,15 +86,15 @@ final class InjectorProcessor {
         return injectorAnnotations;
     }
 
-    private Object fetchValue(Executable executable, @Nullable InjectorAnnotation<?> annotation, Class<?> type) throws InjectorException {
+    private Object fetchValue(Executable executable, @Nullable InjectorAnnotation<?> annotation, Parameter required) throws InjectorException {
         try {
-            return fetchParameter(annotation, type);
+            return fetchParameter(annotation, required);
         } catch (Exception e) {
             throw new InjectorException("Failed to fetch values for " + executable + ", " + e.getClass() + ": " + e.getMessage(), e);
         }
     }
 
-    private @Nullable Object fetchParameter(InjectorAnnotation<?> annotation, Class<?> type) throws Exception {
+    private @Nullable Object fetchParameter(InjectorAnnotation<?> annotation, Parameter required) throws Exception {
         InjectorResources resources = injector.getResources();
 
         if (annotation != null) {
@@ -107,19 +107,19 @@ final class InjectorProcessor {
             InjectorResourceBind<?, ? super Object> bind = bindValue.get();
 
             if (InjectorAnnotation.class.isAssignableFrom(bind.getDataType())) {
-                return bind.getValue(type, annotation);
+                return bind.getValue(required, annotation);
             }
 
-            return bind.getValue(type, annotation.getAnnotation());
+            return bind.getValue(required, annotation.getAnnotation());
         }
 
-        Optional<InjectorResourceBind<?, ? super Object>> bindValue = resources.getBind(type);
+        Optional<InjectorResourceBind<?, ? super Object>> bindValue = resources.getBind(required.getType());
 
         if (!bindValue.isPresent()) {
-            throw new InjectorException("Missing type bind for " + type + " parameter");
+            throw new InjectorException("Missing type bind for " + required + " parameter");
         }
 
-        return bindValue.get().getValue(type, null);
+        return bindValue.get().getValue(required, null);
     }
 
 }

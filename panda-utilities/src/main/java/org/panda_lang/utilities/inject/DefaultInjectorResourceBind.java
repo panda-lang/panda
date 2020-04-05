@@ -18,6 +18,7 @@ package org.panda_lang.utilities.inject;
 
 import org.panda_lang.utilities.commons.ObjectUtils;
 
+import java.lang.reflect.Parameter;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
@@ -60,13 +61,13 @@ class DefaultInjectorResourceBind<T, V> implements InjectorResourceBind<T, V> {
     }
 
     @Override
-    public void assignHandler(BiFunction<Class<?>, V, ?> handler) {
+    public void assignHandler(BiFunction<Parameter, V, ?> handler) {
         with(new HandledInjectorResourceBindValue<>(handler));
     }
 
     @Override
-    public Object getValue(Class<?> expected, V data) throws Exception {
-        return value.getValue(expected, data);
+    public Object getValue(Parameter required, V data) throws Exception {
+        return value.getValue(required, data);
     }
 
     @Override

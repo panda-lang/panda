@@ -30,6 +30,7 @@ import org.panda_lang.utilities.inject.InjectorAnnotation;
 import org.panda_lang.utilities.inject.InjectorController;
 import org.panda_lang.utilities.inject.InjectorResources;
 
+import java.lang.reflect.Parameter;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Objects;
@@ -52,24 +53,24 @@ final class BootstrapInjectorController implements InjectorController {
         resources.on(InterceptorData.class).assignInstance(() -> interceptorData);
         resources.on(LocalCache.class).assignInstance(() -> cache);
 
-        resources.annotatedWithMetadata(Ctx.class).assignHandler((type, annotation) -> {
-            return findComponent(annotation, type);
+        resources.annotatedWithMetadata(Ctx.class).assignHandler((required, annotation) -> {
+            return findComponent(annotation, required);
         });
 
-        resources.annotatedWithMetadata(Src.class).assignHandler((type, annotation) -> {
-            return findSource(annotation, type);
+        resources.annotatedWithMetadata(Src.class).assignHandler((required, annotation) -> {
+            return findSource(annotation, required);
         });
 
-        resources.annotatedWithMetadata(Cache.class).assignHandler((type, annotation) -> {
-            return findLocal(annotation, type);
+        resources.annotatedWithMetadata(Cache.class).assignHandler((required, annotation) -> {
+            return findLocal(annotation, required);
         });
 
-        resources.annotatedWithMetadata(Int.class).assignHandler((type, annotation) -> {
-            return interceptorData.getValue(type);
+        resources.annotatedWithMetadata(Int.class).assignHandler((required, annotation) -> {
+            return interceptorData.getValue(required.getType());
         });
     }
 
-    private @Nullable Object findComponent(InjectorAnnotation<?> annotation, Class<?> type) {
+    private @Nullable Object findComponent(InjectorAnnotation<?> annotation, Parameter required) {
         return context.getComponents().entrySet().stream()
                 .filter(entry -> {
                     String value = annotation.getMetadata().getValue();
@@ -78,7 +79,7 @@ final class BootstrapInjectorController implements InjectorController {
                         return true;
                     }
 
-                    return type == entry.getKey().getType();
+                    return required.getType() == entry.getKey().getType();
                 })
                 .sorted(Comparator.comparingDouble(entry -> entry.getKey().getPriority()))
                 .map(Map.Entry::getValue)
@@ -87,7 +88,7 @@ final class BootstrapInjectorController implements InjectorController {
                 .orElse(null);
     }
 
-    private @Nullable Object findSource(InjectorAnnotation<?> annotation, Class<?> requiredType) {
+    private @Nullable Object findSource(InjectorAnnotation<?> annotation, Parameter required) {
         PatternMapping redactor = interceptorData.getValue(PatternMapping.class);
 
         if (redactor == null) {
@@ -95,6 +96,7 @@ final class BootstrapInjectorController implements InjectorController {
         }
 
         Object value = redactor.get(annotation.getMetadata().getValue());
+        Class<?> requiredType = required.getType();
 
         if (value != null && requiredType == String.class) {
             return value.toString();
@@ -107,14 +109,14 @@ final class BootstrapInjectorController implements InjectorController {
         return value;
     }
 
-    private @Nullable Object findLocal(InjectorAnnotation<?> annotation, Class<?> type) {
+    private @Nullable Object findLocal(InjectorAnnotation<?> annotation, Parameter required) {
         String name = annotation.getMetadata().getValue();
 
         if (!StringUtils.isEmpty(name)) {
             return cache.getValue(name);
         }
 
-        return cache.getValue(type);
+        return cache.getValue(required.getType());
     }
 
 }

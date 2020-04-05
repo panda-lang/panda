@@ -17,6 +17,7 @@
 package org.panda_lang.utilities.inject;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Parameter;
 
 final class AnnotationInjectorResourceBind<T extends Annotation> extends DefaultInjectorResourceBind<T, InjectorAnnotation<T>> {
 
@@ -25,8 +26,8 @@ final class AnnotationInjectorResourceBind<T extends Annotation> extends Default
     }
 
     @Override
-    public Object getValue(Class<?> expected, InjectorAnnotation<T> data) throws Exception {
-        return super.getValue(expected, data);
+    public Object getValue(Parameter required, InjectorAnnotation<T> data) throws Exception {
+        return super.getValue(required, data);
     }
 
 }
