@@ -16,6 +16,7 @@
 
 package org.panda_lang.utilities.inject;
 
+import java.lang.reflect.Parameter;
 import java.util.function.Supplier;
 
 final class StaticInjectorResourceBindValue<T> implements InjectorResourceBindValue<T> {
@@ -31,7 +32,7 @@ final class StaticInjectorResourceBindValue<T> implements InjectorResourceBindVa
     }
 
     @Override
-    public Object getValue(Class<?> expected, T bind) {
+    public Object getValue(Parameter required, T bind) {
         return valueSupplier.get();
     }
 

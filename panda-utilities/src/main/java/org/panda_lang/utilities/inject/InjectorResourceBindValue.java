@@ -16,9 +16,11 @@
 
 package org.panda_lang.utilities.inject;
 
+import java.lang.reflect.Parameter;
+
 @FunctionalInterface
 interface InjectorResourceBindValue<T> {
 
-    Object getValue(Class<?> expected, T bind) throws Exception;
+    Object getValue(Parameter required, T bind) throws Exception;
 
 }
