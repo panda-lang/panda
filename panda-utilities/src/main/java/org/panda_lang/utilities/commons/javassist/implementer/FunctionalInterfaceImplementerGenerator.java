@@ -44,7 +44,6 @@ final class FunctionalInterfaceImplementerGenerator {
     }
 
     public Class<?> generate() throws NotFoundException, CannotCompileException {
-        Method[] methods = anInterface.getDeclaredMethods();
         Method functionalMethod = null;
         int count = 0;
 
