@@ -45,8 +45,19 @@ final class FunctionalInterfaceImplementerGenerator {
 
     public Class<?> generate() throws NotFoundException, CannotCompileException {
         Method[] methods = anInterface.getDeclaredMethods();
+        Method functionalMethod = null;
+        int count = 0;
 
-        if (methods.length != 1) {
+        for (Method method : anInterface.getDeclaredMethods()) {
+            if (method.isDefault()) {
+                continue;
+            }
+
+            functionalMethod = method;
+            count++;
+        }
+
+        if (count != 1) {
             throw new IllegalArgumentException("The given class cannot be functional interface");
         }
 
@@ -69,8 +80,7 @@ final class FunctionalInterfaceImplementerGenerator {
         constructor.setBody(constructorBody.append("}").toString());
         ctClass.addConstructor(constructor);
 
-        Method methodToGenerate = methods[0];
-        CtMethod method = new CtMethod(ClassPoolUtils.get(methodToGenerate.getReturnType()), methodToGenerate.getName(), ClassPoolUtils.toCtClasses(methodToGenerate.getParameterTypes()), ctClass);
+        CtMethod method = new CtMethod(ClassPoolUtils.get(functionalMethod.getReturnType()), functionalMethod.getName(), ClassPoolUtils.toCtClasses(functionalMethod.getParameterTypes()), ctClass);
         method.setBody("{ " + body + " }");
         ctClass.addMethod(method);
 
