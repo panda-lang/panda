@@ -20,13 +20,13 @@ import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.type.TypeConstructor;
 import org.panda_lang.framework.language.architecture.type.utils.ParameterUtils;
-import org.panda_lang.utilities.commons.function.CachedSupplier;
+import org.panda_lang.utilities.commons.function.Lazy;
 
 import java.util.function.Supplier;
 
 public final class PandaConstructor extends AbstractExecutableProperty<TypeConstructor> implements TypeConstructor {
 
-    private final @Nullable CachedSupplier<Option<BaseCall>> baseCallArgumentsSupplier;
+    private final @Nullable Lazy<Option<BaseCall>> baseCallArgumentsSupplier;
 
     private PandaConstructor(PandaConstructorBuilder builder) {
         super(builder);
@@ -49,12 +49,12 @@ public final class PandaConstructor extends AbstractExecutableProperty<TypeConst
 
     public static final class PandaConstructorBuilder extends PandaParametrizedExecutableBuilder<TypeConstructor, PandaConstructorBuilder> {
 
-        private CachedSupplier<Option<BaseCall>> baseCallArgumentsSupplier;
+        private Lazy<Option<BaseCall>> baseCallArgumentsSupplier;
 
         private PandaConstructorBuilder() { }
 
         public PandaConstructorBuilder baseCall(Supplier<Option<BaseCall>> baseCallArgumentsSupplier) {
-            this.baseCallArgumentsSupplier = new CachedSupplier<>(baseCallArgumentsSupplier);
+            this.baseCallArgumentsSupplier = new Lazy<>(baseCallArgumentsSupplier);
             return this;
         }
 

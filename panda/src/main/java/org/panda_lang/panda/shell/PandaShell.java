@@ -17,7 +17,7 @@
 package org.panda_lang.panda.shell;
 
 import org.panda_lang.framework.design.interpreter.messenger.LoggerHolder;
-import org.panda_lang.utilities.commons.function.CachedSupplier;
+import org.panda_lang.utilities.commons.function.Lazy;
 import org.slf4j.Logger;
 import picocli.CommandLine;
 
@@ -39,7 +39,7 @@ public final class PandaShell implements LoggerHolder {
      * @param logger the logger used to send responses
      */
     public PandaShell(Supplier<Logger> logger, InputStream input) {
-        this.logger = new CachedSupplier<>(logger);
+        this.logger = new Lazy<>(logger);
         this.input = input;
     }
 

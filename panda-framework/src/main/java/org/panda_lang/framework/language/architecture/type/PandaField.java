@@ -19,7 +19,7 @@ package org.panda_lang.framework.language.architecture.type;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
 import org.panda_lang.framework.design.architecture.type.TypeField;
-import org.panda_lang.utilities.commons.function.CachedSupplier;
+import org.panda_lang.utilities.commons.function.Lazy;
 
 import java.util.function.Supplier;
 
@@ -32,7 +32,7 @@ public final class PandaField extends AbstractExecutableProperty<TypeField> impl
     private final boolean nillable;
 
     private Expression defaultValue;
-    private CachedSupplier<?> staticValue;
+    private Lazy<?> staticValue;
     private boolean initialized;
 
     protected PandaField(PandaFieldBuilder builder) {
@@ -50,7 +50,7 @@ public final class PandaField extends AbstractExecutableProperty<TypeField> impl
         this.initialized = true;
 
         if (isStatic && defaultValue != null) {
-            this.staticValue = new CachedSupplier<>(() -> ExpressionUtils.evaluateConstExpression(defaultValue));
+            this.staticValue = new Lazy<>(() -> ExpressionUtils.evaluateConstExpression(defaultValue));
         }
 
         return this;
@@ -63,7 +63,7 @@ public final class PandaField extends AbstractExecutableProperty<TypeField> impl
 
     @Override
     public void setStaticValue(Supplier<?> staticValue) {
-        this.staticValue = new CachedSupplier<>(staticValue);
+        this.staticValue = new Lazy<>(staticValue);
     }
 
     @Override

@@ -19,7 +19,7 @@ package org.panda_lang.framework.language.architecture.type;
 import org.panda_lang.framework.design.architecture.type.ExecutableProperty;
 import org.panda_lang.framework.design.architecture.type.Properties;
 import org.panda_lang.framework.design.architecture.type.Type;
-import org.panda_lang.utilities.commons.function.CachedSupplier;
+import org.panda_lang.utilities.commons.function.Lazy;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,7 +37,7 @@ abstract class AbstractProperties<T extends ExecutableProperty> implements Prope
 
     protected final Class<T> propertiesType;
     protected final Type type;
-    protected final Map<String, Collection<CachedSupplier<T>>> propertiesMap = new HashMap<>();
+    protected final Map<String, Collection<Lazy<T>>> propertiesMap = new HashMap<>();
 
     protected AbstractProperties(Class<T> propertiesType, Type type) {
         this.propertiesType = propertiesType;
@@ -46,8 +46,8 @@ abstract class AbstractProperties<T extends ExecutableProperty> implements Prope
 
     @Override
     public void declare(String name, Supplier<T> propertySupplier) {
-        Collection<CachedSupplier<T>> properties = propertiesMap.computeIfAbsent(name, methodsContainer -> new ArrayList<>());
-        properties.add(new CachedSupplier<>(propertySupplier));
+        Collection<Lazy<T>> properties = propertiesMap.computeIfAbsent(name, methodsContainer -> new ArrayList<>());
+        properties.add(new Lazy<>(propertySupplier));
     }
 
     @Override
@@ -87,7 +87,7 @@ abstract class AbstractProperties<T extends ExecutableProperty> implements Prope
 
     protected List<T> getPropertiesLike(String name, Predicate<T> filter) {
         List<T> properties = Optional.ofNullable(propertiesMap.get(name)).orElseGet(Collections::emptyList).stream()
-                .map(CachedSupplier::get)
+                .map(Lazy::get)
                 .filter(filter)
                 .collect(Collectors.toList());
 
@@ -111,7 +111,7 @@ abstract class AbstractProperties<T extends ExecutableProperty> implements Prope
     protected List<T> getDeclaredProperties(Predicate<T> filter) {
         return propertiesMap.values().stream()
                 .flatMap(Collection::stream)
-                .map(CachedSupplier::get)
+                .map(Lazy::get)
                 .filter(filter)
                 .collect(Collectors.toList());
     }

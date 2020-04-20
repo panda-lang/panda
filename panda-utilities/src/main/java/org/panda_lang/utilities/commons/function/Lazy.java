@@ -16,21 +16,32 @@
 
 package org.panda_lang.utilities.commons.function;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.jetbrains.annotations.Nullable;
 
-class CachedSupplierTest {
+import java.util.function.Supplier;
 
-    @Test
-    void isInitialized() {
-        CachedSupplier<Object> cachedSupplier = new CachedSupplier<>(Object::new);
-        Assertions.assertFalse(cachedSupplier.isInitialized());
+public final class Lazy<T> implements Supplier<T> {
 
-        Object a = cachedSupplier.get();
-        Object b = cachedSupplier.get();
-        Assertions.assertSame(a, b);
+    private final Supplier<T> supplier;
+    private boolean initialized;
+    private @Nullable T value;
 
-        Assertions.assertTrue(cachedSupplier.isInitialized());
+    public Lazy(Supplier<T> supplier) {
+        this.supplier = supplier;
+    }
+
+    @Override
+    public synchronized T get() {
+        if (initialized) {
+            return value;
+        }
+
+        this.initialized = true;
+        return (this.value = supplier.get());
+    }
+
+    public boolean isInitialized() {
+        return initialized;
     }
 
 }
