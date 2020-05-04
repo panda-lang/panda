@@ -18,7 +18,6 @@ package org.panda_lang.panda.language.interpreter.parser.context;
 
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.context.data.Delegation;
-import org.panda_lang.utilities.inject.annotations.Wired;
 
 import java.lang.reflect.Method;
 
@@ -31,7 +30,7 @@ final class BootstrapMethod {
         this.method = method;
         this.autowired = method.getAnnotation(Autowired.class);
 
-        if (autowired == null && method.getAnnotation(Wired.class) == null) {
+        if (autowired == null) {
             throw new BootstrapException("Method " + method.getName() + " is not annotated by @Autowired");
         }
     }

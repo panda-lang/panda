@@ -26,6 +26,7 @@ import javassist.NotFoundException;
 import org.panda_lang.utilities.commons.ClassPoolUtils;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -48,12 +49,10 @@ final class FunctionalInterfaceImplementerGenerator {
         int count = 0;
 
         for (Method method : anInterface.getDeclaredMethods()) {
-            if (method.isDefault()) {
-                continue;
+            if (Modifier.isAbstract(method.getModifiers())) {
+                functionalMethod = method;
+                count++;
             }
-
-            functionalMethod = method;
-            count++;
         }
 
         if (count != 1) {

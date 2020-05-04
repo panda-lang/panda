@@ -26,7 +26,6 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.data.InterceptorData;
 import org.panda_lang.panda.language.interpreter.parser.context.data.LocalCache;
 import org.panda_lang.utilities.commons.StringUtils;
-import org.panda_lang.utilities.inject.InjectorAnnotation;
 import org.panda_lang.utilities.inject.InjectorController;
 import org.panda_lang.utilities.inject.InjectorResources;
 
@@ -53,27 +52,27 @@ final class BootstrapInjectorController implements InjectorController {
         resources.on(InterceptorData.class).assignInstance(() -> interceptorData);
         resources.on(LocalCache.class).assignInstance(() -> cache);
 
-        resources.annotatedWithMetadata(Ctx.class).assignHandler((required, annotation) -> {
+        resources.annotatedWith(Ctx.class).assignHandler((required, annotation) -> {
             return findComponent(annotation, required);
         });
 
-        resources.annotatedWithMetadata(Src.class).assignHandler((required, annotation) -> {
+        resources.annotatedWith(Src.class).assignHandler((required, annotation) -> {
             return findSource(annotation, required);
         });
 
-        resources.annotatedWithMetadata(Cache.class).assignHandler((required, annotation) -> {
-            return findLocal(annotation, required);
+        resources.annotatedWith(Cache.class).assignHandler((required, annotation) -> {
+            return findInCache(annotation, required);
         });
 
-        resources.annotatedWithMetadata(Int.class).assignHandler((required, annotation) -> {
+        resources.annotatedWith(Int.class).assignHandler((required, annotation) -> {
             return interceptorData.getValue(required.getType());
         });
     }
 
-    private @Nullable Object findComponent(InjectorAnnotation<?> annotation, Parameter required) {
+    private @Nullable Object findComponent(Ctx ctx, Parameter required) {
         return context.getComponents().entrySet().stream()
                 .filter(entry -> {
-                    String value = annotation.getMetadata().getValue();
+                    String value = ctx.value();
 
                     if (!StringUtils.isEmpty(value) && Objects.equals(entry.getKey().getName(), value)) {
                         return true;
@@ -88,14 +87,14 @@ final class BootstrapInjectorController implements InjectorController {
                 .orElse(null);
     }
 
-    private @Nullable Object findSource(InjectorAnnotation<?> annotation, Parameter required) {
+    private @Nullable Object findSource(Src src, Parameter required) {
         PatternMapping redactor = interceptorData.getValue(PatternMapping.class);
 
         if (redactor == null) {
             return new BootstrapException("Pattern mappings are not defined for @Redactor");
         }
 
-        Object value = redactor.get(annotation.getMetadata().getValue());
+        Object value = redactor.get(src.value());
         Class<?> requiredType = required.getType();
 
         if (value != null && requiredType == String.class) {
@@ -109,8 +108,8 @@ final class BootstrapInjectorController implements InjectorController {
         return value;
     }
 
-    private @Nullable Object findLocal(InjectorAnnotation<?> annotation, Parameter required) {
-        String name = annotation.getMetadata().getValue();
+    private @Nullable Object findInCache(Cache cacheAnnotation, Parameter required) {
+        String name = cacheAnnotation.value();
 
         if (!StringUtils.isEmpty(name)) {
             return cache.getValue(name);

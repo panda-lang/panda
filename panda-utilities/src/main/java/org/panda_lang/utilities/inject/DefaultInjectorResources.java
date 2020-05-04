@@ -57,11 +57,6 @@ final class DefaultInjectorResources implements InjectorResources {
     }
 
     @Override
-    public <T extends Annotation> InjectorResourceBind<T, InjectorAnnotation<T>> annotatedWithMetadata(Class<T> annotation) {
-        return with(new AnnotationInjectorResourceBind<>(annotation));
-    }
-
-    @Override
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public Optional<InjectorResourceBind<?, ? super Object>> getBind(Class<?> requestedType) {
         Optional<InjectorResourceBind<?, ? super Object>> mostRelated = ClassUtils.selectMostRelated(binds.keySet(), requestedType).map(binds::get);
