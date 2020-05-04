@@ -21,7 +21,6 @@ import org.junit.jupiter.api.Test;
 import org.panda_lang.utilities.commons.ReflectionUtils;
 import org.panda_lang.utilities.inject.annotations.Inject;
 import org.panda_lang.utilities.inject.annotations.Injectable;
-import org.panda_lang.utilities.inject.annotations.Wired;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -33,13 +32,11 @@ import java.util.Map;
 final class DependencyInjectionTest {
 
     private static final String HELLO = "Hello";
-    private static final String HELLO_WIRED = HELLO + " Wired";
     private static final String HELLO_AUTOWIRED = HELLO + " Autowired";
     public static final int DYNAMIC = 7;
 
     private static final Map<String, String> MAP = new HashMap<String, String>() {{
         put("hello-autowired", HELLO_AUTOWIRED);
-        put("hello-wired", HELLO_WIRED);
     }};
 
     @Test
@@ -49,10 +46,6 @@ final class DependencyInjectionTest {
 
             resources.annotatedWith(CustomAnnotation.class).assignHandler((expected, annotation) -> {
                 return MAP.get(annotation.value());
-            });
-
-            resources.annotatedWithMetadata(CustomAnnotation.class).assignHandler((expected, annotation) -> {
-                return MAP.get(annotation.getMetadata().getValue());
             });
         });
 
@@ -65,11 +58,8 @@ final class DependencyInjectionTest {
             Method testAnnotationInvoke = ReflectionUtils.getMethod(TestClass.class, "testAnnotationInvoke", String.class).get();
             Assertions.assertEquals(HELLO_AUTOWIRED, injector.invokeMethod(testAnnotationInvoke, instance));
 
-            Method testWiredInvoke = ReflectionUtils.getMethod(TestClass.class, "testWiredInvoke", String.class).get();
-            Assertions.assertEquals(HELLO_WIRED, injector.invokeMethod(testWiredInvoke, instance));
-
             Method testForkedInjector = ReflectionUtils.getMethod(TestClass.class, "testForkedInjector", String.class, int.class).get();
-            Assertions.assertEquals(DYNAMIC, (int) injector.fork(resources -> resources.on(int.class).assignInstance(DYNAMIC)).invokeMethod(testForkedInjector, instance));
+            Assertions.assertEquals(DYNAMIC, (Integer) injector.fork(resources -> resources.on(int.class).assignInstance(DYNAMIC)).invokeMethod(testForkedInjector, instance));
         });
     }
 
@@ -89,14 +79,6 @@ final class DependencyInjectionTest {
         @Inject
         private String testAnnotationInvoke(@CustomAnnotation("hello-autowired") String value) {
             Assertions.assertEquals(HELLO_AUTOWIRED, value);
-            return value;
-        }
-
-        @Wired({
-                @Wired.Link(parameter = "value", with = CustomAnnotation.class, value = "hello-wired")
-        })
-        protected String testWiredInvoke(String value) {
-            Assertions.assertEquals(HELLO_WIRED, value);
             return value;
         }
 
