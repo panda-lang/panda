@@ -28,6 +28,7 @@ public final class DependencyInjectionUtils {
      * Check if annotation is available at runtime and it is annotated by @Injectable annotation
      *
      * @param annotation the annotation to check
+     * @param <T> annotation type
      * @return the tested annotation
      * @throws org.panda_lang.utilities.inject.DependencyInjectionException when:
      *  <ul>
