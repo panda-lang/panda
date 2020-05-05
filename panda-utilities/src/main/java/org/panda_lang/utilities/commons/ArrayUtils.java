@@ -257,6 +257,24 @@ public final class ArrayUtils {
     }
 
     /**
+     * Get index of the given element
+     *
+     * @param array the array to search in
+     * @param element element to search for
+     * @param <T> type of array
+     * @return index of element or -1 if element was not found
+     */
+    public static <T> int indexOf(T[] array, @Nullable T element) {
+        for (int index = 0; index < array.length; index++) {
+            if (Objects.equals(array[index], element)) {
+                return index;
+            }
+        }
+
+        return -1;
+    }
+
+    /**
      * Get element of array at the given position without risk of {@link java.lang.ArrayIndexOutOfBoundsException}
      *
      * @param array the array to process
