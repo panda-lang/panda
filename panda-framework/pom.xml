@@ -75,7 +75,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <DIState>
+                <configuration>
                     <archive>
                         <manifestEntries>
                             <Specification-Title>panda-framework</Specification-Title>
@@ -83,7 +83,7 @@
                             <Implementation-Version>${panda.version}</Implementation-Version>
                         </manifestEntries>
                     </archive>
-                </DIState>
+                </configuration>
             </plugin>
         </plugins>
     </build>
