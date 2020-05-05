@@ -106,7 +106,11 @@ public final class ObjectUtils {
     }
 
     /**
-     * Compare objects without boilerplate initial statements like (object == this) & (getClass() != to.getClass())
+     * Compare objects without boilerplate initial statements like
+     *
+     * <pre>
+     *     (object == this) && (getClass() != to.getClass())
+     * </pre>
      *
      * @param object the current object (this)
      * @param to the object to compare with
