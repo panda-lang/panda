@@ -85,7 +85,7 @@ final class DefaultInjectorResources implements InjectorResources {
     }
 
     @Override
-    public <A extends Annotation, C, V, R, E extends Exception> void processAnnotatedType(Class<A> annotationType, Class<V> type, ThrowingTriFunction<A, Parameter, V, R, E> processor) {
+    public <A extends Annotation, V, R, E extends Exception> void processAnnotatedType(Class<A> annotationType, Class<V> type, ThrowingTriFunction<A, Parameter, V, R, E> processor) {
         with(new HandlerRecord(type, annotationType), new DefaultInjectorResourceHandler<>(processor));
     }
 

@@ -73,6 +73,7 @@ public interface InjectorResources {
      * @param annotationType the annotation to handle
      * @param processor the processor
      * @param <A> type of annotation to process
+     * @param <V> type of the injected value
      * @param <R> return type
      * @param <E> type of thrown exception
      */
@@ -85,10 +86,11 @@ public interface InjectorResources {
      * @param type the type to handle
      * @param processor the processor
      * @param <A> type of annotation to process
+     * @param <V> type of the injected value
      * @param <R> return type
      * @param <E> type of thrown exception
      */
-    <A extends Annotation, C , V, R, E extends Exception> void processAnnotatedType(Class<A> annotationType, Class<V> type, ThrowingTriFunction<A, Parameter, V, R, E> processor);
+    <A extends Annotation, V, R, E extends Exception> void processAnnotatedType(Class<A> annotationType, Class<V> type, ThrowingTriFunction<A, Parameter, V, R, E> processor);
 
     /**
      * Fetch annotations assigned to the given parameter

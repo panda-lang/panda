@@ -29,6 +29,7 @@ public interface Injector {
      * @param type the class to instantiate
      * @param <T> the type
      * @return a new instance
+     * @throws java.lang.Throwable if anything happen in constructor
      */
     <T> T newInstance(Class<T> type) throws Throwable;
 
@@ -48,6 +49,7 @@ public interface Injector {
      * @param instance the instance to use (nullable for static context)
      * @param <T> the return type
      * @return the return value
+     * @throws java.lang.Throwable if anything happen in the invoked method
      */
     @Nullable <T> T invokeMethod(Method method, @Nullable Object instance) throws Throwable;
 
@@ -57,13 +59,14 @@ public interface Injector {
      * @param method the method to process
      * @return injector for the given method
      */
-    MethodInjector forMethod(Method method) throws Exception;
+    MethodInjector forMethod(Method method);
 
     /**
      * Generate injector for the given method
      *
      * @param method the method to process (works only for public properties)
      * @return injector for the given method
+     * @throws java.lang.Exception if anything happen during the generation of method wrapper
      */
     GeneratedMethodInjector forGeneratedMethod(Method method) throws Exception;
 
