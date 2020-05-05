@@ -20,7 +20,7 @@
     <parent>
         <artifactId>panda-parent</artifactId>
         <groupId>org.panda-lang</groupId>
-        <version>indev-20.4.20</version>
+        <version>indev-20.5.5</version>
     </parent>
 
     <artifactId>panda-framework</artifactId>
@@ -75,7 +75,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
+                <DIState>
                     <archive>
                         <manifestEntries>
                             <Specification-Title>panda-framework</Specification-Title>
@@ -83,7 +83,7 @@
                             <Implementation-Version>${panda.version}</Implementation-Version>
                         </manifestEntries>
                     </archive>
-                </configuration>
+                </DIState>
             </plugin>
         </plugins>
     </build>

@@ -18,8 +18,8 @@ package org.panda_lang.utilities.inject;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 
 public interface Injector {
 
@@ -30,7 +30,16 @@ public interface Injector {
      * @param <T> the type
      * @return a new instance
      */
-    <T> T newInstance(Class<T> type) throws InstantiationException, IllegalAccessException, InvocationTargetException, InjectorException;
+    <T> T newInstance(Class<T> type) throws Throwable;
+
+    /**
+     * Create injector for the given type
+     *
+     * @param type the type to process
+     * @param <T> type of class
+     * @return constructor injector
+     */
+    <T> ConstructorInjector<T> forConstructor(Class<T> type);
 
     /**
      * Invoke the method using Injector
@@ -41,6 +50,32 @@ public interface Injector {
      * @return the return value
      */
     @Nullable <T> T invokeMethod(Method method, @Nullable Object instance) throws Throwable;
+
+    /**
+     * Create injector for the given method
+     *
+     * @param method the method to process
+     * @return injector for the given method
+     */
+    MethodInjector forMethod(Method method) throws Exception;
+
+    /**
+     * Generate injector for the given method
+     *
+     * @param method the method to process (works only for public properties)
+     * @return injector for the given method
+     */
+    GeneratedMethodInjector forGeneratedMethod(Method method) throws Exception;
+
+    /**
+     * Get injected value of the given parameter
+     *
+     * @param parameter the parameter invoke
+     * @param <T> type of expected value
+     * @return the associated binding value
+     * @throws InjectorException if anything happen
+     */
+    @Nullable <T> T invokeParameter(Parameter parameter) throws InjectorException;
 
     /**
      * Create a fork of resources. The current resources will be used as a parent of a new instance.

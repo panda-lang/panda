@@ -16,38 +16,55 @@
 
 package org.panda_lang.utilities.inject;
 
+import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.ObjectUtils;
 import org.panda_lang.utilities.inject.annotations.Injectable;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Executable;
 import java.lang.reflect.Parameter;
-import java.util.Optional;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 final class InjectorProcessor {
 
+    protected static final Object[] EMPTY = { };
+
     private final Injector injector;
+    private final Map<Executable, Annotation[]> injectableCache = new HashMap<>();
 
     InjectorProcessor(Injector injector) {
         this.injector = injector;
     }
 
-    protected Object[] fetchValues(Executable executable) throws InjectorException {
-        Annotation[] injectorAnnotations = mapAnnotations(executable);
-        Parameter[] types = executable.getParameters();
-        Object[] parameters = new Object[injectorAnnotations.length];
+    protected Object[] fetchValues(InjectorCache cache, Executable executable) throws InjectorException {
+        Parameter[] parameters = executable.getParameters();
+        Object[] values = new Object[cache.getAnnotations().length];
 
-        for (int index = 0; index < parameters.length; index++) {
-            parameters[index] = fetchValue(executable, injectorAnnotations[index], types[index]);
+        for (int index = 0; index < values.length; index++) {
+            values[index] = tryFetchValue(cache, parameters[index], index);
         }
 
-        return parameters;
+        return values;
     }
 
-    private Annotation[] mapAnnotations(Executable executable) {
-        Class<?>[] parameterTypes = executable.getParameterTypes();
-        Annotation[][] parameterAnnotations = executable.getParameterAnnotations();
-        Annotation[] injectorAnnotations = new Annotation[parameterTypes.length];
+    protected Object tryFetchValue(InjectorProcessor processor, Parameter parameter) throws InjectorException {
+        InjectorCache cache = InjectorCache.of(processor, parameter.getDeclaringExecutable());
+        return tryFetchValue(cache, parameter, ArrayUtils.indexOf(parameter.getDeclaringExecutable().getParameters(), parameter));
+    }
+
+    protected Annotation[] fetchAnnotations(Executable executable) {
+        Annotation[] injectorAnnotations = injectableCache.get(executable);
+
+        if (injectorAnnotations != null) {
+            return injectorAnnotations;
+        }
+
+        injectorAnnotations = new Annotation[executable.getParameterTypes().length];
+        Annotation[][] parameterAnnotations = injector.getResources().fetchAnnotations(executable);
 
         for (int index = 0; index < parameterAnnotations.length; index++) {
             for (Annotation annotation : parameterAnnotations[index]) {
@@ -57,38 +74,57 @@ final class InjectorProcessor {
             }
         }
 
+        injectableCache.put(executable, injectorAnnotations);
         return injectorAnnotations;
     }
 
-    private Object fetchValue(Executable executable, @Nullable Annotation annotation, Parameter required) throws InjectorException {
+    protected InjectorResourceBind<?, ? super Object>[] fetchBinds(Annotation[] annotations, Executable executable) {
+        InjectorResources resources = injector.getResources();
+        Parameter[] parameters = executable.getParameters();
+        InjectorResourceBind<?, ? super Object>[] binds = ObjectUtils.cast(new InjectorResourceBind[parameters.length]);
+
+        for (int index = 0; index < annotations.length; index++) {
+            Annotation annotation = annotations[index];
+            Parameter parameter = parameters[index];
+
+            Class<?> requiredType = annotation != null ? annotation.annotationType() : parameter.getType();
+            Option<InjectorResourceBind<?, ? super Object>> bindValue = resources.getBind(requiredType);
+
+            binds[index] = bindValue.getOrElseThrow(() -> {
+                throw new InjectorException("Missing type bind for " + parameter + " parameter");
+            });
+        }
+
+        return binds;
+    }
+
+    protected Collection<InjectorResourceHandler<?, ? >>[] fetchHandlers(Executable executable) {
+        Collection<InjectorResourceHandler<?, ? >>[] handlers = ObjectUtils.cast(new Collection[executable.getParameterCount()]);
+        Parameter[] parameters = executable.getParameters();
+
+        for (int index = 0; index < parameters.length; index++) {
+            handlers[index] = injector.getResources().getHandler(parameters[index]);
+        }
+
+        return handlers;
+    }
+
+    private @Nullable Object tryFetchValue(InjectorCache cache, Parameter required, int index) throws InjectorException {
         try {
-            return fetchParameter(annotation, required);
+            return fetchValue(cache, required, index);
         } catch (Exception e) {
-            throw new InjectorException("Failed to fetch values for " + executable + ", " + e.getClass() + ": " + e.getMessage(), e);
+            throw new InjectorException("Failed to fetch values for " + required.getDeclaringExecutable() + ", " + e.getClass() + ": " + e.getMessage(), e);
         }
     }
 
-    private @Nullable Object fetchParameter(Annotation annotation, Parameter required) throws Exception {
-        InjectorResources resources = injector.getResources();
+    private  @Nullable Object fetchValue(InjectorCache cache, Parameter required, int index) throws Exception {
+        Object value = cache.getBinds()[index].getValue(required, cache.getAnnotations()[index]);
 
-        if (annotation != null) {
-            Optional<InjectorResourceBind<?, ? super Object>> bindValue = resources.getBind(annotation.annotationType());
-
-            if (!bindValue.isPresent()) {
-                throw new InjectorException("Missing annotation bind for '" + annotation.annotationType() + "' annotation");
-            }
-
-            InjectorResourceBind<?, ? super Object> bind = bindValue.get();
-            return bind.getValue(required, annotation);
+        for (InjectorResourceHandler<?, ?> handler : cache.getHandlers()[index]) {
+            value = handler.process(required, ObjectUtils.cast(value));
         }
 
-        Optional<InjectorResourceBind<?, ? super Object>> bindValue = resources.getBind(required.getType());
-
-        if (!bindValue.isPresent()) {
-            throw new InjectorException("Missing type bind for " + required + " parameter");
-        }
-
-        return bindValue.get().getValue(required, null);
+        return value;
     }
 
 }

@@ -16,14 +16,18 @@
 
 package org.panda_lang.utilities.inject;
 
-public final class InjectorException extends Exception {
+public final class InjectorException extends RuntimeException {
 
-    public InjectorException(String message) {
+    InjectorException(String message) {
         super(message);
     }
 
     InjectorException(String message, Throwable cause) {
         super(message, cause);
+    }
+
+    InjectorException(Throwable cause) {
+        super(cause);
     }
 
 }

@@ -27,7 +27,7 @@ import java.util.UUID;
 final class DependencyInjectionWikiTest {
 
     @Test
-    void testWikiExample() throws Exception {
+    void testWikiExample() throws Throwable {
         Injector injector = DependencyInjection.createInjector(resources -> {
             resources.annotatedWith(AwesomeRandom.class).assignHandler((required, annotation) -> {
                 Class<?> expectedType = required.getType();

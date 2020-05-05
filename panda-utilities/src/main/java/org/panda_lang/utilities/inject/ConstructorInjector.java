@@ -16,32 +16,29 @@
 
 package org.panda_lang.utilities.inject;
 
-import java.lang.reflect.Method;
+import java.lang.reflect.Constructor;
 
-public final class MethodInjector {
+public final class ConstructorInjector<T> {
 
     private final InjectorProcessor processor;
-    private final Method method;
+    private final Constructor<?> constructor;
     private final InjectorCache cache;
 
-    MethodInjector(InjectorProcessor processor, Method method) {
+    ConstructorInjector(InjectorProcessor processor, Constructor<T> constructor) {
         this.processor = processor;
-        this.method = method;
-        method.setAccessible(true);
-        this.cache = InjectorCache.of(processor, method);
+        this.constructor = constructor;
+        constructor.setAccessible(true);
+        this.cache = InjectorCache.of(processor, constructor);
     }
 
-    /**
-     * Invoke injector with the given instance
-     *
-     * @param instance the instance to use
-     * @param <T> type of return value
-     * @return returned value
-     * @throws Throwable if anything happen in the evaluated method
-     */
     @SuppressWarnings("unchecked")
-    public <T> T invoke(Object instance) throws Throwable {
-        return (T) method.invoke(instance, processor.fetchValues(cache, method));
+    ConstructorInjector(InjectorProcessor processor, Class<T> type) {
+        this(processor, (Constructor<T>) type.getDeclaredConstructors()[0]);
+    }
+
+    @SuppressWarnings("unchecked")
+    public T newInstance() throws Throwable {
+        return (T) constructor.newInstance(processor.fetchValues(cache, constructor));
     }
 
 }

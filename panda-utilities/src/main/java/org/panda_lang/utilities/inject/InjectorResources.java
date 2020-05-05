@@ -16,8 +16,14 @@
 
 package org.panda_lang.utilities.inject;
 
+import io.vavr.control.Option;
+import org.panda_lang.utilities.commons.function.ThrowingBiFunction;
+import org.panda_lang.utilities.commons.function.ThrowingTriFunction;
+
 import java.lang.annotation.Annotation;
-import java.util.Optional;
+import java.lang.reflect.Executable;
+import java.lang.reflect.Parameter;
+import java.util.Collection;
 
 public interface InjectorResources {
 
@@ -51,12 +57,70 @@ public interface InjectorResources {
     }
 
     /**
+     * Process injected object of the given type
+     *
+     * @param associatedType type to process
+     * @param processor the processor
+     * @param <V> type of value to process
+     * @param <R> return type
+     * @param <E> type of thrown exception
+     */
+    <V, R, E extends Exception> void processType(Class<V> associatedType, ThrowingBiFunction<Parameter, V, R, E> processor);
+
+    /**
+     * Process injected object annotated with the given annotation
+     *
+     * @param annotationType the annotation to handle
+     * @param processor the processor
+     * @param <A> type of annotation to process
+     * @param <R> return type
+     * @param <E> type of thrown exception
+     */
+    <A extends Annotation, V, R, E extends Exception> void processAnnotated(Class<A> annotationType, ThrowingTriFunction<A, Parameter, V, R, E> processor);
+
+    /**
+     * Process injected of the given type and annotated with the given annotation
+     *
+     * @param annotationType the annotation to handle
+     * @param type the type to handle
+     * @param processor the processor
+     * @param <A> type of annotation to process
+     * @param <R> return type
+     * @param <E> type of thrown exception
+     */
+    <A extends Annotation, C , V, R, E extends Exception> void processAnnotatedType(Class<A> annotationType, Class<V> type, ThrowingTriFunction<A, Parameter, V, R, E> processor);
+
+    /**
+     * Fetch annotations assigned to the given parameter
+     *
+     * @param parameter the parameter to process
+     * @return annotations assigned to the executable parameters
+     */
+    Annotation[] fetchAnnotations(Parameter parameter);
+
+    /**
+     * Fetch annotations assigned to the given executable
+     *
+     * @param executable the executable to process
+     * @return annotations assigned to the executable parameters
+     */
+    Annotation[][] fetchAnnotations(Executable executable);
+
+    /**
+     * Get bind for the given parameter
+     *
+     * @param parameter the parameter to get bind for
+     * @return the associated bind
+     */
+    Collection<InjectorResourceHandler<?, ?>> getHandler(Parameter parameter);
+
+    /**
      * Get bind for the specified type or annotation
      *
      * @param requestedType the associated class with bind to search for
      * @return the wrapped bind
      */
-    Optional<InjectorResourceBind<?, ? super Object>> getBind(Class<?> requestedType);
+    Option<InjectorResourceBind<?, ? super Object>> getBind(Class<?> requestedType);
 
     /**
      * Create a fork of resources. The current resources will be used as a parent of a new instance.
