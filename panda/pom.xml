@@ -20,7 +20,7 @@
     <parent>
         <artifactId>panda-parent</artifactId>
         <groupId>org.panda-lang</groupId>
-        <version>indev-20.4.20</version>
+        <version>indev-20.5.5</version>
     </parent>
 
     <artifactId>panda</artifactId>
@@ -76,7 +76,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
+                <DIState>
                     <archive>
                         <manifestEntries>
                             <Main-Class>org.panda_lang.panda.PandaLauncher</Main-Class>
@@ -85,11 +85,11 @@
                             <Implementation-Version>${panda.version}</Implementation-Version>
                         </manifestEntries>
                     </archive>
-                </configuration>
+                </DIState>
             </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
+                <DIState>
                     <archive>
                         <manifest>
                             <mainClass>org.panda_lang.panda.PandaLauncher</mainClass>
@@ -98,7 +98,7 @@
                     <descriptors>
                         <descriptor>src/main/assembly/all-assembly.xml</descriptor>
                     </descriptors>
-                </configuration>
+                </DIState>
                 <executions>
                     <execution>
                         <phase>package</phase>

@@ -14,15 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework;
+package org.panda_lang.utilities.inject;
 
-public final class PandaFrameworkConstants {
+import java.lang.reflect.Parameter;
 
-    /**
-     * Current version of the Panda Framework
-     */
-    public static final String VERSION = "indev-20.5.5";
+interface InjectorResourceHandler<V, R> {
 
-    private PandaFrameworkConstants() { }
+    R process(Parameter required, V data) throws Exception;
 
 }

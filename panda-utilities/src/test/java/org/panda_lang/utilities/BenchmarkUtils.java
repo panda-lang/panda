@@ -14,15 +14,22 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework;
+package org.panda_lang.utilities;
 
-public final class PandaFrameworkConstants {
+import org.openjdk.jmh.runner.Runner;
+import org.openjdk.jmh.runner.RunnerException;
+import org.openjdk.jmh.runner.options.Options;
+import org.openjdk.jmh.runner.options.OptionsBuilder;
 
-    /**
-     * Current version of the Panda Framework
-     */
-    public static final String VERSION = "indev-20.5.5";
+public final class BenchmarkUtils {
 
-    private PandaFrameworkConstants() { }
+    public static void run(Class<?> clazz) throws RunnerException {
+        Options options = new OptionsBuilder()
+                .include(clazz.getName())
+                .build();
+
+        Runner runner = new Runner(options);
+        runner.run();
+    }
 
 }

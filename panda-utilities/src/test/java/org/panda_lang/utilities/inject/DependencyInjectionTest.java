@@ -27,6 +27,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 final class DependencyInjectionTest {
@@ -41,11 +42,21 @@ final class DependencyInjectionTest {
 
     @Test
     void testInjector() {
+        AtomicBoolean limiterCalled = new AtomicBoolean(false);
+
         Injector injector = DependencyInjection.createInjector(resources -> {
             resources.on(String.class).assignInstance(HELLO);
 
             resources.annotatedWith(CustomAnnotation.class).assignHandler((expected, annotation) -> {
                 return MAP.get(annotation.value());
+            });
+
+            resources.processAnnotatedType(CustomAnnotation.class, String.class, (customAnnotation, parameter, value) -> {
+                if (value.length() > (HELLO_AUTOWIRED.length() - 2)) {
+                    limiterCalled.set(true);
+                }
+
+                return value;
             });
         });
 
@@ -61,6 +72,8 @@ final class DependencyInjectionTest {
             Method testForkedInjector = ReflectionUtils.getMethod(TestClass.class, "testForkedInjector", String.class, int.class).get();
             Assertions.assertEquals(DYNAMIC, (Integer) injector.fork(resources -> resources.on(int.class).assignInstance(DYNAMIC)).invokeMethod(testForkedInjector, instance));
         });
+
+        Assertions.assertTrue(limiterCalled.get());
     }
 
     private static final class TestClass {

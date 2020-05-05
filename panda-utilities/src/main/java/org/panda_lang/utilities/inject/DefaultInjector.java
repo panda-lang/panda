@@ -16,25 +16,55 @@
 
 package org.panda_lang.utilities.inject;
 
-import java.lang.reflect.InvocationTargetException;
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.utilities.commons.ObjectUtils;
+
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.security.InvalidParameterException;
 
 final class DefaultInjector implements Injector {
 
     private final InjectorResources resources;
+    private final InjectorProcessor processor;
 
     public DefaultInjector(InjectorResources resources) {
         this.resources = resources;
+        this.processor = new InjectorProcessor(this);
     }
 
     @Override
-    public <T> T newInstance(Class<T> type) throws InstantiationException, IllegalAccessException, InvocationTargetException, InjectorException {
-        return new ConstructorInjection(this, type).invoke();
+    public <T> T newInstance(Class<T> type) throws Throwable {
+        return forConstructor(type).newInstance();
+    }
+
+    @Override
+    public <T> ConstructorInjector<T> forConstructor(Class<T> type) {
+        if (type.getDeclaredConstructors().length != 1) {
+            throw new InvalidParameterException("Class has to contain one and only constructor");
+        }
+
+        return new ConstructorInjector<T>(processor, type);
     }
 
     @Override
     public <T> T invokeMethod(Method method, Object instance) throws Throwable {
-        return new MethodInjector(this, method).invoke(instance);
+        return forMethod(method).invoke(instance);
+    }
+
+    @Override
+    public MethodInjector forMethod(Method method) {
+        return new MethodInjector(processor, method);
+    }
+
+    @Override
+    public GeneratedMethodInjector forGeneratedMethod(Method method) throws Exception {
+        return new GeneratedMethodInjector(processor, method);
+    }
+
+    @Override
+    public <T> @Nullable T invokeParameter(Parameter parameter) throws InjectorException {
+        return ObjectUtils.cast(processor.tryFetchValue(processor, parameter));
     }
 
     @Override

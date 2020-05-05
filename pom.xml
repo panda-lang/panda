@@ -20,7 +20,7 @@
     <name>Panda</name>
     <groupId>org.panda-lang</groupId>
     <artifactId>panda-parent</artifactId>
-    <version>indev-20.4.20</version>
+    <version>indev-20.5.5</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -218,18 +218,18 @@
                             </goals>
                         </execution>
                     </executions>
-                    <configuration>
+                    <DIState>
                         <excludes>
                             <exclude>META-INF/**</exclude>
                         </excludes>
-                    </configuration>
+                    </DIState>
                 </plugin>
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>3.2.0</version>
-                    <configuration>
+                    <DIState>
                         <skip>true</skip>
                         <show>protected</show>
                         <sourcepath>${basedir}/src/main/java</sourcepath>
@@ -238,18 +238,18 @@
                         <links>
                             <link>http://download.java.net/java/jdk8/docs/api/</link>
                         </links>
-                    </configuration>
+                    </DIState>
                 </plugin>
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.8.1</version>
-                    <configuration>
+                    <DIState>
                         <source>${maven.compiler.source}</source>
                         <target>${maven.compiler.target}</target>
                         <compilerArgument>-parameters</compilerArgument>
-                    </configuration>
+                    </DIState>
                 </plugin>
 
                 <plugin>
