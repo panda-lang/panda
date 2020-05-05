@@ -76,7 +76,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <DIState>
+                <configuration>
                     <archive>
                         <manifestEntries>
                             <Main-Class>org.panda_lang.panda.PandaLauncher</Main-Class>
@@ -85,11 +85,11 @@
                             <Implementation-Version>${panda.version}</Implementation-Version>
                         </manifestEntries>
                     </archive>
-                </DIState>
+                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <DIState>
+                <configuration>
                     <archive>
                         <manifest>
                             <mainClass>org.panda_lang.panda.PandaLauncher</mainClass>
@@ -98,7 +98,7 @@
                     <descriptors>
                         <descriptor>src/main/assembly/all-assembly.xml</descriptor>
                     </descriptors>
-                </DIState>
+                </configuration>
                 <executions>
                     <execution>
                         <phase>package</phase>
