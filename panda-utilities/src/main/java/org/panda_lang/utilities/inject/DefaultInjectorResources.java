@@ -123,6 +123,7 @@ final class DefaultInjectorResources implements InjectorResources {
         for (Annotation annotation : annotations) {
             add(matched, new HandlerRecord(parameter.getType(), null));
             add(matched, new HandlerRecord(parameter.getType(), annotation.annotationType()));
+            add(matched, new HandlerRecord(null, annotation.annotationType()));
         }
 
         return matched;
