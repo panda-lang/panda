@@ -18,11 +18,12 @@ package org.panda_lang.utilities.inject;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Parameter;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
-public interface InjectorResourceBind<T, V> extends Comparable<InjectorResourceBind<T, V>> {
+public interface InjectorResourceBind<A extends Annotation> extends Comparable<InjectorResourceBind<A>> {
 
     /**
      * Assign class to the bind (a new instance will be created each time)
@@ -50,17 +51,18 @@ public interface InjectorResourceBind<T, V> extends Comparable<InjectorResourceB
      *
      * @param handler the handler which accepts type of parameter and bind type as arguments
      */
-    void assignHandler(BiFunction<Parameter, V, ?> handler);
+    void assignHandler(BiFunction<Parameter, A, ?> handler);
 
     /**
      * Get value of bind for the required (parameter) type and instance of bind type
      *
      * @param required the required return type
-     * @param data instance of bind generic type
+     * @param annotation instance of bind generic type
+     * @param injectorArgs custom arguments for injector
      * @return the result value
      * @throws Exception if anything wrong will happen, whole process should be stopped
      */
-    Object getValue(Parameter required, V data) throws Exception;
+    Object getValue(Parameter required, A annotation, Object... injectorArgs) throws Exception;
 
     /**
      * Get associated type with the bind

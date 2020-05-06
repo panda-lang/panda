@@ -34,6 +34,7 @@ final class DependencyInjectionTest {
 
     private static final String HELLO = "Hello";
     private static final String HELLO_AUTOWIRED = HELLO + " Autowired";
+    private static final String INJECTOR_ARG = "Injector Arg";
     public static final int DYNAMIC = 7;
 
     private static final Map<String, String> MAP = new HashMap<String, String>() {{
@@ -51,7 +52,9 @@ final class DependencyInjectionTest {
                 return MAP.get(annotation.value());
             });
 
-            resources.processAnnotatedType(CustomAnnotation.class, String.class, (customAnnotation, parameter, value) -> {
+            resources.processAnnotatedType(CustomAnnotation.class, String.class, (customAnnotation, parameter, value, injectorArgs) -> {
+                Assertions.assertArrayEquals(new Object[] { INJECTOR_ARG }, injectorArgs);
+
                 if (value.length() > (HELLO_AUTOWIRED.length() - 2)) {
                     limiterCalled.set(true);
                 }
@@ -67,7 +70,7 @@ final class DependencyInjectionTest {
             Assertions.assertEquals(HELLO, injector.invokeMethod(testTypeInvoke, instance));
 
             Method testAnnotationInvoke = ReflectionUtils.getMethod(TestClass.class, "testAnnotationInvoke", String.class).get();
-            Assertions.assertEquals(HELLO_AUTOWIRED, injector.invokeMethod(testAnnotationInvoke, instance));
+            Assertions.assertEquals(HELLO_AUTOWIRED, injector.invokeMethod(testAnnotationInvoke, instance, INJECTOR_ARG));
 
             Method testForkedInjector = ReflectionUtils.getMethod(TestClass.class, "testForkedInjector", String.class, int.class).get();
             Assertions.assertEquals(DYNAMIC, (Integer) injector.fork(resources -> resources.on(int.class).assignInstance(DYNAMIC)).invokeMethod(testForkedInjector, instance));

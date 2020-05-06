@@ -31,7 +31,7 @@ public interface Injector {
      * @return a new instance
      * @throws java.lang.Throwable if anything happen in constructor
      */
-    <T> T newInstance(Class<T> type) throws Throwable;
+    <T> T newInstance(Class<T> type, Object... injectorArgs) throws Throwable;
 
     /**
      * Create injector for the given type
@@ -51,7 +51,7 @@ public interface Injector {
      * @return the return value
      * @throws java.lang.Throwable if anything happen in the invoked method
      */
-    @Nullable <T> T invokeMethod(Method method, @Nullable Object instance) throws Throwable;
+    @Nullable <T> T invokeMethod(Method method, @Nullable Object instance, Object... injectorArgs) throws Throwable;
 
     /**
      * Create injector for the given method
@@ -78,7 +78,7 @@ public interface Injector {
      * @return the associated binding value
      * @throws InjectorException if anything happen
      */
-    @Nullable <T> T invokeParameter(Parameter parameter) throws InjectorException;
+    @Nullable <T> T invokeParameter(Parameter parameter, Object... injectorArgs) throws InjectorException;
 
     /**
      * Create a fork of resources. The current resources will be used as a parent of a new instance.

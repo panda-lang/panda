@@ -16,10 +16,15 @@
 
 package org.panda_lang.utilities.inject;
 
+import io.vavr.control.Option;
+
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Parameter;
 
-interface InjectorResourceHandler<V, R> {
+interface InjectorResourceHandler<A extends Annotation, V, R> {
 
-    R process(Parameter required, V data) throws Exception;
+    R process(Parameter required, A annotation, V value, Object... injectorArgs) throws Exception;
+
+    Option<Class<A>> getAnnotation();
 
 }

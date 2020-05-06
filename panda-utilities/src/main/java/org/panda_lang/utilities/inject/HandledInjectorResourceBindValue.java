@@ -16,20 +16,21 @@
 
 package org.panda_lang.utilities.inject;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Parameter;
 import java.util.function.BiFunction;
 
-final class HandledInjectorResourceBindValue<T> implements InjectorResourceBindValue<T> {
+final class HandledInjectorResourceBindValue<A extends Annotation> implements InjectorResourceBindValue<A> {
 
-    private final BiFunction<Parameter, T, ?> handler;
+    private final BiFunction<Parameter, A, ?> handler;
 
-    HandledInjectorResourceBindValue(BiFunction<Parameter, T, ?> handler) {
+    HandledInjectorResourceBindValue(BiFunction<Parameter, A, ?> handler) {
         this.handler = handler;
     }
 
     @Override
-    public Object getValue(Parameter required, T bind) {
-        return handler.apply(required, bind);
+    public Object getValue(Parameter required, A annotation) {
+        return handler.apply(required, annotation);
     }
 
 }

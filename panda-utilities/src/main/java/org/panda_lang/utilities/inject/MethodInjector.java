@@ -35,13 +35,14 @@ public final class MethodInjector {
      * Invoke injector with the given instance
      *
      * @param instance the instance to use
+     * @param injectorArgs arguments for injector
      * @param <T> type of return value
      * @return returned value
      * @throws Throwable if anything happen in the evaluated method
      */
     @SuppressWarnings("unchecked")
-    public <T> T invoke(Object instance) throws Throwable {
-        return (T) method.invoke(instance, processor.fetchValues(cache, method));
+    public <T> T invoke(Object instance, Object... injectorArgs) throws Throwable {
+        return (T) method.invoke(instance, processor.fetchValues(cache, method, injectorArgs));
     }
 
 }

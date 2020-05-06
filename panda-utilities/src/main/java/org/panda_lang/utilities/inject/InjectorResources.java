@@ -17,7 +17,7 @@
 package org.panda_lang.utilities.inject;
 
 import io.vavr.control.Option;
-import org.panda_lang.utilities.commons.function.ThrowingBiFunction;
+import org.panda_lang.utilities.commons.function.ThrowingQuadFunction;
 import org.panda_lang.utilities.commons.function.ThrowingTriFunction;
 
 import java.lang.annotation.Annotation;
@@ -31,28 +31,27 @@ public interface InjectorResources {
      * Create bind for the specified type
      *
      * @param associatedType type to bind
-     * @param <T> type
      * @return the bind based on associated type
      */
-    <T> InjectorResourceBind<T, T> on(Class<T> associatedType);
+    InjectorResourceBind<?> on(Class<?> associatedType);
 
     /**
      * Create bind for parameters annotated with the specified annotation
      *
      * @param annotation the annotation to bind
-     * @param <T> type of annotation
+     * @param <A> type of annotation
      * @return the bind based on associated annotation
      */
-    <T extends Annotation> InjectorResourceBind<T, T> annotatedWith(Class<T> annotation);
+    <A extends Annotation> InjectorResourceBind<A> annotatedWith(Class<A> annotation);
 
     /**
      * Create bind for parameters annotated with the specified annotation tested by the {@link org.panda_lang.utilities.inject.DependencyInjectionUtils#testAnnotation(Class)} method
      *
      * @param annotation the annotation to bind
-     * @param <T> type of annotation
+     * @param <A> type of annotation
      * @return the bind based on associated annotation
      */
-    default <T extends Annotation> InjectorResourceBind<T, T> annotatedWithTested(Class<T> annotation) {
+    default <A extends Annotation> InjectorResourceBind<A> annotatedWithTested(Class<A> annotation) {
         return annotatedWith(DependencyInjectionUtils.testAnnotation(annotation));
     }
 
@@ -65,7 +64,7 @@ public interface InjectorResources {
      * @param <R> return type
      * @param <E> type of thrown exception
      */
-    <V, R, E extends Exception> void processType(Class<V> associatedType, ThrowingBiFunction<Parameter, V, R, E> processor);
+    <V, R, E extends Exception> void processType(Class<V> associatedType, ThrowingTriFunction<Parameter, V, Object[], R, E> processor);
 
     /**
      * Process injected object annotated with the given annotation
@@ -77,7 +76,7 @@ public interface InjectorResources {
      * @param <R> return type
      * @param <E> type of thrown exception
      */
-    <A extends Annotation, V, R, E extends Exception> void processAnnotated(Class<A> annotationType, ThrowingTriFunction<A, Parameter, V, R, E> processor);
+    <A extends Annotation, V, R, E extends Exception> void processAnnotated(Class<A> annotationType, ThrowingQuadFunction<A, Parameter, V, Object[], R, E> processor);
 
     /**
      * Process injected of the given type and annotated with the given annotation
@@ -90,7 +89,7 @@ public interface InjectorResources {
      * @param <R> return type
      * @param <E> type of thrown exception
      */
-    <A extends Annotation, V, R, E extends Exception> void processAnnotatedType(Class<A> annotationType, Class<V> type, ThrowingTriFunction<A, Parameter, V, R, E> processor);
+    <A extends Annotation, V, R, E extends Exception> void processAnnotatedType(Class<A> annotationType, Class<V> type, ThrowingQuadFunction<A, Parameter, V, Object[], R, E> processor);
 
     /**
      * Fetch annotations assigned to the given parameter
@@ -114,7 +113,7 @@ public interface InjectorResources {
      * @param parameter the parameter to get bind for
      * @return the associated bind
      */
-    Collection<InjectorResourceHandler<?, ?>> getHandler(Parameter parameter);
+    Collection<InjectorResourceHandler<Annotation, Object, ?>> getHandler(Parameter parameter);
 
     /**
      * Get bind for the specified type or annotation
@@ -122,7 +121,7 @@ public interface InjectorResources {
      * @param requestedType the associated class with bind to search for
      * @return the wrapped bind
      */
-    Option<InjectorResourceBind<?, ? super Object>> getBind(Class<?> requestedType);
+    Option<InjectorResourceBind<Annotation>> getBind(Class<?> requestedType);
 
     /**
      * Create a fork of resources. The current resources will be used as a parent of a new instance.
