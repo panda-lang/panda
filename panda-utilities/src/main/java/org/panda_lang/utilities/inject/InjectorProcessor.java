@@ -40,20 +40,44 @@ final class InjectorProcessor {
         this.injector = injector;
     }
 
-    protected Object[] fetchValues(InjectorCache cache, Executable executable) throws InjectorException {
+    protected Object[] fetchValues(InjectorCache cache, Executable executable, Object... injectorArgs) throws InjectorException {
         Parameter[] parameters = executable.getParameters();
-        Object[] values = new Object[cache.getAnnotations().length];
+        Object[] values = new Object[cache.getInjectable().length];
 
         for (int index = 0; index < values.length; index++) {
-            values[index] = tryFetchValue(cache, parameters[index], index);
+            values[index] = tryFetchValue(cache, parameters[index], index, injectorArgs);
         }
 
         return values;
     }
 
-    protected Object tryFetchValue(InjectorProcessor processor, Parameter parameter) throws InjectorException {
+    protected Object tryFetchValue(InjectorProcessor processor, Parameter parameter, Object... injectorArgs) throws InjectorException {
         InjectorCache cache = InjectorCache.of(processor, parameter.getDeclaringExecutable());
-        return tryFetchValue(cache, parameter, ArrayUtils.indexOf(parameter.getDeclaringExecutable().getParameters(), parameter));
+        return tryFetchValue(cache, parameter, ArrayUtils.indexOf(parameter.getDeclaringExecutable().getParameters(), parameter), injectorArgs);
+    }
+
+    private @Nullable Object tryFetchValue(InjectorCache cache, Parameter required, int index, Object... injectorArgs) throws InjectorException {
+        try {
+            return fetchValue(cache, required, index, injectorArgs);
+        } catch (Exception e) {
+            throw new InjectorException("Failed to fetch values for " + required.getDeclaringExecutable() + ", " + e.getClass() + ": " + e.getMessage(), e);
+        }
+    }
+
+    private  @Nullable Object fetchValue(InjectorCache cache, Parameter required, int index, Object... injectorArgs) throws Exception {
+        Object value = cache.getBinds()[index].getValue(required, cache.getInjectable()[index], injectorArgs);
+
+        for (InjectorResourceHandler<Annotation, Object, ?> handler : cache.getHandlers()[index]) {
+            Annotation annotation = null;
+
+            if (handler.getAnnotation().isDefined()) {
+                annotation = cache.getAnnotations()[index].get(handler.getAnnotation().get());
+            }
+
+            value = handler.process(required, annotation, ObjectUtils.cast(value), injectorArgs);
+        }
+
+        return value;
     }
 
     protected Annotation[] fetchAnnotations(Executable executable) {
@@ -78,17 +102,34 @@ final class InjectorProcessor {
         return injectorAnnotations;
     }
 
-    protected InjectorResourceBind<?, ? super Object>[] fetchBinds(Annotation[] annotations, Executable executable) {
+    protected Map<Class<? extends Annotation>, Annotation>[] fetchAnnotationsMap(Executable executable) {
+        Annotation[][] annotations = injector.getResources().fetchAnnotations(executable);
+        Map<Class<? extends Annotation>, Annotation>[] mappedAnnotations = ObjectUtils.cast(new HashMap[annotations.length]);
+
+        for (int index = 0; index < annotations.length; index++) {
+            Map<Class<? extends Annotation>, Annotation> annotationMap = new HashMap<>();
+
+            for (Annotation annotation : annotations[index]) {
+                annotationMap.put(annotation.annotationType(), annotation);
+            }
+
+            mappedAnnotations[index] = annotationMap;
+        }
+
+        return mappedAnnotations;
+    }
+
+    protected InjectorResourceBind<Annotation>[] fetchBinds(Annotation[] annotations, Executable executable) {
         InjectorResources resources = injector.getResources();
         Parameter[] parameters = executable.getParameters();
-        InjectorResourceBind<?, ? super Object>[] binds = ObjectUtils.cast(new InjectorResourceBind[parameters.length]);
+        InjectorResourceBind<Annotation>[] binds = ObjectUtils.cast(new InjectorResourceBind[parameters.length]);
 
         for (int index = 0; index < annotations.length; index++) {
             Annotation annotation = annotations[index];
             Parameter parameter = parameters[index];
 
             Class<?> requiredType = annotation != null ? annotation.annotationType() : parameter.getType();
-            Option<InjectorResourceBind<?, ? super Object>> bindValue = resources.getBind(requiredType);
+            Option<InjectorResourceBind<Annotation>> bindValue = resources.getBind(requiredType);
 
             binds[index] = bindValue.getOrElseThrow(() -> {
                 throw new InjectorException("Missing type bind for " + parameter + " parameter");
@@ -98,8 +139,8 @@ final class InjectorProcessor {
         return binds;
     }
 
-    protected Collection<InjectorResourceHandler<?, ? >>[] fetchHandlers(Executable executable) {
-        Collection<InjectorResourceHandler<?, ? >>[] handlers = ObjectUtils.cast(new Collection[executable.getParameterCount()]);
+    protected Collection<InjectorResourceHandler<Annotation, Object, ?>>[] fetchHandlers(Executable executable) {
+        Collection<InjectorResourceHandler<Annotation, Object, ?>>[] handlers = ObjectUtils.cast(new Collection[executable.getParameterCount()]);
         Parameter[] parameters = executable.getParameters();
 
         for (int index = 0; index < parameters.length; index++) {
@@ -109,22 +150,8 @@ final class InjectorProcessor {
         return handlers;
     }
 
-    private @Nullable Object tryFetchValue(InjectorCache cache, Parameter required, int index) throws InjectorException {
-        try {
-            return fetchValue(cache, required, index);
-        } catch (Exception e) {
-            throw new InjectorException("Failed to fetch values for " + required.getDeclaringExecutable() + ", " + e.getClass() + ": " + e.getMessage(), e);
-        }
-    }
-
-    private  @Nullable Object fetchValue(InjectorCache cache, Parameter required, int index) throws Exception {
-        Object value = cache.getBinds()[index].getValue(required, cache.getAnnotations()[index]);
-
-        for (InjectorResourceHandler<?, ?> handler : cache.getHandlers()[index]) {
-            value = handler.process(required, ObjectUtils.cast(value));
-        }
-
-        return value;
+    Injector getInjector() {
+        return injector;
     }
 
 }

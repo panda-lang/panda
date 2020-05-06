@@ -16,30 +16,38 @@
 
 package org.panda_lang.utilities.inject;
 
-import org.panda_lang.utilities.commons.function.ThrowingBiFunction;
+import io.vavr.control.Option;
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.utilities.commons.function.ThrowingQuadFunction;
 import org.panda_lang.utilities.commons.function.ThrowingTriFunction;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Parameter;
 
-final class DefaultInjectorResourceHandler<A extends Annotation, V, R, E extends Exception> implements InjectorResourceHandler<V, R> {
+final class DefaultInjectorResourceHandler<A extends Annotation, V, R, E extends Exception> implements InjectorResourceHandler<A, V, R> {
 
-    private final ThrowingTriFunction<A, Parameter, V, R, E> processor;
+    private final ThrowingQuadFunction<A, Parameter, V, Object[], R, E> processor;
+    private final Option<Class<A>> annotationType;
 
-    public DefaultInjectorResourceHandler(ThrowingTriFunction<A, Parameter, V, R, E> processor) {
+    public DefaultInjectorResourceHandler(@Nullable Class<A> annotation, ThrowingQuadFunction<A, Parameter, V, Object[], R, E> processor) {
         this.processor = processor;
+        this.annotationType = Option.of(annotation);
     }
 
-    public DefaultInjectorResourceHandler(ThrowingBiFunction<Parameter, V, R, E> processor) {
-        this.processor = (annotation, parameter, value) -> {
-            return processor.apply(parameter, value);
-        };
+    public DefaultInjectorResourceHandler(@Nullable Class<A> annotation, ThrowingTriFunction<Parameter, V, Object[], R, E> processor) {
+        this(annotation, (_annotation, parameter, value, injectorArgs) -> {
+            return processor.apply(parameter, value, injectorArgs);
+        });
     }
 
     @Override
-    public R process(Parameter required, V data) throws Exception {
-        return processor.apply(null, required, data);
+    public R process(Parameter required, A annotation, V value, Object... injectorArgs) throws Exception {
+        return processor.apply(null, required, value, injectorArgs);
     }
 
+    @Override
+    public Option<Class<A>> getAnnotation() {
+        return annotationType;
+    }
 
 }

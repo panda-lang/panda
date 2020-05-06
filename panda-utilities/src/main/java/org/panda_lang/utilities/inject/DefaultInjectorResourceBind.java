@@ -18,15 +18,16 @@ package org.panda_lang.utilities.inject;
 
 import org.panda_lang.utilities.commons.ObjectUtils;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Parameter;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
-class DefaultInjectorResourceBind<T, V> implements InjectorResourceBind<T, V> {
+class DefaultInjectorResourceBind<A extends Annotation> implements InjectorResourceBind<A> {
 
     private final Class<?> associatedType;
     private final Class<?> dataType;
-    private InjectorResourceBindValue<V> value;
+    private InjectorResourceBindValue<A> value;
 
     DefaultInjectorResourceBind(Class<?> associatedType) {
         this(associatedType, associatedType);
@@ -41,7 +42,7 @@ class DefaultInjectorResourceBind<T, V> implements InjectorResourceBind<T, V> {
         this.dataType = dataType;
     }
 
-    private void with(InjectorResourceBindValue<V> value) {
+    private void with(InjectorResourceBindValue<A> value) {
         this.value = value;
     }
 
@@ -61,13 +62,13 @@ class DefaultInjectorResourceBind<T, V> implements InjectorResourceBind<T, V> {
     }
 
     @Override
-    public void assignHandler(BiFunction<Parameter, V, ?> handler) {
+    public void assignHandler(BiFunction<Parameter, A, ?> handler) {
         with(new HandledInjectorResourceBindValue<>(handler));
     }
 
     @Override
-    public Object getValue(Parameter required, V data) throws Exception {
-        return value.getValue(required, data);
+    public Object getValue(Parameter required, A annotation, Object... injectedArgs) throws Exception {
+        return value.getValue(required, annotation);
     }
 
     @Override

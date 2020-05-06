@@ -34,8 +34,8 @@ final class DefaultInjector implements Injector {
     }
 
     @Override
-    public <T> T newInstance(Class<T> type) throws Throwable {
-        return forConstructor(type).newInstance();
+    public <T> T newInstance(Class<T> type, Object... injectorArgs) throws Throwable {
+        return forConstructor(type).newInstance(injectorArgs);
     }
 
     @Override
@@ -48,8 +48,8 @@ final class DefaultInjector implements Injector {
     }
 
     @Override
-    public <T> T invokeMethod(Method method, Object instance) throws Throwable {
-        return forMethod(method).invoke(instance);
+    public <T> T invokeMethod(Method method, Object instance, Object... injectorArgs) throws Throwable {
+        return forMethod(method).invoke(instance, injectorArgs);
     }
 
     @Override
@@ -63,8 +63,8 @@ final class DefaultInjector implements Injector {
     }
 
     @Override
-    public <T> @Nullable T invokeParameter(Parameter parameter) throws InjectorException {
-        return ObjectUtils.cast(processor.tryFetchValue(processor, parameter));
+    public <T> @Nullable T invokeParameter(Parameter parameter, Object... injectorArgs) throws InjectorException {
+        return ObjectUtils.cast(processor.tryFetchValue(processor, parameter, injectorArgs));
     }
 
     @Override

@@ -16,10 +16,11 @@
 
 package org.panda_lang.utilities.inject;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Parameter;
 import java.util.function.Supplier;
 
-final class StaticInjectorResourceBindValue<T> implements InjectorResourceBindValue<T> {
+final class StaticInjectorResourceBindValue<A extends Annotation> implements InjectorResourceBindValue<A> {
 
     private final Supplier<?> valueSupplier;
 
@@ -32,7 +33,7 @@ final class StaticInjectorResourceBindValue<T> implements InjectorResourceBindVa
     }
 
     @Override
-    public Object getValue(Parameter required, T bind) {
+    public Object getValue(Parameter required, A annotation) {
         return valueSupplier.get();
     }
 

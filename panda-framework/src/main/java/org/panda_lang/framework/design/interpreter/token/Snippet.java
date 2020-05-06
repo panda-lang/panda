@@ -299,7 +299,7 @@ public interface Snippet extends Iterable<TokenInfo>, Snippetable {
 
     /**
      * Get snippet as source.
-     * Method {@link #toString()} returns an easy to read formatted representation of snippet,
+     * Method {@link Snippet#toString()} returns an easy to read formatted representation of snippet,
      * but the current method returns the source represented by snippet that may be still parsed.
      *
      * @return the source represented by the snippet
