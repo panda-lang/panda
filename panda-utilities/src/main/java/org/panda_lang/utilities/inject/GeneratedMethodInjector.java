@@ -44,7 +44,7 @@ final class GeneratedMethodInjector {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T invoke(Object instance) {
+    public <T> T invoke(Object instance) throws Throwable {
         return (T) function.apply(instance, empty ? InjectorProcessor.EMPTY : processor.fetchValues(cache, method));
     }
 
@@ -69,6 +69,10 @@ final class GeneratedMethodInjector {
         Class<?> type = FUNCTIONAL_INTERFACE_IMPLEMENTER.generate(name, BiFunction.class, new LinkedHashMap<>(), body);
 
         return ObjectUtils.cast(type.newInstance());
+    }
+
+    public Method getMethod() {
+        return method;
     }
 
 }

@@ -45,4 +45,8 @@ public final class MethodInjector {
         return (T) method.invoke(instance, processor.fetchValues(cache, method, injectorArgs));
     }
 
+    public Method getMethod() {
+        return method;
+    }
+
 }

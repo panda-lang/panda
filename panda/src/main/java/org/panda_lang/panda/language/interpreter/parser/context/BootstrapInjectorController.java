@@ -52,19 +52,19 @@ final class BootstrapInjectorController implements InjectorController {
         resources.on(InterceptorData.class).assignInstance(() -> interceptorData);
         resources.on(LocalCache.class).assignInstance(() -> cache);
 
-        resources.annotatedWith(Ctx.class).assignHandler((required, annotation) -> {
+        resources.annotatedWith(Ctx.class).assignHandler((required, annotation, injectorArgs) -> {
             return findComponent(annotation, required);
         });
 
-        resources.annotatedWith(Src.class).assignHandler((required, annotation) -> {
+        resources.annotatedWith(Src.class).assignHandler((required, annotation, injectorArgs) -> {
             return findSource(annotation, required);
         });
 
-        resources.annotatedWith(Cache.class).assignHandler((required, annotation) -> {
+        resources.annotatedWith(Cache.class).assignHandler((required, annotation, injectorArgs) -> {
             return findInCache(annotation, required);
         });
 
-        resources.annotatedWith(Int.class).assignHandler((required, annotation) -> {
+        resources.annotatedWith(Int.class).assignHandler((required, annotation, injectorArgs) -> {
             return interceptorData.getValue(required.getType());
         });
     }

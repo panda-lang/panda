@@ -33,7 +33,7 @@ final class StaticInjectorResourceBindValue<A extends Annotation> implements Inj
     }
 
     @Override
-    public Object getValue(Parameter required, A annotation) {
+    public Object getValue(Parameter required, A annotation, Object... injectorArgs) {
         return valueSupplier.get();
     }
 

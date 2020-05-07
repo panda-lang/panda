@@ -49,7 +49,7 @@ public class DependencyInjectionBenchmark {
     }
 
     @Benchmark
-    public final Integer di(DIState state) {
+    public final Integer di(DIState state) throws Throwable {
         return state.bump.invoke(state.entity);
     }
 

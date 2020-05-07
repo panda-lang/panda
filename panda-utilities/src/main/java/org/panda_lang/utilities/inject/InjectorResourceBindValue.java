@@ -24,6 +24,6 @@ import java.lang.reflect.Parameter;
 @FunctionalInterface
 interface InjectorResourceBindValue<A extends Annotation> {
 
-    Object getValue(Parameter required, @Nullable A annotation) throws Exception;
+    Object getValue(Parameter required, @Nullable A annotation, Object... injectedArgs) throws Exception;
 
 }
