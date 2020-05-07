@@ -28,7 +28,7 @@ final class TypeInjectorResourceBindValue<A extends Annotation> implements Injec
     }
 
     @Override
-    public Object getValue(Parameter required, A annotation) throws Exception {
+    public Object getValue(Parameter required, A annotation, Object... injectorArgs) throws Exception {
         return type.newInstance();
     }
 

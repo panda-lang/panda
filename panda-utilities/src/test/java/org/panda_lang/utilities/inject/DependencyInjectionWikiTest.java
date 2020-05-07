@@ -29,7 +29,7 @@ final class DependencyInjectionWikiTest {
     @Test
     void testWikiExample() throws Throwable {
         Injector injector = DependencyInjection.createInjector(resources -> {
-            resources.annotatedWith(AwesomeRandom.class).assignHandler((required, annotation) -> {
+            resources.annotatedWith(AwesomeRandom.class).assignHandler((required, annotation, injectorArgs) -> {
                 Class<?> expectedType = required.getType();
 
                 if (expectedType.equals(String.class)) {

@@ -41,4 +41,8 @@ public final class ConstructorInjector<T> {
         return (T) constructor.newInstance(processor.fetchValues(cache, constructor, injectorArgs));
     }
 
+    public Constructor<?> getConstructor() {
+        return constructor;
+    }
+
 }

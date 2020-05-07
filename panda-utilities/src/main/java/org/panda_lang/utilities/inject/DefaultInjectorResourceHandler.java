@@ -42,7 +42,7 @@ final class DefaultInjectorResourceHandler<A extends Annotation, V, R, E extends
 
     @Override
     public R process(Parameter required, A annotation, V value, Object... injectorArgs) throws Exception {
-        return processor.apply(null, required, value, injectorArgs);
+        return processor.apply(annotation, required, value, injectorArgs);
     }
 
     @Override

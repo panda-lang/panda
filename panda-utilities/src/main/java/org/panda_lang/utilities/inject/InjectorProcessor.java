@@ -40,28 +40,20 @@ final class InjectorProcessor {
         this.injector = injector;
     }
 
-    protected Object[] fetchValues(InjectorCache cache, Executable executable, Object... injectorArgs) throws InjectorException {
+    protected Object[] fetchValues(InjectorCache cache, Executable executable, Object... injectorArgs) throws Exception {
         Parameter[] parameters = executable.getParameters();
         Object[] values = new Object[cache.getInjectable().length];
 
         for (int index = 0; index < values.length; index++) {
-            values[index] = tryFetchValue(cache, parameters[index], index, injectorArgs);
+            values[index] = fetchValue(cache, parameters[index], index, injectorArgs);
         }
 
         return values;
     }
 
-    protected Object tryFetchValue(InjectorProcessor processor, Parameter parameter, Object... injectorArgs) throws InjectorException {
+    protected Object tryFetchValue(InjectorProcessor processor, Parameter parameter, Object... injectorArgs) throws Exception {
         InjectorCache cache = InjectorCache.of(processor, parameter.getDeclaringExecutable());
-        return tryFetchValue(cache, parameter, ArrayUtils.indexOf(parameter.getDeclaringExecutable().getParameters(), parameter), injectorArgs);
-    }
-
-    private @Nullable Object tryFetchValue(InjectorCache cache, Parameter required, int index, Object... injectorArgs) throws InjectorException {
-        try {
-            return fetchValue(cache, required, index, injectorArgs);
-        } catch (Exception e) {
-            throw new InjectorException("Failed to fetch values for " + required.getDeclaringExecutable() + ", " + e.getClass() + ": " + e.getMessage(), e);
-        }
+        return fetchValue(cache, parameter, ArrayUtils.indexOf(parameter.getDeclaringExecutable().getParameters(), parameter), injectorArgs);
     }
 
     private  @Nullable Object fetchValue(InjectorCache cache, Parameter required, int index, Object... injectorArgs) throws Exception {
@@ -132,7 +124,7 @@ final class InjectorProcessor {
             Option<InjectorResourceBind<Annotation>> bindValue = resources.getBind(requiredType);
 
             binds[index] = bindValue.getOrElseThrow(() -> {
-                throw new InjectorException("Missing type bind for " + parameter + " parameter");
+                throw new DependencyInjectionException("Missing bind for " + parameter + " parameter");
             });
         }
 

@@ -20,7 +20,7 @@
     <name>Panda</name>
     <groupId>org.panda-lang</groupId>
     <artifactId>panda-parent</artifactId>
-    <version>indev-20.5.6</version>
+    <version>indev-20.5.7</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -250,6 +250,20 @@
                                 <source>8</source>
                                 <doclint>none</doclint>
                             </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.2.1</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
                         </execution>
                     </executions>
                 </plugin>

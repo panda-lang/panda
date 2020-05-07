@@ -48,7 +48,7 @@ final class DependencyInjectionTest {
         Injector injector = DependencyInjection.createInjector(resources -> {
             resources.on(String.class).assignInstance(HELLO);
 
-            resources.annotatedWith(CustomAnnotation.class).assignHandler((expected, annotation) -> {
+            resources.annotatedWith(CustomAnnotation.class).assignHandler((expected, annotation, injectorArgs) -> {
                 return MAP.get(annotation.value());
             });
 

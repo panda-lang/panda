@@ -155,9 +155,7 @@ final class DefaultInjectorResources implements InjectorResources {
             return Option.of(associated.get(0));
         }
 
-        return parent
-                .map(parent -> parent.getBind(requestedType))
-                .get();
+        return parent.flatMap(parent -> parent.getBind(requestedType));
     }
 
     @Override

@@ -78,7 +78,7 @@ public interface Injector {
      * @return the associated binding value
      * @throws InjectorException if anything happen
      */
-    @Nullable <T> T invokeParameter(Parameter parameter, Object... injectorArgs) throws InjectorException;
+    @Nullable <T> T invokeParameter(Parameter parameter, Object... injectorArgs) throws Throwable;
 
     /**
      * Create a fork of resources. The current resources will be used as a parent of a new instance.
