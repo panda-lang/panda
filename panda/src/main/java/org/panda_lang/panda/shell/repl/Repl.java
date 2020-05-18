@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.shell.repl;
 
+import io.vavr.control.Option;
 import org.panda_lang.framework.FrameworkController;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
@@ -43,6 +44,7 @@ import org.panda_lang.utilities.commons.function.ThrowingFunction;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.function.Supplier;
 
 /**
@@ -97,25 +99,19 @@ public final class Repl {
      * @return collection of repl results
      */
     public Collection<ReplResult> evaluate(String source) {
-        if (source.equals("help")) {
-            source = "? help";
-        }
-
-        if (source.startsWith("?")) {
-            return Collections.singletonList(evaluateCommand(source));
-        }
-
-        return evaluateSource(source);
+        return evaluateCommand(source)
+                .map(Collections::singletonList)
+                .getOrElse(() -> evaluateSource(source));
     }
 
-    private ReplResult evaluateCommand(String command) {
+    private Option<ReplResult> evaluateCommand(String command) {
         String content = command.substring(1).toLowerCase().trim();
 
         if (content.isEmpty()) {
             content = "help";
         }
 
-        Object result = "-- ? " + content + System.lineSeparator();
+        Object result = "-- " + content + System.lineSeparator();
 
         switch (content) {
             case "vars": {
@@ -132,26 +128,29 @@ public final class Repl {
                 result += history.toString();
                 break;
             }
-            case "help":
-            default: {
-                result += "Default help page of REPL. All the commands should be prefixed with '?' operator. \n";
-                result += "? help - display help page \n";
-                result += "? vars - display all the registered variables in REPL scope \n";
-                result += "? history - display history of evaluated snippets \n";
+            case "?":
+            case "help": {
+                result += "Default help page of REPL. All the available commands: \n";
+                result += "  help - display help page \n";
+                result += "  vars - display all the registered variables in REPL scope \n";
+                result += "  history - display history of evaluated snippets \n";
+                result += "  exit - exit shell \n";
                 break;
             }
+            default:
+                return Option.none();
         }
 
-        return new ReplResult(Type.SHELL, result);
+        return Option.of(new ReplResult(Type.SHELL, result));
     }
 
-    private Collection<ReplResult> evaluateSource(String source) {
+    private List<ReplResult> evaluateSource(String source) {
         if (source.trim().isEmpty()) {
             return Collections.emptyList();
         }
 
         Snippet[] expressions = PandaLexerUtils.convert("REPL source", source).split(Separators.SEMICOLON);
-        Collection<ReplResult> collection = new ArrayList<>(expressions.length);
+        List<ReplResult> collection = new ArrayList<>(expressions.length);
 
         for (Snippet expressionSource : expressions) {
             ReplResult result = evaluateExpression(expressionSource);
