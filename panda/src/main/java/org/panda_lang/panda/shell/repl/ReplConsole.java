@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.shell.repl;
 
+import org.panda_lang.framework.FrameworkController;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaConstants;
 
@@ -25,31 +26,40 @@ import java.util.Scanner;
 
 public final class ReplConsole {
 
-    private final Panda panda;
+    private final FrameworkController controller;
     private final InputStream input;
     private final boolean simplified;
+    private boolean interrupted;
 
-    public ReplConsole(Panda panda, InputStream input, boolean simplified) {
-        this.panda = panda;
+    public ReplConsole(Panda controller, InputStream input, boolean simplified) {
+        this.controller = controller;
         this.input = input;
         this.simplified = simplified;
     }
 
     public void launch() throws Exception {
         Scanner scanner = new Scanner(input);
-        panda.getLogger().info("Panda " + PandaConstants.VERSION + " REPL");
-        panda.getLogger().info("Type 'help' for more information.");
+        controller.getLogger().info("Panda " + PandaConstants.VERSION + " REPL");
+        controller.getLogger().info("Type 'help' for more information.");
 
-        Repl repl = Repl.creator(panda)
-                .withCustomExceptionListener(simplified ? (exception, runtime) -> panda.getLogger().error(exception.getMessage()) : null)
+        Repl repl = Repl.creator(this)
+                .withCustomExceptionListener(simplified ? (exception, runtime) -> controller.getLogger().error(exception.getMessage()) : null)
                 .create();
 
-        while (scanner.hasNextLine()) {
+        while (!interrupted && scanner.hasNextLine()) {
             Collection<ReplResult> results = repl.evaluate(scanner.nextLine());
-            ReplUtils.print(panda, results);
+            ReplUtils.print(controller, results);
         }
 
-        panda.getLogger().info("REPL has been terminated");
+        controller.getLogger().info("REPL has been terminated");
+    }
+
+    public void interrupt() {
+        this.interrupted = true;
+    }
+
+    public FrameworkController getFrameworkController() {
+        return controller;
     }
 
 }

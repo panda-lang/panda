@@ -34,7 +34,8 @@ class ReplTest {
         PandaFactory pandaFactory = new PandaFactory();
         Panda panda = pandaFactory.createPanda(LoggerFactory.getLogger(ReplTest.class));
 
-        ReplCreator creator = Repl.creator(panda);
+        ReplConsole console = new ReplConsole(panda, System.in, true);
+        ReplCreator creator = Repl.creator(console);
         Context context = creator.getContext();
 
         Repl repl = creator
@@ -55,11 +56,12 @@ class ReplTest {
         ReplUtils.print(panda, repl.evaluate("i = 4"));
 
         repl.regenerate();
+
         ReplUtils.print(panda, repl.evaluate("i"));
         ReplUtils.print(panda, repl.evaluate("String text = 'hello'; 'second expression'"));
 
-        ReplUtils.print(panda, repl.evaluate("? vars"));
-        ReplUtils.print(panda, repl.evaluate("? source"));
+        ReplUtils.print(panda, repl.evaluate("vars"));
+        ReplUtils.print(panda, repl.evaluate("history"));
 
         ReplUtils.print(panda, repl.evaluate("Double double = 9.86960440109"));
         ReplUtils.print(panda, repl.evaluate("sqrt(double)"));

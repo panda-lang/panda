@@ -17,7 +17,6 @@
 package org.panda_lang.panda.shell.repl;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.FrameworkController;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.type.State;
 import org.panda_lang.framework.design.architecture.type.Type;
@@ -45,6 +44,7 @@ import java.util.function.Supplier;
  */
 public final class ReplCreator {
 
+    protected final ReplConsole console;
     protected final Context context;
     protected final TypeScope typeScope;
     protected final ReplScope replScope;
@@ -52,8 +52,9 @@ public final class ReplCreator {
     protected Supplier<Process> processSupplier;
     protected ThrowingFunction<ProcessStack, Object, Exception> instanceSupplier;
 
-    ReplCreator(FrameworkController frameworkController) {
-        this.context = PandaContextUtils.createStubContext(frameworkController);
+    ReplCreator(ReplConsole console) {
+        this.console = console;
+        this.context = PandaContextUtils.createStubContext(console.getFrameworkController());
 
         Module module = context.getComponent(Components.SCRIPT).getModule();
         Type type = PandaType.builder()
