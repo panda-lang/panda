@@ -16,30 +16,27 @@
 
 package org.panda_lang.framework.language.resource.syntax.sequence;
 
-import org.panda_lang.utilities.commons.ReflectionUtils;
-
+import java.util.ArrayList;
 import java.util.Collection;
+
+import static org.panda_lang.utilities.commons.collection.Lists.add;
 
 /**
  * Default sequences
  */
 public final class Sequences {
 
-    public static final Sequence STRING = new Sequence("String", '"');
+    private static final Collection<Sequence> VALUES = new ArrayList<>();
 
-    public static final Sequence RAW_STRING = new Sequence("String", "'");
+    public static final Sequence STRING = add(VALUES, new Sequence("String", '"'));
 
-    public static final Sequence LINE_ORIENTED_COMMENT = new Sequence("Comment", "//", "\n");
+    public static final Sequence RAW_STRING = add(VALUES, new Sequence("String", "'"));
 
-    public static final Sequence BLOCK_ORIENTED_COMMENT = new Sequence("Comment", "/*", "*/");
+    public static final Sequence LINE_ORIENTED_COMMENT = add(VALUES, new Sequence("Comment", "//", "\n"));
 
-    public static final Sequence DOCUMENTATION_ORIENTED_COMMENT = new Sequence("Documentation", "/**", "*/");
+    public static final Sequence BLOCK_ORIENTED_COMMENT = add(VALUES, new Sequence("Comment", "/*", "*/"));
 
-    private static final Collection<Sequence> VALUES;
-
-    static {
-        VALUES = ReflectionUtils.getStaticFieldValues(Sequences.class, Sequence.class);
-    }
+    public static final Sequence DOCUMENTATION_ORIENTED_COMMENT = add(VALUES, new Sequence("Documentation", "/**", "*/"));
 
     private Sequences() { }
 

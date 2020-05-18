@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -27,14 +28,14 @@ import java.util.List;
 public final class Lists {
 
     /**
-     * Add element to the given list and get added value as result
+     * Add element to the given collection and get added value as result
      *
-     * @param list the list to use
+     * @param list the collection to use
      * @param element the element to add
      * @param <T> type of element
      * @return the element to add
      */
-    public static <T> T add(List<T> list, T element) {
+    public static <T> T add(Collection<T> list, T element) {
         list.add(element);
         return element;
     }

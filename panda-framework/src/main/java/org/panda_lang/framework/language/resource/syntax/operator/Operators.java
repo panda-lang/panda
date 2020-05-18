@@ -17,97 +17,95 @@
 package org.panda_lang.framework.language.resource.syntax.operator;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.utilities.commons.ReflectionUtils;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
+
+import static org.panda_lang.utilities.commons.collection.Lists.add;
 
 /**
  * Default operators
  */
 public final class Operators {
 
-    public static final Operator ADDITION = new Operator(OperatorFamilies.MATH, "+");
+    private static final Collection<Operator> VALUES = new ArrayList<>();
 
-    public static final Operator SUBTRACTION = new Operator(OperatorFamilies.MATH, "-");
+    public static final Operator ADDITION = add(VALUES, new Operator(OperatorFamilies.MATH, "+"));
 
-    public static final Operator MULTIPLICATION = new Operator(OperatorFamilies.MATH, "*");
+    public static final Operator SUBTRACTION = add(VALUES, new Operator(OperatorFamilies.MATH, "-"));
 
-    public static final Operator DIVISION = new Operator(OperatorFamilies.MATH, "/");
+    public static final Operator MULTIPLICATION = add(VALUES, new Operator(OperatorFamilies.MATH, "*"));
 
-    public static final Operator MODULE = new Operator(OperatorFamilies.MATH, "%");
+    public static final Operator DIVISION = add(VALUES, new Operator(OperatorFamilies.MATH, "/"));
 
-    public static final Operator BITWISE_NOT = new Operator(OperatorFamilies.MATH, "~");
-
-    public static final Operator BITWISE_AND = new Operator(OperatorFamilies.MATH, "&");
-
-    public static final Operator BITWISE_OR = new Operator(OperatorFamilies.MATH, "|");
-
-    public static final Operator BITWISE_XOR = new Operator(OperatorFamilies.MATH, "^");
-
-    public static final Operator BITWISE_LEFT_SHIFT = new Operator(OperatorFamilies.MATH, "<<");
-
-    public static final Operator BITWISE_RIGHT_SHIFT = new Operator(OperatorFamilies.MATH, ">>");
+    public static final Operator MODULE = add(VALUES, new Operator(OperatorFamilies.MATH, "%"));
 
 
-    public static final Operator EQUAL_TO = new Operator(OperatorFamilies.LOGICAL, "==");
+    public static final Operator BITWISE_NOT = add(VALUES, new Operator(OperatorFamilies.MATH, "~"));
 
-    public static final Operator NOT_EQUAL_TO = new Operator(OperatorFamilies.LOGICAL, "!=");
+    public static final Operator BITWISE_AND = add(VALUES, new Operator(OperatorFamilies.MATH, "&"));
 
-    public static final Operator GREATER_THAN = new Operator(OperatorFamilies.LOGICAL, ">");
+    public static final Operator BITWISE_OR = add(VALUES, new Operator(OperatorFamilies.MATH, "|"));
 
-    public static final Operator LESS_THAN = new Operator(OperatorFamilies.LOGICAL, "<");
+    public static final Operator BITWISE_XOR = add(VALUES, new Operator(OperatorFamilies.MATH, "^"));
 
-    public static final Operator GREATER_THAN_OR_EQUAL_TO = new Operator(OperatorFamilies.LOGICAL, ">=");
+    public static final Operator BITWISE_LEFT_SHIFT = add(VALUES, new Operator(OperatorFamilies.MATH, "<<"));
 
-    public static final Operator LESS_THAN_OR_EQUAL_TO = new Operator(OperatorFamilies.LOGICAL, "<=");
-
-    public static final Operator AND = new Operator(OperatorFamilies.LOGICAL, "&&");
-
-    public static final Operator OR = new Operator(OperatorFamilies.LOGICAL, "||");
-
-    public static final Operator NOT = new Operator(OperatorFamilies.LOGICAL, "!");
+    public static final Operator BITWISE_RIGHT_SHIFT = add(VALUES, new Operator(OperatorFamilies.MATH, ">>"));
 
 
-    public static final Operator INCREMENT = new Operator(OperatorFamilies.CREASE, "++");
+    public static final Operator EQUAL_TO = add(VALUES, new Operator(OperatorFamilies.LOGICAL, "=="));
 
-    public static final Operator DECREMENT = new Operator(OperatorFamilies.CREASE, "--");
+    public static final Operator NOT_EQUAL_TO = add(VALUES, new Operator(OperatorFamilies.LOGICAL, "!="));
 
+    public static final Operator GREATER_THAN = add(VALUES, new Operator(OperatorFamilies.LOGICAL, ">"));
 
-    public static final Operator ASSIGNMENT = new Operator(OperatorFamilies.ASSIGNATION, "=");
+    public static final Operator LESS_THAN = add(VALUES, new Operator(OperatorFamilies.LOGICAL, "<"));
 
-    public static final Operator ADDITION_ASSIGNMENT = new Operator(OperatorFamilies.ASSIGNATION, "+=");
+    public static final Operator GREATER_THAN_OR_EQUAL_TO = add(VALUES, new Operator(OperatorFamilies.LOGICAL, ">="));
 
-    public static final Operator SUBTRACTION_ASSIGNMENT = new Operator(OperatorFamilies.ASSIGNATION, "-=");
+    public static final Operator LESS_THAN_OR_EQUAL_TO = add(VALUES, new Operator(OperatorFamilies.LOGICAL, "<="));
 
-    public static final Operator MULTIPLICATION_ASSIGNMENT = new Operator(OperatorFamilies.ASSIGNATION, "*=");
+    public static final Operator AND = add(VALUES, new Operator(OperatorFamilies.LOGICAL, "&&"));
 
-    public static final Operator DIVISION_ASSIGNMENT = new Operator(OperatorFamilies.ASSIGNATION, "/=");
+    public static final Operator OR = add(VALUES, new Operator(OperatorFamilies.LOGICAL, "||"));
 
-    public static final Operator REMAINDER_ASSIGNMENT = new Operator(OperatorFamilies.ASSIGNATION, "%=");
-
-
-    public static final Operator EROTEME = new Operator(OperatorFamilies.UNDEFINED, "?");
-
-    public static final Operator COLON = new Operator(OperatorFamilies.UNDEFINED, ":");
+    public static final Operator NOT = add(VALUES, new Operator(OperatorFamilies.LOGICAL, "!"));
 
 
-    private static final Collection<Operator> VALUES;
+    public static final Operator INCREMENT = add(VALUES, new Operator(OperatorFamilies.CREASE, "++"));
 
-    static {
-        VALUES = ReflectionUtils.getStaticFieldValues(Operators.class, Operator.class);
-    }
+    public static final Operator DECREMENT = add(VALUES, new Operator(OperatorFamilies.CREASE, "--"));
+
+
+    public static final Operator ASSIGNMENT = add(VALUES, new Operator(OperatorFamilies.ASSIGNATION, "="));
+
+    public static final Operator ADDITION_ASSIGNMENT = add(VALUES, new Operator(OperatorFamilies.ASSIGNATION, "+="));
+
+    public static final Operator SUBTRACTION_ASSIGNMENT = add(VALUES, new Operator(OperatorFamilies.ASSIGNATION, "-="));
+
+    public static final Operator MULTIPLICATION_ASSIGNMENT = add(VALUES, new Operator(OperatorFamilies.ASSIGNATION, "*="));
+
+    public static final Operator DIVISION_ASSIGNMENT = add(VALUES, new Operator(OperatorFamilies.ASSIGNATION, "/="));
+
+    public static final Operator REMAINDER_ASSIGNMENT = add(VALUES, new Operator(OperatorFamilies.ASSIGNATION, "%="));
+
+
+    public static final Operator EROTEME = add(VALUES, new Operator(OperatorFamilies.UNDEFINED, "?"));
+
+    public static final Operator COLON = add(VALUES, new Operator(OperatorFamilies.UNDEFINED, ":"));
+
 
     private Operators() { }
 
-    public static Operator[] values() {
-        return VALUES.toArray(new Operator[0]);
-    }
-
     public static Operator[] getFamily(@Nullable String family) {
-        return Arrays.stream(Operators.values())
+        return VALUES.stream()
                 .filter(operator -> OperatorUtils.isMemberOf(operator, family))
                 .toArray(Operator[]::new);
+    }
+
+    public static Operator[] values() {
+        return VALUES.toArray(new Operator[0]);
     }
 
 }
