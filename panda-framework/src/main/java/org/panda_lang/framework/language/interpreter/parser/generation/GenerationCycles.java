@@ -17,34 +17,33 @@
 package org.panda_lang.framework.language.interpreter.parser.generation;
 
 import org.panda_lang.framework.design.interpreter.parser.generation.CycleType;
-import org.panda_lang.utilities.commons.ReflectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static org.panda_lang.utilities.commons.collection.Lists.add;
+
 public final class GenerationCycles {
 
+    private static final Collection<CycleType> VALUES = new ArrayList<>();
+
     public static final String SYNTAX_LABEL = "SYNTAX";
-    public static final CycleType SYNTAX = new CycleType(SYNTAX_LABEL, 1.0);
+    public static final CycleType SYNTAX = add(VALUES, new CycleType(SYNTAX_LABEL, 1.0));
 
     public static final String PREPROCESSOR_LABEL = "PREPROCESSOR";
-    public static final CycleType PREPROCESSOR = new CycleType(PREPROCESSOR_LABEL, 2.0);
+    public static final CycleType PREPROCESSOR = add(VALUES, new CycleType(PREPROCESSOR_LABEL, 2.0));
 
     public static final String TYPES_LABEL = "TYPES";
-    public static final CycleType TYPES = new CycleType(TYPES_LABEL, 2.0);
+    public static final CycleType TYPES = add(VALUES, new CycleType(TYPES_LABEL, 2.0));
 
     public static final String DEFAULT_LABEL = "DEFAULT";
-    public static final CycleType DEFAULT = new CycleType(DEFAULT_LABEL, 3.0);
+    public static final CycleType DEFAULT = add(VALUES, new CycleType(DEFAULT_LABEL, 3.0));
 
     public static final String CONTENT_LABEL = "CONTENT";
-    public static final CycleType CONTENT = new CycleType(CONTENT_LABEL, 4.0);
+    public static final CycleType CONTENT = add(VALUES, new CycleType(CONTENT_LABEL, 4.0));
 
-    private static final Collection<CycleType> VALUES;
-
-    static {
-        VALUES = ReflectionUtils.getStaticFieldValues(GenerationCycles.class, CycleType.class);
-    }
+    private GenerationCycles() { }
 
     public static List<? extends CycleType> getValues() {
         return new ArrayList<>(VALUES);

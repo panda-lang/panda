@@ -17,10 +17,11 @@
 package org.panda_lang.framework.language.resource.syntax;
 
 import org.panda_lang.framework.design.interpreter.token.TokenType;
-import org.panda_lang.utilities.commons.ReflectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
+import static org.panda_lang.utilities.commons.collection.Lists.add;
 
 /**
  * Basic collection of token types
@@ -28,50 +29,48 @@ import java.util.Collection;
 public final class TokenTypes {
 
     /**
+     * Collected types
+     */
+    private static final Collection<TokenType> VALUES = new ArrayList<>();
+
+    /**
      * Represents {@link org.panda_lang.framework.language.resource.syntax.separator.Separator}
      */
-    public static final TokenType SECTION = new TokenType("SECTION");
+    public static final TokenType SECTION = add(VALUES, new TokenType("SECTION"));
     /**
      * Represents {@link org.panda_lang.framework.language.resource.syntax.auxiliary.Identifier}
      */
-    public static final TokenType IDENTIFIER = new TokenType("IDENTIFIER");
+    public static final TokenType IDENTIFIER = add(VALUES, new TokenType("IDENTIFIER"));
     /**
      * Represents {@link org.panda_lang.framework.language.resource.syntax.literal.Literal}
      */
-    public static final TokenType LITERAL = new TokenType("LITERAL");
+    public static final TokenType LITERAL = add(VALUES, new TokenType("LITERAL"));
     /**
      * Represents {@link org.panda_lang.framework.language.resource.syntax.keyword.Keyword}
      */
-    public static final TokenType KEYWORD = new TokenType("KEYWORD");
+    public static final TokenType KEYWORD = add(VALUES, new TokenType("KEYWORD"));
     /**
      * Represents {@link org.panda_lang.framework.language.resource.syntax.separator.Separator}
      */
-    public static final TokenType SEPARATOR = new TokenType("SEPARATOR");
+    public static final TokenType SEPARATOR = add(VALUES, new TokenType("SEPARATOR"));
     /**
      * Represents {@link org.panda_lang.framework.language.resource.syntax.sequence.Sequence}
      */
-    public static final TokenType SEQUENCE = new TokenType("SEQUENCE");
+    public static final TokenType SEQUENCE = add(VALUES, new TokenType("SEQUENCE"));
     /**
      * Represents {@link org.panda_lang.framework.language.resource.syntax.operator.Operator}
      */
-    public static final TokenType OPERATOR = new TokenType("OPERATOR");
+    public static final TokenType OPERATOR = add(VALUES, new TokenType("OPERATOR"));
     /**
      * Represents {@link org.panda_lang.framework.language.resource.syntax.operator.Operator}
      */
-    public static final TokenType INDENTATION = new TokenType("INDENTATION");
+    public static final TokenType INDENTATION = add(VALUES, new TokenType("INDENTATION"));
     /**
      * Represents random {@link org.panda_lang.framework.language.interpreter.token.PandaToken}
      */
-    public static final TokenType UNKNOWN = new TokenType("UNKNOWN");
+    public static final TokenType UNKNOWN = add(VALUES, new TokenType("UNKNOWN"));
 
-    /**
-     * Collected types
-     */
-    private static final Collection<TokenType> VALUES;
-
-    static {
-        VALUES = ReflectionUtils.getStaticFieldValues(TokenType.class, TokenType.class);
-    }
+    private TokenTypes() { }
 
     /**
      * Get all defined in the class types

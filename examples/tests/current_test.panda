@@ -261,6 +261,10 @@ internal class Test {
         }
     }
 
+    override public String toString() {
+        return 'Custom toString() in Test type #' + Int.toHexString(System.identityHashCode(this))
+    }
+
 }
 
 // array test

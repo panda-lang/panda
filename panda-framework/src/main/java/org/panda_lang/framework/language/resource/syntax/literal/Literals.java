@@ -16,28 +16,25 @@
 
 package org.panda_lang.framework.language.resource.syntax.literal;
 
-import org.panda_lang.utilities.commons.ReflectionUtils;
-
+import java.util.ArrayList;
 import java.util.Collection;
+
+import static org.panda_lang.utilities.commons.collection.Lists.add;
 
 /**
  * Default literals
  */
 public final class Literals {
 
-    public static final Literal FALSE = new Literal("false");
+    private static final Collection<Literal> VALUES = new ArrayList<>();
 
-    public static final Literal TRUE = new Literal("true");
+    public static final Literal FALSE = add(VALUES, new Literal("false"));
 
-    public static final Literal NULL = new Literal("null");
+    public static final Literal TRUE = add(VALUES, new Literal("true"));
 
-    public static final Literal THIS = new Literal("this");
+    public static final Literal NULL = add(VALUES, new Literal("null"));
 
-    private static final Collection<Literal> VALUES;
-
-    static {
-        VALUES = ReflectionUtils.getStaticFieldValues(Literals.class, Literal.class);
-    }
+    public static final Literal THIS = add(VALUES, new Literal("this"));
 
     private Literals() { }
 

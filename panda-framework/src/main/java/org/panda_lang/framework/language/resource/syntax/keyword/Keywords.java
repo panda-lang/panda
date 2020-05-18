@@ -16,98 +16,93 @@
 
 package org.panda_lang.framework.language.resource.syntax.keyword;
 
-import org.panda_lang.utilities.commons.ReflectionUtils;
-
+import java.util.ArrayList;
 import java.util.Collection;
+
+import static org.panda_lang.utilities.commons.collection.Lists.add;
 
 /**
  * Default keywords
  */
 public final class Keywords {
 
-    public static final Keyword AS = new Keyword("as");
+    private static final Collection<Keyword> VALUES = new ArrayList<>();
 
-    public static final Keyword BASE = new Keyword("base");
+    public static final Keyword AS = add(VALUES, new Keyword("as"));
 
-    public static final Keyword BREAK = new Keyword("break");
+    public static final Keyword BASE = add(VALUES, new Keyword("base"));
 
-    public static final Keyword CASE = new Keyword("case");
+    public static final Keyword BREAK = add(VALUES, new Keyword("break"));
 
-    public static final Keyword CATCH = new Keyword("catch");
+    public static final Keyword CASE = add(VALUES, new Keyword("case"));
 
-    public static final Keyword CLASS = new Keyword("class");
+    public static final Keyword CATCH = add(VALUES, new Keyword("catch"));
 
-    public static final Keyword CONSTRUCTOR = new Keyword("constructor");
+    public static final Keyword CLASS = add(VALUES, new Keyword("class"));
 
-    public static final Keyword CONTINUE = new Keyword("continue");
+    public static final Keyword CONSTRUCTOR = add(VALUES, new Keyword("constructor"));
 
-    public static final Keyword ELSE = new Keyword("else");
+    public static final Keyword CONTINUE = add(VALUES, new Keyword("continue"));
 
-    public static final Keyword ELSE_IF = new Keyword("else if");
+    public static final Keyword ELSE = add(VALUES, new Keyword("else"));
 
-    public static final Keyword EXPORT = new Keyword("export");
+    public static final Keyword ELSE_IF = add(VALUES, new Keyword("else if"));
 
-    public static final Keyword FOREACH = new Keyword("foreach");
+    public static final Keyword EXPORT = add(VALUES, new Keyword("export"));
 
-    public static final Keyword FOR = new Keyword("for");
+    public static final Keyword FOREACH = add(VALUES, new Keyword("foreach"));
 
-    public static final Keyword HIDDEN = new Keyword("hidden");
+    public static final Keyword FOR = add(VALUES, new Keyword("for"));
 
-    public static final Keyword IF = new Keyword("if");
+    public static final Keyword IF = add(VALUES, new Keyword("if"));
 
-    public static final Keyword IMPORT = new Keyword("import");
+    public static final Keyword IMPORT = add(VALUES, new Keyword("import"));
 
-    public static final Keyword INTERFACE = new Keyword("interface");
+    public static final Keyword INTERFACE = add(VALUES, new Keyword("interface"));
 
-    public static final Keyword INTERNAL = new Keyword("internal");
+    public static final Keyword INTERNAL = add(VALUES, new Keyword("internal"));
 
-    public static final Keyword IS = new Keyword("is");
+    public static final Keyword IS = add(VALUES, new Keyword("is"));
 
-    public static final Keyword LATE = new Keyword("late");
+    public static final Keyword LATE = add(VALUES, new Keyword("late"));
 
-    public static final Keyword LAZY = new Keyword("lazy");
+    public static final Keyword LAZY = add(VALUES, new Keyword("lazy"));
 
-    public static final Keyword LOG = new Keyword("log");
+    public static final Keyword LOG = add(VALUES, new Keyword("log"));
 
-    public static final Keyword LOOP = new Keyword("loop");
+    public static final Keyword LOOP = add(VALUES, new Keyword("loop"));
 
-    public static final Keyword MAIN = new Keyword("main");
+    public static final Keyword MAIN = add(VALUES, new Keyword("main"));
 
-    public static final Keyword MODULE = new Keyword("module");
+    public static final Keyword MODULE = add(VALUES, new Keyword("module"));
 
-    public static final Keyword MUT = new Keyword("mut");
+    public static final Keyword MUT = add(VALUES, new Keyword("mut"));
 
-    public static final Keyword NEW = new Keyword("new");
+    public static final Keyword NEW = add(VALUES, new Keyword("new"));
 
-    public static final Keyword NIL = new Keyword("nil");
+    public static final Keyword NIL = add(VALUES, new Keyword("nil"));
 
-    public static final Keyword OVERRIDE = new Keyword("override");
+    public static final Keyword OVERRIDE = add(VALUES, new Keyword("override"));
 
-    public static final Keyword PUBLIC = new Keyword("public");
+    public static final Keyword PUBLIC = add(VALUES, new Keyword("public"));
 
-    public static final Keyword RETURN = new Keyword("return");
+    public static final Keyword RETURN = add(VALUES, new Keyword("return"));
 
-    public static final Keyword REQUIRE = new Keyword("require");
+    public static final Keyword REQUIRE = add(VALUES, new Keyword("require"));
 
-    public static final Keyword SHARED = new Keyword("shared");
+    public static final Keyword SHARED = add(VALUES, new Keyword("shared"));
 
-    public static final Keyword STATIC = new Keyword("static");
+    public static final Keyword STATIC = add(VALUES, new Keyword("static"));
 
-    public static final Keyword SWITCH = new Keyword("switch");
+    public static final Keyword SWITCH = add(VALUES, new Keyword("switch"));
 
-    public static final Keyword THROW = new Keyword("throw");
+    public static final Keyword THROW = add(VALUES, new Keyword("throw"));
 
-    public static final Keyword TRY = new Keyword("try");
+    public static final Keyword TRY = add(VALUES, new Keyword("try"));
 
-    public static final Keyword TYPE = new Keyword("type");
+    public static final Keyword TYPE = add(VALUES, new Keyword("type"));
 
-    public static final Keyword WHILE = new Keyword("while");
-
-    private static final Collection<Keyword> VALUES;
-
-    static {
-        VALUES = ReflectionUtils.getStaticFieldValues(Keywords.class, Keyword.class);
-    }
+    public static final Keyword WHILE = add(VALUES, new Keyword("while"));
 
     private Keywords() { }
 
