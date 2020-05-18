@@ -38,13 +38,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 public final class PandaDynamicClass implements DynamicClass {
 
     private static final CtClass PROTOTYPE_CLASS = ClassPoolUtils.require(TypeInstance.class);
+    private static final AtomicInteger ID = new AtomicInteger();
 
     protected final Type type;
     protected final String name;
     protected final String module;
     protected final String model;
 
-    protected final AtomicInteger id = new AtomicInteger();
     protected final Collection<DynamicClass> interfaces = new ArrayList<>();
     protected DynamicClass superclass = null;
     protected boolean frozen;
@@ -81,11 +81,17 @@ public final class PandaDynamicClass implements DynamicClass {
         String className = "IPanda_" + name.replace("::", "_");
 
         if (structure == null) {
-            CtClass generatedStructure = ClassPool.getDefault().makeInterface(className, PROTOTYPE_CLASS);
-
             try {
-                // generatedStructure.writeFile(".dynamic_classes");
-                this.structure =  ClassPoolUtils.toClass(generatedStructure);
+                CtClass generatedStructure;
+
+                if (ClassUtils.exists(className)) {
+                    this.structure = Class.forName(className);
+                }
+                else {
+                    generatedStructure = ClassPool.getDefault().makeInterface(className, PROTOTYPE_CLASS);
+                    // generatedStructure.writeFile(".dynamic_classes");
+                    this.structure =  ClassPoolUtils.toClass(generatedStructure);
+                }
             } /* catch (CannotCompileException e) {
                 e.printStackTrace();
                 throw new DynamicClassException(e.getCause());
@@ -108,7 +114,7 @@ public final class PandaDynamicClass implements DynamicClass {
             superclassCt = ClassPoolUtils.require(superclass.fetchImplementation());
         }
 
-        String generatedClassName = "Panda_" + name.replace("::", "_") + "$" + id.getAndIncrement();
+        String generatedClassName = "Panda_" + name.replace("::", "_") + "$" + ID.getAndIncrement();
         CtClass generatedImplementation;
 
         if (TypeModels.isInterface(type)) {

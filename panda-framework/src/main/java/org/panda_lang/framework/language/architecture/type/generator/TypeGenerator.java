@@ -56,11 +56,18 @@ final class TypeGenerator {
                             .build();
 
                     type.addInitializer((typeLoader, initializedType) -> {
+                        Class<?> baseClass = javaType.getSuperclass();
+
+                        // Object.class does not have supertype
+                        if (baseClass != null) {
+                            type.addBase(findOrGenerate(typeLoader, module, baseClass));
+                        }
+
                         if (!Modifier.isPublic(javaType.getModifiers())) {
                             return;
                         }
 
-                        for (Field field : javaType.getFields()) {
+                        for (Field field : javaType.getDeclaredFields()) {
                             if (!Modifier.isPublic(field.getModifiers())) {
                                 continue;
                             }
@@ -69,12 +76,12 @@ final class TypeGenerator {
                             initializedType.getFields().declare(field.getName(), () -> generator.generate(typeLoader));
                         }
 
-                        for (Constructor<?> constructor : ReflectionUtils.getByModifier(javaType.getConstructors(), Modifier.PUBLIC)) {
+                        for (Constructor<?> constructor : ReflectionUtils.getByModifier(javaType.getDeclaredConstructors(), Modifier.PUBLIC)) {
                             ConstructorGenerator generator = new ConstructorGenerator(initializedType, constructor);
                             initializedType.getConstructors().declare(name, () -> generator.generate(typeLoader));
                         }
 
-                        for (Method method : ReflectionUtils.getByModifier(javaType.getMethods(), Modifier.PUBLIC)) {
+                        for (Method method : ReflectionUtils.getByModifier(javaType.getDeclaredMethods(), Modifier.PUBLIC)) {
                             MethodGenerator generator = new MethodGenerator(this, initializedType, method);
                             initializedType.getMethods().declare(method.getName(), () -> generator.generate(typeLoader));
                         }

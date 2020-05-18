@@ -22,6 +22,11 @@ import org.panda_lang.panda.examples.ExamplesLauncher;
 class CurrentTestExampleTest {
 
     @Test
+    void helloWorld() {
+        ExamplesLauncher.launch("", "hello_world.panda");
+    }
+
+    @Test
     void testCurrentTest() {
         for (int i = 0; i < 1; i++) {
             ExamplesLauncher.launch("tests", "current_test.panda");

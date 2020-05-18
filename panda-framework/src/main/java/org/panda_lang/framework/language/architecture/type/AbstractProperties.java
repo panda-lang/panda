@@ -33,7 +33,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-abstract class AbstractProperties<T extends ExecutableProperty> implements Properties<T> {
+public abstract class AbstractProperties<T extends ExecutableProperty> implements Properties<T> {
 
     protected final Class<T> propertiesType;
     protected final Type type;
