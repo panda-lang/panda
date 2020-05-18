@@ -54,7 +54,7 @@ public interface Messenger extends LoggerHolder {
      *
      * @param translator the translator to register
      */
-    void addMessageTranslator(MessengerMessageTranslator<?> translator);
+    void addMessageTranslator(MessengerMessageTranslator<Object> translator);
 
     /**
      * Change output listener.

@@ -19,6 +19,7 @@ package org.panda_lang.panda.language.interpreter.messenger;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.interpreter.messenger.Messenger;
 import org.panda_lang.panda.language.interpreter.messenger.template.MicroTemplateEngine;
+import org.panda_lang.utilities.commons.ObjectUtils;
 
 import java.util.Map;
 
@@ -51,7 +52,7 @@ public final class PandaTranslatorLayoutManager {
 
     public <T extends PandaTranslatorLayout<G>, G> T load(T layout) {
         PandaTranslator<G> translator = new PandaTranslator<>(engine, layout, mappers);
-        messenger.addMessageTranslator(translator);
+        messenger.addMessageTranslator(ObjectUtils.cast(translator));
         return layout;
     }
 

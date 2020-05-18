@@ -146,27 +146,21 @@ public class PandaType extends AbstractProperty implements Type {
     }
 
     @Override
-    public boolean isAssignableFrom(@Nullable Type type) {
-        if (type == null) {
+    public boolean isAssignableFrom(@Nullable Type to) {
+        if (to == null) {
             return true;
         }
 
-        return type.equals(this)
-                || getAssociatedClass().isAssignableFrom(type.getAssociatedClass())
-                || hasCommonTypes(bases, type.getBases())
-                || type.getAutocast(this).isPresent();
+        return to.equals(this)
+                || getAssociatedClass().isAssignableFrom(to.getAssociatedClass())
+                || hasCommonTypes(bases, to)
+                || to.getAutocast(this).isPresent();
     }
 
-    private boolean hasCommonTypes(Collection<? extends Type> fromTypes, Collection<? extends Type> toTypes) {
+    private boolean hasCommonTypes(Collection<? extends Type> fromTypes, Type to) {
         for (Type from : fromTypes) {
-            for (Type to : toTypes) {
-                if (from.equals(to)) {
-                    return true;
-                }
-
-                if (from.getAssociatedClass().isAssignableFrom(to.getAssociatedClass())) {
-                    return true;
-                }
+            if (to.equals(from) || to.getAssociatedClass().isAssignableFrom(from.getAssociatedClass())) {
+                return true;
             }
         }
 

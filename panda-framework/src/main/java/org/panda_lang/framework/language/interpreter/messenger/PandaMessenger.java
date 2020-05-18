@@ -16,9 +16,11 @@
 
 package org.panda_lang.framework.language.interpreter.messenger;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.interpreter.messenger.Messenger;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerFormatter;
+import org.panda_lang.framework.design.interpreter.messenger.MessengerInitializer;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerMessage;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerMessageTranslator;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerOutputListener;
@@ -32,21 +34,32 @@ import java.util.List;
 public final class PandaMessenger implements Messenger {
 
     private final Logger logger;
+    private final @Nullable MessengerInitializer initializer;
     private final MessengerFormatter formatter = new PandaMessengerFormatter(this);
-    private final List<MessengerMessageTranslator> translators = new ArrayList<>();
+    private final List<MessengerMessageTranslator<Object>> translators = new ArrayList<>();
     private MessengerOutputListener outputListener;
+    private boolean initialized;
 
-    public PandaMessenger(Logger logger) {
+    public PandaMessenger(Logger logger, @Nullable MessengerInitializer initializer) {
         this.logger = logger;
+        this.initializer = initializer;
         this.outputListener = new LoggerMessengerOutputListener(logger);
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public boolean send(Object message) {
-        MessengerMessageTranslator translator = null;
+    public PandaMessenger(Logger logger) {
+        this(logger, null);
+    }
 
-        for (MessengerMessageTranslator messageTranslator : new ReversedIterable<>(translators)) {
+    @Override
+    public boolean send(Object message) {
+        if (!initialized && initializer != null) {
+            initialized = true;
+            initializer.onInitialize(this);
+        }
+
+        MessengerMessageTranslator<Object> translator = null;
+
+        for (MessengerMessageTranslator<Object> messageTranslator : new ReversedIterable<>(translators)) {
             if (messageTranslator.getType().isAssignableFrom(message.getClass())) {
                 if (translator != null && messageTranslator.getType().isAssignableFrom(translator.getType())) {
                     continue;
@@ -79,7 +92,7 @@ public final class PandaMessenger implements Messenger {
     }
 
     @Override
-    public void addMessageTranslator(MessengerMessageTranslator translator) {
+    public void addMessageTranslator(MessengerMessageTranslator<Object> translator) {
         translators.add(translator);
     }
 
