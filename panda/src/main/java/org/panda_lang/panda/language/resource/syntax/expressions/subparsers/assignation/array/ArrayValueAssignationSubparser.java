@@ -87,12 +87,14 @@ public final class ArrayValueAssignationSubparser extends AssignationSubparserBo
         return true;
     }
 
-    @Autowired
+    @Autowired(order = 1)
     ExpressionResult parse(
-            Context context,
-            @Ctx SourceStream source, @Ctx Channel channel,
-            @Ctx AssignationType type, @Ctx TokenInfo operator,
-            @Ctx(AssignationComponents.EXPRESSION_LABEL) Expression value
+        Context context,
+        @Ctx SourceStream source,
+        @Ctx Channel channel,
+        @Ctx AssignationType type,
+        @Ctx TokenInfo operator,
+        @Ctx(AssignationComponents.EXPRESSION_LABEL) Expression value
     ) {
         if (type != AssignationType.DEFAULT) {
             throw new PandaParserFailure(context, operator, "Unsupported operator");

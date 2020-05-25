@@ -45,7 +45,7 @@ public final class BreakParser extends ParserBootstrap<Void> {
                 .pattern("break");
     }
 
-    @Autowired
+    @Autowired(order = 1)
     void parseBreak(Context context, @Ctx Scope scope, @Int Location location, @Int Snippet source) {
         if (!ScopeUtils.lookFor(scope, ControlledScope.class)) {
             throw new PandaParserFailure(context, source, "Break cannot be used outside of the looping block");

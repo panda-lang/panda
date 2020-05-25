@@ -59,7 +59,7 @@ public final class LateDeclarationParser extends ParserBootstrap<Void> {
                 ));
     }
 
-    @Autowired
+    @Autowired(order = 1)
     void parse(Context context, @Int Result result, @Ctx Scope scope, @Src("type") Snippetable type, @Src("name") Snippetable name) {
         PandaVariableDataInitializer dataInitializer = new PandaVariableDataInitializer(context, scope);
         VariableData variableData = dataInitializer.createVariableData(type, name, result.has(Keywords.MUT.getValue()), result.has(Keywords.NIL.getValue()));

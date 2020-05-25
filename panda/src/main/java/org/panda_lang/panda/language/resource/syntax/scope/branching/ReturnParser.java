@@ -44,7 +44,7 @@ public final class ReturnParser extends ParserBootstrap<Void> {
                 .pattern("return &value:*=expression");
     }
 
-    @Autowired
+    @Autowired(order = 1)
     void parse(@Ctx Scope scope, @Int Location location, @Src("value") @Nullable Expression value) {
         scope.addStatement(new Return(location, value));
     }

@@ -56,7 +56,7 @@ public final class ForParser extends BlockSubparserBootstrap {
                 .pattern("for content:(~)");
     }
 
-    @Autowired
+    @Autowired(order = 1)
     BlockData parseBlock(Context context, @Ctx Scope parent, @Int Location location, @Src("content") Snippet content, @Ctx ExpressionParser expressionParser) {
         Snippet[] forEachElements = content.split(Separators.SEMICOLON);
 

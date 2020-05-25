@@ -66,7 +66,7 @@ public final class StandaloneExpressionParser extends ParserBootstrap<Object> {
         }
     }
 
-    @Autowired
+    @Autowired(order = 1)
     void parseExpression(@Ctx SourceStream source, @Ctx Scope parent, @Ctx Channel channel, @Int Location location) {
         StandaloneExpression statement = new StandaloneExpression(source.getCurrent().getLocation(), channel.get("expression", Expression.class));
         parent.addStatement(statement);

@@ -47,7 +47,7 @@ public final class ExportParser extends ParserBootstrap<Void> {
                 ));
     }
 
-    @Autowired
+    @Autowired(order = 1)
     void parseImport(Context context, @Ctx PandaScript script, @Src("class") Snippet className) {
         script.getModule().add(ConveyanceUtils.fetchType(context, className));
     }

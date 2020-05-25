@@ -103,13 +103,15 @@ public final class VariableDeclarationSubparser extends AssignationSubparserBoot
         return true;
     }
 
-    @Autowired
+    @Autowired(order = 1)
     ExpressionResult parse(
-            Context context,
-            @Ctx Scope scope, @Ctx Channel channel,
-            @Ctx Expression expression, @Ctx ExpressionContext expressionContext,
-            @Ctx AssignationType type,
-            @Int Location location
+        Context context,
+        @Ctx Scope scope,
+        @Ctx Channel channel,
+        @Ctx Expression expression,
+        @Ctx ExpressionContext expressionContext,
+        @Ctx AssignationType type,
+        @Int Location location
     ) {
         Elements elements = channel.get("elements", Elements.class);
         PandaVariableDataInitializer dataInitializer = new PandaVariableDataInitializer(context, scope);

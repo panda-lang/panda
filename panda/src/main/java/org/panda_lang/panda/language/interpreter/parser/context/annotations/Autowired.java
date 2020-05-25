@@ -30,7 +30,7 @@ public @interface Autowired {
 
     Delegation delegation() default Delegation.IMMEDIATELY;
 
-    int order() default 0;
+    int order();
 
     String cycle() default GenerationCycles.DEFAULT_LABEL;
 

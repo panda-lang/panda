@@ -68,11 +68,14 @@ public final class ConditionalBlockParser extends BlockSubparserBootstrap {
                 ));
     }
 
-    @Autowired
+    @Autowired(order = 1)
     BlockData parse(
-            Context context,
-            @Ctx Scope parent, @Ctx TypeLoader loader, @Ctx(BlockComponents.PREVIOUS_BLOCK_LABEL) Block previous,
-            @Int Result result, @Int Location location
+        Context context,
+        @Ctx Scope parent,
+        @Ctx TypeLoader loader,
+        @Ctx(BlockComponents.PREVIOUS_BLOCK_LABEL) Block previous,
+        @Int Result result,
+        @Int Location location
     ) {
         Expression condition = result.has("condition") ? result.get("condition") : new PandaExpression(loader.requireType(Boolean.class), true);
         ConditionalBlock conditionalBlock = new ConditionalBlock(parent, location, condition);

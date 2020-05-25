@@ -45,7 +45,7 @@ public final class ContinueParser extends ParserBootstrap<Void> {
                 .pattern("continue");
     }
 
-    @Autowired
+    @Autowired(order = 1)
     void parseContinue(Context context, @Ctx Scope scope, @Int Location location, @Int Snippet source) {
         if (!ScopeUtils.lookFor(scope, ControlledScope.class)) {
             throw new PandaParserFailure(context, source, "Continue cannot be used outside of the looping block");

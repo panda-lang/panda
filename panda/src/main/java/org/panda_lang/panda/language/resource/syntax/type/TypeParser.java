@@ -84,7 +84,7 @@ public final class TypeParser extends ParserBootstrap<Void> {
                 ));
     }
 
-    @Autowired(cycle = GenerationCycles.TYPES_LABEL)
+    @Autowired(order = 0, cycle = GenerationCycles.TYPES_LABEL)
     void parse(Context context, @Int Location location, @Int Result result, @Ctx Script script, @Src("model") String model, @Src("name") String name) throws Exception {
         Visibility visibility = result.has("visibility") ? Visibility.of(result.get("visibility")) : Visibility.INTERNAL;
 
