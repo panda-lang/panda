@@ -17,7 +17,6 @@
 package org.panda_lang.framework.language.architecture.type.dynamic;
 
 import javassist.CannotCompileException;
-import javassist.ClassPool;
 import javassist.CtClass;
 import org.panda_lang.framework.design.architecture.type.DynamicClass;
 import org.panda_lang.framework.design.architecture.type.Type;
@@ -88,7 +87,7 @@ public final class PandaDynamicClass implements DynamicClass {
                     this.structure = Class.forName(className);
                 }
                 else {
-                    generatedStructure = ClassPool.getDefault().makeInterface(className, PROTOTYPE_CLASS);
+                    generatedStructure = ClassPoolUtils.getClassPool().makeInterface(className, PROTOTYPE_CLASS);
                     // generatedStructure.writeFile(".dynamic_classes");
                     this.structure =  ClassPoolUtils.toClass(generatedStructure);
                 }
@@ -118,14 +117,14 @@ public final class PandaDynamicClass implements DynamicClass {
         CtClass generatedImplementation;
 
         if (TypeModels.isInterface(type)) {
-            generatedImplementation = ClassPool.getDefault().makeInterface("I" + generatedClassName, superclassCt);
+            generatedImplementation = ClassPoolUtils.getClassPool().makeInterface("I" + generatedClassName, superclassCt);
         }
         else if (superclassCt != null && superclassCt.isInterface()) {
-            generatedImplementation = ClassPool.getDefault().makeClass(generatedClassName);
+            generatedImplementation = ClassPoolUtils.getClassPool().makeClass(generatedClassName);
             generatedImplementation.addInterface(superclassCt);
         }
         else {
-            generatedImplementation = ClassPool.getDefault().makeClass(generatedClassName, superclassCt);
+            generatedImplementation = ClassPoolUtils.getClassPool().makeClass(generatedClassName, superclassCt);
         }
 
         DynamicClassGenerator generator = new DynamicClassGenerator(type, generatedImplementation);

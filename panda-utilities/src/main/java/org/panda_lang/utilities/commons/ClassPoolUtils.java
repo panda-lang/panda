@@ -17,6 +17,7 @@
 package org.panda_lang.utilities.commons;
 
 import javassist.CannotCompileException;
+import javassist.ClassClassPath;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.NotFoundException;
@@ -26,6 +27,10 @@ import java.util.Arrays;
 public final class ClassPoolUtils {
 
     private static final ClassPool CLASS_POOL = ClassPool.getDefault();
+
+    static {
+        CLASS_POOL.insertClassPath(new ClassClassPath(ClassPoolUtils.class));
+    }
 
     private ClassPoolUtils() { }
 
@@ -89,6 +94,15 @@ public final class ClassPoolUtils {
      */
     public static CtClass get(Class<?> clazz) throws NotFoundException {
         return CLASS_POOL.get(clazz.getName());
+    }
+
+    /**
+     * Get initialized class pool
+     *
+     * @return the initialized class pool
+     */
+    public static ClassPool getClassPool() {
+        return CLASS_POOL;
     }
 
     /**

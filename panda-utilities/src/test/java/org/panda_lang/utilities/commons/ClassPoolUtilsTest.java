@@ -25,7 +25,7 @@ class ClassPoolUtilsTest {
 
     @Test
     void toCtClasses() throws NotFoundException {
-        Class[] classes = { Object.class, ClassPoolUtilsTest.class };
+        Class<?>[] classes = { Object.class, ClassPoolUtilsTest.class };
         CtClass[] ctClasses = ClassPoolUtils.toCtClasses(classes);
 
         Assertions.assertNotNull(ctClasses);

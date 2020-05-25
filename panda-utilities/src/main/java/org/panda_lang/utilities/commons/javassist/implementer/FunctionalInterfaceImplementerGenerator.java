@@ -17,7 +17,6 @@
 package org.panda_lang.utilities.commons.javassist.implementer;
 
 import javassist.CannotCompileException;
-import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtConstructor;
 import javassist.CtField;
@@ -59,7 +58,7 @@ final class FunctionalInterfaceImplementerGenerator {
             throw new IllegalArgumentException("The given class cannot be functional interface");
         }
 
-        CtClass ctClass = ClassPool.getDefault().makeClass(name);
+        CtClass ctClass = ClassPoolUtils.getClassPool().makeClass(name);
         ctClass.addInterface(ClassPoolUtils.get(anInterface));
 
         for (Map.Entry<String, CtClass> entry : parameters.entrySet()) {
