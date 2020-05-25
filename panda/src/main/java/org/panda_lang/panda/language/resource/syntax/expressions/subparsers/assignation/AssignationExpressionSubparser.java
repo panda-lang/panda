@@ -52,6 +52,11 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
     }
 
     @Override
+    public double getPriority() {
+        return -1;
+    }
+
+    @Override
     public ExpressionCategory getCategory() {
         return ExpressionCategory.STANDALONE;
     }

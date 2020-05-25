@@ -30,8 +30,8 @@ public final class PandaExpressionSubparserRepresentation implements Comparable<
 
     @Override
     public int compareTo(@NotNull PandaExpressionSubparserRepresentation to) {
-        int result = subparser.compareTo(to.getSubparser());
-        return result == 0 ? Integer.compare(usages, to.getUsages()) : result;
+        int byPriority = subparser.compareTo(to.getSubparser());
+        return byPriority == 0 ? subparser.getSubparserName().compareTo(to.subparser.getSubparserName()) : byPriority;
     }
 
     public void increaseUsages() {

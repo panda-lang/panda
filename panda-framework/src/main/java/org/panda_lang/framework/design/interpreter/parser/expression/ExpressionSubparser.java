@@ -29,7 +29,7 @@ public interface ExpressionSubparser extends Parser, Comparable<ExpressionSubpar
      * Creates worker of the current subparser
      *
      * @return the worker instance
-     * @param context
+     * @param context the context to use by the worker
      */
     ExpressionSubparserWorker createWorker(Context context);
 

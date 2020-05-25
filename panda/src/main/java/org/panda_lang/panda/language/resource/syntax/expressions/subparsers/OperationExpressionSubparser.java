@@ -28,6 +28,9 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionS
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
+import org.panda_lang.framework.language.resource.syntax.operator.Operator;
+import org.panda_lang.framework.language.resource.syntax.operator.OperatorFamilies;
+import org.panda_lang.framework.language.resource.syntax.operator.OperatorUtils;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.Operation;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.Operation.OperationElement;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.OperationParser;
@@ -80,6 +83,12 @@ public final class OperationExpressionSubparser implements ExpressionSubparser {
                     return finish(context);
                 }
                 */
+                return null;
+            }
+
+            Operator operator = token.toToken();
+
+            if (OperatorUtils.isMemberOf(operator, OperatorFamilies.ASSIGNATION)) {
                 return null;
             }
 
