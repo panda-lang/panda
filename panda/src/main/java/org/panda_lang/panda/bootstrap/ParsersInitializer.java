@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionSubparsers;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParsersLoader;
-import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressionUtils;
+import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,12 +43,11 @@ public final class ParsersInitializer implements Initializer {
     /**
      * Load custom expression subparser classes
      *
-     * @param subparserClasses the classes to load
+     * @param subparsers the subparsers to load
      * @return the initializer instance
      */
-    @SafeVarargs
-    public final ParsersInitializer loadExpressionSubparsers(Class<? extends ExpressionSubparser>... subparserClasses) {
-        this.expressionSubparsers.addAll(PandaExpressionUtils.collectSubparsers(subparserClasses).getSubparsers());
+    public final ParsersInitializer loadExpressionSubparsers(ExpressionSubparser... subparsers) {
+        this.expressionSubparsers.addAll(Arrays.asList(subparsers));
         return this;
     }
 
@@ -59,48 +58,32 @@ public final class ParsersInitializer implements Initializer {
      * @see org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressions#SUBPARSERS
      */
     public ParsersInitializer loadDefaultExpressionSubparsers() {
-        this.expressionSubparsers.addAll(PandaExpressionUtils.collectSubparsers().getSubparsers());
-        return this;
-    }
-
-    /**
-     * Load arrays of parsers classes
-     *
-     * @param classes classes to load
-     * @return the initializer instance
-     */
-    @SafeVarargs
-    public final ParsersInitializer loadParsersClasses(Class<? extends Parser>[]... classes) {
-        for (Class<? extends Parser>[] parsers : classes) {
-            loadParsersClasses(parsers);
-        }
-
+        this.expressionSubparsers.addAll(PandaExpressions.getSubparsers());
         return this;
     }
 
     /**
      * Load array of parsers classes
      *
-     * @param classes classes to load
+     * @param parsers classes to load
      * @return the initializer instance
      */
-    @SafeVarargs
-    public final ParsersInitializer loadParsersClasses(Class<? extends Parser>... classes) {
-        return loadParsers(Arrays.asList(classes));
+    public final ParsersInitializer loadParsers(Parser... parsers) {
+        return loadParsers(Arrays.asList(parsers));
     }
 
     /**
      * Load collection of parsers classes
      *
-     * @param classes classes to load
+     * @param parsers classes to load
      * @return the initializer instance
      */
-    public ParsersInitializer loadParsers(Collection<Class<? extends Parser>> classes) {
+    public ParsersInitializer loadParsers(Collection<Parser> parsers) {
         if (bootstrap.resources.pipelinePath == null) {
             throw new BootstrapException("Cannot load parsers because pipeline was not initialized");
         }
 
-        registrationLoader.loadParsers(bootstrap.resources.pipelinePath, classes);
+        registrationLoader.loadParsers(bootstrap.resources.pipelinePath, parsers);
         return this;
     }
 

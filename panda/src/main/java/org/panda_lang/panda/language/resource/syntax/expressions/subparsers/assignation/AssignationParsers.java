@@ -22,11 +22,10 @@ import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assi
 
 public final class AssignationParsers {
 
-    @SuppressWarnings("unchecked")
-    public static final Class<? extends AssignationSubparser<?>>[] SUBPARSERS = new Class[] {
-            VariableAssignationSubparser.class,
-            VariableDeclarationSubparser.class,
-            ArrayValueAssignationSubparser.class
+    public static final AssignationSubparser<?>[] SUBPARSERS = {
+            new VariableAssignationSubparser(),
+            new VariableDeclarationSubparser(),
+            new ArrayValueAssignationSubparser()
     };
 
     private AssignationParsers() { }

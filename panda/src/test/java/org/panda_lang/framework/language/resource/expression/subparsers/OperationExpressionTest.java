@@ -24,14 +24,14 @@ import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.framework.language.resource.expression.ExpressionContextUtils;
-import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressionUtils;
+import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressions;
 import org.panda_lang.utilities.commons.TimeUtils;
 
 import java.util.HashMap;
 
 class OperationExpressionTest {
 
-    private static final ExpressionParser PARSER = new PandaExpressionParser(PandaExpressionUtils.collectSubparsers());
+    private static final ExpressionParser PARSER = new PandaExpressionParser(PandaExpressions.getExpressionSubparsers());
     private static final Snippet SOURCE = PandaLexerUtils.convert(OperationExpressionTest.class.getSimpleName(), "1 + 2");
 
     @Test

@@ -204,7 +204,7 @@ public final class Repl {
     /**
      * Initiate REPL creator
      *
-     * @param
+     * @param console the console instance to use
      * @return a REPL creator instance
      */
     public static ReplCreator creator(ReplConsole console) {

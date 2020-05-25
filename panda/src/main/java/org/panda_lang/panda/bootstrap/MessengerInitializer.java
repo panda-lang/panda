@@ -24,10 +24,10 @@ import org.panda_lang.panda.language.interpreter.messenger.PandaTranslatorLayout
 import org.panda_lang.panda.language.interpreter.messenger.PandaTranslatorLayoutManager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * {@link org.panda_lang.framework.design.interpreter.messenger.Messenger} creator
@@ -35,9 +35,9 @@ import java.util.Map;
 public final class MessengerInitializer implements Initializer {
 
     private final PandaBootstrap bootstrap;
-    private final Collection<Class<? extends PandaTranslatorLayout<?>>> layouts = new ArrayList<>();
-    private final Collection<Class<? extends MessengerDataFormatter<?>>> dataFormatters = new ArrayList<>();
-    private final Map<Class<?>, MessengerDataMapper> dataMappers = new HashMap<>();
+    private final Collection<Supplier<Collection<PandaTranslatorLayout<?>>>> layouts = new ArrayList<>(2);
+    private final Collection<Supplier<Collection<MessengerDataFormatter<?>>>> dataFormatters = new ArrayList<>(2);
+    private final Map<Class<?>, MessengerDataMapper<?, ?>> dataMappers = new HashMap<>(2);
     private MessengerOutputListener outputListener;
 
     MessengerInitializer(PandaBootstrap bootstrap) {
@@ -47,24 +47,22 @@ public final class MessengerInitializer implements Initializer {
     /**
      * Add translator layouts to messenger
      *
-     * @param layoutClasses classes of layouts to add
+     * @param layouts layouts to add
      * @return the category instance
      */
-    @SafeVarargs
-    public final MessengerInitializer addLayouts(Class<? extends PandaTranslatorLayout<?>>... layoutClasses) {
-        layouts.addAll(Arrays.asList(layoutClasses));
+    public final MessengerInitializer addLayouts(Supplier<Collection<PandaTranslatorLayout<?>>> layouts) {
+        this.layouts.add(layouts);
         return this;
     }
 
     /**
      * Add data formatters to messenger
      *
-     * @param dataFormatterClasses classes of formatters to add
+     * @param dataFormatters classes of formatters to add
      * @return the category instance
      */
-    @SafeVarargs
-    public final MessengerInitializer addDataFormatters(Class<? extends MessengerDataFormatter<?>>... dataFormatterClasses) {
-        dataFormatters.addAll(Arrays.asList(dataFormatterClasses));
+    public final MessengerInitializer addDataFormatters(Supplier<Collection<MessengerDataFormatter<?>>> dataFormatters) {
+        this.dataFormatters.add(dataFormatters);
         return this;
     }
 
@@ -92,16 +90,20 @@ public final class MessengerInitializer implements Initializer {
 
     @Override
     public PandaBootstrap collect() {
-        bootstrap.resources.withMessengerInitializer(messenger -> {
-            if (outputListener != null) {
-                messenger.setOutputListener(outputListener);
-            }
+        if (outputListener != null) {
+            bootstrap.resources.withOutputListener(outputListener);
+        }
 
+        bootstrap.resources.withMessengerInitializer(messenger -> {
             PandaTranslatorLayoutManager translatorLayoutManager = new PandaTranslatorLayoutManager(messenger, dataMappers);
-            layouts.forEach(translatorLayoutManager::load);
+            layouts.stream()
+                    .flatMap(layout -> layout.get().stream())
+                    .forEach(translatorLayoutManager::load);
 
             MessengerDataFormatterManager dataFormatterManager = new MessengerDataFormatterManager(messenger);
-            dataFormatters.forEach(dataFormatterManager::load);
+            dataFormatters.stream()
+                    .flatMap(layout -> layout.get().stream())
+                    .forEach(dataFormatterManager::load);
         });
 
         return bootstrap;

@@ -16,7 +16,9 @@
 
 package org.panda_lang.framework.design.resource;
 
+import io.vavr.control.Option;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerInitializer;
+import org.panda_lang.framework.design.interpreter.messenger.MessengerOutputListener;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparsers;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
 
@@ -44,6 +46,13 @@ public interface Resources {
      *
      * @return the messenger initializer
      */
-    MessengerInitializer getMessengerInitializer();
+    Option<MessengerInitializer> getMessengerInitializer();
+
+    /**
+     * Get output listener for {@link org.panda_lang.framework.design.interpreter.messenger.Messenger}
+     *
+     * @return the output listener to use by messenger
+     */
+    Option<MessengerOutputListener> getOutputListener();
 
 }

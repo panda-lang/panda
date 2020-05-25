@@ -46,7 +46,7 @@ public final class PandaEnvironment implements Environment {
         this.workingDirectory = workingDirectory;
         this.modulePath = new PandaModulePath();
         this.typeLoader = new PandaTypeLoader();
-        this.messenger = new PandaMessenger(controller.getLogger(), controller.getResources().getMessengerInitializer());
+        this.messenger = new PandaMessenger(controller);
         this.interpreter = new PandaInterpreter(this);
     }
 
@@ -56,7 +56,7 @@ public final class PandaEnvironment implements Environment {
         }
 
         this.initialized = true;
-        controller.getResources().getMessengerInitializer().onInitialize(messenger);
+        controller.getResources().getOutputListener().peek(messenger::setOutputListener);
 
         ResourcesLoader resourcesLoader = new ResourcesLoader();
         resourcesLoader.load(modulePath, typeLoader);

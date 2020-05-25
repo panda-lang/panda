@@ -26,10 +26,10 @@ import java.util.Map;
 public final class PandaTranslatorLayoutManager {
 
     private final Messenger messenger;
-    private final Map<Class<?>, MessengerDataMapper> mappers;
+    private final Map<Class<?>, MessengerDataMapper<?, ?>> mappers;
     private final MicroTemplateEngine engine = new MicroTemplateEngine();
 
-    public PandaTranslatorLayoutManager(Messenger messenger, Map<Class<?>, MessengerDataMapper> mappers) {
+    public PandaTranslatorLayoutManager(Messenger messenger, Map<Class<?>, MessengerDataMapper<?, ?>> mappers) {
         this.messenger = messenger;
         this.mappers = mappers;
     }

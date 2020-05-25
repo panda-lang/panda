@@ -17,7 +17,6 @@
 package org.panda_lang.panda.language.interpreter.parser;
 
 import org.panda_lang.framework.PandaFrameworkException;
-import org.panda_lang.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.parser.ParserRepresentation;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
@@ -25,11 +24,9 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineCompo
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaParserRepresentation;
 import org.panda_lang.panda.PandaException;
-import org.panda_lang.utilities.annotations.AnnotationsScannerProcess;
 import org.slf4j.Logger;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 public final class RegistrableParsersLoader {
 
@@ -39,32 +36,7 @@ public final class RegistrableParsersLoader {
         this.logger = logger;
     }
 
-    public PipelinePath load(PipelinePath path, AnnotationsScannerProcess scannerProcess) {
-        logger.debug("");
-        logger.debug("--- Loading pipelines ");
-
-        @SuppressWarnings("unchecked")
-        Collection<Class<? extends Parser>> loaded = scannerProcess.createSelector()
-                .selectTypesAnnotatedWith(RegistrableParser.class)
-                .stream()
-                .filter(clazz -> {
-                    if (Parser.class.isAssignableFrom(clazz)) {
-                        return true;
-                    }
-
-                    logger.error(clazz + " is annotated with ParserRegistration and does not implement Parser");
-                    return true;
-                })
-                .map(clazz -> (Class<? extends Parser>) clazz)
-                .collect(Collectors.toList());
-
-        loadParsers(path, loaded);
-        logger.debug("");
-
-        return path;
-    }
-
-    public PipelinePath loadParsers(PipelinePath path, Collection<Class<? extends Parser>> parsers) {
+    public PipelinePath loadParsers(PipelinePath path, Collection<Parser> parsers) {
         try {
             return loadParsersInternal(path, parsers);
         } catch (Exception e) {
@@ -72,15 +44,14 @@ public final class RegistrableParsersLoader {
         }
     }
 
-    private PipelinePath loadParsersInternal(PipelinePath path, Collection<Class<? extends Parser>> parsers) throws InstantiationException, IllegalAccessException {
-        for (Class<?> clazz : parsers) {
-            RegistrableParser registrable = clazz.getAnnotation(RegistrableParser.class);
+    private PipelinePath loadParsersInternal(PipelinePath path, Collection<Parser> parsers) throws InstantiationException, IllegalAccessException {
+        for (Parser parser : parsers) {
+            RegistrableParser registrable = parser.getClass().getAnnotation(RegistrableParser.class);
 
             if (registrable == null) {
                 continue;
             }
 
-            Parser parser = createParserInstance(clazz, registrable.parserClass());
             Handler handler = createHandlerInstance(parser, registrable.handlerClass());
             ParserRepresentation<Parser> representation = new PandaParserRepresentation<>(parser, handler, registrable.priority());
 
@@ -98,17 +69,6 @@ public final class RegistrableParsersLoader {
         }
 
         return path;
-    }
-
-    private ContextParser<?> createParserInstance(Class<?> currentClass, Class<? extends ContextParser> parserClass) throws IllegalAccessException, InstantiationException {
-        if (parserClass != ContextParser.class) {
-            return parserClass.newInstance();
-        }
-        else if (ContextParser.class.isAssignableFrom(currentClass)) {
-            return (ContextParser<?>) currentClass.newInstance();
-        }
-
-        throw new PandaException("Cannot create parser instance (source: " + currentClass + ")");
     }
 
     private Handler createHandlerInstance(Parser currentParser, Class<? extends Handler> handlerClass) throws IllegalAccessException, InstantiationException {

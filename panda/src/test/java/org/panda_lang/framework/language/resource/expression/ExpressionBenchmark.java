@@ -30,7 +30,7 @@ import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionP
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParser;
-import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressionUtils;
+import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressions;
 import org.panda_lang.panda.util.BenchmarkUtils;
 
 @Fork(value = 1)
@@ -55,7 +55,7 @@ public class ExpressionBenchmark extends ExpressionParserTestBootstrap {
 
         @Setup(Level.Trial)
         public void setup() {
-            this.expressionParser = new PandaExpressionParser(PandaExpressionUtils.collectSubparsers());
+            this.expressionParser = new PandaExpressionParser(PandaExpressions.getExpressionSubparsers());
             this.context = prepareData();
         }
 

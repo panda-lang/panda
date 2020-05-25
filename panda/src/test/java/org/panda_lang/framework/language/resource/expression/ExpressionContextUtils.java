@@ -18,9 +18,9 @@ package org.panda_lang.framework.language.resource.expression;
 
 import org.panda_lang.framework.design.architecture.module.Imports;
 import org.panda_lang.framework.design.architecture.module.ModulePath;
+import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.design.architecture.statement.StandardizedFramedScope;
 import org.panda_lang.framework.design.architecture.statement.VariableData;
-import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.language.architecture.module.PandaImports;
@@ -32,7 +32,7 @@ import org.panda_lang.framework.language.interpreter.parser.PandaContext;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.panda.language.architecture.PandaScript;
 import org.panda_lang.panda.language.resource.ResourcesLoader;
-import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressionUtils;
+import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressions;
 
 import java.util.Map;
 import java.util.function.Function;
@@ -56,7 +56,7 @@ public final class ExpressionContextUtils {
      */
     public static Context createFakeContext(Function<Context, Map<VariableData, Object>> variablesSupplier) {
         Context context = new PandaContext();
-        context.withComponent(Components.EXPRESSION, new PandaExpressionParser(PandaExpressionUtils.collectSubparsers()));
+        context.withComponent(Components.EXPRESSION, new PandaExpressionParser(PandaExpressions.getExpressionSubparsers()));
 
         ModulePath path = new PandaModulePath();
         TypeLoader loader = new PandaTypeLoader();

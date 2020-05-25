@@ -30,7 +30,7 @@ import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.framework.language.resource.expression.ExpressionContextUtils;
-import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressionUtils;
+import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressions;
 import org.panda_lang.panda.util.BenchmarkUtils;
 
 import java.util.HashMap;
@@ -51,7 +51,7 @@ public class OperationExpressionBenchmark {
 
     @Setup
     public void setup() {
-        ExpressionParser parser = new PandaExpressionParser(PandaExpressionUtils.collectSubparsers());
+        ExpressionParser parser = new PandaExpressionParser(PandaExpressions.getExpressionSubparsers());
         Snippet source = PandaLexerUtils.convert(OperationExpressionBenchmark.class.getSimpleName(), "1 + 2");
         this.expression = parser.parse(ExpressionContextUtils.createFakeContext((context -> new HashMap<>())), source).getExpression();
     }

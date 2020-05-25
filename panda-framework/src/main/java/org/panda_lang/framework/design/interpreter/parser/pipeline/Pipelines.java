@@ -18,10 +18,13 @@ package org.panda_lang.framework.design.interpreter.parser.pipeline;
 
 import org.panda_lang.framework.design.interpreter.parser.ContextParser;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 /**
  * Default pipelines used by the framework
  */
-public final class Pipelines implements PipelineComponents {
+public final class Pipelines {
 
     /**
      * Text representation of {@link Pipelines#ALL}
@@ -30,7 +33,7 @@ public final class Pipelines implements PipelineComponents {
     /**
      * All pipelines
      */
-    public static final PipelineComponent<ContextParser> ALL = PipelineComponent.of(Pipelines.class, ALL_LABEL, ContextParser.class);
+    public static final PipelineComponent<ContextParser> ALL = PipelineComponent.of(ALL_LABEL, ContextParser.class);
 
     /**
      * Text representation of {@link Pipelines#HEAD}
@@ -39,7 +42,7 @@ public final class Pipelines implements PipelineComponents {
     /**
      * Head pipeline
      */
-    public static final PipelineComponent<ContextParser> HEAD = PipelineComponent.of(Pipelines.class, HEAD_LABEL, ContextParser.class);
+    public static final PipelineComponent<ContextParser> HEAD = PipelineComponent.of(HEAD_LABEL, ContextParser.class);
 
     /**
      * Text representation of {@link Pipelines#TYPE}
@@ -48,7 +51,7 @@ public final class Pipelines implements PipelineComponents {
     /**
      * Class type parsers, used by type parser
      */
-    public static final PipelineComponent<ContextParser> TYPE = PipelineComponent.of(Pipelines.class, TYPE_LABEL, ContextParser.class);
+    public static final PipelineComponent<ContextParser> TYPE = PipelineComponent.of(TYPE_LABEL, ContextParser.class);
 
     /**
      * Text representation of {@link Pipelines#SCOPE}
@@ -57,6 +60,15 @@ public final class Pipelines implements PipelineComponents {
     /**
      * Scope parsers
      */
-    public static final PipelineComponent<ContextParser> SCOPE = PipelineComponent.of(Pipelines.class, SCOPE_LABEL, ContextParser.class);
+    public static final PipelineComponent<ContextParser> SCOPE = PipelineComponent.of(SCOPE_LABEL, ContextParser.class);
+
+    /**
+     * Get collection of all components
+     *
+     * @return the collection of components
+     */
+    public static Collection<PipelineComponent<?>> getPipelineComponents() {
+        return Arrays.asList(ALL, HEAD, TYPE, SCOPE);
+    }
 
 }

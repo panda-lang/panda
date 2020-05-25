@@ -24,6 +24,7 @@ import org.panda_lang.framework.language.interpreter.messenger.PandaMessengerMes
 import org.panda_lang.panda.language.interpreter.messenger.template.MicroTemplate;
 import org.panda_lang.panda.language.interpreter.messenger.template.MicroTemplateEngine;
 import org.panda_lang.panda.language.interpreter.messenger.template.MicroTemplateRequest;
+import org.panda_lang.utilities.commons.ObjectUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,9 +33,9 @@ final class PandaTranslator<T> implements MessengerMessageTranslator<T> {
 
     private final MicroTemplateEngine engine;
     private final PandaTranslatorLayout<T> scheme;
-    private final Map<Class<?>, MessengerDataMapper> mappers;
+    private final Map<Class<?>, MessengerDataMapper<?, ?>> mappers;
 
-    PandaTranslator(MicroTemplateEngine engine, PandaTranslatorLayout<T> scheme, Map<Class<?>, MessengerDataMapper> mappers) {
+    PandaTranslator(MicroTemplateEngine engine, PandaTranslatorLayout<T> scheme, Map<Class<?>, MessengerDataMapper<?, ?>> mappers) {
         this.engine = engine;
         this.scheme = scheme;
         this.mappers = mappers;
@@ -54,8 +55,7 @@ final class PandaTranslator<T> implements MessengerMessageTranslator<T> {
                 return;
             }
 
-            //noinspection unchecked
-            patch.put(key, mappers.get(value.getClass()).apply(value));
+            patch.put(key, mappers.get(value.getClass()).apply(ObjectUtils.cast(value)));
         });
         data.putAll(patch);
 

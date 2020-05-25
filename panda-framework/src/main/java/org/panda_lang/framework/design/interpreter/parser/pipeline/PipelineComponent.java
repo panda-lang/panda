@@ -32,30 +32,26 @@ public final class PipelineComponent<P extends Parser> extends Component<P> {
 
     private static final Map<String, PipelineComponent<? extends Parser>> COMPONENTS = new HashMap<>();
 
-    private final Class<? extends PipelineComponents> container;
-
-    private PipelineComponent(Class<? extends PipelineComponents> container, String name, Class<P> type) {
+    private PipelineComponent(String name, Class<P> type) {
         super(name, type, 0);
-        this.container = container;
     }
 
     @Override
     public String toString() {
-        return container.getSimpleName() + "::" + super.toString();
+        return super.toString();
     }
 
     /**
      * Create component
      *
-     * @param container the parent container
      * @param name the name of component
      * @param type the type of component
      * @param <T> generic type of component
      * @return a new component
      */
     @SuppressWarnings("unchecked")
-    public static <T extends Parser> PipelineComponent<T> of(Class<? extends PipelineComponents> container, String name, Class<T> type) {
-        return (PipelineComponent<T>) ofComponents(COMPONENTS, name, () -> new PipelineComponent<>(container, name, type));
+    public static <T extends Parser> PipelineComponent<T> of(String name, Class<T> type) {
+        return (PipelineComponent<T>) ofComponents(COMPONENTS, name, () -> new PipelineComponent<>(name, type));
     }
 
     /**
