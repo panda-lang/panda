@@ -16,9 +16,6 @@
 
 package org.panda_lang.panda.language.interpreter.parser;
 
-import org.panda_lang.framework.design.interpreter.parser.ContextParser;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -41,20 +38,6 @@ public @interface RegistrableParser {
      * @return the priority
      */
     double priority() default 0;
-
-    /**
-     * Get parser class
-     *
-     * @return the parser class
-     */
-    Class<? extends ContextParser> parserClass() default ContextParser.class;
-
-    /**
-     * Get handler class
-     *
-     * @return the handler class
-     */
-    Class<? extends Handler> handlerClass() default Handler.class;
 
 }
 

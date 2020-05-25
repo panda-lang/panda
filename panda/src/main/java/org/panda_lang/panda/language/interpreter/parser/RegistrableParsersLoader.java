@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.language.interpreter.parser;
 
-import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.parser.ParserRepresentation;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
@@ -24,6 +23,7 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineCompo
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaParserRepresentation;
 import org.panda_lang.panda.PandaException;
+import org.panda_lang.utilities.commons.ObjectUtils;
 import org.slf4j.Logger;
 
 import java.util.Collection;
@@ -37,14 +37,6 @@ public final class RegistrableParsersLoader {
     }
 
     public PipelinePath loadParsers(PipelinePath path, Collection<Parser> parsers) {
-        try {
-            return loadParsersInternal(path, parsers);
-        } catch (Exception e) {
-            throw new PandaFrameworkException("Cannot load parsers: " + e.getMessage(), e);
-        }
-    }
-
-    private PipelinePath loadParsersInternal(PipelinePath path, Collection<Parser> parsers) throws InstantiationException, IllegalAccessException {
         for (Parser parser : parsers) {
             RegistrableParser registrable = parser.getClass().getAnnotation(RegistrableParser.class);
 
@@ -52,7 +44,11 @@ public final class RegistrableParsersLoader {
                 continue;
             }
 
-            Handler handler = createHandlerInstance(parser, registrable.handlerClass());
+            if (!Handler.class.isAssignableFrom(parser.getClass())) {
+                throw new PandaException("Cannot create parser handler instance (source: " + parser.getClass() + ")");
+            }
+            
+            Handler handler = ObjectUtils.cast(parser);
             ParserRepresentation<Parser> representation = new PandaParserRepresentation<>(parser, handler, registrable.priority());
 
             for (String target : registrable.pipeline()) {
@@ -69,17 +65,6 @@ public final class RegistrableParsersLoader {
         }
 
         return path;
-    }
-
-    private Handler createHandlerInstance(Parser currentParser, Class<? extends Handler> handlerClass) throws IllegalAccessException, InstantiationException {
-        if (handlerClass != Handler.class) {
-            return handlerClass.newInstance();
-        }
-        else if (Handler.class.isAssignableFrom(currentParser.getClass())) {
-            return (Handler) currentParser;
-        }
-
-        throw new PandaException("Cannot create parser handler instance (source: " + currentParser.getClass() + ")");
     }
 
 }

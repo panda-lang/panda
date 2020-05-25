@@ -16,11 +16,8 @@
 
 package org.panda_lang.panda.language.interpreter.messenger;
 
-import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.interpreter.messenger.Messenger;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerTypeFormatter;
-
-import java.util.Collection;
 
 public final class MessengerDataFormatterManager {
 
@@ -28,22 +25,6 @@ public final class MessengerDataFormatterManager {
 
     public MessengerDataFormatterManager(Messenger messenger) {
         this.messenger = messenger;
-    }
-
-    public MessengerDataFormatterManager load(Collection<Class<? extends MessengerDataFormatter<?>>> formatterClasses) {
-        for (Class<? extends MessengerDataFormatter<?>> formatterClass : formatterClasses) {
-            load(formatterClass);
-        }
-
-        return this;
-    }
-
-    public MessengerDataFormatterManager load(Class<? extends MessengerDataFormatter<?>> formatterClass) {
-        try {
-            return load(formatterClass.newInstance());
-        } catch (IllegalAccessException | InstantiationException e) {
-            throw new PandaFrameworkException("Cannot create instance of formatter class", e);
-        }
     }
 
     public <T> MessengerDataFormatterManager load(MessengerDataFormatter<T> formatter) {
