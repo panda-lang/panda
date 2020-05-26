@@ -195,14 +195,14 @@ shared class Foo : Test, IEcho {
     }
 
     // we need to mark overridden methods by the keyword
-    override shared static anotherEcho(String message1) {
+    override static anotherEcho(String message1) {
         log message1
     }
 
     // we need to impl all methods
-    override internal test() { }
+    override test() { }
 
-    override public String toString() {
+    override String toString() {
         return 'Foo'
     }
 
@@ -218,7 +218,7 @@ internal class Entity {
     }
 
     // override native equals and name-based equality
-    override public PrimitiveBool equals(Object obj) {
+    override PrimitiveBool equals(Object obj) {
         return obj is Entity && name == (obj as Entity).name
     }
 
@@ -261,7 +261,7 @@ internal class Test {
         }
     }
 
-    override public String toString() {
+    override String toString() {
         return 'Custom toString() in Test type #' + Int.toHexString(System.identityHashCode(this))
     }
 
@@ -304,7 +304,7 @@ internal class CustomThread : Thread {
         base('CustomThread')
     }
 
-    override public run() {
+    override run() {
         log 'Called in ' + Thread.currentThread().getName()
     }
 

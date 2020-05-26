@@ -47,7 +47,7 @@ final class PandaMethods extends AbstractProperties<TypeMethod> implements Metho
 
     @Override
     public List<? extends TypeMethod> getPropertiesLike(String name) {
-        return super.getPropertiesLike(name, method -> super.type.getState() == State.ABSTRACT || !method.isAbstract());
+        return super.getPropertiesLike(name, method -> true);
     }
 
     @Override
