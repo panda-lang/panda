@@ -63,6 +63,10 @@ final class TypeGenerator {
                             type.addBase(typeLoader.load(findOrGenerate(typeLoader, module, baseClass)));
                         }
 
+                        for (Class<?> javaInterface : javaType.getInterfaces()) {
+                            type.addBase(typeLoader.load(findOrGenerate(typeLoader, module, javaInterface)));
+                        }
+
                         if (!Modifier.isPublic(javaType.getModifiers())) {
                             return;
                         }
