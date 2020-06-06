@@ -88,6 +88,14 @@ public final class PandaDynamicClass implements DynamicClass {
                 }
                 else {
                     generatedStructure = ClassPoolUtils.getClassPool().makeInterface(className, PROTOTYPE_CLASS);
+
+                    for (Type base : type.getBases()) {
+                        Class<?> baseStructure = base.getAssociatedClass().fetchStructure();
+
+                        if (baseStructure.isInterface()) {
+                            generatedStructure.addInterface(ClassPoolUtils.get(baseStructure));
+                        }
+                    }
                     // generatedStructure.writeFile(".dynamic_classes");
                     this.structure =  ClassPoolUtils.toClass(generatedStructure);
                 }
@@ -125,6 +133,14 @@ public final class PandaDynamicClass implements DynamicClass {
         }
         else {
             generatedImplementation = ClassPoolUtils.getClassPool().makeClass(generatedClassName, superclassCt);
+        }
+
+        for (Type base : type.getBases()) {
+            Class<?> baseStructure = base.getAssociatedClass().fetchStructure();
+
+            if (baseStructure.isInterface()) {
+                generatedImplementation.addInterface(ClassPoolUtils.require(baseStructure));
+            }
         }
 
         DynamicClassGenerator generator = new DynamicClassGenerator(type, generatedImplementation);

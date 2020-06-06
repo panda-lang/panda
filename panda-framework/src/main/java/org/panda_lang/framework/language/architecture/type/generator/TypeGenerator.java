@@ -60,7 +60,7 @@ final class TypeGenerator {
 
                         // Object.class does not have supertype
                         if (baseClass != null) {
-                            type.addBase(findOrGenerate(typeLoader, module, baseClass));
+                            type.addBase(typeLoader.load(findOrGenerate(typeLoader, module, baseClass)));
                         }
 
                         if (!Modifier.isPublic(javaType.getModifiers())) {
