@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,9 @@
 
 package org.panda_lang.framework.language.interpreter.messenger;
 
+import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.FrameworkController;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.interpreter.messenger.Messenger;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerFormatter;
@@ -34,25 +36,29 @@ import java.util.List;
 public final class PandaMessenger implements Messenger {
 
     private final Logger logger;
-    private final @Nullable MessengerInitializer initializer;
+    private final MessengerInitializer initializer;
     private final MessengerFormatter formatter = new PandaMessengerFormatter(this);
     private final List<MessengerMessageTranslator<Object>> translators = new ArrayList<>();
     private MessengerOutputListener outputListener;
     private boolean initialized;
 
-    public PandaMessenger(Logger logger, @Nullable MessengerInitializer initializer) {
+    public PandaMessenger(Logger logger, @Nullable MessengerInitializer initializer, @Nullable MessengerOutputListener outputListener) {
         this.logger = logger;
-        this.initializer = initializer;
-        this.outputListener = new LoggerMessengerOutputListener(logger);
+        this.initializer = Option.of(initializer).getOrElse(messenger -> {});
+        this.outputListener = Option.of(outputListener).getOrElse(() -> new LoggerMessengerOutputListener(logger));
+    }
+
+    public PandaMessenger(FrameworkController controller) {
+        this(controller.getLogger(), controller.getResources().getMessengerInitializer().getOrNull(), controller.getResources().getOutputListener().getOrNull());
     }
 
     public PandaMessenger(Logger logger) {
-        this(logger, null);
+        this(logger, null, null);
     }
 
     @Override
     public boolean send(Object message) {
-        if (!initialized && initializer != null) {
+        if (!initialized) {
             initialized = true;
             initializer.onInitialize(this);
         }

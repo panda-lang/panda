@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,9 @@
 
 package org.panda_lang.framework.language.resource;
 
+import io.vavr.control.Option;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerInitializer;
+import org.panda_lang.framework.design.interpreter.messenger.MessengerOutputListener;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparsers;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.framework.design.resource.Resources;
@@ -41,8 +43,13 @@ public final class PandaResources implements Resources {
     }
 
     @Override
-    public MessengerInitializer getMessengerInitializer() {
-        return builder.messengerInitializer;
+    public Option<MessengerInitializer> getMessengerInitializer() {
+        return Option.of(builder.messengerInitializer);
+    }
+
+    @Override
+    public Option<MessengerOutputListener> getOutputListener() {
+        return Option.of(builder.outputListener);
     }
 
     public static PandaResourcesBuilder builder() {
@@ -51,11 +58,17 @@ public final class PandaResources implements Resources {
 
     public static final class PandaResourcesBuilder {
 
+        public MessengerOutputListener outputListener;
         public MessengerInitializer messengerInitializer;
         public PipelinePath pipelinePath;
         public ExpressionSubparsers expressionSubparsers;
 
         private PandaResourcesBuilder() { }
+
+        public PandaResourcesBuilder withOutputListener(MessengerOutputListener outputListener) {
+            this.outputListener = outputListener;
+            return this;
+        }
 
         public PandaResourcesBuilder withMessengerInitializer(MessengerInitializer messengerInitializer) {
             this.messengerInitializer = messengerInitializer;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ class ClassPoolUtilsTest {
 
     @Test
     void toCtClasses() throws NotFoundException {
-        Class[] classes = { Object.class, ClassPoolUtilsTest.class };
+        Class<?>[] classes = { Object.class, ClassPoolUtilsTest.class };
         CtClass[] ctClasses = ClassPoolUtils.toCtClasses(classes);
 
         Assertions.assertNotNull(ctClasses);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,9 @@
 
 package org.panda_lang.framework.design.resource;
 
+import io.vavr.control.Option;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerInitializer;
+import org.panda_lang.framework.design.interpreter.messenger.MessengerOutputListener;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparsers;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
 
@@ -44,6 +46,13 @@ public interface Resources {
      *
      * @return the messenger initializer
      */
-    MessengerInitializer getMessengerInitializer();
+    Option<MessengerInitializer> getMessengerInitializer();
+
+    /**
+     * Get output listener for {@link org.panda_lang.framework.design.interpreter.messenger.Messenger}
+     *
+     * @return the output listener to use by messenger
+     */
+    Option<MessengerOutputListener> getOutputListener();
 
 }

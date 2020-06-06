@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponents;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.framework.language.interpreter.parser.PandaContext;
 import org.panda_lang.framework.language.interpreter.token.PandaTokenInfo;
@@ -29,10 +28,10 @@ import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 
 import java.util.Arrays;
 
-class PandaPipelinePathTest implements PipelineComponents {
+class PandaPipelinePathTest {
 
-    private static final PipelineComponent<?> TEST_COMPONENT = PipelineComponent.of(PandaPipelinePathTest.class, "test", Parser.class);
-    private static final PipelineComponent<?> ANOTHER_TEST_COMPONENT = PipelineComponent.of(PandaPipelinePathTest.class, "another-test", Parser.class);
+    private static final PipelineComponent<?> TEST_COMPONENT = PipelineComponent.of("test", Parser.class);
+    private static final PipelineComponent<?> ANOTHER_TEST_COMPONENT = PipelineComponent.of("another-test", Parser.class);
 
     private PipelinePath defaultPath;
 

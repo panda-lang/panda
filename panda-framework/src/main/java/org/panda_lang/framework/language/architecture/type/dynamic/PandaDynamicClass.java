@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@
 package org.panda_lang.framework.language.architecture.type.dynamic;
 
 import javassist.CannotCompileException;
-import javassist.ClassPool;
 import javassist.CtClass;
 import org.panda_lang.framework.design.architecture.type.DynamicClass;
 import org.panda_lang.framework.design.architecture.type.Type;
@@ -88,7 +87,15 @@ public final class PandaDynamicClass implements DynamicClass {
                     this.structure = Class.forName(className);
                 }
                 else {
-                    generatedStructure = ClassPool.getDefault().makeInterface(className, PROTOTYPE_CLASS);
+                    generatedStructure = ClassPoolUtils.getClassPool().makeInterface(className, PROTOTYPE_CLASS);
+
+                    for (Type base : type.getBases()) {
+                        Class<?> baseStructure = base.getAssociatedClass().fetchStructure();
+
+                        if (baseStructure.isInterface()) {
+                            generatedStructure.addInterface(ClassPoolUtils.get(baseStructure));
+                        }
+                    }
                     // generatedStructure.writeFile(".dynamic_classes");
                     this.structure =  ClassPoolUtils.toClass(generatedStructure);
                 }
@@ -118,14 +125,22 @@ public final class PandaDynamicClass implements DynamicClass {
         CtClass generatedImplementation;
 
         if (TypeModels.isInterface(type)) {
-            generatedImplementation = ClassPool.getDefault().makeInterface("I" + generatedClassName, superclassCt);
+            generatedImplementation = ClassPoolUtils.getClassPool().makeInterface("I" + generatedClassName, superclassCt);
         }
         else if (superclassCt != null && superclassCt.isInterface()) {
-            generatedImplementation = ClassPool.getDefault().makeClass(generatedClassName);
+            generatedImplementation = ClassPoolUtils.getClassPool().makeClass(generatedClassName);
             generatedImplementation.addInterface(superclassCt);
         }
         else {
-            generatedImplementation = ClassPool.getDefault().makeClass(generatedClassName, superclassCt);
+            generatedImplementation = ClassPoolUtils.getClassPool().makeClass(generatedClassName, superclassCt);
+        }
+
+        for (Type base : type.getBases()) {
+            Class<?> baseStructure = base.getAssociatedClass().fetchStructure();
+
+            if (baseStructure.isInterface()) {
+                generatedImplementation.addInterface(ClassPoolUtils.require(baseStructure));
+            }
         }
 
         DynamicClassGenerator generator = new DynamicClassGenerator(type, generatedImplementation);

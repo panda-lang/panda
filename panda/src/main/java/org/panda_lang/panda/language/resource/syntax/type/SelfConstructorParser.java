@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,7 +63,7 @@ public final class SelfConstructorParser extends ParserBootstrap<Void> {
         return source.get(1).getType() == TokenTypes.SECTION;
     }
 
-    @Autowired
+    @Autowired(order = 1)
     void parse(Context context, @Ctx Scope parent, @Ctx Type type, @Int Location location, @Src("args") Snippet args) {
         if (!(parent instanceof ConstructorScope)) {
             throw new PandaParserFailure(context, args, "Cannot use constructor call outside of the constructor");

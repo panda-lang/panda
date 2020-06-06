@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,7 +55,7 @@ public final class LogParser extends ParserBootstrap<Void> {
                 ));
     }
 
-    @Autowired
+    @Autowired(order = 1)
     void parse(Context context, @Ctx ExpressionParser parser, @Ctx Scope scope, @Int Location location, @Src("arguments") ExpressionTransaction[] transactions) {
         Expression[] expressions = Arrays.stream(transactions)
                 .map(ExpressionTransaction::getExpression)

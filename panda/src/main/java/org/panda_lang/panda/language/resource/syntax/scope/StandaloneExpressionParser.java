@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,7 +66,7 @@ public final class StandaloneExpressionParser extends ParserBootstrap<Object> {
         }
     }
 
-    @Autowired
+    @Autowired(order = 1)
     void parseExpression(@Ctx SourceStream source, @Ctx Scope parent, @Ctx Channel channel, @Int Location location) {
         StandaloneExpression statement = new StandaloneExpression(source.getCurrent().getLocation(), channel.get("expression", Expression.class));
         parent.addStatement(statement);

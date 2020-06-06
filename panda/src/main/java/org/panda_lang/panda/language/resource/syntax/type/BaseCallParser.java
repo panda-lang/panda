@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,7 +51,7 @@ public final class BaseCallParser extends ParserBootstrap<Void> {
                 .pattern("base args:(~)");
     }
 
-    @Autowired
+    @Autowired(order = 1)
     void parse(Context context, @Ctx Scope parent, @Ctx Type type, @Int Location location, @Int Snippet src, @Src("args") Snippet args) {
         if (!(parent instanceof ConstructorScope)) {
             throw new PandaParserFailure(context, src, src, "Cannot use base constructor outside of the constructor");

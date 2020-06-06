@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ public final class PandaEnvironment implements Environment {
         this.workingDirectory = workingDirectory;
         this.modulePath = new PandaModulePath();
         this.typeLoader = new PandaTypeLoader();
-        this.messenger = new PandaMessenger(controller.getLogger(), controller.getResources().getMessengerInitializer());
+        this.messenger = new PandaMessenger(controller);
         this.interpreter = new PandaInterpreter(this);
     }
 
@@ -56,7 +56,7 @@ public final class PandaEnvironment implements Environment {
         }
 
         this.initialized = true;
-        controller.getResources().getMessengerInitializer().onInitialize(messenger);
+        controller.getResources().getOutputListener().peek(messenger::setOutputListener);
 
         ResourcesLoader resourcesLoader = new ResourcesLoader();
         resourcesLoader.load(modulePath, typeLoader);

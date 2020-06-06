@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,8 @@
 package org.panda_lang.panda.language.resource.syntax.expressions;
 
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
-import org.panda_lang.framework.language.interpreter.parser.PandaParsersUtils;
+import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparsers;
+import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionSubparsers;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ArrayValueExpressionSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.CastExpressionSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ConstructorExpressionSubparser;
@@ -34,29 +35,40 @@ import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.Sequ
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.StaticExpressionSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.VariableExpressionSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationExpressionSubparser;
+import org.panda_lang.utilities.commons.collection.Sets;
+
+import java.util.Collection;
 
 public final class PandaExpressions {
 
     /**
      * Array of default expression subparsers
      */
-    public static final Class<? extends ExpressionSubparser>[] SUBPARSERS = PandaParsersUtils.of(
-            ArrayValueExpressionSubparser.class,
-            AssignationExpressionSubparser.class,
-            CastExpressionSubparser.class,
-            ConstructorExpressionSubparser.class,
-            CreaseExpressionSubparser.class,
-            IsExpressionSubparser.class,
-            LiteralExpressionSubparser.class,
-            MethodExpressionSubparser.class,
-            NegateExpressionSubparser.class,
-            NegativeExpressionSubparser.class,
-            NumberExpressionSubparser.class,
-            OperationExpressionSubparser.class,
-            SectionExpressionSubparser.class,
-            SequenceExpressionSubparser.class,
-            StaticExpressionSubparser.class,
-            VariableExpressionSubparser.class
-    );
+    public static final ExpressionSubparser[] SUBPARSERS = {
+            new AssignationExpressionSubparser(),
+            new ArrayValueExpressionSubparser(),
+            new CastExpressionSubparser(),
+            new ConstructorExpressionSubparser(),
+            new CreaseExpressionSubparser(),
+            new IsExpressionSubparser(),
+            new LiteralExpressionSubparser(),
+            new MethodExpressionSubparser(),
+            new NegateExpressionSubparser(),
+            new NegativeExpressionSubparser(),
+            new NumberExpressionSubparser(),
+            new OperationExpressionSubparser(),
+            new SectionExpressionSubparser(),
+            new SequenceExpressionSubparser(),
+            new StaticExpressionSubparser(),
+            new VariableExpressionSubparser()
+    };
+
+    public static Collection<ExpressionSubparser> getSubparsers() {
+        return Sets.newHashSet(SUBPARSERS);
+    }
+
+    public static ExpressionSubparsers getExpressionSubparsers() {
+        return new PandaExpressionSubparsers(getSubparsers());
+    }
 
 }

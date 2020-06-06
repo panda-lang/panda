@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,7 +79,7 @@ public final class MethodParser extends ParserBootstrap<Void> {
                 .interceptor(new CustomPatternInterceptor())
                 .pattern(CustomPattern.of(
                         KeywordElement.create(Keywords.OVERRIDE).optional(),
-                        VariantElement.create("visibility").content("public", "shared", "internal").map(value -> Visibility.valueOf(value.toString().toUpperCase())),
+                        VariantElement.create("visibility").optional().content("public", "shared", "internal").map(value -> Visibility.valueOf(value.toString().toUpperCase())),
                         UnitElement.create("static").content("static").optional(),
                         TypeElement.create("type").optional().verify(new NextTokenTypeVerifier(TokenTypes.UNKNOWN)),
                         WildcardElement.create("name").verify(new TokenTypeVerifier(TokenTypes.UNKNOWN)),
@@ -132,6 +132,10 @@ public final class MethodParser extends ParserBootstrap<Void> {
                             "Change return type if you want to override that method or rename current method"
                     );
                 });
+
+        local.allocated("visibility", result.has("visibility") ? result.get("visibility") : existingMethod.map(TypeMethod::getVisibility).getOrElseThrow(() -> {
+            throw new PandaParserFailure(context, name, "Missing visibility");
+        }));
     }
 
     @Autowired(order = 4, cycle = GenerationCycles.TYPES_LABEL)
@@ -142,7 +146,7 @@ public final class MethodParser extends ParserBootstrap<Void> {
                 .name(name.getValue())
                 .location(scope.getSourceLocation())
                 .isAbstract(body == null)
-                .visibility(result.get("visibility"))
+                .visibility(local.getValue("visibility"))
                 .returnType(returnType)
                 .isStatic(result.has("static"))
                 .isNative(local.hasValue("native"))

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,11 +68,14 @@ public final class ConditionalBlockParser extends BlockSubparserBootstrap {
                 ));
     }
 
-    @Autowired
+    @Autowired(order = 1)
     BlockData parse(
-            Context context,
-            @Ctx Scope parent, @Ctx TypeLoader loader, @Ctx(BlockComponents.PREVIOUS_BLOCK_LABEL) Block previous,
-            @Int Result result, @Int Location location
+        Context context,
+        @Ctx Scope parent,
+        @Ctx TypeLoader loader,
+        @Ctx(BlockComponents.PREVIOUS_BLOCK_LABEL) Block previous,
+        @Int Result result,
+        @Int Location location
     ) {
         Expression condition = result.has("condition") ? result.get("condition") : new PandaExpression(loader.requireType(Boolean.class), true);
         ConditionalBlock conditionalBlock = new ConditionalBlock(parent, location, condition);

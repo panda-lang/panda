@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,12 +28,13 @@ import org.panda_lang.framework.language.architecture.module.PandaModulePath;
 import org.panda_lang.framework.language.architecture.module.PandaTypeLoader;
 import org.panda_lang.framework.language.interpreter.parser.PandaContext;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParser;
+import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionSubparsers;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.interpreter.parser.generation.PandaGeneration;
 import org.panda_lang.panda.language.architecture.PandaEnvironment;
 import org.panda_lang.panda.language.architecture.PandaScript;
 import org.panda_lang.panda.language.resource.ResourcesLoader;
-import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressionUtils;
+import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressions;
 
 import java.io.File;
 
@@ -42,13 +43,13 @@ public final class PandaContextUtils {
     private PandaContextUtils() { }
 
     public static Context createStubContext(FrameworkController frameworkController) {
-        PandaEnvironment environment = new PandaEnvironment(frameworkController, new File("."));
+        PandaEnvironment environment = new PandaEnvironment(frameworkController, new File("./"));
         environment.initialize();
 
         Context context = new PandaContext()
                 .withComponent(Components.CONTROLLER, frameworkController)
                 .withComponent(Components.ENVIRONMENT, environment)
-                .withComponent(Components.EXPRESSION, new PandaExpressionParser(PandaExpressionUtils.collectSubparsers()));
+                .withComponent(Components.EXPRESSION, new PandaExpressionParser(new PandaExpressionSubparsers(PandaExpressions.getSubparsers())));
 
         ModulePath path = new PandaModulePath();
         TypeLoader loader = new PandaTypeLoader();

@@ -1,0 +1,21 @@
+module test
+
+require java
+
+import javax.swing.JFrame
+import javax.swing.SwingUtilities
+
+main {
+    SwingUtilities.invokeAndWait(new Window())
+}
+
+type Window : Runnable {
+
+    override run() {
+        JFrame frame = new JFrame('MonkaS')
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
+        frame.setSize(720, 380)
+        frame.setVisible(true)
+    }
+
+}

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,11 +22,10 @@ import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assi
 
 public final class AssignationParsers {
 
-    @SuppressWarnings("unchecked")
-    public static final Class<? extends AssignationSubparser<?>>[] SUBPARSERS = new Class[] {
-            VariableAssignationSubparser.class,
-            VariableDeclarationSubparser.class,
-            ArrayValueAssignationSubparser.class
+    public static final AssignationSubparser<?>[] SUBPARSERS = {
+            new VariableAssignationSubparser(),
+            new VariableDeclarationSubparser(),
+            new ArrayValueAssignationSubparser()
     };
 
     private AssignationParsers() { }

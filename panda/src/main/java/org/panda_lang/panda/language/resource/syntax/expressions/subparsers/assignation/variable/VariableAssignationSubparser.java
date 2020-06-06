@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -77,7 +77,7 @@ public final class VariableAssignationSubparser extends AssignationSubparserBoot
         }
     }
 
-    @Autowired
+    @Autowired(order = 1)
     ExpressionResult parse(@Ctx Channel channel, @Ctx Scope block, @Ctx Expression expression, @Int Location location) {
         Accessor<?> accessor = channel.get("accessor", AccessorExpression.class).getAccessor();
         boolean initialization = block.getFramedScope() instanceof ConstructorScope;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,8 @@ import org.panda_lang.panda.language.resource.syntax.PandaParsers;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationParsers;
 import org.slf4j.Logger;
 
+import java.util.Arrays;
+
 /**
  * Simplify creation of Panda instance
  */
@@ -55,23 +57,35 @@ public final class PandaFactory {
 
                 // initialize messenger
                 .initializeMessenger()
-                    .addLayouts(ExceptionTranslatorLayout.class)
-                    .addLayouts(PandaLexerFailureTranslatorLayout.class, InterpreterFailureTranslatorLayout.class, ParserFailureTranslatorLayout.class)
-                    .addLayouts(ProcessFailureTranslatorLayout.class)
-                    .addDataFormatters(EnvironmentFormatter.class, ThrowableFormatter.class, StacktraceElementsFormatter.class, ExceptionFormatter.class)
-                    .addDataFormatters(IndicatedSourceFormatter.class, ParserFailureFormatter.class)
-                    .addDataFormatters(ProcessFailureFormatter.class)
+                    .addLayouts(() -> Arrays.asList(
+                            new ExceptionTranslatorLayout(),
+                            new PandaLexerFailureTranslatorLayout(),
+                            new InterpreterFailureTranslatorLayout(),
+                            new ParserFailureTranslatorLayout(),
+                            new ProcessFailureTranslatorLayout()
+                    ))
+                    .addDataFormatters(() -> Arrays.asList(
+                            new EnvironmentFormatter(),
+                            new ThrowableFormatter(),
+                            new StacktraceElementsFormatter(),
+                            new ExceptionFormatter(),
+                            new IndicatedSourceFormatter(),
+                            new ParserFailureFormatter(),
+                            new ProcessFailureFormatter()
+                    ))
                     .addDataMapper(new StacktraceMapper())
                     .collect()
 
                 // load pipelines
                 .initializePipelines()
-                    .usePipelines(Pipelines.class, PandaPipeline.class)
+                    .usePipelines(Pipelines.getPipelineComponents())
+                    .usePipelines(PandaPipeline.getPipelineComponents())
                     .collect()
 
                 // load parsers and expressions subparsers
                 .initializeParsers()
-                    .loadParsersClasses(PandaParsers.PARSERS, AssignationParsers.SUBPARSERS)
+                    .loadParsers(PandaParsers.PARSERS)
+                    .loadParsers(AssignationParsers.SUBPARSERS)
                     .loadDefaultExpressionSubparsers()
                     .collect()
 

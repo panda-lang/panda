@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,7 @@
 
 package org.panda_lang.panda.bootstrap;
 
-import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponents;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaPipelinePath;
 
@@ -39,21 +37,14 @@ public final class PipelinesInitializer implements Initializer {
     /**
      * Add pipeline components to the path
      *
-     * @param componentsClasses pipeline components classes to add
+     * @param componentsCollections pipeline components to add
      * @return the initializer
      */
     @SafeVarargs
-    public final PipelinesInitializer usePipelines(Class<? extends PipelineComponents>... componentsClasses) {
-        for (Class<? extends PipelineComponents> componentClass : componentsClasses) {
-            try {
-                PipelineComponents pipelines = componentClass.newInstance();
-                Collection<PipelineComponent<?>> components = pipelines.collectPipelineComponents();
-
-                for (PipelineComponent<?> component : components) {
-                    path.createPipeline(component);
-                }
-            } catch (InstantiationException | IllegalAccessException e) {
-                throw new PandaFrameworkException("Cannot create instance of pipelines container: " + e.getMessage());
+    public final PipelinesInitializer usePipelines(Collection<PipelineComponent<?>>... componentsCollections) {
+        for (Collection<PipelineComponent<?>> components : componentsCollections) {
+            for (PipelineComponent<?> component : components) {
+                path.createPipeline(component);
             }
         }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package org.panda_lang.utilities.commons;
 
 import javassist.CannotCompileException;
+import javassist.ClassClassPath;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.NotFoundException;
@@ -26,6 +27,10 @@ import java.util.Arrays;
 public final class ClassPoolUtils {
 
     private static final ClassPool CLASS_POOL = ClassPool.getDefault();
+
+    static {
+        CLASS_POOL.insertClassPath(new ClassClassPath(ClassPoolUtils.class));
+    }
 
     private ClassPoolUtils() { }
 
@@ -89,6 +94,15 @@ public final class ClassPoolUtils {
      */
     public static CtClass get(Class<?> clazz) throws NotFoundException {
         return CLASS_POOL.get(clazz.getName());
+    }
+
+    /**
+     * Get initialized class pool
+     *
+     * @return the initialized class pool
+     */
+    public static ClassPool getClassPool() {
+        return CLASS_POOL;
     }
 
     /**

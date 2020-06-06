@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@ final class PandaMethods extends AbstractProperties<TypeMethod> implements Metho
 
     @Override
     public List<? extends TypeMethod> getPropertiesLike(String name) {
-        return super.getPropertiesLike(name, method -> super.type.getState() == State.ABSTRACT || !method.isAbstract());
+        return super.getPropertiesLike(name, method -> true);
     }
 
     @Override

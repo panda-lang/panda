@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ public final class ReturnParser extends ParserBootstrap<Void> {
                 .pattern("return &value:*=expression");
     }
 
-    @Autowired
+    @Autowired(order = 1)
     void parse(@Ctx Scope scope, @Int Location location, @Src("value") @Nullable Expression value) {
         scope.addStatement(new Return(location, value));
     }

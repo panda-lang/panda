@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ public @interface Autowired {
 
     Delegation delegation() default Delegation.IMMEDIATELY;
 
-    int order() default 0;
+    int order();
 
     String cycle() default GenerationCycles.DEFAULT_LABEL;
 

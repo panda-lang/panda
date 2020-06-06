@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -99,7 +99,7 @@ final class PandaCli implements ThrowingRunnable<Exception> {
         }
 
         if (script.getName().endsWith("panda.hjson")) {
-            PackageManager packageManager = new PackageManager(new PandaMessenger(shell.getLogger()), script.getParentFile());
+            PackageManager packageManager = new PackageManager(new PandaMessenger(panda), script.getParentFile());
             packageManager.install(script);
             packageManager.run(panda, script);
             return;

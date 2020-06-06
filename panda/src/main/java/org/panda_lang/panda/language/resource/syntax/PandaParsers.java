@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,8 @@
 
 package org.panda_lang.panda.language.resource.syntax;
 
-import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.language.interpreter.parser.ApplicationParser;
-import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
+import org.panda_lang.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.panda.language.interpreter.parser.block.BlockParser;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ArgumentsParser;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number.NumberParser;
 import org.panda_lang.panda.language.resource.syntax.head.CommentParser;
 import org.panda_lang.panda.language.resource.syntax.head.ExportParser;
 import org.panda_lang.panda.language.resource.syntax.head.ImportParser;
@@ -45,59 +41,43 @@ import org.panda_lang.panda.language.resource.syntax.type.BaseCallParser;
 import org.panda_lang.panda.language.resource.syntax.type.ConstructorParser;
 import org.panda_lang.panda.language.resource.syntax.type.FieldParser;
 import org.panda_lang.panda.language.resource.syntax.type.MethodParser;
-import org.panda_lang.panda.language.resource.syntax.type.ParameterParser;
 import org.panda_lang.panda.language.resource.syntax.type.SelfConstructorParser;
 import org.panda_lang.panda.language.resource.syntax.type.TypeParser;
 
 public final class PandaParsers {
 
-    @SuppressWarnings("unchecked")
-    public static final Class<? extends Parser>[] PARSERS = new Class[] {
-            // lead
-            ApplicationParser.class,
-            ScopeParser.class,
+    public static final ContextParser<?>[] PARSERS = {
+            new CommentParser(),
 
-            // common
-            CommentParser.class,
-            ArgumentsParser.class,
-            NumberParser.class,
+            new ExportParser(),
+            new ImportParser(),
+            new RequireParser(),
+            new MainParser(),
+            new ModuleParser(),
 
-            // overall
-            ExportParser.class,
-            ImportParser.class,
-            RequireParser.class,
-            MainParser.class,
-            ModuleParser.class,
+            new BaseCallParser(),
+            new ConstructorParser(),
+            new SelfConstructorParser(),
+            new FieldParser(),
+            new MethodParser(),
+            new TypeParser(),
 
-            // type
-            BaseCallParser.class,
-            ConstructorParser.class,
-            SelfConstructorParser.class,
-            FieldParser.class,
-            MethodParser.class,
-            ParameterParser.class,
-            TypeParser.class,
+            new LateDeclarationParser(),
+            new LogParser(),
+            new StandaloneExpressionParser(),
+            new TryCatchParser(),
 
-            // scope
-            // AssignationParser.class, off
-            LateDeclarationParser.class,
-            LogParser.class,
-            StandaloneExpressionParser.class,
-            TryCatchParser.class,
+            new BlockParser(),
+            new ConditionalBlockParser(),
+            new ForEachParser(),
+            new ForParser(),
+            new LoopParser(),
+            new WhileParser(),
 
-            // block
-            BlockParser.class,
-            ConditionalBlockParser.class,
-            ForEachParser.class,
-            ForParser.class,
-            LoopParser.class,
-            WhileParser.class,
-
-            // branching
-            BreakParser.class,
-            ContinueParser.class,
-            ReturnParser.class,
-            ThrowParser.class
+            new BreakParser(),
+            new ContinueParser(),
+            new ReturnParser(),
+            new ThrowParser()
     };
 
     private PandaParsers() { }

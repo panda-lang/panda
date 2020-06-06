@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -103,13 +103,15 @@ public final class VariableDeclarationSubparser extends AssignationSubparserBoot
         return true;
     }
 
-    @Autowired
+    @Autowired(order = 1)
     ExpressionResult parse(
-            Context context,
-            @Ctx Scope scope, @Ctx Channel channel,
-            @Ctx Expression expression, @Ctx ExpressionContext expressionContext,
-            @Ctx AssignationType type,
-            @Int Location location
+        Context context,
+        @Ctx Scope scope,
+        @Ctx Channel channel,
+        @Ctx Expression expression,
+        @Ctx ExpressionContext expressionContext,
+        @Ctx AssignationType type,
+        @Int Location location
     ) {
         Elements elements = channel.get("elements", Elements.class);
         PandaVariableDataInitializer dataInitializer = new PandaVariableDataInitializer(context, scope);

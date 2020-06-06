@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,14 +53,14 @@ public final class TryCatchParser extends ParserBootstrap<Void> {
                 .pattern("try try-body:{~} catch catch-what:(~) catch-body:{~}");
     }
 
-    @Autowired
+    @Autowired(order = 1)
     void parse(Context context, LocalCache data, @Ctx Scope parent, @Int Location location, @Src("try-body") Snippet tryBody) throws Exception {
         Scope tryBlock = SCOPE_PARSER.parse(context, new PandaBlock(parent, location), tryBody);
         TryCatch tryCatch = data.allocated(new TryCatch(location, tryBlock, new PandaBlock(parent, location)));
         parent.addStatement(tryCatch);
     }
 
-    @Autowired(order = 1)
+    @Autowired(order = 2)
     void parse(Context context, @Ctx Scope parent, @Cache TryCatch tryCatch, @Src("catch-what") Snippet catchWhat, @Src("catch-body") Snippet catchBody) throws Exception {
         Scope catchBlock = new PandaBlock(parent, catchWhat.getLocation());
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.language.interpreter.messenger;
 
-import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.interpreter.messenger.Messenger;
 import org.panda_lang.panda.language.interpreter.messenger.template.MicroTemplateEngine;
 import org.panda_lang.utilities.commons.ObjectUtils;
@@ -26,28 +25,12 @@ import java.util.Map;
 public final class PandaTranslatorLayoutManager {
 
     private final Messenger messenger;
-    private final Map<Class<?>, MessengerDataMapper> mappers;
+    private final Map<Class<?>, MessengerDataMapper<?, ?>> mappers;
     private final MicroTemplateEngine engine = new MicroTemplateEngine();
 
-    public PandaTranslatorLayoutManager(Messenger messenger, Map<Class<?>, MessengerDataMapper> mappers) {
+    public PandaTranslatorLayoutManager(Messenger messenger, Map<Class<?>, MessengerDataMapper<?, ?>> mappers) {
         this.messenger = messenger;
         this.mappers = mappers;
-    }
-
-    @SafeVarargs
-    public final void load(Class<? extends PandaTranslatorLayout<?>>... classes) {
-        for (Class<? extends PandaTranslatorLayout<?>> layout : classes) {
-            load(layout);
-        }
-    }
-
-    public void load(Class<? extends PandaTranslatorLayout<?>> layout) {
-        try {
-            PandaTranslatorLayout<?> layoutInstance = layout.newInstance();
-            load(layoutInstance);
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new PandaFrameworkException("Cannot create instance of layout " + layout, e);
-        }
     }
 
     public <T extends PandaTranslatorLayout<G>, G> T load(T layout) {

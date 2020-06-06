@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@
 package org.panda_lang.utilities.commons.javassist.implementer;
 
 import javassist.CannotCompileException;
-import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtConstructor;
 import javassist.CtField;
@@ -59,7 +58,7 @@ final class FunctionalInterfaceImplementerGenerator {
             throw new IllegalArgumentException("The given class cannot be functional interface");
         }
 
-        CtClass ctClass = ClassPool.getDefault().makeClass(name);
+        CtClass ctClass = ClassPoolUtils.getClassPool().makeClass(name);
         ctClass.addInterface(ClassPoolUtils.get(anInterface));
 
         for (Map.Entry<String, CtClass> entry : parameters.entrySet()) {

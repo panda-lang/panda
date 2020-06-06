@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@
 package org.panda_lang.panda.shell.repl;
 
 import io.vavr.control.Option;
-import org.panda_lang.framework.FrameworkController;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
 import org.panda_lang.framework.design.architecture.expression.Expression;
@@ -52,6 +51,7 @@ import java.util.function.Supplier;
  */
 public final class Repl {
 
+    private final ReplConsole console;
     private final Context context;
     private final ExpressionParser expressionParser;
     private final Supplier<Process> processSupplier;
@@ -63,6 +63,7 @@ public final class Repl {
     private StringBuilder history;
 
     Repl(ReplCreator creator) throws Exception {
+        this.console = creator.console;
         this.context = creator.context;
         this.expressionParser = context.getComponent(Components.EXPRESSION);
         this.processSupplier = creator.processSupplier;
@@ -105,7 +106,7 @@ public final class Repl {
     }
 
     private Option<ReplResult> evaluateCommand(String command) {
-        String content = command.substring(1).toLowerCase().trim();
+        String content = command.toLowerCase().trim();
 
         if (content.isEmpty()) {
             content = "help";
@@ -126,6 +127,10 @@ public final class Repl {
             }
             case "history": {
                 result += history.toString();
+                break;
+            }
+            case "exit": {
+                console.interrupt();
                 break;
             }
             case "?":
@@ -199,11 +204,11 @@ public final class Repl {
     /**
      * Initiate REPL creator
      *
-     * @param frameworkController the framework controller that contains required resources
+     * @param console the console instance to use
      * @return a REPL creator instance
      */
-    public static ReplCreator creator(FrameworkController frameworkController) {
-        return new ReplCreator(frameworkController);
+    public static ReplCreator creator(ReplConsole console) {
+        return new ReplCreator(console);
     }
 
 }

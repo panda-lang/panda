@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -84,7 +84,7 @@ public final class TypeParser extends ParserBootstrap<Void> {
                 ));
     }
 
-    @Autowired(cycle = GenerationCycles.TYPES_LABEL)
+    @Autowired(order = 0, cycle = GenerationCycles.TYPES_LABEL)
     void parse(Context context, @Int Location location, @Int Result result, @Ctx Script script, @Src("model") String model, @Src("name") String name) throws Exception {
         Visibility visibility = result.has("visibility") ? Visibility.of(result.get("visibility")) : Visibility.INTERNAL;
 

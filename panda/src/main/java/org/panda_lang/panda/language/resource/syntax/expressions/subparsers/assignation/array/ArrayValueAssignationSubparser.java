@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -87,12 +87,14 @@ public final class ArrayValueAssignationSubparser extends AssignationSubparserBo
         return true;
     }
 
-    @Autowired
+    @Autowired(order = 1)
     ExpressionResult parse(
-            Context context,
-            @Ctx SourceStream source, @Ctx Channel channel,
-            @Ctx AssignationType type, @Ctx TokenInfo operator,
-            @Ctx(AssignationComponents.EXPRESSION_LABEL) Expression value
+        Context context,
+        @Ctx SourceStream source,
+        @Ctx Channel channel,
+        @Ctx AssignationType type,
+        @Ctx TokenInfo operator,
+        @Ctx(AssignationComponents.EXPRESSION_LABEL) Expression value
     ) {
         if (type != AssignationType.DEFAULT) {
             throw new PandaParserFailure(context, operator, "Unsupported operator");

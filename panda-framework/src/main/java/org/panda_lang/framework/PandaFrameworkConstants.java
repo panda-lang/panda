@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ public final class PandaFrameworkConstants {
     /**
      * Current version of the Panda Framework
      */
-    public static final String VERSION = "indev-20.5.18";
+    public static final String VERSION = "indev-20.6.6";
 
     private PandaFrameworkConstants() { }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ import org.panda_lang.framework.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
-import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressionUtils;
+import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressions;
 import org.panda_lang.utilities.commons.StringUtils;
 
 import java.util.HashMap;
@@ -45,7 +45,7 @@ class ExpressionParserTestBootstrap {
 
     @BeforeAll
     public static void load() {
-        PARSER = new PandaExpressionParser(PandaExpressionUtils.collectSubparsers());
+        PARSER = new PandaExpressionParser(PandaExpressions.getExpressionSubparsers());
         DATA = prepareData();
     }
 

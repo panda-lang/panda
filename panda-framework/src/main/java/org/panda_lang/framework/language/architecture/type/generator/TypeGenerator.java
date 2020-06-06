@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Dzikoysk
+ * Copyright (c) 2020 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60,7 +60,7 @@ final class TypeGenerator {
 
                         // Object.class does not have supertype
                         if (baseClass != null) {
-                            type.addBase(findOrGenerate(typeLoader, module, baseClass));
+                            type.addBase(typeLoader.load(findOrGenerate(typeLoader, module, baseClass)));
                         }
 
                         if (!Modifier.isPublic(javaType.getModifiers())) {
