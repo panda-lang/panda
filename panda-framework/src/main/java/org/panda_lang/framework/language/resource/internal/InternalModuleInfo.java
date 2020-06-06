@@ -16,7 +16,6 @@
 
 package org.panda_lang.framework.language.resource.internal;
 
-import org.atteo.classindex.IndexAnnotated;
 import org.panda_lang.framework.design.architecture.module.Module;
 
 import java.lang.annotation.Retention;
@@ -26,7 +25,6 @@ import java.lang.annotation.RetentionPolicy;
  * Supports simplified mapping of Java classes
  */
 @Retention(RetentionPolicy.RUNTIME)
-@IndexAnnotated
 public @interface InternalModuleInfo {
 
     /**

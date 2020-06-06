@@ -37,10 +37,6 @@
             <groupId>org.hjson</groupId>
             <artifactId>hjson</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.atteo.classindex</groupId>
-            <artifactId>classindex</artifactId>
-        </dependency>
 
         <!-- Benchmarks -->
         <dependency>

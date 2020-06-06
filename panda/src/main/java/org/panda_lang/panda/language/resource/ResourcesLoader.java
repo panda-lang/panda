@@ -16,30 +16,34 @@
 
 package org.panda_lang.panda.language.resource;
 
-import org.atteo.classindex.ClassIndex;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModulePath;
-import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.architecture.module.TypeLoader;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.language.architecture.type.generator.TypeGeneratorManager;
 import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
 import org.panda_lang.framework.language.resource.internal.InternalModuleInfo.CustomInitializer;
+import org.panda_lang.panda.language.resource.internal.PandaModules;
 import org.panda_lang.utilities.commons.StringUtils;
 
 public final class ResourcesLoader {
 
     public void load(ModulePath modulePath, TypeLoader typeLoader) {
-        for (Class<?> annotatedClass : ClassIndex.getAnnotated(InternalModuleInfo.class)) {
+        load(modulePath, typeLoader, PandaModules.getClasses());
+    }
+
+    public void load(ModulePath modulePath, TypeLoader typeLoader, Class<?>[] classes) {
+        for (Class<?> annotatedClass : classes) {
             try {
-                load(modulePath, typeLoader, annotatedClass);
+                loadClass(modulePath, typeLoader, annotatedClass);
             } catch (Exception e) {
                 throw new PandaFrameworkException("Cannot load internal module", e);
             }
         }
     }
 
-    private void load(ModulePath modulePath, TypeLoader typeLoader, Class<?> annotatedClass) throws Exception {
+    private void loadClass(ModulePath modulePath, TypeLoader typeLoader, Class<?> annotatedClass) throws Exception {
         InternalModuleInfo moduleInfo = annotatedClass.getAnnotation(InternalModuleInfo.class);
         Module module = modulePath.allocate(moduleInfo.module());
 

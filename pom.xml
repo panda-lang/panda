@@ -85,11 +85,6 @@
                 <version>4.3.2</version>
             </dependency>
             <dependency>
-                <groupId>org.atteo.classindex</groupId>
-                <artifactId>classindex</artifactId>
-                <version>3.9</version>
-            </dependency>
-            <dependency>
                 <groupId>io.vavr</groupId>
                 <artifactId>vavr</artifactId>
                 <version>1.0.0-alpha-3</version>
@@ -178,10 +173,12 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
             </plugin>
+            <!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
             </plugin>
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -236,13 +233,14 @@
                     </configuration>
                 </plugin>
 
+                <!--
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>3.2.0</version>
                     <executions>
                         <execution>
-                            <!-- <id>attach-javadocs</id> -->
+                            <id>attach-javadocs</id>
                             <goals>
                                 <goal>jar</goal>
                             </goals>
@@ -253,6 +251,7 @@
                         </execution>
                     </executions>
                 </plugin>
+                -->
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
