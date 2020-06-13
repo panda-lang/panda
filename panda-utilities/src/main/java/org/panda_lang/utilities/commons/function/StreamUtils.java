@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.utilities.commons;
+package org.panda_lang.utilities.commons.function;
 
 import java.util.Collection;
 import java.util.Optional;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -31,16 +30,16 @@ public final class StreamUtils {
 
     private StreamUtils() { }
 
-    public static <T> int sum(Iterable<T> iterable, ToIntFunction<? super T> function) {
-        return stream(iterable).mapToInt(function).sum();
+    public static <T> long sum(Iterable<T> iterable, ToLongFunction<? super T> function) {
+        return stream(iterable).mapToLong(function).sum();
     }
 
     public static <T> long sumLongs(Iterable<T> iterable, ToLongFunction<? super T> function) {
         return stream(iterable).mapToLong(function).sum();
     }
 
-    public static <T> int count(Iterable<T> iterable, Predicate<T> filter) {
-        return (int) stream(iterable).filter(filter).count();
+    public static <T> long count(Iterable<T> iterable, Predicate<T> filter) {
+        return stream(iterable).filter(filter).count();
     }
 
     public static <T> Optional<T> findFirst(Iterable<T> iterable, Predicate<T> filter) {
