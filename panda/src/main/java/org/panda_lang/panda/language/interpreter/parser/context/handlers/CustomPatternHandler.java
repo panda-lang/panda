@@ -35,7 +35,7 @@ public final class CustomPatternHandler implements BootstrapHandler {
 
     @Override
     public void initialize(BootstrapContent content) {
-        this.pattern = (CustomPattern) content.getPattern().orElseThrow((Supplier<? extends PandaParserFailure>) () -> {
+        this.pattern = (CustomPattern) content.getPattern().orThrow((Supplier<? extends PandaParserFailure>) () -> {
             throw new PandaParserFailure(content.getContext(), "Cannot initialize custom pattern handler - pattern is null");
         });
     }

@@ -22,12 +22,12 @@ import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpr
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 
 final class LinearPatternMatcher {
@@ -67,10 +67,10 @@ final class LinearPatternMatcher {
             return false;
         }
 
-        Optional<String> identifier = element.getIdentifier();
+        Option<String> identifier = element.getIdentifier();
 
         if (element.isUnit()) {
-            identifier.ifPresent(identifiers::add);
+            identifier.peek(identifiers::add);
             return content.next().getValue().equals(element.getValue());
         }
 
@@ -119,7 +119,7 @@ final class LinearPatternMatcher {
                 identifiers.add(identifier.get());
             }
 
-            identifier.ifPresent(id -> wildcards.put("*" + id, content.getAvailableSource()));
+            identifier.peek(id -> wildcards.put("*" + id, content.getAvailableSource()));
             return value != null;
         }
 

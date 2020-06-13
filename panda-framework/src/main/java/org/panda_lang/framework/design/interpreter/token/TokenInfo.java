@@ -19,7 +19,7 @@ package org.panda_lang.framework.design.interpreter.token;
 import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
 
-import java.util.Optional;
+import org.panda_lang.utilities.commons.function.Option;
 
 /**
  * Wrapper for {@link org.panda_lang.framework.design.interpreter.token.Token} that contains details about location of token in source
@@ -84,7 +84,7 @@ public interface TokenInfo extends Token, Snippetable {
     }
 
     @Override
-    default Optional<String> getName() {
+    default Option<String> getName() {
         return getToken().getName();
     }
 

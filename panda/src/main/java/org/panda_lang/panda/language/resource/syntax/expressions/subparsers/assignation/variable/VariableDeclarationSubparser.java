@@ -31,8 +31,8 @@ import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.architecture.dynamic.assigner.Assigner;
-import org.panda_lang.framework.language.architecture.type.utils.TypeDeclarationUtils;
 import org.panda_lang.framework.language.architecture.statement.PandaVariableDataInitializer;
+import org.panda_lang.framework.language.architecture.type.utils.TypeDeclarationUtils;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
@@ -45,9 +45,9 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationPriorities;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationSubparserBootstrap;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationType;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.Objects;
-import java.util.Optional;
 
 @RegistrableParser(pipeline = PandaPipeline.ASSIGNER_LABEL, priority = AssignationPriorities.VARIABLE_DECLARATION)
 public final class VariableDeclarationSubparser extends AssignationSubparserBootstrap {
@@ -69,7 +69,7 @@ public final class VariableDeclarationSubparser extends AssignationSubparserBoot
             return false;
         }
 
-        Optional<Snippet> typeValue = TypeDeclarationUtils.readTypeBackwards(source.subSource(0, source.size() - 1));
+        Option<Snippet> typeValue = TypeDeclarationUtils.readTypeBackwards(source.subSource(0, source.size() - 1));
 
         if (!typeValue.isPresent()) {
             return false;

@@ -35,8 +35,8 @@ import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.Sequ
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.StaticExpressionSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.VariableExpressionSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationExpressionSubparser;
-import org.panda_lang.utilities.commons.collection.Sets;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 public final class PandaExpressions {
@@ -64,7 +64,7 @@ public final class PandaExpressions {
     };
 
     public static Collection<ExpressionSubparser> getSubparsers() {
-        return Sets.newHashSet(SUBPARSERS);
+        return Arrays.asList(SUBPARSERS);
     }
 
     public static ExpressionSubparsers getExpressionSubparsers() {

@@ -20,6 +20,7 @@ import org.panda_lang.framework.design.architecture.type.ExecutableProperty;
 import org.panda_lang.framework.design.architecture.type.Properties;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.utilities.commons.function.Lazy;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,7 +28,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -64,7 +64,7 @@ public abstract class AbstractProperties<T extends ExecutableProperty> implement
         }
 
         for (Type base : type.getBases()) {
-            Optional<Properties<T>> properties = base.getProperties(propertiesType);
+            Option<Properties<T>> properties = base.getProperties(propertiesType);
 
             if (properties.isPresent() && properties.get().hasPropertyLike(name)) {
                 return true;
@@ -76,7 +76,7 @@ public abstract class AbstractProperties<T extends ExecutableProperty> implement
 
     private List<T> withBases(List<T> properties, Function<Properties<? extends T>, Collection<? extends T>> mapper, Predicate<T> filter) {
         for (Type base : type.getBases()) {
-            base.getProperties(propertiesType).ifPresent(baseProperties -> properties.addAll(mapper.apply(baseProperties).stream()
+            base.getProperties(propertiesType).peek(baseProperties -> properties.addAll(mapper.apply(baseProperties).stream()
                     .filter(filter)
                     .collect(Collectors.toList())
             ));
@@ -86,7 +86,7 @@ public abstract class AbstractProperties<T extends ExecutableProperty> implement
     }
 
     protected List<T> getPropertiesLike(String name, Predicate<T> filter) {
-        List<T> properties = Optional.ofNullable(propertiesMap.get(name)).orElseGet(Collections::emptyList).stream()
+        List<T> properties = Option.of(propertiesMap.get(name)).orElseGet(Collections::emptyList).stream()
                 .map(Lazy::get)
                 .filter(filter)
                 .collect(Collectors.toList());

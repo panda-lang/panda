@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipeline;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.utilities.commons.StreamUtils;
+import org.panda_lang.utilities.commons.function.StreamUtils;
 import org.panda_lang.utilities.commons.collection.Component;
 
 import java.util.Collection;

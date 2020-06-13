@@ -16,11 +16,9 @@
 
 package org.panda_lang.framework.design.architecture.module;
 
-import io.vavr.control.Option;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
-
-import java.util.function.Supplier;
+import org.panda_lang.utilities.commons.function.Option;
 
 /**
  * References container
@@ -36,7 +34,7 @@ public interface ModuleResource {
      * @throws org.panda_lang.framework.language.runtime.PandaRuntimeException if type does not exist
      */
     default Type requireType(Class<?> associatedClass) throws PandaRuntimeException {
-        return forClass(associatedClass).getOrElseThrow((Supplier<? extends PandaRuntimeException>) () -> {
+        return forClass(associatedClass).orThrow(() -> {
             throw new PandaRuntimeException("Cannot find type associated with " + associatedClass);
         });
     }
@@ -50,7 +48,7 @@ public interface ModuleResource {
      * @throws org.panda_lang.framework.language.runtime.PandaRuntimeException if type does not exist
      */
     default Type requireType(String name) throws PandaRuntimeException {
-        return forName(name).getOrElseThrow((Supplier<? extends PandaRuntimeException>) () -> {
+        return forName(name).orThrow(() -> {
             throw new PandaRuntimeException("Cannot find type " + name);
         });
     }

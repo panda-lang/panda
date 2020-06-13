@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.interpreter.parser.context;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 
-import java.util.Optional;
+import org.panda_lang.utilities.commons.function.Option;
 
 public interface BootstrapContent {
 
@@ -28,14 +28,14 @@ public interface BootstrapContent {
      *
      * @return the interceptor
      */
-    Optional<BootstrapInterceptor> getInterceptor();
+    Option<BootstrapInterceptor> getInterceptor();
 
     /**
      * Get associated parser handler
      *
      * @return the parser handler
      */
-    Optional<Handler> getHandler();
+    Option<Handler> getHandler();
 
     /**
      * Get pattern object
@@ -43,7 +43,7 @@ public interface BootstrapContent {
      * @param <R> expected type
      * @return the pattern
      */
-    <R> Optional<R> getPattern();
+    <R> Option<R> getPattern();
 
     /**
      * Get top-level parser context used by bootstrap

@@ -16,9 +16,9 @@
 
 package org.panda_lang.framework.language.architecture.module;
 
-import io.vavr.control.Option;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.ModulePath;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.HashMap;
 import java.util.Map;

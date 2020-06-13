@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.design.architecture.statement;
 
-import io.vavr.control.Option;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.List;
 

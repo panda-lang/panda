@@ -16,7 +16,6 @@
 
 package org.panda_lang.framework.language.architecture.type.utils;
 
-import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenInfo;
@@ -25,9 +24,9 @@ import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.Objects;
-import java.util.Optional;
 
 public final class TypeDeclarationUtils {
 
@@ -68,7 +67,7 @@ public final class TypeDeclarationUtils {
         return Option.of(type);
     }
 
-    public static Optional<Snippet> readTypeBackwards(Snippet source) {
+    public static Option<Snippet> readTypeBackwards(Snippet source) {
         Snippet type = new PandaSnippet();
         TokenInfo candidate = Objects.requireNonNull(source.getLast());
 
@@ -85,10 +84,10 @@ public final class TypeDeclarationUtils {
         type.addToken(candidate);
 
         if (candidate == null || candidate.getType() != TokenTypes.UNKNOWN) {
-            return Optional.empty();
+            return Option.none();
         }
 
-        return Optional.of(type.reversed());
+        return Option.of(type.reversed());
     }
 
     public static boolean isArray(Snippet type) {

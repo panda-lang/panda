@@ -72,7 +72,7 @@ public final class ParameterParser implements Parser {
             end -= varargs ? 1 : 0;
             Snippet typeSource = source.subSource(start, end);
 
-            Type type = imports.forName(typeSource.asSource()).getOrElseThrow(() -> {
+            Type type = imports.forName(typeSource.asSource()).orThrow(() -> {
                 throw new PandaParserFailure(context, typeSource, "Unknown type", "Make sure that type is imported");
             });
 

@@ -25,15 +25,12 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.HandleResult;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipeline;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 
-import java.util.function.Supplier;
-
-public final class PipelineParser<T extends ContextParser> implements Parser {
+public final class PipelineParser<T extends ContextParser<?>> implements Parser {
 
     private final Pipeline<T> pipeline;
     private final SourceStream stream;
@@ -80,22 +77,16 @@ public final class PipelineParser<T extends ContextParser> implements Parser {
             Channel channel = new PandaChannel();
             Snippet source = stream.toSnippet();
 
-            if (pipeline.getName().equals(Pipelines.HEAD_LABEL)) {
-                //System.out.println("current " + stream.getCurrent());
-            }
-
             Context delegatedContext = (fork ? context.fork() : context)
                     .withComponent(Components.CURRENT_SOURCE, source)
                     .withComponent(Components.CHANNEL, channel);
 
             HandleResult<T> result = pipeline.handle(context, channel, source);
 
-            ContextParser<?> parser = result.getParser().orElseThrow((Supplier<? extends Exception>) () -> {
-                if (result.getFailure().isPresent()) {
-                    throw result.getFailure().get();
-                }
-
-                throw new PandaParserFailure(delegatedContext, "Unrecognized syntax");
+            ContextParser<?> parser = result.getParser().orThrow(() -> {
+                return result.getFailure().orElseGet(() -> {
+                    throw new PandaParserFailure(delegatedContext, "Unrecognized syntax");
+                });
             });
 
             int sourceLength = stream.getUnreadLength();

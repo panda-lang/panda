@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
+import org.panda_lang.utilities.commons.ObjectUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +40,7 @@ final class CustomPatternMatcher {
         Map<String, Object> results = new HashMap<>((int) (pattern.getElements().size() * 1.5));
         SynchronizedSource synchronizedSource = new SynchronizedSource(source.toSnippet());
 
-        for (CustomPatternElement element : pattern.getElements()) {
+        for (CustomPatternElement<?> element : pattern.getElements()) {
             if (!synchronizedSource.hasNext()) {
                 if (element.isOptional()) {
                     continue;
@@ -81,9 +82,8 @@ final class CustomPatternMatcher {
                 return Result.NOT_MATCHED;
             }
 
-            for (Function mapper : element.getMappers()) {
-                //noinspection unchecked
-                result = mapper.apply(result);
+            for (Function<?, ?> mapper : element.getMappers()) {
+                result = mapper.apply(ObjectUtils.cast(result));
             }
 
             if (result instanceof Result) {
@@ -97,7 +97,7 @@ final class CustomPatternMatcher {
         return new Result(source.read(synchronizedSource.getIndex()), results);
     }
 
-    private boolean restoreIfOptional(SynchronizedSource synchronizedSource, CustomPatternElement element) {
+    private boolean restoreIfOptional(SynchronizedSource synchronizedSource, CustomPatternElement<?> element) {
         if (!element.isOptional()) {
             return false;
         }
@@ -106,10 +106,9 @@ final class CustomPatternMatcher {
         return true;
     }
 
-    @SuppressWarnings("unchecked")
-    private boolean verify(Map<String, Object> results, SynchronizedSource synchronizedSource, CustomPatternElement element, Object result) {
-        for (CustomVerify verifier : element.getVerifiers()) {
-            if (!verifier.verify(results, synchronizedSource, result)) {
+    private boolean verify(Map<String, Object> results, SynchronizedSource synchronizedSource, CustomPatternElement<?> element, Object result) {
+        for (CustomVerify<?> verifier : element.getVerifiers()) {
+            if (!verifier.verify(results, synchronizedSource, ObjectUtils.cast(result))) {
                 return false;
             }
         }

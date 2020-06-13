@@ -16,8 +16,9 @@
 
 package org.panda_lang.framework.design.architecture.type;
 
-import io.vavr.control.Option;
 import org.panda_lang.framework.design.architecture.expression.Expression;
+
+import org.panda_lang.utilities.commons.function.Option;
 
 /**
  * Container for constructors

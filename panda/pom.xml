@@ -41,6 +41,11 @@
             <groupId>info.picocli</groupId>
             <artifactId>picocli</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.vavr</groupId>
+            <artifactId>vavr-match</artifactId>
+            <version>0.10.3</version>
+        </dependency>
 
         <!-- Benchmarks -->
         <dependency>

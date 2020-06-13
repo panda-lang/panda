@@ -16,11 +16,11 @@
 
 package org.panda_lang.framework.language.architecture.type;
 
-import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.expression.ExpressionUtils;
 import org.panda_lang.framework.design.architecture.module.Module;
+import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.design.architecture.type.Autocast;
 import org.panda_lang.framework.design.architecture.type.Constructors;
 import org.panda_lang.framework.design.architecture.type.DynamicClass;
@@ -34,12 +34,12 @@ import org.panda_lang.framework.design.architecture.type.State;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.architecture.type.TypeConstructor;
 import org.panda_lang.framework.design.architecture.type.TypeField;
-import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.design.architecture.type.TypeMethod;
 import org.panda_lang.framework.design.architecture.type.TypeModels;
 import org.panda_lang.framework.language.architecture.type.array.ArrayClassTypeFetcher;
 import org.panda_lang.framework.language.architecture.type.dynamic.PandaDynamicClass;
 import org.panda_lang.utilities.commons.ValidationUtils;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -48,7 +48,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
-import java.util.Optional;
 
 public class PandaType extends AbstractProperty implements Type {
 
@@ -179,7 +178,7 @@ public class PandaType extends AbstractProperty implements Type {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T extends ExecutableProperty> Optional<Properties<T>> getProperties(Class<T> propertyType) {
+    public <T extends ExecutableProperty> Option<Properties<T>> getProperties(Class<T> propertyType) {
         Properties<T> properties = null;
 
         if (TypeMethod.class.isAssignableFrom(propertyType)) {
@@ -192,18 +191,18 @@ public class PandaType extends AbstractProperty implements Type {
             properties = (Properties<T>) fields;
         }
 
-        return Optional.ofNullable(properties);
+        return Option.of(properties);
     }
 
     @Override
-    public Optional<Autocast<?, ?>> getAutocast(Type to) {
+    public Option<Autocast<?, ?>> getAutocast(Type to) {
         for (Entry<Type, Autocast<?, ?>> autocastEntry : autocasts.entrySet()) {
             if (to.isAssignableFrom(autocastEntry.getKey())) {
-                return Optional.of(autocastEntry.getValue());
+                return Option.of(autocastEntry.getValue());
             }
         }
 
-        return Optional.empty();
+        return Option.none();
     }
 
     @Override

@@ -16,10 +16,10 @@
 
 package org.panda_lang.utilities.inject;
 
-import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.ObjectUtils;
+import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.inject.annotations.Injectable;
 
 import java.lang.annotation.Annotation;
@@ -56,13 +56,13 @@ final class InjectorProcessor {
         return fetchValue(cache, parameter, ArrayUtils.indexOf(parameter.getDeclaringExecutable().getParameters(), parameter), injectorArgs);
     }
 
-    private  @Nullable Object fetchValue(InjectorCache cache, Parameter required, int index, Object... injectorArgs) throws Exception {
+    private @Nullable Object fetchValue(InjectorCache cache, Parameter required, int index, Object... injectorArgs) throws Exception {
         Object value = cache.getBinds()[index].getValue(required, cache.getInjectable()[index], injectorArgs);
 
         for (InjectorResourceHandler<Annotation, Object, ?> handler : cache.getHandlers()[index]) {
             Annotation annotation = null;
 
-            if (handler.getAnnotation().isDefined()) {
+            if (handler.getAnnotation().isPresent()) {
                 annotation = cache.getAnnotations()[index].get(handler.getAnnotation().get());
             }
 
@@ -123,7 +123,7 @@ final class InjectorProcessor {
             Class<?> requiredType = annotation != null ? annotation.annotationType() : parameter.getType();
             Option<InjectorResourceBind<Annotation>> bindValue = resources.getBind(requiredType);
 
-            binds[index] = bindValue.getOrElseThrow(() -> {
+            binds[index] = bindValue.orThrow(() -> {
                 throw new DependencyInjectionException("Missing bind for " + parameter + " parameter");
             });
         }

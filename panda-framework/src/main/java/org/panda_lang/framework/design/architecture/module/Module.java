@@ -16,8 +16,8 @@
 
 package org.panda_lang.framework.design.architecture.module;
 
-import io.vavr.control.Option;
 import org.panda_lang.framework.design.architecture.type.Type;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.Collection;
 

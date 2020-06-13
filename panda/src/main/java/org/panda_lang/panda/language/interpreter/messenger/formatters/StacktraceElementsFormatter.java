@@ -24,7 +24,7 @@ import org.panda_lang.utilities.commons.ClassUtils;
 import org.panda_lang.utilities.commons.PackageUtils;
 import org.panda_lang.utilities.commons.StringUtils;
 
-import java.util.Optional;
+import org.panda_lang.utilities.commons.function.Option;
 
 public final class StacktraceElementsFormatter implements MessengerDataFormatter<StackTraceElement[]> {
 
@@ -43,7 +43,7 @@ public final class StacktraceElementsFormatter implements MessengerDataFormatter
                     return stacktrace.toString();
                 })
                 .register("{{stacktrace-elements.last}}", (messengerFormatter, stackTraceElements) -> {
-                    Optional<StackTraceElement> lastElement = ArrayUtils.get(stackTraceElements, 0);
+                    Option<StackTraceElement> lastElement = ArrayUtils.get(stackTraceElements, 0);
 
                     if (!lastElement.isPresent()) {
                         return "<unknown>";
@@ -58,7 +58,7 @@ public final class StacktraceElementsFormatter implements MessengerDataFormatter
                     for (StackTraceElement element : stackTraceElements) {
                         boolean status = ClassUtils.forName(element.getClassName())
                                 .map(clazz -> clazz == ApplicationParser.class)
-                                .orElse(false);
+                                .orElseGet(false);
 
                         stacktrace.append(System.lineSeparator())
                                 .append(StringUtils.buildSpace(2))

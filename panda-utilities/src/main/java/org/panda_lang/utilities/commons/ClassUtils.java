@@ -17,12 +17,12 @@
 package org.panda_lang.utilities.commons;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public final class ClassUtils {
 
@@ -64,7 +64,7 @@ public final class ClassUtils {
      * @param to the class to compare with
      * @return the most related class from collection (may not exist)
      */
-    public static Optional<Class<?>> selectMostRelated(Collection<? extends Class<?>> classes, Class<?> to) {
+    public static Option<Class<?>> selectMostRelated(Collection<? extends Class<?>> classes, Class<?> to) {
         Class<?> selected = null;
 
         for (Class<?> clazz : classes) {
@@ -77,7 +77,7 @@ public final class ClassUtils {
             }
         }
 
-        return Optional.ofNullable(selected);
+        return Option.of(selected);
     }
 
     /**
@@ -138,18 +138,18 @@ public final class ClassUtils {
     }
 
     /**
-     * Get class using {@link java.lang.Class#forName(String)} as {@link java.util.Optional}
+     * Get class using {@link java.lang.Class#forName(String)} as {@link org.panda_lang.utilities.commons.function.Option}
      *
      * @param name the name of class
      * @return optional with class (with null instead of {@link java.lang.ClassNotFoundException})
      */
     @SuppressWarnings("unchecked")
-    public static <T> Optional<Class<? extends T>> forName(String name) {
+    public static <T> Option<Class<? extends T>> forName(String name) {
         try {
             Class<T> clazz = (Class<T>) Class.forName(name);
-            return Optional.of(clazz);
+            return Option.of(clazz);
         } catch (ClassNotFoundException e) {
-            return Optional.empty();
+            return Option.none();
         }
     }
 

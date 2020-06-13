@@ -16,13 +16,12 @@
 
 package org.panda_lang.framework.design.architecture.type;
 
-import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.TypeLoader;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.Collection;
-import java.util.Optional;
 
 /**
  * Extensible owner of properties
@@ -114,7 +113,7 @@ public interface Type extends Property {
      * @param <T> generic type that represents the property type
      * @return the properties
      */
-    <T extends ExecutableProperty> Optional<Properties<T>> getProperties(Class<T> propertyType);
+    <T extends ExecutableProperty> Option<Properties<T>> getProperties(Class<T> propertyType);
 
     /**
      * Get autocast for the given type
@@ -122,7 +121,7 @@ public interface Type extends Property {
      * @param to the type to search for
      * @return the autocast
      */
-    Optional<Autocast<?, ?>> getAutocast(Type to);
+    Option<Autocast<?, ?>> getAutocast(Type to);
 
     /**
      * Get supertypes of type

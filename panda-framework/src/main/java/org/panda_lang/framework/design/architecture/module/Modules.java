@@ -16,8 +16,8 @@
 
 package org.panda_lang.framework.design.architecture.module;
 
-import io.vavr.control.Option;
-import org.panda_lang.utilities.commons.StreamUtils;
+import org.panda_lang.utilities.commons.function.StreamUtils;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.Collection;
 
@@ -45,7 +45,7 @@ public interface Modules {
      *
      * @return the amount of used types
      */
-    default int countUsedTypes() {
+    default long countUsedTypes() {
         return StreamUtils.sum(getModules(), Module::countUsedTypes);
     }
 
@@ -54,7 +54,7 @@ public interface Modules {
      *
      * @return the amount of types
      */
-    default int countTypes() {
+    default long countTypes() {
         return StreamUtils.sum(getModules(), Module::countTypes);
     }
 

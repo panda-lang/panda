@@ -45,12 +45,12 @@ import org.panda_lang.panda.language.interpreter.parser.context.interceptors.Cus
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_BLOCK)
-public final class BlockParser extends ParserBootstrap {
+public final class BlockParser extends ParserBootstrap<Void> {
 
     private static final ScopeParser SCOPE_PARSER = new ScopeParser();
 
     @Override
-    protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
+    protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .interceptor(new CustomPatternInterceptor())
                 .pattern(CustomPattern.of(
@@ -65,7 +65,7 @@ public final class BlockParser extends ParserBootstrap {
                 .getPipeline(PandaPipeline.BLOCK)
                 .handle(context, channel, source);
 
-        channel.put("result", result.getParser().orElse(null));
+        channel.put("result", result.getParser().getOrNull());
         return result.getParser().isPresent();
     }
 

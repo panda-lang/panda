@@ -25,16 +25,16 @@ import org.panda_lang.framework.language.architecture.type.generator.TypeGenerat
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.utilities.commons.ClassUtils;
 
-import java.util.Optional;
+import org.panda_lang.utilities.commons.function.Option;
 
 final class ConveyanceUtils {
 
     private ConveyanceUtils() { }
 
     protected static Type fetchType(Context context, Snippet classNameSource) {
-        Optional<Class<?>> importedClass = ClassUtils.forName(classNameSource.asSource());
+        Option<Class<?>> importedClass = ClassUtils.forName(classNameSource.asSource());
 
-        if (!importedClass.isPresent()) {
+        if (!importedClass.isDefined()) {
             throw new PandaParserFailure(context, classNameSource, "Class " + classNameSource.asSource() + " does not exist");
         }
 

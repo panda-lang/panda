@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.shell.repl;
 
-import io.vavr.control.Option;
+import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
 import org.panda_lang.framework.design.architecture.expression.Expression;
@@ -82,7 +82,7 @@ public final class Repl {
         this.history = new StringBuilder();
         this.stack = new PandaProcessStack(processSupplier.get(), PandaRuntimeConstants.DEFAULT_STACK_SIZE);
 
-        this.instance = context.getComponent(Components.SCOPE).getStandardizedFramedScope().getOrElseThrow(() -> {
+        this.instance = context.getComponent(Components.SCOPE).getStandardizedFramedScope().orThrow(() -> {
             throw new PandaFrameworkException("Required scope has to be standardized");
         }).revive(stack, instanceSupplier.apply(stack));
 
@@ -102,7 +102,7 @@ public final class Repl {
     public Collection<ReplResult> evaluate(String source) {
         return evaluateCommand(source)
                 .map(Collections::singletonList)
-                .getOrElse(() -> evaluateSource(source));
+                .orElseGet(() -> evaluateSource(source));
     }
 
     private Option<ReplResult> evaluateCommand(String command) {

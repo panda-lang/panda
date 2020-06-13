@@ -23,7 +23,7 @@ import org.panda_lang.framework.design.interpreter.parser.generation.Generation;
 import org.panda_lang.framework.design.interpreter.parser.generation.GenerationCycle;
 import org.panda_lang.panda.language.interpreter.messenger.MessengerDataFormatter;
 
-import java.util.Optional;
+import org.panda_lang.utilities.commons.function.Option;
 
 public final class ParserFailureFormatter implements MessengerDataFormatter<ParserFailure> {
 
@@ -33,9 +33,9 @@ public final class ParserFailureFormatter implements MessengerDataFormatter<Pars
                 .register("{{note}}", (formatter, failure) -> failure.getNote())
                 .register("{{cycle}}", (formatter, failure) -> {
                     Generation generation = failure.getContext().getComponent(Components.GENERATION);
-                    Optional<GenerationCycle> cycleValue = generation.getCurrentCycle();
+                    Option<GenerationCycle> cycleValue = generation.getCurrentCycle();
 
-                    if (!cycleValue.isPresent()) {
+                    if (cycleValue.isEmpty()) {
                         return "<out of cycle>";
                     }
 

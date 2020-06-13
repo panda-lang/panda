@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.language.architecture.type;
 
-import io.vavr.control.Option;
+import org.panda_lang.utilities.commons.function.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.type.TypeConstructor;
 import org.panda_lang.framework.language.architecture.type.utils.ParameterUtils;

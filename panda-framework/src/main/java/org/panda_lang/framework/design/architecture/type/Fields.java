@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.design.architecture.type;
 
-import java.util.Optional;
+import org.panda_lang.utilities.commons.function.Option;
 
 /**
  * Container for fields
@@ -29,6 +29,6 @@ public interface Fields extends Properties<TypeField> {
      * @param name the name to search for
      * @return the result field
      */
-    Optional<TypeField> getField(String name);
+    Option<TypeField> getField(String name);
 
 }

@@ -18,12 +18,12 @@ package org.panda_lang.utilities.annotations;
 
 import javassist.bytecode.ClassFile;
 import org.panda_lang.utilities.commons.collection.Multimap;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 public final class AnnotationScannerStore {
@@ -68,8 +68,8 @@ public final class AnnotationScannerStore {
         return inheritors;
     }
 
-    public Optional<ClassFile> getCachedClassFile(String type) {
-        return Optional.ofNullable(classFiles.get(type));
+    public Option<ClassFile> getCachedClassFile(String type) {
+        return Option.of(classFiles.get(type));
     }
 
     public int getAmountOfCachedClassFiles() {

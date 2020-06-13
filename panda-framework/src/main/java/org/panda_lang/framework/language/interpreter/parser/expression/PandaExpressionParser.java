@@ -30,10 +30,10 @@ import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.design.interpreter.token.Streamable;
 import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.resource.syntax.sequence.SequencesUtils;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
@@ -58,11 +58,11 @@ public final class PandaExpressionParser implements ExpressionParser {
     }
 
     @Override
-    public Optional<ExpressionTransaction> parseSilently(Context context, Streamable streamable, ExpressionParserSettings settings) {
+    public Option<ExpressionTransaction> parseSilently(Context context, Streamable streamable, ExpressionParserSettings settings) {
         try {
-            return Optional.of(parse(context, streamable, settings));
+            return Option.of(parse(context, streamable, settings));
         } catch (PandaExpressionParserException e) {
-            return Optional.empty();
+            return Option.none();
         }
     }
 

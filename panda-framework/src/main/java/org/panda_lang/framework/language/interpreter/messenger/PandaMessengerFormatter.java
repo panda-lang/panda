@@ -22,7 +22,7 @@ import org.panda_lang.framework.design.interpreter.messenger.Messenger;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerFormatter;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerTypeFormatter;
 import org.panda_lang.utilities.commons.ClassUtils;
-import org.panda_lang.utilities.commons.StreamUtils;
+import org.panda_lang.utilities.commons.function.StreamUtils;
 import org.panda_lang.utilities.commons.StringUtils;
 import org.panda_lang.utilities.commons.collection.Maps;
 

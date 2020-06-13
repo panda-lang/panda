@@ -16,7 +16,6 @@
 
 package org.panda_lang.framework.language.architecture.module;
 
-import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.Imports;
 import org.panda_lang.framework.design.architecture.type.Type;
@@ -25,6 +24,7 @@ import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.text.MessageFormatter;
 
 import java.util.function.Function;
@@ -39,7 +39,7 @@ public final class PandaImportsUtils {
 
         return context.getComponent(Components.IMPORTS)
                 .forName(name)
-                .getOrElseThrow((Supplier<? extends PandaParserFailure>) () -> {
+                .orThrow((Supplier<? extends PandaParserFailure>) () -> {
                     MessageFormatter formatter = new MessageFormatter();
                     formatter.register("{name}", name);
 
@@ -52,7 +52,7 @@ public final class PandaImportsUtils {
     }
 
     private static Type getTypeOrThrow(Context context, Function<Imports, Option<Type>> mapper, String message, Snippet source) {
-        return mapper.apply(context.getComponent(Components.IMPORTS)).getOrElse(() -> {
+        return mapper.apply(context.getComponent(Components.IMPORTS)).orThrow(() -> {
             throw new PandaParserFailure(context, source, message);
         });
     }

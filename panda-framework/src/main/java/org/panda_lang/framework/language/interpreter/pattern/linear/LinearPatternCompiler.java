@@ -17,10 +17,10 @@
 package org.panda_lang.framework.language.interpreter.pattern.linear;
 
 import org.panda_lang.framework.design.resource.Syntax;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 final class LinearPatternCompiler {
 
@@ -40,7 +40,7 @@ final class LinearPatternCompiler {
 
     protected LinearPattern compile(String pattern) {
         LinearPatternCompilerWorker worker = new LinearPatternCompilerWorker(this, pattern);
-        Optional<List<LinearPatternElement>> elements = worker.compile();
+        Option<List<LinearPatternElement>> elements = worker.compile();
 
         if (!elements.isPresent()) {
             throw new LinearPatternException("Cannot compile the pattern");

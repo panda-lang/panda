@@ -28,8 +28,8 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Snippet is one of the most basic structures used by the Panda Framework.
- * It may be also called syntax tree.
+ * Snippet (AST - Abstract Syntax Tree) is one of the most basic structures used by the Panda Framework.
+ * It is a tree representation of the abstract syntactic structure of source code.
  */
 public interface Snippet extends Iterable<TokenInfo>, Snippetable {
 

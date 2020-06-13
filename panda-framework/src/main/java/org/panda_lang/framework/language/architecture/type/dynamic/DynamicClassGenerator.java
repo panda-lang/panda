@@ -16,15 +16,12 @@
 
 package org.panda_lang.framework.language.architecture.type.dynamic;
 
-import io.vavr.collection.Stream;
 import javassist.CannotCompileException;
 import javassist.CtClass;
 import javassist.CtConstructor;
 import javassist.CtField;
 import javassist.CtMethod;
 import javassist.Modifier;
-import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.type.DynamicClass;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.architecture.type.TypeConstructor;
 import org.panda_lang.framework.design.architecture.type.TypeMethod;
@@ -39,6 +36,7 @@ import org.panda_lang.utilities.commons.ClassPoolUtils;
 import org.panda_lang.utilities.commons.javassist.CtCode;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -87,11 +85,9 @@ final class DynamicClassGenerator {
             Class<?>[] types = constructor.getBaseCall()
                     .map(BaseCall::getArguments)
                     .toStream()
-                    .flatMap(Stream::of)
-                    .map(Expression::getType)
-                    .map(Type::getAssociatedClass)
-                    .map(DynamicClass::fetchStructure)
-                    .toJavaArray(Class[]::new);
+                    .stream(stream -> stream.flatMap(Arrays::stream))
+                    .map(expression -> expression.getType().getAssociatedClass().fetchStructure())
+                    .toArray(Class[]::new);
 
             constructor.getBaseCall().peek(parameters -> {
                 constructorBody.append("super(");

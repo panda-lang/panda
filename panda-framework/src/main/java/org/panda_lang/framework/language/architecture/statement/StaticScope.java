@@ -39,7 +39,6 @@ public final class StaticScope extends AbstractFramedScope implements Standardiz
         Frame frame = new StaticFrame(this);
 
         for (Map.Entry<VariableData, Object> entry : variables.entrySet()) {
-            //noinspection OptionalGetWithoutIsPresent
             frame.set(getVariable(entry.getKey().getName()).get().getPointer(), entry.getValue());
         }
 

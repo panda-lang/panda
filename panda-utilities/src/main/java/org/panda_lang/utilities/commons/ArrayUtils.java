@@ -17,11 +17,11 @@
 package org.panda_lang.utilities.commons;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.ThrowingConsumer;
 
 import java.lang.reflect.Array;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -119,14 +119,14 @@ public final class ArrayUtils {
      * @param <T> type of array
      * @return the found element or null
      */
-    public static <T> Optional<T> findIn(T[] array, Predicate<T> condition) {
+    public static <T> Option<T> findIn(T[] array, Predicate<T> condition) {
         for (T element : array) {
             if (condition.test(element)) {
-                return Optional.ofNullable(element);
+                return Option.of(element);
             }
         }
 
-        return Optional.empty();
+        return Option.none();
     }
 
     /**
@@ -282,8 +282,8 @@ public final class ArrayUtils {
      * @param <T>   type of the array
      * @return the element at the index position, null if the index is less than 0 or greater than the size of the specified array
      */
-    public static <T> Optional<T> get(T[] array, int index) {
-        return index > -1 && index < array.length ? Optional.ofNullable(array[index]) : Optional.empty();
+    public static <T> Option<T> get(T[] array, int index) {
+        return index > -1 && index < array.length ? Option.of(array[index]) : Option.none();
     }
 
     /**

@@ -16,8 +16,8 @@
 
 package org.panda_lang.utilities.inject;
 
-import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.ThrowingQuadFunction;
 import org.panda_lang.utilities.commons.function.ThrowingTriFunction;
 
@@ -27,6 +27,7 @@ import java.lang.reflect.Parameter;
 final class DefaultInjectorResourceHandler<A extends Annotation, V, R, E extends Exception> implements InjectorResourceHandler<A, V, R> {
 
     private final ThrowingQuadFunction<A, Parameter, V, Object[], R, E> processor;
+    @SuppressWarnings("OptionUsedAsFieldOrParameterType")
     private final Option<Class<A>> annotationType;
 
     public DefaultInjectorResourceHandler(@Nullable Class<A> annotation, ThrowingQuadFunction<A, Parameter, V, Object[], R, E> processor) {

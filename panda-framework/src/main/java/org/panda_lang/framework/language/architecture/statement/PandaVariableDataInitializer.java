@@ -69,7 +69,7 @@ public final class PandaVariableDataInitializer {
                     VisibilityComparator.requireAccess(type, context, typeName);
                     return new PandaVariableData(type, nameSource.asSource(), mutable, nillable);
                 })
-                .getOrElseThrow(() -> {
+                .orThrow(() -> {
                     throw new PandaParserFailure(context, typeName, "Cannot recognize variable type: " + typeName);
                 });
     }

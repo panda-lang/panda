@@ -18,6 +18,7 @@ package org.panda_lang.utilities.commons;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.panda_lang.utilities.commons.function.StreamUtils;
 
 import java.util.Arrays;
 import java.util.Collection;

@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation;
 
-import io.vavr.control.Option;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
@@ -28,10 +27,8 @@ import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.oper
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.ConcatenationOperatorSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.LogicalOperatorSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.MathOperationSubparser;
-
-import static io.vavr.API.$;
-import static io.vavr.API.Case;
-import static io.vavr.API.Match;
+import org.panda_lang.utilities.commons.function.Case;
+import org.panda_lang.utilities.commons.function.Option;
 
 public final class OperationParser implements Parser {
 
@@ -40,16 +37,16 @@ public final class OperationParser implements Parser {
     }
 
     public Expression parse(Context context, ExpressionContext expressionContext, Snippet source, OperationPatternResult result) {
-        return parse(context, Operation.of(context.getComponent(Components.EXPRESSION), context, expressionContext, result)).getOrElseThrow(() -> {
+        return parse(context, Operation.of(context.getComponent(Components.EXPRESSION), context, expressionContext, result)).orThrow(() -> {
             throw new PandaExpressionParserFailure(expressionContext, source, "Unknown operation");
         });
     }
 
     public Option<Expression> parse(Context context, Operation operation) {
-        return Match(operation).option(
-                Case($(OperationUtils::isNumeric), () -> new MathOperationSubparser().parse(this, context, operation)),
-                Case($(OperationUtils::isLogical), () -> new LogicalOperatorSubparser().parse(this, context, operation)),
-                Case($(OperationUtils::isConcatenation), () -> new ConcatenationOperatorSubparser().parse(this, context, operation))
+        return Option.of(operation).match(
+                Case.of(OperationUtils::isNumeric, o -> new MathOperationSubparser().parse(this, context, operation)),
+                Case.of(OperationUtils::isLogical, o -> new LogicalOperatorSubparser().parse(this, context, operation)),
+                Case.of(OperationUtils::isConcatenation, o -> new ConcatenationOperatorSubparser().parse(this, context, operation))
         );
     }
 

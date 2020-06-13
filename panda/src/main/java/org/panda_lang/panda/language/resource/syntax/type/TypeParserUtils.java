@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.resource.syntax.type;
 
-import io.vavr.control.Option;
+import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
@@ -63,13 +63,11 @@ final class TypeParserUtils {
                 source.next();
             }
 
-            Option<Snippet> type = TypeDeclarationUtils.readType(source);
+            Option<Snippet> type = TypeDeclarationUtils.readType(source).peek(types::add);
 
             if (!type.isDefined()) {
                 break;
             }
-
-            types.add(type.get());
         }
 
         return types;

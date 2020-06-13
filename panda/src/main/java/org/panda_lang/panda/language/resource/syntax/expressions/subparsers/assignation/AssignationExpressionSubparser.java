@@ -37,7 +37,7 @@ import org.panda_lang.framework.language.resource.syntax.operator.OperatorUtils;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.AbstractExpressionSubparserWorker;
 
-import java.util.Optional;
+import org.panda_lang.utilities.commons.function.Option;
 
 public final class AssignationExpressionSubparser implements ExpressionSubparser {
 
@@ -94,12 +94,12 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
                     .withComponent(AssignationComponents.CONTEXT, expressionContext)
                     .withComponent(AssignationComponents.SCOPE, context.getComponent(Components.SCOPE));
 
-            Optional<AssignationSubparser> handleResult = context.getComponent(Components.PIPELINE)
+            Option<AssignationSubparser> handleResult = context.getComponent(Components.PIPELINE)
                     .getPipeline(PandaPipeline.ASSIGNER)
                     .handle(assignationContext, assignationContext.getComponent(Components.CHANNEL), declaration)
                     .getParser();
 
-            if (!handleResult.isPresent()) {
+            if (handleResult.isEmpty()) {
                 return null;
             }
 

@@ -43,7 +43,7 @@ import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assi
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationSubparserBootstrap;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationType;
 
-import java.util.Optional;
+import org.panda_lang.utilities.commons.function.Option;
 
 @RegistrableParser(pipeline = PandaPipeline.ASSIGNER_LABEL, priority = AssignationPriorities.ARRAY_ASSIGNATION)
 public final class ArrayValueAssignationSubparser extends AssignationSubparserBootstrap {
@@ -70,7 +70,7 @@ public final class ArrayValueAssignationSubparser extends AssignationSubparserBo
         }
 
         SourceStream expressionSource = new PandaSourceStream(source.subSource(0, source.size() - 1));
-        Optional<ExpressionTransaction> expressionTransactionValue = context.getComponent(Components.EXPRESSION).parseSilently(context, expressionSource);
+        Option<ExpressionTransaction> expressionTransactionValue = context.getComponent(Components.EXPRESSION).parseSilently(context, expressionSource);
 
         if (!expressionTransactionValue.isPresent()) {
             return false;

@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.design.interpreter.parser.generation;
 
-import java.util.Optional;
+import org.panda_lang.utilities.commons.function.Option;
 
 /**
  * Generation is the multilayer task manager divided into cycles and phases.
@@ -48,7 +48,7 @@ public interface Generation {
     /**
      * @return current cycle
      */
-    Optional<GenerationCycle> getCurrentCycle();
+    Option<GenerationCycle> getCurrentCycle();
 
     /**
      * Get cycle

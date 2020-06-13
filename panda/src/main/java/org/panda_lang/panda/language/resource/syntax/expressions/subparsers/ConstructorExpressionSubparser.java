@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
-import io.vavr.control.Option;
+import org.panda_lang.utilities.commons.function.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.expression.Expression;
@@ -92,7 +92,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             // read type
             Option<Snippet> typeValue = TypeDeclarationUtils.readType(source.getAvailableSource());
 
-            if (!typeValue.isDefined()) {
+            if (typeValue.isEmpty()) {
                 return null;
             }
 
@@ -137,7 +137,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
 
             return adjustedConstructor
                     .map(constructorArguments -> ExpressionResult.of(new TypeExecutableExpression(null, constructorArguments)))
-                    .getOrElse(() -> ExpressionResult.error(type.getSimpleName() + " does not have constructor with the required parameters: " + Arrays.toString(arguments), section));
+                    .orElseGet(() -> ExpressionResult.error(type.getSimpleName() + " does not have constructor with the required parameters: " + Arrays.toString(arguments), section));
         }
 
         private ExpressionResult parseArray(ExpressionContext context, Snippet typeSource) {

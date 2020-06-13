@@ -16,11 +16,11 @@
 
 package org.panda_lang.utilities.inject;
 
-import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.ClassUtils;
 import org.panda_lang.utilities.commons.ObjectUtils;
+import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.ThrowingQuadFunction;
 import org.panda_lang.utilities.commons.function.ThrowingTriFunction;
 
@@ -33,11 +33,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 final class DefaultInjectorResources implements InjectorResources {
 
+    @SuppressWarnings("OptionUsedAsFieldOrParameterType")
     private final Option<InjectorResources> parent;
     private final Map<Class<?>, InjectorResourceBind<Annotation>> binds;
     private final Map<HandlerRecord, InjectorResourceHandler<Annotation, Object, ?>> handlers;
@@ -140,10 +140,10 @@ final class DefaultInjectorResources implements InjectorResources {
     @Override
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public Option<InjectorResourceBind<Annotation>> getBind(Class<?> requestedType) {
-        Optional<InjectorResourceBind<Annotation>> mostRelated = ClassUtils.selectMostRelated(binds.keySet(), requestedType).map(binds::get);
+        Option<InjectorResourceBind<Annotation>> mostRelated = ClassUtils.selectMostRelated(binds.keySet(), requestedType).map(binds::get);
 
         if (mostRelated.isPresent()) {
-            return Option.ofOptional(mostRelated);
+            return mostRelated;
         }
 
         List<InjectorResourceBind> associated = binds.keySet().stream()

@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
-import io.vavr.control.Option;
+import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
@@ -42,7 +42,7 @@ final class SubparsersUtils {
                     context.getSynchronizedSource().next(typeSource.get().size());
                     return new Produce<Type, ExpressionResult>(type);
                 })
-                .getOrElse(() -> {
+                .orElseGet(() -> {
                     return new Produce<>(() -> ExpressionResult.error("Unknown type", context.getSynchronizedSource().getAvailableSource()));
                 });
     }

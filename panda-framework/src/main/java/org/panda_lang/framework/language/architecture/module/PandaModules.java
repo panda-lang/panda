@@ -16,11 +16,11 @@
 
 package org.panda_lang.framework.language.architecture.module;
 
-import io.vavr.control.Option;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.Modules;
 import org.panda_lang.utilities.commons.StringUtils;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -46,7 +46,7 @@ abstract class PandaModules implements Modules {
 
     @Override
     public Module allocate(String moduleQualifier) {
-        return fetch(moduleQualifier, true).getOrElseThrow(() -> {
+        return fetch(moduleQualifier, true).orThrow(() -> {
             throw new PandaFrameworkException("Cannot create module " + moduleQualifier);
         });
     }

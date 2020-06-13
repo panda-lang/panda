@@ -19,13 +19,13 @@ package org.panda_lang.framework.language.interpreter.token;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 
-import java.util.Optional;
+import org.panda_lang.utilities.commons.function.Option;
 
 public class PandaToken extends EqualableToken {
 
     private final TokenType type;
-    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private final Optional<String> name;
+    @SuppressWarnings("OptionUsedAsFieldOrParameterType")
+    private final Option<String> name;
     private final String value;
 
     public PandaToken(TokenType type, String value) {
@@ -35,11 +35,11 @@ public class PandaToken extends EqualableToken {
     public PandaToken(TokenType type, @Nullable String name, String value) {
         this.type = type;
         this.value = value;
-        this.name = Optional.ofNullable(name);
+        this.name = Option.of(name);
     }
 
     @Override
-    public Optional<String> getName() {
+    public Option<String> getName() {
         return name;
     }
 

@@ -32,7 +32,6 @@ import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 import java.io.File;
-import java.util.Optional;
 
 @Command(name = "panda", version = "Panda " + PandaConstants.VERSION)
 final class PandaCli implements ThrowingRunnable<Exception> {
@@ -105,14 +104,11 @@ final class PandaCli implements ThrowingRunnable<Exception> {
             return;
         }
 
-        Optional<Application> application = panda.getLoader().load(script, script.getParentFile());
-
-        if (!application.isPresent()) {
-            shell.getLogger().error("Cannot load application");
-            return;
-        }
-
-        application.get().launch();
+        panda.getLoader().load(script, script.getParentFile())
+                .peek(Application::launch)
+                .onEmpty(() -> {
+                    shell.getLogger().error("Cannot load application");
+                });
     }
 
 }

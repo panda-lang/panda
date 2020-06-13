@@ -18,7 +18,7 @@ package org.panda_lang.framework.language.interpreter.pattern.linear;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
+import org.panda_lang.utilities.commons.function.Option;
 
 abstract class LinearPatternElement {
 
@@ -48,8 +48,8 @@ abstract class LinearPatternElement {
         return optional;
     }
 
-    Optional<String> getIdentifier() {
-        return Optional.ofNullable(identifier);
+    Option<String> getIdentifier() {
+        return Option.of(identifier);
     }
 
     public String getValue() {

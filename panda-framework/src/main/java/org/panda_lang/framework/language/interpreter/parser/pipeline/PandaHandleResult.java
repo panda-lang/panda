@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.interpreter.InterpreterFailure;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.HandleResult;
 
-import java.util.Optional;
+import org.panda_lang.utilities.commons.function.Option;
 
 final class PandaHandleResult<T extends Parser> implements HandleResult<T> {
 
@@ -41,13 +41,13 @@ final class PandaHandleResult<T extends Parser> implements HandleResult<T> {
     }
 
     @Override
-    public Optional<InterpreterFailure> getFailure() {
-        return Optional.ofNullable(failure);
+    public Option<InterpreterFailure> getFailure() {
+        return Option.of(failure);
     }
 
     @Override
-    public Optional<T> getParser() {
-        return Optional.ofNullable(parser);
+    public Option<T> getParser() {
+        return Option.of(parser);
     }
 
 }

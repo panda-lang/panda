@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ass
 import org.panda_lang.framework.language.resource.syntax.operator.Operator;
 import org.panda_lang.framework.language.resource.syntax.operator.Operators;
 
-import java.util.Optional;
+import org.panda_lang.utilities.commons.function.Option;
 
 public enum AssignationType {
 
@@ -39,14 +39,14 @@ public enum AssignationType {
         return assignmentOperator;
     }
 
-    public static Optional<AssignationType> of(Operator operator) {
+    public static Option<AssignationType> of(Operator operator) {
         for (AssignationType type : values()) {
             if (type.getAssignmentOperator().equals(operator)) {
-                return Optional.of(type);
+                return Option.of(type);
             }
         }
 
-        return Optional.empty();
+        return Option.none();
     }
 
 }
