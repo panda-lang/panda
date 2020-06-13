@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.language.resource.syntax.type;
 
-import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.Imports;
 import org.panda_lang.framework.design.architecture.type.PropertyParameter;
@@ -53,9 +52,9 @@ import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Cache;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Cache;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.data.Delegation;
 import org.panda_lang.panda.language.interpreter.parser.context.data.LocalCache;
@@ -63,6 +62,7 @@ import org.panda_lang.panda.language.interpreter.parser.context.handlers.CustomP
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 import org.panda_lang.panda.language.resource.syntax.scope.branching.Returnable;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.List;
 
@@ -133,9 +133,12 @@ public final class MethodParser extends ParserBootstrap<Void> {
                     );
                 });
 
-        local.allocated("visibility", result.has("visibility") ? result.get("visibility") : existingMethod.map(TypeMethod::getVisibility).getOrElseThrow(() -> {
-            throw new PandaParserFailure(context, name, "Missing visibility");
-        }));
+        Option.when(result.has("visibility"), (Visibility) result.get("visibility"))
+                .orElse(() -> existingMethod.map(TypeMethod::getVisibility))
+                .peek(visibility -> local.allocated("visibility", visibility))
+                .orThrow(() -> {
+                    throw new PandaParserFailure(context, name, "Missing visibility");
+                });
     }
 
     @Autowired(order = 4, cycle = GenerationCycles.TYPES_LABEL)

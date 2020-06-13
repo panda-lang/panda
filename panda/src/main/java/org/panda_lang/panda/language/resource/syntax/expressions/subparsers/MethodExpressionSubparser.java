@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
-import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
 import org.panda_lang.framework.design.architecture.type.Adjustment;
@@ -42,10 +41,10 @@ import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.utilities.commons.ObjectUtils;
 import org.panda_lang.utilities.commons.console.Effect;
+import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.text.ContentJoiner;
 
 import java.util.List;
-import java.util.Optional;
 
 public final class MethodExpressionSubparser implements ExpressionSubparser {
 
@@ -157,9 +156,9 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
                 );
             }
 
-            Optional<String> issue = VisibilityComparator.canAccess(method, context.getContext());
+            Option<String> issue = VisibilityComparator.canAccess(method, context.getContext());
 
-            if (issue.isPresent()) {
+            if (issue.isDefined()) {
                 throw new PandaExpressionParserFailure(context, methodName, issue.get(), VisibilityComparator.NOTE_MESSAGE);
             }
 

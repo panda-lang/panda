@@ -31,7 +31,7 @@ import org.panda_lang.utilities.commons.TimeUtils;
 import org.panda_lang.utilities.commons.function.ThrowingConsumer;
 import org.slf4j.event.Level;
 
-import java.util.Optional;
+import org.panda_lang.utilities.commons.function.Option;
 
 public final class PandaInterpreter implements Interpreter {
 
@@ -42,12 +42,12 @@ public final class PandaInterpreter implements Interpreter {
     }
 
     @Override
-    public Optional<Application> interpret(Source source) {
+    public Option<Application> interpret(Source source) {
         return interpret(source, interpretation -> {});
     }
 
     @Override
-    public Optional<Application> interpret(Source source, @Nullable ThrowingConsumer<Interpretation, ?> interpretationConsumer) {
+    public Option<Application> interpret(Source source, @Nullable ThrowingConsumer<Interpretation, ?> interpretationConsumer) {
         Interpretation interpretation = new PandaInterpretation(this);
         ApplicationParser parser = new ApplicationParser(interpretation);
 
@@ -62,7 +62,7 @@ public final class PandaInterpreter implements Interpreter {
 
         if (!interpretation.isHealthy()) {
             environment.getMessenger().send(Level.ERROR, "Interpretation failed, cannot parse specified sources");
-            return Optional.empty();
+            return Option.none();
         }
 
         String parseTime = TimeUtils.toMilliseconds(System.nanoTime() - uptime);
@@ -79,7 +79,7 @@ public final class PandaInterpreter implements Interpreter {
         PandaExpressionParser.time = 0;
         PandaExpressionParser.amount = 0;
 
-        return Optional.of(application);
+        return Option.of(application);
     }
 
     @Override

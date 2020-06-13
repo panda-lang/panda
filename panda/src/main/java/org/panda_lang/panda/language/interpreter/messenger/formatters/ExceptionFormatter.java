@@ -31,8 +31,8 @@ public final class ExceptionFormatter implements MessengerDataFormatter<Exceptio
 
             return "Stack: " + System.lineSeparator() +
                     //"  at " + exception.getClass().getName() + (exception.getMessage() != null ? ": " + exception.getMessage() : "") + System.lineSeparator() +
-                    "  " + ArrayUtils.get(stacktrace, 0).map(StackTraceElement::toString).orElse("") + System.lineSeparator() +
-                    "  " + ArrayUtils.get(stacktrace, 1).map(StackTraceElement::toString).orElse("");
+                    "  " + ArrayUtils.get(stacktrace, 0).map(StackTraceElement::toString).orElseGet("") + System.lineSeparator() +
+                    "  " + ArrayUtils.get(stacktrace, 1).map(StackTraceElement::toString).orElseGet("");
         });
     }
 

@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.interpreter.token.EqualableToken;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 
-import java.util.Optional;
+import org.panda_lang.utilities.commons.function.Option;
 
 public final class Keyword extends EqualableToken {
 
@@ -36,8 +36,8 @@ public final class Keyword extends EqualableToken {
     }
 
     @Override
-    public Optional<String> getName() {
-        return Optional.of(keyword);
+    public Option<String> getName() {
+        return Option.of(keyword);
     }
 
     @Override

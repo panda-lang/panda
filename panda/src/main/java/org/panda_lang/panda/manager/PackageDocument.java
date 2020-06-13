@@ -19,11 +19,11 @@ package org.panda_lang.panda.manager;
 import org.hjson.JsonObject;
 import org.hjson.JsonValue;
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 final class PackageDocument {
@@ -41,7 +41,7 @@ final class PackageDocument {
     }
 
     private List<? extends String> getList(String name) {
-        return Optional.ofNullable(content.get(name))
+        return Option.of(content.get(name))
                 .map(object -> object.asArray().values().stream()
                         .map(JsonValue::asString)
                         .collect(Collectors.toList()))

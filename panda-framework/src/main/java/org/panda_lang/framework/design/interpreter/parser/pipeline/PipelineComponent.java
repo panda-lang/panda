@@ -16,9 +16,9 @@
 
 package org.panda_lang.framework.design.interpreter.parser.pipeline;
 
-import io.vavr.control.Option;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -18,9 +18,9 @@ package org.panda_lang.panda.bootstrap;
 
 import org.panda_lang.framework.design.architecture.Application;
 import org.panda_lang.panda.Panda;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.io.File;
-import java.util.Optional;
 
 /**
  * Simplified application loader
@@ -72,7 +72,7 @@ public final class PandaApplicationBootstrap {
      *
      * @return loaded application or nothing if something happen
      */
-    public Optional<Application> createApplication() {
+    public Option<Application> createApplication() {
         return panda.getLoader().load(script, directory);
     }
 

@@ -22,9 +22,9 @@ import org.panda_lang.framework.design.interpreter.source.Source;
 import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.language.architecture.PandaEnvironment;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.io.File;
-import java.util.Optional;
 
 public final class PandaFileLoader {
 
@@ -34,11 +34,11 @@ public final class PandaFileLoader {
         this.panda = panda;
     }
 
-    public Optional<Application> load(String script, @Nullable File workingDirectory) {
+    public Option<Application> load(String script, @Nullable File workingDirectory) {
         return load(PandaURLSource.fromFile(new File(workingDirectory, script)), workingDirectory);
     }
 
-    public Optional<Application> load(File script, @Nullable File workingDirectory) {
+    public Option<Application> load(File script, @Nullable File workingDirectory) {
         if (workingDirectory == null) {
             workingDirectory = script.getParentFile();
         }
@@ -46,7 +46,7 @@ public final class PandaFileLoader {
         return load(PandaURLSource.fromFile(script), workingDirectory);
     }
 
-    public Optional<Application> load(Source script, File workingDirectory) {
+    public Option<Application> load(Source script, File workingDirectory) {
         PandaEnvironment environment = new PandaEnvironment(panda, workingDirectory);
         environment.initialize();
 

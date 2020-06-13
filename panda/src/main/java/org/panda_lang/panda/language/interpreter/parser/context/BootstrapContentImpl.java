@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.interpreter.parser.context;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 
-import java.util.Optional;
+import org.panda_lang.utilities.commons.function.Option;
 
 final class BootstrapContentImpl implements BootstrapContent {
 
@@ -40,19 +40,19 @@ final class BootstrapContentImpl implements BootstrapContent {
     }
 
     @Override
-    public Optional<BootstrapInterceptor> getInterceptor() {
-        return Optional.ofNullable(interceptor);
+    public Option<BootstrapInterceptor> getInterceptor() {
+        return Option.of(interceptor);
     }
 
     @Override
-    public Optional<Handler> getHandler() {
-        return Optional.ofNullable(handler);
+    public Option<Handler> getHandler() {
+        return Option.of(handler);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public <R> Optional<R> getPattern() {
-        return (Optional<R>) Optional.ofNullable(pattern);
+    public <R> Option<R> getPattern() {
+        return (Option<R>) Option.of(pattern);
     }
 
     @Override

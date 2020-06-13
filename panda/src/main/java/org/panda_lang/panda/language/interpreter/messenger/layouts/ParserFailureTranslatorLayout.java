@@ -23,7 +23,6 @@ import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
 import org.panda_lang.panda.language.interpreter.messenger.PandaTranslatorLayout;
-import org.slf4j.event.Level;
 
 import java.util.Map;
 
@@ -37,7 +36,7 @@ public final class ParserFailureTranslatorLayout extends AbstractInterpreterFail
         element.getContext()
                 .getComponent(Components.GENERATION)
                 .getCurrentCycle()
-                .ifPresent(cycle -> context.put("cycle", cycle));
+                .peek(cycle -> context.put("cycle", cycle));
     }
 
     @Override

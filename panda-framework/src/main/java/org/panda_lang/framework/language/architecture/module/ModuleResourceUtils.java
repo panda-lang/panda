@@ -16,10 +16,10 @@
 
 package org.panda_lang.framework.language.architecture.module;
 
-import io.vavr.collection.Stream;
-import io.vavr.control.Option;
 import org.panda_lang.framework.design.architecture.module.ModuleResource;
 import org.panda_lang.framework.design.architecture.type.Type;
+import org.panda_lang.utilities.commons.function.Option;
+import org.panda_lang.utilities.commons.function.PandaStream;
 
 import java.util.Collection;
 
@@ -28,15 +28,15 @@ final class ModuleResourceUtils {
     private ModuleResourceUtils() { }
 
     public static Option<Type> forClass(Collection<? extends ModuleResource> resources, Class<?> associatedClass) {
-        return Stream.ofAll(resources)
+        return PandaStream.of(resources)
                 .flatMap(parent -> parent.forClass(associatedClass))
-                .headOption();
+                .head();
     }
 
     public static Option<Type> forName(Collection<? extends ModuleResource> resources, CharSequence name) {
-        return Stream.ofAll(resources)
+        return PandaStream.of(resources)
                 .flatMap(parent -> parent.forName(name))
-                .headOption();
+                .head();
     }
 
 }

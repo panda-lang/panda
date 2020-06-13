@@ -45,7 +45,7 @@ final class BootstrapContextParser<T> implements ContextParser<T> {
 
         InterceptorData interceptorData = content.getInterceptor()
                 .map(interceptor -> interceptor.handle(new InterceptorData(), context))
-                .orElse(new InterceptorData());
+                .orElseGet(InterceptorData::new);
 
         int difference = length - stream.getUnreadLength();
 

@@ -17,9 +17,9 @@
 package org.panda_lang.framework.design.interpreter.token;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * The smallest piece of data used by Panda Framework.
@@ -46,8 +46,8 @@ public interface Token {
      *
      * @return optional that may contain custom name of token
      */
-    default Optional<String> getName() {
-        return Optional.empty();
+    default Option<String> getName() {
+        return Option.none();
     }
 
     /**

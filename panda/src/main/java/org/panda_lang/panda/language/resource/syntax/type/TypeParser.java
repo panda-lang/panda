@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.language.resource.syntax.type;
 
-import io.vavr.collection.Stream;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.Script;
 import org.panda_lang.framework.design.architecture.module.TypeLoader;
@@ -61,6 +60,7 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.data.Delegation;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.CustomPatternHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
+import org.panda_lang.utilities.commons.function.PandaStream;
 
 import java.util.Collection;
 
@@ -138,7 +138,7 @@ public final class TypeParser extends ParserBootstrap<Void> {
         }
 
         if (type.getConstructors().getDeclaredProperties().isEmpty()) {
-            type.getSuperclass().peek(superclass -> Stream.ofAll(superclass.getConstructors().getDeclaredProperties())
+            type.getSuperclass().peek(superclass -> PandaStream.of(superclass.getConstructors().getDeclaredProperties())
                     .find(constructor -> constructor.getParameters().length > 0)
                     .peek(constructorWithParameters -> {
                         throw new PandaParserFailure(context, "Type " + type + " does not implement any constructor from the base type " + constructorWithParameters.getType());

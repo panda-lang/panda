@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.language.architecture.statement;
 
-import io.vavr.control.Option;
+import org.panda_lang.utilities.commons.function.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.dynamic.Executable;
 import org.panda_lang.framework.design.architecture.statement.FramedScope;
@@ -87,7 +87,7 @@ public abstract class AbstractScope extends AbstractStatement implements Scope {
     public boolean removeVariable(String name) {
         return getVariable(name)
                 .map(variables::remove)
-                .getOrElse(false);
+                .orElseGet(false);
     }
 
     @Override

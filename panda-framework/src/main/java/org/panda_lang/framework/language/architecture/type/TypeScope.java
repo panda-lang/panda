@@ -16,7 +16,6 @@
 
 package org.panda_lang.framework.language.architecture.type;
 
-import io.vavr.control.Try;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.expression.Expression;
@@ -28,6 +27,7 @@ import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.language.architecture.statement.AbstractFramedScope;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -44,8 +44,8 @@ public final class TypeScope extends AbstractFramedScope {
 
     public TypeInstance createInstance(ProcessStack stack, @Nullable Object instance, TypeConstructor constructor, Class<?>[] parameterTypes, Object[] arguments) throws Exception {
         Object[] baseArguments = constructor.getBaseCall()
-                .flatMap(call -> Try.of(() -> call.evaluate(stack, instance)).toOption())
-                .getOrElse(() -> new Object[0]);
+                .flatMap(call -> Option.attempt(Exception.class, () -> call.evaluate(stack, instance)))
+                .orElseGet(() -> new Object[0]);
 
         TypeFrame typeFrame = new TypeFrame(stack.getProcess(), this, baseArguments);
         TypeInstance typeInstance;

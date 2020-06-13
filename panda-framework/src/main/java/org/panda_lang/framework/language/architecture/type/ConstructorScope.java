@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.language.architecture.type;
 
-import io.vavr.control.Option;
+import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.framework.design.architecture.type.PropertyParameter;
 import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.runtime.ProcessStack;

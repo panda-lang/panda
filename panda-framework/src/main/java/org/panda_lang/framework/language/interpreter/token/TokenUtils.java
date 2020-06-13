@@ -30,7 +30,6 @@ public final class TokenUtils {
 
     private TokenUtils() { }
 
-    @SuppressWarnings("OptionalGetWithoutIsPresent")
     public static boolean hasName(Token token, String name) {
         return token.hasName() && token.getName().get().equals(name);
     }

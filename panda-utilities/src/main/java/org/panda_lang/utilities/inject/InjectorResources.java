@@ -16,7 +16,7 @@
 
 package org.panda_lang.utilities.inject;
 
-import io.vavr.control.Option;
+import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.ThrowingQuadFunction;
 import org.panda_lang.utilities.commons.function.ThrowingTriFunction;
 

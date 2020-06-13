@@ -21,9 +21,9 @@ import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.design.interpreter.token.Streamable;
 import org.panda_lang.framework.design.interpreter.token.TokenInfo;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.Iterator;
-import java.util.Optional;
 
 /**
  * SynchronizedSource works like a shared iterator with its own index and source based on {@link org.panda_lang.framework.design.interpreter.token.Snippet}
@@ -118,8 +118,8 @@ public final class SynchronizedSource implements Iterable<TokenInfo>, Iterator<T
      *
      * @return the current token
      */
-    public Optional<TokenInfo> getCurrent() {
-        return index - 1 > -1 ? Optional.of(source.get(index - 1)) : Optional.empty();
+    public Option<TokenInfo> getCurrent() {
+        return index - 1 > -1 ? Option.of(source.get(index - 1)) : Option.none();
     }
 
     /**

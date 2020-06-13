@@ -39,7 +39,7 @@ public interface TypesMap extends Map<String, Type>, ModuleResource {
      *
      * @return the amount of used types
      */
-    int countUsedTypes();
+    long countUsedTypes();
 
     /**
      * Get collection of entries that contains types

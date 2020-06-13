@@ -20,12 +20,12 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.parser.generation.CycleType;
 import org.panda_lang.framework.design.interpreter.parser.generation.Generation;
 import org.panda_lang.framework.design.interpreter.parser.generation.GenerationCycle;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public final class PandaGeneration implements Generation {
 
@@ -82,8 +82,8 @@ public final class PandaGeneration implements Generation {
     }
 
     @Override
-    public Optional<GenerationCycle> getCurrentCycle() {
-        return Optional.ofNullable(currentCycle);
+    public Option<GenerationCycle> getCurrentCycle() {
+        return Option.of(currentCycle);
     }
 
     @Override

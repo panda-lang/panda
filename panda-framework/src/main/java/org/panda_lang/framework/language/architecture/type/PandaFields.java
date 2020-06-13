@@ -19,9 +19,9 @@ package org.panda_lang.framework.language.architecture.type;
 import org.panda_lang.framework.design.architecture.type.Fields;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.architecture.type.TypeField;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.List;
-import java.util.Optional;
 
 final class PandaFields extends AbstractProperties<TypeField> implements Fields {
 
@@ -30,9 +30,9 @@ final class PandaFields extends AbstractProperties<TypeField> implements Fields 
     }
 
     @Override
-    public Optional<TypeField> getField(String name) {
+    public Option<TypeField> getField(String name) {
         List<? extends TypeField> fields = getPropertiesLike(name);
-        return fields.isEmpty() ? Optional.empty() : Optional.of(fields.get(0));
+        return fields.isEmpty() ? Option.none() : Option.of(fields.get(0));
     }
 
 }

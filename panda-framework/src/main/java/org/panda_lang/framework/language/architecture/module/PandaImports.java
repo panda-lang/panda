@@ -16,7 +16,6 @@
 
 package org.panda_lang.framework.language.architecture.module;
 
-import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Imports;
@@ -27,6 +26,7 @@ import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.language.architecture.type.array.ArrayClassTypeFetcher;
 import org.panda_lang.framework.language.architecture.type.array.PandaArray;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.HashMap;
 import java.util.Map;

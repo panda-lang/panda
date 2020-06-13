@@ -26,7 +26,7 @@ import org.panda_lang.framework.language.runtime.PandaProcessStack;
 import org.panda_lang.framework.language.runtime.PandaRuntimeConstants;
 import org.panda_lang.framework.language.runtime.PandaRuntimeException;
 
-import java.util.Optional;
+import org.panda_lang.utilities.commons.function.Option;
 
 public final class ExpressionUtils {
 
@@ -81,7 +81,7 @@ public final class ExpressionUtils {
             return expression;
         }
 
-        Optional<Autocast<?, ?>> autocast = expression.getType().getAutocast(target);
+        Option<Autocast<?, ?>> autocast = expression.getType().getAutocast(target);
 
         if (autocast.isPresent()) {
             return new AutocastDynamicExpression(expression, target, autocast.get()).toExpression();

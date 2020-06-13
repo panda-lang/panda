@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 
-final class CustomPatternElement implements Buildable {
+final class CustomPatternElement<T> implements Buildable<T> {
 
     private final String id;
     private final boolean optional;
@@ -28,8 +28,7 @@ final class CustomPatternElement implements Buildable {
     private final Collection<? extends CustomVerify<?>> verifiers;
     private final List<Function<?, ?>> mappers;
 
-    @SuppressWarnings("unchecked")
-    protected CustomPatternElement(CustomPatternElementBuilder builder) {
+    protected CustomPatternElement(CustomPatternElementBuilder<?, ?> builder) {
         this.id = builder.id;
         this.optional = builder.optional;
         this.reader = builder.reader;
@@ -38,7 +37,7 @@ final class CustomPatternElement implements Buildable {
     }
 
     @Override
-    public CustomPatternElement build() {
+    public CustomPatternElement<T> build() {
         return this;
     }
 

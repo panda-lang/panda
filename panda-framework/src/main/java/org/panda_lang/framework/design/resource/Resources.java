@@ -16,11 +16,12 @@
 
 package org.panda_lang.framework.design.resource;
 
-import io.vavr.control.Option;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerInitializer;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerOutputListener;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparsers;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
+
+import org.panda_lang.utilities.commons.function.Option;
 
 /**
  * Set of resources used by the language

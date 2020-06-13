@@ -121,8 +121,7 @@ public final class OperationExpressionSubparser implements ExpressionSubparser {
 
                 return ExpressionResult.error("Cannot parse operation: " + null, context.getSynchronizedSource().getCurrent()
                         .map(token -> (Snippetable) token)
-                        .orElse(context.getSynchronizedSource().getSource())
-                );
+                        .orElseGet(context.getSynchronizedSource().getSource()));
             }
 
             Operation operation = new Operation(elements);

@@ -41,7 +41,7 @@ public final class ImportElement extends CustomPatternElementBuilder<Snippetable
             while (source.hasNext()) {
                 TokenInfo next = source.getNext();
 
-                if (!condition.test(source.getCurrent().orElse(null), next)) {
+                if (!condition.test(source.getCurrent().getOrNull(), next)) {
                     break;
                 }
 

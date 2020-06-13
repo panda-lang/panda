@@ -27,9 +27,7 @@ import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 
-import java.util.function.Supplier;
-
-public abstract class AssignationSubparserBootstrap extends ParserBootstrap<@Nullable ExpressionResult> implements AssignationSubparser {
+public abstract class AssignationSubparserBootstrap extends ParserBootstrap<@Nullable ExpressionResult> implements AssignationSubparser<ExpressionResult> {
 
     @Override
     public final @Nullable ExpressionResult parseAssignment(Context context, Snippet declaration, TokenInfo operator, Expression expression) throws Exception {
@@ -37,7 +35,7 @@ public abstract class AssignationSubparserBootstrap extends ParserBootstrap<@Nul
         context.withComponent(AssignationComponents.EXPRESSION, expression);
 
         context.withComponent(AssignationComponents.OPERATOR, operator);
-        context.withComponent(AssignationComponents.TYPE, AssignationType.of(operator.toToken()).orElseThrow((Supplier<? extends PandaParserFailure>) () -> {
+        context.withComponent(AssignationComponents.TYPE, AssignationType.of(operator.toToken()).orThrow(() -> {
             throw new PandaParserFailure(context, operator, "Unknown assignation operator");
         }));
 

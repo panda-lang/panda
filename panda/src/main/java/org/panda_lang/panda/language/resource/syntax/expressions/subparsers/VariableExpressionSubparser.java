@@ -16,12 +16,11 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
-import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.architecture.type.TypeField;
-import org.panda_lang.framework.design.architecture.statement.Variable;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
@@ -37,8 +36,7 @@ import org.panda_lang.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number.NumberUtils;
-
-import java.util.Optional;
+import org.panda_lang.utilities.commons.function.Option;
 
 public final class VariableExpressionSubparser implements ExpressionSubparser {
 
@@ -106,13 +104,13 @@ public final class VariableExpressionSubparser implements ExpressionSubparser {
             return null;
         }
 
-        private Optional<ExpressionResult> fromInstance(ExpressionContext context, Expression instance, TokenInfo name) {
-            Optional<TypeField> fieldValue = instance.getType().getFields().getField(name.getValue());
+        private Option<ExpressionResult> fromInstance(ExpressionContext context, Expression instance, TokenInfo name) {
+            Option<TypeField> fieldValue = instance.getType().getFields().getField(name.getValue());
 
-            if (fieldValue.isPresent()) {
-                Optional<String> issue = VisibilityComparator.canAccess(fieldValue.get(), context.getContext());
+            if (fieldValue.isDefined()) {
+                Option<String> issue = VisibilityComparator.canAccess(fieldValue.get(), context.getContext());
 
-                if (issue.isPresent()) {
+                if (issue.isDefined()) {
                     throw new PandaExpressionParserFailure(context, name, issue.get(), VisibilityComparator.NOTE_MESSAGE);
                 }
             }

@@ -22,7 +22,6 @@ public final class SequenceToken extends PandaToken {
 
     private final Sequence sequence;
 
-    @SuppressWarnings("OptionalGetWithoutIsPresent")
     public SequenceToken(Sequence sequence, String value) {
         super(sequence.getType(), sequence.getName().get(), value);
         this.sequence = sequence;

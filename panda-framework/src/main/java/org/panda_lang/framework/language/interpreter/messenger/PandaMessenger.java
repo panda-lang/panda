@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.language.interpreter.messenger;
 
-import io.vavr.control.Option;
+import org.panda_lang.utilities.commons.function.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.FrameworkController;
 import org.panda_lang.framework.PandaFrameworkException;
@@ -44,8 +44,8 @@ public final class PandaMessenger implements Messenger {
 
     public PandaMessenger(Logger logger, @Nullable MessengerInitializer initializer, @Nullable MessengerOutputListener outputListener) {
         this.logger = logger;
-        this.initializer = Option.of(initializer).getOrElse(messenger -> {});
-        this.outputListener = Option.of(outputListener).getOrElse(() -> new LoggerMessengerOutputListener(logger));
+        this.initializer = Option.of(initializer).orElseGet(messenger -> {});
+        this.outputListener = Option.of(outputListener).orElseGet(() -> new LoggerMessengerOutputListener(logger));
     }
 
     public PandaMessenger(FrameworkController controller) {

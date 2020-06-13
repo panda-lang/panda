@@ -62,7 +62,7 @@ class PandaPipelinePathTest {
     void getTotalHandleTime() {
         Assertions.assertNull(defaultPath.getPipeline(TEST_COMPONENT)
                 .handle(new PandaContext(), new PandaChannel(), PandaTokenInfo.of(TokenTypes.UNKNOWN, "test").toSnippet())
-                .getParser().orElse(null));
+                .getParser().getOrNull());
 
         Assertions.assertTrue(defaultPath.getTotalHandleTime() > 0);
     }

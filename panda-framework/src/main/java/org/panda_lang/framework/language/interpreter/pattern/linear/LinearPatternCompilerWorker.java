@@ -18,10 +18,10 @@ package org.panda_lang.framework.language.interpreter.pattern.linear;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.utilities.commons.StringUtils;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 final class LinearPatternCompilerWorker {
 
@@ -33,7 +33,7 @@ final class LinearPatternCompilerWorker {
         this.pattern = pattern;
     }
 
-    Optional<List<LinearPatternElement>> compile() {
+    Option<List<LinearPatternElement>> compile() {
         String[] elements = StringUtils.split(pattern, " ");
         List<LinearPatternElement> compiled = new ArrayList<>(elements.length);
 
@@ -41,13 +41,13 @@ final class LinearPatternCompilerWorker {
             LinearPatternElement compiledElement = compileElement(element);
 
             if (compiledElement == null) {
-                return Optional.empty();
+                return Option.none();
             }
 
             compiled.add(compiledElement);
         }
 
-        return Optional.of(compiled);
+        return Option.of(compiled);
     }
 
     private @Nullable LinearPatternElement compileElement(String element) {

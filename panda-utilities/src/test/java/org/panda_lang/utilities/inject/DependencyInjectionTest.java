@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-@SuppressWarnings("OptionalGetWithoutIsPresent")
+@SuppressWarnings("OptionGetWithoutIsPresent")
 final class DependencyInjectionTest {
 
     private static final String HELLO = "Hello";

@@ -26,7 +26,7 @@ import org.panda_lang.utilities.commons.TimeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Optional;
+import org.panda_lang.utilities.commons.function.Option;
 
 public final class ExamplesLauncher {
 
@@ -63,7 +63,7 @@ public final class ExamplesLauncher {
         PandaFactory factory = new PandaFactory();
         Panda panda = factory.createPanda(logger);
 
-        Optional<Application> application = PandaApplicationBootstrap.create(panda)
+        Option<Application> application = PandaApplicationBootstrap.create(panda)
                 .workingDirectory("../examples/" + directory)
                 .script(file)
                 .createApplication();

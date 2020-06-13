@@ -17,6 +17,8 @@
 package org.panda_lang.utilities.commons;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.utilities.commons.function.Option;
+import org.panda_lang.utilities.commons.function.PandaStream;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Executable;
@@ -28,7 +30,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -59,10 +60,10 @@ public final class ReflectionUtils {
      * @param parameterTypes parameter types of method
      * @return the result method wrapped into optional
      */
-    public static Optional<Method> getMethod(Class<?> clazz, String methodName, Class<?>... parameterTypes) {
-        return getMethods(clazz, methodName).stream()
+    public static Option<Method> getMethod(Class<?> clazz, String methodName, Class<?>... parameterTypes) {
+        return PandaStream.of(getMethods(clazz, methodName))
                 .filter(method -> Arrays.equals(method.getParameterTypes(), parameterTypes))
-                .findFirst();
+                .head();
     }
 
     /**

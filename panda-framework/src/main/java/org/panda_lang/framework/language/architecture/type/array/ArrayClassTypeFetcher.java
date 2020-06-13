@@ -16,17 +16,16 @@
 
 package org.panda_lang.framework.language.architecture.type.array;
 
-import io.vavr.control.Option;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.architecture.module.TypeLoader;
+import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.StringUtils;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 
 public final class ArrayClassTypeFetcher {
 
@@ -58,12 +57,12 @@ public final class ArrayClassTypeFetcher {
         Type componentReference;
 
         if (componentType.isArray()) {
-            componentReference = fetch(typeLoader, componentType).getOrElseThrow((Supplier<PandaFrameworkException>) () -> {
+            componentReference = fetch(typeLoader, componentType).orThrow(() -> {
                 throw new PandaFrameworkException("Cannot fetch array class for array type " + componentType);
             });
         }
         else {
-            componentReference = module.forClass(componentType).getOrElseThrow((Supplier<PandaFrameworkException>) () -> {
+            componentReference = module.forClass(componentType).orThrow(() -> {
                 throw new PandaFrameworkException("Cannot fetch array class for " + componentType);
             });
         }

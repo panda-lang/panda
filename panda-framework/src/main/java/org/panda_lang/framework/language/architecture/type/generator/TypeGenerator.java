@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.language.architecture.type.generator;
 
-import io.vavr.control.Option;
+import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.design.architecture.type.State;
@@ -43,7 +43,7 @@ final class TypeGenerator {
 
         return Option.of(initializedTypes.get(identifier))
                 .orElse(() -> module.forClass(javaType))
-                .getOrElse(() -> {
+                .orElseGet(() -> {
                     Type type = PandaType.builder()
                             .name(name)
                             .module(module)

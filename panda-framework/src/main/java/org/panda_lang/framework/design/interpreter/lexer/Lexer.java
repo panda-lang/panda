@@ -20,7 +20,7 @@ import org.panda_lang.framework.design.interpreter.source.Source;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 
 /**
- * Converts source into the 
+ * Converts source into the {@link org.panda_lang.framework.design.interpreter.token.Snippet}
  */
 public interface Lexer {
 

@@ -86,7 +86,7 @@ public final class RequireParser extends ParserBootstrap<Void> {
 
         return context.getComponent(Components.ENVIRONMENT).getModulePath().get(moduleName)
                 .peek(imports::importModule)
-                .getOrElseThrow(() -> new PandaParserFailure(context, require,
+                .orThrow(() -> new PandaParserFailure(context, require,
                             "Unknown module " + moduleName,
                             "Make sure that the name does not have a typo and module is added to the module path"
                 ));

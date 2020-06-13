@@ -58,7 +58,7 @@ final class Run {
 
         environment.getInterpreter()
                 .interpret(PandaURLSource.fromFile(mainScript), initialize)
-                .ifPresent(application -> application.launch());
+                .peek(application -> application.launch());
     }
 
 }

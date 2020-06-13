@@ -93,13 +93,13 @@ class LinearPatternTest {
     }
 
     @Test
-    void testIsOptional() {
+    void testIsOption() {
         Assertions.assertTrue(LinearPattern.compile("&id:unit").getElements().get(0).isOptional());
         Assertions.assertFalse(LinearPattern.compile("id:unit").getElements().get(0).isOptional());
     }
 
     @Test
-    void testOptional() {
+    void testOption() {
         LinearPattern pattern = LinearPattern.compile("&opt:unit second:test");
 
         Assertions.assertTrue(pattern.match(of("test")).isMatched());

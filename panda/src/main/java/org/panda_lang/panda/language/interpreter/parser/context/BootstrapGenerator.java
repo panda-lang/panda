@@ -33,12 +33,12 @@ final class BootstrapGenerator {
                 .collect(Collectors.toList());
 
         content.getInterceptor()
-                .ifPresent((interceptor -> interceptor.initialize(content)));
+                .peek((interceptor -> interceptor.initialize(content)));
 
         content.getHandler()
                 .filter(handler -> handler instanceof BootstrapHandler)
                 .map(handler -> (BootstrapHandler) handler)
-                .ifPresent(handler -> handler.initialize(content));
+                .peek(handler -> handler.initialize(content));
 
         return new PandaParserRepresentation<>(new BootstrapContextParser<>(content, methods), initializer.handler, initializer.priority);
     }

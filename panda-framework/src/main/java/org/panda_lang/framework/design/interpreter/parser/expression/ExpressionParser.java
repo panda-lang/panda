@@ -22,7 +22,7 @@ import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.design.interpreter.token.Streamable;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 
-import java.util.Optional;
+import org.panda_lang.utilities.commons.function.Option;
 
 /**
  * Expression parser
@@ -48,7 +48,7 @@ public interface ExpressionParser extends Parser {
      * @param settings the settings to use
      * @return the parsed expression wrapped into the transaction or nothing
      */
-    Optional<ExpressionTransaction> parseSilently(Context context, Streamable streamable, ExpressionParserSettings settings);
+    Option<ExpressionTransaction> parseSilently(Context context, Streamable streamable, ExpressionParserSettings settings);
 
     /**
      * Utility method to call
@@ -57,7 +57,7 @@ public interface ExpressionParser extends Parser {
      *
      * @see #parseSilently(org.panda_lang.framework.design.interpreter.parser.Context, org.panda_lang.framework.design.interpreter.token.Streamable, ExpressionParserSettings)
      */
-    default Optional<ExpressionTransaction> parseSilently(Context context, Streamable streamable) {
+    default Option<ExpressionTransaction> parseSilently(Context context, Streamable streamable) {
         return parseSilently(context, streamable, ExpressionParserSettings.DEFAULT);
     }
 

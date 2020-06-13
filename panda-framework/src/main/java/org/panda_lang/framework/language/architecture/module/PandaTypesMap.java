@@ -16,12 +16,12 @@
 
 package org.panda_lang.framework.language.architecture.module;
 
-import io.vavr.collection.Stream;
-import io.vavr.control.Option;
 import org.panda_lang.framework.design.architecture.module.TypesMap;
 import org.panda_lang.framework.design.architecture.type.DynamicClass;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.utilities.commons.ClassUtils;
+import org.panda_lang.utilities.commons.function.Option;
+import org.panda_lang.utilities.commons.function.PandaStream;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -44,8 +44,8 @@ final class PandaTypesMap extends HashMap<String, Type> implements TypesMap {
     }
 
     @Override
-    public int countUsedTypes() {
-        return Stream.ofAll(entrySet()).count(entry -> entry.getValue().isInitialized());
+    public long countUsedTypes() {
+        return PandaStream.of(entrySet()).count(entry -> entry.getValue().isInitialized());
     }
 
     @Override
@@ -61,7 +61,7 @@ final class PandaTypesMap extends HashMap<String, Type> implements TypesMap {
     }
 
     private Option<String> get(Class<?> associatedClass) {
-        return Stream.ofAll(associatedClasses.entrySet())
+        return PandaStream.of(associatedClasses.entrySet())
                 .find(entry -> entry.getKey().fetchStructure().equals(associatedClass))
                 .map(Entry::getValue);
     }

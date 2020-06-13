@@ -16,11 +16,11 @@
 
 package org.panda_lang.framework.language.architecture.module;
 
-import io.vavr.control.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.architecture.module.TypesMap;
 import org.panda_lang.framework.design.architecture.type.Type;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -48,12 +48,12 @@ public class PandaModule extends PandaModules implements Module {
     }
 
     @Override
-    public int countUsedTypes() {
+    public long countUsedTypes() {
         return types.countUsedTypes();
     }
 
     @Override
-    public int countTypes() {
+    public long countTypes() {
         return types.size();
     }
 

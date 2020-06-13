@@ -16,10 +16,9 @@
 
 package org.panda_lang.utilities.inject;
 
-import io.vavr.control.Option;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Parameter;
+import org.panda_lang.utilities.commons.function.Option;
 
 interface InjectorResourceHandler<A extends Annotation, V, R> {
 
