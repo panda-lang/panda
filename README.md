@@ -1,25 +1,30 @@
-![Logo](https://panda-lang.org/github/v1/logo-1.png)
+![Logo](https://user-images.githubusercontent.com/4235722/86413251-06fa5300-bcc1-11ea-8f95-0aa92d37595e.png)
 
 <!--suppress ALL -->
 <p align="center">
-   <a href="https://travis-ci.org/panda-lang/panda"><img src="https://travis-ci.org/panda-lang/panda.svg?branch=master" alt="Build Status"></a>
+   <a href="https://travis-ci.com/panda-lang/panda"><img src="https://travis-ci.com/panda-lang/panda.svg?branch=master" alt="Build Status"></a>
    <a href="https://ci.appveyor.com/project/panda-lang/panda/branch/master"><img src="https://ci.appveyor.com/api/projects/status/whatvc77sgtjb1ip/branch/master?svg=true" alt="AppVeyor"></a>
    <a href="https://lgtm.com/projects/g/panda-lang/panda/context:java"><img src="https://img.shields.io/lgtm/grade/java/g/panda-lang/panda.svg?logo=lgtm&logoWidth=18" alt="LGTM"></a>
    <a href="https://www.codefactor.io/repository/github/panda-lang/panda"><img src="https://www.codefactor.io/repository/github/panda-lang/panda/badge" alt="CodeFactor"></a>
    <hr>
    
    <p align="center">
-     Panda is lightweight and powerful programming language written in Java.<br>
-     Enhance the syntax dynamically or build your own language on top of the Panda Framework.<br>
+     Panda is a clear and stylish programming language for JVM.<br>
+     Create clean apps, enhance syntax dynamically or build your own language on top of the Panda Framework.<br>
      ~ <a href="https://panda-lang.org/">panda-lang.org</a> :wq
    </p>
    
    <p align="center">
-     <img src="https://panda-lang.org/github/v1/carbon-6.png" alt="Preview">
+     <img src="https://user-images.githubusercontent.com/4235722/86413250-05c92600-bcc1-11ea-95af-d5dac7f83c39.png" alt="Preview">
    </p>
 </p>
 
-#### 〽️ Usage
+#### 🗺️ Downlaod
+Website: [panda-lang.org](https://panda-lang.org/) <br>
+Installation: [panda-lang.org/install](https://panda-lang.org/install) <br>
+Guide: [panda-lang.org/guide](https://panda-lang.org/guide)
+
+#### 〽️ Maven
 The latest indev build
 
 ```xml
