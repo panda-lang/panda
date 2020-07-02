@@ -32,7 +32,7 @@ class IOUtilsTest {
     void getURLContent() {
         String urlContent = IOUtils.getURLContent("https://panda-lang.org/");
         Assertions.assertNotNull(urlContent);
-        Assertions.assertTrue(urlContent.contains("<html>"));
+        Assertions.assertTrue(urlContent.contains("<html"));
     }
 
     @Test
