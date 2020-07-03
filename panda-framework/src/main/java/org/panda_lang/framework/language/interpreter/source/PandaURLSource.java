@@ -20,6 +20,7 @@ import org.panda_lang.framework.PandaFramework;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.interpreter.source.Source;
 import org.panda_lang.utilities.commons.IOUtils;
+import org.panda_lang.utilities.commons.function.ThrowingFunction;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,7 +48,7 @@ public final class PandaURLSource implements Source {
     @Override
     public String getContent() {
         try (InputStream inputStream = this.location.openStream()) {
-            return IOUtils.convertStreamToString(inputStream);
+            return IOUtils.convertStreamToString(inputStream).orElseThrow(ThrowingFunction.identity());
         } catch (IOException e) {
             throw new PandaFrameworkException(e);
         }

@@ -16,10 +16,11 @@
 
 package org.panda_lang.utilities.commons;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Objects;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 final class ArrayUtilsTest {
 
@@ -29,22 +30,16 @@ final class ArrayUtilsTest {
 
     @Test
     void containsNull() {
-        Assertions.assertAll(
-                () -> Assertions.assertTrue(ArrayUtils.containsNull(ARRAY_WITH_NULL)),
-
-                () -> Assertions.assertFalse(ArrayUtils.containsNull(ARRAY)),
-                () -> Assertions.assertFalse(ArrayUtils.containsNull(EMPTY_ARRAY))
-        );
+        assertTrue(ArrayUtils.containsNull(ARRAY_WITH_NULL));
+        assertFalse(ArrayUtils.containsNull(ARRAY));
+        assertFalse(ArrayUtils.containsNull(EMPTY_ARRAY));
     }
 
     @Test
     void contains() {
-        Assertions.assertAll(
-                () -> Assertions.assertTrue(ArrayUtils.contains(ARRAY, "b")),
-
-                () -> Assertions.assertFalse(ArrayUtils.contains(EMPTY_ARRAY, "d")),
-                () -> Assertions.assertFalse(ArrayUtils.contains(ARRAY_WITH_NULL, "d"))
-        );
+        assertTrue(ArrayUtils.contains(ARRAY, "b"));
+        assertFalse(ArrayUtils.contains(EMPTY_ARRAY, "d"));
+        assertFalse(ArrayUtils.contains(ARRAY_WITH_NULL, "d"));
     }
 
     @Test
@@ -54,72 +49,80 @@ final class ArrayUtilsTest {
                 "a", "b", "c", null
         };
 
-        Assertions.assertArrayEquals(merged, ArrayUtils.mergeArrays(ARRAY, ARRAY_WITH_NULL));
-        Assertions.assertArrayEquals(merged, ArrayUtils.mergeArrays(String[]::new, ARRAY, ARRAY_WITH_NULL));
+        assertArrayEquals(merged, ArrayUtils.mergeArrays(ARRAY, ARRAY_WITH_NULL));
+        assertArrayEquals(merged, ArrayUtils.mergeArrays(String[]::new, ARRAY, ARRAY_WITH_NULL));
     }
 
     @Test
     void isEmpty() {
-        Assertions.assertTrue(ArrayUtils.isEmpty(EMPTY_ARRAY));
-        Assertions.assertFalse(ArrayUtils.isEmpty(ARRAY));
+        assertTrue(ArrayUtils.isEmpty(EMPTY_ARRAY));
+        assertFalse(ArrayUtils.isEmpty(ARRAY));
     }
 
     @Test
     void getArrayClass() {
-        Assertions.assertEquals(String[].class, ArrayUtils.getArrayClass(String.class));
+        assertEquals(String[].class, ArrayUtils.getArrayClass(String.class));
     }
 
     @Test
     void getDimensionalArrayType() {
-        Assertions.assertEquals(String[].class, ArrayUtils.getDimensionalArrayType(String.class, 2));
+        assertEquals(String[].class, ArrayUtils.getDimensionalArrayType(String.class, 2));
     }
 
     @Test
     void of() {
-        Assertions.assertArrayEquals(new String[] { "a", "b" }, ArrayUtils.of("a", "b"));
+        assertArrayEquals(new String[] { "a", "b" }, ArrayUtils.of("a", "b"));
     }
 
     @Test
     void get() {
-        Assertions.assertAll(
-                () -> Assertions.assertTrue(ArrayUtils.get(ARRAY, 0).isPresent()),
-                () -> Assertions.assertTrue(ArrayUtils.get(ARRAY, 2).isPresent()),
+        assertTrue(ArrayUtils.get(ARRAY, 0).isPresent());
+        assertTrue(ArrayUtils.get(ARRAY, 2).isPresent());
 
-                () -> Assertions.assertFalse(ArrayUtils.get(ARRAY, -1).isPresent()),
-                () -> Assertions.assertFalse(ArrayUtils.get(ARRAY, 3).isPresent())
-        );
+        assertFalse(ArrayUtils.get(ARRAY, -1).isPresent());
+        assertFalse(ArrayUtils.get(ARRAY, 3).isPresent());
+    }
+    
+    @Test
+    void getFirst() {
+        assertTrue(ArrayUtils.getFirst(EMPTY_ARRAY).isEmpty());
+        assertEquals("a", ArrayUtils.getFirst(ARRAY).get());
+    }
+
+    @Test
+    void getLast() {
+        assertTrue(ArrayUtils.getLast(EMPTY_ARRAY).isEmpty());
+        assertEquals("c", ArrayUtils.getLast(ARRAY).get());
     }
 
     @Test
     void dimensionalArrayClass() {
-        Assertions.assertAll(
-                () -> Assertions.assertEquals(Object[][].class, ArrayUtils.getDimensionalArrayType(Object.class, 3)),
-                () -> Assertions.assertThrows(IllegalArgumentException.class, () -> ArrayUtils.getDimensionalArrayType(Object.class, 0))
-        );
+        assertEquals(Object[][].class, ArrayUtils.getDimensionalArrayType(Object.class, 3));
+        assertThrows(IllegalArgumentException.class, () -> ArrayUtils.getDimensionalArrayType(Object.class, 0));
     }
 
     @Test
     void getWithDefaultValue() {
-        Assertions.assertEquals("a", ArrayUtils.get(EMPTY_ARRAY, Integer.MAX_VALUE, "a"));
+        assertEquals("a", ArrayUtils.get(EMPTY_ARRAY, Integer.MAX_VALUE, "a"));
     }
 
     @Test
     void forEach() {
         ArrayUtils.forEach(ARRAY, element -> {
-            Assertions.assertTrue(ArrayUtils.contains(ARRAY, element));
+            assertTrue(ArrayUtils.contains(ARRAY, element));
         });
     }
 
     @Test
     void forEachThrowing() {
         ArrayUtils.forEachThrowing(ARRAY, element -> {
-            Assertions.assertTrue(ArrayUtils.contains(ARRAY, element));
+            assertTrue(ArrayUtils.contains(ARRAY, element));
         });
     }
 
     @Test
     void findIn() {
-        Assertions.assertTrue(ArrayUtils.findIn(ARRAY_WITH_NULL, Objects::nonNull).isPresent());
+        assertTrue(ArrayUtils.findIn(ARRAY_WITH_NULL, Objects::nonNull).isPresent());
     }
 
     @Test
@@ -128,29 +131,29 @@ final class ArrayUtilsTest {
         Object someObject = ARRAY;
         Object anotherObject = "content";
 
-        Assertions.assertTrue(ArrayUtils.isArray(someObject));
-        Assertions.assertFalse(ArrayUtils.isArray(anotherObject));
+        assertTrue(ArrayUtils.isArray(someObject));
+        assertFalse(ArrayUtils.isArray(anotherObject));
     }
 
     @Test
     void getIndex() {
-        Assertions.assertEquals(1, ArrayUtils.getIndex(ARRAY, element -> element.equals("b")));
+        assertEquals(1, ArrayUtils.getIndex(ARRAY, element -> element.equals("b")));
     }
 
     @Test
     void merge() {
         String[] merged = ArrayUtils.merge("-a", ARRAY, String[]::new);
-        Assertions.assertArrayEquals(new String[] { "-a", "a", "b", "c" }, merged);
+        assertArrayEquals(new String[] { "-a", "a", "b", "c" }, merged);
     }
 
     @Test
     void getBaseClass() {
-        Assertions.assertEquals(String.class, ArrayUtils.getBaseClass(ARRAY.getClass()));
+        assertEquals(String.class, ArrayUtils.getBaseClass(ARRAY.getClass()));
     }
 
     @Test
     void length() {
-        Assertions.assertEquals(ARRAY.length + ARRAY_WITH_NULL.length, ArrayUtils.length(ARRAY, ARRAY_WITH_NULL));
+        assertEquals(ARRAY.length + ARRAY_WITH_NULL.length, ArrayUtils.length(ARRAY, ARRAY_WITH_NULL));
     }
 
 }

@@ -218,6 +218,7 @@ public final class ArrayUtils {
      * @param arrayClass the array class
      * @return the base type
      */
+    @SuppressWarnings("IdempotentLoopBody")
     public static Class<?> getBaseClass(Class<?> arrayClass) {
         Class<?> currentClass = arrayClass;
 
@@ -237,6 +238,8 @@ public final class ArrayUtils {
     public static Class<?> getArrayClass(Class<?> clazz) {
         return Array.newInstance(clazz, 0).getClass();
     }
+
+
 
     /**
      * Get index of element that pass the condition
@@ -272,6 +275,28 @@ public final class ArrayUtils {
         }
 
         return -1;
+    }
+
+    /**
+     * Get first element of the given array
+     *
+     * @param array the array to search in
+     * @param <T> type of array
+     * @return first element of the given array or empty option
+     */
+    public static <T> Option<T> getFirst(T[] array) {
+        return get(array, 0);
+    }
+
+    /**
+     * Get last element of the given array
+     *
+     * @param array the array to search in
+     * @param <T> type of array
+     * @return last element of the given array or empty option
+     */
+    public static <T> Option<T> getLast(T[] array) {
+        return get(array, array.length - 1);
     }
 
     /**

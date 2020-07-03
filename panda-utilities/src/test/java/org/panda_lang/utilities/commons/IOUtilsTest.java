@@ -16,12 +16,14 @@
 
 package org.panda_lang.utilities.commons;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.panda_lang.utilities.commons.function.Result;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class IOUtilsTest {
 
@@ -30,21 +32,22 @@ class IOUtilsTest {
 
     @Test
     void getURLContent() {
-        String urlContent = IOUtils.getURLContent("https://panda-lang.org/");
-        Assertions.assertNotNull(urlContent);
-        Assertions.assertTrue(urlContent.contains("<html"));
+        Result<String, IOException> result = IOUtils.fetchContent("https://panda-lang.org/");
+        assertTrue(result.isDefined());
+        assertNotNull(result.getValue());
+        assertTrue(result.getValue().contains("<html"));
     }
 
     @Test
     void convertStringToStream() throws IOException {
         InputStream stream = IOUtils.convertStringToStream(MESSAGE);
-        Assertions.assertNotNull(stream);
-        Assertions.assertTrue(stream.available() > 0);
+        assertNotNull(stream);
+        assertTrue(stream.available() > 0);
     }
 
     @Test
     void convertStreamToString() {
-        Assertions.assertEquals(MESSAGE, IOUtils.convertStreamToString(IOUtils.convertStringToStream(MESSAGE)));
+        assertEquals(MESSAGE, IOUtils.convertStreamToString(IOUtils.convertStringToStream(MESSAGE)).getValue());
     }
 
     @Test
@@ -68,7 +71,7 @@ class IOUtilsTest {
         };
 
         IOUtils.close(stubStream);
-        Assertions.assertThrows(RuntimeException.class, () -> stubStream.write(0x00));
+        assertThrows(RuntimeException.class, () -> stubStream.write(0x00));
     }
 
 }

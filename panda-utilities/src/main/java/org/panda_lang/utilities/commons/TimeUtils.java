@@ -17,6 +17,7 @@
 package org.panda_lang.utilities.commons;
 
 import java.lang.management.ManagementFactory;
+import java.util.Locale;
 
 public final class TimeUtils {
 
@@ -25,18 +26,51 @@ public final class TimeUtils {
 
     private TimeUtils() { }
 
+    /**
+     * Format long representing time in milliseconds to formatted time in seconds
+     *
+     * @param ms the time to format
+     * @return the formatted time
+     */
     public static String toSeconds(long ms) {
-        return (ms / MILLISECOND) + "s";
+        return format(ms / MILLISECOND) + "s";
     }
 
+    /**
+     * Format long representing time in nanoseconds to formatted time in milliseconds
+     *
+     * @param nano the time to format
+     * @return the formatted time
+     */
     public static String toMilliseconds(long nano) {
-        return (nano / NANOSECOND) + "ms";
+        return format(nano / NANOSECOND) + "ms";
     }
 
+    /**
+     * Format double representing time to two decimal places
+     *
+     * @param time the time to format
+     * @return the formatted time
+     */
+    public static String format(double time) {
+        return String.format(Locale.US, "%.2f", time);
+    }
+
+    /**
+     * Calculate uptime since the given time in milliseconds
+     *
+     * @param uptime the init time
+     * @return the difference between init time and current time in milliseconds
+     */
     public static double getUptime(long uptime) {
         return (System.currentTimeMillis() - uptime) / MILLISECOND;
     }
 
+    /**
+     * Get estimated time of JVM boot time
+     *
+     * @return the estimated boot time
+     */
     public static long getJVMUptime() {
         return System.currentTimeMillis() - ManagementFactory.getRuntimeMXBean().getStartTime();
     }

@@ -21,6 +21,10 @@ public interface ThrowingFunction<T, R, E extends Exception> {
 
     R apply(T t) throws E;
 
+    static <S extends Exception> ThrowingFunction<S, S, S> identity() {
+        return t -> t;
+    }
+
 }
 
 
