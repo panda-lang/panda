@@ -24,11 +24,11 @@ import org.panda_lang.utilities.commons.function.Option;
 public interface BootstrapContent {
 
     /**
-     * Get associated bootstrap interceptor
+     * Get associated with bootstrap initializer
      *
      * @return the interceptor
      */
-    Option<BootstrapInterceptor> getInterceptor();
+    IterationInitializer getInitializer();
 
     /**
      * Get associated parser handler

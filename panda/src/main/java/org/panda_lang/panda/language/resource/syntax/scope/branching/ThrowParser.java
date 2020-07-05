@@ -26,11 +26,11 @@ import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.interceptors.LinearPatternInterceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.initializers.LinearPatternInitializer;
 
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL)
 public final class ThrowParser extends ParserBootstrap<Void> {
@@ -39,12 +39,12 @@ public final class ThrowParser extends ParserBootstrap<Void> {
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.THROW))
-                .interceptor(new LinearPatternInterceptor())
+                .initializer(new LinearPatternInitializer())
                 .pattern("throw &value:*=expression");
     }
 
     @Autowired(order = 1)
-    void parse(@Ctx Scope block, @Int Location location, @Src("value") Expression expression) {
+    void parse(@Ctx Scope block, @Channel Location location, @Src("value") Expression expression) {
         block.addStatement(new Throw(location, expression));
     }
 

@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.interpreter.InterpreterFailure;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.parser.ParserRepresentation;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
+import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.HandleResult;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipeline;
@@ -53,7 +53,7 @@ public final class PandaPipeline<P extends Parser> implements Pipeline<P> {
     }
 
     @Override
-    public HandleResult<P> handle(Context context, Channel channel, Snippet source) {
+    public HandleResult<P> handle(Context context, LocalChannel channel, Snippet source) {
         if (count > 1000) {
             count = 0;
             sort();
@@ -70,7 +70,7 @@ public final class PandaPipeline<P extends Parser> implements Pipeline<P> {
         return handle(context, channel, source, representations);
     }
 
-    private HandleResult<P> handle(Context context, Channel channel, Snippet source, Collection<? extends ParserRepresentation<P>> representations) {
+    private HandleResult<P> handle(Context context, LocalChannel channel, Snippet source, Collection<? extends ParserRepresentation<P>> representations) {
         long currentTime = System.nanoTime();
         InterpreterFailure failure = null;
 

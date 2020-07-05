@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.context.interceptors;
+package org.panda_lang.panda.language.interpreter.parser.context.initializers;
 
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
@@ -26,12 +27,11 @@ import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPatter
 import org.panda_lang.framework.language.interpreter.pattern.custom.Result;
 import org.panda_lang.framework.language.interpreter.pattern.custom.UniversalData;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapContent;
-import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInterceptor;
-import org.panda_lang.panda.language.interpreter.parser.context.data.InterceptorData;
+import org.panda_lang.panda.language.interpreter.parser.context.IterationInitializer;
 
 import java.util.function.Supplier;
 
-public final class CustomPatternInterceptor implements BootstrapInterceptor {
+public final class CustomPatternInitializer implements IterationInitializer {
 
     private CustomPattern pattern;
 
@@ -43,19 +43,20 @@ public final class CustomPatternInterceptor implements BootstrapInterceptor {
     }
 
     @Override
-    public InterceptorData handle(InterceptorData interceptorData, Context context) {
+    public void handle(Context context, LocalChannel channel) {
         SourceStream source = context.getComponent(Components.STREAM);
         Snippet currentSource = source.toSnippet();
-        Result result = pattern.match(source, new CustomPatternData().with(UniversalData.CONTEXT, context));
+        channel.allocated("location", currentSource.getLocation());
+
+        CustomPatternData patternData = new CustomPatternData().with(UniversalData.CONTEXT, context);
+        Result result = pattern.match(source, patternData);
 
         if (!result.isMatched()) {
             throw new PandaParserFailure(context, currentSource, "CustomPatternInterceptor could not match pattern", "Make sure that the pattern does not have a typo");
         }
 
-        interceptorData.addElement(currentSource.getLocation());
-        interceptorData.addElement(result.getSource());
-        interceptorData.addElement(result);
-        return interceptorData;
+        channel.allocated("source", result.getSource());
+        channel.allocated("result", result);
     }
 
 }

@@ -23,8 +23,6 @@ import org.panda_lang.framework.design.interpreter.parser.generation.Generation;
 import org.panda_lang.framework.design.interpreter.parser.generation.GenerationCycle;
 import org.panda_lang.framework.design.interpreter.parser.generation.GenerationPhase;
 import org.panda_lang.framework.design.interpreter.parser.generation.GenerationTask;
-import org.panda_lang.panda.language.interpreter.parser.context.data.InterceptorData;
-import org.panda_lang.panda.language.interpreter.parser.context.data.LocalCache;
 import org.panda_lang.utilities.inject.DependencyInjection;
 import org.panda_lang.utilities.inject.Injector;
 import org.panda_lang.utilities.inject.InjectorController;
@@ -46,8 +44,8 @@ final class BootstrapTaskScheduler<T> {
         this.methods = methods;
     }
 
-    protected T schedule(Context context, InterceptorData interceptorData, LocalCache cache) throws Exception {
-        return schedule(context, new BootstrapInjectorController(context, interceptorData, cache));
+    protected T schedule(Context context) throws Exception {
+        return schedule(context, new BootstrapInjectorController(context));
     }
 
     private @Nullable T schedule(Context context, InjectorController controller) throws Exception {
@@ -79,13 +77,9 @@ final class BootstrapTaskScheduler<T> {
                     throw (Exception) e.getTargetException();
                 }
 
-                throw new BootstrapException("Error occurred: " + e.getMessage(), e.getTargetException());
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw e;
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-                throw new BootstrapException("Internal error: " + (throwable.getMessage() != null ? throwable.getMessage() : throwable.getClass()), throwable);
+                throw new BootstrapException("Cannot execute " + method.getMethod() + " -> " + e.getTargetException().getMessage(), e.getTargetException());
+            } catch (Throwable e) {
+                throw new BootstrapException("Cannot execute " + method.getMethod() + " -> " + e.getMessage(), e);
             }
 
             if (last && !methods.isEmpty()) {

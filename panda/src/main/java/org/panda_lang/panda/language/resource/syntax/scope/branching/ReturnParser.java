@@ -27,11 +27,11 @@ import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.interceptors.LinearPatternInterceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.initializers.LinearPatternInitializer;
 
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL)
 public final class ReturnParser extends ParserBootstrap<Void> {
@@ -40,12 +40,12 @@ public final class ReturnParser extends ParserBootstrap<Void> {
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.RETURN))
-                .interceptor(new LinearPatternInterceptor())
+                .initializer(new LinearPatternInitializer())
                 .pattern("return &value:*=expression");
     }
 
     @Autowired(order = 1)
-    void parse(@Ctx Scope scope, @Int Location location, @Src("value") @Nullable Expression value) {
+    void parse(@Ctx Scope scope, @Channel Location location, @Src("value") @Nullable Expression value) {
         scope.addStatement(new Return(location, value));
     }
 

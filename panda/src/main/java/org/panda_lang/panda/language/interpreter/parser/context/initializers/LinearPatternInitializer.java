@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.context.interceptors;
+package org.panda_lang.panda.language.interpreter.parser.context.initializers;
 
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
@@ -25,10 +26,9 @@ import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.pattern.linear.LinearPattern;
 import org.panda_lang.framework.language.interpreter.pattern.linear.LinearPatternResult;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapContent;
-import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInterceptor;
-import org.panda_lang.panda.language.interpreter.parser.context.data.InterceptorData;
+import org.panda_lang.panda.language.interpreter.parser.context.IterationInitializer;
 
-public final class LinearPatternInterceptor implements BootstrapInterceptor {
+public final class LinearPatternInitializer implements IterationInitializer {
 
     private BootstrapContent content;
     private LinearPattern pattern;
@@ -45,24 +45,24 @@ public final class LinearPatternInterceptor implements BootstrapInterceptor {
     }
 
     @Override
-    public InterceptorData handle(InterceptorData interceptorData, Context context) {
-        if (pattern != null) {
-            SourceStream stream = context.getComponent(Components.STREAM);
-            Snippet currentSource = stream.toSnippet();
-
-            ExpressionParser expressionParser = context.getComponent(Components.EXPRESSION);
-            LinearPatternResult result = pattern.match(stream, source -> expressionParser.parse(context, source).getExpression());
-
-            if (!result.isMatched()) {
-                throw new PandaParserFailure(context, currentSource, "Interceptor could not match pattern '" + content.getPattern().orElseGet("<pattern is null>") + "'");
-            }
-
-            interceptorData.addElement(currentSource.getLocation());
-            interceptorData.addElement(result.getSource());
-            interceptorData.addElement(result);
+    public void handle(Context context, LocalChannel channel) {
+        if (pattern == null) {
+            return;
         }
 
-        return interceptorData;
+        SourceStream stream = context.getComponent(Components.STREAM);
+        Snippet currentSource = stream.toSnippet();
+        channel.override("location", currentSource.getLocation());
+
+        ExpressionParser expressionParser = context.getComponent(Components.EXPRESSION);
+        LinearPatternResult result = pattern.match(stream, source -> expressionParser.parse(context, source).getExpression());
+
+        if (!result.isMatched()) {
+            throw new PandaParserFailure(context, currentSource, "Interceptor could not match pattern '" + content.getPattern().orElseGet("<pattern is null>") + "'");
+        }
+
+        channel.override("source", result.getSource());
+        channel.override("result", result);
     }
 
 }

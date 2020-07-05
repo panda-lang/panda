@@ -31,11 +31,11 @@ import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.interceptors.LinearPatternInterceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.initializers.LinearPatternInitializer;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ArgumentsParser;
 
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL)
@@ -47,12 +47,12 @@ public final class BaseCallParser extends ParserBootstrap<Void> {
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.BASE))
-                .interceptor(new LinearPatternInterceptor())
+                .initializer(new LinearPatternInitializer())
                 .pattern("base args:(~)");
     }
 
     @Autowired(order = 1)
-    void parse(Context context, @Ctx Scope parent, @Ctx Type type, @Int Location location, @Int Snippet src, @Src("args") Snippet args) {
+    void parse(Context context, @Ctx Scope parent, @Ctx Type type, @Channel Location location, @Channel Snippet src, @Src("args") Snippet args) {
         if (!(parent instanceof ConstructorScope)) {
             throw new PandaParserFailure(context, src, src, "Cannot use base constructor outside of the constructor");
         }

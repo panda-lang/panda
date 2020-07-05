@@ -23,12 +23,12 @@ final class TimeUtilsTest {
 
     @Test
     void toMilliseconds() {
-        Assertions.assertEquals("1.0ms", TimeUtils.toMilliseconds(1_000_000));
+        Assertions.assertEquals("1.00ms", TimeUtils.toMilliseconds(1_000_000));
     }
 
     @Test
     void toSeconds() {
-        Assertions.assertEquals("1.0s", TimeUtils.toSeconds(1_000));
+        Assertions.assertEquals("1.00s", TimeUtils.toSeconds(1_000));
     }
 
     @Test

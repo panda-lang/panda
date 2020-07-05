@@ -29,10 +29,10 @@ import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.interceptors.LinearPatternInterceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.initializers.LinearPatternInitializer;
 
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL)
 public final class BreakParser extends ParserBootstrap<Void> {
@@ -41,12 +41,12 @@ public final class BreakParser extends ParserBootstrap<Void> {
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.BREAK))
-                .interceptor(new LinearPatternInterceptor())
+                .initializer(new LinearPatternInitializer())
                 .pattern("break");
     }
 
     @Autowired(order = 1)
-    void parseBreak(Context context, @Ctx Scope scope, @Int Location location, @Int Snippet source) {
+    void parseBreak(Context context, @Ctx Scope scope, @Channel Location location, @Channel Snippet source) {
         if (!ScopeUtils.lookFor(scope, ControlledScope.class)) {
             throw new PandaParserFailure(context, source, "Break cannot be used outside of the looping block");
         }

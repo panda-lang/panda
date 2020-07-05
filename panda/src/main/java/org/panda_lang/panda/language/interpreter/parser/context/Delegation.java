@@ -14,21 +14,28 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.context.annotations;
+package org.panda_lang.panda.language.interpreter.parser.context;
 
-import org.panda_lang.utilities.commons.StringUtils;
-import org.panda_lang.utilities.inject.annotations.Injectable;
+public enum Delegation {
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+    IMMEDIATELY(0),
 
-@Injectable
-@Target(ElementType.PARAMETER)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Cache {
+    CURRENT_BEFORE(1),
+    CURRENT_DEFAULT(2),
+    CURRENT_AFTER(3),
 
-    String value() default StringUtils.EMPTY;
+    NEXT_BEFORE(4),
+    NEXT_DEFAULT(5),
+    NEXT_AFTER(6);
+
+    private final int priority;
+
+    Delegation(int priority) {
+        this.priority = priority;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
 
 }

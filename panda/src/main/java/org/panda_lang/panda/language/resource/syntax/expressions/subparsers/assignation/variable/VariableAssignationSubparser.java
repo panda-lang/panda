@@ -24,7 +24,7 @@ import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
+import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
@@ -40,8 +40,8 @@ import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationPriorities;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationSubparserBootstrap;
 
@@ -54,7 +54,7 @@ public final class VariableAssignationSubparser extends AssignationSubparserBoot
     }
 
     @Override
-    protected Object customHandle(Handler handler, Context context, Channel channel, Snippet source) {
+    protected Object customHandle(Handler handler, Context context, LocalChannel channel, Snippet source) {
         ExpressionParser parser = context.getComponent(Components.EXPRESSION);
 
         try {
@@ -70,7 +70,7 @@ public final class VariableAssignationSubparser extends AssignationSubparserBoot
                 throw new PandaParserFailure(context, source, "Expression is not accessor");
             }
 
-            channel.put("accessor", transaction.getExpression());
+            channel.allocated("accessor", transaction.getExpression());
             return true;
         } catch (Exception e) {
             return e;
@@ -78,7 +78,7 @@ public final class VariableAssignationSubparser extends AssignationSubparserBoot
     }
 
     @Autowired(order = 1)
-    ExpressionResult parse(@Ctx Channel channel, @Ctx Scope block, @Ctx Expression expression, @Int Location location) {
+    ExpressionResult parse(LocalChannel channel, @Ctx Scope block, @Ctx Expression expression, @Channel Location location) {
         Accessor<?> accessor = channel.get("accessor", AccessorExpression.class).getAccessor();
         boolean initialization = block.getFramedScope() instanceof ConstructorScope;
         Assigner<?> assigner = accessor.toAssigner(location, initialization, expression);

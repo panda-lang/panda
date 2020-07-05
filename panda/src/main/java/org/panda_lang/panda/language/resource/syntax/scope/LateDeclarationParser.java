@@ -35,11 +35,11 @@ import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.initializers.CustomPatternInitializer;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_LATE_DECLARATION)
@@ -49,7 +49,7 @@ public final class LateDeclarationParser extends ParserBootstrap<Void> {
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.LATE))
-                .interceptor(new CustomPatternInterceptor())
+                .initializer(new CustomPatternInitializer())
                 .pattern(CustomPattern.of(
                         KeywordElement.create(Keywords.LATE),
                         KeywordElement.create(Keywords.MUT).optional(),
@@ -60,7 +60,7 @@ public final class LateDeclarationParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1)
-    void parse(Context context, @Int Result result, @Ctx Scope scope, @Src("type") Snippetable type, @Src("name") Snippetable name) {
+    void parse(Context context, @Channel Result result, @Ctx Scope scope, @Src("type") Snippetable type, @Src("name") Snippetable name) {
         PandaVariableDataInitializer dataInitializer = new PandaVariableDataInitializer(context, scope);
         VariableData variableData = dataInitializer.createVariableData(type, name, result.has(Keywords.MUT.getValue()), result.has(Keywords.NIL.getValue()));
         scope.createVariable(variableData);

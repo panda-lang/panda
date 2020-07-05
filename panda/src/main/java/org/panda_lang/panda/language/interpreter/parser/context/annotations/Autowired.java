@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.interpreter.parser.context.annotations;
 
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
-import org.panda_lang.panda.language.interpreter.parser.context.data.Delegation;
+import org.panda_lang.panda.language.interpreter.parser.context.Delegation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

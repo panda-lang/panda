@@ -28,11 +28,11 @@ import org.panda_lang.panda.language.interpreter.parser.block.BlockData;
 import org.panda_lang.panda.language.interpreter.parser.block.BlockSubparserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.interceptors.LinearPatternInterceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.initializers.LinearPatternInitializer;
 
 @RegistrableParser(pipeline = PandaPipeline.BLOCK_LABEL)
 public final class WhileParser extends BlockSubparserBootstrap {
@@ -41,12 +41,12 @@ public final class WhileParser extends BlockSubparserBootstrap {
     protected BootstrapInitializer<BlockData> initialize(Context context, BootstrapInitializer<BlockData> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.WHILE))
-                .interceptor(new LinearPatternInterceptor())
+                .initializer(new LinearPatternInitializer())
                 .pattern("while value:*=expression");
     }
 
     @Autowired(order = 1)
-    BlockData parseWhile(Context context, @Ctx Scope parent, @Int Location location, @Src("value") Expression expression) {
+    BlockData parseWhile(Context context, @Ctx Scope parent, @Channel Location location, @Src("value") Expression expression) {
         if (!expression.getType().getAssociatedClass().isAssignableTo(Boolean.class)) {
             throw new PandaParserFailure(context, "Loop requires boolean as an argument");
         }

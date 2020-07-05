@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.interpreter.parser.context.handlers;
 
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
+import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
@@ -41,7 +41,7 @@ public final class CustomPatternHandler implements BootstrapHandler {
     }
 
     @Override
-    public Object handle(Context context, Channel channel, Snippet source) {
+    public Object handle(Context context, LocalChannel channel, Snippet source) {
         return pattern
                 .match(new PandaSourceStream(source), new CustomPatternData().with(UniversalData.CONTEXT, context))
                 .isMatched();

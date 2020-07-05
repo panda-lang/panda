@@ -34,11 +34,11 @@ import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.initializers.CustomPatternInitializer;
 
 @RegistrableParser(pipeline = Pipelines.HEAD_LABEL)
 public final class ModuleParser extends ParserBootstrap<Void> {
@@ -47,7 +47,7 @@ public final class ModuleParser extends ParserBootstrap<Void> {
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.MODULE))
-                .interceptor(new CustomPatternInterceptor())
+                .initializer(new CustomPatternInitializer())
                 .pattern(CustomPattern.of(
                         UnitElement.create("").content(Keywords.MODULE.getValue()),
                         ImportElement.create("module").pandaModule()
@@ -55,7 +55,7 @@ public final class ModuleParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
-    void parse(@Ctx Environment environment, @Ctx Imports imports, @Ctx PandaScript script, @Int Location location, @Src("module") Snippet source) {
+    void parse(@Ctx Environment environment, @Ctx Imports imports, @Ctx PandaScript script, @Channel Location location, @Src("module") Snippet source) {
         if (script.select(ModuleStatement.class).size() > 0) {
             throw new PandaParserException("Script contains more than one declaration of the group");
         }

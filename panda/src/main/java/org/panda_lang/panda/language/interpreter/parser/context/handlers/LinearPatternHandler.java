@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.interpreter.parser.context.handlers;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
+import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.pattern.linear.LinearPattern;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapContent;
@@ -34,7 +34,7 @@ public final class LinearPatternHandler implements BootstrapHandler {
     }
 
     @Override
-    public @Nullable Object handle(Context context, Channel channel, Snippet source) {
+    public @Nullable Object handle(Context context, LocalChannel channel, Snippet source) {
         return null;
     }
 }

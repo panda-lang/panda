@@ -54,12 +54,12 @@ import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.context.data.Delegation;
+import org.panda_lang.panda.language.interpreter.parser.context.Delegation;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.CustomPatternHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.initializers.CustomPatternInitializer;
 import org.panda_lang.utilities.commons.function.PandaStream;
 
 import java.util.Collection;
@@ -67,11 +67,13 @@ import java.util.Collection;
 @RegistrableParser(pipeline = Pipelines.HEAD_LABEL)
 public final class TypeParser extends ParserBootstrap<Void> {
 
+    private static final PipelineParser<?> TYPE_PIPELINE_PARSER = new PipelineParser<>(Pipelines.TYPE);
+
     @Override
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new CustomPatternHandler())
-                .interceptor(new CustomPatternInterceptor())
+                .initializer(new CustomPatternInitializer())
                 .pattern(CustomPattern.of(
                         VariantElement.create("visibility").content(Keywords.PUBLIC, Keywords.SHARED, Keywords.INTERNAL).optional(),
                         VariantElement.create("model").content(Keywords.CLASS, Keywords.TYPE, Keywords.INTERFACE),
@@ -85,7 +87,7 @@ public final class TypeParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 0, cycle = GenerationCycles.TYPES_LABEL)
-    void parse(Context context, @Int Location location, @Int Result result, @Ctx Script script, @Src("model") String model, @Src("name") String name) throws Exception {
+    void parse(Context context, @Channel Location location, @Channel Result result, @Ctx Script script, @Src("model") String model, @Src("name") String name) {
         Visibility visibility = result.has("visibility") ? Visibility.of(result.get("visibility")) : Visibility.INTERNAL;
 
         if (Keywords.TYPE.getValue().equals(model)) {
@@ -122,7 +124,7 @@ public final class TypeParser extends ParserBootstrap<Void> {
 
     @Autowired(order = 2, cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.NEXT_BEFORE)
     Object parseBody(Context context, @Ctx Type type, @Src("body") Snippet body) throws Exception {
-        return new PipelineParser<>(Pipelines.TYPE, new PandaSourceStream(body), context).parse();
+        return TYPE_PIPELINE_PARSER.parse(context, new PandaSourceStream(body));
     }
 
     @Autowired(order = 3, cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)

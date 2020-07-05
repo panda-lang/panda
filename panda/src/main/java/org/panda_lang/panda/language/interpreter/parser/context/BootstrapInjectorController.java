@@ -17,14 +17,13 @@
 package org.panda_lang.panda.language.interpreter.parser.context;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
 import org.panda_lang.framework.language.interpreter.pattern.PatternMapping;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Cache;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.context.data.InterceptorData;
-import org.panda_lang.panda.language.interpreter.parser.context.data.LocalCache;
 import org.panda_lang.utilities.commons.StringUtils;
 import org.panda_lang.utilities.inject.InjectorController;
 import org.panda_lang.utilities.inject.InjectorResources;
@@ -37,35 +36,26 @@ import java.util.Objects;
 final class BootstrapInjectorController implements InjectorController {
 
     private final Context context;
-    private final InterceptorData interceptorData;
-    private final LocalCache cache;
 
-    BootstrapInjectorController(Context context, InterceptorData interceptorData, LocalCache cache) {
+    BootstrapInjectorController(Context context) {
         this.context = context;
-        this.interceptorData = interceptorData;
-        this.cache = cache;
     }
 
     @Override
     public void initialize(InjectorResources resources) {
         resources.on(Context.class).assignInstance(() -> context);
-        resources.on(InterceptorData.class).assignInstance(() -> interceptorData);
-        resources.on(LocalCache.class).assignInstance(() -> cache);
+        resources.on(LocalChannel.class).assignInstance(() -> context.getComponent(Components.CHANNEL));
 
         resources.annotatedWith(Ctx.class).assignHandler((required, annotation, injectorArgs) -> {
             return findComponent(annotation, required);
         });
 
+        resources.annotatedWith(Channel.class).assignHandler((required, annotation, injectorArgs) -> {
+            return findInChannel(annotation, required);
+        });
+
         resources.annotatedWith(Src.class).assignHandler((required, annotation, injectorArgs) -> {
             return findSource(annotation, required);
-        });
-
-        resources.annotatedWith(Cache.class).assignHandler((required, annotation, injectorArgs) -> {
-            return findInCache(annotation, required);
-        });
-
-        resources.annotatedWith(Int.class).assignHandler((required, annotation, injectorArgs) -> {
-            return interceptorData.getValue(required.getType());
         });
     }
 
@@ -88,12 +78,13 @@ final class BootstrapInjectorController implements InjectorController {
     }
 
     private @Nullable Object findSource(Src src, Parameter required) {
-        PatternMapping redactor = interceptorData.getValue(PatternMapping.class);
+        LocalChannel channel = getChannel();
 
-        if (redactor == null) {
-            return new BootstrapException("Pattern mappings are not defined for @Redactor");
+        if (!channel.contains(PatternMapping.class)) {
+            throw new BootstrapException("Pattern mappings are not defined for @Redactor");
         }
 
+        PatternMapping redactor = getChannel().get(PatternMapping.class);
         Object value = redactor.get(src.value());
         Class<?> requiredType = required.getType();
 
@@ -108,14 +99,19 @@ final class BootstrapInjectorController implements InjectorController {
         return value;
     }
 
-    private @Nullable Object findInCache(Cache cacheAnnotation, Parameter required) {
-        String name = cacheAnnotation.value();
+    private @Nullable Object findInChannel(Channel channelAnnotation, Parameter required) {
+        String name = channelAnnotation.value();
+        LocalChannel channel = getChannel();
 
         if (!StringUtils.isEmpty(name)) {
-            return cache.getValue(name);
+            return channel.get(name);
         }
 
-        return cache.getValue(required.getType());
+        return channel.get(required.getType());
+    }
+
+    private LocalChannel getChannel() {
+        return context.getComponent(Components.CHANNEL);
     }
 
 }

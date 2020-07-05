@@ -23,7 +23,7 @@ import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
+import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
@@ -56,7 +56,7 @@ public final class ArrayValueAssignationSubparser extends AssignationSubparserBo
     }
 
     @Override
-    protected Boolean customHandle(Handler handler, Context context, Channel channel, Snippet source) {
+    protected Boolean customHandle(Handler handler, Context context, LocalChannel channel, Snippet source) {
         TokenInfo sectionRepresentation = source.getLast();
 
         if (sectionRepresentation == null || sectionRepresentation.getType() != TokenTypes.SECTION) {
@@ -83,15 +83,15 @@ public final class ArrayValueAssignationSubparser extends AssignationSubparserBo
             return false;
         }
 
-        channel.put("array-instance", expressionTransaction.getExpression());
+        channel.allocated("array-instance", expressionTransaction.getExpression());
         return true;
     }
 
     @Autowired(order = 1)
     ExpressionResult parse(
         Context context,
+        LocalChannel channel,
         @Ctx SourceStream source,
-        @Ctx Channel channel,
         @Ctx AssignationType type,
         @Ctx TokenInfo operator,
         @Ctx(AssignationComponents.EXPRESSION_LABEL) Expression value

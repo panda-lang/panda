@@ -37,7 +37,7 @@ public final class BootstrapInitializer<T> {
     protected int priority;
 
     protected Object pattern;
-    protected BootstrapInterceptor interceptor;
+    protected IterationInitializer initializer;
     protected final Collection<Method> layers = new ArrayList<>();
 
     BootstrapInitializer() { }
@@ -57,8 +57,8 @@ public final class BootstrapInitializer<T> {
         return this;
     }
 
-    public BootstrapInitializer<T> interceptor(BootstrapInterceptor interceptor) {
-        this.interceptor = interceptor;
+    public BootstrapInitializer<T> initializer(IterationInitializer interceptor) {
+        this.initializer = interceptor;
         return this;
     }
 
@@ -99,7 +99,11 @@ public final class BootstrapInitializer<T> {
             throw new BootstrapException("Bootstrap does not contain any layers");
         }
 
-        return new BootstrapGenerator().generate(this, new BootstrapContentImpl(name, instance, context, handler, interceptor, pattern));
+        if (initializer == null) {
+            initializer = (ctx, channel) -> {};
+        }
+
+        return new BootstrapGenerator().generate(this, new BootstrapContentImpl(name, instance, context, handler, initializer, pattern));
     }
 
 }

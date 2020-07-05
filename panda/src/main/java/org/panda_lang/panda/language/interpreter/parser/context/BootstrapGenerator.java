@@ -32,8 +32,7 @@ final class BootstrapGenerator {
                 .sorted(Comparator.comparingInt(BootstrapMethod::getOrder))
                 .collect(Collectors.toList());
 
-        content.getInterceptor()
-                .peek((interceptor -> interceptor.initialize(content)));
+        content.getInitializer().initialize(content);
 
         content.getHandler()
                 .filter(handler -> handler instanceof BootstrapHandler)

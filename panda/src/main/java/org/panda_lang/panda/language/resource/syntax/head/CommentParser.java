@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.resource.syntax.head;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.ContextParser;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
+import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
@@ -30,7 +30,7 @@ import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 public final class CommentParser implements ContextParser<CommentStatement>, Handler {
 
     @Override
-    public Boolean handle(Context context, Channel channel, Snippet source) {
+    public Boolean handle(Context context, LocalChannel channel, Snippet source) {
         return SequencesUtils.isComment(source.getFirst().getToken());
     }
 

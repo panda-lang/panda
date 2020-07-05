@@ -19,6 +19,7 @@ package org.panda_lang.panda.language.resource.syntax.head;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.architecture.Script;
 import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
@@ -29,13 +30,11 @@ import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitial
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Cache;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.context.data.Delegation;
-import org.panda_lang.panda.language.interpreter.parser.context.data.LocalCache;
+import org.panda_lang.panda.language.interpreter.parser.context.Delegation;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.interceptors.LinearPatternInterceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.initializers.LinearPatternInitializer;
 
 @RegistrableParser(pipeline = Pipelines.HEAD_LABEL)
 public final class MainParser extends ParserBootstrap<Void> {
@@ -46,17 +45,17 @@ public final class MainParser extends ParserBootstrap<Void> {
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.MAIN))
-                .interceptor(new LinearPatternInterceptor())
+                .initializer(new LinearPatternInitializer())
                 .pattern("main body:{~}");
     }
 
     @Autowired(order = 1, delegation = Delegation.NEXT_DEFAULT)
-    void createScope(LocalCache cache, @Ctx Script script, @Int Location location) {
-        script.addStatement(cache.allocated(new MainScope(location)));
+    void createScope(LocalChannel channel, @Ctx Script script, @Channel Location location) {
+        script.addStatement(channel.allocated("main", new MainScope(location)));
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_AFTER)
-    void parseScope(Context context, @Cache MainScope main, @Src("body") @Nullable Snippet body) throws Exception {
+    void parseScope(Context context, @Channel MainScope main, @Src("body") @Nullable Snippet body) throws Exception {
         SCOPE_PARSER.parse(context.fork(), main, body);
     }
 

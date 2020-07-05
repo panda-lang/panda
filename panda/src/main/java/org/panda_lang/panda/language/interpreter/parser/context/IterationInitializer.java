@@ -14,27 +14,15 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.interpreter.parser.pipeline;
+package org.panda_lang.panda.language.interpreter.parser.context;
 
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
+import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
 
-import java.util.HashMap;
-import java.util.Map;
+public interface IterationInitializer {
 
-public final class PandaChannel implements Channel {
+    default void initialize(BootstrapContent content) { }
 
-    private final Map<String, Object> map = new HashMap<>(1);
-
-    @Override
-    public Channel put(String identifier, Object value) {
-        map.put(identifier, value);
-        return this;
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T> T get(String identifier, Class<T> type) {
-        return (T) map.get(identifier);
-    }
+    void handle(Context context, LocalChannel channel);
 
 }

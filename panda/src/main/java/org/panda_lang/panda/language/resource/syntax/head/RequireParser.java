@@ -46,7 +46,7 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Auto
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.initializers.CustomPatternInitializer;
 import org.panda_lang.panda.manager.PackageManagerUtils;
 import org.slf4j.event.Level;
 
@@ -61,7 +61,7 @@ public final class RequireParser extends ParserBootstrap<Void> {
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.REQUIRE))
-                .interceptor(new CustomPatternInterceptor())
+                .initializer(new CustomPatternInitializer())
                 .pattern(CustomPattern.of(
                         KeywordElement.create(Keywords.REQUIRE),
                         VariantElement.create("variant").content(

@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.resource.syntax.type;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
+import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.Location;
@@ -32,10 +32,10 @@ import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.context.interceptors.LinearPatternInterceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.initializers.LinearPatternInitializer;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ArgumentsParser;
 
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL)
@@ -46,12 +46,12 @@ public final class SelfConstructorParser extends ParserBootstrap<Void> {
     @Override
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
-                .interceptor(new LinearPatternInterceptor())
+                .initializer(new LinearPatternInitializer())
                 .pattern("this args:(~)");
     }
 
     @Override
-    protected Boolean customHandle(Handler handler, Context context, Channel channel, Snippet source) {
+    protected Boolean customHandle(Handler handler, Context context, LocalChannel channel, Snippet source) {
         if (source.size() < 2) {
             return false;
         }
@@ -64,7 +64,7 @@ public final class SelfConstructorParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1)
-    void parse(Context context, @Ctx Scope parent, @Ctx Type type, @Int Location location, @Src("args") Snippet args) {
+    void parse(Context context, @Ctx Scope parent, @Ctx Type type, @Channel Location location, @Src("args") Snippet args) {
         if (!(parent instanceof ConstructorScope)) {
             throw new PandaParserFailure(context, args, "Cannot use constructor call outside of the constructor");
         }

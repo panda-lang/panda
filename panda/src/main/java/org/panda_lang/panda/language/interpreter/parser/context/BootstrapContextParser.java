@@ -21,8 +21,6 @@ import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
-import org.panda_lang.panda.language.interpreter.parser.context.data.InterceptorData;
-import org.panda_lang.panda.language.interpreter.parser.context.data.LocalCache;
 import org.panda_lang.utilities.commons.StackUtils;
 
 import java.util.List;
@@ -43,10 +41,7 @@ final class BootstrapContextParser<T> implements ContextParser<T> {
         Snippet source = stream.toSnippet();
         int length = stream.getUnreadLength();
 
-        InterceptorData interceptorData = content.getInterceptor()
-                .map(interceptor -> interceptor.handle(new InterceptorData(), context))
-                .orElseGet(InterceptorData::new);
-
+        content.getInitializer().handle(context, context.getComponent(Components.CHANNEL));
         int difference = length - stream.getUnreadLength();
 
         if (difference > 0) {
@@ -54,7 +49,7 @@ final class BootstrapContextParser<T> implements ContextParser<T> {
         }
 
         BootstrapTaskScheduler<T> scheduler = new BootstrapTaskScheduler<>(content, StackUtils.reverse(StackUtils.of(methods)));
-        return scheduler.schedule(context, interceptorData, new LocalCache());
+        return scheduler.schedule(context);
     }
 
 }

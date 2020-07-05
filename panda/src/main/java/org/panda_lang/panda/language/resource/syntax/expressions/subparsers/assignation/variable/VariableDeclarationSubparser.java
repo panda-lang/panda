@@ -25,7 +25,7 @@ import org.panda_lang.framework.design.architecture.statement.VariableData;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
+import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
@@ -40,8 +40,8 @@ import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationPriorities;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationSubparserBootstrap;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationType;
@@ -58,7 +58,7 @@ public final class VariableDeclarationSubparser extends AssignationSubparserBoot
     }
 
     @Override
-    protected Object customHandle(Handler handler, Context context, Channel channel, Snippet source) {
+    protected Object customHandle(Handler handler, Context context, LocalChannel channel, Snippet source) {
         if (source.size() < 2) {
             return false;
         }
@@ -99,19 +99,19 @@ public final class VariableDeclarationSubparser extends AssignationSubparserBoot
             return false;
         }
 
-        channel.put("elements", new Elements(type, name, mutable != Snippet.NOT_FOUND, nillable != Snippet.NOT_FOUND));
+        channel.allocated("elements", new Elements(type, name, mutable != Snippet.NOT_FOUND, nillable != Snippet.NOT_FOUND));
         return true;
     }
 
     @Autowired(order = 1)
     ExpressionResult parse(
         Context context,
+        LocalChannel channel,
         @Ctx Scope scope,
-        @Ctx Channel channel,
         @Ctx Expression expression,
         @Ctx ExpressionContext expressionContext,
         @Ctx AssignationType type,
-        @Int Location location
+        @Channel Location location
     ) {
         Elements elements = channel.get("elements", Elements.class);
         PandaVariableDataInitializer dataInitializer = new PandaVariableDataInitializer(context, scope);

@@ -39,10 +39,10 @@ import org.panda_lang.panda.language.interpreter.parser.block.BlockData;
 import org.panda_lang.panda.language.interpreter.parser.block.BlockSubparserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.initializers.CustomPatternInitializer;
 
 @RegistrableParser(pipeline = PandaPipeline.BLOCK_LABEL)
 public final class ConditionalBlockParser extends BlockSubparserBootstrap {
@@ -51,7 +51,7 @@ public final class ConditionalBlockParser extends BlockSubparserBootstrap {
     protected BootstrapInitializer<BlockData> initialize(Context context, BootstrapInitializer<BlockData> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.IF, Keywords.ELSE))
-                .interceptor(new CustomPatternInterceptor())
+                .initializer(new CustomPatternInitializer())
                 .pattern(CustomPattern.of(
                         VariantElement.create("variant").content(
                                 SubPatternElement.create("else if").of(
@@ -74,8 +74,8 @@ public final class ConditionalBlockParser extends BlockSubparserBootstrap {
         @Ctx Scope parent,
         @Ctx TypeLoader loader,
         @Ctx(BlockComponents.PREVIOUS_BLOCK_LABEL) Block previous,
-        @Int Result result,
-        @Int Location location
+        @Channel Result result,
+        @Channel Location location
     ) {
         Expression condition = result.has("condition") ? result.get("condition") : new PandaExpression(loader.requireType(Boolean.class), true);
         ConditionalBlock conditionalBlock = new ConditionalBlock(parent, location, condition);

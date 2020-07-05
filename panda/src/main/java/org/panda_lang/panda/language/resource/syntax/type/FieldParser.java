@@ -23,6 +23,7 @@ import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.architecture.type.TypeField;
 import org.panda_lang.framework.design.architecture.type.Visibility;
 import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.Location;
@@ -50,12 +51,10 @@ import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Cache;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.context.data.LocalCache;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.CustomPatternHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.initializers.CustomPatternInitializer;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 
 @RegistrableParser(pipeline = Pipelines.TYPE_LABEL, priority = PandaPriorities.PROTOTYPE_FIELD)
@@ -65,7 +64,7 @@ public final class FieldParser extends ParserBootstrap<Void> {
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new CustomPatternHandler())
-                .interceptor(new CustomPatternInterceptor())
+                .initializer(new CustomPatternInitializer())
                 .pattern(CustomPattern.of(
                         VariantElement.create("visibility").content(Keywords.PUBLIC.getValue(), Keywords.SHARED.getValue(), Keywords.INTERNAL.getValue()),
                         KeywordElement.create(Keywords.STATIC).optional(),
@@ -81,7 +80,7 @@ public final class FieldParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
-    void parse(Context context, LocalCache local, @Int Result result, @Int Location location, @Src("type") Snippet typeName, @Src("name") TokenInfo name) {
+    void parse(Context context, LocalChannel channel, @Channel Result result, @Channel Location location, @Src("type") Snippet typeName, @Src("name") TokenInfo name) {
         Type returnType = PandaImportsUtils.getTypeOrThrow(context, typeName.asSource(), typeName);
         Visibility visibility = Visibility.valueOf(result.get("visibility").toString().toUpperCase());
 
@@ -101,11 +100,11 @@ public final class FieldParser extends ParserBootstrap<Void> {
                 .build();
 
         type.getFields().declare(field);
-        local.allocated(field);
+        channel.allocated("field", field);
     }
 
     @Autowired(order = 2, cycle = GenerationCycles.CONTENT_LABEL)
-    void parseAssignation(Context context, @Int Snippet source, @Cache TypeField field, @Src("assignation") @Nullable Expression assignationValue) {
+    void parseAssignation(Context context, @Channel Snippet source, @Channel TypeField field, @Src("assignation") @Nullable Expression assignationValue) {
         if (assignationValue == null) {
             //throw new PandaParserFailure("Cannot parse expression '" + assignationValue + "'", context, name);
             return;

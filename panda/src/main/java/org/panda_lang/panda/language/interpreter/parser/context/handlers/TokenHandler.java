@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.interpreter.parser.context.handlers;
 
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
+import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Token;
@@ -32,7 +32,7 @@ public final class TokenHandler implements Handler {
     }
 
     @Override
-    public Boolean handle(Context context, Channel channel, Snippet source) {
+    public Boolean handle(Context context, LocalChannel channel, Snippet source) {
         return ArrayUtils.contains(tokens, source.getFirst().getToken());
     }
 

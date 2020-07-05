@@ -33,11 +33,11 @@ import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.interceptors.CustomPatternInterceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.initializers.CustomPatternInitializer;
 
 import java.util.Arrays;
 
@@ -48,7 +48,7 @@ public final class LogParser extends ParserBootstrap<Void> {
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.LOG))
-                .interceptor(new CustomPatternInterceptor())
+                .initializer(new CustomPatternInitializer())
                 .pattern(CustomPattern.of(
                         KeywordElement.create(Keywords.LOG),
                         ArgumentsElement.create("arguments")
@@ -56,7 +56,7 @@ public final class LogParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1)
-    void parse(Context context, @Ctx ExpressionParser parser, @Ctx Scope scope, @Int Location location, @Src("arguments") ExpressionTransaction[] transactions) {
+    void parse(Context context, @Ctx ExpressionParser parser, @Ctx Scope scope, @Channel Location location, @Src("arguments") ExpressionTransaction[] transactions) {
         Expression[] expressions = Arrays.stream(transactions)
                 .map(ExpressionTransaction::getExpression)
                 .toArray(Expression[]::new);

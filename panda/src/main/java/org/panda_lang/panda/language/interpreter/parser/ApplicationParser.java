@@ -35,6 +35,7 @@ import org.panda_lang.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.framework.language.interpreter.parser.PandaContext;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.interpreter.parser.generation.PandaGeneration;
+import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaLocalChannel;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PipelineParser;
 import org.panda_lang.framework.language.interpreter.source.PandaSourceSet;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
@@ -76,6 +77,8 @@ public final class ApplicationParser implements Parser {
                 .withComponent(Components.EXPRESSION, resources.getExpressionSubparsers().toParser())
                 .withComponent(Components.SOURCES, sources);
 
+        PipelineParser<?> headParser = new PipelineParser<>(Pipelines.HEAD);
+
         for (Source current : sources) {
             PandaScript script = new PandaScript(current.getId());
             application.addScript(script);
@@ -94,10 +97,10 @@ public final class ApplicationParser implements Parser {
                         .withComponent(Components.IMPORTS, imports)
                         .withComponent(Components.SOURCE, snippet)
                         .withComponent(Components.STREAM, stream)
-                        .withComponent(Components.CURRENT_SOURCE, snippet);
+                        .withComponent(Components.CURRENT_SOURCE, snippet)
+                        .withComponent(Components.CHANNEL, new PandaLocalChannel());
 
-                PipelineParser<?> parser = new PipelineParser<>(Pipelines.HEAD, delegatedContext);
-                interpretation.execute(() -> parser.parse(delegatedContext, true));
+                interpretation.execute(() -> headParser.parse(delegatedContext, stream));
             });
         }
 

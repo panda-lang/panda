@@ -17,7 +17,6 @@
 package org.panda_lang.panda.language.interpreter.parser.context;
 
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.data.Delegation;
 
 import java.lang.reflect.Method;
 

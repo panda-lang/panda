@@ -21,6 +21,7 @@ import org.panda_lang.framework.design.architecture.type.PropertyParameter;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.architecture.type.TypeConstructor;
 import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
@@ -37,13 +38,11 @@ import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitial
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Cache;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.context.data.Delegation;
-import org.panda_lang.panda.language.interpreter.parser.context.data.LocalCache;
+import org.panda_lang.panda.language.interpreter.parser.context.Delegation;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.interceptors.LinearPatternInterceptor;
+import org.panda_lang.panda.language.interpreter.parser.context.initializers.LinearPatternInitializer;
 
 import java.util.List;
 
@@ -57,21 +56,21 @@ public final class ConstructorParser extends ParserBootstrap<Void> {
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.CONSTRUCTOR))
-                .interceptor(new LinearPatternInterceptor())
+                .initializer(new LinearPatternInitializer())
                 .pattern("constructor parameters:(~) body:{~}");
     }
 
     @Autowired(order = 1)
-    void parse(Context context, LocalCache local, @Int Location location, @Ctx TypeScope typeScope, @Src("parameters") @Nullable Snippet parametersSource) {
+    void parse(Context context, LocalChannel channel, @Channel Location location, @Ctx TypeScope typeScope, @Src("parameters") @Nullable Snippet parametersSource) {
         List<PropertyParameter> parameters = PARAMETER_PARSER.parse(context, parametersSource);
-        ConstructorScope constructorScope = local.allocated(new ConstructorScope(location, parameters));
+        ConstructorScope constructorScope = channel.allocated("scope", new ConstructorScope(location, parameters));
 
         Class<?>[] parameterTypes = parameters.stream()
                 .map(PropertyParameter::getType)
                 .map(parameterType -> parameterType.getAssociatedClass().fetchStructure())
                 .toArray(Class[]::new);
 
-        TypeConstructor constructor = local.allocated(PandaConstructor.builder()
+        TypeConstructor constructor = channel.allocated("constructor", PandaConstructor.builder()
                 .type(typeScope.getType())
                 .location(location)
                 .parameters(parameters)
@@ -87,7 +86,7 @@ public final class ConstructorParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
-    void parse(Context context, @Ctx TypeScope typeScope, @Cache ConstructorScope scope, @Cache TypeConstructor constructor, @Int Snippet src, @Src("body") @Nullable Snippet body) throws Exception {
+    void parse(Context context, @Ctx TypeScope typeScope, @Channel ConstructorScope scope, @Channel TypeConstructor constructor, @Channel Snippet src, @Src("body") @Nullable Snippet body) throws Exception {
         SCOPE_PARSER.parse(context, scope, body);
 
         typeScope.getType().getSuperclass()

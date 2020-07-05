@@ -27,15 +27,17 @@ import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 
 public final class ScopeParser implements Parser {
 
-    public Scope parse(Context context, Scope block, Snippet body) throws Exception {
+    private static final PipelineParser<?> SCOPE_PIPELINE_PARSER = new PipelineParser<>(Pipelines.SCOPE);
+
+    public Scope parse(Context context, Scope scope, Snippet body) throws Exception {
+        PandaSourceStream stream = new PandaSourceStream(body);
+
         Context delegatedContext = context.fork()
-                .withComponent(Components.STREAM, new PandaSourceStream(body))
-                .withComponent(Components.SCOPE, block);
+                .withComponent(Components.STREAM, stream)
+                .withComponent(Components.SCOPE, scope);
 
-        PipelineParser<?> pipelineParser = new PipelineParser<>(Pipelines.SCOPE, delegatedContext);
-        pipelineParser.parse(delegatedContext, false);
-
-        return block;
+        SCOPE_PIPELINE_PARSER.parse(delegatedContext, stream);
+        return scope;
     }
 
 }

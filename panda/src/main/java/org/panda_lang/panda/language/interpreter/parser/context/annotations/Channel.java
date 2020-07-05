@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parser.context.annotations;
 
+import org.panda_lang.utilities.commons.StringUtils;
 import org.panda_lang.utilities.inject.annotations.Injectable;
 
 import java.lang.annotation.ElementType;
@@ -26,6 +27,8 @@ import java.lang.annotation.Target;
 @Injectable
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Int {
+public @interface Channel {
+
+    String value() default StringUtils.EMPTY;
 
 }

@@ -22,7 +22,7 @@ import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParserSettings;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
+import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.Location;
@@ -34,8 +34,8 @@ import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Int;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_EXPRESSION)
@@ -54,12 +54,13 @@ public final class StandaloneExpressionParser extends ParserBootstrap<Object> {
     }
 
     @Override
-    protected Object customHandle(Handler handler, Context context, Channel channel, Snippet source) {
+    protected Object customHandle(Handler handler, Context context, LocalChannel channel, Snippet source) {
         SourceStream stream = new PandaSourceStream(source);
 
         try {
-            channel.put("expression", expressionParser.parse(context, stream, SETTINGS).getExpression());
-            channel.put("read", stream.getReadLength());
+            channel.allocated("expression", expressionParser.parse(context, stream, SETTINGS).getExpression());
+            channel.allocated("read", stream.getReadLength());
+            channel.allocated("location", source.getLocation());
             return true;
         } catch (PandaExpressionParserFailure e) {
             return e;
@@ -67,7 +68,7 @@ public final class StandaloneExpressionParser extends ParserBootstrap<Object> {
     }
 
     @Autowired(order = 1)
-    void parseExpression(@Ctx SourceStream source, @Ctx Scope parent, @Ctx Channel channel, @Int Location location) {
+    void parseExpression(@Ctx SourceStream source, @Ctx Scope parent, @Ctx LocalChannel channel, @Channel Location location) {
         StandaloneExpression statement = new StandaloneExpression(source.getCurrent().getLocation(), channel.get("expression", Expression.class));
         parent.addStatement(statement);
         source.read(channel.get("read", int.class));

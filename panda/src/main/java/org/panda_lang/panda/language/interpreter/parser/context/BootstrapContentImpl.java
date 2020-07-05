@@ -27,10 +27,10 @@ final class BootstrapContentImpl implements BootstrapContent {
     private final Object instance;
     private final Context context;
     private final Handler handler;
-    private final BootstrapInterceptor interceptor;
+    private final IterationInitializer interceptor;
     private final Object pattern;
 
-    BootstrapContentImpl(String name, Object instance, Context context, Handler handler, BootstrapInterceptor interceptor, Object pattern) {
+    BootstrapContentImpl(String name, Object instance, Context context, Handler handler, IterationInitializer interceptor, Object pattern) {
         this.name = name;
         this.instance = instance;
         this.context = context;
@@ -40,8 +40,8 @@ final class BootstrapContentImpl implements BootstrapContent {
     }
 
     @Override
-    public Option<BootstrapInterceptor> getInterceptor() {
-        return Option.of(interceptor);
+    public IterationInitializer getInitializer() {
+        return interceptor;
     }
 
     @Override

@@ -26,7 +26,6 @@ import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.design.interpreter.Interpretation;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.framework.design.interpreter.parser.generation.Generation;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.framework.design.interpreter.source.SourceSet;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
@@ -110,7 +109,7 @@ public final class Components {
     /**
      * Represents the channel between handler and parser
      */
-    public static final ContextComponent<Channel> CHANNEL = ContextComponent.of("channel", Channel.class);
+    public static final ContextComponent<LocalChannel> CHANNEL = ContextComponent.of("channel", LocalChannel.class);
 
     /**
      * Represents the current scope

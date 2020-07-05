@@ -30,7 +30,7 @@ import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaChannel;
+import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaLocalChannel;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.framework.language.resource.syntax.operator.OperatorFamilies;
 import org.panda_lang.framework.language.resource.syntax.operator.OperatorUtils;
@@ -90,7 +90,7 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
             }
 
             Context assignationContext = context.fork()
-                    .withComponent(Components.CHANNEL, new PandaChannel())
+                    .withComponent(Components.CHANNEL, new PandaLocalChannel(context.getComponent(Components.CHANNEL)))
                     .withComponent(AssignationComponents.CONTEXT, expressionContext)
                     .withComponent(AssignationComponents.SCOPE, context.getComponent(Components.SCOPE));
 
@@ -120,7 +120,7 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
                 // TODO: Support notes/failures by expression results
                 return ExpressionResult.error(e.getMessage() + (e.hasNote() ? ". Note: " + e.getNote() : ""), expressionSource.getOriginalSource());
             } catch (Exception e) {
-                // e.printStackTrace(); TODO: Improve expression subparser errors
+                e.printStackTrace(); // TODO: Improve expression subparser errors
                 throw new PandaParserFailure(context, token, "Cannot parse assigned expression: " + e.toString());
                 // return ExpressionResult.error("Cannot parse assigned expression - " + e.getMessage(), expressionSource.getOriginalSource());
             }
