@@ -21,7 +21,7 @@ import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Channel;
+import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.HandleResult;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipeline;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
@@ -32,54 +32,32 @@ import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 
 public final class PipelineParser<T extends ContextParser<?>> implements Parser {
 
-    private final Pipeline<T> pipeline;
-    private final SourceStream stream;
-    private final Context context;
+    private final PipelineComponent<T> pipelineComponent;
 
-    public PipelineParser(PipelineComponent<T> component, Context context) {
-        this(context.getComponent(Components.PIPELINE).getPipeline(component), context);
-    }
-
-    public PipelineParser(PipelineComponent<T> component, SourceStream source, Context context) {
-        this(component, context.fork().withComponent(Components.STREAM, source));
-    }
-
-    public PipelineParser(Pipeline<T> pipeline, Context context) {
-        this(pipeline, context.getComponent(Components.STREAM), context);
-    }
-
-    public PipelineParser(Pipeline<T> pipeline, SourceStream stream, Context context) {
-        this.pipeline = pipeline;
-        this.stream = stream;
-        this.context = context;
-    }
-
-    public boolean parse() throws Exception {
-        if (context == null) {
-            throw new IllegalArgumentException("Cannot parse pipeline without context");
-        }
-
-        return parse(context, false);
+    public PipelineParser(PipelineComponent<T> component) {
+        this.pipelineComponent = component;
     }
 
     /**
      * Parse source using the declared pipeline
      *
      * @param context the context to use
-     * @param fork if true, context will be forked for each subparser
+     * @param stream the stream to parse
      * @return returns always null
      * @throws Exception if something happen in subparser
      */
-    public boolean parse(Context context, boolean fork) throws Exception {
+    public boolean parse(Context context, SourceStream stream) throws Exception {
         Interpretation interpretation = context.getComponent(Components.INTERPRETATION);
+        Pipeline<T> pipeline = context.getComponent(Components.PIPELINE).getPipeline(pipelineComponent);
 
         while (stream.hasUnreadSource() && interpretation.isHealthy()) {
-            Channel channel = new PandaChannel();
+            LocalChannel channel = new PandaLocalChannel();
             Snippet source = stream.toSnippet();
 
-            Context delegatedContext = (fork ? context.fork() : context)
+            Context delegatedContext = context.fork()
                     .withComponent(Components.CURRENT_SOURCE, source)
-                    .withComponent(Components.CHANNEL, channel);
+                    .withComponent(Components.CHANNEL, channel)
+                    .withComponent(Components.STREAM, stream);
 
             HandleResult<T> result = pipeline.handle(context, channel, source);
 
