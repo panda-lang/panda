@@ -27,6 +27,11 @@ class CurrentTestExampleTest {
     }
 
     @Test
+    void literalMethod() {
+        ExamplesLauncher.launch("tests", "literal_methods.panda");
+    }
+
+    @Test
     void testCurrentTest() {
         for (int i = 0; i < 1; i++) {
             ExamplesLauncher.launch("tests", "current_test.panda");

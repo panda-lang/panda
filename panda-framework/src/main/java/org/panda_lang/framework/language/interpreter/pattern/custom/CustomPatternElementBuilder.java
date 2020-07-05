@@ -34,8 +34,8 @@ public abstract class CustomPatternElementBuilder<T, B extends Buildable<T>> imp
     }
 
     @Override
-    public CustomPatternElement build() {
-        return new CustomPatternElement(this);
+    public CustomPatternElement<T> build() {
+        return new CustomPatternElement<>(this);
     }
 
     public B optional() {

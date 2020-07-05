@@ -25,15 +25,21 @@ import java.util.Map;
 
 public final class TokenTypeVerifier implements CustomVerify<TokenInfo> {
 
-    private final TokenType type;
+    private final TokenType[] types;
 
-    public TokenTypeVerifier(TokenType type) {
-        this.type = type;
+    public TokenTypeVerifier(TokenType... types) {
+        this.types = types;
     }
 
     @Override
     public boolean verify(Map<String, Object> results, SynchronizedSource source, TokenInfo content) {
-        return content.getType() == type;
+        for (TokenType type : types) {
+            if (content.getType() == type) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

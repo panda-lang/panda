@@ -47,17 +47,17 @@ class CustomPatternTest {
         CustomPattern customPattern = CustomPattern.of(
                 VariantElement.create("visibility").content("public", "shared", "internal"),
                 UnitElement.create("isStatic").content("static").optional(),
-                TypeElement.create("type").optional().verify(new NextTokenTypeVerifier(TokenTypes.UNKNOWN)),
-                WildcardElement.create("name").verify(new TokenTypeVerifier(TokenTypes.UNKNOWN)),
+                TypeElement.create("type").optional().verify(new NextTokenTypeVerifier(TokenTypes.UNKNOWN, TokenTypes.SEQUENCE)),
+                WildcardElement.create("name").verify(new TokenTypeVerifier(TokenTypes.UNKNOWN, TokenTypes.SEQUENCE)),
                 SectionElement.create("parameters"),
                 SectionElement.create("body")
         );
 
-        Snippet source = convert("shared static String[] of(String a, Int[] b) { /* content */ } another content");
+        Snippet source = convert("shared static String[] 'of'(String a, Int[] b) { /* content */ } another content");
         Result result = customPattern.match(source);
 
         Assertions.assertTrue(result.isMatched());
-        Assertions.assertEquals(convert("shared static String[] of(String a, Int[] b) { /* content */ }"), result.getSource());
+        Assertions.assertEquals(convert("shared static String[] 'of'(String a, Int[] b) { /* content */ }"), result.getSource());
 
         Assertions.assertAll(
                 () -> Assertions.assertEquals("shared", result.get("visibility").toString()),
@@ -79,7 +79,7 @@ class CustomPatternTest {
                 KeywordElement.create(Keywords.STATIC).optional(),
                 KeywordElement.create(Keywords.MUT).optional(),
                 KeywordElement.create(Keywords.NIL).optional(),
-                TypeElement.create("type").optional().verify(new NextTokenTypeVerifier(TokenTypes.UNKNOWN)),
+                TypeElement.create("type").verify(new NextTokenTypeVerifier(TokenTypes.UNKNOWN)),
                 WildcardElement.create("name").verify(new TokenTypeVerifier(TokenTypes.UNKNOWN)),
                 SubPatternElement.create("assign").optional().of(
                         UnitElement.create("operator").content("="),

@@ -80,8 +80,8 @@ public final class MethodParser extends ParserBootstrap<Void> {
                         KeywordElement.create(Keywords.OVERRIDE).optional(),
                         VariantElement.create("visibility").optional().content("public", "shared", "internal").map(value -> Visibility.valueOf(value.toString().toUpperCase())),
                         UnitElement.create("static").content("static").optional(),
-                        TypeElement.create("type").optional().verify(new NextTokenTypeVerifier(TokenTypes.UNKNOWN)),
-                        WildcardElement.create("name").verify(new TokenTypeVerifier(TokenTypes.UNKNOWN)),
+                        TypeElement.create("type").optional().verify(new NextTokenTypeVerifier(TokenTypes.UNKNOWN, TokenTypes.SEQUENCE)),
+                        WildcardElement.create("name").verify(new TokenTypeVerifier(TokenTypes.UNKNOWN, TokenTypes.SEQUENCE)),
                         SectionElement.create("parameters"),
                         SectionElement.create("body").optional()
                 ));

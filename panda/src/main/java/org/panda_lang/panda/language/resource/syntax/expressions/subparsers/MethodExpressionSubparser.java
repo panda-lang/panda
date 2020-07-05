@@ -76,8 +76,8 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
         public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo nameToken) {
             SynchronizedSource source = context.getSynchronizedSource();
 
-            // name has to be declared by unknown type of token
-            if (nameToken.getType() != TokenTypes.UNKNOWN || !source.hasNext()) {
+            // name has to be declared by unknown or sequence token
+            if ((nameToken.getType() != TokenTypes.UNKNOWN) && (nameToken.getType() != TokenTypes.SEQUENCE) || !source.hasNext()) {
                 return null;
             }
 

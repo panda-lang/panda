@@ -70,7 +70,7 @@ public final class FieldParser extends ParserBootstrap<Void> {
                         KeywordElement.create(Keywords.STATIC).optional(),
                         KeywordElement.create(Keywords.MUT).optional(),
                         KeywordElement.create(Keywords.NIL).optional(),
-                        TypeElement.create("type").optional().verify(new NextTokenTypeVerifier(TokenTypes.UNKNOWN)),
+                        TypeElement.create("type").verify(new NextTokenTypeVerifier(TokenTypes.UNKNOWN)),
                         WildcardElement.create("name").verify(new TokenTypeVerifier(TokenTypes.UNKNOWN)),
                         SubPatternElement.create("assign").optional().of(
                                 UnitElement.create("operator").content("="),

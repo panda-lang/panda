@@ -40,7 +40,7 @@ main {
     // hexagonal number
     log 0x5A, 0x5F // expected: 90, 95
     // int overflow
-    log Int.MAX_VALUE + 1
+    log Int.MAX_VALUE + 10_000_001
 
     // assign integer in hex format to the i variable
     Int i = 0x000001
@@ -249,6 +249,11 @@ internal class Test {
 
     shared echo(Object message3) {
         log message3
+    }
+
+    // method with string based name
+    shared Bool 'should return true' () {
+        return true
     }
 
     // get test instance

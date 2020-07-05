@@ -18,6 +18,6 @@ package org.panda_lang.framework.language.interpreter.pattern.custom;
 
 public interface Buildable<T> {
 
-    CustomPatternElement build();
+    CustomPatternElement<?> build();
 
 }

@@ -1,0 +1,13 @@
+module tests
+
+main {
+    log LiteralMethod.'should return true'()
+}
+
+type LiteralMethod {
+
+    shared static Bool 'should return true' () {
+        return true
+    }
+
+}

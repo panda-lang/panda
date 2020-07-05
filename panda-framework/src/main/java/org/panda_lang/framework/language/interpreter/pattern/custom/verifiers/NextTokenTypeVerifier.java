@@ -25,15 +25,27 @@ import java.util.Map;
 
 public final class NextTokenTypeVerifier implements CustomVerify<Snippetable> {
 
-    private final TokenType type;
+    private final TokenType[] types;
 
-    public NextTokenTypeVerifier(TokenType type) {
-        this.type = type;
+    public NextTokenTypeVerifier(TokenType... types) {
+        this.types = types;
     }
 
     @Override
     public boolean verify(Map<String, Object> results, SynchronizedSource source, Snippetable content) {
-        return source.hasNext() && source.getNext().getType() == type;
+        if (!source.hasNext()) {
+            return false;
+        }
+
+        TokenType next = source.getNext().getType();
+
+        for (TokenType type : types) {
+            if (type == next) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

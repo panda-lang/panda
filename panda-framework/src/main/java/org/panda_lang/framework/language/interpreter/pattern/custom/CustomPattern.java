@@ -27,9 +27,9 @@ import java.util.stream.Collectors;
 
 public final class CustomPattern {
 
-    private final List<? extends CustomPatternElement> elements;
+    private final List<? extends CustomPatternElement<?>> elements;
 
-    private CustomPattern(List<? extends CustomPatternElement> elements) {
+    private CustomPattern(List<? extends CustomPatternElement<?>> elements) {
         this.elements = elements;
     }
 
@@ -50,7 +50,7 @@ public final class CustomPattern {
         return matcher.match(source);
     }
 
-    protected List<? extends CustomPatternElement> getElements() {
+    protected List<? extends CustomPatternElement<?>> getElements() {
         return elements;
     }
 
