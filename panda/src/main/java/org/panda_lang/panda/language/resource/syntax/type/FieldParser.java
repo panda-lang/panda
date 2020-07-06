@@ -72,10 +72,10 @@ public final class FieldParser extends ParserBootstrap<Void> {
                         KeywordElement.create(Keywords.NIL).optional(),
                         TypeElement.create("type").verify(new NextTokenTypeVerifier(TokenTypes.UNKNOWN)),
                         WildcardElement.create("name").verify(new TokenTypeVerifier(TokenTypes.UNKNOWN)),
-                        SubPatternElement.create("assign").optional().of(
+                        SubPatternElement.create("assign").of(
                                 UnitElement.create("operator").content("="),
                                 ExpressionElement.create("assignation").map(ExpressionTransaction::getExpression)
-                        )
+                        ).optional()
                 ));
     }
 

@@ -17,7 +17,7 @@ class Methods {
         log count
     }
 
-    shared Int count(Int count) {
+    shared count(Int count) -> Int {
         return count
     }
 

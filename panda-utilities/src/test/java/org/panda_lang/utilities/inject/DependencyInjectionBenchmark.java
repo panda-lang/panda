@@ -25,7 +25,7 @@ import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Warmup;
-import org.panda_lang.utilities.BenchmarkUtils;
+import org.panda_lang.utilities.BenchmarkRunner;
 import org.panda_lang.utilities.commons.ReflectionUtils;
 import org.panda_lang.utilities.inject.annotations.Inject;
 
@@ -68,7 +68,7 @@ public class DependencyInjectionBenchmark {
     }
 
     public static void main(String[] args) throws Exception {
-        BenchmarkUtils.run(DependencyInjectionBenchmark.class);
+        BenchmarkRunner.run(DependencyInjectionBenchmark.class);
     }
 
 }

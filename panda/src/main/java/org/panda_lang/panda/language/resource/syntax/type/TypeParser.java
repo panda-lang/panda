@@ -50,6 +50,7 @@ import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.To
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
@@ -82,7 +83,7 @@ public final class TypeParser extends ParserBootstrap<Void> {
                                 UnitElement.create("extends").content(":"),
                                 CustomElement.create("inherited").custom((data, source) -> TypeParserUtils.readTypes(source))
                         ),
-                        SectionElement.create("body")
+                        SectionElement.create("body", Separators.BRACE_LEFT)
                 ));
     }
 

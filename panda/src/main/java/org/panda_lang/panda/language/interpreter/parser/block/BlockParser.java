@@ -61,7 +61,7 @@ public final class BlockParser extends ParserBootstrap<Void> {
                 .initializer(new CustomPatternInitializer())
                 .pattern(CustomPattern.of(
                         ContentBeforeElement.create("declaration").before(Separators.BRACE_LEFT),
-                        SectionElement.create("body")
+                        SectionElement.create("body", Separators.BRACE_LEFT)
                 ));
     }
 

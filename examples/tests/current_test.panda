@@ -180,29 +180,29 @@ main {
 shared interface IEcho {
 
     // yes, we require implementation of static method
-    shared static anotherEcho(String doSth)
+    shared static anotherEcho (String doSth)
 
     // standard method to impl
-    internal test()
+    internal test ()
 
 }
 
 // simple class that extends class Test and implements interface IEcho
 shared class Foo : Test, IEcho {
 
-    constructor() {
+    constructor () {
         base('We need to call base constructor if we extend another type with custom constructor')
     }
 
     // we need to mark overridden methods by the keyword
-    override static anotherEcho(String message1) {
+    override static anotherEcho (String message1) {
         log message1
     }
 
     // we need to impl all methods
-    override test() { }
+    override test () { }
 
-    override String toString() {
+    override toString () -> String {
         return 'Foo'
     }
 
@@ -213,12 +213,12 @@ internal class Entity {
 
     internal String name
 
-    constructor(String name) {
+    constructor (String name) {
         this.name = name
     }
 
     // override native equals and name-based equality
-    override PrimitiveBool equals(Object obj) {
+    override equals (Object obj) -> PrimitiveBool {
         return obj is Entity && name == (obj as Entity).name
     }
 
@@ -238,7 +238,7 @@ internal class Test {
     internal String message2
 
     // constructor prints random message and assigns itself to testField field
-    constructor(String message2) {
+    constructor (String message2) {
         log message2
         this.testField = this
         this.message2 = message2
@@ -247,17 +247,17 @@ internal class Test {
     // static field that creates instance of the current class
     public static Test TEST = new Test('Static initialization of class instance')
 
-    shared echo(Object message3) {
+    shared echo (Object message3) {
         log message3
     }
 
     // method with string based name
-    shared Bool 'should return true' () {
+    shared 'should return true' () -> Bool {
         return true
     }
 
     // get test instance
-    shared Test getTestField() {
+    shared getTestField () -> Test {
         if true {
             return this.testField
         }
@@ -266,7 +266,7 @@ internal class Test {
         }
     }
 
-    override String toString() {
+    override toString () -> String {
         return 'Custom toString() in Test type #' + Int.toHexString(System.identityHashCode(this))
     }
 
@@ -279,12 +279,12 @@ internal class TestArray {
     shared String[] array
 
     // create TestArray and define array size
-    constructor(Int size) {
+    constructor (Int size) {
         this.array = new String[size]
     }
 
     // modify some values in array
-    shared modify(Test test) {
+    shared modify (Test test) {
         this.getArray()[Test.INDEX] = "Hello Array"
         array[6] = String.valueOf(this)
 
@@ -292,12 +292,12 @@ internal class TestArray {
         varargs(array)
     }
 
-    shared varargs(nil mut String... varargs) {
+    shared varargs (nil mut String... varargs) {
         log varargs.asString()
     }
 
     // get array
-    internal String[] getArray() {
+    internal getArray() -> String[] {
         return array
     }
 
@@ -305,11 +305,11 @@ internal class TestArray {
 
 internal class CustomThread : Thread {
 
-    constructor() {
+    constructor () {
         base('CustomThread')
     }
 
-    override run() {
+    override run () {
         log 'Called in ' + Thread.currentThread().getName()
     }
 

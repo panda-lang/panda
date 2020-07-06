@@ -19,17 +19,17 @@ package org.panda_lang.framework.language.interpreter.pattern.custom.elements;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.pattern.custom.Buildable;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPatternElementBuilder;
-import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.TokenTypeVerifier;
-import org.panda_lang.framework.language.resource.syntax.TokenTypes;
+import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.SectionVerifier;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
+import org.panda_lang.framework.language.resource.syntax.separator.Separator;
 
 public final class SectionElement {
 
     private SectionElement() { }
 
-    public static CustomPatternElementBuilder<?, ? extends Buildable<Snippet>> create(String id) {
+    public static CustomPatternElementBuilder<?, ? extends Buildable<Snippet>> create(String id, Separator separator) {
         return WildcardElement.create(id)
-                .verify(new TokenTypeVerifier(TokenTypes.SECTION))
+                .verify(new SectionVerifier(separator))
                 .map(snippetable -> snippetable.toSnippet().getFirst().toToken(Section.class).getContent());
     }
 

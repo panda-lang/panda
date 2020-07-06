@@ -6,7 +6,7 @@ main {
 
 type LiteralMethod {
 
-    shared static Bool 'should return true' () {
+    shared static 'should return true' () -> Bool {
         return true
     }
 

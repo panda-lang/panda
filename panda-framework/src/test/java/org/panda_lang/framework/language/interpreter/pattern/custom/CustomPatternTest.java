@@ -37,6 +37,7 @@ import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.Ne
 import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.TokenTypeVerifier;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 
 import java.util.Collections;
 
@@ -49,8 +50,8 @@ class CustomPatternTest {
                 UnitElement.create("isStatic").content("static").optional(),
                 TypeElement.create("type").optional().verify(new NextTokenTypeVerifier(TokenTypes.UNKNOWN, TokenTypes.SEQUENCE)),
                 WildcardElement.create("name").verify(new TokenTypeVerifier(TokenTypes.UNKNOWN, TokenTypes.SEQUENCE)),
-                SectionElement.create("parameters"),
-                SectionElement.create("body")
+                SectionElement.create("parameters", Separators.PARENTHESIS_LEFT),
+                SectionElement.create("body", Separators.BRACE_LEFT)
         );
 
         Snippet source = convert("shared static String[] 'of'(String a, Int[] b) { /* content */ } another content");
@@ -97,7 +98,7 @@ class CustomPatternTest {
                 VariantElement.create("variant").content(
                         SubPatternElement.create("with-condition").of(
                                 VariantElement.create("type").content("if", "else if"),
-                                SectionElement.create("section")
+                                SectionElement.create("section", Separators.PARENTHESIS_LEFT)
                         ),
                         KeywordElement.create(Keywords.ELSE)
                 )

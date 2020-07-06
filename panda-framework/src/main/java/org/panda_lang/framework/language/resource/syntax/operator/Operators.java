@@ -28,6 +28,10 @@ import static org.panda_lang.utilities.commons.collection.Lists.add;
  */
 public final class Operators {
 
+    /*
+        Math
+     */
+
     private static final Collection<Operator> VALUES = new ArrayList<>();
 
     public static final Operator ADDITION = add(VALUES, new Operator(OperatorFamilies.MATH, "+"));
@@ -40,6 +44,9 @@ public final class Operators {
 
     public static final Operator MODULE = add(VALUES, new Operator(OperatorFamilies.MATH, "%"));
 
+    /*
+        Logic
+     */
 
     public static final Operator BITWISE_NOT = add(VALUES, new Operator(OperatorFamilies.MATH, "~"));
 
@@ -53,6 +60,9 @@ public final class Operators {
 
     public static final Operator BITWISE_RIGHT_SHIFT = add(VALUES, new Operator(OperatorFamilies.MATH, ">>"));
 
+    /*
+        Logical
+     */
 
     public static final Operator EQUAL_TO = add(VALUES, new Operator(OperatorFamilies.LOGICAL, "=="));
 
@@ -72,11 +82,17 @@ public final class Operators {
 
     public static final Operator NOT = add(VALUES, new Operator(OperatorFamilies.LOGICAL, "!"));
 
+    /*
+        Crease
+     */
 
     public static final Operator INCREMENT = add(VALUES, new Operator(OperatorFamilies.CREASE, "++"));
 
     public static final Operator DECREMENT = add(VALUES, new Operator(OperatorFamilies.CREASE, "--"));
 
+    /*
+        Assignation
+     */
 
     public static final Operator ASSIGNMENT = add(VALUES, new Operator(OperatorFamilies.ASSIGNATION, "="));
 
@@ -90,11 +106,17 @@ public final class Operators {
 
     public static final Operator REMAINDER_ASSIGNMENT = add(VALUES, new Operator(OperatorFamilies.ASSIGNATION, "%="));
 
+    /*
+        Undefined
+     */
 
     public static final Operator EROTEME = add(VALUES, new Operator(OperatorFamilies.UNDEFINED, "?"));
 
     public static final Operator COLON = add(VALUES, new Operator(OperatorFamilies.UNDEFINED, ":"));
 
+    public static final Operator ARROW = add(VALUES, new Operator(OperatorFamilies.UNDEFINED, "->"));
+
+    public static final Operator LAMBDA = add(VALUES, new Operator(OperatorFamilies.UNDEFINED, "=>"));
 
     private Operators() { }
 

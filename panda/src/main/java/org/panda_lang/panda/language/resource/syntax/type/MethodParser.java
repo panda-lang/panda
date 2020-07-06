@@ -40,23 +40,26 @@ import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPatter
 import org.panda_lang.framework.language.interpreter.pattern.custom.Result;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.KeywordElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.SectionElement;
+import org.panda_lang.framework.language.interpreter.pattern.custom.elements.SubPatternElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.TypeElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.UnitElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.VariantElement;
 import org.panda_lang.framework.language.interpreter.pattern.custom.elements.WildcardElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.NextTokenTypeVerifier;
+import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.NextSectionVerifier;
 import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.TokenTypeVerifier;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.framework.language.resource.syntax.operator.Operators;
+import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
+import org.panda_lang.panda.language.interpreter.parser.context.Delegation;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.context.Delegation;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.CustomPatternHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.initializers.CustomPatternInitializer;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
@@ -80,10 +83,13 @@ public final class MethodParser extends ParserBootstrap<Void> {
                         KeywordElement.create(Keywords.OVERRIDE).optional(),
                         VariantElement.create("visibility").optional().content("public", "shared", "internal").map(value -> Visibility.valueOf(value.toString().toUpperCase())),
                         UnitElement.create("static").content("static").optional(),
-                        TypeElement.create("type").optional().verify(new NextTokenTypeVerifier(TokenTypes.UNKNOWN, TokenTypes.SEQUENCE)),
                         WildcardElement.create("name").verify(new TokenTypeVerifier(TokenTypes.UNKNOWN, TokenTypes.SEQUENCE)),
-                        SectionElement.create("parameters"),
-                        SectionElement.create("body").optional()
+                        SectionElement.create("parameters", Separators.PARENTHESIS_LEFT),
+                        SubPatternElement.create("return-type").of(
+                                UnitElement.create("arrow").content(Operators.ARROW.getValue()),
+                                TypeElement.create("type").verify(new NextSectionVerifier(Separators.BRACE_LEFT))
+                        ).optional(),
+                        SectionElement.create("body", Separators.BRACE_LEFT).optional()
                 ));
     }
 

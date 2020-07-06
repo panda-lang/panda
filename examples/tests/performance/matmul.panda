@@ -32,7 +32,7 @@ module performance
 
 internal class Matmul {
 
-    internal Double[][] matgen(Int n) {
+    internal matgen(Int n) -> Double[][] {
         Double[][] a = new Double[n][n]
         Double tmp = 1.0 / n / n
 
@@ -45,7 +45,7 @@ internal class Matmul {
         return a
     }
 
-    internal Double[][] matmul(Double[][] a, Double[][] b) {
+    internal matmul(Double[][] a, Double[][] b) -> Double[][] {
         Int m = a.size()
         Int n = a[0].size()
         Int p = b[0].size()
