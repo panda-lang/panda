@@ -39,9 +39,25 @@ import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 class CustomPatternTest {
+
+    private static final Snippet SINGLE_KEYWORD = PandaLexerUtils.convert("PatternBenchmark", "while");
+    private static final CustomPattern SINGLE_KEYWORD_CUSTOM = CustomPattern.of(KeywordElement.create(Keywords.WHILE));
+
+    public static void main(String... args) {
+        List<Result> results = new ArrayList<>(100_000_000);
+
+        for (int i = 0; i < 100_000_000; i++) {
+            Result result = SINGLE_KEYWORD_CUSTOM.match(SINGLE_KEYWORD);
+            results.add(result);
+        }
+
+        System.out.println(results);
+    }
 
     @Test
     void method() {
@@ -61,12 +77,12 @@ class CustomPatternTest {
         Assertions.assertEquals(convert("shared static String[] 'of'(String a, Int[] b) { /* content */ }"), result.getSource());
 
         Assertions.assertAll(
-                () -> Assertions.assertEquals("shared", result.get("visibility").toString()),
+                () -> Assertions.assertEquals("shared", result.get("visibility").get().toString()),
                 () -> Assertions.assertTrue(result.has("isStatic")),
-                () -> Assertions.assertEquals("String [  ]", result.get("type").toString()),
-                () -> Assertions.assertEquals("of", result.get("name").toString()),
-                () -> Assertions.assertEquals("String a , Int [  ] b", result.get("parameters").toString()),
-                () -> Assertions.assertEquals("/* content */", result.get("body").toString())
+                () -> Assertions.assertEquals("String [  ]", result.get("type").get().toString()),
+                () -> Assertions.assertEquals("of", result.get("name").get().toString()),
+                () -> Assertions.assertEquals("String a , Int [  ] b", result.get("parameters").get().toString()),
+                () -> Assertions.assertEquals("/* content */", result.get("body").get().toString())
         );
     }
 

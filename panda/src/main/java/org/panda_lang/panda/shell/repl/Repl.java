@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.shell.repl;
 
-import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.architecture.dynamic.Frame;
 import org.panda_lang.framework.design.architecture.expression.Expression;
@@ -31,6 +30,7 @@ import org.panda_lang.framework.design.runtime.Process;
 import org.panda_lang.framework.design.runtime.ProcessStack;
 import org.panda_lang.framework.design.runtime.Result;
 import org.panda_lang.framework.language.interpreter.lexer.PandaLexerUtils;
+import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaLocalChannel;
 import org.panda_lang.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.framework.language.interpreter.token.PandaLocation;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
@@ -38,6 +38,7 @@ import org.panda_lang.framework.language.runtime.PandaProcessFailure;
 import org.panda_lang.framework.language.runtime.PandaProcessStack;
 import org.panda_lang.framework.language.runtime.PandaRuntimeConstants;
 import org.panda_lang.panda.shell.repl.ReplResult.Type;
+import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.ThrowingFunction;
 
 import java.util.ArrayList;
@@ -173,6 +174,7 @@ public final class Repl {
 
     private ReplResult evaluateExpression(Snippet expressionSource) {
         context.withComponent(Components.CURRENT_SOURCE, expressionSource);
+        context.withComponent(Components.CHANNEL, new PandaLocalChannel());
         Expression expression;
 
         try {

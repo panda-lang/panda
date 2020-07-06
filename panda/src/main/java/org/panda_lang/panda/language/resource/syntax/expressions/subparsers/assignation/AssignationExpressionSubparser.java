@@ -89,8 +89,11 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
                 return null;
             }
 
+            PandaLocalChannel channel = new PandaLocalChannel(context.getComponent(Components.CHANNEL));
+            channel.override("location", declaration.getLocation());
+
             Context assignationContext = context.fork()
-                    .withComponent(Components.CHANNEL, new PandaLocalChannel(context.getComponent(Components.CHANNEL)))
+                    .withComponent(Components.CHANNEL, channel)
                     .withComponent(AssignationComponents.CONTEXT, expressionContext)
                     .withComponent(AssignationComponents.SCOPE, context.getComponent(Components.SCOPE));
 
