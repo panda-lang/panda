@@ -32,6 +32,8 @@ public final class Sequences {
 
     public static final Sequence RAW_STRING = add(VALUES, new Sequence("String", "'"));
 
+    public static final Sequence LANG_STRING = add(VALUES, new Sequence("String", "`"));
+
     public static final Sequence LINE_ORIENTED_COMMENT = add(VALUES, new Sequence("Comment", "//", "\n"));
 
     public static final Sequence BLOCK_ORIENTED_COMMENT = add(VALUES, new Sequence("Comment", "/*", "*/"));

@@ -16,7 +16,7 @@ import java.lang.Thread
 // main statement is called when the script is launched
 main {
     // create Test instance, then call its method and finally print content of testField
-    Test test = new Test('"Constructor"')
+    Test test = new Test(`'"Constructor"'`)
     test.echo("Method echo")
     log test.getTestField().testField
 
