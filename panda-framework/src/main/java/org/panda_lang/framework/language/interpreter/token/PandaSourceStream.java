@@ -88,6 +88,11 @@ public final class PandaSourceStream implements SourceStream {
     }
 
     @Override
+    public int getUnreadLength() {
+        return original.size() - index;
+    }
+
+    @Override
     public TokenInfo getCurrent() {
         return original.get(index);
     }

@@ -37,7 +37,7 @@ final class CustomPatternMatcher {
     }
 
     public Result match(SourceStream source) {
-        Map<String, Object> results = new HashMap<>((int) (pattern.getElements().size() * 1.5));
+        Map<String, Object> results = new HashMap<>((pattern.getElements().size() * 2));
         SynchronizedSource synchronizedSource = new SynchronizedSource(source.toSnippet());
 
         for (CustomPatternElement<?> element : pattern.getElements()) {
