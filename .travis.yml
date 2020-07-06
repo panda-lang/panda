@@ -3,7 +3,6 @@ sudo: true
 
 jdk:
   - openjdk8
-  - openjdk12
 
 install:
   - mvn test-compile -DskipTests=true -Dmaven.javadoc.skip=true -B -V
