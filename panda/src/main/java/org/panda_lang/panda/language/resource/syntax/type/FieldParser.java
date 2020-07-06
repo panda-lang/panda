@@ -82,7 +82,7 @@ public final class FieldParser extends ParserBootstrap<Void> {
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
     void parse(Context context, LocalChannel channel, @Channel Result result, @Channel Location location, @Src("type") Snippet typeName, @Src("name") TokenInfo name) {
         Type returnType = PandaImportsUtils.getTypeOrThrow(context, typeName.asSource(), typeName);
-        Visibility visibility = Visibility.valueOf(result.get("visibility").toString().toUpperCase());
+        Visibility visibility = Visibility.valueOf(result.get("visibility").get().toString().toUpperCase());
 
         Type type = context.getComponent(TypeComponents.PROTOTYPE);
         int fieldIndex = type.getFields().getDeclaredProperties().size();

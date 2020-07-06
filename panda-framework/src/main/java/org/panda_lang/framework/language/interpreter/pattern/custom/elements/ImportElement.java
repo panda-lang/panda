@@ -36,7 +36,7 @@ public final class ImportElement extends CustomPatternElementBuilder<Snippetable
         super(id);
 
         super.custom((data, source) -> {
-            Snippet importSource = new PandaSnippet();
+            Snippet importSource = PandaSnippet.createMutable();
 
             while (source.hasNext()) {
                 TokenInfo next = source.getNext();
@@ -45,7 +45,7 @@ public final class ImportElement extends CustomPatternElementBuilder<Snippetable
                     break;
                 }
 
-                importSource.addToken(source.next());
+                importSource.append(source.next());
             }
 
             return importSource.isEmpty() ? null : importSource;

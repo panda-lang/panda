@@ -21,8 +21,11 @@ import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.utilities.commons.ObjectUtils;
+import org.panda_lang.utilities.commons.collection.Pair;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -37,7 +40,7 @@ final class CustomPatternMatcher {
     }
 
     public Result match(SourceStream source) {
-        Map<String, Object> results = new HashMap<>((pattern.getElements().size() * 2));
+        List<Pair<String, Object>> results = new ArrayList<>((pattern.getElements().size() * 2));
         SynchronizedSource synchronizedSource = new SynchronizedSource(source.toSnippet());
 
         for (CustomPatternElement<?> element : pattern.getElements()) {
@@ -87,11 +90,11 @@ final class CustomPatternMatcher {
             }
 
             if (result instanceof Result) {
-                results.putAll(((Result) result).results);
+                results.addAll(((Result) result).results);
             }
 
             // save result
-            results.put(element.getId(), result);
+            results.add(new Pair<>(element.getId(), result));
         }
 
         return new Result(source.read(synchronizedSource.getIndex()), results);
@@ -106,7 +109,7 @@ final class CustomPatternMatcher {
         return true;
     }
 
-    private boolean verify(Map<String, Object> results, SynchronizedSource synchronizedSource, CustomPatternElement<?> element, Object result) {
+    private boolean verify(List<Pair<String, Object>> results, SynchronizedSource synchronizedSource, CustomPatternElement<?> element, Object result) {
         for (CustomVerify<?> verifier : element.getVerifiers()) {
             if (!verifier.verify(results, synchronizedSource, ObjectUtils.cast(result))) {
                 return false;

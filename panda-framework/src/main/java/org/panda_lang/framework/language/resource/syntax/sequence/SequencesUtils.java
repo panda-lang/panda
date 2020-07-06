@@ -42,7 +42,7 @@ public final class SequencesUtils {
             uncommentedSource.add(tokenInfo);
         }
 
-        return new PandaSnippet(uncommentedSource);
+        return PandaSnippet.ofImmutable(uncommentedSource);
     }
 
     public static boolean isComment(Token token) {

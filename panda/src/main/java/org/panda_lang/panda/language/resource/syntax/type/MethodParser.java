@@ -147,7 +147,7 @@ public final class MethodParser extends ParserBootstrap<Void> {
                     );
                 });
 
-        Option.when(result.has("visibility"), (Visibility) result.get("visibility"))
+        result.get("visibility")
                 .orElse(() -> existingMethod.map(TypeMethod::getVisibility))
                 .peek(visibility -> channel.allocated("visibility", visibility))
                 .orThrow(() -> {

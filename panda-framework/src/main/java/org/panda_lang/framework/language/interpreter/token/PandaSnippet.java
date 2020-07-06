@@ -19,53 +19,54 @@ package org.panda_lang.framework.language.interpreter.token;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.utilities.commons.ObjectUtils;
-import org.panda_lang.utilities.commons.collection.Lists;
 import org.panda_lang.utilities.commons.text.ContentJoiner;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public final class PandaSnippet implements Snippet {
 
     private final List<TokenInfo> tokens;
-
-    public PandaSnippet() {
-        this.tokens = new ArrayList<>();
-    }
-
-    public PandaSnippet(TokenInfo... representations) {
-        this(Lists.mutableOf(representations));
-    }
-
-    public PandaSnippet(List<? extends TokenInfo> representations) {
-        this(representations, true);
-    }
+    private final boolean mutable;
 
     @SuppressWarnings("unchecked")
-    public PandaSnippet(List<? extends TokenInfo> representations, boolean clone) {
-        this.tokens = clone ? new ArrayList<>(representations) : (List<TokenInfo>) representations;
+    public PandaSnippet(List<? extends TokenInfo> representations, boolean mutable) {
+        this.tokens = mutable ? new ArrayList<>(representations) : (List<TokenInfo>) representations;
+        this.mutable = mutable;
     }
 
     @Override
-    public void addTokens(Snippet snippet) {
-        tokens.addAll(snippet.getTokensRepresentations());
-    }
+    public void append(TokenInfo tokenInfo) {
+        if (isImmutable()) {
+            throw new UnsupportedOperationException("Cannot append token to immutable snippet");
+        }
 
-    @Override
-    public void addToken(TokenInfo tokenInfo) {
         tokens.add(tokenInfo);
     }
 
     @Override
+    public TokenInfo remove(int index) {
+        if (isImmutable()) {
+            throw new UnsupportedOperationException("Cannot remove token from immutable snippet");
+        }
+
+        return getTokensRepresentations().remove(index);
+    }
+
+    @Override
     public int hashCode() {
-        return Objects.hash(tokens);
+        return tokens.hashCode();
     }
 
     @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
     @Override
     public boolean equals(Object to) {
         return ObjectUtils.equals(this, tokens, to, tokenRepresentations -> tokenRepresentations.tokens);
+    }
+
+    @Override
+    public boolean isMutable() {
+        return mutable;
     }
 
     @Override
@@ -83,6 +84,18 @@ public final class PandaSnippet implements Snippet {
     @Override
     public List<? extends TokenInfo> getTokensRepresentations() {
         return tokens;
+    }
+
+    public static PandaSnippet createMutable() {
+        return new PandaSnippet(new ArrayList<>(), true);
+    }
+
+    public static PandaSnippet ofImmutable(List<? extends TokenInfo> representations) {
+        return new PandaSnippet(representations, false);
+    }
+
+    public static PandaSnippet ofMutable(List<? extends TokenInfo> representations) {
+        return new PandaSnippet(representations, true);
     }
 
 }

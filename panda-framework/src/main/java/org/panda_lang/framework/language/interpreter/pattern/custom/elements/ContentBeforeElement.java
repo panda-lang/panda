@@ -33,7 +33,7 @@ public final class ContentBeforeElement extends CustomPatternElementBuilder<Snip
 
     public ContentBeforeElement before(Separator separator) {
         return super.custom((data, source) -> {
-            Snippet declaration = new PandaSnippet();
+            Snippet declaration = PandaSnippet.createMutable();
 
             for (TokenInfo representation : source) {
                 if (representation.getType() == TokenTypes.SECTION && representation.toToken(Section.class).getSeparator().equals(separator)) {
@@ -41,7 +41,7 @@ public final class ContentBeforeElement extends CustomPatternElementBuilder<Snip
                     break;
                 }
 
-                declaration.addToken(representation);
+                declaration.append(representation);
             }
 
             return declaration;

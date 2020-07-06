@@ -20,20 +20,21 @@ import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomVerify;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
+import org.panda_lang.utilities.commons.collection.Pair;
 import org.panda_lang.utilities.commons.function.QuadPredicate;
 
-import java.util.Map;
+import java.util.List;
 
 public class NextVerifier implements CustomVerify<Snippetable> {
 
-    private final QuadPredicate<Map<String, Object>, SynchronizedSource, Snippetable, TokenInfo> predicate;
+    private final QuadPredicate<List<Pair<String, Object>>, SynchronizedSource, Snippetable, TokenInfo> predicate;
 
-    public NextVerifier(QuadPredicate<Map<String, Object>, SynchronizedSource, Snippetable, TokenInfo> predicate) {
+    public NextVerifier(QuadPredicate<List<Pair<String, Object>>, SynchronizedSource, Snippetable, TokenInfo> predicate) {
         this.predicate = predicate;
     }
 
     @Override
-    public boolean verify(Map<String, Object> results, SynchronizedSource source, Snippetable content) {
+    public boolean verify(List<Pair<String, Object>> results, SynchronizedSource source, Snippetable content) {
         if (!source.hasNext()) {
             return false;
         }

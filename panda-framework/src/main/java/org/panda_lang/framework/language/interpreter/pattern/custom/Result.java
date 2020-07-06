@@ -17,30 +17,24 @@
 package org.panda_lang.framework.language.interpreter.pattern.custom;
 
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.Token;
 import org.panda_lang.framework.language.interpreter.pattern.PatternMapping;
 import org.panda_lang.framework.language.interpreter.pattern.PatternResult;
+import org.panda_lang.utilities.commons.ObjectUtils;
+import org.panda_lang.utilities.commons.collection.Pair;
+import org.panda_lang.utilities.commons.function.Option;
 
-import java.util.Map;
+import java.util.List;
 
 public final class Result implements PatternResult, PatternMapping {
 
     public static final Result NOT_MATCHED = new Result(null, null);
 
     private final Snippet source;
-    protected final Map<String, Object> results;
+    protected final List<Pair<String, Object>> results;
 
-    public Result(Snippet source, Map<String, Object> results) {
+    public Result(Snippet source, List<Pair<String, Object>> results) {
         this.source = source;
         this.results = results;
-    }
-
-    public boolean has(String id) {
-        return results.containsKey(id);
-    }
-
-    public boolean has(Token token) {
-        return results.containsKey(token.getValue());
     }
 
     @Override
@@ -48,14 +42,15 @@ public final class Result implements PatternResult, PatternMapping {
         return results != null;
     }
 
-    public <T> T get(String id, @SuppressWarnings("unused") Class<T> type) {
-        return get(id);
-    }
-
     @Override
-    @SuppressWarnings("unchecked")
-    public <T> T get(String id) {
-        return (T) results.get(id);
+    public <T> Option<T> get(String id) {
+        for (Pair<String, Object> result : results) {
+            if (result.getKey().equals(id)) {
+                return Option.of(ObjectUtils.cast(result.getValue()));
+            }
+        }
+
+        return Option.none();
     }
 
     @Override

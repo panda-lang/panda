@@ -20,7 +20,6 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
-import org.panda_lang.utilities.commons.collection.Lists;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,7 +53,7 @@ public interface Snippet extends Iterable<TokenInfo>, Snippetable {
      * @return a reversed snippet
      */
     default Snippet reversed() {
-        Snippet snippet = new PandaSnippet(getTokensRepresentations());
+        Snippet snippet = PandaSnippet.ofImmutable(new ArrayList<>(getTokensRepresentations()));
         Collections.reverse(snippet.getTokensRepresentations());
         return snippet;
     }
@@ -69,10 +68,10 @@ public interface Snippet extends Iterable<TokenInfo>, Snippetable {
      */
     default Snippet subSource(int fromIndex, int toIndex) {
         if (toIndex < 0) {
-            return new PandaSnippet(Lists.subList(getTokensRepresentations(), fromIndex, size() + toIndex), false);
+            return new PandaSnippet(getTokensRepresentations().subList(fromIndex, size() + toIndex), isMutable());
         }
 
-        return new PandaSnippet(Lists.subList(getTokensRepresentations(), fromIndex, toIndex), false);
+        return new PandaSnippet(getTokensRepresentations().subList(fromIndex, toIndex), isMutable());
     }
 
     /**
@@ -99,7 +98,7 @@ public interface Snippet extends Iterable<TokenInfo>, Snippetable {
             snippets.add(subSource(previousIndex, size()));
         }
         else if (snippets.isEmpty()) {
-            snippets.add(new PandaSnippet(getTokensRepresentations()));
+            snippets.add(new PandaSnippet(getTokensRepresentations(), isMutable()));
         }
 
         return snippets.toArray(new Snippet[0]);
@@ -125,6 +124,10 @@ public interface Snippet extends Iterable<TokenInfo>, Snippetable {
         return true;
     }
 
+    default boolean contains(Token token) {
+        return indexOf(token) != NOT_FOUND;
+    }
+
     /**
      * Check if snippet contains at least one of the given token
      *
@@ -133,7 +136,7 @@ public interface Snippet extends Iterable<TokenInfo>, Snippetable {
      */
     default boolean contains(Token... tokens) {
         for (Token token : tokens) {
-            if (indexOf(token) != NOT_FOUND) {
+            if (contains(token)) {
                 return true;
             }
         }
@@ -160,27 +163,11 @@ public interface Snippet extends Iterable<TokenInfo>, Snippetable {
     }
 
     /**
-     * Add tokens to the current snippet
-     *
-     * @param snippet the snippet (collection of tokens) to add
-     */
-    void addTokens(Snippet snippet);
-
-    /**
      * Add token to the snippet
      *
      * @param tokenInfo the token to add
      */
-    void addToken(TokenInfo tokenInfo);
-
-    /**
-     * Remove token from snippet
-     *
-     * @param tokenInfo the token to remove
-     */
-    default void removeToken(TokenInfo tokenInfo) {
-        getTokensRepresentations().remove(tokenInfo);
-    }
+    void append(TokenInfo tokenInfo);
 
     /**
      * Remove token at the given index
@@ -188,9 +175,7 @@ public interface Snippet extends Iterable<TokenInfo>, Snippetable {
      * @param index the index to use
      * @return removed token
      */
-    default TokenInfo remove(int index) {
-        return getTokensRepresentations().remove(index);
-    }
+    TokenInfo remove(int index);
 
     /**
      * Get size of snippet
@@ -285,7 +270,7 @@ public interface Snippet extends Iterable<TokenInfo>, Snippetable {
             selected.add(tokenInfo);
         }
 
-        return new PandaSnippet(selected, false);
+        return PandaSnippet.ofImmutable(selected);
     }
 
     /**
@@ -339,6 +324,22 @@ public interface Snippet extends Iterable<TokenInfo>, Snippetable {
      * @return a new array containing content of snippet
      */
     TokenInfo[] toArray();
+
+    /**
+     * Check if snippet is marked as immutable
+     *
+     * @return true if immutable
+     */
+    default boolean isImmutable() {
+        return !isMutable();
+    }
+
+    /**
+     * Check if snippet is marked as mutable
+     *
+     * @return true if mutable
+     */
+    boolean isMutable();
 
     @Override
     default Snippet toSnippet() {

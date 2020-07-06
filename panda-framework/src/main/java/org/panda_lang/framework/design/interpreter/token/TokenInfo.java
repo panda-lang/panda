@@ -21,6 +21,8 @@ import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
 
 import org.panda_lang.utilities.commons.function.Option;
 
+import java.util.Collections;
+
 /**
  * Wrapper for {@link org.panda_lang.framework.design.interpreter.token.Token} that contains details about location of token in source
  */
@@ -75,7 +77,7 @@ public interface TokenInfo extends Token, Snippetable {
 
     @Override
     default Snippet toSnippet() {
-        return new PandaSnippet(this);
+        return PandaSnippet.ofImmutable(Collections.singletonList(this));
     }
 
     @Override

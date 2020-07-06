@@ -20,8 +20,9 @@ import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomVerify;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
+import org.panda_lang.utilities.commons.collection.Pair;
 
-import java.util.Map;
+import java.util.List;
 
 public final class TokenTypeVerifier implements CustomVerify<TokenInfo> {
 
@@ -32,7 +33,7 @@ public final class TokenTypeVerifier implements CustomVerify<TokenInfo> {
     }
 
     @Override
-    public boolean verify(Map<String, Object> results, SynchronizedSource source, TokenInfo content) {
+    public boolean verify(List<Pair<String, Object>> results, SynchronizedSource source, TokenInfo content) {
         for (TokenType type : types) {
             if (content.getType() == type) {
                 return true;

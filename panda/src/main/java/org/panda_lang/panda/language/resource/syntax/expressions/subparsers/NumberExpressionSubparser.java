@@ -62,14 +62,14 @@ public final class NumberExpressionSubparser implements ExpressionSubparser {
             }
 
             if (content == null) {
-                this.content = new PandaSnippet();
+                this.content = PandaSnippet.createMutable();
             }
 
             if (this.period != null) {
-                content.addToken(period);
+                content.append(period);
             }
 
-            content.addToken(token);
+            content.append(token);
             Expression expression;
 
             try {

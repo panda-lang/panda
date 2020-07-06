@@ -16,14 +16,12 @@
 
 package org.panda_lang.framework.language.interpreter.lexer;
 
-import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.TokenInfo;
-import org.panda_lang.framework.language.interpreter.token.MutableTokenInfo;
 import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
-import org.panda_lang.framework.language.interpreter.token.PandaLocation;
 import org.panda_lang.framework.language.interpreter.token.PandaTokenInfo;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.framework.language.resource.syntax.separator.Separator;
+import org.panda_lang.utilities.commons.collection.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +31,7 @@ final class PandaLexerCollector {
 
     private final PandaLexerWorker worker;
     private final List<TokenInfo> representations = new ArrayList<>();
-    private final Stack<TokenInfo> sections = new Stack<>();
-    private final Stack<MutableTokenInfo> closingSeparators = new Stack<>();
+    private final Stack<Pair<TokenInfo, List<TokenInfo>>> sections = new Stack<>();
 
     public PandaLexerCollector(PandaLexerWorker worker) {
         this.worker = worker;
@@ -57,22 +54,21 @@ final class PandaLexerCollector {
             return;
         }
 
-        Section section = sections.peek().toToken();
-        section.getContent().addToken(representation);
+        sections.peek().getValue().add(representation);
     }
 
     private boolean processSeparator(TokenInfo separatorRepresentation) {
         Separator separator = separatorRepresentation.toToken();
 
         if (separator.hasOpposite()) {
-            initializeSection(separatorRepresentation);
+            sections.push(new Pair<>(separatorRepresentation, new ArrayList<>()));
             return true;
         }
 
         if (!sections.isEmpty()) {
-            Section currentSection = sections.peek().toToken();
+            Separator sectionSeparator = sections.peek().getKey().toToken();
 
-            if (!currentSection.getSeparator().getOpposite().equals(separator)) {
+            if (!sectionSeparator.getOpposite().equals(separator)) {
                 return false;
             }
 
@@ -83,34 +79,32 @@ final class PandaLexerCollector {
         return false;
     }
 
-    private void initializeSection(TokenInfo openingSeparator) {
-        MutableTokenInfo closingSeparator = new MutableTokenInfo();
-        Section section = new Section(openingSeparator, new PandaSnippet(), closingSeparator);
+    private void popSection(TokenInfo closingSeparator) {
+        Pair<TokenInfo, List<TokenInfo>> sectionData = sections.pop();
+        TokenInfo openingSeparator = sectionData.getKey();
 
-        Location location = openingSeparator.getLocation();
-        Location sectionLocation = new PandaLocation(location.getSource(), location.getLine(), location.getIndex() - 1);
+        Section section = new Section(openingSeparator, PandaSnippet.ofImmutable(sectionData.getValue()), closingSeparator);
+        TokenInfo sectionInfo = new PandaTokenInfo(section, openingSeparator.getLocation());
 
-        sections.push(new PandaTokenInfo(section, sectionLocation));
-        closingSeparators.push(closingSeparator);
-    }
-
-    private void popSection(TokenInfo separator) {
-        TokenInfo section = sections.pop();
-
+        // add section to root elements
         if (sections.isEmpty()) {
-            representations.add(section);
-            closingSeparators.pop();
+            representations.add(sectionInfo);
             return;
         }
 
-        Section parentSection = sections.peek().toToken();
-        parentSection.getContent().addToken(section);
-        closingSeparators.pop().setRepresentation(separator);
+        // add section to parent section
+        sections.peek().getValue().add(sectionInfo);
     }
 
     protected List<TokenInfo> collect() {
-        if (!sections.isEmpty() || !closingSeparators.isEmpty()) {
-            throw new PandaLexerFailure(worker.getBuilder().toString(), sections.peek().toString(), sections.peek().getLocation(), "Cannot find closing separator", "");
+        if (!sections.isEmpty()) {
+            throw new PandaLexerFailure(
+                    worker.getBuilder().toString(), // current line preview
+                    sections.peek().toString(), // indicate current section
+                    sections.peek().getKey().getLocation(), // opening separator points the beginning of section
+                    "Cannot find closing separator",
+                    ""
+            );
         }
 
         return representations;

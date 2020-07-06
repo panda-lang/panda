@@ -35,7 +35,7 @@ public final class ExpressionElement extends CustomPatternElementBuilder<Express
 
         super.custom((data, source) -> {
             SourceStream stream = new PandaSourceStream(source.getAvailableSource());
-            Context context = data.get(UniversalData.CONTEXT);
+            Context context = data.get(UniversalData.CONTEXT, Context.class).get();
 
             ExpressionParser parser = customParser != null ? customParser : context.getComponent(Components.EXPRESSION);
             ExpressionTransaction expressionTransaction = parser.parse(context, stream);

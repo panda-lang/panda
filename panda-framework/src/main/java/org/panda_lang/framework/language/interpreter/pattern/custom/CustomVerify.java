@@ -17,11 +17,12 @@
 package org.panda_lang.framework.language.interpreter.pattern.custom;
 
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
+import org.panda_lang.utilities.commons.collection.Pair;
 
-import java.util.Map;
+import java.util.List;
 
 public interface CustomVerify<T> {
 
-    boolean verify(Map<String, Object> results, SynchronizedSource source, T content);
+    boolean verify(List<Pair<String, Object>> results, SynchronizedSource source, T content);
 
 }

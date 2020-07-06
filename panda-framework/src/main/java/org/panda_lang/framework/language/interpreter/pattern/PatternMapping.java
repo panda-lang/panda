@@ -16,18 +16,33 @@
 
 package org.panda_lang.framework.language.interpreter.pattern;
 
+import org.panda_lang.framework.design.interpreter.token.Token;
+import org.panda_lang.utilities.commons.function.Option;
+
 /**
  * Simple interface for pattern results that allows to get matched values
  */
 public interface PatternMapping {
 
+    default boolean has(Token token) {
+        return has(token.getValue());
+    }
+
+    default boolean has(String id) {
+        return get(id).isDefined();
+    }
+
+    default <T> Option<T> get(String id, Class<T> type) {
+        return get(id);
+    }
+
     /**
      * Get value using the given name
      *
-     * @param name the name to search for
+     * @param id the name to search for
      * @param <T> type of result
      * @return a found result
      */
-    <T> T get(String name);
+    <T> Option<T> get(String id);
 
 }

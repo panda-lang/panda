@@ -19,6 +19,7 @@ package org.panda_lang.framework.language.interpreter.pattern.linear;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.pattern.PatternMapping;
 import org.panda_lang.framework.language.interpreter.pattern.PatternResult;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.List;
 import java.util.Map;
@@ -48,8 +49,8 @@ public final class LinearPatternResult implements PatternResult, PatternMapping 
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T> T get(String identifier) {
-        return (T) wildcards.get(identifier);
+    public <T> Option<T> get(String id) {
+        return Option.of((T) wildcards.get(id));
     }
 
     public List<? extends String> getIdentifiers() {

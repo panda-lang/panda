@@ -87,7 +87,7 @@ class LinearPatternTest {
     void testWildcards() {
         TokenInfo wildcardValue = LinearPattern.compile("wildcard:*")
                 .match(of("random"))
-                .get("wildcard");
+                .get("wildcard", TokenInfo.class).get();
 
         Assertions.assertEquals("random", wildcardValue.getValue());
     }

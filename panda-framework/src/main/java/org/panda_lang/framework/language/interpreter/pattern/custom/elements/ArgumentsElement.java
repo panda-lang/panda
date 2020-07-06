@@ -34,7 +34,7 @@ public final class ArgumentsElement extends CustomPatternElementBuilder<Expressi
         super(id);
 
         super.custom(((data, source) -> {
-            Context context = data.get(UniversalData.CONTEXT);
+            Context context = data.get(UniversalData.CONTEXT, Context.class).get();
             ExpressionParser parser = context.getComponent(Components.EXPRESSION);
             Collection<ExpressionTransaction> transactions = new ArrayList<>();
 

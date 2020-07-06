@@ -77,7 +77,10 @@ public final class ConditionalBlockParser extends BlockSubparserBootstrap {
         @Channel Result result,
         @Channel Location location
     ) {
-        Expression condition = result.has("condition") ? result.get("condition") : new PandaExpression(loader.requireType(Boolean.class), true);
+        Expression condition = result
+                .get("condition", Expression.class)
+                .orElseGet(() -> new PandaExpression(loader.requireType(Boolean.class), true));
+
         ConditionalBlock conditionalBlock = new ConditionalBlock(parent, location, condition);
 
         if (result.has("else")) {

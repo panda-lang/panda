@@ -39,14 +39,14 @@ public final class TypeDeclarationUtils {
     }
 
     public static Option<Snippet> readType(Snippet source) {
-        Snippet type = new PandaSnippet();
+        Snippet type = PandaSnippet.createMutable();
         TokenInfo candidate = Objects.requireNonNull(source.get(0));
 
         if (candidate.getType() != TokenTypes.UNKNOWN) {
             return Option.none();
         }
 
-        type.addToken(candidate);
+        type.append(candidate);
 
         if (!source.hasElement(1)) {
             return Option.of(type);
@@ -59,7 +59,7 @@ public final class TypeDeclarationUtils {
             int firstIndex = 1;
 
             do {
-                type.addToken(candidate);
+                type.append(candidate);
                 candidate = source.hasElement(++firstIndex) ? source.get(firstIndex) : null;
             } while (isArraySeparator(candidate));
         }
@@ -68,7 +68,7 @@ public final class TypeDeclarationUtils {
     }
 
     public static Option<Snippet> readTypeBackwards(Snippet source) {
-        Snippet type = new PandaSnippet();
+        Snippet type = PandaSnippet.createMutable();
         TokenInfo candidate = Objects.requireNonNull(source.getLast());
 
         // read dimensions
@@ -76,12 +76,12 @@ public final class TypeDeclarationUtils {
             int lastIndex = 0;
 
             do {
-                type.addToken(candidate);
+                type.append(candidate);
                 candidate = source.getLast(++lastIndex);
             } while (isArraySeparator(candidate));
         }
 
-        type.addToken(candidate);
+        type.append(candidate);
 
         if (candidate == null || candidate.getType() != TokenTypes.UNKNOWN) {
             return Option.none();

@@ -20,8 +20,9 @@ import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.design.interpreter.token.TokenType;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomVerify;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
+import org.panda_lang.utilities.commons.collection.Pair;
 
-import java.util.Map;
+import java.util.List;
 
 public final class NextTokenTypeVerifier implements CustomVerify<Snippetable> {
 
@@ -32,7 +33,7 @@ public final class NextTokenTypeVerifier implements CustomVerify<Snippetable> {
     }
 
     @Override
-    public boolean verify(Map<String, Object> results, SynchronizedSource source, Snippetable content) {
+    public boolean verify(List<Pair<String, Object>> results, SynchronizedSource source, Snippetable content) {
         if (!source.hasNext()) {
             return false;
         }

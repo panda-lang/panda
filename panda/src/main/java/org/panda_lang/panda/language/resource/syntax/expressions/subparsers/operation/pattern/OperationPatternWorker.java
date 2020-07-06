@@ -30,7 +30,7 @@ final class OperationPatternWorker {
     private final OperationPatternResult result;
 
     private final Stack<Separator> separators = new Stack<>();
-    private PandaSnippet expression = new PandaSnippet();
+    private PandaSnippet expression = PandaSnippet.createMutable();
 
     OperationPatternWorker(OperationPattern extractor, Snippet source) {
         this.extractor = extractor;
@@ -54,7 +54,7 @@ final class OperationPatternWorker {
         Token token = representation.getToken();
 
         if (!separators.isEmpty()) {
-            expression.addToken(representation);
+            expression.append(representation);
 
             if (!(token instanceof Separator)) {
                 return;
@@ -79,12 +79,12 @@ final class OperationPatternWorker {
         }
 
         if (!isSeparator(representation)) {
-            expression.addToken(representation);
+            expression.append(representation);
             return;
         }
 
         Separator separator = (Separator) token;
-        expression.addToken(representation);
+        expression.append(representation);
 
         if (separator.hasOpposite()) {
             separators.push(separator);
@@ -103,7 +103,7 @@ final class OperationPatternWorker {
     private void pullFragment(TokenInfo operatorRepresentation) {
         if (this.expression.size() != 0) {
             this.addExpression(this.expression);
-            this.expression = new PandaSnippet();
+            this.expression = PandaSnippet.createMutable();
         }
 
         this.addOperator(operatorRepresentation);

@@ -89,7 +89,9 @@ public final class TypeParser extends ParserBootstrap<Void> {
 
     @Autowired(order = 0, cycle = GenerationCycles.TYPES_LABEL)
     void parse(Context context, @Channel Location location, @Channel Result result, @Ctx Script script, @Src("model") String model, @Src("name") String name) {
-        Visibility visibility = result.has("visibility") ? Visibility.of(result.get("visibility")) : Visibility.INTERNAL;
+        Visibility visibility = result.get("visibility")
+                .map(Visibility::of)
+                .orElseGet(Visibility.INTERNAL);
 
         if (Keywords.TYPE.getValue().equals(model)) {
             model = Keywords.CLASS.getValue();

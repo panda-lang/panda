@@ -85,7 +85,7 @@ final class BootstrapInjectorController implements InjectorController {
         }
 
         PatternMapping redactor = getChannel().get(PatternMapping.class);
-        Object value = redactor.get(src.value());
+        Object value = redactor.get(src.value()).getOrNull();
         Class<?> requiredType = required.getType();
 
         if (value != null && requiredType == String.class) {

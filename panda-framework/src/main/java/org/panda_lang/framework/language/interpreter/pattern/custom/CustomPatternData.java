@@ -18,6 +18,7 @@ package org.panda_lang.framework.language.interpreter.pattern.custom;
 
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.language.interpreter.pattern.PatternMapping;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,20 +32,20 @@ public final class CustomPatternData implements PatternMapping {
         return this;
     }
 
-    public boolean has(String id) {
-        return data.containsKey(id);
+    public <T> Option<T> get(String id, Class<T> type) {
+        return get(id);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T> T get(String id) {
+    public <T> Option<T> get(String id) {
         T value = (T) data.get(id);
 
         if (value == null) {
             throw new PandaFrameworkException("Cannot find custom pattern data with id: " + id);
         }
 
-        return value;
+        return Option.of(value);
     }
 
 }

@@ -34,6 +34,7 @@ import org.panda_lang.framework.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.framework.language.architecture.statement.PandaVariableDataInitializer;
 import org.panda_lang.framework.language.architecture.type.utils.TypeDeclarationUtils;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
@@ -76,7 +77,7 @@ public final class VariableDeclarationSubparser extends AssignationSubparserBoot
         }
 
         Snippet type = typeValue.get();
-        Snippet modifiers = source.subSource(0, source.size() - 1 - type.size());
+        Snippet modifiers = PandaSnippet.ofMutable(source.subSource(0, source.size() - 1 - type.size()).getTokensRepresentations());
 
         // max amount of modifiers: mut, nil
         if (modifiers.size() > 2) {

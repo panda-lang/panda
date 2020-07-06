@@ -68,7 +68,7 @@ final class PandaLexerWorker {
             checkLine();
         }
 
-        return new PandaSnippet(collector.collect());
+        return PandaSnippet.ofImmutable(collector.collect());
     }
 
     private void next(char character) {

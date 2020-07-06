@@ -22,8 +22,9 @@ import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.framework.language.resource.syntax.separator.Separator;
 import org.panda_lang.utilities.commons.ObjectUtils;
+import org.panda_lang.utilities.commons.collection.Pair;
 
-import java.util.Map;
+import java.util.List;
 
 public final class SectionVerifier implements CustomVerify<TokenInfo> {
 
@@ -34,7 +35,7 @@ public final class SectionVerifier implements CustomVerify<TokenInfo> {
     }
 
     @Override
-    public boolean verify(Map<String, Object> results, SynchronizedSource source, TokenInfo token) {
+    public boolean verify(List<Pair<String, Object>> results, SynchronizedSource source, TokenInfo token) {
         Section section = ObjectUtils.cast(Section.class, token.getToken());
         return section != null && section.getSeparator().equals(separator);
     }
