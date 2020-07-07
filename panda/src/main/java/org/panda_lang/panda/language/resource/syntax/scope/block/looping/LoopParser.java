@@ -32,7 +32,6 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Chan
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.initializers.LinearPatternInitializer;
 
 @RegistrableParser(pipeline = PandaPipeline.BLOCK_LABEL)
 public final class LoopParser extends BlockSubparserBootstrap {
@@ -41,8 +40,7 @@ public final class LoopParser extends BlockSubparserBootstrap {
     protected BootstrapInitializer<BlockData> initialize(Context context, BootstrapInitializer<BlockData> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.LOOP))
-                .initializer(new LinearPatternInitializer())
-                .pattern("loop value:*=expression");
+                .linear("loop value:*=expression");
     }
 
     @Autowired(order = 1)

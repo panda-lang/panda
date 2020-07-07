@@ -55,7 +55,7 @@ public final class FieldParser extends ParserBootstrap<Void> {
                 .keyword(Keywords.STATIC).optional()
                 .keyword(Keywords.MUT).optional()
                 .keyword(Keywords.NIL).optional()
-                .type("type").verifyNextTypeIs(TokenTypes.UNKNOWN)
+                .type("type").verifyNextType(TokenTypes.UNKNOWN)
                 .wildcard("name").verifyType(TokenTypes.UNKNOWN)
                 .subPattern("assign", sub -> sub
                         .unit("operator", "=")

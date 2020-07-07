@@ -35,7 +35,6 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Auto
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.context.initializers.LinearPatternInitializer;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ArgumentsParser;
 
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL)
@@ -45,9 +44,7 @@ public final class SelfConstructorParser extends ParserBootstrap<Void> {
 
     @Override
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
-        return initializer
-                .initializer(new LinearPatternInitializer())
-                .pattern("this args:(~)");
+        return initializer.linear("this args:(~)");
     }
 
     @Override

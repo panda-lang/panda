@@ -37,16 +37,6 @@ import org.panda_lang.framework.language.architecture.type.utils.TypedUtils;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.interpreter.pattern.Mappings;
-import org.panda_lang.framework.language.interpreter.pattern.functional.FunctionalPattern;
-import org.panda_lang.framework.language.interpreter.pattern.functional.elements.KeywordElement;
-import org.panda_lang.framework.language.interpreter.pattern.functional.elements.SectionElement;
-import org.panda_lang.framework.language.interpreter.pattern.functional.elements.SubPatternElement;
-import org.panda_lang.framework.language.interpreter.pattern.functional.elements.TypeElement;
-import org.panda_lang.framework.language.interpreter.pattern.functional.elements.UnitElement;
-import org.panda_lang.framework.language.interpreter.pattern.functional.elements.VariantElement;
-import org.panda_lang.framework.language.interpreter.pattern.functional.elements.WildcardElement;
-import org.panda_lang.framework.language.interpreter.pattern.functional.verifiers.NextSectionVerifier;
-import org.panda_lang.framework.language.interpreter.pattern.functional.verifiers.TokenTypeVerifier;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.framework.language.resource.syntax.operator.Operators;
@@ -60,8 +50,6 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Auto
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.context.handlers.FunctionalPatternHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.initializers.FunctionalPatternInitializer;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 import org.panda_lang.panda.language.resource.syntax.scope.branching.Returnable;
 import org.panda_lang.utilities.commons.function.Option;
@@ -76,21 +64,17 @@ public final class MethodParser extends ParserBootstrap<Void> {
 
     @Override
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
-        return initializer
-                .handler(new FunctionalPatternHandler())
-                .initializer(new FunctionalPatternInitializer())
-                .pattern(FunctionalPattern.of(
-                        KeywordElement.create(Keywords.OVERRIDE).optional(),
-                        VariantElement.create("visibility").optional().content("public", "shared", "internal").map(value -> Visibility.valueOf(value.toString().toUpperCase())),
-                        UnitElement.create("static").content("static").optional(),
-                        WildcardElement.create("name").verify(new TokenTypeVerifier(TokenTypes.UNKNOWN, TokenTypes.SEQUENCE)),
-                        SectionElement.create("parameters", Separators.PARENTHESIS_LEFT),
-                        SubPatternElement.create("return-type").of(
-                                UnitElement.create("arrow").content(Operators.ARROW.getValue()),
-                                TypeElement.create("type").verify(new NextSectionVerifier(Separators.BRACE_LEFT))
-                        ).optional(),
-                        SectionElement.create("body", Separators.BRACE_LEFT).optional()
-                ));
+        return initializer.functional(pattern -> pattern
+                .keyword(Keywords.OVERRIDE).optional()
+                .variant("visibility").optional().consume(variant -> variant.content("public", "shared", "internal").map(value -> Visibility.valueOf(value.toString().toUpperCase())))
+                .keyword(Keywords.STATIC).optional()
+                .wildcard("name").verifyType(TokenTypes.UNKNOWN, TokenTypes.SEQUENCE)
+                .section("parameters", Separators.PARENTHESIS_LEFT)
+                .subPattern("return-type", sub -> sub
+                        .unit("arrow", Operators.ARROW.getValue())
+                        .type("type").verifyNextSection(Separators.BRACE_LEFT)
+                ).optional()
+                .section("body", Separators.BRACE_LEFT).optional());
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)

@@ -19,9 +19,7 @@ package org.panda_lang.panda.language.resource.syntax.head;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.language.interpreter.pattern.functional.FunctionalPattern;
 import org.panda_lang.framework.language.interpreter.pattern.functional.elements.QualifierElement;
-import org.panda_lang.framework.language.interpreter.pattern.functional.elements.KeywordElement;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.architecture.PandaScript;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
@@ -31,7 +29,6 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Auto
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.initializers.FunctionalPatternInitializer;
 
 @RegistrableParser(pipeline = Pipelines.HEAD_LABEL)
 public final class ExportParser extends ParserBootstrap<Void> {
@@ -40,11 +37,7 @@ public final class ExportParser extends ParserBootstrap<Void> {
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.EXPORT))
-                .initializer(new FunctionalPatternInitializer())
-                .pattern(FunctionalPattern.of(
-                        KeywordElement.create(Keywords.EXPORT),
-                        QualifierElement.create("class").javaClass()
-                ));
+                .functional(pattern -> pattern.keyword(Keywords.EXPORT).qualifier("class").consume(QualifierElement::javaClass));
     }
 
     @Autowired(order = 1)

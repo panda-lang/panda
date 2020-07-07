@@ -29,10 +29,7 @@ import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
-import org.panda_lang.framework.language.interpreter.pattern.functional.FunctionalPattern;
 import org.panda_lang.framework.language.interpreter.pattern.functional.elements.QualifierElement;
-import org.panda_lang.framework.language.interpreter.pattern.functional.elements.KeywordElement;
-import org.panda_lang.framework.language.interpreter.pattern.functional.elements.VariantElement;
 import org.panda_lang.framework.language.interpreter.pattern.functional.elements.WildcardElement;
 import org.panda_lang.framework.language.interpreter.pattern.functional.verifiers.TokenTypeVerifier;
 import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
@@ -46,7 +43,6 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Auto
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.initializers.FunctionalPatternInitializer;
 import org.panda_lang.panda.manager.PackageManagerUtils;
 import org.slf4j.event.Level;
 
@@ -61,14 +57,12 @@ public final class RequireParser extends ParserBootstrap<Void> {
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.REQUIRE))
-                .initializer(new FunctionalPatternInitializer())
-                .pattern(FunctionalPattern.of(
-                        KeywordElement.create(Keywords.REQUIRE),
-                        VariantElement.create("variant").content(
+                .functional(pattern -> pattern
+                        .keyword(Keywords.REQUIRE)
+                        .variant("variant").consume(variant -> variant.content(
                                 QualifierElement.create("required").pandaModule(),
                                 WildcardElement.create("requiredFile").verify(new TokenTypeVerifier(TokenTypes.SEQUENCE))
-                        )
-                ));
+                        )));
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)

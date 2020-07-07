@@ -34,9 +34,9 @@ import org.panda_lang.framework.language.interpreter.pattern.functional.elements
 import org.panda_lang.framework.language.interpreter.pattern.functional.elements.UnitElement;
 import org.panda_lang.framework.language.interpreter.pattern.functional.elements.VariantElement;
 import org.panda_lang.framework.language.interpreter.pattern.functional.elements.WildcardElement;
+import org.panda_lang.framework.language.interpreter.pattern.functional.verifiers.NextSectionVerifier;
 import org.panda_lang.framework.language.interpreter.pattern.functional.verifiers.NextTokenTypeVerifier;
 import org.panda_lang.framework.language.interpreter.pattern.functional.verifiers.TokenTypeVerifier;
-import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keyword;
 import org.panda_lang.framework.language.resource.syntax.separator.Separator;
 import org.panda_lang.utilities.commons.ObjectUtils;
@@ -122,13 +122,18 @@ public final class FunctionalPatternBuilder<B extends FunctionalPatternElementBu
         return this;
     }
 
-    public FunctionalPatternBuilder<B, V> verifyType(TokenType type) {
-        current.verify(ObjectUtils.cast(new TokenTypeVerifier(type)));
+    public FunctionalPatternBuilder<B, V> verifyType(TokenType... types) {
+        current.verify(ObjectUtils.cast(new TokenTypeVerifier(types)));
         return this;
     }
 
-    public FunctionalPatternBuilder<B, V> verifyNextTypeIs(TokenType type) {
-        current.verify(ObjectUtils.cast(new NextTokenTypeVerifier(TokenTypes.UNKNOWN)));
+    public FunctionalPatternBuilder<B, V> verifyNextType(TokenType... types) {
+        current.verify(ObjectUtils.cast(new NextTokenTypeVerifier(types)));
+        return this;
+    }
+
+    public FunctionalPatternBuilder<B, V> verifyNextSection(Separator separator) {
+        current.verify(ObjectUtils.cast(new NextSectionVerifier(separator)));
         return this;
     }
 

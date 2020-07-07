@@ -32,7 +32,6 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Auto
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.initializers.LinearPatternInitializer;
 
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL)
 public final class ContinueParser extends ParserBootstrap<Void> {
@@ -41,8 +40,7 @@ public final class ContinueParser extends ParserBootstrap<Void> {
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.CONTINUE))
-                .initializer(new LinearPatternInitializer())
-                .pattern("continue");
+                .linear("continue");
     }
 
     @Autowired(order = 1)

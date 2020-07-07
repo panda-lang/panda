@@ -23,12 +23,6 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.language.architecture.statement.PandaVariableDataInitializer;
 import org.panda_lang.framework.language.interpreter.pattern.Mappings;
-import org.panda_lang.framework.language.interpreter.pattern.functional.FunctionalPattern;
-import org.panda_lang.framework.language.interpreter.pattern.functional.elements.KeywordElement;
-import org.panda_lang.framework.language.interpreter.pattern.functional.elements.TypeElement;
-import org.panda_lang.framework.language.interpreter.pattern.functional.elements.WildcardElement;
-import org.panda_lang.framework.language.interpreter.pattern.functional.verifiers.NextTokenTypeVerifier;
-import org.panda_lang.framework.language.interpreter.pattern.functional.verifiers.TokenTypeVerifier;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
@@ -39,7 +33,6 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Chan
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.initializers.FunctionalPatternInitializer;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_LATE_DECLARATION)
@@ -49,14 +42,12 @@ public final class LateDeclarationParser extends ParserBootstrap<Void> {
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.LATE))
-                .initializer(new FunctionalPatternInitializer())
-                .pattern(FunctionalPattern.of(
-                        KeywordElement.create(Keywords.LATE),
-                        KeywordElement.create(Keywords.MUT).optional(),
-                        KeywordElement.create(Keywords.NIL).optional(),
-                        TypeElement.create("type").optional().verify(new NextTokenTypeVerifier(TokenTypes.UNKNOWN)),
-                        WildcardElement.create("name").verify(new TokenTypeVerifier(TokenTypes.UNKNOWN))
-                ));
+                .functional(pattern -> pattern
+                        .keyword(Keywords.LATE).optional()
+                        .keyword(Keywords.MUT).optional()
+                        .keyword(Keywords.NIL).optional()
+                        .type("type").optional().verifyNextType(TokenTypes.UNKNOWN)
+                        .wildcard("name").verifyType(TokenTypes.UNKNOWN));
     }
 
     @Autowired(order = 1)

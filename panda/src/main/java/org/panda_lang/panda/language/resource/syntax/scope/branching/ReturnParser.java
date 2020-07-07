@@ -31,7 +31,6 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Chan
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.initializers.LinearPatternInitializer;
 
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL)
 public final class ReturnParser extends ParserBootstrap<Void> {
@@ -40,8 +39,7 @@ public final class ReturnParser extends ParserBootstrap<Void> {
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.RETURN))
-                .initializer(new LinearPatternInitializer())
-                .pattern("return &value:*=expression");
+                .linear("return &value:*=expression");
     }
 
     @Autowired(order = 1)

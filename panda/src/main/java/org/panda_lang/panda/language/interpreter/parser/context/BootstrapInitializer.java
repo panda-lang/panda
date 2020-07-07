@@ -24,7 +24,9 @@ import org.panda_lang.framework.language.interpreter.pattern.functional.Function
 import org.panda_lang.framework.language.interpreter.pattern.functional.FunctionalPatternBuilder;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.FunctionalPatternHandler;
+import org.panda_lang.panda.language.interpreter.parser.context.handlers.LinearPatternHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.initializers.FunctionalPatternInitializer;
+import org.panda_lang.panda.language.interpreter.parser.context.initializers.LinearPatternInitializer;
 import org.panda_lang.utilities.commons.ReflectionUtils;
 
 import java.lang.reflect.Method;
@@ -73,6 +75,16 @@ public final class BootstrapInitializer<T> {
     }
 
     public BootstrapInitializer<T> pattern(Object pattern) {
+        this.pattern = pattern;
+        return this;
+    }
+
+    public BootstrapInitializer<T> linear(String pattern) {
+        if (handler == null) {
+            handler(new LinearPatternHandler());
+        }
+
+        initializer(new LinearPatternInitializer());
         this.pattern = pattern;
         return this;
     }

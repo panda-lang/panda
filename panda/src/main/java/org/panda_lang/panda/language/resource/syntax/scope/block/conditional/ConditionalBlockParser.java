@@ -26,11 +26,9 @@ import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.language.architecture.expression.PandaExpression;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.pattern.Mappings;
-import org.panda_lang.framework.language.interpreter.pattern.functional.FunctionalPattern;
 import org.panda_lang.framework.language.interpreter.pattern.functional.elements.ExpressionElement;
 import org.panda_lang.framework.language.interpreter.pattern.functional.elements.KeywordElement;
 import org.panda_lang.framework.language.interpreter.pattern.functional.elements.SubPatternElement;
-import org.panda_lang.framework.language.interpreter.pattern.functional.elements.VariantElement;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
@@ -42,7 +40,6 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Auto
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.initializers.FunctionalPatternInitializer;
 
 @RegistrableParser(pipeline = PandaPipeline.BLOCK_LABEL)
 public final class ConditionalBlockParser extends BlockSubparserBootstrap {
@@ -51,9 +48,8 @@ public final class ConditionalBlockParser extends BlockSubparserBootstrap {
     protected BootstrapInitializer<BlockData> initialize(Context context, BootstrapInitializer<BlockData> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.IF, Keywords.ELSE))
-                .initializer(new FunctionalPatternInitializer())
-                .pattern(FunctionalPattern.of(
-                        VariantElement.create("variant").content(
+                .functional(pattern -> pattern
+                        .variant("variant").consume(variant -> variant.content(
                                 SubPatternElement.create("else if").of(
                                         KeywordElement.create(Keywords.ELSE),
                                         KeywordElement.create(Keywords.IF),
@@ -64,8 +60,7 @@ public final class ConditionalBlockParser extends BlockSubparserBootstrap {
                                         ExpressionElement.create("condition").map(ExpressionTransaction::getExpression)
                                 ),
                                 KeywordElement.create(Keywords.ELSE)
-                        )
-                ));
+                        )));
     }
 
     @Autowired(order = 1)

@@ -39,7 +39,6 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Chan
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.initializers.LinearPatternInitializer;
 
 @RegistrableParser(pipeline = PandaPipeline.BLOCK_LABEL)
 public final class ForParser extends BlockSubparserBootstrap {
@@ -52,8 +51,7 @@ public final class ForParser extends BlockSubparserBootstrap {
 
         return initializer
                 .handler(new TokenHandler(Keywords.FOR))
-                .initializer(new LinearPatternInitializer())
-                .pattern("for content:(~)");
+                .linear("for content:(~)");
     }
 
     @Autowired(order = 1)
