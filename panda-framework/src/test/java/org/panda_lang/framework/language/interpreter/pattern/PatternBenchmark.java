@@ -24,14 +24,13 @@ import org.openjdk.jmh.annotations.Warmup;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.BenchmarkRunner;
 import org.panda_lang.framework.language.interpreter.lexer.PandaLexerUtils;
-import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
-import org.panda_lang.framework.language.interpreter.pattern.custom.Result;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.KeywordElement;
+import org.panda_lang.framework.language.interpreter.pattern.functional.FunctionalPattern;
+import org.panda_lang.framework.language.interpreter.pattern.functional.elements.UnitElement;
 import org.panda_lang.framework.language.interpreter.pattern.linear.LinearPattern;
-import org.panda_lang.framework.language.interpreter.pattern.linear.LinearPatternResult;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 @Fork(value = 1)
 @Warmup(iterations = 1)
@@ -40,17 +39,23 @@ import java.util.concurrent.TimeUnit;
 public class PatternBenchmark {
 
     private static final Snippet SINGLE_KEYWORD = PandaLexerUtils.convert("PatternBenchmark", "while");
-    private static final CustomPattern SINGLE_KEYWORD_CUSTOM = CustomPattern.of(KeywordElement.create(Keywords.WHILE));
+    private static final FunctionalPattern SINGLE_KEYWORD_CUSTOM = FunctionalPattern.of(UnitElement.create("").content(Keywords.WHILE.getValue()));
     private static final LinearPattern SINGLE_KEYWORD_LINEAR = LinearPattern.compile("while");
+    private static final Pattern SINGLE_KEYWORD_REGEX = Pattern.compile("while");
 
     @Benchmark
-    public Result singleKeywordCustom() {
+    public Mappings singleKeywordCustom() {
         return SINGLE_KEYWORD_CUSTOM.match(SINGLE_KEYWORD);
     }
 
     @Benchmark
-    public LinearPatternResult singleKeywordLinear() {
+    public Mappings singleKeywordLinear() {
         return SINGLE_KEYWORD_LINEAR.match(SINGLE_KEYWORD);
+    }
+
+    @Benchmark
+    public boolean singleKeywordRegex() {
+        return SINGLE_KEYWORD_REGEX.matcher("while").matches();
     }
 
     public static void main(String[] args) throws Exception {

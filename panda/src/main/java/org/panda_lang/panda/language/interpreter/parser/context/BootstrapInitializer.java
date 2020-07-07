@@ -20,12 +20,17 @@ import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.framework.design.interpreter.parser.ParserRepresentation;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
+import org.panda_lang.framework.language.interpreter.pattern.functional.FunctionalPattern;
+import org.panda_lang.framework.language.interpreter.pattern.functional.FunctionalPatternBuilder;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.context.handlers.FunctionalPatternHandler;
+import org.panda_lang.panda.language.interpreter.parser.context.initializers.FunctionalPatternInitializer;
 import org.panda_lang.utilities.commons.ReflectionUtils;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.function.Function;
 
 public final class BootstrapInitializer<T> {
 
@@ -69,6 +74,16 @@ public final class BootstrapInitializer<T> {
 
     public BootstrapInitializer<T> pattern(Object pattern) {
         this.pattern = pattern;
+        return this;
+    }
+
+    public BootstrapInitializer<T> functional(Function<FunctionalPatternBuilder<?, ?>, FunctionalPatternBuilder<?, ?>> function) {
+        if (handler == null) {
+            handler(new FunctionalPatternHandler());
+        }
+
+        initializer(new FunctionalPatternInitializer());
+        this.pattern = function.apply(FunctionalPattern.builder()).build();
         return this;
     }
 

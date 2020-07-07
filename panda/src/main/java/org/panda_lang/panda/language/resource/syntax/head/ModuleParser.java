@@ -25,9 +25,7 @@ import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
-import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.ImportElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.UnitElement;
+import org.panda_lang.framework.language.interpreter.pattern.functional.elements.QualifierElement;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.architecture.PandaScript;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
@@ -38,7 +36,6 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Chan
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.initializers.CustomPatternInitializer;
 
 @RegistrableParser(pipeline = Pipelines.HEAD_LABEL)
 public final class ModuleParser extends ParserBootstrap<Void> {
@@ -47,11 +44,7 @@ public final class ModuleParser extends ParserBootstrap<Void> {
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.MODULE))
-                .initializer(new CustomPatternInitializer())
-                .pattern(CustomPattern.of(
-                        UnitElement.create("").content(Keywords.MODULE.getValue()),
-                        ImportElement.create("module").pandaModule()
-                ));
+                .functional(builder -> builder.token(Keywords.MODULE).qualifier("module").consume(QualifierElement::pandaModule));
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)

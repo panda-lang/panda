@@ -30,9 +30,6 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaLocalChannel;
-import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.ContentBeforeElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.SectionElement;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
@@ -43,7 +40,6 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Auto
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.context.initializers.CustomPatternInitializer;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 
 @RegistrableParser(pipeline = Pipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_BLOCK)
@@ -57,12 +53,9 @@ public final class BlockParser extends ParserBootstrap<Void> {
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         this.pipeline = context.getComponent(Components.PIPELINE).getPipeline(PandaPipeline.BLOCK);
 
-        return initializer
-                .initializer(new CustomPatternInitializer())
-                .pattern(CustomPattern.of(
-                        ContentBeforeElement.create("declaration").before(Separators.BRACE_LEFT),
-                        SectionElement.create("body", Separators.BRACE_LEFT)
-                ));
+        return initializer.functional(builder -> builder
+                .contentBefore("declaration", Separators.BRACE_LEFT)
+                .section("body", Separators.BRACE_LEFT));
     }
 
     @Override

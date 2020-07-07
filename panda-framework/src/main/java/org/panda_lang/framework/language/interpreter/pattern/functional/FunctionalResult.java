@@ -14,47 +14,43 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.interpreter.pattern.linear;
+package org.panda_lang.framework.language.interpreter.pattern.functional;
 
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.pattern.Mappings;
 import org.panda_lang.framework.language.interpreter.pattern.PatternResult;
+import org.panda_lang.utilities.commons.ObjectUtils;
+import org.panda_lang.utilities.commons.collection.Pair;
 import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.List;
-import java.util.Map;
 
-public final class LinearPatternResult implements PatternResult, Mappings {
+public final class FunctionalResult implements PatternResult, Mappings {
 
-    protected static final LinearPatternResult NOT_MATCHED = new LinearPatternResult();
+    public static final FunctionalResult NOT_MATCHED = new FunctionalResult(null, null);
 
     private final Snippet source;
-    private final List<String> identifiers;
-    private final Map<String, Object> wildcards;
+    protected final List<Pair<String, Object>> results;
 
-    LinearPatternResult(Snippet source, List<String> identifiers, Map<String, Object> wildcards) {
+    public FunctionalResult(Snippet source, List<Pair<String, Object>> results) {
         this.source = source;
-        this.identifiers = identifiers;
-        this.wildcards = wildcards;
-    }
-
-    private LinearPatternResult() {
-        this(null, null, null);
+        this.results = results;
     }
 
     @Override
     public boolean isMatched() {
-        return identifiers != null;
+        return results != null;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T> Option<T> get(String id) {
-        return Option.of((T) wildcards.get(id));
-    }
+        for (Pair<String, Object> result : results) {
+            if (result.getKey().equals(id)) {
+                return Option.of(ObjectUtils.cast(result.getValue()));
+            }
+        }
 
-    public List<? extends String> getIdentifiers() {
-        return identifiers;
+        return Option.none();
     }
 
     @Override

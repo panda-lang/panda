@@ -34,17 +34,7 @@ import org.panda_lang.framework.language.architecture.type.PandaField;
 import org.panda_lang.framework.language.architecture.type.TypeComponents;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
-import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
-import org.panda_lang.framework.language.interpreter.pattern.custom.Result;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.ExpressionElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.KeywordElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.SubPatternElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.TypeElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.UnitElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.VariantElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.WildcardElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.NextTokenTypeVerifier;
-import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.TokenTypeVerifier;
+import org.panda_lang.framework.language.interpreter.pattern.Mappings;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
@@ -53,8 +43,6 @@ import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.context.handlers.CustomPatternHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.initializers.CustomPatternInitializer;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 
 @RegistrableParser(pipeline = Pipelines.TYPE_LABEL, priority = PandaPriorities.PROTOTYPE_FIELD)
@@ -62,27 +50,23 @@ public final class FieldParser extends ParserBootstrap<Void> {
 
     @Override
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
-        return initializer
-                .handler(new CustomPatternHandler())
-                .initializer(new CustomPatternInitializer())
-                .pattern(CustomPattern.of(
-                        VariantElement.create("visibility").content(Keywords.PUBLIC.getValue(), Keywords.SHARED.getValue(), Keywords.INTERNAL.getValue()),
-                        KeywordElement.create(Keywords.STATIC).optional(),
-                        KeywordElement.create(Keywords.MUT).optional(),
-                        KeywordElement.create(Keywords.NIL).optional(),
-                        TypeElement.create("type").verify(new NextTokenTypeVerifier(TokenTypes.UNKNOWN)),
-                        WildcardElement.create("name").verify(new TokenTypeVerifier(TokenTypes.UNKNOWN)),
-                        SubPatternElement.create("assign").of(
-                                UnitElement.create("operator").content("="),
-                                ExpressionElement.create("assignation").map(ExpressionTransaction::getExpression)
-                        ).optional()
-                ));
+        return initializer.functional(builder -> builder
+                .variant("visibility").consume(variant -> variant.content(Keywords.PUBLIC, Keywords.SHARED, Keywords.INTERNAL))
+                .keyword(Keywords.STATIC).optional()
+                .keyword(Keywords.MUT).optional()
+                .keyword(Keywords.NIL).optional()
+                .type("type").verifyNextTypeIs(TokenTypes.UNKNOWN)
+                .wildcard("name").verifyType(TokenTypes.UNKNOWN)
+                .subPattern("assign", sub -> sub
+                        .unit("operator", "=")
+                        .expression("assignation").map(ExpressionTransaction::getExpression)
+                ).optional());
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
-    void parse(Context context, LocalChannel channel, @Channel Result result, @Channel Location location, @Src("type") Snippet typeName, @Src("name") TokenInfo name) {
+    void parse(Context context, LocalChannel channel, @Channel Mappings mappings, @Channel Location location, @Src("type") Snippet typeName, @Src("name") TokenInfo name) {
         Type returnType = PandaImportsUtils.getTypeOrThrow(context, typeName.asSource(), typeName);
-        Visibility visibility = Visibility.valueOf(result.get("visibility").get().toString().toUpperCase());
+        Visibility visibility = Visibility.valueOf(mappings.get("visibility").get().toString().toUpperCase());
 
         Type type = context.getComponent(TypeComponents.PROTOTYPE);
         int fieldIndex = type.getFields().getDeclaredProperties().size();
@@ -94,9 +78,9 @@ public final class FieldParser extends ParserBootstrap<Void> {
                 .fieldIndex(fieldIndex)
                 .location(location)
                 .visibility(visibility)
-                .isStatic(result.has(Keywords.STATIC))
-                .mutable(result.has(Keywords.MUT))
-                .nillable(result.has(Keywords.NIL))
+                .isStatic(mappings.has(Keywords.STATIC))
+                .mutable(mappings.has(Keywords.MUT))
+                .nillable(mappings.has(Keywords.NIL))
                 .build();
 
         type.getFields().declare(field);

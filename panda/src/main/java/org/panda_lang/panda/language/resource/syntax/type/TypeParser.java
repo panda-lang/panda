@@ -38,29 +38,29 @@ import org.panda_lang.framework.language.architecture.type.TypeScope;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PipelineParser;
-import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
-import org.panda_lang.framework.language.interpreter.pattern.custom.Result;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.CustomElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.SectionElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.SubPatternElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.UnitElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.VariantElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.WildcardElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.TokenTypeVerifier;
+import org.panda_lang.framework.language.interpreter.pattern.Mappings;
+import org.panda_lang.framework.language.interpreter.pattern.functional.FunctionalPattern;
+import org.panda_lang.framework.language.interpreter.pattern.functional.elements.CustomElement;
+import org.panda_lang.framework.language.interpreter.pattern.functional.elements.SectionElement;
+import org.panda_lang.framework.language.interpreter.pattern.functional.elements.SubPatternElement;
+import org.panda_lang.framework.language.interpreter.pattern.functional.elements.UnitElement;
+import org.panda_lang.framework.language.interpreter.pattern.functional.elements.VariantElement;
+import org.panda_lang.framework.language.interpreter.pattern.functional.elements.WildcardElement;
+import org.panda_lang.framework.language.interpreter.pattern.functional.verifiers.TokenTypeVerifier;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
+import org.panda_lang.panda.language.interpreter.parser.context.Delegation;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.context.Delegation;
-import org.panda_lang.panda.language.interpreter.parser.context.handlers.CustomPatternHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.initializers.CustomPatternInitializer;
+import org.panda_lang.panda.language.interpreter.parser.context.handlers.FunctionalPatternHandler;
+import org.panda_lang.panda.language.interpreter.parser.context.initializers.FunctionalPatternInitializer;
 import org.panda_lang.utilities.commons.function.PandaStream;
 
 import java.util.Collection;
@@ -73,23 +73,23 @@ public final class TypeParser extends ParserBootstrap<Void> {
     @Override
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
-                .handler(new CustomPatternHandler())
-                .initializer(new CustomPatternInitializer())
-                .pattern(CustomPattern.of(
+                .handler(new FunctionalPatternHandler())
+                .initializer(new FunctionalPatternInitializer())
+                .pattern(FunctionalPattern.of(
                         VariantElement.create("visibility").content(Keywords.PUBLIC, Keywords.SHARED, Keywords.INTERNAL).optional(),
                         VariantElement.create("model").content(Keywords.CLASS, Keywords.TYPE, Keywords.INTERFACE),
                         WildcardElement.create("name").verify(new TokenTypeVerifier(TokenTypes.UNKNOWN)),
                         SubPatternElement.create("extended").optional().of(
                                 UnitElement.create("extends").content(":"),
-                                CustomElement.create("inherited").custom((data, source) -> TypeParserUtils.readTypes(source))
+                                CustomElement.create("inherited").reader((data, source) -> TypeParserUtils.readTypes(source))
                         ),
                         SectionElement.create("body", Separators.BRACE_LEFT)
                 ));
     }
 
     @Autowired(order = 0, cycle = GenerationCycles.TYPES_LABEL)
-    void parse(Context context, @Channel Location location, @Channel Result result, @Ctx Script script, @Src("model") String model, @Src("name") String name) {
-        Visibility visibility = result.get("visibility")
+    void parse(Context context, @Channel Location location, @Channel Mappings mappings, @Ctx Script script, @Src("model") String model, @Src("name") String name) {
+        Visibility visibility = mappings.get("visibility")
                 .map(Visibility::of)
                 .orElseGet(Visibility.INTERNAL);
 

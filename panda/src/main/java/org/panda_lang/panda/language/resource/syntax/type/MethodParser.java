@@ -36,17 +36,17 @@ import org.panda_lang.framework.language.architecture.type.PandaMethod;
 import org.panda_lang.framework.language.architecture.type.utils.TypedUtils;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
-import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
-import org.panda_lang.framework.language.interpreter.pattern.custom.Result;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.KeywordElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.SectionElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.SubPatternElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.TypeElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.UnitElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.VariantElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.WildcardElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.NextSectionVerifier;
-import org.panda_lang.framework.language.interpreter.pattern.custom.verifiers.TokenTypeVerifier;
+import org.panda_lang.framework.language.interpreter.pattern.Mappings;
+import org.panda_lang.framework.language.interpreter.pattern.functional.FunctionalPattern;
+import org.panda_lang.framework.language.interpreter.pattern.functional.elements.KeywordElement;
+import org.panda_lang.framework.language.interpreter.pattern.functional.elements.SectionElement;
+import org.panda_lang.framework.language.interpreter.pattern.functional.elements.SubPatternElement;
+import org.panda_lang.framework.language.interpreter.pattern.functional.elements.TypeElement;
+import org.panda_lang.framework.language.interpreter.pattern.functional.elements.UnitElement;
+import org.panda_lang.framework.language.interpreter.pattern.functional.elements.VariantElement;
+import org.panda_lang.framework.language.interpreter.pattern.functional.elements.WildcardElement;
+import org.panda_lang.framework.language.interpreter.pattern.functional.verifiers.NextSectionVerifier;
+import org.panda_lang.framework.language.interpreter.pattern.functional.verifiers.TokenTypeVerifier;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.framework.language.resource.syntax.operator.Operators;
@@ -60,8 +60,8 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Auto
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.context.handlers.CustomPatternHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.initializers.CustomPatternInitializer;
+import org.panda_lang.panda.language.interpreter.parser.context.handlers.FunctionalPatternHandler;
+import org.panda_lang.panda.language.interpreter.parser.context.initializers.FunctionalPatternInitializer;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 import org.panda_lang.panda.language.resource.syntax.scope.branching.Returnable;
 import org.panda_lang.utilities.commons.function.Option;
@@ -77,9 +77,9 @@ public final class MethodParser extends ParserBootstrap<Void> {
     @Override
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer
-                .handler(new CustomPatternHandler())
-                .initializer(new CustomPatternInitializer())
-                .pattern(CustomPattern.of(
+                .handler(new FunctionalPatternHandler())
+                .initializer(new FunctionalPatternInitializer())
+                .pattern(FunctionalPattern.of(
                         KeywordElement.create(Keywords.OVERRIDE).optional(),
                         VariantElement.create("visibility").optional().content("public", "shared", "internal").map(value -> Visibility.valueOf(value.toString().toUpperCase())),
                         UnitElement.create("static").content("static").optional(),
@@ -116,7 +116,7 @@ public final class MethodParser extends ParserBootstrap<Void> {
         Context context,
         LocalChannel channel,
         @Ctx Type type,
-        @Channel Result result,
+        @Channel Mappings mappings,
         @Channel Location location,
         @Channel Type returnType,
         @Channel MethodScope scope,
@@ -129,7 +129,7 @@ public final class MethodParser extends ParserBootstrap<Void> {
                 .peek(method -> channel.allocated("native", true));
 
         existingMethod
-                .filterNot(method -> result.has(Keywords.OVERRIDE))
+                .filterNot(method -> mappings.has(Keywords.OVERRIDE))
                 .peek(method -> {
                     throw new PandaParserFailure(context, name,
                             "Method &b" + name + "&r overrides &b" + existingMethod.get() + "&r but does not contain&b override&r modifier",
@@ -147,7 +147,7 @@ public final class MethodParser extends ParserBootstrap<Void> {
                     );
                 });
 
-        result.get("visibility")
+        mappings.get("visibility")
                 .orElse(() -> existingMethod.map(TypeMethod::getVisibility))
                 .peek(visibility -> channel.allocated("visibility", visibility))
                 .orThrow(() -> {
@@ -156,7 +156,7 @@ public final class MethodParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 4, cycle = GenerationCycles.TYPES_LABEL)
-    void declareMethod(LocalChannel channel, @Ctx Type type, @Channel Result result, @Src("name") TokenInfo name, @Channel Type returnType, @Channel MethodScope scope, @Src("body") Snippet body) {
+    void declareMethod(LocalChannel channel, @Ctx Type type, @Channel Mappings mappings, @Src("name") TokenInfo name, @Channel Type returnType, @Channel MethodScope scope, @Src("body") Snippet body) {
         TypeMethod method = PandaMethod.builder()
                 .type(type)
                 .parameters(scope.getParameters())
@@ -165,7 +165,7 @@ public final class MethodParser extends ParserBootstrap<Void> {
                 .isAbstract(body == null)
                 .visibility(channel.get("visibility"))
                 .returnType(returnType)
-                .isStatic(result.has("static"))
+                .isStatic(mappings.has("static"))
                 .isNative(channel.contains("native"))
                 .body(scope)
                 .build();

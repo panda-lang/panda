@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
-import org.panda_lang.framework.language.interpreter.pattern.PatternMapping;
+import org.panda_lang.framework.language.interpreter.pattern.Mappings;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
@@ -80,11 +80,11 @@ final class BootstrapInjectorController implements InjectorController {
     private @Nullable Object findSource(Src src, Parameter required) {
         LocalChannel channel = getChannel();
 
-        if (!channel.contains(PatternMapping.class)) {
+        if (!channel.contains(Mappings.class)) {
             throw new BootstrapException("Pattern mappings are not defined for @Redactor");
         }
 
-        PatternMapping redactor = getChannel().get(PatternMapping.class);
+        Mappings redactor = getChannel().get(Mappings.class);
         Object value = redactor.get(src.value()).getOrNull();
         Class<?> requiredType = required.getType();
 

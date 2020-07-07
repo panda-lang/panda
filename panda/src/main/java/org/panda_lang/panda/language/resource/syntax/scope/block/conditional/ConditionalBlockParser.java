@@ -17,20 +17,20 @@
 package org.panda_lang.panda.language.resource.syntax.scope.block.conditional;
 
 import org.panda_lang.framework.design.architecture.expression.Expression;
+import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.design.architecture.statement.Block;
 import org.panda_lang.framework.design.architecture.statement.Scope;
-import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.language.architecture.expression.PandaExpression;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
-import org.panda_lang.framework.language.interpreter.pattern.custom.Result;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.ExpressionElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.KeywordElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.SubPatternElement;
-import org.panda_lang.framework.language.interpreter.pattern.custom.elements.VariantElement;
+import org.panda_lang.framework.language.interpreter.pattern.Mappings;
+import org.panda_lang.framework.language.interpreter.pattern.functional.FunctionalPattern;
+import org.panda_lang.framework.language.interpreter.pattern.functional.elements.ExpressionElement;
+import org.panda_lang.framework.language.interpreter.pattern.functional.elements.KeywordElement;
+import org.panda_lang.framework.language.interpreter.pattern.functional.elements.SubPatternElement;
+import org.panda_lang.framework.language.interpreter.pattern.functional.elements.VariantElement;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
@@ -42,7 +42,7 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Auto
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.initializers.CustomPatternInitializer;
+import org.panda_lang.panda.language.interpreter.parser.context.initializers.FunctionalPatternInitializer;
 
 @RegistrableParser(pipeline = PandaPipeline.BLOCK_LABEL)
 public final class ConditionalBlockParser extends BlockSubparserBootstrap {
@@ -51,8 +51,8 @@ public final class ConditionalBlockParser extends BlockSubparserBootstrap {
     protected BootstrapInitializer<BlockData> initialize(Context context, BootstrapInitializer<BlockData> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.IF, Keywords.ELSE))
-                .initializer(new CustomPatternInitializer())
-                .pattern(CustomPattern.of(
+                .initializer(new FunctionalPatternInitializer())
+                .pattern(FunctionalPattern.of(
                         VariantElement.create("variant").content(
                                 SubPatternElement.create("else if").of(
                                         KeywordElement.create(Keywords.ELSE),
@@ -74,16 +74,16 @@ public final class ConditionalBlockParser extends BlockSubparserBootstrap {
         @Ctx Scope parent,
         @Ctx TypeLoader loader,
         @Ctx(BlockComponents.PREVIOUS_BLOCK_LABEL) Block previous,
-        @Channel Result result,
+        @Channel Mappings mappings,
         @Channel Location location
     ) {
-        Expression condition = result
+        Expression condition = mappings
                 .get("condition", Expression.class)
                 .orElseGet(() -> new PandaExpression(loader.requireType(Boolean.class), true));
 
         ConditionalBlock conditionalBlock = new ConditionalBlock(parent, location, condition);
 
-        if (result.has("else")) {
+        if (mappings.has("else")) {
             if (!(previous instanceof ConditionalBlock)) {
                 throw new PandaParserFailure(context, "The Else-block without associated If-block");
             }
@@ -93,7 +93,7 @@ public final class ConditionalBlockParser extends BlockSubparserBootstrap {
             return new BlockData(conditionalBlock, true);
         }
 
-        if (result.has("if")) {
+        if (mappings.has("if")) {
             return new BlockData(conditionalBlock);
         }
 
