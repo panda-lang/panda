@@ -78,7 +78,7 @@ public final class MethodParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
-    void parseReturnType(Context context, LocalChannel channel, @Ctx Imports imports, @Src("type") Snippet returnTypeName) {
+    public void parseReturnType(Context context, LocalChannel channel, @Ctx Imports imports, @Src("type") Snippet returnTypeName) {
         Option.of(returnTypeName)
                 .map(value -> PandaImportsUtils.getTypeOrThrow(context, returnTypeName,
                         "Unknown type {name}",
@@ -89,14 +89,14 @@ public final class MethodParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 2, cycle = GenerationCycles.TYPES_LABEL)
-    void parseParameters(Context context, LocalChannel channel, @Src("name") TokenInfo name, @Src("parameters") Snippet parametersSource) {
+    public void parseParameters(Context context, LocalChannel channel, @Src("name") TokenInfo name, @Src("parameters") Snippet parametersSource) {
         List<PropertyParameter> parameters = PARAMETER_PARSER.parse(context, parametersSource);
         MethodScope methodScope = new MethodScope(name.getLocation(), parameters);
         channel.allocated("scope", methodScope);
     }
 
     @Autowired(order = 3, cycle = GenerationCycles.TYPES_LABEL)
-    void verifyData(
+    public void verifyData(
         Context context,
         LocalChannel channel,
         @Ctx Type type,
@@ -140,7 +140,7 @@ public final class MethodParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 4, cycle = GenerationCycles.TYPES_LABEL)
-    void declareMethod(LocalChannel channel, @Ctx Type type, @Channel Mappings mappings, @Src("name") TokenInfo name, @Channel Type returnType, @Channel MethodScope scope, @Src("body") Snippet body) {
+    public void declareMethod(LocalChannel channel, @Ctx Type type, @Channel Mappings mappings, @Src("name") TokenInfo name, @Channel Type returnType, @Channel MethodScope scope, @Src("body") Snippet body) {
         TypeMethod method = PandaMethod.builder()
                 .type(type)
                 .parameters(scope.getParameters())
@@ -159,7 +159,7 @@ public final class MethodParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 5, delegation = Delegation.NEXT_DEFAULT)
-    void parse(Context context, @Channel MethodScope methodScope, @Channel TypeMethod method, @Nullable @Src("body") Snippet body) throws Exception {
+    public void parse(Context context, @Channel MethodScope methodScope, @Channel TypeMethod method, @Nullable @Src("body") Snippet body) throws Exception {
         if (!SnippetUtils.isEmpty(body)) {
             SCOPE_PARSER.parse(context, methodScope, body);
         }

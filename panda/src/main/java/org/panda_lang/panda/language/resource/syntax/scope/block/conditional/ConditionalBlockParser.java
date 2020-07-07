@@ -64,7 +64,7 @@ public final class ConditionalBlockParser extends BlockSubparserBootstrap {
     }
 
     @Autowired(order = 1)
-    BlockData parse(
+    public BlockData parse(
         Context context,
         @Ctx Scope parent,
         @Ctx TypeLoader loader,

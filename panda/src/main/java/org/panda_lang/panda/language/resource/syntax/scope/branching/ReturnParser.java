@@ -43,7 +43,7 @@ public final class ReturnParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1)
-    void parse(@Ctx Scope scope, @Channel Location location, @Src("value") @Nullable Expression value) {
+    public void parse(@Ctx Scope scope, @Channel Location location, @Src("value") @Nullable Expression value) {
         scope.addStatement(new Return(location, value));
     }
 

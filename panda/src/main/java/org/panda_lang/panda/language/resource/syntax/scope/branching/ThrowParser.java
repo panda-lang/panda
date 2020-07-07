@@ -42,7 +42,7 @@ public final class ThrowParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1)
-    void parse(@Ctx Scope block, @Channel Location location, @Src("value") Expression expression) {
+    public void parse(@Ctx Scope block, @Channel Location location, @Src("value") Expression expression) {
         block.addStatement(new Throw(location, expression));
     }
 

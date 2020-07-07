@@ -50,7 +50,7 @@ public final class BaseCallParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1)
-    void parse(Context context, @Ctx Scope parent, @Ctx Type type, @Channel Location location, @Channel Snippet src, @Src("args") Snippet args) {
+    public void parse(Context context, @Ctx Scope parent, @Ctx Type type, @Channel Location location, @Channel Snippet src, @Src("args") Snippet args) {
         if (!(parent instanceof ConstructorScope)) {
             throw new PandaParserFailure(context, src, src, "Cannot use base constructor outside of the constructor");
         }

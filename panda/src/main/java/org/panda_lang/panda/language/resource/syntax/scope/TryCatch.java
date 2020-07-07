@@ -26,7 +26,7 @@ import org.panda_lang.framework.language.architecture.dynamic.AbstractExecutable
 import java.util.HashMap;
 import java.util.Map;
 
-final class TryCatch extends AbstractExecutableStatement {
+public final class TryCatch extends AbstractExecutableStatement {
 
     private final Scope tryBlock;
     private final Scope finallyBlock;

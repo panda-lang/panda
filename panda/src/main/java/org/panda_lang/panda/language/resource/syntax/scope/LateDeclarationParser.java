@@ -51,7 +51,7 @@ public final class LateDeclarationParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1)
-    void parse(Context context, @Channel Mappings mappings, @Ctx Scope scope, @Src("type") Snippetable type, @Src("name") Snippetable name) {
+    public void parse(Context context, @Channel Mappings mappings, @Ctx Scope scope, @Src("type") Snippetable type, @Src("name") Snippetable name) {
         PandaVariableDataInitializer dataInitializer = new PandaVariableDataInitializer(context, scope);
         VariableData variableData = dataInitializer.createVariableData(type, name, mappings.has(Keywords.MUT.getValue()), mappings.has(Keywords.NIL.getValue()));
         scope.createVariable(variableData);

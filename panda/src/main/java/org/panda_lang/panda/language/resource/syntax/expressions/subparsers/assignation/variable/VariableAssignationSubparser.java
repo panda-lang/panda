@@ -78,7 +78,7 @@ public final class VariableAssignationSubparser extends AssignationSubparserBoot
     }
 
     @Autowired(order = 1)
-    ExpressionResult parse(LocalChannel channel, @Ctx Scope block, @Ctx Expression expression, @Channel Location location) {
+    public ExpressionResult parse(LocalChannel channel, @Ctx Scope block, @Ctx Expression expression, @Channel Location location) {
         Accessor<?> accessor = channel.get("accessor", AccessorExpression.class).getAccessor();
         boolean initialization = block.getFramedScope() instanceof ConstructorScope;
         Assigner<?> assigner = accessor.toAssigner(location, initialization, expression);

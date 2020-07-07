@@ -17,20 +17,19 @@
 package org.panda_lang.panda.language.interpreter.parser.context;
 
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-
-import java.lang.reflect.Method;
+import org.panda_lang.utilities.inject.GeneratedMethodInjector;
 
 final class BootstrapMethod {
 
-    protected final Method method;
     protected final Autowired autowired;
+    protected final GeneratedMethodInjector generatedMethod;
 
-    BootstrapMethod(Method method) {
-        this.method = method;
-        this.autowired = method.getAnnotation(Autowired.class);
+    BootstrapMethod(GeneratedMethodInjector generatedMethod) {
+        this.generatedMethod = generatedMethod;
+        this.autowired = generatedMethod.getMethod().getAnnotation(Autowired.class);
 
         if (autowired == null) {
-            throw new BootstrapException("Method " + method.getName() + " is not annotated by @Autowired");
+            throw new BootstrapException("Method " + generatedMethod.getMethod().getName() + " is not annotated by @Autowired");
         }
     }
 
@@ -46,13 +45,17 @@ final class BootstrapMethod {
         return autowired.cycle();
     }
 
-    protected Method getMethod() {
-        return method;
+    protected GeneratedMethodInjector getGeneratedMethod() {
+        return generatedMethod;
+    }
+
+    public String getName() {
+        return generatedMethod.getMethod().getName();
     }
 
     @Override
     public String toString() {
-        return "Bootstrap Method: " + method + " / " + autowired;
+        return "Bootstrap Method: " + generatedMethod.getMethod() + " / " + autowired;
     }
 
 }

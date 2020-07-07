@@ -55,7 +55,7 @@ public final class ForParser extends BlockSubparserBootstrap {
     }
 
     @Autowired(order = 1)
-    BlockData parseBlock(Context context, @Ctx Scope parent, @Channel Location location, @Src("content") Snippet content, @Ctx ExpressionParser expressionParser) {
+    public BlockData parseBlock(Context context, @Ctx Scope parent, @Channel Location location, @Src("content") Snippet content, @Ctx ExpressionParser expressionParser) {
         Snippet[] forEachElements = content.split(Separators.SEMICOLON);
 
         if (forEachElements.length != 3) {

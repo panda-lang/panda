@@ -48,7 +48,7 @@ public final class LogParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1)
-    void parse(Context context, @Ctx ExpressionParser parser, @Ctx Scope scope, @Channel Location location, @Src("arguments") ExpressionTransaction[] transactions) {
+    public void parse(Context context, @Ctx ExpressionParser parser, @Ctx Scope scope, @Channel Location location, @Src("arguments") ExpressionTransaction[] transactions) {
         Expression[] expressions = Arrays.stream(transactions)
                 .map(ExpressionTransaction::getExpression)
                 .toArray(Expression[]::new);

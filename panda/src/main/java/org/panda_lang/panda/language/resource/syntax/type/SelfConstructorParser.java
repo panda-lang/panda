@@ -61,7 +61,7 @@ public final class SelfConstructorParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1)
-    void parse(Context context, @Ctx Scope parent, @Ctx Type type, @Channel Location location, @Src("args") Snippet args) {
+    public void parse(Context context, @Ctx Scope parent, @Ctx Type type, @Channel Location location, @Src("args") Snippet args) {
         if (!(parent instanceof ConstructorScope)) {
             throw new PandaParserFailure(context, args, "Cannot use constructor call outside of the constructor");
         }

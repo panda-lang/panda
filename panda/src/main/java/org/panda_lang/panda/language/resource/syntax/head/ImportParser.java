@@ -41,7 +41,7 @@ public final class ImportParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1)
-    void parseImport(Context context, @Ctx Imports imports, @Src("class") Snippet className) {
+    public void parseImport(Context context, @Ctx Imports imports, @Src("class") Snippet className) {
         imports.importType(className.toString(), ConveyanceUtils.fetchType(context, className));
     }
 

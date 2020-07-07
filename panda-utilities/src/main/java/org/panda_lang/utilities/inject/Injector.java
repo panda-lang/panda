@@ -76,7 +76,7 @@ public interface Injector {
      * @param parameter the parameter invoke
      * @param <T> type of expected value
      * @return the associated binding value
-     * @throws InjectorException if anything happen
+     * @throws java.lang.Throwable if anything happen
      */
     @Nullable <T> T invokeParameter(Parameter parameter, Object... injectorArgs) throws Throwable;
 

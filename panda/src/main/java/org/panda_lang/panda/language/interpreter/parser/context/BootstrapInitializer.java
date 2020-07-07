@@ -36,6 +36,8 @@ import java.util.function.Function;
 
 public final class BootstrapInitializer<T> {
 
+    private static final BootstrapGenerator BOOTSTRAP_GENERATOR = new BootstrapGenerator();
+
     protected String name;
     protected Object instance;
 
@@ -130,7 +132,7 @@ public final class BootstrapInitializer<T> {
             initializer = (ctx, channel) -> {};
         }
 
-        return new BootstrapGenerator().generate(this, new BootstrapContentImpl(name, instance, context, handler, initializer, pattern));
+        return BOOTSTRAP_GENERATOR.generate(this, new BootstrapContentImpl(name, instance, context, handler, initializer, pattern));
     }
 
 }

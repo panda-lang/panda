@@ -105,7 +105,7 @@ public final class VariableDeclarationSubparser extends AssignationSubparserBoot
     }
 
     @Autowired(order = 1)
-    ExpressionResult parse(
+    public ExpressionResult parse(
         Context context,
         LocalChannel channel,
         @Ctx Scope scope,

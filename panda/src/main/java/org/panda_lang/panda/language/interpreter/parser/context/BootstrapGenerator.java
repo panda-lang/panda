@@ -19,19 +19,31 @@ package org.panda_lang.panda.language.interpreter.parser.context;
 import org.panda_lang.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.framework.design.interpreter.parser.ParserRepresentation;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaParserRepresentation;
+import org.panda_lang.utilities.inject.DependencyInjection;
+import org.panda_lang.utilities.inject.Injector;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 final class BootstrapGenerator {
 
-    protected <T> ParserRepresentation<ContextParser<T>> generate(BootstrapInitializer<T> initializer, BootstrapContent content) {
-        List<BootstrapMethod> methods = initializer.layers.stream()
-                .map(BootstrapMethod::new)
-                .sorted(Comparator.comparingInt(BootstrapMethod::getOrder))
-                .collect(Collectors.toList());
+    private static final Injector INJECTOR = DependencyInjection.createInjector(new BootstrapInjectorController());
 
+    protected <T> ParserRepresentation<ContextParser<T>> generate(BootstrapInitializer<T> initializer, BootstrapContent content) {
+        List<BootstrapMethod> methods = new ArrayList<>(initializer.layers.size());
+
+        for (Method layer : initializer.layers) {
+            try {
+                methods.add(new BootstrapMethod(INJECTOR.forGeneratedMethod(layer)));
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new BootstrapException("Cannot generate bootstrap method", e);
+            }
+        }
+
+        methods.sort(Comparator.comparingInt(BootstrapMethod::getOrder));
         content.getInitializer().initialize(content);
 
         content.getHandler()

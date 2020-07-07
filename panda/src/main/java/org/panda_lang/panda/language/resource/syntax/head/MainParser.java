@@ -48,12 +48,12 @@ public final class MainParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1, delegation = Delegation.NEXT_DEFAULT)
-    void createScope(LocalChannel channel, @Ctx Script script, @Channel Location location) {
+    public void createScope(LocalChannel channel, @Ctx Script script, @Channel Location location) {
         script.addStatement(channel.allocated("main", new MainScope(location)));
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_AFTER)
-    void parseScope(Context context, @Channel MainScope main, @Src("body") @Nullable Snippet body) throws Exception {
+    public void parseScope(Context context, @Channel MainScope main, @Src("body") @Nullable Snippet body) throws Exception {
         SCOPE_PARSER.parse(context.fork(), main, body);
     }
 

@@ -17,6 +17,7 @@
 package org.panda_lang.utilities.commons;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.utilities.commons.collection.Pair;
 import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.ThrowingConsumer;
 
@@ -218,15 +219,26 @@ public final class ArrayUtils {
      * @param arrayClass the array class
      * @return the base type
      */
-    @SuppressWarnings("IdempotentLoopBody")
     public static Class<?> getBaseClass(Class<?> arrayClass) {
+        return getBaseClassWithDimensions(arrayClass).getKey();
+    }
+
+    /**
+     * Get base class of any array, e.g. Integer from Integer[][][][][]
+     *
+     * @param arrayClass the array class
+     * @return the base type
+     */
+    public static Pair<Class<?>, Integer> getBaseClassWithDimensions(Class<?> arrayClass) {
         Class<?> currentClass = arrayClass;
+        int dimensions = 0;
 
         while (currentClass.isArray()) {
             currentClass = arrayClass.getComponentType();
+            dimensions++;
         }
 
-        return currentClass;
+        return new Pair<>(currentClass, dimensions);
     }
 
     /**

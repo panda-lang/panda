@@ -88,7 +88,7 @@ public final class ArrayValueAssignationSubparser extends AssignationSubparserBo
     }
 
     @Autowired(order = 1)
-    ExpressionResult parse(
+    public ExpressionResult parse(
         Context context,
         LocalChannel channel,
         @Ctx SourceStream source,

@@ -59,7 +59,7 @@ public final class ConstructorParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1)
-    void parse(Context context, LocalChannel channel, @Channel Location location, @Ctx TypeScope typeScope, @Src("parameters") @Nullable Snippet parametersSource) {
+    public void parse(Context context, LocalChannel channel, @Channel Location location, @Ctx TypeScope typeScope, @Src("parameters") @Nullable Snippet parametersSource) {
         List<PropertyParameter> parameters = PARAMETER_PARSER.parse(context, parametersSource);
         ConstructorScope constructorScope = channel.allocated("scope", new ConstructorScope(location, parameters));
 
@@ -84,7 +84,7 @@ public final class ConstructorParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
-    void parse(Context context, @Ctx TypeScope typeScope, @Channel ConstructorScope scope, @Channel TypeConstructor constructor, @Channel Snippet src, @Src("body") @Nullable Snippet body) throws Exception {
+    public void parse(Context context, @Ctx TypeScope typeScope, @Channel ConstructorScope scope, @Channel TypeConstructor constructor, @Channel Snippet src, @Src("body") @Nullable Snippet body) throws Exception {
         SCOPE_PARSER.parse(context, scope, body);
 
         typeScope.getType().getSuperclass()

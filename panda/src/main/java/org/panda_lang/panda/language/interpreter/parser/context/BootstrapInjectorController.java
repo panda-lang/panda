@@ -24,6 +24,7 @@ import org.panda_lang.framework.language.interpreter.pattern.Mappings;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
+import org.panda_lang.utilities.commons.ObjectUtils;
 import org.panda_lang.utilities.commons.StringUtils;
 import org.panda_lang.utilities.inject.InjectorController;
 import org.panda_lang.utilities.inject.InjectorResources;
@@ -35,31 +36,25 @@ import java.util.Objects;
 
 final class BootstrapInjectorController implements InjectorController {
 
-    private final Context context;
-
-    BootstrapInjectorController(Context context) {
-        this.context = context;
-    }
-
     @Override
     public void initialize(InjectorResources resources) {
-        resources.on(Context.class).assignInstance(() -> context);
-        resources.on(LocalChannel.class).assignInstance(() -> context.getComponent(Components.CHANNEL));
+        resources.on(Context.class).assignHandler((parameter, annotation, injectorArgs) -> context(injectorArgs));
+        resources.on(LocalChannel.class).assignHandler((parameter, annotation, injectorArgs) -> channel(context(injectorArgs)));
 
         resources.annotatedWith(Ctx.class).assignHandler((required, annotation, injectorArgs) -> {
-            return findComponent(annotation, required);
+            return findComponent(context(injectorArgs), annotation, required);
         });
 
         resources.annotatedWith(Channel.class).assignHandler((required, annotation, injectorArgs) -> {
-            return findInChannel(annotation, required);
+            return findInChannel(context(injectorArgs), annotation, required);
         });
 
         resources.annotatedWith(Src.class).assignHandler((required, annotation, injectorArgs) -> {
-            return findSource(annotation, required);
+            return findSource(context(injectorArgs), annotation, required);
         });
     }
 
-    private @Nullable Object findComponent(Ctx ctx, Parameter required) {
+    private @Nullable Object findComponent(Context context, Ctx ctx, Parameter required) {
         return context.getComponents().entrySet().stream()
                 .filter(entry -> {
                     String value = ctx.value();
@@ -77,14 +72,14 @@ final class BootstrapInjectorController implements InjectorController {
                 .orElse(null);
     }
 
-    private @Nullable Object findSource(Src src, Parameter required) {
-        LocalChannel channel = getChannel();
+    private @Nullable Object findSource(Context context, Src src, Parameter required) {
+        LocalChannel channel = channel(context);
 
         if (!channel.contains(Mappings.class)) {
             throw new BootstrapException("Pattern mappings are not defined for @Redactor");
         }
 
-        Mappings redactor = getChannel().get(Mappings.class);
+        Mappings redactor = channel.get(Mappings.class);
         Object value = redactor.get(src.value()).getOrNull();
         Class<?> requiredType = required.getType();
 
@@ -99,9 +94,9 @@ final class BootstrapInjectorController implements InjectorController {
         return value;
     }
 
-    private @Nullable Object findInChannel(Channel channelAnnotation, Parameter required) {
+    private @Nullable Object findInChannel(Context context, Channel channelAnnotation, Parameter required) {
         String name = channelAnnotation.value();
-        LocalChannel channel = getChannel();
+        LocalChannel channel = channel(context);
 
         if (!StringUtils.isEmpty(name)) {
             return channel.get(name);
@@ -110,7 +105,11 @@ final class BootstrapInjectorController implements InjectorController {
         return channel.get(required.getType());
     }
 
-    private LocalChannel getChannel() {
+    private Context context(Object[] injectorArgs) {
+        return Objects.requireNonNull(ObjectUtils.cast(injectorArgs[0]));
+    }
+
+    private LocalChannel channel(Context context) {
         return context.getComponent(Components.CHANNEL);
     }
 

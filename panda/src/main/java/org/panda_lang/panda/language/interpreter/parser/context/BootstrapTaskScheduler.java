@@ -23,9 +23,6 @@ import org.panda_lang.framework.design.interpreter.parser.generation.Generation;
 import org.panda_lang.framework.design.interpreter.parser.generation.GenerationCycle;
 import org.panda_lang.framework.design.interpreter.parser.generation.GenerationPhase;
 import org.panda_lang.framework.design.interpreter.parser.generation.GenerationTask;
-import org.panda_lang.utilities.inject.DependencyInjection;
-import org.panda_lang.utilities.inject.Injector;
-import org.panda_lang.utilities.inject.InjectorController;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Stack;
@@ -44,19 +41,14 @@ final class BootstrapTaskScheduler<T> {
         this.methods = methods;
     }
 
-    protected T schedule(Context context) throws Exception {
-        return schedule(context, new BootstrapInjectorController(context));
-    }
-
-    private @Nullable T schedule(Context context, InjectorController controller) throws Exception {
-        Injector injector = DependencyInjection.createInjector(controller);
+    protected  @Nullable T schedule(Context context) throws Exception {
         int currentOrder = methods.peek().getOrder();
 
         while (hasNext(currentOrder)) {
             BootstrapMethod currentMethod = methods.pop();
             boolean last = !hasNext(currentOrder);
 
-            T value = delegateNext(context, controller, injector, currentMethod, last);
+            T value = delegateNext(context, currentMethod, last);
 
             if (last) {
                 return value;
@@ -66,24 +58,24 @@ final class BootstrapTaskScheduler<T> {
         return null;
     }
 
-    private T delegateNext(Context context, InjectorController controller, Injector injector, BootstrapMethod method, boolean last) throws Exception {
+    private T delegateNext(Context context, BootstrapMethod method, boolean last) throws Exception {
         GenerationTask<T> callback = (cycle, delegatedContext) -> {
             T value;
 
             try {
-                value = injector.invokeMethod(method.getMethod(), content.getInstance());
+                value = method.getGeneratedMethod().invoke(content.getInstance(), delegatedContext);
             } catch (InvocationTargetException e) {
                 if (e.getTargetException() instanceof Exception) {
                     throw (Exception) e.getTargetException();
                 }
 
-                throw new BootstrapException("Cannot execute " + method.getMethod() + " -> " + e.getTargetException().getMessage(), e.getTargetException());
+                throw new BootstrapException("Cannot execute " + method.getName() + " -> " + e.getTargetException().getMessage(), e.getTargetException());
             } catch (Throwable e) {
-                throw new BootstrapException("Cannot execute " + method.getMethod() + " -> " + e.getMessage(), e);
+                throw new BootstrapException("Cannot execute " + method.getName() + " -> " + e.getMessage(), e);
             }
 
             if (last && !methods.isEmpty()) {
-                schedule(delegatedContext.fork(), controller);
+                schedule(delegatedContext.fork());
             }
 
             return value;

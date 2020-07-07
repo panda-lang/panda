@@ -88,7 +88,7 @@ public final class TypeParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 0, cycle = GenerationCycles.TYPES_LABEL)
-    void parse(Context context, @Channel Location location, @Channel Mappings mappings, @Ctx Script script, @Src("model") String model, @Src("name") String name) {
+    public void parse(Context context, @Channel Location location, @Channel Mappings mappings, @Ctx Script script, @Src("model") String model, @Src("name") String name) {
         Visibility visibility = mappings.get("visibility")
                 .map(Visibility::of)
                 .orElseGet(Visibility.INTERNAL);
@@ -115,7 +115,7 @@ public final class TypeParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
-    void parseDeclaration(Context context, @Ctx Type type, @Ctx TypeLoader loader, @Nullable @Src("inherited") Collection<Snippetable> inherited) {
+    public void parseDeclaration(Context context, @Ctx Type type, @Ctx TypeLoader loader, @Nullable @Src("inherited") Collection<Snippetable> inherited) {
         if (inherited != null) {
             inherited.forEach(typeSource -> TypeParserUtils.appendExtended(context, type, typeSource));
         }
@@ -126,12 +126,12 @@ public final class TypeParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 2, cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.NEXT_BEFORE)
-    Object parseBody(Context context, @Ctx Type type, @Src("body") Snippet body) throws Exception {
+    public Object parseBody(Context context, @Ctx Type type, @Src("body") Snippet body) throws Exception {
         return TYPE_PIPELINE_PARSER.parse(context, new PandaSourceStream(body));
     }
 
     @Autowired(order = 3, cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
-    void verifyProperties(Context context, @Ctx Type type, @Ctx TypeScope scope) {
+    public void verifyProperties(Context context, @Ctx Type type, @Ctx TypeScope scope) {
         if (type.getState() != State.ABSTRACT) {
             type.getBases().stream()
                     .flatMap(base -> base.getMethods().getProperties().stream())
@@ -159,7 +159,7 @@ public final class TypeParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 4, cycle = GenerationCycles.CONTENT_LABEL, delegation = Delegation.CURRENT_AFTER)
-    void verifyContent(Context context, @Ctx Type type) {
+    public void verifyContent(Context context, @Ctx Type type) {
         for (TypeField field : type.getFields().getDeclaredProperties()) {
             if (!field.isInitialized() && !(field.isNillable() && field.isMutable())) {
                 throw new PandaParserFailure(context, "Field " + field + " is not initialized");

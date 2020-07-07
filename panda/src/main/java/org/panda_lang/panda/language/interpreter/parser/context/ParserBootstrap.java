@@ -48,7 +48,7 @@ public abstract class ParserBootstrap<T> implements ContextParser<T>, Handler {
             return parser;
         }
 
-        return this.parser = initialize(context, new BootstrapInitializer<T>().instance(this)).build(context);
+        return (this.parser = initialize(context, new BootstrapInitializer<T>().instance(this)).build(context));
     }
 
 }

@@ -48,7 +48,7 @@ public final class ModuleParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
-    void parse(@Ctx Environment environment, @Ctx Imports imports, @Ctx PandaScript script, @Channel Location location, @Src("module") Snippet source) {
+    public void parse(@Ctx Environment environment, @Ctx Imports imports, @Ctx PandaScript script, @Channel Location location, @Src("module") Snippet source) {
         if (script.select(ModuleStatement.class).size() > 0) {
             throw new PandaParserException("Script contains more than one declaration of the group");
         }
