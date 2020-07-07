@@ -51,7 +51,7 @@ public final class FieldParser extends ParserBootstrap<Void> {
     @Override
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer.functional(builder -> builder
-                .variant("visibility").consume(variant -> variant.content(Keywords.PUBLIC, Keywords.SHARED, Keywords.INTERNAL))
+                .variant("visibility").consume(variant -> variant.content(Keywords.OPEN, Keywords.SHARED, Keywords.INTERNAL))
                 .keyword(Keywords.STATIC).optional()
                 .keyword(Keywords.MUT).optional()
                 .keyword(Keywords.NIL).optional()

@@ -23,10 +23,9 @@ import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.bootstrap.PandaApplicationBootstrap;
 import org.panda_lang.panda.util.PandaUtils;
 import org.panda_lang.utilities.commons.TimeUtils;
+import org.panda_lang.utilities.commons.function.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.panda_lang.utilities.commons.function.Option;
 
 public final class ExamplesLauncher {
 
@@ -57,6 +56,10 @@ public final class ExamplesLauncher {
     }
 
     public static Application interpret(String directory, String file) {
+        return interpret("../examples/", directory, file);
+    }
+
+    public static Application interpret(String prefix, String directory, String file) {
         Logger logger = LoggerFactory.getLogger(ExamplesLauncher.class);
         PandaUtils.printJVMUptime(() -> logger);
 
@@ -64,7 +67,7 @@ public final class ExamplesLauncher {
         Panda panda = factory.createPanda(logger);
 
         Option<Application> application = PandaApplicationBootstrap.create(panda)
-                .workingDirectory("../examples/" + directory)
+                .workingDirectory(prefix + directory)
                 .script(file)
                 .createApplication();
 

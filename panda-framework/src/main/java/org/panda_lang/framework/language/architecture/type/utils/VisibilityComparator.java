@@ -44,7 +44,7 @@ public final class VisibilityComparator {
     }
 
     public static Option<String> canAccess(Property requested, Module currentModule, @Nullable Source currentSource) {
-        if (requested.getVisibility() == Visibility.PUBLIC) {
+        if (requested.getVisibility() == Visibility.OPEN) {
             return Option.none();
         }
 

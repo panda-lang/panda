@@ -24,7 +24,7 @@ public enum Visibility {
     /**
      * May be accessed anywhere
      */
-    PUBLIC(0),
+    OPEN(0),
     /**
      * May be accessed from the associated module and its submodules
      */

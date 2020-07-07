@@ -66,7 +66,7 @@ public final class MethodParser extends ParserBootstrap<Void> {
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
         return initializer.functional(pattern -> pattern
                 .keyword(Keywords.OVERRIDE).optional()
-                .variant("visibility").optional().consume(variant -> variant.content("public", "shared", "internal").map(value -> Visibility.valueOf(value.toString().toUpperCase())))
+                .variant("visibility").optional().consume(variant -> variant.content("open", "shared", "internal").map(value -> Visibility.valueOf(value.toString().toUpperCase())))
                 .keyword(Keywords.STATIC).optional()
                 .wildcard("name").verifyType(TokenTypes.UNKNOWN, TokenTypes.SEQUENCE)
                 .section("parameters", Separators.PARENTHESIS_LEFT)

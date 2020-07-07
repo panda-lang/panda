@@ -31,7 +31,7 @@ public class PandaTypeMetadata<BUILDER extends PandaTypeMetadata<BUILDER, ?>, TY
     protected Class<?> javaType;
     protected String model = TypeModels.CLASS;
     protected State state = State.DEFAULT;
-    protected Visibility visibility = Visibility.PUBLIC;
+    protected Visibility visibility = Visibility.OPEN;
     protected boolean isNative;
 
     protected PandaTypeMetadata() { }

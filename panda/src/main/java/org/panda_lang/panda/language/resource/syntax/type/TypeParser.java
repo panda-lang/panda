@@ -76,7 +76,7 @@ public final class TypeParser extends ParserBootstrap<Void> {
                 .handler(new FunctionalPatternHandler())
                 .initializer(new FunctionalPatternInitializer())
                 .pattern(FunctionalPattern.of(
-                        VariantElement.create("visibility").content(Keywords.PUBLIC, Keywords.SHARED, Keywords.INTERNAL).optional(),
+                        VariantElement.create("visibility").content(Keywords.OPEN, Keywords.SHARED, Keywords.INTERNAL).optional(),
                         VariantElement.create("model").content(Keywords.CLASS, Keywords.TYPE, Keywords.INTERFACE),
                         WildcardElement.create("name").verify(new TokenTypeVerifier(TokenTypes.UNKNOWN)),
                         SubPatternElement.create("extended").optional().of(

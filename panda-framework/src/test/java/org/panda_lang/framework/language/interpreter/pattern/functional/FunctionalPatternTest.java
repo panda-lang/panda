@@ -46,7 +46,7 @@ class FunctionalPatternTest {
     @Test
     void method() {
         FunctionalPattern functionalPattern = FunctionalPattern.of(
-                VariantElement.create("visibility").content("public", "shared", "internal"),
+                VariantElement.create("visibility").content("open", "shared", "internal"),
                 UnitElement.create("isStatic").content("static").optional(),
                 TypeElement.create("type").optional().verify(new NextTokenTypeVerifier(TokenTypes.UNKNOWN, TokenTypes.SEQUENCE)),
                 WildcardElement.create("name").verify(new TokenTypeVerifier(TokenTypes.UNKNOWN, TokenTypes.SEQUENCE)),
@@ -76,7 +76,7 @@ class FunctionalPatternTest {
         fakeContext.withComponent(Components.EXPRESSION, new PandaExpressionParser(Collections::emptyList));
 
         FunctionalPattern pattern = FunctionalPattern.of(
-                VariantElement.create("visibility").content(Keywords.PUBLIC.getValue(), Keywords.SHARED.getValue(), Keywords.INTERNAL.getValue()),
+                VariantElement.create("visibility").content(Keywords.OPEN.getValue(), Keywords.SHARED.getValue(), Keywords.INTERNAL.getValue()),
                 KeywordElement.create(Keywords.STATIC).optional(),
                 KeywordElement.create(Keywords.MUT).optional(),
                 KeywordElement.create(Keywords.NIL).optional(),

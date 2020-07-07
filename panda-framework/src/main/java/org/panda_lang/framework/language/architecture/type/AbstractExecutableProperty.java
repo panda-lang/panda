@@ -83,7 +83,7 @@ public abstract class AbstractExecutableProperty<E extends ExecutableProperty> e
         protected Type type;
         protected Location location;
         protected TypeExecutableCallback<E, Object> callback;
-        protected Visibility visibility = Visibility.PUBLIC;
+        protected Visibility visibility = Visibility.OPEN;
         protected PropertyParameter[] parameters = ParameterUtils.PARAMETERLESS;
         protected boolean isNative;
 

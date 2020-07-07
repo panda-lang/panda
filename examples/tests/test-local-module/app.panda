@@ -1,8 +1,8 @@
 module test-local-module
 
-public class LocalModuleClass {
+open type LocalModuleClass {
 
-    public static hello() {
+    open static hello() {
         log 'Local Module Class'
     }
 

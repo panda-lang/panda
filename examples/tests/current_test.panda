@@ -227,8 +227,8 @@ internal class Entity {
 // random Test class
 internal class Test {
 
-    // public static field INDEX with assigned value
-    public static Int INDEX = 1
+    // open static field INDEX with assigned value
+    open static Int INDEX = 1
 
     // shared between submodules field
     shared Test testField
@@ -245,7 +245,7 @@ internal class Test {
     }
 
     // static field that creates instance of the current class
-    public static Test TEST = new Test('Static initialization of class instance')
+    open static Test TEST = new Test('Static initialization of class instance')
 
     shared echo (Object message3) {
         log message3

@@ -7,6 +7,6 @@ scripts: {
 }
 
 dependencies: [
-    github:dzikoysk/panda-dependency@1.0.3
+    github:dzikoysk/panda-dependency@1.0.4
 ]
 

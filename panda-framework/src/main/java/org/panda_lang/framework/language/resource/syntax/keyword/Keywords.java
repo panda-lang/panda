@@ -82,6 +82,8 @@ public final class Keywords {
 
     public static final Keyword NIL = add(VALUES, new Keyword("nil"));
 
+    public static final Keyword OPEN = add(VALUES, new Keyword("open"));
+
     public static final Keyword OVERRIDE = add(VALUES, new Keyword("override"));
 
     public static final Keyword PUBLIC = add(VALUES, new Keyword("public"));

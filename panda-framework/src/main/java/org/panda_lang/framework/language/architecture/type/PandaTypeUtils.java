@@ -37,7 +37,7 @@ public final class PandaTypeUtils {
                     .name(name)
                     .module(module)
                     .javaType(javaType)
-                    .visibility(Visibility.PUBLIC)
+                    .visibility(Visibility.OPEN)
                     .state(State.DEFAULT)
                     .model(javaType.isInterface() ? TypeModels.INTERFACE : TypeModels.CLASS)
                     .location(new PandaClassSource(javaType).toLocation())

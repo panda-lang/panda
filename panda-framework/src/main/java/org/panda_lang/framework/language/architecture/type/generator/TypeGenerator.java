@@ -52,7 +52,7 @@ final class TypeGenerator {
                             .location(new PandaClassSource(javaType).toLocation())
                             .model(TypeModels.of(javaType))
                             .state(State.of(javaType))
-                            .visibility(Visibility.PUBLIC)
+                            .visibility(Visibility.OPEN)
                             .build();
 
                     type.addInitializer((typeLoader, initializedType) -> {
