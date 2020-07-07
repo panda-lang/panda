@@ -127,7 +127,7 @@ public final class PandaExpressionParser implements ExpressionParser {
             throw new PandaExpressionParserFailure(expressionContext, source.toSnippet(), "Source contains " + expressionContext.getResults().size() + " expressions");
         }
 
-        source.read(worker.getLastSucceededRead());
+        source.readSilently(worker.getLastSucceededRead());
 
         if (visitor != null) {
             visitor.accept(expressionContext, worker);

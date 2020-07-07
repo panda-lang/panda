@@ -34,9 +34,16 @@ public interface SourceStream extends Snippetable {
      * Read the specified amount of tokens
      *
      * @param length amount of tokens to read
-     * @return the read tokens
+     * @return the amount of tokens to read
      */
     Snippet read(int length);
+
+    /**
+     * Read the specified amount of tokens without creating snippet of read content
+     *
+     * @param length the amount of tokens to read
+     */
+    void readSilently(int length);
 
     /**
      * Read the specified amount of tokens and dispose result (it won't create snippet)

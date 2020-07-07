@@ -34,20 +34,20 @@ public final class CustomPattern {
     }
 
     public Result match(Snippet source) {
-        return match(new PandaSourceStream(source));
+        return match(source, new PandaSourceStream(source));
     }
 
     public Result match(Snippet source, @Nullable CustomPatternData data) {
-        return match(new PandaSourceStream(source), data);
+        return match(source, new PandaSourceStream(source), data);
     }
 
-    public Result match(SourceStream source) {
-        return match(source, null);
+    public Result match(Snippet source, SourceStream stream) {
+        return match(source, stream, null);
     }
 
-    public Result match(SourceStream source, @Nullable CustomPatternData data) {
+    public Result match(Snippet source, SourceStream stream, @Nullable CustomPatternData data) {
         CustomPatternMatcher matcher = new CustomPatternMatcher(this, data);
-        return matcher.match(source);
+        return matcher.match(source, stream);
     }
 
     protected List<? extends CustomPatternElement<?>> getElements() {

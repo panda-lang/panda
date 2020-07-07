@@ -17,11 +17,10 @@
 package org.panda_lang.framework.language.interpreter.pattern.custom;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 
 public interface CustomReader<T> {
 
-    @Nullable T read(CustomPatternData data, SynchronizedSource source) throws PandaFrameworkException;
+    @Nullable T read(CustomPatternData data, SynchronizedSource source);
 
 }

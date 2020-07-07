@@ -39,25 +39,9 @@ import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 class CustomPatternTest {
-
-    private static final Snippet SINGLE_KEYWORD = PandaLexerUtils.convert("PatternBenchmark", "while");
-    private static final CustomPattern SINGLE_KEYWORD_CUSTOM = CustomPattern.of(KeywordElement.create(Keywords.WHILE));
-
-    public static void main(String... args) {
-        List<Result> results = new ArrayList<>(100_000_000);
-
-        for (int i = 0; i < 100_000_000; i++) {
-            Result result = SINGLE_KEYWORD_CUSTOM.match(SINGLE_KEYWORD);
-            results.add(result);
-        }
-
-        System.out.println(results);
-    }
 
     @Test
     void method() {

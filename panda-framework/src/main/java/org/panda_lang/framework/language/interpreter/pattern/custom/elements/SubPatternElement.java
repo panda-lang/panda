@@ -16,6 +16,7 @@
 
 package org.panda_lang.framework.language.interpreter.pattern.custom.elements;
 
+import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.language.interpreter.pattern.custom.Buildable;
 import org.panda_lang.framework.language.interpreter.pattern.custom.CustomPattern;
@@ -41,8 +42,9 @@ public final class SubPatternElement extends CustomPatternElementBuilder<Result,
 
     protected static CustomReader<Result> createReader(CustomPattern pattern) {
         return (data, source) -> {
-            SourceStream stream = new PandaSourceStream(source.getAvailableSource());
-            Result result = pattern.match(stream, data);
+            Snippet availableSource = source.getAvailableSource();
+            SourceStream stream = new PandaSourceStream(availableSource);
+            Result result = pattern.match(availableSource, stream, data);
 
             if (!result.isMatched()) {
                 return null;

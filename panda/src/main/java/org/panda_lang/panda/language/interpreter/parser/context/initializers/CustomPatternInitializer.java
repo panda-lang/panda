@@ -49,7 +49,7 @@ public final class CustomPatternInitializer implements IterationInitializer {
         channel.allocated("location", currentSource.getLocation());
 
         CustomPatternData patternData = new CustomPatternData().with(UniversalData.CONTEXT, context);
-        Result result = pattern.match(source, patternData);
+        Result result = pattern.match(currentSource, source, patternData);
 
         if (!result.isMatched()) {
             throw new PandaParserFailure(context, currentSource, "CustomPatternInterceptor could not match pattern", "Make sure that the pattern does not have a typo");

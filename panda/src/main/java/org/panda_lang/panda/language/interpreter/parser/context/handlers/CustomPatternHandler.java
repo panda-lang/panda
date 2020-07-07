@@ -43,7 +43,7 @@ public final class CustomPatternHandler implements BootstrapHandler {
     @Override
     public Object handle(Context context, LocalChannel channel, Snippet source) {
         return pattern
-                .match(new PandaSourceStream(source), new CustomPatternData().with(UniversalData.CONTEXT, context))
+                .match(source, new PandaSourceStream(source), new CustomPatternData().with(UniversalData.CONTEXT, context))
                 .isMatched();
     }
 

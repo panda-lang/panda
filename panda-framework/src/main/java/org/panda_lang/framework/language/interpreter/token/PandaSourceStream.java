@@ -56,6 +56,15 @@ public final class PandaSourceStream implements SourceStream {
     }
 
     @Override
+    public void readSilently(int length) {
+        if (!hasUnreadSource(length)) {
+            throw new IndexOutOfBoundsException("source(" + (index + length) + ") >= source.length (" + original.size() + ")");
+        }
+
+        index += length;
+    }
+
+    @Override
     public Snippet readLineResidue() {
         List<TokenInfo> residue = new ArrayList<>();
         int currentLine = this.getCurrentLine();

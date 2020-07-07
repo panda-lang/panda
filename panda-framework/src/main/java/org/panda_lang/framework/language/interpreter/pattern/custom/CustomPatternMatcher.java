@@ -17,16 +17,14 @@
 package org.panda_lang.framework.language.interpreter.pattern.custom;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.PandaFrameworkException;
+import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.SourceStream;
 import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.utilities.commons.ObjectUtils;
 import org.panda_lang.utilities.commons.collection.Pair;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Function;
 
 final class CustomPatternMatcher {
@@ -39,9 +37,9 @@ final class CustomPatternMatcher {
         this.data = data == null ? new CustomPatternData() : data;
     }
 
-    public Result match(SourceStream source) {
-        List<Pair<String, Object>> results = new ArrayList<>((pattern.getElements().size() * 2));
-        SynchronizedSource synchronizedSource = new SynchronizedSource(source.toSnippet());
+    public Result match(Snippet source, SourceStream stream) {
+        List<Pair<String, Object>> results = new ArrayList<>(pattern.getElements().size() * 2);
+        SynchronizedSource synchronizedSource = new SynchronizedSource(source);
 
         for (CustomPatternElement<?> element : pattern.getElements()) {
             if (!synchronizedSource.hasNext()) {
@@ -53,17 +51,7 @@ final class CustomPatternMatcher {
             }
 
             synchronizedSource.cacheIndex();
-            Object result;
-
-            try {
-                result = element.getReader().read(data, synchronizedSource);
-            } catch (PandaFrameworkException e) {
-                if (restoreIfOptional(synchronizedSource, element)) {
-                    continue;
-                }
-
-                throw e;
-            }
+            Object result = element.getReader().read(data, synchronizedSource);
 
             // result may be null if element is optional
             if (result == null) {
@@ -97,7 +85,7 @@ final class CustomPatternMatcher {
             results.add(new Pair<>(element.getId(), result));
         }
 
-        return new Result(source.read(synchronizedSource.getIndex()), results);
+        return new Result(stream.read(synchronizedSource.getIndex()), results);
     }
 
     private boolean restoreIfOptional(SynchronizedSource synchronizedSource, CustomPatternElement<?> element) {
