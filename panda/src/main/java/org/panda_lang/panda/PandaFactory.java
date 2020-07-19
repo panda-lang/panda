@@ -16,28 +16,14 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.language.resource.syntax.PandaSyntax;
 import org.panda_lang.panda.bootstrap.PandaBootstrap;
-import org.panda_lang.panda.language.interpreter.messenger.formatters.EnvironmentFormatter;
-import org.panda_lang.panda.language.interpreter.messenger.formatters.ExceptionFormatter;
-import org.panda_lang.panda.language.interpreter.messenger.formatters.IndicatedSourceFormatter;
-import org.panda_lang.panda.language.interpreter.messenger.formatters.ParserFailureFormatter;
-import org.panda_lang.panda.language.interpreter.messenger.formatters.ProcessFailureFormatter;
-import org.panda_lang.panda.language.interpreter.messenger.formatters.StacktraceElementsFormatter;
-import org.panda_lang.panda.language.interpreter.messenger.formatters.ThrowableFormatter;
-import org.panda_lang.panda.language.interpreter.messenger.layouts.ExceptionTranslatorLayout;
-import org.panda_lang.panda.language.interpreter.messenger.layouts.InterpreterFailureTranslatorLayout;
-import org.panda_lang.panda.language.interpreter.messenger.layouts.PandaLexerFailureTranslatorLayout;
-import org.panda_lang.panda.language.interpreter.messenger.layouts.ParserFailureTranslatorLayout;
-import org.panda_lang.panda.language.interpreter.messenger.layouts.ProcessFailureTranslatorLayout;
+import org.panda_lang.panda.language.interpreter.messenger.formatters.Formatters;
+import org.panda_lang.panda.language.interpreter.messenger.layouts.TranslatorLayouts;
 import org.panda_lang.panda.language.interpreter.messenger.mappers.StacktraceMapper;
-import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.resource.syntax.PandaParsers;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationParsers;
 import org.slf4j.Logger;
-
-import java.util.Arrays;
 
 /**
  * Simplify creation of Panda instance
@@ -57,29 +43,13 @@ public final class PandaFactory {
 
                 // initialize messenger
                 .initializeMessenger()
-                    .addLayouts(() -> Arrays.asList(
-                            new ExceptionTranslatorLayout(),
-                            new PandaLexerFailureTranslatorLayout(),
-                            new InterpreterFailureTranslatorLayout(),
-                            new ParserFailureTranslatorLayout(),
-                            new ProcessFailureTranslatorLayout()
-                    ))
-                    .addDataFormatters(() -> Arrays.asList(
-                            new EnvironmentFormatter(),
-                            new ThrowableFormatter(),
-                            new StacktraceElementsFormatter(),
-                            new ExceptionFormatter(),
-                            new IndicatedSourceFormatter(),
-                            new ParserFailureFormatter(),
-                            new ProcessFailureFormatter()
-                    ))
+                    .addLayouts(TranslatorLayouts.LAYOUTS)
+                    .addDataFormatters(Formatters.FORMATTERS)
                     .addDataMapper(new StacktraceMapper())
                     .collect()
 
                 // load pipelines
                 .initializePipelines()
-                    .usePipelines(Pipelines.getPipelineComponents())
-                    .usePipelines(PandaPipeline.getPipelineComponents())
                     .collect()
 
                 // load parsers and expressions subparsers

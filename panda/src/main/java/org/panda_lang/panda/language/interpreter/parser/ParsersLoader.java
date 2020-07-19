@@ -21,7 +21,6 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaParserRepresentation;
-import org.panda_lang.panda.PandaException;
 import org.panda_lang.utilities.commons.ObjectUtils;
 
 import java.util.Collection;
@@ -30,11 +29,7 @@ public final class ParsersLoader {
 
     public PipelinePath loadParsers(PipelinePath path, Collection<Parser> parsers) {
         for (Parser parser : parsers) {
-            if (!Handler.class.isAssignableFrom(parser.getClass())) {
-                throw new PandaException("Cannot create parser handler instance (source: " + parser.getClass() + ")");
-            }
-            
-            Handler handler = ObjectUtils.cast(parser);
+            Handler handler = (Handler) parser;
 
             for (PipelineComponent<? extends Parser> pipeline : handler.pipeline()) {
                 path.computeIfAbsent(pipeline).register(ObjectUtils.cast(new PandaParserRepresentation<>(parser, handler, handler.priority())));
