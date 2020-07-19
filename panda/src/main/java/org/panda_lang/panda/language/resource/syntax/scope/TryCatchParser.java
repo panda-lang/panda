@@ -22,13 +22,14 @@ import org.panda_lang.framework.design.architecture.statement.VariableData;
 import org.panda_lang.framework.design.architecture.type.DynamicClass;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
+import org.panda_lang.framework.design.interpreter.parser.Parser;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.architecture.statement.PandaBlock;
 import org.panda_lang.framework.language.architecture.statement.PandaVariableDataInitializer;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
@@ -37,11 +38,16 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Chan
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
+import org.panda_lang.utilities.commons.ArrayUtils;
 
-@RegistrableParser(pipeline = Pipelines.SCOPE_LABEL)
 public final class TryCatchParser extends ParserBootstrap<Void> {
 
     private static final ScopeParser SCOPE_PARSER = new ScopeParser();
+
+    @Override
+    public PipelineComponent<? extends Parser>[] pipeline() {
+        return ArrayUtils.of(Pipelines.SCOPE);
+    }
 
     @Override
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {

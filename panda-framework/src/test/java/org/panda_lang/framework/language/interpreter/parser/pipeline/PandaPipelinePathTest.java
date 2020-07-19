@@ -38,12 +38,12 @@ class PandaPipelinePathTest {
     @BeforeEach
     void prepareDefaultPipelinePath() {
         this.defaultPath = new PandaPipelinePath();
-        defaultPath.createPipeline(TEST_COMPONENT);
+        defaultPath.computeIfAbsent(TEST_COMPONENT);
     }
 
     @Test
     void createPipeline() {
-        Assertions.assertNotNull(defaultPath.createPipeline(ANOTHER_TEST_COMPONENT));
+        Assertions.assertNotNull(defaultPath.computeIfAbsent(ANOTHER_TEST_COMPONENT));
     }
 
     @Test

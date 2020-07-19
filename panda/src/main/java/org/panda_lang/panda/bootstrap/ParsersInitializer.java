@@ -19,7 +19,7 @@ package org.panda_lang.panda.bootstrap;
 import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionSubparsers;
-import org.panda_lang.panda.language.interpreter.parser.RegistrableParsersLoader;
+import org.panda_lang.panda.language.interpreter.parser.ParsersLoader;
 import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressions;
 
 import java.util.ArrayList;
@@ -32,12 +32,12 @@ import java.util.Collection;
 public final class ParsersInitializer implements Initializer {
 
     private final PandaBootstrap bootstrap;
-    private final RegistrableParsersLoader registrationLoader;
+    private final ParsersLoader registrationLoader;
     private final Collection<ExpressionSubparser> expressionSubparsers = new ArrayList<>();
 
     ParsersInitializer(PandaBootstrap bootstrap) {
         this.bootstrap = bootstrap;
-        this.registrationLoader = new RegistrableParsersLoader(bootstrap.logger);
+        this.registrationLoader = new ParsersLoader();
     }
 
     /**

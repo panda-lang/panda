@@ -20,7 +20,9 @@ import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
+import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
@@ -28,7 +30,6 @@ import org.panda_lang.framework.language.architecture.type.ConstructorScope;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.literal.Literals;
-import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
@@ -36,11 +37,16 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Chan
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ArgumentsParser;
+import org.panda_lang.utilities.commons.ArrayUtils;
 
-@RegistrableParser(pipeline = Pipelines.SCOPE_LABEL)
 public final class SelfConstructorParser extends ParserBootstrap<Void> {
 
     private static final ArgumentsParser ARGUMENTS_PARSER = new ArgumentsParser();
+
+    @Override
+    public PipelineComponent<? extends Parser>[] pipeline() {
+        return ArrayUtils.of(Pipelines.SCOPE);
+    }
 
     @Override
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {

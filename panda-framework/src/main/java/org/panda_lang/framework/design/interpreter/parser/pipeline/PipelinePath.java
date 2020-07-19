@@ -32,7 +32,7 @@ public interface PipelinePath {
      * @param <P> type of parsers represented by pipeline
      * @return a new pipeline
      */
-    <P extends Parser> Pipeline<P> createPipeline(PipelineComponent<P> component);
+    <P extends Parser> Pipeline<P> computeIfAbsent(PipelineComponent<P> component);
 
     /**
      * Check if path contains the given pipeline

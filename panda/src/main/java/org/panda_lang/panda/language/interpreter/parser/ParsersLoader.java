@@ -17,50 +17,27 @@
 package org.panda_lang.panda.language.interpreter.parser;
 
 import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.parser.ParserRepresentation;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaParserRepresentation;
 import org.panda_lang.panda.PandaException;
 import org.panda_lang.utilities.commons.ObjectUtils;
-import org.slf4j.Logger;
 
 import java.util.Collection;
 
-public final class RegistrableParsersLoader {
-
-    private final Logger logger;
-
-    public RegistrableParsersLoader(Logger logger) {
-        this.logger = logger;
-    }
+public final class ParsersLoader {
 
     public PipelinePath loadParsers(PipelinePath path, Collection<Parser> parsers) {
         for (Parser parser : parsers) {
-            RegistrableParser registrable = parser.getClass().getAnnotation(RegistrableParser.class);
-
-            if (registrable == null) {
-                continue;
-            }
-
             if (!Handler.class.isAssignableFrom(parser.getClass())) {
                 throw new PandaException("Cannot create parser handler instance (source: " + parser.getClass() + ")");
             }
             
             Handler handler = ObjectUtils.cast(parser);
-            ParserRepresentation<Parser> representation = new PandaParserRepresentation<>(parser, handler, registrable.priority());
 
-            for (String target : registrable.pipeline()) {
-                PipelineComponent.get(target)
-                        .onEmpty(() -> logger.warn("Pipeline '" + target + "' does not exist or its component was not initialized"))
-                        .peek(component -> {
-                            if (!path.hasPipeline(component)) {
-                                path.createPipeline(component);
-                            }
-
-                            path.getPipeline(component).register(representation);
-                        });
+            for (PipelineComponent<? extends Parser> pipeline : handler.pipeline()) {
+                path.computeIfAbsent(pipeline).register(ObjectUtils.cast(new PandaParserRepresentation<>(parser, handler, handler.priority())));
             }
         }
 

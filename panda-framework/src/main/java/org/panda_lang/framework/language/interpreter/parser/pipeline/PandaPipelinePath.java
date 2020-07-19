@@ -37,7 +37,7 @@ public final class PandaPipelinePath implements PipelinePath {
     }
 
     @Override
-    public <P extends Parser> Pipeline<P> createPipeline(PipelineComponent<P> component) {
+    public <P extends Parser> Pipeline<P> computeIfAbsent(PipelineComponent<P> component) {
         Pipeline<P> pipeline = getPipeline(component);
 
         if (pipeline == null) {

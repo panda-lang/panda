@@ -24,7 +24,9 @@ import org.panda_lang.framework.design.architecture.type.TypeField;
 import org.panda_lang.framework.design.architecture.type.Visibility;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
+import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
@@ -37,16 +39,25 @@ import org.panda_lang.framework.language.interpreter.parser.generation.Generatio
 import org.panda_lang.framework.language.interpreter.pattern.Mappings;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
+import org.panda_lang.utilities.commons.ArrayUtils;
 
-@RegistrableParser(pipeline = Pipelines.TYPE_LABEL, priority = PandaPriorities.PROTOTYPE_FIELD)
 public final class FieldParser extends ParserBootstrap<Void> {
+
+    @Override
+    public PipelineComponent<? extends Parser>[] pipeline() {
+        return ArrayUtils.of(Pipelines.TYPE);
+    }
+
+    @Override
+    public double priority() {
+        return PandaPriorities.PROTOTYPE_FIELD;
+    }
 
     @Override
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {

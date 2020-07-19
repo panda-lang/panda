@@ -19,6 +19,7 @@ package org.panda_lang.framework.design.interpreter.parser.pipeline;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
+import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 
 /**
@@ -40,5 +41,13 @@ public interface Handler {
      * @return the result object
      */
     @Nullable Object handle(Context context, LocalChannel channel, Snippet source);
+
+    default PipelineComponent<? extends Parser>[] pipeline() {
+        throw new UnsupportedOperationException("Pipeline method not implemented");
+    }
+
+    default double priority() {
+        return 0;
+    }
 
 }

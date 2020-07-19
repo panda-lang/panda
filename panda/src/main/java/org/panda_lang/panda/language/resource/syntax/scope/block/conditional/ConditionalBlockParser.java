@@ -21,7 +21,9 @@ import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.design.architecture.statement.Block;
 import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.Parser;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionTransaction;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.language.architecture.expression.PandaExpression;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
@@ -31,7 +33,6 @@ import org.panda_lang.framework.language.interpreter.pattern.functional.elements
 import org.panda_lang.framework.language.interpreter.pattern.functional.elements.SubPatternElement;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
-import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.block.BlockComponents;
 import org.panda_lang.panda.language.interpreter.parser.block.BlockData;
 import org.panda_lang.panda.language.interpreter.parser.block.BlockSubparserBootstrap;
@@ -40,9 +41,14 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Auto
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
+import org.panda_lang.utilities.commons.ArrayUtils;
 
-@RegistrableParser(pipeline = PandaPipeline.BLOCK_LABEL)
 public final class ConditionalBlockParser extends BlockSubparserBootstrap {
+
+    @Override
+    public PipelineComponent<? extends Parser>[] pipeline() {
+        return ArrayUtils.of(PandaPipeline.BLOCK);
+    }
 
     @Override
     protected BootstrapInitializer<BlockData> initialize(Context context, BootstrapInitializer<BlockData> initializer) {

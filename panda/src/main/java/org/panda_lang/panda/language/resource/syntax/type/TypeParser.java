@@ -27,6 +27,8 @@ import org.panda_lang.framework.design.architecture.type.TypeModels;
 import org.panda_lang.framework.design.architecture.type.Visibility;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.Parser;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
@@ -39,19 +41,10 @@ import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PipelineParser;
 import org.panda_lang.framework.language.interpreter.pattern.Mappings;
-import org.panda_lang.framework.language.interpreter.pattern.functional.FunctionalPattern;
-import org.panda_lang.framework.language.interpreter.pattern.functional.elements.CustomElement;
-import org.panda_lang.framework.language.interpreter.pattern.functional.elements.SectionElement;
-import org.panda_lang.framework.language.interpreter.pattern.functional.elements.SubPatternElement;
-import org.panda_lang.framework.language.interpreter.pattern.functional.elements.UnitElement;
-import org.panda_lang.framework.language.interpreter.pattern.functional.elements.VariantElement;
-import org.panda_lang.framework.language.interpreter.pattern.functional.elements.WildcardElement;
-import org.panda_lang.framework.language.interpreter.pattern.functional.verifiers.TokenTypeVerifier;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
-import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.Delegation;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
@@ -59,32 +52,31 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Auto
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.context.handlers.FunctionalPatternHandler;
-import org.panda_lang.panda.language.interpreter.parser.context.initializers.FunctionalPatternInitializer;
+import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.function.PandaStream;
 
 import java.util.Collection;
 
-@RegistrableParser(pipeline = Pipelines.HEAD_LABEL)
 public final class TypeParser extends ParserBootstrap<Void> {
 
     private static final PipelineParser<?> TYPE_PIPELINE_PARSER = new PipelineParser<>(Pipelines.TYPE);
 
     @Override
+    public PipelineComponent<? extends Parser>[] pipeline() {
+        return ArrayUtils.of(Pipelines.HEAD);
+    }
+
+    @Override
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
-        return initializer
-                .handler(new FunctionalPatternHandler())
-                .initializer(new FunctionalPatternInitializer())
-                .pattern(FunctionalPattern.of(
-                        VariantElement.create("visibility").content(Keywords.OPEN, Keywords.SHARED, Keywords.INTERNAL).optional(),
-                        VariantElement.create("model").content(Keywords.CLASS, Keywords.TYPE, Keywords.INTERFACE),
-                        WildcardElement.create("name").verify(new TokenTypeVerifier(TokenTypes.UNKNOWN)),
-                        SubPatternElement.create("extended").optional().of(
-                                UnitElement.create("extends").content(":"),
-                                CustomElement.create("inherited").reader((data, source) -> TypeParserUtils.readTypes(source))
-                        ),
-                        SectionElement.create("body", Separators.BRACE_LEFT)
-                ));
+        return initializer.functional(pattern -> pattern
+                .variant("visibility").consume(variant -> variant.content(Keywords.OPEN, Keywords.SHARED, Keywords.INTERNAL)).optional()
+                .variant("model").consume(variant -> variant.content(Keywords.CLASS, Keywords.TYPE, Keywords.INTERFACE))
+                .wildcard("name").verifyType(TokenTypes.UNKNOWN)
+                .subPattern("extended", sub -> sub
+                        .unit("extends", ":")
+                        .custom("inherited").consume(custom -> custom.reader((data, source) -> TypeParserUtils.readTypes(source)))
+                ).optional()
+                .section("body", Separators.BRACE_LEFT));
     }
 
     @Autowired(order = 0, cycle = GenerationCycles.TYPES_LABEL)

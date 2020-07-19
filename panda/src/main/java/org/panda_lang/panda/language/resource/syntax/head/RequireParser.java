@@ -23,6 +23,8 @@ import org.panda_lang.framework.design.architecture.module.Module;
 import org.panda_lang.framework.design.interpreter.Interpretation;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
+import org.panda_lang.framework.design.interpreter.parser.Parser;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
@@ -36,7 +38,6 @@ import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
 import org.panda_lang.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
@@ -44,14 +45,19 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.manager.PackageManagerUtils;
+import org.panda_lang.utilities.commons.ArrayUtils;
 import org.slf4j.event.Level;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-@RegistrableParser(pipeline = Pipelines.HEAD_LABEL)
 public final class RequireParser extends ParserBootstrap<Void> {
+
+    @Override
+    public PipelineComponent<? extends Parser>[] pipeline() {
+        return ArrayUtils.of(Pipelines.HEAD);
+    }
 
     @Override
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {

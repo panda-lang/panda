@@ -23,9 +23,6 @@ import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assi
 import java.util.Arrays;
 import java.util.Collection;
 
-/**
- * Used by {@link RegistrableParser}
- */
 public final class PandaPipeline {
 
     /**

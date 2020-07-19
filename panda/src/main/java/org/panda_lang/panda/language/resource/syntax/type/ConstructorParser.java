@@ -22,6 +22,8 @@ import org.panda_lang.framework.design.architecture.type.Type;
 import org.panda_lang.framework.design.architecture.type.TypeConstructor;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
+import org.panda_lang.framework.design.interpreter.parser.Parser;
+import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
@@ -32,7 +34,6 @@ import org.panda_lang.framework.language.architecture.type.TypeInstance;
 import org.panda_lang.framework.language.architecture.type.TypeScope;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.language.interpreter.parser.RegistrableParser;
 import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.Delegation;
@@ -42,14 +43,19 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Chan
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
+import org.panda_lang.utilities.commons.ArrayUtils;
 
 import java.util.List;
 
-@RegistrableParser(pipeline = Pipelines.TYPE_LABEL)
 public final class ConstructorParser extends ParserBootstrap<Void> {
 
     private static final ParameterParser PARAMETER_PARSER = new ParameterParser();
     private static final ScopeParser SCOPE_PARSER = new ScopeParser();
+
+    @Override
+    public PipelineComponent<? extends Parser>[] pipeline() {
+        return ArrayUtils.of(Pipelines.TYPE);
+    }
 
     @Override
     protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {

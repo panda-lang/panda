@@ -44,7 +44,7 @@ public final class PipelinesInitializer implements Initializer {
     public final PipelinesInitializer usePipelines(Collection<PipelineComponent<?>>... componentsCollections) {
         for (Collection<PipelineComponent<?>> components : componentsCollections) {
             for (PipelineComponent<?> component : components) {
-                path.createPipeline(component);
+                path.computeIfAbsent(component);
             }
         }
 
