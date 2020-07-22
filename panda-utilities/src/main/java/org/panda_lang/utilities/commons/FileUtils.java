@@ -22,60 +22,17 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Predicate;
 
 public final class FileUtils {
 
     private FileUtils() { }
-
-    /**
-     * Efficient way to collect all paths (with subdirectories) in the specified directory
-     *
-     * @param root                   the directory to search in
-     * @param pathFilter             if path matches the filter, path is added to the list. Otherwise path will be checked as directory.
-     * @return the list of collected paths
-     */
-    public static List<Path> collectPaths(Path root, Predicate<Path> pathFilter) {
-        return collectPaths(new ArrayList<>(), root, pathFilter);
-    }
-
-    /**
-     * Efficient way to collect all paths (with subdirectories) in the specified directory
-     *
-     * @param root                   the directory to search in
-     * @param estimatedAmountOfPaths the estimated amount of paths to collect
-     * @param pathFilter             if path matches the filter, path is added to the list. Otherwise path will be checked as directory.
-     * @return the list of collected paths
-     */
-    public static List<Path> collectPaths(Path root, int estimatedAmountOfPaths, Predicate<Path> pathFilter) {
-        return collectPaths(new ArrayList<>(estimatedAmountOfPaths), root, pathFilter);
-    }
-
-    private static List<Path> collectPaths(List<Path> files, Path root, Predicate<Path> pathFilter) {
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(root)) {
-            for (Path path : stream) {
-                if (pathFilter.test(path)) {
-                    files.add(path);
-                }
-                else if (Files.isDirectory(path)) {
-                    collectPaths(files, path, pathFilter);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return files;
-    }
 
     /**
      * Check if a file is in the specified array
