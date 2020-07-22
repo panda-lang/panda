@@ -20,7 +20,7 @@
     <name>Panda</name>
     <groupId>org.panda-lang</groupId>
     <artifactId>panda-parent</artifactId>
-    <version>0.1.1-alpha</version>
+    <version>0.1.2-alpha</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -71,6 +71,11 @@
                 <groupId>org.panda-lang</groupId>
                 <artifactId>panda-utilities</artifactId>
                 <version>${panda.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.panda-lang.utilities</groupId>
+                <artifactId>di</artifactId>
+                <version>1.0.0</version>
             </dependency>
 
             <!-- General -->

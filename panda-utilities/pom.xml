@@ -20,13 +20,17 @@
     <parent>
         <artifactId>panda-parent</artifactId>
         <groupId>org.panda-lang</groupId>
-        <version>0.1.1-alpha</version>
+        <version>0.1.2-alpha</version>
     </parent>
 
     <artifactId>panda-utilities</artifactId>
 
     <dependencies>
         <!-- General -->
+        <dependency>
+            <groupId>org.panda-lang.utilities</groupId>
+            <artifactId>di</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.javassist</groupId>
             <artifactId>javassist</artifactId>
