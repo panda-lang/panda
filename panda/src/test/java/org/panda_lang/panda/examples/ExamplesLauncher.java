@@ -66,7 +66,7 @@ public final class ExamplesLauncher {
         PandaFactory factory = new PandaFactory();
         long time = System.currentTimeMillis();
         Panda panda = factory.createPanda(logger);
-        System.out.println("Time: " + (System.currentTimeMillis() - time));
+        logger.debug("Factory time: " + (System.currentTimeMillis() - time) + "ms");
 
         Option<Application> application = PandaApplicationBootstrap.create(panda)
                 .workingDirectory(prefix + directory)

@@ -21,15 +21,15 @@ import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
 import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
 import org.panda_lang.framework.language.interpreter.pattern.Mappings;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
+import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.utilities.commons.ObjectUtils;
 import org.panda_lang.utilities.commons.StringUtils;
 import org.panda_lang.utilities.inject.InjectorController;
+import org.panda_lang.utilities.inject.InjectorProperty;
 import org.panda_lang.utilities.inject.InjectorResources;
 
-import java.lang.reflect.Parameter;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Objects;
@@ -54,7 +54,7 @@ final class BootstrapInjectorController implements InjectorController {
         });
     }
 
-    private @Nullable Object findComponent(Context context, Ctx ctx, Parameter required) {
+    private @Nullable Object findComponent(Context context, Ctx ctx, InjectorProperty required) {
         return context.getComponents().entrySet().stream()
                 .filter(entry -> {
                     String value = ctx.value();
@@ -72,7 +72,7 @@ final class BootstrapInjectorController implements InjectorController {
                 .orElse(null);
     }
 
-    private @Nullable Object findSource(Context context, Src src, Parameter required) {
+    private @Nullable Object findSource(Context context, Src src, InjectorProperty required) {
         LocalChannel channel = channel(context);
 
         if (!channel.contains(Mappings.class)) {
@@ -94,7 +94,7 @@ final class BootstrapInjectorController implements InjectorController {
         return value;
     }
 
-    private @Nullable Object findInChannel(Context context, Channel channelAnnotation, Parameter required) {
+    private @Nullable Object findInChannel(Context context, Channel channelAnnotation, InjectorProperty required) {
         String name = channelAnnotation.value();
         LocalChannel channel = channel(context);
 
