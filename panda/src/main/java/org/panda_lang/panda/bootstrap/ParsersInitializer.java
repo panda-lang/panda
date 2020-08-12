@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.bootstrap;
 
-import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
-import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionSubparsers;
+import org.panda_lang.language.interpreter.parser.Parser;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.language.interpreter.parser.expression.PandaExpressionSubparsers;
 import org.panda_lang.panda.language.interpreter.parser.ParsersLoader;
 import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressions;
 

@@ -17,12 +17,12 @@
 package org.panda_lang.panda.shell.repl;
 
 import org.junit.jupiter.api.Test;
-import org.panda_lang.framework.design.architecture.module.ModuleLoaderUtils;
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.language.architecture.type.PandaMethod;
-import org.panda_lang.framework.language.architecture.type.PandaPropertyParameter;
-import org.panda_lang.framework.language.architecture.statement.PandaVariableData;
-import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
+import org.panda_lang.language.architecture.module.ModuleLoaderUtils;
+import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.architecture.type.PandaMethod;
+import org.panda_lang.language.architecture.type.PandaPropertyParameter;
+import org.panda_lang.language.architecture.statement.PandaVariableData;
+import org.panda_lang.language.interpreter.source.PandaClassSource;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
 import org.slf4j.LoggerFactory;

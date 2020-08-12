@@ -17,7 +17,7 @@
 package org.panda_lang.panda.examples.performance.matmul;
 
 import org.junit.jupiter.api.Test;
-import org.panda_lang.framework.design.architecture.Application;
+import org.panda_lang.language.architecture.Application;
 import org.panda_lang.panda.examples.ExamplesLauncher;
 
 class MatmulTest {

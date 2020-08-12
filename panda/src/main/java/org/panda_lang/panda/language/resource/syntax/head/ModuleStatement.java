@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.resource.syntax.head;
 
-import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.interpreter.source.Location;
-import org.panda_lang.framework.language.architecture.statement.AbstractStatement;
+import org.panda_lang.language.architecture.module.Module;
+import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.architecture.statement.AbstractStatement;
 
 final class ModuleStatement extends AbstractStatement {
 

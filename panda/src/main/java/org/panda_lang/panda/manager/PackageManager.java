@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.manager;
 
-import org.panda_lang.framework.FrameworkController;
-import org.panda_lang.framework.design.interpreter.messenger.Messenger;
+import org.panda_lang.language.FrameworkController;
+import org.panda_lang.language.interpreter.messenger.Messenger;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
 

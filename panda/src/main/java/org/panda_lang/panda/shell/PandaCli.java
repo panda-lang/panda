@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.shell;
 
-import org.panda_lang.framework.design.architecture.Application;
-import org.panda_lang.framework.language.interpreter.messenger.PandaMessenger;
+import org.panda_lang.language.architecture.Application;
+import org.panda_lang.language.interpreter.messenger.PandaMessenger;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaConstants;
 import org.panda_lang.panda.PandaFactory;

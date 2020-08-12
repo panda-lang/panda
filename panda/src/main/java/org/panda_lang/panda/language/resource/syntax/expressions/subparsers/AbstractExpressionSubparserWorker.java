@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
-import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
-import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserWorker;
 
 public abstract class AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 

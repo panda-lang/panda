@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.resource.syntax;
 
-import org.panda_lang.framework.design.interpreter.parser.ContextParser;
+import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.panda.language.interpreter.parser.block.BlockParser;
 import org.panda_lang.panda.language.resource.syntax.head.CommentParser;
 import org.panda_lang.panda.language.resource.syntax.head.ExportParser;

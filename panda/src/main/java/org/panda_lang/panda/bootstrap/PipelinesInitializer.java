@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.bootstrap;
 
-import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
-import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaPipelinePath;
+import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
+import org.panda_lang.language.interpreter.parser.pipeline.PipelinePath;
+import org.panda_lang.language.interpreter.parser.pipeline.PandaPipelinePath;
 
 import java.util.Collection;
 
 /**
- * {@link org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath} initializer
+ * {@link org.panda_lang.language.interpreter.parser.pipeline.PipelinePath} initializer
  */
 public final class PipelinesInitializer implements Initializer {
 

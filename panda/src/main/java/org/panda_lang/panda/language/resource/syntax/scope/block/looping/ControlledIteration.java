@@ -17,10 +17,10 @@
 package org.panda_lang.panda.language.resource.syntax.scope.block.looping;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.dynamic.ControlledScope;
-import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.design.runtime.Result;
-import org.panda_lang.framework.design.runtime.Status;
+import org.panda_lang.language.architecture.dynamic.ControlledScope;
+import org.panda_lang.language.runtime.ProcessStack;
+import org.panda_lang.language.runtime.Result;
+import org.panda_lang.language.runtime.Status;
 import org.panda_lang.utilities.commons.function.ThrowingRunnable;
 import org.panda_lang.utilities.commons.function.ThrowingSupplier;
 

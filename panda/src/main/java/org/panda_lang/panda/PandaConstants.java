@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.framework.PandaFrameworkConstants;
+import org.panda_lang.language.PandaFrameworkConstants;
 
 /**
  * Set of default constants associated with Panda

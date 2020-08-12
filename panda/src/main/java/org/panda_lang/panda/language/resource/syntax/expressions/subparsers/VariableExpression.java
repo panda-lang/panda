@@ -16,13 +16,13 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
-import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.type.Type;
-import org.panda_lang.framework.design.architecture.statement.Variable;
-import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.language.architecture.dynamic.accessor.Accessor;
-import org.panda_lang.framework.language.architecture.dynamic.accessor.AccessorExpression;
-import org.panda_lang.framework.language.architecture.expression.DynamicExpression;
+import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.statement.Variable;
+import org.panda_lang.language.runtime.ProcessStack;
+import org.panda_lang.language.architecture.dynamic.accessor.Accessor;
+import org.panda_lang.language.architecture.dynamic.accessor.AccessorExpression;
+import org.panda_lang.language.architecture.expression.DynamicExpression;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.variable.VariableAccessor;
 
 final class VariableExpression implements DynamicExpression {

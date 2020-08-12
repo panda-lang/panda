@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation;
 
-import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.statement.Scope;
-import org.panda_lang.framework.design.interpreter.parser.ContextComponent;
-import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
-import org.panda_lang.framework.design.interpreter.token.TokenInfo;
+import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.architecture.statement.Scope;
+import org.panda_lang.language.interpreter.parser.ContextComponent;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
+import org.panda_lang.language.interpreter.token.TokenInfo;
 
 public final class AssignationComponents {
 

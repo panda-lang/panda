@@ -16,10 +16,8 @@
 
 package org.panda_lang.panda.language.interpreter.messenger.layouts;
 
-import org.panda_lang.framework.design.Failure;
-import org.panda_lang.framework.design.interpreter.InterpreterFailure;
-import org.panda_lang.framework.design.interpreter.messenger.MessengerFormatter;
-import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.language.interpreter.InterpreterFailure;
+import org.panda_lang.language.interpreter.messenger.MessengerFormatter;
 import org.panda_lang.panda.language.interpreter.messenger.PandaTranslatorLayout;
 import org.slf4j.event.Level;
 

@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.shell.repl;
 
-import org.panda_lang.framework.FrameworkController;
+import org.panda_lang.language.FrameworkController;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaConstants;
 

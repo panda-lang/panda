@@ -16,13 +16,13 @@
 
 package org.panda_lang.panda.language.resource.syntax.head;
 
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.language.interpreter.pattern.functional.elements.QualifierElement;
-import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.Parser;
+import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
+import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.pattern.functional.elements.QualifierElement;
+import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.architecture.PandaScript;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;

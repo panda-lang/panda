@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.manager;
 
-import org.panda_lang.framework.design.interpreter.Interpretation;
-import org.panda_lang.framework.design.interpreter.source.Source;
-import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
+import org.panda_lang.language.interpreter.Interpretation;
+import org.panda_lang.language.interpreter.source.Source;
+import org.panda_lang.language.interpreter.source.PandaURLSource;
 
 import java.io.File;
 import java.io.IOException;

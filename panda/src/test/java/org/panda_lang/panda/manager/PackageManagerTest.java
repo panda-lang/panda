@@ -17,7 +17,7 @@
 package org.panda_lang.panda.manager;
 
 import org.junit.jupiter.api.Test;
-import org.panda_lang.framework.language.interpreter.messenger.PandaMessenger;
+import org.panda_lang.language.interpreter.messenger.PandaMessenger;
 import org.panda_lang.panda.util.PandaUtils;
 import org.slf4j.LoggerFactory;
 

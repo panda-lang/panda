@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.logical;
 
-import org.panda_lang.framework.design.architecture.type.Type;
-import org.panda_lang.framework.design.architecture.module.TypeLoader;
-import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.module.TypeLoader;
+import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNSimplifiedSupplier;
 
 import java.util.Objects;

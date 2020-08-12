@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.language.interpreter.parser.block;
 
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.Parser;
+import org.panda_lang.language.interpreter.parser.pipeline.Handler;
+import org.panda_lang.language.interpreter.token.Snippet;
 
 public interface BlockSubparser extends Parser, Handler {
 

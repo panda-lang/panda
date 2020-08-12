@@ -17,15 +17,15 @@
 package org.panda_lang.panda.language.resource.syntax.scope.block.conditional;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.dynamic.ControlledScope;
-import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.statement.Scope;
-import org.panda_lang.framework.design.architecture.statement.Statement;
-import org.panda_lang.framework.design.interpreter.source.Location;
-import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.design.runtime.Result;
-import org.panda_lang.framework.language.architecture.statement.AbstractBlock;
-import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.language.architecture.dynamic.ControlledScope;
+import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.architecture.statement.Scope;
+import org.panda_lang.language.architecture.statement.Statement;
+import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.runtime.ProcessStack;
+import org.panda_lang.language.runtime.Result;
+import org.panda_lang.language.architecture.statement.AbstractBlock;
+import org.panda_lang.language.interpreter.parser.PandaParserException;
 
 final class ConditionalBlock extends AbstractBlock implements ControlledScope {
 

@@ -16,13 +16,13 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation;
 
-import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.interpreter.parser.Components;
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParserFailure;
+import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.interpreter.parser.Components;
+import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.Parser;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.pattern.OperationPatternResult;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.ConcatenationOperatorSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.LogicalOperatorSubparser;

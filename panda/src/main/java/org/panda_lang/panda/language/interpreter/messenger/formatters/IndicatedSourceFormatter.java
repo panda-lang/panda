@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.language.interpreter.messenger.formatters;
 
-import org.panda_lang.framework.design.interpreter.messenger.MessengerTypeFormatter;
-import org.panda_lang.framework.design.interpreter.source.IndicatedSource;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.Snippetable;
+import org.panda_lang.language.interpreter.messenger.MessengerTypeFormatter;
+import org.panda_lang.language.interpreter.source.IndicatedSource;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.token.Snippetable;
 import org.panda_lang.panda.language.interpreter.messenger.MessengerDataFormatter;
 import org.panda_lang.utilities.commons.StringUtils;
 import org.panda_lang.utilities.commons.console.Colored;

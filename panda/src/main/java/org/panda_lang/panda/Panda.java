@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.framework.FrameworkController;
-import org.panda_lang.framework.PandaFramework;
-import org.panda_lang.framework.design.resource.Language;
-import org.panda_lang.framework.design.resource.Resources;
+import org.panda_lang.language.FrameworkController;
+import org.panda_lang.language.PandaFramework;
+import org.panda_lang.language.resource.Language;
+import org.panda_lang.language.resource.Resources;
 import org.panda_lang.panda.language.interpreter.PandaFileLoader;
 import org.slf4j.Logger;
 

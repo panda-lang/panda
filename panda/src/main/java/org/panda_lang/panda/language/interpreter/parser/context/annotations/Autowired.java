@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parser.context.annotations;
 
-import org.panda_lang.framework.language.interpreter.parser.stage.Stages;
+import org.panda_lang.language.interpreter.parser.stage.Stages;
 import org.panda_lang.panda.language.interpreter.parser.context.Phases;
 
 import java.lang.annotation.ElementType;

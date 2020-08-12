@@ -17,19 +17,19 @@
 package org.panda_lang.panda.language.resource.syntax.type;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.module.Imports;
-import org.panda_lang.framework.design.architecture.type.PropertyParameter;
-import org.panda_lang.framework.design.architecture.type.Type;
-import org.panda_lang.framework.design.interpreter.parser.Components;
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.SnippetUtils;
-import org.panda_lang.framework.design.interpreter.token.Token;
-import org.panda_lang.framework.language.architecture.type.PandaPropertyParameter;
-import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.language.architecture.module.Imports;
+import org.panda_lang.language.architecture.type.PropertyParameter;
+import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.interpreter.parser.Components;
+import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.Parser;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.token.SnippetUtils;
+import org.panda_lang.language.interpreter.token.Token;
+import org.panda_lang.language.architecture.type.PandaPropertyParameter;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.language.resource.syntax.separator.Separators;
 import org.panda_lang.utilities.commons.ArrayUtils;
 
 import java.util.ArrayList;

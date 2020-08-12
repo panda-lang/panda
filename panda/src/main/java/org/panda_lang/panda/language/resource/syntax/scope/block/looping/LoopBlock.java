@@ -17,13 +17,13 @@
 package org.panda_lang.panda.language.resource.syntax.scope.block.looping;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.dynamic.ControlledScope;
-import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.statement.Scope;
-import org.panda_lang.framework.design.interpreter.source.Location;
-import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.design.runtime.Result;
-import org.panda_lang.framework.language.architecture.statement.AbstractBlock;
+import org.panda_lang.language.architecture.dynamic.ControlledScope;
+import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.architecture.statement.Scope;
+import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.runtime.ProcessStack;
+import org.panda_lang.language.runtime.Result;
+import org.panda_lang.language.architecture.statement.AbstractBlock;
 import org.panda_lang.utilities.commons.function.ThrowingSupplier;
 
 final class LoopBlock extends AbstractBlock implements ControlledScope {

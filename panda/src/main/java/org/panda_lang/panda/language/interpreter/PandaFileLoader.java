@@ -17,9 +17,9 @@
 package org.panda_lang.panda.language.interpreter;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.Application;
-import org.panda_lang.framework.design.interpreter.source.Source;
-import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
+import org.panda_lang.language.architecture.Application;
+import org.panda_lang.language.interpreter.source.Source;
+import org.panda_lang.language.interpreter.source.PandaURLSource;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.language.architecture.PandaEnvironment;
 import org.panda_lang.utilities.commons.function.Option;

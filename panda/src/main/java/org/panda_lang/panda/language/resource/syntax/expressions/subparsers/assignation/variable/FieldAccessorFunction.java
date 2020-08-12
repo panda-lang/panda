@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.variable;
 
-import org.panda_lang.framework.design.architecture.dynamic.Frameable;
-import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.runtime.MemoryContainer;
-import org.panda_lang.framework.design.runtime.ProcessStack;
+import org.panda_lang.language.architecture.dynamic.Frameable;
+import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.runtime.MemoryContainer;
+import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.utilities.commons.function.ThrowingBiFunction;
 
 final class FieldAccessorFunction implements ThrowingBiFunction<ProcessStack, Object, MemoryContainer, Exception> {

@@ -17,17 +17,17 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
-import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
-import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
-import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.TokenInfo;
-import org.panda_lang.framework.language.interpreter.token.PandaSnippet;
-import org.panda_lang.framework.language.resource.syntax.TokenTypes;
-import org.panda_lang.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserWorker;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.token.TokenInfo;
+import org.panda_lang.language.interpreter.token.PandaSnippet;
+import org.panda_lang.language.resource.syntax.TokenTypes;
+import org.panda_lang.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number.NumberParser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number.NumberUtils;
 

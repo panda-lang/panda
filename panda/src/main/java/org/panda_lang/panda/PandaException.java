@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.framework.PandaFrameworkException;
+import org.panda_lang.language.PandaFrameworkException;
 
 /**
  * Default representation of exceptions that may occur in Panda

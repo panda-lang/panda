@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.language.interpreter.messenger.formatters;
 
-import org.panda_lang.framework.design.architecture.statement.Statement;
-import org.panda_lang.framework.design.interpreter.messenger.MessengerTypeFormatter;
-import org.panda_lang.framework.design.interpreter.source.Location;
-import org.panda_lang.framework.language.runtime.PandaProcessFailure;
+import org.panda_lang.language.architecture.statement.Statement;
+import org.panda_lang.language.interpreter.messenger.MessengerTypeFormatter;
+import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.runtime.PandaProcessFailure;
 import org.panda_lang.panda.language.interpreter.messenger.MessengerDataFormatter;
 import org.panda_lang.utilities.commons.StringUtils;
 import org.panda_lang.utilities.commons.console.Colored;

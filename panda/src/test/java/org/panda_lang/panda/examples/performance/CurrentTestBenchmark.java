@@ -22,7 +22,7 @@ import org.openjdk.jmh.annotations.Measurement;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.Warmup;
 import org.openjdk.jmh.runner.RunnerException;
-import org.panda_lang.framework.design.architecture.Application;
+import org.panda_lang.language.architecture.Application;
 import org.panda_lang.panda.examples.ExamplesLauncher;
 import org.panda_lang.panda.util.BenchmarkUtils;
 

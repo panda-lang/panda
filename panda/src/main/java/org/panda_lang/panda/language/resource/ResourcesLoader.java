@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.language.resource;
 
-import org.panda_lang.framework.PandaFrameworkException;
-import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.module.ModulePath;
-import org.panda_lang.framework.design.architecture.module.TypeLoader;
-import org.panda_lang.framework.design.architecture.type.Type;
-import org.panda_lang.framework.language.architecture.type.generator.TypeGeneratorManager;
-import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
-import org.panda_lang.framework.language.resource.internal.InternalModuleInfo.CustomInitializer;
+import org.panda_lang.language.PandaFrameworkException;
+import org.panda_lang.language.architecture.module.Module;
+import org.panda_lang.language.architecture.module.ModulePath;
+import org.panda_lang.language.architecture.module.TypeLoader;
+import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.generator.TypeGeneratorManager;
+import org.panda_lang.language.resource.internal.InternalModuleInfo;
+import org.panda_lang.language.resource.internal.InternalModuleInfo.CustomInitializer;
 import org.panda_lang.panda.language.resource.internal.PandaModules;
 import org.panda_lang.utilities.commons.StringUtils;
 

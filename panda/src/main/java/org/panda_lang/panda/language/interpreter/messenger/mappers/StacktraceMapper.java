@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.messenger.mappers;
 
-import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.language.interpreter.messenger.MessengerDataMapper;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrapUtils;

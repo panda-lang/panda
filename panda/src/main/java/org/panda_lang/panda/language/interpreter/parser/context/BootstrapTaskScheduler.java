@@ -17,12 +17,12 @@
 package org.panda_lang.panda.language.interpreter.parser.context;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.interpreter.parser.Components;
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.stage.StageController;
-import org.panda_lang.framework.design.interpreter.parser.stage.Stage;
-import org.panda_lang.framework.design.interpreter.parser.stage.StagePhase;
-import org.panda_lang.framework.design.interpreter.parser.stage.StageTask;
+import org.panda_lang.language.interpreter.parser.Components;
+import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.stage.StageController;
+import org.panda_lang.language.interpreter.parser.stage.Stage;
+import org.panda_lang.language.interpreter.parser.stage.StagePhase;
+import org.panda_lang.language.interpreter.parser.stage.StageTask;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Stack;

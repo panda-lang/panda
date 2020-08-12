@@ -17,7 +17,7 @@
 package org.panda_lang.panda.util;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.interpreter.messenger.LoggerHolder;
+import org.panda_lang.language.interpreter.messenger.LoggerHolder;
 import org.panda_lang.utilities.commons.TimeUtils;
 import org.panda_lang.utilities.commons.UnsafeUtils;
 

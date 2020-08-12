@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.language.architecture;
 
-import org.panda_lang.framework.FrameworkController;
-import org.panda_lang.framework.design.architecture.Environment;
-import org.panda_lang.framework.design.architecture.module.ModulePath;
-import org.panda_lang.framework.design.architecture.module.TypeLoader;
-import org.panda_lang.framework.design.interpreter.messenger.Messenger;
-import org.panda_lang.framework.language.architecture.module.PandaModulePath;
-import org.panda_lang.framework.language.architecture.module.PandaTypeLoader;
-import org.panda_lang.framework.language.interpreter.messenger.PandaMessenger;
+import org.panda_lang.language.FrameworkController;
+import org.panda_lang.language.architecture.Environment;
+import org.panda_lang.language.architecture.module.ModulePath;
+import org.panda_lang.language.architecture.module.TypeLoader;
+import org.panda_lang.language.interpreter.messenger.Messenger;
+import org.panda_lang.language.architecture.module.PandaModulePath;
+import org.panda_lang.language.architecture.module.PandaTypeLoader;
+import org.panda_lang.language.interpreter.messenger.PandaMessenger;
 import org.panda_lang.panda.PandaException;
 import org.panda_lang.panda.language.interpreter.PandaInterpreter;
 import org.panda_lang.panda.language.resource.ResourcesLoader;

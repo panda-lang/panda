@@ -16,17 +16,17 @@
 
 package org.panda_lang.panda.language.resource.syntax.scope.branching;
 
-import org.panda_lang.framework.design.architecture.dynamic.ControlledScope;
-import org.panda_lang.framework.design.architecture.statement.Scope;
-import org.panda_lang.framework.design.architecture.statement.ScopeUtils;
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.framework.design.interpreter.source.Location;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.language.architecture.dynamic.ControlledScope;
+import org.panda_lang.language.architecture.statement.Scope;
+import org.panda_lang.language.architecture.statement.ScopeUtils;
+import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.Parser;
+import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
+import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;

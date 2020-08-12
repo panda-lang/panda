@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.bootstrap;
 
-import org.panda_lang.framework.design.interpreter.messenger.MessengerOutputListener;
+import org.panda_lang.language.interpreter.messenger.MessengerOutputListener;
 import org.panda_lang.panda.language.interpreter.messenger.MessengerDataFormatter;
 import org.panda_lang.panda.language.interpreter.messenger.MessengerDataFormatterManager;
 import org.panda_lang.panda.language.interpreter.messenger.MessengerDataMapper;
@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 /**
- * {@link org.panda_lang.framework.design.interpreter.messenger.Messenger} creator
+ * {@link org.panda_lang.language.interpreter.messenger.Messenger} creator
  */
 public final class MessengerInitializer implements Initializer {
 

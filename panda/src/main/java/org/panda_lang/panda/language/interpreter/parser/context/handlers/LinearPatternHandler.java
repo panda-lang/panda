@@ -17,10 +17,10 @@
 package org.panda_lang.panda.language.interpreter.parser.context.handlers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.language.interpreter.pattern.linear.LinearPattern;
+import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.LocalChannel;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.pattern.linear.LinearPattern;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapContent;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapHandler;
 

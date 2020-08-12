@@ -17,12 +17,12 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.panda_lang.utilities.commons.function.Option;
-import org.panda_lang.framework.design.architecture.type.Type;
-import org.panda_lang.framework.design.interpreter.parser.Components;
-import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
-import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.language.architecture.type.utils.TypeDeclarationUtils;
+import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.interpreter.parser.Components;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.architecture.type.utils.TypeDeclarationUtils;
 import org.panda_lang.utilities.commons.function.Produce;
 
 final class SubparsersUtils {

@@ -16,11 +16,9 @@
 
 package org.panda_lang.panda.manager;
 
-import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.StringUtils;
 
-import java.io.File;
 import java.util.Objects;
 
 final class Dependency {

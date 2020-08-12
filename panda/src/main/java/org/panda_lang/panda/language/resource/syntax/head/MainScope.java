@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.language.resource.syntax.head;
 
-import org.panda_lang.framework.design.architecture.dynamic.Frame;
-import org.panda_lang.framework.design.interpreter.source.Location;
-import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.language.architecture.dynamic.AbstractFrame;
-import org.panda_lang.framework.language.architecture.statement.AbstractStandardizedFramedScope;
+import org.panda_lang.language.architecture.dynamic.Frame;
+import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.runtime.ProcessStack;
+import org.panda_lang.language.architecture.dynamic.AbstractFrame;
+import org.panda_lang.language.architecture.statement.AbstractStandardizedFramedScope;
 
 public final class MainScope extends AbstractStandardizedFramedScope {
 

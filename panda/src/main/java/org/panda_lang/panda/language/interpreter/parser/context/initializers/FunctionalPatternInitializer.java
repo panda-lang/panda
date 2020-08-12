@@ -16,16 +16,16 @@
 
 package org.panda_lang.panda.language.interpreter.parser.context.initializers;
 
-import org.panda_lang.framework.design.interpreter.parser.Components;
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.SourceStream;
-import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.framework.language.interpreter.pattern.Mappings;
-import org.panda_lang.framework.language.interpreter.pattern.functional.FunctionalData;
-import org.panda_lang.framework.language.interpreter.pattern.functional.FunctionalPattern;
-import org.panda_lang.framework.language.interpreter.pattern.functional.PatternData;
+import org.panda_lang.language.interpreter.parser.Components;
+import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.LocalChannel;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.token.SourceStream;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.language.interpreter.pattern.Mappings;
+import org.panda_lang.language.interpreter.pattern.functional.FunctionalData;
+import org.panda_lang.language.interpreter.pattern.functional.FunctionalPattern;
+import org.panda_lang.language.interpreter.pattern.functional.PatternData;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapContent;
 import org.panda_lang.panda.language.interpreter.parser.context.IterationInitializer;
 

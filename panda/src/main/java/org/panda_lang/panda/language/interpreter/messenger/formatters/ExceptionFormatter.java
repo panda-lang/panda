@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.messenger.formatters;
 
-import org.panda_lang.framework.design.interpreter.messenger.MessengerTypeFormatter;
+import org.panda_lang.language.interpreter.messenger.MessengerTypeFormatter;
 import org.panda_lang.panda.language.interpreter.messenger.MessengerDataFormatter;
 import org.panda_lang.panda.language.interpreter.messenger.mappers.StacktraceMapper;
 import org.panda_lang.utilities.commons.ArrayUtils;

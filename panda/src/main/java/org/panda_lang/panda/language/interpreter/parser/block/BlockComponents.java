@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.interpreter.parser.block;
 
-import org.panda_lang.framework.design.architecture.statement.Block;
-import org.panda_lang.framework.design.interpreter.parser.ContextComponent;
+import org.panda_lang.language.architecture.statement.Block;
+import org.panda_lang.language.interpreter.parser.ContextComponent;
 
 public final class BlockComponents {
 

@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.pattern;
 
-import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.TokenInfo;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.token.TokenInfo;
 
 public final class OperationPatternElement {
 

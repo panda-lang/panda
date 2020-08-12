@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.manager;
 
-import org.panda_lang.framework.FrameworkController;
-import org.panda_lang.framework.design.interpreter.Interpretation;
-import org.panda_lang.framework.language.interpreter.source.PandaURLSource;
+import org.panda_lang.language.FrameworkController;
+import org.panda_lang.language.interpreter.Interpretation;
+import org.panda_lang.language.interpreter.source.PandaURLSource;
 import org.panda_lang.panda.language.architecture.PandaEnvironment;
 import org.panda_lang.utilities.commons.function.ThrowingConsumer;
 

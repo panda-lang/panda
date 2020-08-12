@@ -17,19 +17,19 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.module.ModuleLoaderUtils;
-import org.panda_lang.framework.design.architecture.type.Type;
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
-import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
-import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparser;
-import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserType;
-import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
-import org.panda_lang.framework.design.interpreter.token.TokenInfo;
-import org.panda_lang.framework.language.architecture.expression.ThisExpression;
-import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.framework.language.interpreter.parser.expression.ExpressionParserUtils;
-import org.panda_lang.framework.language.resource.syntax.TokenTypes;
+import org.panda_lang.language.architecture.module.ModuleLoaderUtils;
+import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserType;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserWorker;
+import org.panda_lang.language.interpreter.token.TokenInfo;
+import org.panda_lang.language.architecture.expression.ThisExpression;
+import org.panda_lang.language.interpreter.parser.PandaParserException;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionParserUtils;
+import org.panda_lang.language.resource.syntax.TokenTypes;
 
 public final class LiteralExpressionSubparser implements ExpressionSubparser {
 

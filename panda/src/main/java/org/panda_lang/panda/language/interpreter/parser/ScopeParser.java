@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.language.interpreter.parser;
 
-import org.panda_lang.framework.design.architecture.statement.Scope;
-import org.panda_lang.framework.design.interpreter.parser.Components;
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.language.interpreter.parser.pipeline.PipelineParser;
-import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
+import org.panda_lang.language.architecture.statement.Scope;
+import org.panda_lang.language.interpreter.parser.Components;
+import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.Parser;
+import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.parser.pipeline.PipelineParser;
+import org.panda_lang.language.interpreter.token.PandaSourceStream;
 
 public final class ScopeParser implements Parser {
 

@@ -17,16 +17,16 @@
 package org.panda_lang.panda.language.resource.syntax.type;
 
 import org.panda_lang.utilities.commons.function.Option;
-import org.panda_lang.framework.design.architecture.type.Type;
-import org.panda_lang.framework.design.interpreter.parser.Components;
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.Snippetable;
-import org.panda_lang.framework.language.architecture.type.utils.StateComparator;
-import org.panda_lang.framework.language.architecture.type.utils.TypeDeclarationUtils;
-import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.framework.language.interpreter.token.SynchronizedSource;
-import org.panda_lang.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.interpreter.parser.Components;
+import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.token.Snippetable;
+import org.panda_lang.language.architecture.type.utils.StateComparator;
+import org.panda_lang.language.architecture.type.utils.TypeDeclarationUtils;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.language.interpreter.token.SynchronizedSource;
+import org.panda_lang.language.resource.syntax.separator.Separators;
 
 import java.util.ArrayList;
 import java.util.Collection;

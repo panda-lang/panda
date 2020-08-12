@@ -17,14 +17,14 @@
 package org.panda_lang.panda.language.interpreter;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.Application;
-import org.panda_lang.framework.design.architecture.Environment;
-import org.panda_lang.framework.design.interpreter.Interpretation;
-import org.panda_lang.framework.design.interpreter.Interpreter;
-import org.panda_lang.framework.design.interpreter.source.Source;
-import org.panda_lang.framework.language.architecture.type.generator.TypeGeneratorManager;
-import org.panda_lang.framework.language.interpreter.PandaInterpretation;
-import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParser;
+import org.panda_lang.language.architecture.Application;
+import org.panda_lang.language.architecture.Environment;
+import org.panda_lang.language.interpreter.Interpretation;
+import org.panda_lang.language.interpreter.Interpreter;
+import org.panda_lang.language.interpreter.source.Source;
+import org.panda_lang.language.architecture.type.generator.TypeGeneratorManager;
+import org.panda_lang.language.interpreter.PandaInterpretation;
+import org.panda_lang.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.panda.language.architecture.PandaApplication;
 import org.panda_lang.panda.language.interpreter.parser.ApplicationParser;
 import org.panda_lang.utilities.commons.TimeUtils;

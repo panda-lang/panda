@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.resource.syntax.scope.branching;
 
-import org.panda_lang.framework.design.architecture.statement.Statement;
+import org.panda_lang.language.architecture.statement.Statement;
 
 public interface Returnable extends Statement {
 

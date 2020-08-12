@@ -16,16 +16,16 @@
 
 package org.panda_lang.panda.language.resource.syntax.head;
 
-import org.panda_lang.framework.design.interpreter.parser.Components;
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.ContextParser;
-import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
-import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.language.resource.syntax.sequence.SequencesUtils;
+import org.panda_lang.language.interpreter.parser.Components;
+import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.ContextParser;
+import org.panda_lang.language.interpreter.parser.LocalChannel;
+import org.panda_lang.language.interpreter.parser.Parser;
+import org.panda_lang.language.interpreter.parser.pipeline.Handler;
+import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
+import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.resource.syntax.sequence.SequencesUtils;
 import org.panda_lang.utilities.commons.ArrayUtils;
 
 public final class CommentParser implements ContextParser<CommentStatement>, Handler {

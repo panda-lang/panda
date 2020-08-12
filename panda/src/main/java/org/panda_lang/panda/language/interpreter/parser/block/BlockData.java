@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parser.block;
 
-import org.panda_lang.framework.design.architecture.statement.Block;
+import org.panda_lang.language.architecture.statement.Block;
 
 public final class BlockData {
 

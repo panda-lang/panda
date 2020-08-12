@@ -17,16 +17,16 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.interpreter.parser.Components;
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionContext;
-import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionResult;
-import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionSubparserWorker;
-import org.panda_lang.framework.design.interpreter.token.TokenInfo;
-import org.panda_lang.framework.language.architecture.expression.StaticExpression;
-import org.panda_lang.framework.language.architecture.type.utils.VisibilityComparator;
-import org.panda_lang.framework.language.interpreter.parser.expression.PartialResultSubparser;
-import org.panda_lang.framework.language.resource.syntax.TokenTypes;
+import org.panda_lang.language.interpreter.parser.Components;
+import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserWorker;
+import org.panda_lang.language.interpreter.token.TokenInfo;
+import org.panda_lang.language.architecture.expression.StaticExpression;
+import org.panda_lang.language.architecture.type.utils.VisibilityComparator;
+import org.panda_lang.language.interpreter.parser.expression.PartialResultSubparser;
+import org.panda_lang.language.resource.syntax.TokenTypes;
 
 public final class StaticExpressionSubparser implements PartialResultSubparser {
 

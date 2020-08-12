@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.resource.internal.java;
 
-import org.panda_lang.framework.language.resource.internal.InternalModuleInfo;
+import org.panda_lang.language.resource.internal.InternalModuleInfo;
 
 @InternalModuleInfo(module = "java", pkg = "java.util", classes = {
         "Arrays",

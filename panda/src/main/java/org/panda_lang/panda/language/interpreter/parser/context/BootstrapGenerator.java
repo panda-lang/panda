@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.interpreter.parser.context;
 
-import org.panda_lang.framework.design.interpreter.parser.ContextParser;
-import org.panda_lang.framework.design.interpreter.parser.ParserRepresentation;
-import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaParserRepresentation;
+import org.panda_lang.language.interpreter.parser.ContextParser;
+import org.panda_lang.language.interpreter.parser.ParserRepresentation;
+import org.panda_lang.language.interpreter.parser.pipeline.PandaParserRepresentation;
 import org.panda_lang.utilities.inject.DependencyInjection;
 import org.panda_lang.utilities.inject.Injector;
 

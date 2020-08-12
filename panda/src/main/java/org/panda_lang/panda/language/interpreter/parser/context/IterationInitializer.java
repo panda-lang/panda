@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.interpreter.parser.context;
 
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.LocalChannel;
+import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.LocalChannel;
 
 public interface IterationInitializer {
 

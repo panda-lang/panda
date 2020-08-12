@@ -16,21 +16,21 @@
 
 package org.panda_lang.panda.language.interpreter.parser;
 
-import org.panda_lang.framework.FrameworkController;
-import org.panda_lang.framework.design.architecture.module.Imports;
-import org.panda_lang.framework.design.architecture.module.ModulePath;
-import org.panda_lang.framework.design.architecture.module.TypeLoader;
-import org.panda_lang.framework.design.interpreter.parser.Components;
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.language.architecture.module.PandaImports;
-import org.panda_lang.framework.language.architecture.module.PandaModule;
-import org.panda_lang.framework.language.architecture.module.PandaModulePath;
-import org.panda_lang.framework.language.architecture.module.PandaTypeLoader;
-import org.panda_lang.framework.language.interpreter.parser.PandaContext;
-import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionParser;
-import org.panda_lang.framework.language.interpreter.parser.expression.PandaExpressionSubparsers;
-import org.panda_lang.framework.language.interpreter.parser.stage.Stages;
-import org.panda_lang.framework.language.interpreter.parser.stage.PandaStageController;
+import org.panda_lang.language.FrameworkController;
+import org.panda_lang.language.architecture.module.Imports;
+import org.panda_lang.language.architecture.module.ModulePath;
+import org.panda_lang.language.architecture.module.TypeLoader;
+import org.panda_lang.language.interpreter.parser.Components;
+import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.architecture.module.PandaImports;
+import org.panda_lang.language.architecture.module.PandaModule;
+import org.panda_lang.language.architecture.module.PandaModulePath;
+import org.panda_lang.language.architecture.module.PandaTypeLoader;
+import org.panda_lang.language.interpreter.parser.PandaContext;
+import org.panda_lang.language.interpreter.parser.expression.PandaExpressionParser;
+import org.panda_lang.language.interpreter.parser.expression.PandaExpressionSubparsers;
+import org.panda_lang.language.interpreter.parser.stage.Stages;
+import org.panda_lang.language.interpreter.parser.stage.PandaStageController;
 import org.panda_lang.panda.language.architecture.PandaEnvironment;
 import org.panda_lang.panda.language.architecture.PandaScript;
 import org.panda_lang.panda.language.resource.ResourcesLoader;

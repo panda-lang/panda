@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.manager;
 
-import org.panda_lang.framework.PandaFrameworkException;
+import org.panda_lang.language.PandaFrameworkException;
 import org.panda_lang.utilities.commons.FileUtils;
 import org.panda_lang.utilities.commons.function.ThrowingRunnable;
 import org.slf4j.event.Level;

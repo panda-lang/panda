@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.framework.language.resource.syntax.PandaSyntax;
+import org.panda_lang.language.resource.syntax.PandaSyntax;
 import org.panda_lang.panda.bootstrap.PandaBootstrap;
 import org.panda_lang.panda.language.interpreter.messenger.formatters.Formatters;
 import org.panda_lang.panda.language.interpreter.messenger.layouts.TranslatorLayouts;

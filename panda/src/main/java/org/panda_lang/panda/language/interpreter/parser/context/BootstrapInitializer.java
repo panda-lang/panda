@@ -16,12 +16,12 @@
 
 package org.panda_lang.panda.language.interpreter.parser.context;
 
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.ContextParser;
-import org.panda_lang.framework.design.interpreter.parser.ParserRepresentation;
-import org.panda_lang.framework.design.interpreter.parser.pipeline.Handler;
-import org.panda_lang.framework.language.interpreter.pattern.functional.FunctionalPattern;
-import org.panda_lang.framework.language.interpreter.pattern.functional.FunctionalPatternBuilder;
+import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.ContextParser;
+import org.panda_lang.language.interpreter.parser.ParserRepresentation;
+import org.panda_lang.language.interpreter.parser.pipeline.Handler;
+import org.panda_lang.language.interpreter.pattern.functional.FunctionalPattern;
+import org.panda_lang.language.interpreter.pattern.functional.FunctionalPatternBuilder;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.FunctionalPatternHandler;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.LinearPatternHandler;

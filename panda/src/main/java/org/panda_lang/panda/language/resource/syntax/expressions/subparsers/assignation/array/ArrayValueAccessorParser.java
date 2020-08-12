@@ -17,19 +17,19 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.array;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.interpreter.parser.Components;
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.Parser;
-import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.framework.design.interpreter.token.Snippet;
-import org.panda_lang.framework.design.interpreter.token.Snippetable;
-import org.panda_lang.framework.design.interpreter.token.TokenInfo;
-import org.panda_lang.framework.language.architecture.type.array.ArrayType;
-import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.framework.language.resource.syntax.TokenTypes;
-import org.panda_lang.framework.language.resource.syntax.auxiliary.Section;
-import org.panda_lang.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.interpreter.parser.Components;
+import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.Parser;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.token.Snippetable;
+import org.panda_lang.language.interpreter.token.TokenInfo;
+import org.panda_lang.language.architecture.type.array.ArrayType;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.language.resource.syntax.TokenTypes;
+import org.panda_lang.language.resource.syntax.auxiliary.Section;
+import org.panda_lang.language.resource.syntax.separator.Separators;
 
 public final class ArrayValueAccessorParser implements Parser {
 

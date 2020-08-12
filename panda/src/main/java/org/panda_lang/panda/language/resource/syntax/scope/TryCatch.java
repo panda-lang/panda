@@ -17,11 +17,11 @@
 package org.panda_lang.panda.language.resource.syntax.scope;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.statement.Scope;
-import org.panda_lang.framework.design.architecture.statement.Variable;
-import org.panda_lang.framework.design.interpreter.source.Location;
-import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.language.architecture.dynamic.AbstractExecutableStatement;
+import org.panda_lang.language.architecture.statement.Scope;
+import org.panda_lang.language.architecture.statement.Variable;
+import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.runtime.ProcessStack;
+import org.panda_lang.language.architecture.dynamic.AbstractExecutableStatement;
 
 import java.util.HashMap;
 import java.util.Map;

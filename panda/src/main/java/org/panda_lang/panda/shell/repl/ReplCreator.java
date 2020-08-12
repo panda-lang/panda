@@ -17,22 +17,22 @@
 package org.panda_lang.panda.shell.repl;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.architecture.module.Module;
-import org.panda_lang.framework.design.architecture.type.State;
-import org.panda_lang.framework.design.architecture.type.Type;
-import org.panda_lang.framework.design.interpreter.parser.Components;
-import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.runtime.Process;
-import org.panda_lang.framework.design.runtime.ProcessStack;
-import org.panda_lang.framework.language.architecture.statement.PandaVariableData;
-import org.panda_lang.framework.language.architecture.type.PandaConstructor;
-import org.panda_lang.framework.language.architecture.type.PandaMethod;
-import org.panda_lang.framework.language.architecture.type.PandaType;
-import org.panda_lang.framework.language.architecture.type.TypeComponents;
-import org.panda_lang.framework.language.architecture.type.TypeScope;
-import org.panda_lang.framework.language.interpreter.source.PandaClassSource;
-import org.panda_lang.framework.language.interpreter.token.PandaSourceLocationUtils;
-import org.panda_lang.framework.language.runtime.PandaProcess;
+import org.panda_lang.language.architecture.module.Module;
+import org.panda_lang.language.architecture.type.State;
+import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.interpreter.parser.Components;
+import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.runtime.Process;
+import org.panda_lang.language.runtime.ProcessStack;
+import org.panda_lang.language.architecture.statement.PandaVariableData;
+import org.panda_lang.language.architecture.type.PandaConstructor;
+import org.panda_lang.language.architecture.type.PandaMethod;
+import org.panda_lang.language.architecture.type.PandaType;
+import org.panda_lang.language.architecture.type.TypeComponents;
+import org.panda_lang.language.architecture.type.TypeScope;
+import org.panda_lang.language.interpreter.source.PandaClassSource;
+import org.panda_lang.language.interpreter.token.PandaSourceLocationUtils;
+import org.panda_lang.language.runtime.PandaProcess;
 import org.panda_lang.panda.language.interpreter.parser.PandaContextUtils;
 import org.panda_lang.utilities.commons.function.ThrowingFunction;
 
@@ -125,7 +125,7 @@ public final class ReplCreator {
     }
 
     /**
-     * Set custom exception handler, by default exceptions are passed through the {@link org.panda_lang.framework.design.interpreter.messenger.Messenger}
+     * Set custom exception handler, by default exceptions are passed through the {@link org.panda_lang.language.interpreter.messenger.Messenger}
      *
      * @param exceptionListener a new exception listener
      * @return the REPL creator instance

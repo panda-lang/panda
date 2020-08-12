@@ -16,12 +16,12 @@
 
 package org.panda_lang.panda.language.interpreter.parser;
 
-import org.panda_lang.framework.design.interpreter.parser.ContextComponent;
+import org.panda_lang.language.interpreter.parser.ContextComponent;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.language.architecture.PandaScript;
 
 /**
- * Default list of names used by {@link org.panda_lang.framework.design.interpreter.parser.Context} for components
+ * Default list of names used by {@link org.panda_lang.language.interpreter.parser.Context} for components
  */
 public final class PandaComponents {
 

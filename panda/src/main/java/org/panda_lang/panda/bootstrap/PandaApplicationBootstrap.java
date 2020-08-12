@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.bootstrap;
 
-import org.panda_lang.framework.design.architecture.Application;
+import org.panda_lang.language.architecture.Application;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.utilities.commons.function.Option;
 

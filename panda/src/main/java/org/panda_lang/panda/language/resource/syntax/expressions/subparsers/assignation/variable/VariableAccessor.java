@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.variable;
 
-import org.panda_lang.framework.design.architecture.expression.Expression;
-import org.panda_lang.framework.design.architecture.statement.Variable;
-import org.panda_lang.framework.design.interpreter.source.Location;
-import org.panda_lang.framework.language.architecture.dynamic.accessor.AbstractAccessor;
-import org.panda_lang.framework.language.architecture.dynamic.assigner.Assigner;
+import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.architecture.statement.Variable;
+import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.architecture.dynamic.accessor.AbstractAccessor;
+import org.panda_lang.language.architecture.dynamic.assigner.Assigner;
 
 public final class VariableAccessor extends AbstractAccessor<Variable> {
 
