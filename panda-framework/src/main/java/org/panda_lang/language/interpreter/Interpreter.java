@@ -21,8 +21,6 @@ import org.panda_lang.language.architecture.Environment;
 import org.panda_lang.language.interpreter.source.Source;
 import org.panda_lang.utilities.commons.function.ThrowingConsumer;
 
-import org.panda_lang.utilities.commons.function.Option;
-
 /**
  * Translate source code into efficient intermediate representation and build an application
  */
@@ -31,7 +29,7 @@ public interface Interpreter {
     /**
      * Starts the process of interpretation
      */
-    Option<Application> interpret(Source source);
+    Application interpret(Source source);
 
     /**
      * Starts the process of interpretation and gives access to the interpretation process
@@ -39,7 +37,7 @@ public interface Interpreter {
      * @param interpretationConsumer the interpretation process consumer
      * @return interpreted application
      */
-    Option<Application> interpret(Source source, ThrowingConsumer<Interpretation, ?> interpretationConsumer);
+    Application interpret(Source source, ThrowingConsumer<Interpretation, ?> interpretationConsumer);
 
     /**
      * Get associated environment

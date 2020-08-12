@@ -77,12 +77,15 @@ internal class Matmul {
 }
 
 main {
-    mut Int n = 100
+    Int n = 100
 
     Matmul m = new Matmul()
     Double[][] a = m.matgen(n)
     Double[][] b = m.matgen(n)
     Double[][] x = m.matmul(a, b)
 
-    log x[n / 2][n / 2]
+    Double result = x[n / 2][n / 2]
+    log result
+
+    return result
 }

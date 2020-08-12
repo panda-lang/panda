@@ -35,7 +35,7 @@ final class Run {
         this.document = document;
     }
 
-    protected void run(FrameworkController controller) {
+    protected Object run(FrameworkController controller) {
         File mainScript = new File(document.getDocument().getParentFile(), Objects.requireNonNull(document.getMainScript()));
 
         PandaEnvironment environment = new PandaEnvironment(controller, manager.getWorkingDirectory());
@@ -56,9 +56,9 @@ final class Run {
             }
         };
 
-        environment.getInterpreter()
+        return environment.getInterpreter()
                 .interpret(PandaURLSource.fromFile(mainScript), initialize)
-                .peek(application -> application.launch());
+                .launch();
     }
 
 }

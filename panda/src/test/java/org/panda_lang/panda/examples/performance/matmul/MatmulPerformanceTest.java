@@ -23,8 +23,8 @@ import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Warmup;
 import org.panda_lang.language.architecture.Application;
-import org.panda_lang.panda.examples.ExamplesLauncher;
 import org.panda_lang.panda.util.BenchmarkUtils;
+import org.panda_lang.panda.util.PandaUtils;
 
 @State(Scope.Benchmark)
 @Warmup(time = 1, iterations = 1)
@@ -36,7 +36,7 @@ public class MatmulPerformanceTest {
 
     @Setup
     public void setup() {
-        this.matmulApplication = ExamplesLauncher.interpret("tests/performance", "matmul.panda");
+        this.matmulApplication = PandaUtils.load("./tests/performance", "./tests/performance/matmul.panda");
     }
 
     @Benchmark

@@ -17,13 +17,13 @@
 package org.panda_lang.panda.examples.performance;
 
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.examples.ExamplesLauncher;
+import org.panda_lang.panda.util.PandaUtils;
 
 final class TenThousandExpressionsTest {
 
     @Test
     void launch() {
-        ExamplesLauncher.interpret("tests/performance", "ten_thousand_expressions.panda");
+        PandaUtils.load("../examples/tests/performance", "../examples/tests/performance/ten_thousand_expressions.panda").launch();
     }
 
 }

@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.shell;
 
-import org.panda_lang.language.architecture.Application;
 import org.panda_lang.language.interpreter.messenger.PandaMessenger;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaConstants;
@@ -104,11 +103,9 @@ final class PandaCli implements ThrowingRunnable<Exception> {
             return;
         }
 
-        panda.getLoader().load(script, script.getParentFile())
-                .peek(Application::launch)
-                .onEmpty(() -> {
-                    shell.getLogger().error("Cannot load application");
-                });
+        panda.getLoader()
+                .load(script, script.getParentFile())
+                .launch();
     }
 
 }

@@ -19,19 +19,18 @@ package org.panda_lang.panda.language.interpreter;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.Application;
 import org.panda_lang.language.architecture.Environment;
+import org.panda_lang.language.architecture.type.generator.TypeGeneratorManager;
 import org.panda_lang.language.interpreter.Interpretation;
 import org.panda_lang.language.interpreter.Interpreter;
-import org.panda_lang.language.interpreter.source.Source;
-import org.panda_lang.language.architecture.type.generator.TypeGeneratorManager;
 import org.panda_lang.language.interpreter.PandaInterpretation;
 import org.panda_lang.language.interpreter.parser.expression.PandaExpressionParser;
+import org.panda_lang.language.interpreter.source.Source;
+import org.panda_lang.panda.PandaException;
 import org.panda_lang.panda.language.architecture.PandaApplication;
 import org.panda_lang.panda.language.interpreter.parser.ApplicationParser;
 import org.panda_lang.utilities.commons.TimeUtils;
 import org.panda_lang.utilities.commons.function.ThrowingConsumer;
 import org.slf4j.event.Level;
-
-import org.panda_lang.utilities.commons.function.Option;
 
 public final class PandaInterpreter implements Interpreter {
 
@@ -42,12 +41,12 @@ public final class PandaInterpreter implements Interpreter {
     }
 
     @Override
-    public Option<Application> interpret(Source source) {
+    public Application interpret(Source source) {
         return interpret(source, interpretation -> {});
     }
 
     @Override
-    public Option<Application> interpret(Source source, @Nullable ThrowingConsumer<Interpretation, ?> interpretationConsumer) {
+    public Application interpret(Source source, @Nullable ThrowingConsumer<Interpretation, ?> interpretationConsumer) {
         Interpretation interpretation = new PandaInterpretation(this);
         ApplicationParser parser = new ApplicationParser(interpretation);
 
@@ -61,8 +60,7 @@ public final class PandaInterpreter implements Interpreter {
         PandaApplication application = parser.parse(source);
 
         if (!interpretation.isHealthy()) {
-            environment.getMessenger().send(Level.ERROR, "Interpretation failed, cannot parse specified sources");
-            return Option.none();
+            throw new PandaException("Interpretation failed, cannot parse specified sources");
         }
 
         String parseTime = TimeUtils.toMilliseconds(System.nanoTime() - uptime);
@@ -79,7 +77,7 @@ public final class PandaInterpreter implements Interpreter {
         PandaExpressionParser.time = 0;
         PandaExpressionParser.amount = 0;
 
-        return Option.of(application);
+        return application;
     }
 
     @Override

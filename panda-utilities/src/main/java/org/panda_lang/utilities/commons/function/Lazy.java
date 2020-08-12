@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
-public final class Lazy<T> implements Supplier<T> {
+public class Lazy<T> implements Supplier<T> {
 
     private final Supplier<T> supplier;
     private boolean initialized;

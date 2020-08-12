@@ -16,12 +16,12 @@
 
 package org.panda_lang.panda.examples.tests;
 
-import org.panda_lang.panda.examples.ExamplesLauncher;
+import org.panda_lang.panda.util.PandaUtils;
 
 final class SwingExample {
 
     public static void main(String[] args) {
-        ExamplesLauncher.launch("", "swing.panda");
+        PandaUtils.load("", "./examples/swing.panda").launch();
     }
 
 }

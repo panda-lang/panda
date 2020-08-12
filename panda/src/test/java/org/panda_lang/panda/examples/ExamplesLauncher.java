@@ -23,7 +23,6 @@ import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.bootstrap.PandaApplicationBootstrap;
 import org.panda_lang.panda.util.PandaUtils;
 import org.panda_lang.utilities.commons.TimeUtils;
-import org.panda_lang.utilities.commons.function.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,13 +67,10 @@ public final class ExamplesLauncher {
         Panda panda = factory.createPanda(logger);
         logger.debug("Factory time: " + (System.currentTimeMillis() - time) + "ms");
 
-        Option<Application> application = PandaApplicationBootstrap.create(panda)
+        return PandaApplicationBootstrap.create(panda)
                 .workingDirectory(prefix + directory)
                 .script(file)
                 .createApplication();
-
-        Assertions.assertTrue(application.isPresent());
-        return application.get();
     }
 
 }

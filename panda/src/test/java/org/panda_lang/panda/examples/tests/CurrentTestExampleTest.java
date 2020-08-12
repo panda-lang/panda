@@ -17,30 +17,30 @@
 package org.panda_lang.panda.examples.tests;
 
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.examples.ExamplesLauncher;
+import org.panda_lang.panda.util.PandaUtils;
 
 class CurrentTestExampleTest {
 
     @Test
     void helloWorld() {
-        ExamplesLauncher.launch("", "hello_world.panda");
+        PandaUtils.load("../examples", "../examples/hello_world.panda").launch();
     }
 
     @Test
     void literalMethod() {
-        ExamplesLauncher.launch("tests", "literal_methods.panda");
+        PandaUtils.load("../examples/tests", "../examples/tests/literal_methods.panda").launch();
     }
 
     @Test
     void testCurrentTest() {
-        for (int i = 0; i < 1; i++) {
-            ExamplesLauncher.launch("tests", "current_test.panda");
+        for (int i = 0; i < 2; i++) {
+            PandaUtils.load("../examples/tests", "../examples/tests/current_test.panda").launch();
         }
     }
 
     @Test
     void testClassTest() {
-        ExamplesLauncher.launch("tests", "class_test.panda");
+        PandaUtils.load("../examples/tests", "../examples/tests/class_test.panda").launch();
     }
 
 }

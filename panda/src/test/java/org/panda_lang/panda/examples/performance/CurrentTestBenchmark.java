@@ -22,9 +22,8 @@ import org.openjdk.jmh.annotations.Measurement;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.Warmup;
 import org.openjdk.jmh.runner.RunnerException;
-import org.panda_lang.language.architecture.Application;
-import org.panda_lang.panda.examples.ExamplesLauncher;
 import org.panda_lang.panda.util.BenchmarkUtils;
+import org.panda_lang.panda.util.PandaUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -37,6 +36,12 @@ import java.util.concurrent.TimeUnit;
  * Bootstrap :: Generated method injector
  * CurrentTestBenchmark.currentTest  thrpt    2  0,025          ops/ms
  *
+ * Cached Panda instance
+ * CurrentTestBenchmark.currentTest  thrpt    2  0,027          ops/ms
+ *
+ * Java 14
+ * CurrentTestBenchmark.currentTest  thrpt    2  0,033          ops/ms
+ *
  */
 @Fork(value = 1)
 @Warmup(iterations = 1)
@@ -46,8 +51,7 @@ public class CurrentTestBenchmark {
 
     @Benchmark
     public Object currentTest() {
-        Application application = ExamplesLauncher.interpret("examples/", "tests", "current_test.panda");
-        return application.launch();
+        return PandaUtils.load("./examples/tests", "./examples/tests/current_test.panda").launch();
     }
 
     public static void main(String[] args) throws RunnerException {
