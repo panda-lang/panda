@@ -14,48 +14,42 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.interpreter.parser.generation;
+package org.panda_lang.framework.design.interpreter.parser.stage;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
- * Comparable type of cycle, required to create a new cycle
+ * Comparable task priority. Default priorities: BEFORE (1.0), DEFAULT (2.0), AFTER (3.0)
  */
-public final class CycleType implements Comparable<CycleType> {
+public final class StageOrder implements Comparable<StageOrder> {
 
-    private final String name;
+    public static final StageOrder BEFORE = new StageOrder(1.0);
+    public static final StageOrder DEFAULT = new StageOrder(2.0);
+    public static final StageOrder AFTER = new StageOrder(3.0);
+
     private final double priority;
 
     /**
-     * Create new cycle type
+     * Create custom task priority
      *
-     * @param name the name of cycle
      * @param priority the priority
      */
-    public CycleType(String name, double priority) {
-        this.name = name;
+    public StageOrder(double priority) {
         this.priority = priority;
     }
 
     @Override
-    public int compareTo(CycleType to) {
-        return Double.compare(priority, to.priority);
+    public int compareTo(@NotNull StageOrder to) {
+        return Double.compare(to.getPriority(), priority);
     }
 
     /**
-     * Get priority of cycle
+     * Get the priority
      *
      * @return the priority
      */
     public double getPriority() {
         return priority;
-    }
-
-    /**
-     * Get name of cycle
-     *
-     * @return the name
-     */
-    public String getName() {
-        return name;
     }
 
 }

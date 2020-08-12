@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.interpreter.parser.generation;
+package org.panda_lang.framework.language.interpreter.parser.stage;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.design.interpreter.parser.generation.CycleType;
-import org.panda_lang.framework.design.interpreter.parser.generation.Generation;
-import org.panda_lang.framework.design.interpreter.parser.generation.GenerationCycle;
+import org.panda_lang.framework.design.interpreter.parser.stage.StageType;
+import org.panda_lang.framework.design.interpreter.parser.stage.StageController;
+import org.panda_lang.framework.design.interpreter.parser.stage.Stage;
 import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.Collections;
@@ -27,16 +27,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class PandaGeneration implements Generation {
+public final class PandaStageController implements StageController {
 
-    private final Map<String, GenerationCycle> cycles = new LinkedHashMap<>();
-    private GenerationCycle currentCycle;
+    private final Map<String, Stage> cycles = new LinkedHashMap<>();
+    private Stage currentCycle;
 
-    public PandaGeneration initialize(List<? extends CycleType> types) {
+    public PandaStageController initialize(List<? extends StageType> types) {
         Collections.sort(types);
 
-        for (CycleType type : types) {
-            cycles.put(type.getName(), new PandaGenerationCycle(this, type.getName()));
+        for (StageType type : types) {
+            cycles.put(type.getName(), new PandaStage(this, type.getName()));
         }
 
         return this;
@@ -50,7 +50,7 @@ public final class PandaGeneration implements Generation {
     }
 
     private void executeOnce() throws Exception {
-        for (GenerationCycle cycle : cycles.values()) {
+        for (Stage cycle : cycles.values()) {
             currentCycle = cycle;
 
             if (!cycle.execute()) {
@@ -62,10 +62,10 @@ public final class PandaGeneration implements Generation {
     }
 
     @Override
-    public int countTasks(@Nullable GenerationCycle to) {
+    public int countTasks(@Nullable Stage to) {
         int count = 0;
 
-        for (GenerationCycle cycle : cycles.values()) {
+        for (Stage cycle : cycles.values()) {
             count += cycle.countTasks();
 
             if (cycle.equals(to)) {
@@ -82,18 +82,18 @@ public final class PandaGeneration implements Generation {
     }
 
     @Override
-    public Option<GenerationCycle> getCurrentCycle() {
+    public Option<Stage> getCurrentCycle() {
         return Option.of(currentCycle);
     }
 
     @Override
-    public GenerationCycle getCycle(CycleType type) {
+    public Stage getCycle(StageType type) {
         return getCycle(type.getName());
     }
 
     @Override
-    public GenerationCycle getCycle(String name) {
-        GenerationCycle cycle = cycles.get(name);
+    public Stage getCycle(String name) {
+        Stage cycle = cycles.get(name);
 
         if (cycle == null) {
             throw new IllegalArgumentException("Cycle " + name + " does not exist");

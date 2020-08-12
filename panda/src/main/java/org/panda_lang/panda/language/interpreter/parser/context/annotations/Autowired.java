@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parser.context.annotations;
 
-import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
+import org.panda_lang.framework.language.interpreter.parser.stage.Stages;
 import org.panda_lang.panda.language.interpreter.parser.context.Delegation;
 
 import java.lang.annotation.ElementType;
@@ -32,6 +32,6 @@ public @interface Autowired {
 
     int order();
 
-    String cycle() default GenerationCycles.DEFAULT_LABEL;
+    String cycle() default Stages.DEFAULT_LABEL;
 
 }

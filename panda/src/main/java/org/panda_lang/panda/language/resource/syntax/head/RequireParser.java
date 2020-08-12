@@ -30,7 +30,7 @@ import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.design.interpreter.token.Snippetable;
 import org.panda_lang.framework.design.interpreter.token.TokenInfo;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
+import org.panda_lang.framework.language.interpreter.parser.stage.Stages;
 import org.panda_lang.framework.language.interpreter.pattern.functional.elements.QualifierElement;
 import org.panda_lang.framework.language.interpreter.pattern.functional.elements.WildcardElement;
 import org.panda_lang.framework.language.interpreter.pattern.functional.verifiers.TokenTypeVerifier;
@@ -71,7 +71,7 @@ public final class RequireParser extends ParserBootstrap<Void> {
                         )));
     }
 
-    @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
+    @Autowired(order = 1, cycle = Stages.TYPES_LABEL)
     public void parse(Context context, @Ctx Imports imports, @Src("required") @Nullable Snippetable require, @Src("requiredFile") @Nullable TokenInfo requiredFile) {
         if (require != null) {
             parseModule(context, imports, require.toSnippet());

@@ -14,24 +14,24 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.interpreter.parser.generation;
+package org.panda_lang.framework.language.interpreter.parser.stage;
 
-import org.panda_lang.framework.design.interpreter.parser.generation.Generation;
-import org.panda_lang.framework.design.interpreter.parser.generation.GenerationCycle;
-import org.panda_lang.framework.design.interpreter.parser.generation.GenerationPhase;
+import org.panda_lang.framework.design.interpreter.parser.stage.StageController;
+import org.panda_lang.framework.design.interpreter.parser.stage.Stage;
+import org.panda_lang.framework.design.interpreter.parser.stage.StagePhase;
 
-public final class PandaGenerationCycle implements GenerationCycle {
+public final class PandaStage implements Stage {
 
     private final String name;
-    private final Generation generation;
-    private GenerationPhase currentPhase;
-    private GenerationPhase nextPhase;
+    private final StageController stageController;
+    private StagePhase currentPhase;
+    private StagePhase nextPhase;
 
-    public PandaGenerationCycle(Generation generation, String name) {
+    public PandaStage(StageController controller, String name) {
         this.name = name;
-        this.generation = generation;
-        this.currentPhase = new PandaGenerationPhase(this);
-        this.nextPhase = new PandaGenerationPhase(this);
+        this.stageController = controller;
+        this.currentPhase = new PandaStagePhase(this);
+        this.nextPhase = new PandaStagePhase(this);
     }
 
     @Override
@@ -48,9 +48,9 @@ public final class PandaGenerationCycle implements GenerationCycle {
             }
 
             currentPhase = nextPhase;
-            nextPhase = new PandaGenerationPhase(this);
+            nextPhase = new PandaStagePhase(this);
 
-            if (generation.countTasks(this) > 0) {
+            if (stageController.countTasks(this) > 0) {
                 return false;
             }
         }
@@ -64,18 +64,18 @@ public final class PandaGenerationCycle implements GenerationCycle {
     }
 
     @Override
-    public GenerationPhase currentPhase() {
+    public StagePhase currentPhase() {
         return currentPhase;
     }
 
     @Override
-    public GenerationPhase nextPhase() {
+    public StagePhase nextPhase() {
         return nextPhase;
     }
 
     @Override
-    public Generation generation() {
-        return generation;
+    public StageController stage() {
+        return stageController;
     }
 
     @Override

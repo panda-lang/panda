@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.interpreter.parser.generation;
+package org.panda_lang.framework.language.interpreter.parser.stage;
 
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.generation.GenerationTask;
+import org.panda_lang.framework.design.interpreter.parser.stage.StageTask;
 
-final class GenerationUnit {
+final class DelegatedTask {
 
-    private final GenerationTask task;
+    private final StageTask<?> task;
     private final Context delegated;
 
-    GenerationUnit(GenerationTask task, Context delegated) {
+    DelegatedTask(StageTask<?> task, Context delegated) {
         this.task = task;
         this.delegated = delegated;
     }
@@ -33,7 +33,7 @@ final class GenerationUnit {
         return delegated;
     }
 
-    public GenerationTask getTask() {
+    public StageTask<?> getTask() {
         return task;
     }
 

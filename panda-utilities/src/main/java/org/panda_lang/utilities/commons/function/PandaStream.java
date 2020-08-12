@@ -19,10 +19,12 @@ package org.panda_lang.utilities.commons.function;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.List;
 import java.util.function.Function;
 import java.util.function.IntFunction;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -38,6 +40,10 @@ public class PandaStream<T> {
         return new PandaStream<>(function.apply(stream));
     }
 
+    public <R> PandaStream<R> transform(Function<Stream<T>, Stream<R>> function) {
+        return stream(function);
+    }
+
     public <R> PandaStream<R> map(Function<T, R> function) {
         return new PandaStream<>(stream.map(function));
     }
@@ -48,6 +54,14 @@ public class PandaStream<T> {
 
     public PandaStream<T> filter(Predicate<T> predicate) {
         return with(stream.filter(predicate));
+    }
+
+    public PandaStream<T> filterNot(Predicate<T> predicate) {
+        return with(stream.filter(obj -> !predicate.test(obj)));
+    }
+
+    public PandaStream<T> distinct() {
+        return with(stream.distinct());
     }
 
     public PandaStream<T> sorted() {
@@ -85,6 +99,10 @@ public class PandaStream<T> {
 
     public T[] toArray(IntFunction<T[]> function) {
         return stream.toArray(function);
+    }
+
+    public List<T> toList() {
+        return stream.collect(Collectors.toList());
     }
 
     public Stream<T> toStream() {

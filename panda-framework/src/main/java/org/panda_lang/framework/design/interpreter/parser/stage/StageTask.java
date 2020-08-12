@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.interpreter.parser.generation;
+package org.panda_lang.framework.design.interpreter.parser.stage;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.parser.Context;
@@ -24,7 +24,7 @@ import org.panda_lang.framework.design.interpreter.parser.Context;
  *
  * @param <T> type of result
  */
-public interface GenerationTask<T> {
+public interface StageTask<T> {
 
     /**
      * Call task
@@ -34,6 +34,6 @@ public interface GenerationTask<T> {
      * @return task value
      * @throws Exception allows you to handle exception that may occur
      */
-    @Nullable T call(GenerationCycle cycle, Context context) throws Exception;
+    @Nullable T call(Stage cycle, Context context) throws Exception;
 
 }

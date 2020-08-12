@@ -38,7 +38,7 @@ import org.panda_lang.framework.language.architecture.type.PandaType;
 import org.panda_lang.framework.language.architecture.type.TypeComponents;
 import org.panda_lang.framework.language.architecture.type.TypeScope;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
+import org.panda_lang.framework.language.interpreter.parser.stage.Stages;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PipelineParser;
 import org.panda_lang.framework.language.interpreter.pattern.Mappings;
 import org.panda_lang.framework.language.interpreter.token.PandaSourceStream;
@@ -79,7 +79,7 @@ public final class TypeParser extends ParserBootstrap<Void> {
                 .section("body", Separators.BRACE_LEFT));
     }
 
-    @Autowired(order = 0, cycle = GenerationCycles.TYPES_LABEL)
+    @Autowired(order = 0, cycle = Stages.TYPES_LABEL)
     public void parse(Context context, @Channel Location location, @Channel Mappings mappings, @Ctx Script script, @Src("model") String model, @Src("name") String name) {
         Visibility visibility = mappings.get("visibility")
                 .map(Visibility::of)
@@ -106,7 +106,7 @@ public final class TypeParser extends ParserBootstrap<Void> {
                 .withComponent(TypeComponents.PROTOTYPE, type);
     }
 
-    @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
+    @Autowired(order = 1, cycle = Stages.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
     public void parseDeclaration(Context context, @Ctx Type type, @Ctx TypeLoader loader, @Nullable @Src("inherited") Collection<Snippetable> inherited) {
         if (inherited != null) {
             inherited.forEach(typeSource -> TypeParserUtils.appendExtended(context, type, typeSource));
@@ -117,12 +117,12 @@ public final class TypeParser extends ParserBootstrap<Void> {
         }
     }
 
-    @Autowired(order = 2, cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.NEXT_BEFORE)
+    @Autowired(order = 2, cycle = Stages.TYPES_LABEL, delegation = Delegation.NEXT_BEFORE)
     public Object parseBody(Context context, @Ctx Type type, @Src("body") Snippet body) throws Exception {
         return TYPE_PIPELINE_PARSER.parse(context, new PandaSourceStream(body));
     }
 
-    @Autowired(order = 3, cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
+    @Autowired(order = 3, cycle = Stages.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
     public void verifyProperties(Context context, @Ctx Type type, @Ctx TypeScope scope) {
         if (type.getState() != State.ABSTRACT) {
             type.getBases().stream()
@@ -150,7 +150,7 @@ public final class TypeParser extends ParserBootstrap<Void> {
         }
     }
 
-    @Autowired(order = 4, cycle = GenerationCycles.CONTENT_LABEL, delegation = Delegation.CURRENT_AFTER)
+    @Autowired(order = 4, cycle = Stages.CONTENT_LABEL, delegation = Delegation.CURRENT_AFTER)
     public void verifyContent(Context context, @Ctx Type type) {
         for (TypeField field : type.getFields().getDeclaredProperties()) {
             if (!field.isInitialized() && !(field.isNillable() && field.isMutable())) {

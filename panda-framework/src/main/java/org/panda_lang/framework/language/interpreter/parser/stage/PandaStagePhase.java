@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.interpreter.parser.generation;
+package org.panda_lang.framework.language.interpreter.parser.stage;
 
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.generation.GenerationCycle;
-import org.panda_lang.framework.design.interpreter.parser.generation.GenerationPhase;
-import org.panda_lang.framework.design.interpreter.parser.generation.GenerationTask;
-import org.panda_lang.framework.design.interpreter.parser.generation.GenerationTaskPriority;
+import org.panda_lang.framework.design.interpreter.parser.stage.Stage;
+import org.panda_lang.framework.design.interpreter.parser.stage.StagePhase;
+import org.panda_lang.framework.design.interpreter.parser.stage.StageTask;
+import org.panda_lang.framework.design.interpreter.parser.stage.StageOrder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,27 +29,27 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public final class PandaGenerationPhase implements GenerationPhase {
+public final class PandaStagePhase implements StagePhase {
 
     private static final AtomicInteger ID = new AtomicInteger();
 
     private final int id;
-    private final GenerationCycle cycle;
-    private final Map<GenerationTaskPriority, List<GenerationUnit>> tasks = new HashMap<>();
-    private GenerationUnit currentUnit;
+    private final Stage cycle;
+    private final Map<StageOrder, List<DelegatedTask>> tasks = new HashMap<>();
+    private DelegatedTask currentUnit;
 
-    public PandaGenerationPhase(GenerationCycle cycle) {
+    public PandaStagePhase(Stage cycle) {
         this.id = ID.getAndIncrement();
         this.cycle = cycle;
     }
 
     @Override
     public void callTasks() throws Exception {
-        Map<GenerationTaskPriority, List<GenerationUnit>> unitsMap = new TreeMap<>(tasks);
+        Map<StageOrder, List<DelegatedTask>> unitsMap = new TreeMap<>(tasks);
         tasks.clear();
 
-        for (List<GenerationUnit> units : unitsMap.values()) {
-            for (GenerationUnit unit : units) {
+        for (List<DelegatedTask> units : unitsMap.values()) {
+            for (DelegatedTask unit : units) {
                 currentUnit = unit;
                 unit.getTask().call(cycle, unit.getDelegated());
             }
@@ -59,8 +59,8 @@ public final class PandaGenerationPhase implements GenerationPhase {
     }
 
     @Override
-    public GenerationPhase delegate(GenerationTaskPriority priority, GenerationTask<?> task, Context delegated) {
-        tasks.computeIfAbsent(priority, (key) -> new ArrayList<>(2)).add(new GenerationUnit(task, delegated));
+    public StagePhase delegate(StageOrder priority, StageTask<?> task, Context delegated) {
+        tasks.computeIfAbsent(priority, (key) -> new ArrayList<>(2)).add(new DelegatedTask(task, delegated));
         return this;
     }
 
@@ -69,7 +69,7 @@ public final class PandaGenerationPhase implements GenerationPhase {
         return tasks.size();
     }
 
-    public GenerationUnit getCurrentUnit() {
+    public DelegatedTask getCurrentUnit() {
         return currentUnit;
     }
 

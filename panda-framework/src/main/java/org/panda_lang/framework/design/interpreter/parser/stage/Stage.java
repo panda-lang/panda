@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.interpreter.parser.generation;
+package org.panda_lang.framework.design.interpreter.parser.stage;
 
 /**
- * Cycle represents following continuously pair of phases identified by the specific {@link org.panda_lang.framework.design.interpreter.parser.generation.CycleType}
+ * Cycle represents following continuously pair of phases identified by the specific {@link StageType}
  */
-public interface GenerationCycle {
+public interface Stage {
 
     /**
      * Launch cycle
@@ -39,21 +39,21 @@ public interface GenerationCycle {
      *
      * @return the next phase
      */
-    GenerationPhase nextPhase();
+    StagePhase nextPhase();
 
     /**
      * Get current phase
      *
      * @return the current phase
      */
-    GenerationPhase currentPhase();
+    StagePhase currentPhase();
 
     /**
      * Get generation
      *
      * @return the generation
      */
-    Generation generation();
+    StageController stage();
 
     /**
      * Get name of cycle

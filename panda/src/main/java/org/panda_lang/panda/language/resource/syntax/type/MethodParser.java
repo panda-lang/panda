@@ -37,7 +37,7 @@ import org.panda_lang.framework.language.architecture.type.MethodScope;
 import org.panda_lang.framework.language.architecture.type.PandaMethod;
 import org.panda_lang.framework.language.architecture.type.utils.TypedUtils;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
+import org.panda_lang.framework.language.interpreter.parser.stage.Stages;
 import org.panda_lang.framework.language.interpreter.pattern.Mappings;
 import org.panda_lang.framework.language.resource.syntax.TokenTypes;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
@@ -88,7 +88,7 @@ public final class MethodParser extends ParserBootstrap<Void> {
                 .section("body", Separators.BRACE_LEFT).optional());
     }
 
-    @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
+    @Autowired(order = 1, cycle = Stages.TYPES_LABEL)
     public void parseReturnType(Context context, LocalChannel channel, @Ctx Imports imports, @Src("type") Snippet returnTypeName) {
         Option.of(returnTypeName)
                 .map(value -> PandaImportsUtils.getTypeOrThrow(context, returnTypeName,
@@ -99,14 +99,14 @@ public final class MethodParser extends ParserBootstrap<Void> {
                 .peek(type -> channel.allocated("type", type));
     }
 
-    @Autowired(order = 2, cycle = GenerationCycles.TYPES_LABEL)
+    @Autowired(order = 2, cycle = Stages.TYPES_LABEL)
     public void parseParameters(Context context, LocalChannel channel, @Src("name") TokenInfo name, @Src("parameters") Snippet parametersSource) {
         List<PropertyParameter> parameters = PARAMETER_PARSER.parse(context, parametersSource);
         MethodScope methodScope = new MethodScope(name.getLocation(), parameters);
         channel.allocated("scope", methodScope);
     }
 
-    @Autowired(order = 3, cycle = GenerationCycles.TYPES_LABEL)
+    @Autowired(order = 3, cycle = Stages.TYPES_LABEL)
     public void verifyData(
         Context context,
         LocalChannel channel,
@@ -150,7 +150,7 @@ public final class MethodParser extends ParserBootstrap<Void> {
                 });
     }
 
-    @Autowired(order = 4, cycle = GenerationCycles.TYPES_LABEL)
+    @Autowired(order = 4, cycle = Stages.TYPES_LABEL)
     public void declareMethod(LocalChannel channel, @Ctx Type type, @Channel Mappings mappings, @Src("name") TokenInfo name, @Channel Type returnType, @Channel MethodScope scope, @Src("body") Snippet body) {
         TypeMethod method = PandaMethod.builder()
                 .type(type)

@@ -19,8 +19,8 @@ package org.panda_lang.panda.language.interpreter.messenger.formatters;
 import org.panda_lang.framework.design.interpreter.messenger.MessengerTypeFormatter;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.ParserFailure;
-import org.panda_lang.framework.design.interpreter.parser.generation.Generation;
-import org.panda_lang.framework.design.interpreter.parser.generation.GenerationCycle;
+import org.panda_lang.framework.design.interpreter.parser.stage.StageController;
+import org.panda_lang.framework.design.interpreter.parser.stage.Stage;
 import org.panda_lang.panda.language.interpreter.messenger.MessengerDataFormatter;
 
 import org.panda_lang.utilities.commons.function.Option;
@@ -32,14 +32,14 @@ public final class ParserFailureFormatter implements MessengerDataFormatter<Pars
         typeFormatter
                 .register("{{note}}", (formatter, failure) -> failure.getNote())
                 .register("{{cycle}}", (formatter, failure) -> {
-                    Generation generation = failure.getContext().getComponent(Components.GENERATION);
-                    Option<GenerationCycle> cycleValue = generation.getCurrentCycle();
+                    StageController stageController = failure.getContext().getComponent(Components.GENERATION);
+                    Option<Stage> cycleValue = stageController.getCurrentCycle();
 
                     if (cycleValue.isEmpty()) {
                         return "<out of cycle>";
                     }
 
-                    GenerationCycle cycle = cycleValue.get();
+                    Stage cycle = cycleValue.get();
                     return cycle.name() + " { " + cycle.currentPhase().toString() + " }";
                 });
     }

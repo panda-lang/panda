@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.interpreter.parser.generation;
+package org.panda_lang.framework.language.interpreter.parser.stage;
 
-import org.panda_lang.framework.design.interpreter.parser.generation.CycleType;
+import org.panda_lang.framework.design.interpreter.parser.stage.StageType;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,28 +24,28 @@ import java.util.List;
 
 import static org.panda_lang.utilities.commons.collection.Lists.add;
 
-public final class GenerationCycles {
+public final class Stages {
 
-    private static final Collection<CycleType> VALUES = new ArrayList<>();
+    private static final Collection<StageType> VALUES = new ArrayList<>();
 
     public static final String SYNTAX_LABEL = "SYNTAX";
-    public static final CycleType SYNTAX = add(VALUES, new CycleType(SYNTAX_LABEL, 1.0));
+    public static final StageType SYNTAX = add(VALUES, new StageType(SYNTAX_LABEL, 1.0));
 
     public static final String PREPROCESSOR_LABEL = "PREPROCESSOR";
-    public static final CycleType PREPROCESSOR = add(VALUES, new CycleType(PREPROCESSOR_LABEL, 2.0));
+    public static final StageType PREPROCESSOR = add(VALUES, new StageType(PREPROCESSOR_LABEL, 2.0));
 
     public static final String TYPES_LABEL = "TYPES";
-    public static final CycleType TYPES = add(VALUES, new CycleType(TYPES_LABEL, 2.0));
+    public static final StageType TYPES = add(VALUES, new StageType(TYPES_LABEL, 2.0));
 
     public static final String DEFAULT_LABEL = "DEFAULT";
-    public static final CycleType DEFAULT = add(VALUES, new CycleType(DEFAULT_LABEL, 3.0));
+    public static final StageType DEFAULT = add(VALUES, new StageType(DEFAULT_LABEL, 3.0));
 
     public static final String CONTENT_LABEL = "CONTENT";
-    public static final CycleType CONTENT = add(VALUES, new CycleType(CONTENT_LABEL, 4.0));
+    public static final StageType CONTENT = add(VALUES, new StageType(CONTENT_LABEL, 4.0));
 
-    private GenerationCycles() { }
+    private Stages() { }
 
-    public static List<? extends CycleType> getValues() {
+    public static List<? extends StageType> getValues() {
         return new ArrayList<>(VALUES);
     }
 

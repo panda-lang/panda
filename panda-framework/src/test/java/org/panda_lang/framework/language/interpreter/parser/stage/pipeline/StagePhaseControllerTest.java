@@ -14,26 +14,26 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.language.interpreter.parser.generation.pipeline;
+package org.panda_lang.framework.language.interpreter.parser.stage.pipeline;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.panda_lang.framework.design.interpreter.parser.generation.CycleType;
-import org.panda_lang.framework.language.interpreter.parser.generation.PandaGeneration;
+import org.panda_lang.framework.design.interpreter.parser.stage.StageType;
+import org.panda_lang.framework.language.interpreter.parser.stage.PandaStageController;
 
 import java.util.Arrays;
 
-class GenerationTest {
+class StagePhaseControllerTest {
 
-    private static final PandaGeneration generation = new PandaGeneration();
+    private static final PandaStageController generation = new PandaStageController();
 
     @BeforeAll
     public static void createPipelines() {
         generation.initialize(Arrays.asList(
-                new CycleType("b", 2.0),
-                new CycleType("a", 1.0),
-                new CycleType("c", 3.0))
+                new StageType("b", 2.0),
+                new StageType("a", 1.0),
+                new StageType("c", 3.0))
         );
     }
 
@@ -49,7 +49,7 @@ class GenerationTest {
             outputBuilder.append("b2 ");
 
             pipeline.nextPhase().delegate((pipeline1, delegatedContext1) -> {
-                pipeline1.generation().getCycle("a").nextPhase().delegate((pipeline2, delegatedContext2) -> outputBuilder.append("a2 "), delegatedContext1);
+                pipeline1.stage().getCycle("a").nextPhase().delegate((pipeline2, delegatedContext2) -> outputBuilder.append("a2 "), delegatedContext1);
                 outputBuilder.append("b3 ");
                 return null;
             }, delegatedContext);

@@ -25,7 +25,7 @@ import org.panda_lang.framework.design.architecture.statement.Scope;
 import org.panda_lang.framework.design.architecture.module.TypeLoader;
 import org.panda_lang.framework.design.interpreter.Interpretation;
 import org.panda_lang.framework.design.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.framework.design.interpreter.parser.generation.Generation;
+import org.panda_lang.framework.design.interpreter.parser.stage.StageController;
 import org.panda_lang.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.framework.design.interpreter.source.SourceSet;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
@@ -54,7 +54,7 @@ public final class Components {
     /**
      * Represents the generation
      */
-    public static final ContextComponent<Generation> GENERATION = ContextComponent.of("generation", Generation.class);
+    public static final ContextComponent<StageController> GENERATION = ContextComponent.of("generation", StageController.class);
 
     /**
      * Represents the pipeline path with all registered pipelines

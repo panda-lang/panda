@@ -19,10 +19,10 @@ package org.panda_lang.panda.language.interpreter.parser.context;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.design.interpreter.parser.Components;
 import org.panda_lang.framework.design.interpreter.parser.Context;
-import org.panda_lang.framework.design.interpreter.parser.generation.Generation;
-import org.panda_lang.framework.design.interpreter.parser.generation.GenerationCycle;
-import org.panda_lang.framework.design.interpreter.parser.generation.GenerationPhase;
-import org.panda_lang.framework.design.interpreter.parser.generation.GenerationTask;
+import org.panda_lang.framework.design.interpreter.parser.stage.StageController;
+import org.panda_lang.framework.design.interpreter.parser.stage.Stage;
+import org.panda_lang.framework.design.interpreter.parser.stage.StagePhase;
+import org.panda_lang.framework.design.interpreter.parser.stage.StageTask;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Stack;
@@ -59,7 +59,7 @@ final class BootstrapTaskScheduler<T> {
     }
 
     private T delegateNext(Context context, BootstrapMethod method, boolean last) throws Exception {
-        GenerationTask<T> callback = (cycle, delegatedContext) -> {
+        StageTask<T> callback = (cycle, delegatedContext) -> {
             T value;
 
             try {
@@ -84,12 +84,12 @@ final class BootstrapTaskScheduler<T> {
         return delegateMethod(context, callback, method);
     }
 
-    private @Nullable T delegateMethod(Context context, GenerationTask<T> callback, BootstrapMethod method) throws Exception {
-        Generation generation = context.getComponent(Components.GENERATION);
+    private @Nullable T delegateMethod(Context context, StageTask<T> callback, BootstrapMethod method) throws Exception {
+        StageController stageController = context.getComponent(Components.GENERATION);
 
-        GenerationCycle cycle = generation.getCycle(method.getCycle());
-        GenerationPhase phase = cycle.currentPhase();
-        GenerationPhase nextPhase = cycle.nextPhase();
+        Stage cycle = stageController.getCycle(method.getCycle());
+        StagePhase phase = cycle.currentPhase();
+        StagePhase nextPhase = cycle.nextPhase();
 
         switch (method.getDelegation()) {
             case IMMEDIATELY:

@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.interpreter.parser.generation;
+package org.panda_lang.framework.design.interpreter.parser.stage;
 
 import org.panda_lang.utilities.commons.function.Option;
 
 /**
  * Generation is the multilayer task manager divided into cycles and phases.
  */
-public interface Generation {
+public interface StageController {
 
     /**
      * Launch cycles
      *
-     * @throws Exception if {@link org.panda_lang.framework.design.interpreter.parser.generation.GenerationPhase} throws an exception, you should catch it and handle
+     * @throws Exception if {@link StagePhase} throws an exception, you should catch it and handle
      */
     void launch() throws Exception;
 
@@ -36,7 +36,7 @@ public interface Generation {
      * @param to the cycle to which it count
      * @return the amount of tasks
      */
-    int countTasks(GenerationCycle to);
+    int countTasks(Stage to);
 
     /**
      * Get amount of all tasks
@@ -48,7 +48,7 @@ public interface Generation {
     /**
      * @return current cycle
      */
-    Option<GenerationCycle> getCurrentCycle();
+    Option<Stage> getCurrentCycle();
 
     /**
      * Get cycle
@@ -56,7 +56,7 @@ public interface Generation {
      * @param name the name of cycle
      * @return the cycle
      */
-    GenerationCycle getCycle(String name);
+    Stage getCycle(String name);
 
     /**
      * Get cycle
@@ -64,6 +64,6 @@ public interface Generation {
      * @param type the type of cycle
      * @return the cycle
      */
-    GenerationCycle getCycle(CycleType type);
+    Stage getCycle(StageType type);
 
 }

@@ -26,7 +26,7 @@ import org.panda_lang.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.framework.design.interpreter.source.Location;
 import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
+import org.panda_lang.framework.language.interpreter.parser.stage.Stages;
 import org.panda_lang.framework.language.interpreter.pattern.functional.elements.QualifierElement;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.architecture.PandaScript;
@@ -53,7 +53,7 @@ public final class ModuleParser extends ParserBootstrap<Void> {
                 .functional(builder -> builder.token(Keywords.MODULE).qualifier("module").consume(QualifierElement::pandaModule));
     }
 
-    @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
+    @Autowired(order = 1, cycle = Stages.TYPES_LABEL)
     public void parse(@Ctx Environment environment, @Ctx Imports imports, @Ctx PandaScript script, @Channel Location location, @Src("module") Snippet source) {
         if (script.select(ModuleStatement.class).size() > 0) {
             throw new PandaParserException("Script contains more than one declaration of the group");

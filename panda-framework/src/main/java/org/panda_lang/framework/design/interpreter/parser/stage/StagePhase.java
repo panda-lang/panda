@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.design.interpreter.parser.generation;
+package org.panda_lang.framework.design.interpreter.parser.stage;
 
 import org.panda_lang.framework.design.interpreter.parser.Context;
 
 /**
  * Represents a group of tasks delegated to the same phase (layer) in the cycle
  */
-public interface GenerationPhase {
+public interface StagePhase {
 
     /**
      * Call all tasks delegated to the phase
@@ -38,33 +38,33 @@ public interface GenerationPhase {
      * @param delegated the data to associate with task
      * @return current phase
      */
-    GenerationPhase delegate(GenerationTaskPriority priority, GenerationTask<?> task, Context delegated);
+    StagePhase delegate(StageOrder priority, StageTask<?> task, Context delegated);
 
     /**
-     * Delegate task using {@link GenerationTaskPriority#DEFAULT}
+     * Delegate task using {@link StageOrder#DEFAULT}
      *
-     * @see #delegate(GenerationTaskPriority, GenerationTask, org.panda_lang.framework.design.interpreter.parser.Context)
+     * @see #delegate(StageOrder, StageTask, org.panda_lang.framework.design.interpreter.parser.Context)
      */
-    default GenerationPhase delegate(GenerationTask<?> task, Context delegated) {
-        return delegate(GenerationTaskPriority.DEFAULT, task, delegated);
+    default StagePhase delegate(StageTask<?> task, Context delegated) {
+        return delegate(StageOrder.DEFAULT, task, delegated);
     }
 
     /**
-     * Delegate task using {@link GenerationTaskPriority#BEFORE}
+     * Delegate task using {@link StageOrder#BEFORE}
      *
-     * @see #delegate(GenerationTaskPriority, GenerationTask, org.panda_lang.framework.design.interpreter.parser.Context)
+     * @see #delegate(StageOrder, StageTask, org.panda_lang.framework.design.interpreter.parser.Context)
      */
-    default GenerationPhase delegateBefore(GenerationTask<?> task, Context delegated) {
-        return delegate(GenerationTaskPriority.BEFORE, task, delegated);
+    default StagePhase delegateBefore(StageTask<?> task, Context delegated) {
+        return delegate(StageOrder.BEFORE, task, delegated);
     }
 
     /**
-     * Delegate task using {@link GenerationTaskPriority#AFTER}
+     * Delegate task using {@link StageOrder#AFTER}
      *
-     * @see #delegate(GenerationTaskPriority, GenerationTask, org.panda_lang.framework.design.interpreter.parser.Context)
+     * @see #delegate(StageOrder, StageTask, org.panda_lang.framework.design.interpreter.parser.Context)
      */
-    default GenerationPhase delegateAfter(GenerationTask<?> task, Context delegated) {
-        return delegate(GenerationTaskPriority.AFTER, task, delegated);
+    default StagePhase delegateAfter(StageTask<?> task, Context delegated) {
+        return delegate(StageOrder.AFTER, task, delegated);
     }
 
     /***

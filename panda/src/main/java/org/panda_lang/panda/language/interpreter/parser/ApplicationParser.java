@@ -33,8 +33,8 @@ import org.panda_lang.framework.language.architecture.module.PandaImports;
 import org.panda_lang.framework.language.architecture.type.generator.TypeGeneratorManager;
 import org.panda_lang.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.framework.language.interpreter.parser.PandaContext;
-import org.panda_lang.framework.language.interpreter.parser.generation.GenerationCycles;
-import org.panda_lang.framework.language.interpreter.parser.generation.PandaGeneration;
+import org.panda_lang.framework.language.interpreter.parser.stage.Stages;
+import org.panda_lang.framework.language.interpreter.parser.stage.PandaStageController;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PandaLocalChannel;
 import org.panda_lang.framework.language.interpreter.parser.pipeline.PipelineParser;
 import org.panda_lang.framework.language.interpreter.source.PandaSourceSet;
@@ -57,8 +57,8 @@ public final class ApplicationParser implements Parser {
         Resources resources = environment.getController().getResources();
         PandaApplication application = new PandaApplication(environment);
 
-        PandaGeneration generation = new PandaGeneration();
-        generation.initialize(GenerationCycles.getValues());
+        PandaStageController generation = new PandaStageController();
+        generation.initialize(Stages.getValues());
 
         SourceSet sources = new PandaSourceSet();
         sources.addSource(source);
