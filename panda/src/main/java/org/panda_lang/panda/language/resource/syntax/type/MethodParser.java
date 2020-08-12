@@ -45,7 +45,7 @@ import org.panda_lang.framework.language.resource.syntax.operator.Operators;
 import org.panda_lang.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
-import org.panda_lang.panda.language.interpreter.parser.context.Delegation;
+import org.panda_lang.panda.language.interpreter.parser.context.Phases;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
@@ -88,7 +88,7 @@ public final class MethodParser extends ParserBootstrap<Void> {
                 .section("body", Separators.BRACE_LEFT).optional());
     }
 
-    @Autowired(order = 1, cycle = Stages.TYPES_LABEL)
+    @Autowired(order = 1, stage = Stages.TYPES_LABEL)
     public void parseReturnType(Context context, LocalChannel channel, @Ctx Imports imports, @Src("type") Snippet returnTypeName) {
         Option.of(returnTypeName)
                 .map(value -> PandaImportsUtils.getTypeOrThrow(context, returnTypeName,
@@ -99,14 +99,14 @@ public final class MethodParser extends ParserBootstrap<Void> {
                 .peek(type -> channel.allocated("type", type));
     }
 
-    @Autowired(order = 2, cycle = Stages.TYPES_LABEL)
+    @Autowired(order = 2, stage = Stages.TYPES_LABEL)
     public void parseParameters(Context context, LocalChannel channel, @Src("name") TokenInfo name, @Src("parameters") Snippet parametersSource) {
         List<PropertyParameter> parameters = PARAMETER_PARSER.parse(context, parametersSource);
         MethodScope methodScope = new MethodScope(name.getLocation(), parameters);
         channel.allocated("scope", methodScope);
     }
 
-    @Autowired(order = 3, cycle = Stages.TYPES_LABEL)
+    @Autowired(order = 3, stage = Stages.TYPES_LABEL)
     public void verifyData(
         Context context,
         LocalChannel channel,
@@ -150,7 +150,7 @@ public final class MethodParser extends ParserBootstrap<Void> {
                 });
     }
 
-    @Autowired(order = 4, cycle = Stages.TYPES_LABEL)
+    @Autowired(order = 4, stage = Stages.TYPES_LABEL)
     public void declareMethod(LocalChannel channel, @Ctx Type type, @Channel Mappings mappings, @Src("name") TokenInfo name, @Channel Type returnType, @Channel MethodScope scope, @Src("body") Snippet body) {
         TypeMethod method = PandaMethod.builder()
                 .type(type)
@@ -169,7 +169,7 @@ public final class MethodParser extends ParserBootstrap<Void> {
         channel.allocated("method", method);
     }
 
-    @Autowired(order = 5, delegation = Delegation.NEXT_DEFAULT)
+    @Autowired(order = 5, phase = Phases.NEXT_DEFAULT)
     public void parse(Context context, @Channel MethodScope methodScope, @Channel TypeMethod method, @Nullable @Src("body") Snippet body) throws Exception {
         if (!SnippetUtils.isEmpty(body)) {
             SCOPE_PARSER.parse(context, methodScope, body);

@@ -74,7 +74,7 @@ public final class FieldParser extends ParserBootstrap<Void> {
                 ).optional());
     }
 
-    @Autowired(order = 1, cycle = Stages.TYPES_LABEL)
+    @Autowired(order = 1, stage = Stages.TYPES_LABEL)
     public void parse(Context context, LocalChannel channel, @Channel Mappings mappings, @Channel Location location, @Src("type") Snippet typeName, @Src("name") TokenInfo name) {
         Type returnType = PandaImportsUtils.getTypeOrThrow(context, typeName.asSource(), typeName);
         Visibility visibility = Visibility.valueOf(mappings.get("visibility").get().toString().toUpperCase());
@@ -98,7 +98,7 @@ public final class FieldParser extends ParserBootstrap<Void> {
         channel.allocated("field", field);
     }
 
-    @Autowired(order = 2, cycle = Stages.CONTENT_LABEL)
+    @Autowired(order = 2, stage = Stages.CONTENT_LABEL)
     public void parseAssignation(Context context, @Channel Snippet source, @Channel TypeField field, @Src("assignation") @Nullable Expression assignationValue) {
         if (assignationValue == null) {
             //throw new PandaParserFailure("Cannot parse expression '" + assignationValue + "'", context, name);

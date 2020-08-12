@@ -28,7 +28,7 @@ import org.panda_lang.framework.design.interpreter.token.Snippet;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
-import org.panda_lang.panda.language.interpreter.parser.context.Delegation;
+import org.panda_lang.panda.language.interpreter.parser.context.Phases;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
@@ -53,12 +53,12 @@ public final class MainParser extends ParserBootstrap<Void> {
                 .linear("main body:{~}");
     }
 
-    @Autowired(order = 1, delegation = Delegation.NEXT_DEFAULT)
+    @Autowired(order = 1, phase = Phases.NEXT_DEFAULT)
     public void createScope(LocalChannel channel, @Ctx Script script, @Channel Location location) {
         script.addStatement(channel.allocated("main", new MainScope(location)));
     }
 
-    @Autowired(order = 2, delegation = Delegation.NEXT_AFTER)
+    @Autowired(order = 2, phase = Phases.NEXT_AFTER)
     public void parseScope(Context context, @Channel MainScope main, @Src("body") @Nullable Snippet body) throws Exception {
         SCOPE_PARSER.parse(context.fork(), main, body);
     }

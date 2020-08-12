@@ -33,8 +33,8 @@ final class BootstrapMethod {
         }
     }
 
-    protected Delegation getDelegation() {
-        return autowired.delegation();
+    protected Phases getDelegation() {
+        return autowired.phase();
     }
 
     protected int getOrder() {
@@ -42,7 +42,7 @@ final class BootstrapMethod {
     }
 
     protected String getCycle() {
-        return autowired.cycle();
+        return autowired.stage();
     }
 
     protected GeneratedMethodInjector getGeneratedMethod() {

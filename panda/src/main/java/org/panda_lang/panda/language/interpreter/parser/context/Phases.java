@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parser.context;
 
-public enum Delegation {
+public enum Phases {
 
     IMMEDIATELY(0),
 
@@ -30,7 +30,7 @@ public enum Delegation {
 
     private final int priority;
 
-    Delegation(int priority) {
+    Phases(int priority) {
         this.priority = priority;
     }
 

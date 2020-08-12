@@ -36,7 +36,7 @@ import org.panda_lang.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
 import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
-import org.panda_lang.panda.language.interpreter.parser.context.Delegation;
+import org.panda_lang.panda.language.interpreter.parser.context.Phases;
 import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
@@ -89,7 +89,7 @@ public final class ConstructorParser extends ParserBootstrap<Void> {
         typeScope.getType().getConstructors().declare(constructor);
     }
 
-    @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
+    @Autowired(order = 2, phase = Phases.NEXT_DEFAULT)
     public void parse(Context context, @Ctx TypeScope typeScope, @Channel ConstructorScope scope, @Channel TypeConstructor constructor, @Channel Snippet src, @Src("body") @Nullable Snippet body) throws Exception {
         SCOPE_PARSER.parse(context, scope, body);
 

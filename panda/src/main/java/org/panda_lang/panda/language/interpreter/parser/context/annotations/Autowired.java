@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.interpreter.parser.context.annotations;
 
 import org.panda_lang.framework.language.interpreter.parser.stage.Stages;
-import org.panda_lang.panda.language.interpreter.parser.context.Delegation;
+import org.panda_lang.panda.language.interpreter.parser.context.Phases;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -28,10 +28,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Autowired {
 
-    Delegation delegation() default Delegation.IMMEDIATELY;
+    Phases phase() default Phases.IMMEDIATELY;
 
     int order();
 
-    String cycle() default Stages.DEFAULT_LABEL;
+    String stage() default Stages.DEFAULT_LABEL;
 
 }
