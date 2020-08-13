@@ -19,9 +19,9 @@ package org.panda_lang.panda.manager;
 import org.panda_lang.panda.PandaException;
 import org.panda_lang.utilities.commons.IOUtils;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -63,10 +63,10 @@ final class MavenInstall implements CustomInstall {
 
             address += gav;
 
-            BufferedInputStream in = null;
+            InputStream in = null;
 
             try {
-                in = new BufferedInputStream(new URL(address).openStream());
+                in = IOUtils.fetchContentAsStream(address).orElseThrow(ioException -> ioException);
 
                 File dependencyDirectory = new File(ownerDirectory, dependency.getName());
                 dependencyDirectory.mkdirs();
