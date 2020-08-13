@@ -51,6 +51,10 @@ public final class PandaTypeLoader implements TypeLoader {
 
     @Override
     public Option<Type> forClass(Class<?> associatedClass) {
+        if (associatedClass.isArray()) {
+            ArrayClassTypeFetcher.fetch(this, associatedClass);
+        }
+
         return loadedTypes.forClass(associatedClass)
                 .orElse(() -> ModuleResourceUtils.forClass(loadedModules, associatedClass))
                 .orElse(() -> ModuleResourceUtils.forClass(parents, associatedClass))

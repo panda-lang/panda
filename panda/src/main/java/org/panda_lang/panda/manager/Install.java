@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.manager;
 
-import org.panda_lang.language.PandaFrameworkException;
 import org.panda_lang.utilities.commons.FileUtils;
 import org.panda_lang.utilities.commons.function.ThrowingRunnable;
 import org.slf4j.event.Level;
@@ -92,11 +91,7 @@ final class Install implements ThrowingRunnable<IOException> {
         File packageDirectory = new File(ownerDirectory, dependency.getName());
         File packageInfoFile = new File(packageDirectory, PackageManagerConstants.PACKAGE_INFO);
 
-        if (packageDirectory.exists()) {
-            if (!packageInfoFile.exists()) {
-                throw new PandaFrameworkException("Invalid package " + dependency.getName());
-            }
-
+        if (packageDirectory.exists() && packageInfoFile.exists()) {
             PackageDocument packageInfo = new PackageDocumentFile(packageInfoFile).getContent();
 
             if (dependency.getVersion().equals(packageInfo.getVersion())) {
@@ -107,8 +102,12 @@ final class Install implements ThrowingRunnable<IOException> {
             FileUtils.delete(packageDirectory);
         }
 
+        if (!packageInfoFile.exists()) {
+            manager.getMessenger().getLogger().debug("Dependency " + dependency.getName() + " does not contain valid package document");
+        }
+
         CustomInstallFactory customInstallFactory = new CustomInstallFactory();
-        CustomInstall customInstall = customInstallFactory.createCustomInstall(dependency);
+        CustomInstall customInstall = customInstallFactory.createCustomInstall(document, dependency);
 
         List<Dependency> dependencies = customInstall.install(this::log, ownerDirectory, packageInfoFile);
         dependenciesToLoad.addAll(dependencies);

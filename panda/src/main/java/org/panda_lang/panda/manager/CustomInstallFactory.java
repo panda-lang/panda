@@ -18,10 +18,12 @@ package org.panda_lang.panda.manager;
 
 final class CustomInstallFactory {
     
-    public CustomInstall createCustomInstall(Dependency dependency) {
+    public CustomInstall createCustomInstall(PackageDocument document, Dependency dependency) {
         switch (dependency.getType()) {
             case "github":
                 return new GitHubInstall(dependency);
+            case "maven":
+                return new MavenInstall(document, dependency);
             default:
                 throw new IllegalArgumentException("Unknown dependency type: " + dependency.getType());
         }

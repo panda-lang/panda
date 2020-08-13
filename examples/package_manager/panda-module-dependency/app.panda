@@ -1,4 +1,4 @@
-module panda-module-manager
+module panda-module-dependency
 
 // require panda-dependency defined in the panda.hjson
 require panda-dependency

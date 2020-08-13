@@ -1,0 +1,7 @@
+module panda-with-java-library-dependency
+
+import org.panda_lang.reposilite.ReposiliteLauncher
+
+main {
+    ReposiliteLauncher.create("--version")
+}

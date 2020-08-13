@@ -16,6 +16,7 @@
 
 package org.panda_lang.language.interpreter;
 
+import org.panda_lang.language.interpreter.messenger.LoggerHolder;
 import org.panda_lang.utilities.commons.function.ThrowingRunnable;
 import org.panda_lang.utilities.commons.function.ThrowingSupplier;
 
@@ -24,7 +25,7 @@ import java.util.Collection;
 /**
  * Represents process of interpretation
  */
-public interface Interpretation {
+public interface Interpretation extends LoggerHolder {
 
     /**
      * Execute the given task

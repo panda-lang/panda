@@ -27,14 +27,12 @@ final class Dependency {
     private final String owner;
     private final String name;
     private final String version;
-    private final String address;
 
-    protected Dependency(String type, String owner, String name, String version, String address) {
+    protected Dependency(String type, String owner, String name, String version) {
         this.type = type;
         this.owner = owner;
         this.name = name;
         this.version = version;
-        this.address = address;
     }
 
     protected boolean hasHigherVersion(String anotherVersion) {
@@ -77,10 +75,6 @@ final class Dependency {
 
     protected String getIdentifier() {
         return getOwner() + "/" + getName();
-    }
-
-    protected String getAddress() {
-        return address;
     }
 
     protected String getVersion() {

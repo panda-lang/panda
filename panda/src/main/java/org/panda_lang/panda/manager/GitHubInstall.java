@@ -37,11 +37,12 @@ final class GitHubInstall implements CustomInstall {
 
     @Override
     public List<Dependency> install(BiConsumer<InstallStatus, Dependency> resultConsumer, File ownerDirectory, File packageInfoFile) throws IOException {
+        String address = "https://github.com/" + dependency.getOwner() + "/" + dependency.getName() + "/archive/" + dependency.getVersion() + ".zip";
         File packageDirectory = new File(ownerDirectory, dependency.getName());
         BufferedInputStream in = null;
 
         try {
-            in = new BufferedInputStream(new URL(dependency.getAddress()).openStream());
+            in = new BufferedInputStream(new URL(address).openStream());
             ZipInputStream zipStream = new ZipInputStream(in);
             ZipUtils.extract(zipStream, ownerDirectory);
 

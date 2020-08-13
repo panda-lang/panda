@@ -19,6 +19,7 @@ package org.panda_lang.language.interpreter;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.utilities.commons.function.ThrowingRunnable;
 import org.panda_lang.utilities.commons.function.ThrowingSupplier;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -67,6 +68,11 @@ public final class PandaInterpretation implements Interpretation {
     @Override
     public Interpreter getInterpreter() {
         return interpreter;
+    }
+
+    @Override
+    public Logger getLogger() {
+        return interpreter.getEnvironment().getLogger();
     }
 
 }

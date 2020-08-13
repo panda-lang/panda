@@ -21,20 +21,28 @@ import org.panda_lang.language.PandaFrameworkException;
 final class DependencyFactory {
 
     public Dependency createDependency(String qualifier) {
+        String type;
+
         if (qualifier.startsWith("github:")) {
-            String uri = qualifier.substring("github:".length());
-
-            String[] byOwner = uri.split("/");
-            String owner = byOwner[0];
-
-            String[] byVersion = byOwner[1].split("@");
-            String name = byVersion[0];
-            String version = byVersion[1];
-
-            return new Dependency("github", owner, name, version, "https://github.com/" + owner + "/" + name + "/archive/" + version + ".zip");
+            type = "github";
+        }
+        else if (qualifier.startsWith("maven:")) {
+            type = "maven";
+        }
+        else {
+            throw new PandaFrameworkException("Unsupported dependency format: " + qualifier);
         }
 
-        throw new PandaFrameworkException("Unsupported dependency format: " + qualifier);
+        String uri = qualifier.substring(type.length() + 1);
+
+        String[] byOwner = uri.split("/");
+        String owner = byOwner[0];
+
+        String[] byVersion = byOwner[1].split("@");
+        String version = byVersion[1];
+        String name = byVersion[0];
+
+        return new Dependency(type, owner, name, version);
     }
 
 }

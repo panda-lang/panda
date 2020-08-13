@@ -1,0 +1,16 @@
+name: panda-with-java-library-dependency
+version: 1.0.0
+owner: dzikoysk
+
+scripts: {
+    main: app.panda
+}
+
+dependencies: [
+    maven:org.panda-lang/reposilite@2.8.1
+]
+
+repositories: [
+    https://repo.panda-lang.org/
+]
+

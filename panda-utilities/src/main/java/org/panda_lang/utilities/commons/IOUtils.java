@@ -46,8 +46,7 @@ public final class IOUtils {
         InputStream stream = null;
 
         try {
-            URLConnection connection = new URL(url).openConnection();
-            connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+            URLConnection connection = createConnection(url);
             stream = connection.getInputStream();
 
             String encoding = connection.getContentEncoding();
@@ -59,6 +58,26 @@ public final class IOUtils {
         } finally {
             close(stream);
         }
+    }
+
+    /**
+     * Fetch content of the given website
+     *
+     * @param url the website to fetch
+     * @return content of requested page or thrown exception
+     */
+    public static Result<InputStream, IOException> fetchContentAsStream(String url) {
+        try {
+            return Result.ok(createConnection(url).getInputStream());
+        } catch (IOException exception) {
+            return Result.error(exception);
+        }
+    }
+
+    private static URLConnection createConnection(String url) throws IOException {
+        URLConnection connection = new URL(url).openConnection();
+        connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+        return connection;
     }
 
     /**

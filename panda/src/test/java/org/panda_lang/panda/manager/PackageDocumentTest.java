@@ -33,14 +33,15 @@ class PackageDocumentTest {
                         "version: 1.0.0\n" +
                         "owner: dzikoysk\n" +
                         "scripts: {\n" +
-                        "main: app.panda\n" +
+                        " main: app.panda\n" +
                         "}\n" +
                         "dependencies: [\n" +
-                        "github:owner-one/dependency-one@1.0.0\n" +
-                        "github:owner-three/dependency-three@1.0.0\n" +
+                        " github:owner-one/dependency-one@1.0.0\n" +
+                        " github:owner-three/dependency-three@1.0.0\n" +
+                        " maven:org.panda-lang/reposilite@2.8.1\n" +
                         "]\n" +
                         "tests-dependencies: [\n" +
-                        "github:owner-two/dependency-two@1.0.0\n" +
+                        " github:owner-two/dependency-two@1.0.0\n" +
                         "]\n";
 
         document = new PackageDocument(new File("."), JsonValue.readHjson(value).asObject());
@@ -53,7 +54,10 @@ class PackageDocumentTest {
 
     @Test
     void getDependencies() {
-        Assertions.assertEquals("[owner-one/dependency-one@1.0.0, owner-three/dependency-three@1.0.0]", document.getDependencies().toString());
+        Assertions.assertEquals(
+                "[owner-one/dependency-one@1.0.0, owner-three/dependency-three@1.0.0, org.panda-lang/reposilite@2.8.1]",
+                document.getDependencies().toString()
+        );
     }
 
     @Test

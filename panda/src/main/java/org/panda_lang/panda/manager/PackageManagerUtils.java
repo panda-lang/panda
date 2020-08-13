@@ -36,7 +36,14 @@ public final class PackageManagerUtils {
      * @throws IOException when module directory or module file does not exist
      */
     public static void loadToEnvironment(Interpretation interpretation, File moduleDirectory) throws IOException {
-        PackageDocument packageInfo = new PackageDocumentFile(new File(moduleDirectory, PackageManagerConstants.PACKAGE_INFO)).getContent();
+        File packageInfoFile = new File(moduleDirectory, PackageManagerConstants.PACKAGE_INFO);
+
+        if (!packageInfoFile.exists()) {
+            interpretation.getLogger().debug("Skipping non-panda dependency directory " + moduleDirectory);
+            return;
+        }
+
+        PackageDocument packageInfo = new PackageDocumentFile(packageInfoFile).getContent();
 
         interpretation.getInterpreter().getEnvironment().getModulePath().include(moduleDirectory.getName(), () -> {
             interpretation.execute(() -> {

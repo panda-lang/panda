@@ -37,7 +37,7 @@ final class PackageDocument {
     }
 
     protected Dependency toDependency() {
-        return new Dependency("", getOwner(), getName(), getVersion(), "");
+        return new Dependency("", getOwner(), getName(), getVersion());
     }
 
     private List<? extends String> getList(String name) {
@@ -54,6 +54,10 @@ final class PackageDocument {
         return getList(name).stream()
                 .map(factory::createDependency)
                 .collect(Collectors.toList());
+    }
+
+    protected List<? extends String> getRepositories() {
+        return getList("repositories");
     }
 
     protected List<Dependency> getTestsDependencies() {

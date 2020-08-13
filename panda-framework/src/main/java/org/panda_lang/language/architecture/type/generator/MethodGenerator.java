@@ -81,6 +81,14 @@ final class MethodGenerator {
                 arguments[amountOfArgs - 1] = varargs;
             }
 
+            if (parameterCount == 1) {
+                if (method.isVarArgs()) {
+                    Object array = Array.newInstance(method.getParameters()[0].getType().getComponentType(), 1);
+                    Array.set(array, 0, arguments[0]);
+                    arguments[0] = array;
+                }
+            }
+
             try {
                 return method.invoke(instance, arguments);
             } catch (InvocationTargetException e) {
