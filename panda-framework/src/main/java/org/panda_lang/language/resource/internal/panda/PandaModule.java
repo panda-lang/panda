@@ -17,7 +17,7 @@
 package org.panda_lang.language.resource.internal.panda;
 
 import org.panda_lang.language.architecture.module.Module;
-import org.panda_lang.language.architecture.type.PandaTypeUtils;
+import org.panda_lang.language.architecture.module.TypeLoader;
 import org.panda_lang.language.architecture.type.array.PandaArray;
 import org.panda_lang.language.resource.internal.InternalModuleInfo;
 import org.panda_lang.language.resource.internal.InternalModuleInfo.CustomInitializer;
@@ -26,8 +26,8 @@ import org.panda_lang.language.resource.internal.InternalModuleInfo.CustomInitia
 public final class PandaModule implements CustomInitializer {
 
     @Override
-    public void initialize(Module module) {
-        PandaTypeUtils.generateOf(module, PandaArray.class);
+    public void initialize(Module module, TypeLoader typeLoader) {
+        typeLoader.load(module, PandaArray.class);
     }
 
 }

@@ -30,9 +30,12 @@ import org.panda_lang.language.architecture.module.PandaTypeLoader;
 import org.panda_lang.language.architecture.statement.StaticScope;
 import org.panda_lang.language.interpreter.parser.PandaContext;
 import org.panda_lang.language.interpreter.parser.expression.PandaExpressionParser;
+import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.language.architecture.PandaScript;
 import org.panda_lang.panda.language.resource.ResourcesLoader;
 import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressions;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.function.Function;
@@ -58,8 +61,11 @@ public final class ExpressionContextUtils {
         Context context = new PandaContext();
         context.withComponent(Components.EXPRESSION, new PandaExpressionParser(PandaExpressions.getExpressionSubparsers()));
 
+        PandaFactory factory = new PandaFactory();
+        Panda panda = factory.createPanda(LoggerFactory.getLogger(ExpressionContextUtils.class));
+
         ModulePath path = new PandaModulePath();
-        TypeLoader loader = new PandaTypeLoader();
+        TypeLoader loader = new PandaTypeLoader(panda);
 
         ResourcesLoader resourcesLoader = new ResourcesLoader();
         resourcesLoader.load(path, loader);

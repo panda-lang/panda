@@ -21,7 +21,6 @@ import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.architecture.module.PandaModule;
 import org.panda_lang.language.architecture.module.TypeLoader;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.generator.TypeGeneratorManager;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.StringUtils;
 import org.panda_lang.utilities.commons.function.Option;
@@ -37,7 +36,7 @@ public final class ArrayClassTypeFetcher {
     public static Option<Type> fetch(TypeLoader typeLoader, Class<?> type) {
         Class<?> baseClass = ArrayUtils.getBaseClass(type);
         Type baseType = typeLoader.forClass(baseClass).orElseGet(() -> {
-           return TypeGeneratorManager.getInstance().generate(ARRAY_MODULE, baseClass.getName(), baseClass);
+           return typeLoader.load(ARRAY_MODULE, baseClass, baseClass.getName());
         });
         return fetch(typeLoader, baseType.getSimpleName() + type.getSimpleName().replace(baseClass.getSimpleName(), StringUtils.EMPTY));
     }

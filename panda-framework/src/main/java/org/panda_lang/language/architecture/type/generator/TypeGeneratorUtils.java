@@ -32,7 +32,7 @@ final class TypeGeneratorUtils {
 
         for (int index = 0; index < parameters.length; index++) {
             Parameter parameter = parameters[index];
-            Type type = TypeGeneratorManager.getInstance().getGenerator().findOrGenerate(typeLoader, module, parameter.getType());
+            Type type = typeLoader.load(module, parameter.getType());
             mappedParameters[index] = new PandaPropertyParameter(index, type, parameter.getName(), parameter.isVarArgs(), false, false);
         }
 

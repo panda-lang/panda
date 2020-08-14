@@ -62,4 +62,8 @@ public final class PandaUtils {
         loggerHolder.getLogger().debug("");
     }
 
+    public static Panda defaultInstance() {
+        return PANDA_INSTANCE.get();
+    }
+
 }

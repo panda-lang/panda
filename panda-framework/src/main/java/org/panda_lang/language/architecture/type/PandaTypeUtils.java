@@ -17,7 +17,6 @@
 package org.panda_lang.language.architecture.type;
 
 import org.panda_lang.language.architecture.module.Module;
-import org.panda_lang.language.architecture.type.generator.TypeGeneratorManager;
 import org.panda_lang.language.interpreter.source.PandaClassSource;
 
 public final class PandaTypeUtils {
@@ -38,14 +37,6 @@ public final class PandaTypeUtils {
                     .model(javaType.isInterface() ? TypeModels.INTERFACE : TypeModels.CLASS)
                     .location(new PandaClassSource(javaType).toLocation())
                     .build());
-    }
-
-    public static Type generateOf(Module module, Class<?> type) {
-        return generateOf(module, type.getSimpleName(), type);
-    }
-
-    public static Type generateOf(Module module, String name, Class<?> type) {
-        return TypeGeneratorManager.getInstance().generate(module, name, type);
     }
 
 }

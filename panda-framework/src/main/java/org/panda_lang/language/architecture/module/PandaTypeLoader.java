@@ -16,6 +16,8 @@
 
 package org.panda_lang.language.architecture.module;
 
+import org.panda_lang.language.FrameworkController;
+import org.panda_lang.language.architecture.type.generator.TypeGeneratorManager;
 import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.array.ArrayClassTypeFetcher;
@@ -30,9 +32,11 @@ public final class PandaTypeLoader implements TypeLoader {
     private final Collection<TypeLoader> parents;
     private final TypesMap loadedTypes = new PandaTypesMap();
     private final Collection<Module> loadedModules = new ArrayList<>();
+    private final TypeGeneratorManager generator;
 
-    public PandaTypeLoader(TypeLoader... parents) {
+    public PandaTypeLoader(FrameworkController controller, TypeLoader... parents) {
         this.parents = Arrays.asList(parents);
+        this.generator = new TypeGeneratorManager(controller);
     }
 
     @Override
@@ -42,6 +46,11 @@ public final class PandaTypeLoader implements TypeLoader {
         }
 
         return type;
+    }
+
+    @Override
+    public Type load(Module module, Class<?> type, String alias) {
+        return forClass(type).orElseGet(() -> generator.generate(module, alias, type));
     }
 
     @Override

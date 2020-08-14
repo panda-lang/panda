@@ -16,6 +16,7 @@
 
 package org.panda_lang.language.architecture.type.generator;
 
+import org.panda_lang.language.FrameworkController;
 import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.architecture.module.TypeLoader;
@@ -37,6 +38,11 @@ import java.util.Map;
 final class TypeGenerator {
 
     protected final Map<String, Type> initializedTypes = new HashMap<>();
+    protected final FrameworkController frameworkController;
+
+    TypeGenerator(FrameworkController frameworkController) {
+        this.frameworkController = frameworkController;
+    }
 
     protected Type generate(Module module, String name, Class<?> javaType) {
         String identifier = getId(module, name);
@@ -86,7 +92,7 @@ final class TypeGenerator {
                         }
 
                         for (Method method : ReflectionUtils.getByModifier(javaType.getDeclaredMethods(), Modifier.PUBLIC)) {
-                            MethodGenerator generator = new MethodGenerator(this, initializedType, method);
+                            MethodGenerator generator = new MethodGenerator(frameworkController, this, initializedType, method);
                             initializedType.getMethods().declare(method.getName(), () -> generator.generate(typeLoader));
                         }
                     });

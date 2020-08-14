@@ -17,6 +17,7 @@
 package org.panda_lang.language.resource.internal;
 
 import org.panda_lang.language.architecture.module.Module;
+import org.panda_lang.language.architecture.module.TypeLoader;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -58,7 +59,7 @@ public @interface InternalModuleInfo {
          *
          * @param module current module
          */
-        void initialize(Module module);
+        void initialize(Module module, TypeLoader typeLoader);
 
     }
 

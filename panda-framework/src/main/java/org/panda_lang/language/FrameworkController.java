@@ -41,11 +41,11 @@ public interface FrameworkController extends LoggerHolder {
     Language getLanguage();
 
     /**
-     * Get the current version of framework controller
+     * Get associated Panda class loader
      *
-     * @return the current version
+     * @return the class loader
      */
-    String getVersion();
+    PandaClassLoader getClassLoader();
 
     /**
      * Get logger used by the framework
@@ -54,5 +54,14 @@ public interface FrameworkController extends LoggerHolder {
      */
     @Override
     Logger getLogger();
+
+    /**
+     * Get the current version of framework controller
+     *
+     * @return the current version
+     */
+    String getVersion();
+
+
 
 }

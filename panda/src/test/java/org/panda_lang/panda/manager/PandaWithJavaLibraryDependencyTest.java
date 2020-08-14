@@ -17,20 +17,18 @@
 package org.panda_lang.panda.manager;
 
 import org.junit.jupiter.api.Test;
-import org.panda_lang.language.interpreter.messenger.PandaMessenger;
 import org.panda_lang.panda.util.PandaUtils;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
 class PandaWithJavaLibraryDependencyTest {
 
     private static final File DIRECTORY = new File("../examples/package_manager/panda-with-java-library-dependency");
-    private static final PackageManager MANAGER = new PackageManager(new PandaMessenger(LoggerFactory.getLogger(PandaWithJavaLibraryDependencyTest.class)), DIRECTORY);
+    private static final PackageManager MANAGER = new PackageManager(PandaUtils.defaultInstance(), DIRECTORY);
 
     @Test
     void test() throws Exception {
-        PandaUtils.printJVMUptime(MANAGER.getMessenger());
+        PandaUtils.printJVMUptime(MANAGER);
         File document = new File(DIRECTORY, "panda.hjson");
 
         MANAGER.install(document);

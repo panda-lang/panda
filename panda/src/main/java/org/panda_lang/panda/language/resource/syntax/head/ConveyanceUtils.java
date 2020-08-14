@@ -20,29 +20,24 @@ import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.architecture.type.generator.TypeGeneratorManager;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.utilities.commons.ClassUtils;
-
-import org.panda_lang.utilities.commons.function.Option;
+import org.panda_lang.language.interpreter.token.Snippet;
 
 final class ConveyanceUtils {
 
     private ConveyanceUtils() { }
 
     protected static Type fetchType(Context context, Snippet classNameSource) {
-        Option<Class<?>> importedClass = ClassUtils.forName(classNameSource.asSource());
+        try {
+            Class<?> importedClass = Class.forName(classNameSource.asSource(), true, context.getComponent(Components.CONTROLLER).getClassLoader());
 
-        if (!importedClass.isDefined()) {
+            Module module = context.getComponent(Components.SCRIPT).getModule();
+            String className = importedClass.getSimpleName();
+
+            return context.getComponent(Components.TYPE_LOADER).load(module, importedClass, className);
+        } catch (ClassNotFoundException e) {
             throw new PandaParserFailure(context, classNameSource, "Class " + classNameSource.asSource() + " does not exist");
         }
-
-        Module module = context.getComponent(Components.SCRIPT).getModule();
-        Class<?> clazz = importedClass.get();
-        String className = clazz.getSimpleName();
-
-        return TypeGeneratorManager.getInstance().generate(module, className, clazz);
     }
 
 }

@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.manager;
+package org.panda_lang.language;
 
-final class CustomInstallFactory {
-    
-    public CustomInstall createCustomInstall(PackageManager manager, PackageDocument document, Dependency dependency) {
-        switch (dependency.getType()) {
-            case "github":
-                return new GitHubInstall(dependency);
-            case "maven":
-                return new MavenInstall(manager, document, dependency);
-            default:
-                throw new IllegalArgumentException("Unknown dependency type: " + dependency.getType());
-        }
+import java.net.URL;
+import java.net.URLClassLoader;
+
+public class PandaClassLoader extends URLClassLoader {
+
+    public PandaClassLoader(ClassLoader parent, URL... urls) {
+        super(urls, parent);
     }
-    
+
+    @Override
+    public void addURL(URL url) {
+        super.addURL(url);
+    }
+
 }

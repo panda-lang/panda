@@ -16,14 +16,17 @@
 
 package org.panda_lang.language.architecture.type.generator;
 
+import org.panda_lang.language.FrameworkController;
 import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.architecture.type.Type;
 
 public final class TypeGeneratorManager {
 
-    private static final TypeGeneratorManager INSTANCE = new TypeGeneratorManager();
+    private final TypeGenerator generator;
 
-    private final TypeGenerator generator = new TypeGenerator();
+    public TypeGeneratorManager(FrameworkController controller) {
+        this.generator = new TypeGenerator(controller);
+    }
 
     public Type generate(Module module, String name, Class<?> clazz) {
         boolean exists = module.forClass(clazz).isDefined();
@@ -46,10 +49,6 @@ public final class TypeGeneratorManager {
 
     public int getCacheSize() {
         return generator.initializedTypes.size();
-    }
-
-    public static TypeGeneratorManager getInstance() {
-        return INSTANCE;
     }
 
 }

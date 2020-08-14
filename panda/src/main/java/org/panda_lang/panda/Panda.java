@@ -17,6 +17,7 @@
 package org.panda_lang.panda;
 
 import org.panda_lang.language.FrameworkController;
+import org.panda_lang.language.PandaClassLoader;
 import org.panda_lang.language.PandaFramework;
 import org.panda_lang.language.resource.Language;
 import org.panda_lang.language.resource.Resources;
@@ -33,7 +34,7 @@ public final class Panda extends PandaFramework implements FrameworkController {
     private final PandaFileLoader loader = new PandaFileLoader(this);
 
     private Panda(PandaBuilder builder) {
-        super(builder.logger, builder.language, builder.resources);
+        super(builder.logger, new PandaClassLoader(Panda.class.getClassLoader()), builder.language, builder.resources);
     }
 
     /**

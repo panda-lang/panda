@@ -17,20 +17,19 @@
 package org.panda_lang.panda.manager;
 
 import org.panda_lang.language.FrameworkController;
-import org.panda_lang.language.interpreter.messenger.Messenger;
-import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.PandaFactory;
+import org.panda_lang.language.interpreter.messenger.LoggerHolder;
+import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
 
-public final class PackageManager {
+public final class PackageManager implements LoggerHolder {
 
-    private final Messenger messenger;
+    private final FrameworkController controller;
     private final File workingDirectory;
 
-    public PackageManager(Messenger messenger, File workingDirectory) {
-        this.messenger = messenger;
+    public PackageManager(FrameworkController controller, File workingDirectory) {
+        this.controller = controller;
         this.workingDirectory = workingDirectory;
     }
 
@@ -40,9 +39,7 @@ public final class PackageManager {
     }
 
     public void run(File documentFile) throws IOException {
-        PandaFactory factory = new PandaFactory();
-        Panda panda = factory.createPanda(messenger.getLogger());
-        run(panda, documentFile);
+        run(controller, documentFile);
     }
 
     public void run(FrameworkController controller, File documentFile) throws IOException {
@@ -54,8 +51,13 @@ public final class PackageManager {
         return workingDirectory;
     }
 
-    protected Messenger getMessenger() {
-        return messenger;
+    public FrameworkController getFrameworkController() {
+        return controller;
+    }
+
+    @Override
+    public Logger getLogger() {
+        return controller.getLogger();
     }
 
 }

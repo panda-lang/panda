@@ -52,7 +52,7 @@ public final class PandaContextUtils {
                 .withComponent(Components.EXPRESSION, new PandaExpressionParser(new PandaExpressionSubparsers(PandaExpressions.getSubparsers())));
 
         ModulePath path = new PandaModulePath();
-        TypeLoader loader = new PandaTypeLoader();
+        TypeLoader loader = new PandaTypeLoader(frameworkController);
 
         ResourcesLoader resourcesLoader = new ResourcesLoader();
         resourcesLoader.load(path, loader);

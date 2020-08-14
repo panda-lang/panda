@@ -45,7 +45,7 @@ public final class PandaEnvironment implements Environment {
         this.controller = controller;
         this.workingDirectory = workingDirectory;
         this.modulePath = new PandaModulePath();
-        this.typeLoader = new PandaTypeLoader();
+        this.typeLoader = new PandaTypeLoader(controller);
         this.messenger = new PandaMessenger(controller);
         this.interpreter = new PandaInterpreter(this);
     }

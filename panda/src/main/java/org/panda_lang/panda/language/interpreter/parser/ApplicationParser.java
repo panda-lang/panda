@@ -18,27 +18,26 @@ package org.panda_lang.panda.language.interpreter.parser;
 
 import org.panda_lang.language.architecture.Environment;
 import org.panda_lang.language.architecture.module.Imports;
+import org.panda_lang.language.architecture.module.PandaImports;
 import org.panda_lang.language.interpreter.Interpretation;
 import org.panda_lang.language.interpreter.lexer.Lexer;
+import org.panda_lang.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.PandaContext;
 import org.panda_lang.language.interpreter.parser.Parser;
+import org.panda_lang.language.interpreter.parser.pipeline.PandaLocalChannel;
+import org.panda_lang.language.interpreter.parser.pipeline.PipelineParser;
 import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.language.interpreter.parser.stage.PandaStageController;
+import org.panda_lang.language.interpreter.parser.stage.Stages;
+import org.panda_lang.language.interpreter.source.PandaSourceSet;
 import org.panda_lang.language.interpreter.source.Source;
 import org.panda_lang.language.interpreter.source.SourceSet;
+import org.panda_lang.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.SourceStream;
 import org.panda_lang.language.resource.Resources;
-import org.panda_lang.language.architecture.module.PandaImports;
-import org.panda_lang.language.architecture.type.generator.TypeGeneratorManager;
-import org.panda_lang.language.interpreter.lexer.PandaLexer;
-import org.panda_lang.language.interpreter.parser.PandaContext;
-import org.panda_lang.language.interpreter.parser.stage.Stages;
-import org.panda_lang.language.interpreter.parser.stage.PandaStageController;
-import org.panda_lang.language.interpreter.parser.pipeline.PandaLocalChannel;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineParser;
-import org.panda_lang.language.interpreter.source.PandaSourceSet;
-import org.panda_lang.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.panda.language.architecture.PandaApplication;
 import org.panda_lang.panda.language.architecture.PandaScript;
 
@@ -51,8 +50,6 @@ public final class ApplicationParser implements Parser {
     }
 
     public PandaApplication parse(Source source) {
-        TypeGeneratorManager.getInstance().disposeCache();
-
         Environment environment = interpretation.getInterpreter().getEnvironment();
         Resources resources = environment.getController().getResources();
         PandaApplication application = new PandaApplication(environment);
@@ -68,6 +65,7 @@ public final class ApplicationParser implements Parser {
                 .build();
 
         Context context = new PandaContext()
+                .withComponent(Components.CONTROLLER, environment.getController())
                 .withComponent(Components.APPLICATION, application)
                 .withComponent(Components.ENVIRONMENT, environment)
                 .withComponent(Components.INTERPRETATION, interpretation)

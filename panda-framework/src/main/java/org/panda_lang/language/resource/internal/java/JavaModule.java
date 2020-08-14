@@ -17,6 +17,7 @@
 package org.panda_lang.language.resource.internal.java;
 
 import org.panda_lang.language.architecture.module.Module;
+import org.panda_lang.language.architecture.module.TypeLoader;
 import org.panda_lang.language.architecture.type.Autocast;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.PandaTypeUtils;
@@ -32,28 +33,28 @@ import org.panda_lang.utilities.commons.ClassUtils;
 public final class JavaModule implements CustomInitializer {
 
     @Override
-    public void initialize(Module module) {
+    public void initialize(Module module, TypeLoader typeLoader) {
         PandaTypeUtils.of(module, void.class);
         PandaTypeUtils.of(module, Void.class);
 
-        type(module, "Int", int.class);
-        type(module, "Bool", boolean.class);
-        type(module, "Char", char.class);
-        type(module, "Byte", byte.class);
-        type(module, "Short", short.class);
-        type(module, "Long", long.class);
-        type(module, "Float", float.class);
-        type(module, "Double", double.class);
+        type(module, typeLoader, "Int", int.class);
+        type(module, typeLoader, "Bool", boolean.class);
+        type(module, typeLoader, "Char", char.class);
+        type(module, typeLoader, "Byte", byte.class);
+        type(module, typeLoader, "Short", short.class);
+        type(module, typeLoader, "Long", long.class);
+        type(module, typeLoader, "Float", float.class);
+        type(module, typeLoader, "Double", double.class);
 
-        PandaTypeUtils.generateOf(module, Object.class);
-        Type intType = generate(module, int.class, "Int");
-        Type boolType = generate(module, boolean.class, "Bool");
-        Type charType = generate(module, char.class, "Char");
-        Type byteType = generate(module, byte.class, "Byte");
-        Type shortType = generate(module, short.class, "Short");
-        Type longType = generate(module, long.class, "Long");
-        Type floatType = generate(module, float.class, "Float");
-        Type doubleType = generate(module, double.class, "Double");
+        typeLoader.load(module, Object.class);
+        Type intType = generate(module, typeLoader, int.class, "Int");
+        Type boolType = generate(module, typeLoader, boolean.class, "Bool");
+        Type charType = generate(module, typeLoader, char.class, "Char");
+        Type byteType = generate(module, typeLoader, byte.class, "Byte");
+        Type shortType = generate(module, typeLoader, short.class, "Short");
+        Type longType = generate(module, typeLoader, long.class, "Long");
+        Type floatType = generate(module, typeLoader, float.class, "Float");
+        Type doubleType = generate(module, typeLoader, double.class, "Double");
 
         intType.addAutocast(longType, (Autocast<Number, Long>) (originalType, object, resultType) -> object.longValue());
         intType.addAutocast(doubleType, (Autocast<Number, Double>) (originalType, object, resultType) -> object.doubleValue());
@@ -65,14 +66,14 @@ public final class JavaModule implements CustomInitializer {
         shortType.addAutocast(intType, (Autocast<Number, Integer>) (originalType, object, resultType) -> object.intValue());
     }
 
-    private void type(Module module, String name, Class<?> primitiveClass) {
+    private void type(Module module, TypeLoader typeLoader, String name, Class<?> primitiveClass) {
         PandaTypeUtils.of(module, "Primitive" + name, primitiveClass);
-        PandaTypeUtils.generateOf(module, name, ClassUtils.getNonPrimitiveClass(primitiveClass));
+        typeLoader.load(module, ClassUtils.getNonPrimitiveClass(primitiveClass), name);
     }
 
-    private Type generate(Module module, Class<?> primitiveClass, String name) {
-        PandaTypeUtils.generateOf(module, "Primitive" + name, primitiveClass);
-        return PandaTypeUtils.generateOf(module, name, ClassUtils.getNonPrimitiveClass(primitiveClass));
+    private Type generate(Module module, TypeLoader typeLoader, Class<?> primitiveClass, String name) {
+        PandaTypeUtils.of(module, "Primitive" + name, primitiveClass);
+        return typeLoader.load(module, ClassUtils.getNonPrimitiveClass(primitiveClass), name);
     }
 
 }

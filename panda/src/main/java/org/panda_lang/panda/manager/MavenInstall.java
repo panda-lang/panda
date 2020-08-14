@@ -16,15 +16,11 @@
 
 package org.panda_lang.panda.manager;
 
-import org.panda_lang.panda.PandaException;
 import org.panda_lang.utilities.commons.IOUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Collections;
@@ -33,10 +29,12 @@ import java.util.function.BiConsumer;
 
 final class MavenInstall implements CustomInstall {
 
+    private final PackageManager manager;
     private final PackageDocument document;
     private final Dependency dependency;
 
-    public MavenInstall(PackageDocument document, Dependency dependency) {
+    public MavenInstall(PackageManager manager, PackageDocument document, Dependency dependency) {
+        this.manager = manager;
         this.document = document;
         this.dependency = dependency;
     }
@@ -77,14 +75,7 @@ final class MavenInstall implements CustomInstall {
 //                File dependencyDocument = new File(dependencyDirectory, "panda.hjson");
 //                FileUtils.overrideFile(dependencyDocument, "name: " + dependency.getName() + "\nversion: " + dependency.getVersion());
 
-                try {
-                    URLClassLoader classLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
-                    Method method = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
-                    method.setAccessible(true);
-                    method.invoke(classLoader, dependencyFile.toURI().toURL());
-                } catch (Exception e) {
-                    throw new PandaException("Cannot load dependency", e);
-                }
+                manager.getFrameworkController().getClassLoader().addURL(dependencyFile.toURI().toURL());
             } finally {
                 IOUtils.close(in);
             }

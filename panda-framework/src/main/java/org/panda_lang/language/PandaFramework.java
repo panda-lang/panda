@@ -22,11 +22,12 @@ import org.slf4j.Logger;
 
 public abstract class PandaFramework implements FrameworkController {
 
+    private final Logger logger;
+    private final PandaClassLoader classLoader;
     private final Language language;
     private final Resources resources;
-    private final Logger logger;
 
-    protected PandaFramework(Logger logger, Language language, Resources resources) {
+    protected PandaFramework(Logger logger, PandaClassLoader classLoader, Language language, Resources resources) {
         if (logger == null) {
             throw new IllegalArgumentException("Missing logger");
         }
@@ -39,9 +40,10 @@ public abstract class PandaFramework implements FrameworkController {
             throw new IllegalArgumentException("Missing resources");
         }
 
+        this.logger = logger;
+        this.classLoader = classLoader;
         this.language = language;
         this.resources = resources;
-        this.logger = logger;
     }
 
     /**
@@ -64,6 +66,16 @@ public abstract class PandaFramework implements FrameworkController {
         return language;
     }
 
+    @Override
+    public PandaClassLoader getClassLoader() {
+        return classLoader;
+    }
+
+    @Override
+    public Logger getLogger() {
+        return logger;
+    }
+
     /**
      * Get current version of Panda
      *
@@ -72,11 +84,6 @@ public abstract class PandaFramework implements FrameworkController {
     @Override
     public String getVersion() {
         return PandaFrameworkConstants.VERSION;
-    }
-
-    @Override
-    public Logger getLogger() {
-        return logger;
     }
 
 }

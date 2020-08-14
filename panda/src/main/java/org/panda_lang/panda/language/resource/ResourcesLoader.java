@@ -21,7 +21,6 @@ import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.architecture.module.ModulePath;
 import org.panda_lang.language.architecture.module.TypeLoader;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.generator.TypeGeneratorManager;
 import org.panda_lang.language.resource.internal.InternalModuleInfo;
 import org.panda_lang.language.resource.internal.InternalModuleInfo.CustomInitializer;
 import org.panda_lang.panda.language.resource.internal.PandaModules;
@@ -49,14 +48,14 @@ public final class ResourcesLoader {
 
         if (CustomInitializer.class.isAssignableFrom(annotatedClass)) {
             CustomInitializer initializer = (CustomInitializer) annotatedClass.newInstance();
-            initializer.initialize(module);
+            initializer.initialize(module, typeLoader);
         }
 
         String packageName = moduleInfo.pkg().isEmpty() ? StringUtils.EMPTY : moduleInfo.pkg() + ".";
 
         for (String name : moduleInfo.classes()) {
             Class<?> type = Class.forName(packageName + name);
-            Type mappedType = TypeGeneratorManager.getInstance().generate(module, type.getSimpleName(), type);
+            Type mappedType = typeLoader.load(module, type);
             module.add(mappedType);
         }
     }

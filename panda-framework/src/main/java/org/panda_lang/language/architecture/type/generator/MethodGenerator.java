@@ -16,12 +16,13 @@
 
 package org.panda_lang.language.architecture.type.generator;
 
+import org.panda_lang.language.FrameworkController;
+import org.panda_lang.language.architecture.module.TypeLoader;
+import org.panda_lang.language.architecture.type.PandaMethod;
 import org.panda_lang.language.architecture.type.PropertyParameter;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.module.TypeLoader;
-import org.panda_lang.language.architecture.type.TypeMethod;
-import org.panda_lang.language.architecture.type.PandaMethod;
 import org.panda_lang.language.architecture.type.TypeExecutableCallback;
+import org.panda_lang.language.architecture.type.TypeMethod;
 import org.panda_lang.language.runtime.PandaRuntimeException;
 
 import java.lang.reflect.Array;
@@ -32,15 +33,17 @@ import java.security.InvalidParameterException;
 
 final class MethodGenerator {
 
+    private final FrameworkController controller;
     private final TypeGenerator generator;
     private final Type type;
     private final Method method;
 
-    MethodGenerator(TypeGenerator generator, Type type, Method method) {
+    MethodGenerator(FrameworkController controller, TypeGenerator generator, Type type, Method method) {
         if (method == null) {
             throw new InvalidParameterException("Method cannot be null");
         }
 
+        this.controller = controller;
         this.generator = generator;
         this.type = type;
         this.method = method;
@@ -63,7 +66,7 @@ final class MethodGenerator {
 
                 Class<?> last = method.getParameterTypes()[parameterCount - 1];
                 String lastName = last.getName();
-                Class<?> rootLast = Class.forName(lastName.substring(2, lastName.length() - 1));
+                Class<?> rootLast = Class.forName(lastName.substring(2, lastName.length() - 1), true, controller.getClassLoader());
 
                 if (amountOfArgs + 1 != parameterCount || !last.isArray()) {
                     throw new PandaRuntimeException("Cannot invoke mapped mapped method (args.length != parameters.length)");

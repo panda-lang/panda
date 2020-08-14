@@ -19,7 +19,6 @@ package org.panda_lang.panda.language.interpreter;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.Application;
 import org.panda_lang.language.architecture.Environment;
-import org.panda_lang.language.architecture.type.generator.TypeGeneratorManager;
 import org.panda_lang.language.interpreter.Interpretation;
 import org.panda_lang.language.interpreter.Interpreter;
 import org.panda_lang.language.interpreter.PandaInterpretation;
@@ -69,7 +68,7 @@ public final class PandaInterpreter implements Interpreter {
         environment.getMessenger().send(Level.DEBUG, "• Parse time: " + parseTime);
         environment.getMessenger().send(Level.DEBUG, "• Amount of types: " + environment.getModulePath().countTypes());
         environment.getMessenger().send(Level.DEBUG, "• Amount of used types: " + environment.getModulePath().countUsedTypes());
-        environment.getMessenger().send(Level.DEBUG, "• Amount of cached references: " + TypeGeneratorManager.getInstance().getCacheSize());
+        // environment.getMessenger().send(Level.DEBUG, "• Amount of cached references: " + TypeGeneratorManager.getInstance().getCacheSize());
         environment.getMessenger().send(Level.DEBUG, "• Expression Parser Time: " + TimeUtils.toMilliseconds(PandaExpressionParser.time) + " (" + PandaExpressionParser.amount + ")");
         environment.getMessenger().send(Level.DEBUG, "• Pipeline Handle Time: " + TimeUtils.toMilliseconds(environment.getController().getResources().getPipelinePath().getTotalHandleTime()));
         environment.getMessenger().send(Level.DEBUG, "");

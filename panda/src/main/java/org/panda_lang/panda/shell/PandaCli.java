@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.shell;
 
-import org.panda_lang.language.interpreter.messenger.PandaMessenger;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaConstants;
 import org.panda_lang.panda.PandaFactory;
@@ -97,7 +96,7 @@ final class PandaCli implements ThrowingRunnable<Exception> {
         }
 
         if (script.getName().endsWith("panda.hjson")) {
-            PackageManager packageManager = new PackageManager(new PandaMessenger(panda), script.getParentFile());
+            PackageManager packageManager = new PackageManager(panda, script.getParentFile());
             packageManager.install(script);
             packageManager.run(panda, script);
             return;

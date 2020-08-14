@@ -18,7 +18,6 @@ package org.panda_lang.panda.manager;
 
 import org.panda_lang.utilities.commons.FileUtils;
 import org.panda_lang.utilities.commons.function.ThrowingRunnable;
-import org.slf4j.event.Level;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,7 +39,7 @@ final class Install implements ThrowingRunnable<IOException> {
     }
 
     public void run() throws IOException {
-        manager.getMessenger().send(Level.DEBUG, "--- Installing dependencies");
+        manager.getLogger().debug("--- Installing dependencies");
 
         Dependency documentDependency = document.toDependency();
         File pandaModules = new File(document.getDocument().getParentFile(), PackageManagerConstants.MODULES);
@@ -57,7 +56,7 @@ final class Install implements ThrowingRunnable<IOException> {
 
             for (Dependency dependency : dependencies) {
                 if (documentDependency.equals(dependency)) {
-                    manager.getMessenger().send(Level.WARN, "Module contains circular dependency to itself");
+                    manager.getLogger().warn("Module contains circular dependency to itself");
                     continue;
                 }
 
@@ -81,7 +80,7 @@ final class Install implements ThrowingRunnable<IOException> {
             scan(dependencyMap, new File(pandaModules, moduleDirectory.getName()));
         }
 
-        manager.getMessenger().send(Level.DEBUG, "");
+        manager.getLogger().debug("");
     }
 
     private void install(File pandaModules, Dependency dependency, Collection<Dependency> dependenciesToLoad) throws IOException {
@@ -103,11 +102,11 @@ final class Install implements ThrowingRunnable<IOException> {
         }
 
         if (!packageInfoFile.exists()) {
-            manager.getMessenger().getLogger().debug("Dependency " + dependency.getName() + " does not contain valid package document");
+            manager.getLogger().debug("Dependency " + dependency.getName() + " does not contain valid package document");
         }
 
         CustomInstallFactory customInstallFactory = new CustomInstallFactory();
-        CustomInstall customInstall = customInstallFactory.createCustomInstall(document, dependency);
+        CustomInstall customInstall = customInstallFactory.createCustomInstall(manager, document, dependency);
 
         List<Dependency> dependencies = customInstall.install(this::log, ownerDirectory, packageInfoFile);
         dependenciesToLoad.addAll(dependencies);
@@ -127,7 +126,7 @@ final class Install implements ThrowingRunnable<IOException> {
     }
 
     protected void log(InstallStatus status, Dependency dependency) {
-        manager.getMessenger().send(Level.DEBUG, status.getSymbol() + " " + dependency.toString());
+        manager.getLogger().debug(status.getSymbol() + " " + dependency.toString());
     }
 
 }
