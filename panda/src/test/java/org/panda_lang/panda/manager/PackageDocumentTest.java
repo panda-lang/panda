@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.manager;
 
-import org.hjson.JsonValue;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -35,16 +34,16 @@ class PackageDocumentTest {
                         "scripts: {\n" +
                         " main: app.panda\n" +
                         "}\n" +
-                        "dependencies: [\n" +
+                        "dependencies: {\n" +
                         " github:owner-one/dependency-one@1.0.0\n" +
                         " github:owner-three/dependency-three@1.0.0\n" +
                         " maven:org.panda-lang/reposilite@2.8.1\n" +
-                        "]\n" +
-                        "tests-dependencies: [\n" +
+                        "}\n" +
+                        "tests-dependencies: {\n" +
                         " github:owner-two/dependency-two@1.0.0\n" +
-                        "]\n";
+                        "}\n";
 
-        document = new PackageDocument(new File("."), JsonValue.readHjson(value).asObject());
+        document = new PackageDocument(new File("."), value);
     }
 
     @Test

@@ -73,10 +73,6 @@ final class Dependency {
         return Objects.hash(getOwner(), getName());
     }
 
-    protected String getIdentifier() {
-        return getOwner() + "/" + getName();
-    }
-
     protected String getVersion() {
         return version;
     }

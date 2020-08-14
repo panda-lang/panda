@@ -61,7 +61,6 @@ final class MicroTemplateProcessor {
             lines[i] = CharacterUtils.BACKSPACE + prefix + lines[i];
         }
 
-        //noinspection ConfusingArgumentToVarargsMethod
         return ContentJoiner.on("\n")
                 .join(lines)
                 .toString();

@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.manager;
 
+import org.panda_lang.utilities.commons.FileUtils;
 import org.panda_lang.utilities.commons.IOUtils;
 import org.panda_lang.utilities.commons.ZipUtils;
 
@@ -37,8 +38,10 @@ final class GitHubInstall implements CustomInstall {
 
     @Override
     public List<Dependency> install(BiConsumer<InstallStatus, Dependency> resultConsumer, File ownerDirectory, File packageInfoFile) throws IOException {
-        String address = "https://github.com/" + dependency.getOwner() + "/" + dependency.getName() + "/archive/" + dependency.getVersion() + ".zip";
         File packageDirectory = new File(ownerDirectory, dependency.getName());
+        FileUtils.delete(packageDirectory);
+
+        String address = "https://github.com/" + dependency.getOwner() + "/" + dependency.getName() + "/archive/" + dependency.getVersion() + ".zip";
         BufferedInputStream in = null;
 
         try {

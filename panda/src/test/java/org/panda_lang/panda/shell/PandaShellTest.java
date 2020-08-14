@@ -25,7 +25,7 @@ final class PandaShellTest {
 
     @Test
     void test() throws Exception {
-        SHELL.invoke("--level=info", "../examples/package_manager/panda-module-dependency/panda.hjson");
+        SHELL.invoke("--level=info", "../examples/package_manager/panda-module-dependency/panda.cdn");
     }
 
 }

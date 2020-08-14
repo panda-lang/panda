@@ -29,7 +29,7 @@ class PandaModuleDependencyTest {
     @Test
     void test() throws Exception {
         PandaUtils.printJVMUptime(MANAGER);
-        File document = new File(DIRECTORY, "panda.hjson");
+        File document = new File(DIRECTORY, "panda.cdn");
 
         MANAGER.install(document);
         MANAGER.run(document);

@@ -38,6 +38,10 @@
 
         <!-- General -->
         <dependency>
+            <groupId>net.dzikoysk</groupId>
+            <artifactId>cdn</artifactId>
+        </dependency>
+        <dependency>
             <groupId>info.picocli</groupId>
             <artifactId>picocli</artifactId>
         </dependency>

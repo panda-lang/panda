@@ -16,48 +16,44 @@
 
 package org.panda_lang.panda.manager;
 
-import org.hjson.JsonObject;
-import org.hjson.JsonValue;
+import net.dzikoysk.cdn.CDN;
+import net.dzikoysk.cdn.model.Configuration;
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.utilities.commons.function.Option;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 final class PackageDocument {
 
     private final File document;
-    private final JsonObject content;
+    private final Configuration content;
 
-    PackageDocument(File document, JsonObject content) {
+    PackageDocument(File document, String source) {
         this.document = document;
-        this.content = content;
+        this.content = CDN.defaultInstance().parse(source);
     }
 
     protected Dependency toDependency() {
         return new Dependency("", getOwner(), getName(), getVersion());
     }
 
-    private List<? extends String> getList(String name) {
-        return Option.of(content.get(name))
-                .map(object -> object.asArray().values().stream()
-                        .map(JsonValue::asString)
-                        .collect(Collectors.toList()))
-                .orElseGet(ArrayList::new);
-    }
-
     private List<Dependency> getDependencies(String name) {
         DependencyFactory factory = new DependencyFactory();
+        List<String> dependencies = content.getList(name);
 
-        return getList(name).stream()
+        if (dependencies == null) {
+            return Collections.emptyList();
+        }
+
+        return dependencies.stream()
                 .map(factory::createDependency)
                 .collect(Collectors.toList());
     }
 
     protected List<? extends String> getRepositories() {
-        return getList("repositories");
+        return content.getList("repositories");
     }
 
     protected List<Dependency> getTestsDependencies() {
@@ -69,20 +65,19 @@ final class PackageDocument {
     }
 
     protected @Nullable String getMainScript() {
-        JsonValue scripts = content.get("scripts");
-        return scripts == null ? null : scripts.asObject().getString("main", null);
+        return content.getString("scripts.main");
     }
 
     protected String getOwner() {
-        return content.getString("owner", null);
+        return content.getString("owner");
     }
 
     protected String getVersion() {
-        return content.getString("version", null);
+        return content.getString("version");
     }
 
     protected String getName() {
-        return content.getString("name", null);
+        return content.getString("name");
     }
 
     protected File getPandaModules() {

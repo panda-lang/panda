@@ -32,12 +32,6 @@
             <artifactId>panda-utilities</artifactId>
         </dependency>
 
-        <!-- General -->
-        <dependency>
-            <groupId>org.hjson</groupId>
-            <artifactId>hjson</artifactId>
-        </dependency>
-
         <!-- Benchmarks -->
         <dependency>
             <groupId>org.openjdk.jmh</groupId>

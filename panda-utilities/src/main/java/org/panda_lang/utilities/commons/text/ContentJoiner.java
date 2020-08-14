@@ -44,7 +44,8 @@ public final class ContentJoiner {
         return this;
     }
 
-    public ContentJoiner join(Object... elements) {
+    @SafeVarargs
+    public final <T> ContentJoiner join(T... elements) {
         return join(Arrays.asList(elements));
     }
 

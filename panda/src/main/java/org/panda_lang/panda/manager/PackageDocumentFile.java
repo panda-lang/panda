@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.manager;
 
-import org.hjson.JsonValue;
 import org.panda_lang.utilities.commons.FileUtils;
 
 import java.io.File;
@@ -31,7 +30,7 @@ final class PackageDocumentFile {
     }
 
     PackageDocument getContent() throws IOException {
-        return new PackageDocument(document, JsonValue.readHjson(FileUtils.getContentOfFile(document)).asObject());
+        return new PackageDocument(document, FileUtils.getContentOfFile(document));
     }
 
 }

@@ -3,6 +3,7 @@
 
 # Panda sources
 *.panda         text
+*.cdn           text
 *.hjson         text
 
 # Java sources

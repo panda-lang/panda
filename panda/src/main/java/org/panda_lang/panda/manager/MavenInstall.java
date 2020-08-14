@@ -72,7 +72,7 @@ final class MavenInstall implements CustomInstall {
                 File dependencyFile = new File(dependencyDirectory, dependency.getName() + "-" + dependency.getVersion() + ".jar");
                 Files.copy(in, dependencyFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-//                File dependencyDocument = new File(dependencyDirectory, "panda.hjson");
+//                File dependencyDocument = new File(dependencyDirectory, "panda.cdn");
 //                FileUtils.overrideFile(dependencyDocument, "name: " + dependency.getName() + "\nversion: " + dependency.getVersion());
 
                 manager.getFrameworkController().getClassLoader().addURL(dependencyFile.toURI().toURL());

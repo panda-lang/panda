@@ -20,7 +20,7 @@ final class PackageManagerConstants {
 
     public static final String MODULES = "panda_modules";
 
-    public static final String PACKAGE_INFO = "panda.hjson";
+    public static final String PACKAGE_INFO = "panda.cdn";
 
     private PackageManagerConstants() { }
 
