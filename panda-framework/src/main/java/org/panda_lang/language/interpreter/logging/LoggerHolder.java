@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.language.interpreter.messenger;
-
-import org.slf4j.Logger;
+package org.panda_lang.language.interpreter.logging;
 
 /**
  * Logger container
