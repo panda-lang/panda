@@ -14,28 +14,30 @@
  * limitations under the License.
  */
 
-package org.panda_lang.language.interpreter.messenger;
+package org.panda_lang.language.interpreter.logging;
 
-import org.slf4j.event.Level;
+public final class SystemLogger implements Logger {
 
-public final class PandaMessengerMessage implements MessengerMessage {
+    private final Channel threshold;
 
-    private final Level level;
-    private final String message;
+    public SystemLogger() {
+        this(Channel.INFO);
+    }
 
-    public PandaMessengerMessage(Level level, String message) {
-        this.message = message;
-        this.level = level;
+    public SystemLogger(Channel threshold) {
+        this.threshold = threshold;
     }
 
     @Override
-    public String getContent() {
-        return message;
+    public void log(Channel channel, String message) {
+        if (channel.getPriority() >= threshold.getPriority()) {
+            System.out.println(message);
+        }
     }
 
     @Override
-    public Level getLevel() {
-        return level;
+    public void exception(Throwable throwable) {
+        throwable.printStackTrace(System.err);
     }
 
 }
