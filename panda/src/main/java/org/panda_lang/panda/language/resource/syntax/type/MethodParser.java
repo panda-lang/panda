@@ -170,7 +170,7 @@ public final class MethodParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 5, phase = Phases.NEXT_DEFAULT)
-    public void parse(Context context, @Channel MethodScope methodScope, @Channel TypeMethod method, @Nullable @Src("body") Snippet body) throws Exception {
+    public void parse(Context context, @Channel MethodScope methodScope, @Channel TypeMethod method, @Nullable @Src("body") Snippet body) {
         if (!SnippetUtils.isEmpty(body)) {
             SCOPE_PARSER.parse(context, methodScope, body);
         }

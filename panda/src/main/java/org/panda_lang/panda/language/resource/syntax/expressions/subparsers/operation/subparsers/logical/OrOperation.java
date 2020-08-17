@@ -23,7 +23,7 @@ import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNOperationAction;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNOperationSupplier;
 
-public class OrOperation implements RPNOperationSupplier {
+public class OrOperation implements RPNOperationSupplier<Boolean> {
 
     @Override
     public RPNOperationAction<Boolean> of(TypeLoader typeLoader, Expression a, Expression b) {

@@ -25,9 +25,8 @@ public interface Stage {
      * Launch cycle
      *
      * @return true if all tasks was called
-     * @throws Exception allows you to handle exception that may occur in tasks
      */
-    boolean execute() throws Exception;
+    boolean execute();
 
     /**
      * @return amount of tasks

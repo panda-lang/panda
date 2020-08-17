@@ -57,14 +57,14 @@ public final class TryCatchParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1)
-    public void parse(Context context, LocalChannel channel, @Ctx Scope parent, @Channel Location location, @Src("try-body") Snippet tryBody) throws Exception {
+    public void parse(Context context, LocalChannel channel, @Ctx Scope parent, @Channel Location location, @Src("try-body") Snippet tryBody) {
         Scope tryBlock = SCOPE_PARSER.parse(context, new PandaBlock(parent, location), tryBody);
         TryCatch tryCatch = channel.allocated("statement", new TryCatch(location, tryBlock, new PandaBlock(parent, location)));
         parent.addStatement(tryCatch);
     }
 
     @Autowired(order = 2)
-    public void parse(Context context, @Ctx Scope parent, @Channel TryCatch tryCatch, @Src("catch-what") Snippet catchWhat, @Src("catch-body") Snippet catchBody) throws Exception {
+    public void parse(Context context, @Ctx Scope parent, @Channel TryCatch tryCatch, @Src("catch-what") Snippet catchWhat, @Src("catch-body") Snippet catchBody) {
         Scope catchBlock = new PandaBlock(parent, catchWhat.getLocation());
 
         PandaVariableDataInitializer dataInitializer = new PandaVariableDataInitializer(context, catchBlock);

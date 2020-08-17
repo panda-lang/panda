@@ -40,7 +40,7 @@ public final class PandaStagePhase implements StagePhase {
     }
 
     @Override
-    public void callTasks() throws Exception {
+    public void callTasks() {
         Map<StageOrder, List<DelegatedTask>> unitsMap = new TreeMap<>(tasks);
         tasks.clear();
 

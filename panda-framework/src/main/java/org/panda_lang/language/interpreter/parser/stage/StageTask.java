@@ -32,8 +32,7 @@ public interface StageTask<T> {
      * @param cycle current cycle
      * @param context data assigned to task
      * @return task value
-     * @throws Exception allows you to handle exception that may occur
      */
-    @Nullable T call(Stage cycle, Context context) throws Exception;
+    @Nullable T call(Stage cycle, Context context);
 
 }

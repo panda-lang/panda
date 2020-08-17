@@ -23,7 +23,6 @@ import org.panda_lang.language.architecture.Script;
 import org.panda_lang.language.architecture.module.Imports;
 import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.architecture.module.TypeLoader;
-import org.panda_lang.language.interpreter.Interpretation;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.language.interpreter.parser.stage.StageController;
 import org.panda_lang.language.interpreter.parser.pipeline.PipelinePath;
@@ -40,11 +39,6 @@ public final class Components {
      * Represents the framework controller
      */
     public static final ContextComponent<FrameworkController> CONTROLLER = ContextComponent.of("controller", FrameworkController.class);
-
-    /**
-     * Represents the interpretation process
-     */
-    public static final ContextComponent<Interpretation> INTERPRETATION = ContextComponent.of("interpretation", Interpretation.class);
 
     /**
      * Represents the application environment

@@ -29,7 +29,7 @@ public final class ScopeParser implements Parser {
 
     private static final PipelineParser<?> SCOPE_PIPELINE_PARSER = new PipelineParser<>(Pipelines.SCOPE);
 
-    public Scope parse(Context context, Scope scope, Snippet body) throws Exception {
+    public Scope parse(Context context, Scope scope, Snippet body) {
         PandaSourceStream stream = new PandaSourceStream(body);
 
         Context delegatedContext = context.fork()

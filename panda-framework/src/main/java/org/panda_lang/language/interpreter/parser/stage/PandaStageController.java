@@ -40,13 +40,13 @@ public final class PandaStageController implements StageController {
     }
 
     @Override
-    public void launch() throws Exception {
+    public void launch() {
         while (countTasks(null) > 0) {
             executeOnce();
         }
     }
 
-    private void executeOnce() throws Exception {
+    private void executeOnce() {
         for (Stage cycle : cycles.values()) {
             currentCycle = cycle;
 

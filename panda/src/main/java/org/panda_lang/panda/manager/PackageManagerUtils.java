@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.manager;
 
-import org.panda_lang.language.interpreter.Interpretation;
+import org.panda_lang.language.architecture.Environment;
 import org.panda_lang.language.interpreter.source.Source;
 import org.panda_lang.language.interpreter.source.PandaURLSource;
 
@@ -31,25 +31,22 @@ public final class PackageManagerUtils {
     /**
      * Load module
      *
-     * @param interpretation the interpretation process to use
      * @param moduleDirectory the module directory to load
      * @throws IOException when module directory or module file does not exist
      */
-    public static void loadToEnvironment(Interpretation interpretation, File moduleDirectory) throws IOException {
+    public static void loadToEnvironment(Environment environment, File moduleDirectory) throws IOException {
         File packageInfoFile = new File(moduleDirectory, PackageManagerConstants.PACKAGE_INFO);
 
         if (!packageInfoFile.exists()) {
-            interpretation.getLogger().debug("Skipping non-panda dependency directory " + moduleDirectory);
+            environment.getLogger().debug("Skipping non-panda dependency directory " + moduleDirectory);
             return;
         }
 
         PackageDocument packageInfo = new PackageDocumentFile(packageInfoFile).getContent();
 
-        interpretation.getInterpreter().getEnvironment().getModulePath().include(moduleDirectory.getName(), () -> {
-            interpretation.execute(() -> {
-                Source source = PandaURLSource.fromFile(new File(moduleDirectory, Objects.requireNonNull(packageInfo.getMainScript())));
-                interpretation.getInterpreter().interpret(source);
-            });
+        environment.getModulePath().include(moduleDirectory.getName(), () -> {
+            Source source = PandaURLSource.fromFile(new File(moduleDirectory, Objects.requireNonNull(packageInfo.getMainScript())));
+            environment.getInterpreter().interpret(source);
         });
     }
 

@@ -39,7 +39,7 @@ public abstract class ParserBootstrap<T> implements ContextParser<T>, Handler {
     }
 
     @Override
-    public final T parse(Context context) throws Exception {
+    public final T parse(Context context) {
         return get(context).getParser().parse(context);
     }
 
