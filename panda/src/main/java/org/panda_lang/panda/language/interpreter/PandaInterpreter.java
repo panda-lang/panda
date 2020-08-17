@@ -16,19 +16,33 @@
 
 package org.panda_lang.panda.language.interpreter;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.Application;
 import org.panda_lang.language.architecture.Environment;
-import org.panda_lang.language.interpreter.Interpretation;
+import org.panda_lang.language.architecture.module.Imports;
+import org.panda_lang.language.architecture.module.PandaImports;
 import org.panda_lang.language.interpreter.Interpreter;
-import org.panda_lang.language.interpreter.PandaInterpretation;
+import org.panda_lang.language.interpreter.lexer.Lexer;
+import org.panda_lang.language.interpreter.lexer.PandaLexer;
+import org.panda_lang.language.interpreter.parser.Components;
+import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.PandaContext;
 import org.panda_lang.language.interpreter.parser.expression.PandaExpressionParser;
+import org.panda_lang.language.interpreter.parser.pipeline.PandaLocalChannel;
+import org.panda_lang.language.interpreter.parser.pipeline.PipelineParser;
+import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.language.interpreter.parser.stage.PandaStageController;
+import org.panda_lang.language.interpreter.parser.stage.Stages;
+import org.panda_lang.language.interpreter.source.PandaSourceSet;
 import org.panda_lang.language.interpreter.source.Source;
-import org.panda_lang.panda.PandaException;
+import org.panda_lang.language.interpreter.source.SourceSet;
+import org.panda_lang.language.interpreter.token.PandaSourceStream;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.token.SourceStream;
+import org.panda_lang.language.resource.Resources;
 import org.panda_lang.panda.language.architecture.PandaApplication;
-import org.panda_lang.panda.language.interpreter.parser.ApplicationParser;
+import org.panda_lang.panda.language.architecture.PandaScript;
+import org.panda_lang.panda.language.interpreter.parser.PandaComponents;
 import org.panda_lang.utilities.commons.TimeUtils;
-import org.panda_lang.utilities.commons.function.ThrowingConsumer;
 
 public final class PandaInterpreter implements Interpreter {
 
@@ -40,29 +54,59 @@ public final class PandaInterpreter implements Interpreter {
 
     @Override
     public Application interpret(Source source) {
-        return interpret(source, interpretation -> {});
-    }
-
-    @Override
-    public Application interpret(Source source, @Nullable ThrowingConsumer<Interpretation, ?> interpretationConsumer) {
-        Interpretation interpretation = new PandaInterpretation(this);
-        ApplicationParser parser = new ApplicationParser(interpretation);
-
-        if (interpretationConsumer != null) {
-            interpretation.execute(() -> {
-                interpretationConsumer.accept(interpretation);
-            });
-        }
-
         long uptime = System.nanoTime();
-        PandaApplication application = parser.parse(source);
 
-        if (!interpretation.isHealthy()) {
-            throw new PandaException("Interpretation failed, cannot parse specified sources");
+        Resources resources = environment.getController().getResources();
+        PandaApplication application = new PandaApplication(environment);
+
+        PandaStageController stageController = new PandaStageController();
+        stageController.initialize(Stages.getValues());
+
+        SourceSet sources = new PandaSourceSet();
+        sources.addSource(source);
+
+        Lexer lexer = PandaLexer.of(environment.getController().getLanguage().getSyntax())
+                .enableSections()
+                .build();
+
+        Context context = new PandaContext()
+                .withComponent(Components.CONTROLLER, environment.getController())
+                .withComponent(Components.APPLICATION, application)
+                .withComponent(Components.ENVIRONMENT, environment)
+                .withComponent(Components.GENERATION, stageController)
+                .withComponent(Components.TYPE_LOADER, environment.getTypeLoader())
+                .withComponent(Components.PIPELINE, resources.getPipelinePath())
+                .withComponent(Components.EXPRESSION, resources.getExpressionSubparsers().toParser())
+                .withComponent(Components.SOURCES, sources);
+
+        PipelineParser<?> headParser = new PipelineParser<>(Pipelines.HEAD);
+
+        for (Source current : sources) {
+            PandaScript script = new PandaScript(current.getId());
+            application.addScript(script);
+
+            Snippet snippet = lexer.convert(current);
+            SourceStream stream = new PandaSourceStream(snippet);
+
+            Imports imports = new PandaImports(environment.getModulePath(), environment.getTypeLoader());
+            imports.importModule("java");
+            imports.importModule("panda");
+
+            Context delegatedContext = context.fork()
+                    .withComponent(PandaComponents.PANDA_SCRIPT, script)
+                    .withComponent(Components.SCRIPT, script)
+                    .withComponent(Components.IMPORTS, imports)
+                    .withComponent(Components.SOURCE, snippet)
+                    .withComponent(Components.STREAM, stream)
+                    .withComponent(Components.CURRENT_SOURCE, snippet)
+                    .withComponent(Components.CHANNEL, new PandaLocalChannel());
+
+            headParser.parse(delegatedContext, stream);
         }
+
+        stageController.launch();
 
         String parseTime = TimeUtils.toMilliseconds(System.nanoTime() - uptime);
-
         environment.getLogger().debug("--- Interpretation of " + source.getId() + " details ");
         environment.getLogger().debug("• Parse time: " + parseTime);
         environment.getLogger().debug("• Amount of types: " + environment.getModulePath().countTypes());

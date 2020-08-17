@@ -59,7 +59,7 @@ public final class MainParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 2, phase = Phases.NEXT_AFTER)
-    public void parseScope(Context context, @Channel MainScope main, @Src("body") @Nullable Snippet body) throws Exception {
+    public void parseScope(Context context, @Channel MainScope main, @Src("body") @Nullable Snippet body) {
         SCOPE_PARSER.parse(context.fork(), main, body);
     }
 

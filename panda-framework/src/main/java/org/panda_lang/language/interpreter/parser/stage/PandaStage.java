@@ -31,7 +31,7 @@ public final class PandaStage implements Stage {
     }
 
     @Override
-    public boolean execute() throws Exception {
+    public boolean execute() {
         while (true) {
             currentPhase.callTasks();
 

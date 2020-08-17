@@ -30,7 +30,7 @@ import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 public abstract class AssignationSubparserBootstrap extends ParserBootstrap<@Nullable ExpressionResult> implements AssignationSubparser<ExpressionResult> {
 
     @Override
-    public final @Nullable ExpressionResult parseAssignment(Context context, Snippet declaration, TokenInfo operator, Expression expression) throws Exception {
+    public final @Nullable ExpressionResult parseAssignment(Context context, Snippet declaration, TokenInfo operator, Expression expression) {
         context.withComponent(Components.STREAM, new PandaSourceStream(declaration));
         context.withComponent(AssignationComponents.EXPRESSION, expression);
 

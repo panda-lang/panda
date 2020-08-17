@@ -25,10 +25,8 @@ public interface StageController {
 
     /**
      * Launch cycles
-     *
-     * @throws Exception if {@link StagePhase} throws an exception, you should catch it and handle
      */
-    void launch() throws Exception;
+    void launch();
 
     /**
      * Get amount of tasks before the specified cycle.

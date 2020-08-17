@@ -25,7 +25,7 @@ import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
 public abstract class BlockSubparserBootstrap extends ParserBootstrap<BlockData> implements BlockSubparser {
 
     @Override
-    public final BlockData parse(Context context, Snippet declaration) throws Exception {
+    public final BlockData parse(Context context, Snippet declaration) {
         return super.parse(context.withComponent(Components.STREAM, new PandaSourceStream(declaration)));
     }
 

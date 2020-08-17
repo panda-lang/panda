@@ -25,10 +25,8 @@ public interface StagePhase {
 
     /**
      * Call all tasks delegated to the phase
-     *
-     * @throws Exception allows you to handle exception that may occur in tasks
      */
-    void callTasks() throws Exception;
+    void callTasks();
 
     /**
      * Delegate task

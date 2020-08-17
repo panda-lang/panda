@@ -23,6 +23,6 @@ import org.panda_lang.language.interpreter.token.Snippet;
 
 public interface BlockSubparser extends Parser, Handler {
 
-    BlockData parse(Context context, Snippet declaration) throws Exception;
+    BlockData parse(Context context, Snippet declaration);
 
 }

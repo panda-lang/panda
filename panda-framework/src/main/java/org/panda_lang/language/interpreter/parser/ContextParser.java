@@ -28,6 +28,6 @@ public interface ContextParser<T> extends Parser {
      *
      * @param context set of information about source and interpretation process
      */
-    T parse(Context context) throws Exception;
+    T parse(Context context);
 
 }

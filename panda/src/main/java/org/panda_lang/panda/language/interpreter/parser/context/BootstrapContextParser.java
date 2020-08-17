@@ -36,7 +36,7 @@ final class BootstrapContextParser<T> implements ContextParser<T> {
     }
 
     @Override
-    public final T parse(Context context) throws Exception {
+    public final T parse(Context context) {
         SourceStream stream = context.getComponent(Components.STREAM);
         Snippet source = stream.toSnippet();
         int length = stream.getUnreadLength();

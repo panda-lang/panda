@@ -16,7 +16,6 @@
 
 package org.panda_lang.language.interpreter.parser.pipeline;
 
-import org.panda_lang.language.interpreter.Interpretation;
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;
@@ -41,13 +40,11 @@ public final class PipelineParser<T extends ContextParser<?>> implements Parser 
      * @param context the context to use
      * @param stream the stream to parse
      * @return returns always null
-     * @throws Exception if something happen in subparser
      */
-    public boolean parse(Context context, SourceStream stream) throws Exception {
-        Interpretation interpretation = context.getComponent(Components.INTERPRETATION);
+    public boolean parse(Context context, SourceStream stream) {
         Pipeline<T> pipeline = context.getComponent(Components.PIPELINE).getPipeline(pipelineComponent);
 
-        while (stream.hasUnreadSource() && interpretation.isHealthy()) {
+        while (stream.hasUnreadSource()) {
             LocalChannel channel = new PandaLocalChannel();
             Snippet source = stream.toSnippet();
 

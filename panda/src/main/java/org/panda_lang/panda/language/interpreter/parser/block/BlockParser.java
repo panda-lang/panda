@@ -76,7 +76,7 @@ public final class BlockParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 1)
-    public void parse(Context context, LocalChannel channel, @Ctx Scope parent, @Src("declaration") Snippet declaration) throws Exception {
+    public void parse(Context context, LocalChannel channel, @Ctx Scope parent, @Src("declaration") Snippet declaration) {
         BlockSubparser blockParser = channel.get("subparser", BlockSubparser.class);
 
         Context delegatedContext = channel.allocated("blockContext", context.fork())
@@ -106,7 +106,7 @@ public final class BlockParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 2)
-    public void parseContent(@Channel Context blockContext, @Channel Block block, @Nullable @Src("body") Snippet body) throws Exception {
+    public void parseContent(@Channel Context blockContext, @Channel Block block, @Nullable @Src("body") Snippet body) {
         if (body != null) {
             SCOPE_PARSER.parse(blockContext, block, body);
         }

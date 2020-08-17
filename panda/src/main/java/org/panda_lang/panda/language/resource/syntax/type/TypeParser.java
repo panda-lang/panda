@@ -118,7 +118,7 @@ public final class TypeParser extends ParserBootstrap<Void> {
     }
 
     @Autowired(order = 2, stage = Stages.TYPES_LABEL, phase = Phases.NEXT_BEFORE)
-    public Object parseBody(Context context, @Ctx Type type, @Src("body") Snippet body) throws Exception {
+    public Object parseBody(Context context, @Ctx Type type, @Src("body") Snippet body) {
         return TYPE_PIPELINE_PARSER.parse(context, new PandaSourceStream(body));
     }
 

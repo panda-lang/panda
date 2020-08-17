@@ -23,6 +23,7 @@ import org.panda_lang.language.interpreter.parser.stage.StageController;
 import org.panda_lang.language.interpreter.parser.stage.Stage;
 import org.panda_lang.language.interpreter.parser.stage.StagePhase;
 import org.panda_lang.language.interpreter.parser.stage.StageTask;
+import org.panda_lang.utilities.commons.UnsafeUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Stack;
@@ -41,7 +42,7 @@ final class BootstrapTaskScheduler<T> {
         this.methods = methods;
     }
 
-    protected  @Nullable T schedule(Context context) throws Exception {
+    protected  @Nullable T schedule(Context context) {
         int currentOrder = methods.peek().getOrder();
 
         while (hasNext(currentOrder)) {
@@ -58,20 +59,16 @@ final class BootstrapTaskScheduler<T> {
         return null;
     }
 
-    private T delegateNext(Context context, BootstrapMethod method, boolean last) throws Exception {
+    private T delegateNext(Context context, BootstrapMethod method, boolean last) {
         StageTask<T> callback = (cycle, delegatedContext) -> {
-            T value;
+            T value = null;
 
             try {
                 value = method.getGeneratedMethod().invoke(content.getInstance(), delegatedContext);
-            } catch (InvocationTargetException e) {
-                if (e.getTargetException() instanceof Exception) {
-                    throw (Exception) e.getTargetException();
-                }
-
-                throw new BootstrapException("Cannot execute " + method.getName() + " -> " + e.getTargetException().getMessage(), e.getTargetException());
-            } catch (Throwable e) {
-                throw new BootstrapException("Cannot execute " + method.getName() + " -> " + e.getMessage(), e);
+            } catch (InvocationTargetException targetException) {
+                UnsafeUtils.throwException(targetException.getTargetException());
+            } catch (Throwable throwable) {
+                UnsafeUtils.throwException(throwable);
             }
 
             if (last && !methods.isEmpty()) {
@@ -84,7 +81,7 @@ final class BootstrapTaskScheduler<T> {
         return delegateMethod(context, callback, method);
     }
 
-    private @Nullable T delegateMethod(Context context, StageTask<T> callback, BootstrapMethod method) throws Exception {
+    private @Nullable T delegateMethod(Context context, StageTask<T> callback, BootstrapMethod method) {
         StageController stageController = context.getComponent(Components.GENERATION);
 
         Stage cycle = stageController.getCycle(method.getCycle());

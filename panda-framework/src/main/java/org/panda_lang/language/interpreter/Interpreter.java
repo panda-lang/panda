@@ -19,7 +19,6 @@ package org.panda_lang.language.interpreter;
 import org.panda_lang.language.architecture.Application;
 import org.panda_lang.language.architecture.Environment;
 import org.panda_lang.language.interpreter.source.Source;
-import org.panda_lang.utilities.commons.function.ThrowingConsumer;
 
 /**
  * Translate source code into efficient intermediate representation and build an application
@@ -28,16 +27,10 @@ public interface Interpreter {
 
     /**
      * Starts the process of interpretation
-     */
-    Application interpret(Source source);
-
-    /**
-     * Starts the process of interpretation and gives access to the interpretation process
      *
-     * @param interpretationConsumer the interpretation process consumer
      * @return interpreted application
      */
-    Application interpret(Source source, ThrowingConsumer<Interpretation, ?> interpretationConsumer);
+    Application interpret(Source source);
 
     /**
      * Get associated environment

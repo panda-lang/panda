@@ -17,12 +17,11 @@
 package org.panda_lang.panda.manager;
 
 import org.panda_lang.language.FrameworkController;
-import org.panda_lang.language.interpreter.Interpretation;
 import org.panda_lang.language.interpreter.source.PandaURLSource;
 import org.panda_lang.panda.language.architecture.PandaEnvironment;
-import org.panda_lang.utilities.commons.function.ThrowingConsumer;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 
 final class Run {
@@ -35,7 +34,7 @@ final class Run {
         this.document = document;
     }
 
-    protected Object run(FrameworkController controller) {
+    protected Object run(FrameworkController controller) throws IOException {
         File mainScript = new File(document.getDocument().getParentFile(), Objects.requireNonNull(document.getMainScript()));
 
         PandaEnvironment environment = new PandaEnvironment(controller, manager.getWorkingDirectory());
@@ -44,20 +43,14 @@ final class Run {
         File pandaModules = document.getPandaModules();
         File[] owners = pandaModules.listFiles();
 
-        ThrowingConsumer<Interpretation, ?> initialize = interpretation -> {
-            if (owners == null) {
-                return;
+        for (File ownerDirectory : owners) {
+            for (File moduleDirectory : Objects.requireNonNull(ownerDirectory.listFiles())) {
+                PackageManagerUtils.loadToEnvironment(environment, moduleDirectory);
             }
-
-            for (File ownerDirectory : owners) {
-                for (File moduleDirectory : Objects.requireNonNull(ownerDirectory.listFiles())) {
-                    PackageManagerUtils.loadToEnvironment(interpretation, moduleDirectory);
-                }
-            }
-        };
+        }
 
         return environment.getInterpreter()
-                .interpret(PandaURLSource.fromFile(mainScript), initialize)
+                .interpret(PandaURLSource.fromFile(mainScript))
                 .launch();
     }
 

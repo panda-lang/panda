@@ -38,7 +38,7 @@ class StagePhaseControllerTest {
     }
 
     @Test
-    public void testPipelineGeneration() throws Throwable {
+    public void testPipelineGeneration() {
         StringBuilder outputBuilder = new StringBuilder();
 
         generation.getCycle("b").nextPhase().delegate((pipeline, context) -> outputBuilder.append("b "), null);
