@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.bootstrap;
 
-import org.panda_lang.language.resource.Syntax;
+import org.panda_lang.language.interpreter.logging.Logger;
 import org.panda_lang.language.resource.PandaLanguage;
 import org.panda_lang.language.resource.PandaLanguage.PandaLanguageBuilder;
 import org.panda_lang.language.resource.PandaResources;
 import org.panda_lang.language.resource.PandaResources.PandaResourcesBuilder;
+import org.panda_lang.language.resource.Syntax;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.Panda.PandaBuilder;
-import org.slf4j.Logger;
 
 /**
  * Utility class to simplify initialization process of Panda
@@ -66,15 +66,6 @@ public final class PandaBootstrap {
      */
     public PipelinesInitializer initializePipelines() {
         return new PipelinesInitializer(this);
-    }
-
-    /**
-     * Get messenger initializer
-     *
-     * @return the initializer
-     */
-    public MessengerInitializer initializeMessenger() {
-        return new MessengerInitializer(this);
     }
 
     /**

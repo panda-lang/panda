@@ -23,18 +23,18 @@ import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.interpreter.Interpretation;
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.interpreter.token.Snippetable;
-import org.panda_lang.language.interpreter.token.TokenInfo;
-import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.stage.Stages;
 import org.panda_lang.language.interpreter.pattern.functional.elements.QualifierElement;
 import org.panda_lang.language.interpreter.pattern.functional.elements.WildcardElement;
 import org.panda_lang.language.interpreter.pattern.functional.verifiers.TokenTypeVerifier;
 import org.panda_lang.language.interpreter.source.PandaURLSource;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.token.Snippetable;
+import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.interpreter.token.TokenUtils;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
@@ -46,7 +46,6 @@ import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
 import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
 import org.panda_lang.panda.manager.PackageManagerUtils;
 import org.panda_lang.utilities.commons.ArrayUtils;
-import org.slf4j.event.Level;
 
 import java.io.File;
 import java.io.IOException;
@@ -122,9 +121,7 @@ public final class RequireParser extends ParserBootstrap<Void> {
 
         environment.getModulePath().get(requiredFile.getValue())
                 .peek(imports::importModule)
-                .onEmpty(() -> {
-                    environment.getMessenger().send(Level.WARN, "Imported local package " + requiredFile.getValue() + " does not have module with the same name");
-                });
+                .onEmpty(() -> environment.getLogger().warn("Imported local package " + requiredFile.getValue() + " does not have module with the same name"));
     }
 
 }

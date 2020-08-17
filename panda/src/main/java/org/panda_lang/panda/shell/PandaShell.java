@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.shell;
 
-import org.panda_lang.language.interpreter.messenger.LoggerHolder;
+import org.panda_lang.language.interpreter.logging.Logger;
+import org.panda_lang.language.interpreter.logging.LoggerHolder;
 import org.panda_lang.utilities.commons.function.Lazy;
-import org.slf4j.Logger;
 import picocli.CommandLine;
 
 import java.io.InputStream;

@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.shell;
 
+import org.panda_lang.language.interpreter.logging.Channel;
+import org.panda_lang.language.interpreter.logging.SystemLogger;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaConstants;
 import org.panda_lang.panda.PandaFactory;
@@ -23,7 +25,6 @@ import org.panda_lang.panda.manager.PackageManager;
 import org.panda_lang.panda.shell.repl.ReplConsole;
 import org.panda_lang.panda.util.PandaUtils;
 import org.panda_lang.utilities.commons.function.ThrowingRunnable;
-import org.tinylog.configuration.Configuration;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -62,10 +63,6 @@ final class PandaCli implements ThrowingRunnable<Exception> {
     public void run() throws Exception {
         CommandLine commandLine = new CommandLine(this);
 
-        if (level != null) {
-            Configuration.set("level", level);
-        }
-
         if (usageHelpRequested) {
             CommandLine.usage(this, System.out);
             return;
@@ -82,7 +79,7 @@ final class PandaCli implements ThrowingRunnable<Exception> {
         }
 
         PandaUtils.printJVMUptime(shell);
-        Panda panda = new PandaFactory().createPanda(shell.getLogger());
+        Panda panda = new PandaFactory().createPanda(new SystemLogger(Channel.of(level)));
 
         if (repl || simplifiedRepl) {
             ReplConsole console = new ReplConsole(panda, shell.getInput(), simplifiedRepl);

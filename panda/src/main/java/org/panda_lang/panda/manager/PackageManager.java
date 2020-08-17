@@ -17,8 +17,8 @@
 package org.panda_lang.panda.manager;
 
 import org.panda_lang.language.FrameworkController;
-import org.panda_lang.language.interpreter.messenger.LoggerHolder;
-import org.slf4j.Logger;
+import org.panda_lang.language.interpreter.logging.Logger;
+import org.panda_lang.language.interpreter.logging.LoggerHolder;
 
 import java.io.File;
 import java.io.IOException;

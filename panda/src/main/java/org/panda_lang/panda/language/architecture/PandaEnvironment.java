@@ -19,15 +19,14 @@ package org.panda_lang.panda.language.architecture;
 import org.panda_lang.language.FrameworkController;
 import org.panda_lang.language.architecture.Environment;
 import org.panda_lang.language.architecture.module.ModulePath;
-import org.panda_lang.language.architecture.module.TypeLoader;
-import org.panda_lang.language.interpreter.messenger.Messenger;
 import org.panda_lang.language.architecture.module.PandaModulePath;
 import org.panda_lang.language.architecture.module.PandaTypeLoader;
-import org.panda_lang.language.interpreter.messenger.PandaMessenger;
+import org.panda_lang.language.architecture.module.TypeLoader;
+import org.panda_lang.language.interpreter.logging.Logger;
 import org.panda_lang.panda.PandaException;
 import org.panda_lang.panda.language.interpreter.PandaInterpreter;
 import org.panda_lang.panda.language.resource.ResourcesLoader;
-import org.slf4j.Logger;
+import org.panda_lang.utilities.commons.function.Lazy;
 
 import java.io.File;
 
@@ -35,36 +34,30 @@ public final class PandaEnvironment implements Environment {
 
     private final FrameworkController controller;
     private final File workingDirectory;
-    private final Messenger messenger;
     private final ModulePath modulePath;
     private final TypeLoader typeLoader;
     private final PandaInterpreter interpreter;
-    private boolean initialized;
+    private final Lazy<Void> resources;
 
     public PandaEnvironment(FrameworkController controller, File workingDirectory) {
         this.controller = controller;
         this.workingDirectory = workingDirectory;
         this.modulePath = new PandaModulePath();
         this.typeLoader = new PandaTypeLoader(controller);
-        this.messenger = new PandaMessenger(controller);
         this.interpreter = new PandaInterpreter(this);
+        this.resources = new Lazy<>(() -> {
+            ResourcesLoader resourcesLoader = new ResourcesLoader();
+            resourcesLoader.load(modulePath, typeLoader);
+        });
     }
 
     public synchronized void initialize() {
-        if (initialized) {
-            return;
-        }
-
-        this.initialized = true;
-        controller.getResources().getOutputListener().peek(messenger::setOutputListener);
-
-        ResourcesLoader resourcesLoader = new ResourcesLoader();
-        resourcesLoader.load(modulePath, typeLoader);
+        resources.get();
     }
 
     @Override
     public PandaInterpreter getInterpreter() {
-        if (!initialized) {
+        if (!resources.isInitialized()) {
             throw new PandaException("Environment was not initialized");
         }
 
@@ -84,11 +77,6 @@ public final class PandaEnvironment implements Environment {
     @Override
     public TypeLoader getTypeLoader() {
         return typeLoader;
-    }
-
-    @Override
-    public Messenger getMessenger() {
-        return messenger;
     }
 
     @Override

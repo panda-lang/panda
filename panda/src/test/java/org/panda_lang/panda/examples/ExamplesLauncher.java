@@ -18,13 +18,14 @@ package org.panda_lang.panda.examples;
 
 import org.junit.jupiter.api.Assertions;
 import org.panda_lang.language.architecture.Application;
+import org.panda_lang.language.interpreter.logging.Channel;
+import org.panda_lang.language.interpreter.logging.Logger;
+import org.panda_lang.language.interpreter.logging.SystemLogger;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.bootstrap.PandaApplicationBootstrap;
 import org.panda_lang.panda.util.PandaUtils;
 import org.panda_lang.utilities.commons.TimeUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public final class ExamplesLauncher {
 
@@ -59,7 +60,7 @@ public final class ExamplesLauncher {
     }
 
     public static Application interpret(String prefix, String directory, String file) {
-        Logger logger = LoggerFactory.getLogger(ExamplesLauncher.class);
+        Logger logger = new SystemLogger(Channel.TRACE);
         PandaUtils.printJVMUptime(() -> logger);
 
         PandaFactory factory = new PandaFactory();

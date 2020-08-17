@@ -16,30 +16,29 @@
 
 package org.panda_lang.panda.language.resource.syntax.scope;
 
+import org.panda_lang.language.architecture.dynamic.AbstractExecutableStatement;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.expression.ExpressionUtils;
-import org.panda_lang.language.interpreter.messenger.Messenger;
+import org.panda_lang.language.interpreter.logging.Logger;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.runtime.ProcessStack;
-import org.panda_lang.language.architecture.dynamic.AbstractExecutableStatement;
 import org.panda_lang.utilities.commons.text.ContentJoiner;
-import org.slf4j.event.Level;
 
 final class LogStatement extends AbstractExecutableStatement {
 
-    private final Messenger messenger;
+    private final Logger logger;
     private final Expression[] expressions;
 
-    LogStatement(Location location, Messenger messenger, Expression[] expressions) {
+    LogStatement(Location location, Logger logger, Expression[] expressions) {
         super(location);
-        this.messenger = messenger;
+        this.logger = logger;
         this.expressions = expressions;
     }
 
     @Override
     public Object execute(ProcessStack stack, Object instance) throws Exception {
         Object[] values = ExpressionUtils.evaluate(stack, instance, expressions);
-        messenger.send(Level.INFO, ContentJoiner.on(", ").join(values));
+        logger.info(ContentJoiner.on(", ").join(values).toString());
         return values;
     }
 

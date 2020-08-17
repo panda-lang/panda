@@ -18,13 +18,13 @@ package org.panda_lang.panda.util;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.Application;
-import org.panda_lang.language.interpreter.messenger.LoggerHolder;
+import org.panda_lang.language.interpreter.logging.LoggerHolder;
+import org.panda_lang.language.interpreter.logging.SystemLogger;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.utilities.commons.TimeUtils;
 import org.panda_lang.utilities.commons.UnsafeUtils;
 import org.panda_lang.utilities.commons.function.Lazy;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Map;
@@ -33,7 +33,7 @@ public final class PandaUtils {
 
     private static final Lazy<Panda> PANDA_INSTANCE = new Lazy<>(() -> {
         PandaFactory factory = new PandaFactory();
-        return factory.createPanda(LoggerFactory.getLogger(PandaUtils.class));
+        return factory.createPanda(new SystemLogger());
     });
 
     private PandaUtils() { }

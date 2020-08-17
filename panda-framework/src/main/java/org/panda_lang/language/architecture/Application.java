@@ -17,8 +17,8 @@
 package org.panda_lang.language.architecture;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.interpreter.messenger.LoggerHolder;
-import org.slf4j.Logger;
+import org.panda_lang.language.interpreter.logging.Logger;
+import org.panda_lang.language.interpreter.logging.LoggerHolder;
 
 /**
  * Application is a group of bundled scripts

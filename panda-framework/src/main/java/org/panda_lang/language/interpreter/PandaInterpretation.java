@@ -17,9 +17,9 @@
 package org.panda_lang.language.interpreter;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.language.interpreter.logging.Logger;
 import org.panda_lang.utilities.commons.function.ThrowingRunnable;
 import org.panda_lang.utilities.commons.function.ThrowingSupplier;
-import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,7 +50,6 @@ public final class PandaInterpretation implements Interpretation {
             return isHealthy() ? task.get() : null;
         } catch (Exception exception) {
             failures.add(exception);
-            this.healthy = !interpreter.getEnvironment().getMessenger().send(exception);
             return null;
         }
     }

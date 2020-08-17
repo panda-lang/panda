@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.shell.repl;
 
-import org.panda_lang.language.interpreter.messenger.LoggerHolder;
+import org.panda_lang.language.interpreter.logging.LoggerHolder;
 
 import java.util.Collection;
 

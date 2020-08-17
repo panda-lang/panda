@@ -16,12 +16,9 @@
 
 package org.panda_lang.language.resource;
 
-import org.panda_lang.utilities.commons.function.Option;
-import org.panda_lang.language.interpreter.messenger.MessengerInitializer;
-import org.panda_lang.language.interpreter.messenger.MessengerOutputListener;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparsers;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.language.interpreter.parser.pipeline.PandaPipelinePath;
+import org.panda_lang.language.interpreter.parser.pipeline.PipelinePath;
 
 public final class PandaResources implements Resources {
 
@@ -41,38 +38,16 @@ public final class PandaResources implements Resources {
         return builder.pipelinePath;
     }
 
-    @Override
-    public Option<MessengerInitializer> getMessengerInitializer() {
-        return Option.of(builder.messengerInitializer);
-    }
-
-    @Override
-    public Option<MessengerOutputListener> getOutputListener() {
-        return Option.of(builder.outputListener);
-    }
-
     public static PandaResourcesBuilder builder() {
         return new PandaResourcesBuilder();
     }
 
     public static final class PandaResourcesBuilder {
 
-        public MessengerOutputListener outputListener;
-        public MessengerInitializer messengerInitializer;
         public PipelinePath pipelinePath;
         public ExpressionSubparsers expressionSubparsers;
 
         private PandaResourcesBuilder() { }
-
-        public PandaResourcesBuilder withOutputListener(MessengerOutputListener outputListener) {
-            this.outputListener = outputListener;
-            return this;
-        }
-
-        public PandaResourcesBuilder withMessengerInitializer(MessengerInitializer messengerInitializer) {
-            this.messengerInitializer = messengerInitializer;
-            return this;
-        }
 
         public PandaResourcesBuilder withPipelinePath(PipelinePath pipelinePath) {
             this.pipelinePath = pipelinePath;
