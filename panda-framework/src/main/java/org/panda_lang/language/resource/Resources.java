@@ -16,12 +16,8 @@
 
 package org.panda_lang.language.resource;
 
-import org.panda_lang.language.interpreter.messenger.MessengerInitializer;
-import org.panda_lang.language.interpreter.messenger.MessengerOutputListener;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparsers;
 import org.panda_lang.language.interpreter.parser.pipeline.PipelinePath;
-
-import org.panda_lang.utilities.commons.function.Option;
 
 /**
  * Set of resources used by the language
@@ -41,19 +37,5 @@ public interface Resources {
      * @return the pipeline path
      */
     PipelinePath getPipelinePath();
-
-    /**
-     * Get initializer for {@link org.panda_lang.language.interpreter.messenger.Messenger}
-     *
-     * @return the messenger initializer
-     */
-    Option<MessengerInitializer> getMessengerInitializer();
-
-    /**
-     * Get output listener for {@link org.panda_lang.language.interpreter.messenger.Messenger}
-     *
-     * @return the output listener to use by messenger
-     */
-    Option<MessengerOutputListener> getOutputListener();
 
 }

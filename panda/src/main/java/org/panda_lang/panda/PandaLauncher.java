@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda;
 
+import org.panda_lang.language.interpreter.logging.SystemLogger;
 import org.panda_lang.panda.shell.PandaShell;
 import org.panda_lang.utilities.commons.ArrayUtils;
-import org.slf4j.LoggerFactory;
 
 /**
  * Default launcher of Panda
@@ -34,7 +34,7 @@ public final class PandaLauncher {
      * @throws Exception if something happen
      */
     public static void main(String... args) throws Exception {
-        PandaShell shell = new PandaShell(() -> LoggerFactory.getLogger(PandaLauncher.class), System.in);
+        PandaShell shell = new PandaShell(SystemLogger::new, System.in);
 
         if (ArrayUtils.isEmpty(args)) {
             args = new String[] { "--help" };

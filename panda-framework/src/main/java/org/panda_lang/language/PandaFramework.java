@@ -16,9 +16,9 @@
 
 package org.panda_lang.language;
 
+import org.panda_lang.language.interpreter.logging.Logger;
 import org.panda_lang.language.resource.Language;
 import org.panda_lang.language.resource.Resources;
-import org.slf4j.Logger;
 
 public abstract class PandaFramework implements FrameworkController {
 

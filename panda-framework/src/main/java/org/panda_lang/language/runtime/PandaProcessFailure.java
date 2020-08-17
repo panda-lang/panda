@@ -16,14 +16,34 @@
 
 package org.panda_lang.language.runtime;
 
-public final class PandaProcessFailure {
+import java.io.PrintWriter;
+
+public final class PandaProcessFailure extends PandaRuntimeException {
 
     private final ProcessStack stack;
     private final Exception exception;
 
     public PandaProcessFailure(ProcessStack stack, Exception exception) {
+        super(exception);
         this.stack = stack;
         this.exception = exception;
+    }
+
+    @Override
+    public void printStackTrace(PrintWriter s) {
+        /*
+        &b- - ~ ~< Runtime Exception >~ ~ - -&r
+
+        {{message}}
+        {{stacktrace}}
+
+        {{exception.short}}
+
+        Environment: {{environment}}
+
+        End of Exception
+         */
+        super.printStackTrace(s);
     }
 
     public Exception getException() {

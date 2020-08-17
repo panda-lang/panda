@@ -21,22 +21,21 @@ import org.panda_lang.language.architecture.dynamic.Frame;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.statement.Statement;
 import org.panda_lang.language.architecture.statement.Variable;
+import org.panda_lang.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
+import org.panda_lang.language.interpreter.parser.pipeline.PandaLocalChannel;
 import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.interpreter.source.PandaSource;
+import org.panda_lang.language.interpreter.token.PandaLocation;
 import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.resource.syntax.separator.Separators;
+import org.panda_lang.language.runtime.PandaProcessStack;
+import org.panda_lang.language.runtime.PandaRuntimeConstants;
 import org.panda_lang.language.runtime.Process;
 import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.language.runtime.Result;
-import org.panda_lang.language.interpreter.lexer.PandaLexerUtils;
-import org.panda_lang.language.interpreter.parser.pipeline.PandaLocalChannel;
-import org.panda_lang.language.interpreter.source.PandaSource;
-import org.panda_lang.language.interpreter.token.PandaLocation;
-import org.panda_lang.language.resource.syntax.separator.Separators;
-import org.panda_lang.language.runtime.PandaProcessFailure;
-import org.panda_lang.language.runtime.PandaProcessStack;
-import org.panda_lang.language.runtime.PandaRuntimeConstants;
 import org.panda_lang.panda.shell.repl.ReplResult.Type;
 import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.ThrowingFunction;
@@ -89,7 +88,7 @@ public final class Repl {
 
         if (!customExceptionListener) {
             this.exceptionListener = (exception, runtime) -> {
-                context.getComponent(Components.ENVIRONMENT).getMessenger().send(runtime ? new PandaProcessFailure(stack, exception) : exception);
+                // context.getComponent(Components.ENVIRONMENT).getMessenger().send(runtime ? new PandaProcessFailure(stack, exception) : exception);
             };
         }
     }

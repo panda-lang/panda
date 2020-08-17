@@ -20,8 +20,7 @@ import org.panda_lang.language.FrameworkController;
 import org.panda_lang.language.architecture.module.ModulePath;
 import org.panda_lang.language.architecture.module.TypeLoader;
 import org.panda_lang.language.interpreter.Interpreter;
-import org.panda_lang.language.interpreter.messenger.LoggerHolder;
-import org.panda_lang.language.interpreter.messenger.Messenger;
+import org.panda_lang.language.interpreter.logging.LoggerHolder;
 
 import java.io.File;
 
@@ -50,13 +49,6 @@ public interface Environment extends LoggerHolder {
      * @return the type loader
      */
     TypeLoader getTypeLoader();
-
-    /**
-     * Get the environment messenger
-     *
-     * @return the messenger
-     */
-    Messenger getMessenger();
 
     /**
      * Get working directory

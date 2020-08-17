@@ -18,22 +18,19 @@ package org.panda_lang.panda.shell.repl;
 
 import org.junit.jupiter.api.Test;
 import org.panda_lang.language.architecture.module.ModuleLoaderUtils;
-import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.architecture.statement.PandaVariableData;
 import org.panda_lang.language.architecture.type.PandaMethod;
 import org.panda_lang.language.architecture.type.PandaPropertyParameter;
-import org.panda_lang.language.architecture.statement.PandaVariableData;
+import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.source.PandaClassSource;
 import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.PandaFactory;
-import org.slf4j.LoggerFactory;
+import org.panda_lang.panda.util.PandaUtils;
 
 class ReplTest {
 
     @Test
     void test() throws Exception {
-        PandaFactory pandaFactory = new PandaFactory();
-        Panda panda = pandaFactory.createPanda(LoggerFactory.getLogger(ReplTest.class));
-
+        Panda panda = PandaUtils.defaultInstance();
         ReplConsole console = new ReplConsole(panda, System.in, true);
         ReplCreator creator = Repl.creator(console);
         Context context = creator.getContext();

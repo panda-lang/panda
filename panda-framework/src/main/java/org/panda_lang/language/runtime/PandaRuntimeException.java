@@ -28,4 +28,8 @@ public class PandaRuntimeException extends PandaFrameworkException {
         super(message, cause);
     }
 
+    public PandaRuntimeException(Throwable cause) {
+        super(cause);
+    }
+
 }

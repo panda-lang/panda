@@ -30,6 +30,13 @@ public class Lazy<T> implements Supplier<T> {
         this.supplier = supplier;
     }
 
+    public Lazy(Runnable runnable) {
+        this.supplier = () -> {
+            runnable.run();
+            return null;
+        };
+    }
+
     @Override
     public synchronized T get() {
         if (initialized) {

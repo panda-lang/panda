@@ -17,11 +17,11 @@
 package org.panda_lang.panda.shell;
 
 import org.junit.jupiter.api.Test;
-import org.slf4j.LoggerFactory;
+import org.panda_lang.language.interpreter.logging.SystemLogger;
 
 final class PandaShellTest {
 
-    private static final PandaShell SHELL = new PandaShell(() -> LoggerFactory.getLogger(PandaShellTest.class), System.in);
+    private static final PandaShell SHELL = new PandaShell(SystemLogger::new, System.in);
 
     @Test
     void test() throws Exception {

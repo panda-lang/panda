@@ -17,12 +17,12 @@
 package org.panda_lang.panda.shell;
 
 import org.junit.jupiter.api.Test;
-import org.slf4j.LoggerFactory;
+import org.panda_lang.language.interpreter.logging.SystemLogger;
 import picocli.CommandLine;
 
 final class PandaCliTest {
 
-    private static final PandaShell SHELL = new PandaShell(() -> LoggerFactory.getLogger(PandaCliTest.class), System.in);
+    private static final PandaShell SHELL = new PandaShell(SystemLogger::new, System.in);
 
     @Test
     void help() throws Exception {

@@ -29,7 +29,6 @@ import org.panda_lang.panda.language.architecture.PandaApplication;
 import org.panda_lang.panda.language.interpreter.parser.ApplicationParser;
 import org.panda_lang.utilities.commons.TimeUtils;
 import org.panda_lang.utilities.commons.function.ThrowingConsumer;
-import org.slf4j.event.Level;
 
 public final class PandaInterpreter implements Interpreter {
 
@@ -64,14 +63,14 @@ public final class PandaInterpreter implements Interpreter {
 
         String parseTime = TimeUtils.toMilliseconds(System.nanoTime() - uptime);
 
-        environment.getMessenger().send(Level.DEBUG, "--- Interpretation of " + source.getId() + " details ");
-        environment.getMessenger().send(Level.DEBUG, "• Parse time: " + parseTime);
-        environment.getMessenger().send(Level.DEBUG, "• Amount of types: " + environment.getModulePath().countTypes());
-        environment.getMessenger().send(Level.DEBUG, "• Amount of used types: " + environment.getModulePath().countUsedTypes());
-        // environment.getMessenger().send(Level.DEBUG, "• Amount of cached references: " + TypeGeneratorManager.getInstance().getCacheSize());
-        environment.getMessenger().send(Level.DEBUG, "• Expression Parser Time: " + TimeUtils.toMilliseconds(PandaExpressionParser.time) + " (" + PandaExpressionParser.amount + ")");
-        environment.getMessenger().send(Level.DEBUG, "• Pipeline Handle Time: " + TimeUtils.toMilliseconds(environment.getController().getResources().getPipelinePath().getTotalHandleTime()));
-        environment.getMessenger().send(Level.DEBUG, "");
+        environment.getLogger().debug("--- Interpretation of " + source.getId() + " details ");
+        environment.getLogger().debug("• Parse time: " + parseTime);
+        environment.getLogger().debug("• Amount of types: " + environment.getModulePath().countTypes());
+        environment.getLogger().debug("• Amount of used types: " + environment.getModulePath().countUsedTypes());
+        // environment.getLogger().debG, "• Amount of cached references: " + TypeGeneratorManager.getInstance().getCacheSize());
+        environment.getLogger().debug("• Expression Parser Time: " + TimeUtils.toMilliseconds(PandaExpressionParser.time) + " (" + PandaExpressionParser.amount + ")");
+        environment.getLogger().debug("• Pipeline Handle Time: " + TimeUtils.toMilliseconds(environment.getController().getResources().getPipelinePath().getTotalHandleTime()));
+        environment.getLogger().debug("");
 
         PandaExpressionParser.time = 0;
         PandaExpressionParser.amount = 0;

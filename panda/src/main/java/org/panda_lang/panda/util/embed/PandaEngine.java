@@ -17,6 +17,7 @@
 package org.panda_lang.panda.util.embed;
 
 import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.util.PandaUtils;
 
 import javax.script.AbstractScriptEngine;
 import javax.script.Bindings;
@@ -27,12 +28,10 @@ import java.io.Reader;
 @SuppressWarnings("ReturnOfNull")
 public final class PandaEngine extends AbstractScriptEngine {
 
-    private final PandaEngineCore core;
     private final PandaEngineFactory factory;
 
     PandaEngine(PandaEngineFactory factory) {
         this.factory = factory;
-        this.core = new PandaEngineCore();
     }
 
     @Override
@@ -76,7 +75,7 @@ public final class PandaEngine extends AbstractScriptEngine {
     }
 
     public Panda getPanda() {
-        return core.getPanda();
+        return PandaUtils.defaultInstance();
     }
 
 }
