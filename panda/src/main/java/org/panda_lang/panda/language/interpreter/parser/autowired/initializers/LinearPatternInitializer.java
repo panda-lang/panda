@@ -14,34 +14,25 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.context.initializers;
+package org.panda_lang.panda.language.interpreter.parser.autowired.initializers;
 
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.LocalChannel;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.interpreter.token.SourceStream;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.language.interpreter.pattern.linear.LinearPattern;
 import org.panda_lang.language.interpreter.pattern.linear.LinearPatternResult;
-import org.panda_lang.panda.language.interpreter.parser.context.BootstrapContent;
-import org.panda_lang.panda.language.interpreter.parser.context.IterationInitializer;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.token.SourceStream;
+import org.panda_lang.panda.language.interpreter.parser.autowired.IterationInitializer;
 
-public final class LinearPatternInitializer implements IterationInitializer {
+public final class LinearPatternInitializer implements IterationInitializer<LinearPattern> {
 
-    private BootstrapContent content;
-    private LinearPattern pattern;
+    private final LinearPattern pattern;
 
-    @Override
-    public void initialize(BootstrapContent content) {
-        this.content = content;
-
-        if (!content.getPattern().isPresent()) {
-            return;
-        }
-
-        this.pattern = LinearPattern.compile(content.getPattern().get().toString());
+    public LinearPatternInitializer(LinearPattern pattern) {
+        this.pattern = pattern;
     }
 
     @Override
@@ -58,10 +49,10 @@ public final class LinearPatternInitializer implements IterationInitializer {
         LinearPatternResult result = pattern.match(stream, source -> expressionParser.parse(context, source).getExpression());
 
         if (!result.isMatched()) {
-            throw new PandaParserFailure(context, currentSource, "Interceptor could not match pattern '" + content.getPattern().orElseGet("<pattern is null>") + "'");
+            throw new PandaParserFailure(context, currentSource, "Interceptor could not match pattern '" + pattern.getPatternSource() + "'");
         }
 
-        channel.override("source", result.getSource());
+        channel.override("source", result.toSnippet());
         channel.override("result", result);
     }
 

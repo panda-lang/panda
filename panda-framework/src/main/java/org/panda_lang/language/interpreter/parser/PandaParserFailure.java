@@ -17,44 +17,47 @@
 package org.panda_lang.language.interpreter.parser;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.interpreter.source.IndicatedSource;
-import org.panda_lang.language.interpreter.token.Snippetable;
 import org.panda_lang.language.interpreter.PandaInterpreterFailure;
+import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.source.PandaIndicatedSource;
+import org.panda_lang.language.interpreter.token.Snippetable;
 
 public class PandaParserFailure extends PandaInterpreterFailure implements ParserFailure {
 
     private final Context context;
 
-    public PandaParserFailure(Context context, Snippetable source, Snippetable indicated, String message, @Nullable String note) {
+    public PandaParserFailure(Contextual contextual, Location location, String message) {
+        this(contextual, location, message, null);
+    }
+
+    public PandaParserFailure(Contextual contextual, Location location, String message, @Nullable String note) {
+        this(contextual, contextual.toContext().getComponent(Components.SOURCE).getLine(location.getLine()), message, note);
+    }
+
+    public PandaParserFailure(Contextual contextual, Snippetable indicated, String message) {
+        this(contextual, indicated, message, null);
+    }
+
+    public PandaParserFailure(Contextual contextual, Snippetable indicated, String message, @Nullable String note) {
+        this(contextual, contextual.toContext().getComponent(Components.CURRENT_SOURCE), indicated, message, note);
+    }
+
+    public PandaParserFailure(Contextual contextual, Snippetable source, Snippetable indicated, String message) {
+        this(contextual, source, indicated, message, null);
+    }
+
+    public PandaParserFailure(Contextual contextual, Snippetable source, Snippetable indicated, String message, @Nullable String note) {
         super(new PandaIndicatedSource(source, indicated), message, note);
-        this.context = context;
+        this.context = contextual.toContext();
     }
 
-    public PandaParserFailure(Context context, Snippetable source, Snippetable indicated, String message) {
-        super(new PandaIndicatedSource(source, indicated), message, null);
-        this.context = context;
+    public PandaParserFailure(Throwable cause, Contextual contextual, Snippetable indicated, String message, @Nullable String note) {
+        this(cause, contextual, contextual.toContext().getComponent(Components.CURRENT_SOURCE), indicated, message, note);
     }
 
-    public PandaParserFailure(Throwable cause, Context context, IndicatedSource indicatedSource, String message, String note) {
-        super(indicatedSource, message, cause, note);
-        this.context = context;
-    }
-
-    public PandaParserFailure(Context context, Snippetable indicated, String message, @Nullable String note) {
-        this(context, context.getComponent(Components.CURRENT_SOURCE), indicated, message, note);
-    }
-
-    public PandaParserFailure(Context context, Snippetable indicated, String message) {
-        this(context, indicated, message, null);
-    }
-
-    public PandaParserFailure(Context context, String message, @Nullable String note) {
-        this(context, context.getComponent(Components.CURRENT_SOURCE), message, note);
-    }
-
-    public PandaParserFailure(Context context, String message) {
-        this(context, message, null);
+    public PandaParserFailure(Throwable cause, Contextual contextual, Snippetable source, Snippetable indicated, String message, @Nullable String note) {
+        super(cause, new PandaIndicatedSource(source, indicated), message, note);
+        this.context = contextual.toContext();
     }
 
     @Override

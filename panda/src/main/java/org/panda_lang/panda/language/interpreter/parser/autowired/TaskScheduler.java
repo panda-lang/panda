@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.context;
+package org.panda_lang.panda.language.interpreter.parser.autowired;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.interpreter.parser.Components;
@@ -28,12 +28,12 @@ import org.panda_lang.utilities.commons.UnsafeUtils;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Stack;
 
-final class BootstrapTaskScheduler<T> {
+final class TaskScheduler<T> {
 
-    protected final BootstrapContent content;
-    protected final Stack<? extends BootstrapMethod> methods;
+    protected final AutowiredContent<?> content;
+    protected final Stack<? extends AutowiredMethod> methods;
 
-    BootstrapTaskScheduler(BootstrapContent content, Stack<? extends BootstrapMethod> methods) {
+    TaskScheduler(AutowiredContent<?> content, Stack<? extends AutowiredMethod> methods) {
         if (methods.isEmpty()) {
             throw new IllegalArgumentException("Methods stack cannot be empty");
         }
@@ -46,7 +46,7 @@ final class BootstrapTaskScheduler<T> {
         int currentOrder = methods.peek().getOrder();
 
         while (hasNext(currentOrder)) {
-            BootstrapMethod currentMethod = methods.pop();
+            AutowiredMethod currentMethod = methods.pop();
             boolean last = !hasNext(currentOrder);
 
             T value = delegateNext(context, currentMethod, last);
@@ -59,7 +59,7 @@ final class BootstrapTaskScheduler<T> {
         return null;
     }
 
-    private T delegateNext(Context context, BootstrapMethod method, boolean last) {
+    private T delegateNext(Context context, AutowiredMethod method, boolean last) {
         StageTask<T> callback = (cycle, delegatedContext) -> {
             T value = null;
 
@@ -81,7 +81,7 @@ final class BootstrapTaskScheduler<T> {
         return delegateMethod(context, callback, method);
     }
 
-    private @Nullable T delegateMethod(Context context, StageTask<T> callback, BootstrapMethod method) {
+    private @Nullable T delegateMethod(Context context, StageTask<T> callback, AutowiredMethod method) {
         StageController stageController = context.getComponent(Components.GENERATION);
 
         Stage cycle = stageController.getCycle(method.getCycle());
@@ -110,7 +110,7 @@ final class BootstrapTaskScheduler<T> {
                 nextPhase.delegateAfter(callback, context);
                 break;
             default:
-                throw new BootstrapException("Unknown delegation: " + method.getDelegation());
+                throw new AutowiredException("Unknown delegation: " + method.getDelegation());
         }
 
         return null;

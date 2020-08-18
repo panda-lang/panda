@@ -22,7 +22,7 @@ import org.panda_lang.utilities.commons.function.Option;
 /**
  * Simple interface for pattern results that allows to get matched values
  */
-public interface Mappings extends PatternResult{
+public interface Mappings extends PatternResult {
 
     default boolean has(Token token) {
         return has(token.getValue());

@@ -38,15 +38,15 @@ final class LinearPatternCompiler {
         }
     }
 
-    protected LinearPattern compile(String pattern) {
-        LinearPatternCompilerWorker worker = new LinearPatternCompilerWorker(this, pattern);
+    protected LinearPattern compile(String patternSource) {
+        LinearPatternCompilerWorker worker = new LinearPatternCompilerWorker(this, patternSource);
         Option<List<LinearPatternElement>> elements = worker.compile();
 
         if (!elements.isPresent()) {
             throw new LinearPatternException("Cannot compile the pattern");
         }
 
-        return new LinearPattern(elements.get());
+        return new LinearPattern(patternSource, elements.get());
     }
 
 }

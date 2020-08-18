@@ -14,24 +14,23 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.context.annotations;
+package org.panda_lang.panda.language.interpreter.parser.autowired.annotations;
 
-import org.panda_lang.language.interpreter.parser.stage.Stages;
-import org.panda_lang.panda.language.interpreter.parser.context.Phases;
+import org.panda_lang.utilities.commons.StringUtils;
+import org.panda_lang.utilities.inject.annotations.Injectable;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.TYPE })
+@Injectable
+@Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Autowired {
+public @interface Ctx {
 
-    Phases phase() default Phases.IMMEDIATELY;
+    Class<?> type() default Object.class;
 
-    int order();
-
-    String stage() default Stages.DEFAULT_LABEL;
+    String value() default StringUtils.EMPTY;
 
 }

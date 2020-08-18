@@ -18,8 +18,9 @@ package org.panda_lang.language.interpreter.parser.expression;
 
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.Contextual;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction.Commit;
-import org.panda_lang.language.interpreter.token.SourceStream;
+import org.panda_lang.language.interpreter.token.Snippetable;
 import org.panda_lang.language.interpreter.token.SynchronizedSource;
 
 import java.util.List;
@@ -28,7 +29,7 @@ import java.util.Stack;
 /**
  * Context of expression parser
  */
-public interface ExpressionContext {
+public interface ExpressionContext extends Contextual, Snippetable {
 
     /**
      * Remove the latest expression from stack
@@ -66,13 +67,6 @@ public interface ExpressionContext {
     SynchronizedSource getSynchronizedSource();
 
     /**
-     * Get source used to create synchronized source
-     *
-     * @return the original source
-     */
-    SourceStream getSource();
-
-    /**
      * Get commits
      *
      * @return list of commits
@@ -91,7 +85,8 @@ public interface ExpressionContext {
      *
      * @return the context
      */
-    Context getContext();
+    @Override
+    Context toContext();
 
     /**
      * Get current expression parser

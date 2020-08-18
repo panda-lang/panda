@@ -21,6 +21,7 @@ import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.LocalChannel;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParserSettings;
@@ -30,17 +31,16 @@ import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.SourceStream;
-import org.panda_lang.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.language.interpreter.token.PandaSourceStream;
-import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
-import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
+import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
+import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 import org.panda_lang.utilities.commons.ArrayUtils;
 
-public final class StandaloneExpressionParser extends ParserBootstrap<Object> {
+public final class StandaloneExpressionParser extends AutowiredParser<Object> {
 
     private static final ExpressionParserSettings SETTINGS = ExpressionParserSettings.create()
             .onlyStandalone()
@@ -59,7 +59,7 @@ public final class StandaloneExpressionParser extends ParserBootstrap<Object> {
     }
 
     @Override
-    protected BootstrapInitializer<Object> initialize(Context context, BootstrapInitializer<Object> initializer) {
+    protected AutowiredInitializer<Object> initialize(Context context, AutowiredInitializer<Object> initializer) {
         this.expressionParser = context.getComponent(Components.EXPRESSION);
         return initializer;
     }
@@ -73,8 +73,8 @@ public final class StandaloneExpressionParser extends ParserBootstrap<Object> {
             channel.allocated("read", stream.getReadLength());
             channel.allocated("location", source.getLocation());
             return true;
-        } catch (PandaExpressionParserFailure e) {
-            return e;
+        } catch (PandaParserFailure failure) {
+            return failure;
         }
     }
 

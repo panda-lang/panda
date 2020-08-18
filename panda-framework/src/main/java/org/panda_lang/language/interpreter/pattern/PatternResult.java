@@ -17,11 +17,12 @@
 package org.panda_lang.language.interpreter.pattern;
 
 import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.token.Snippetable;
 
 /**
  * Universal interface for pattern results
  */
-public interface PatternResult {
+public interface PatternResult extends Snippetable {
 
     /**
      * Check if result is matched
@@ -35,6 +36,6 @@ public interface PatternResult {
      *
      * @return the matched source
      */
-    Snippet getSource();
+    Snippet toSnippet();
 
 }

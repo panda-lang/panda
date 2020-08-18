@@ -27,17 +27,17 @@ import org.panda_lang.language.architecture.statement.PandaVariableDataInitializ
 import org.panda_lang.language.interpreter.pattern.Mappings;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
-import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
+import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
+import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
+import org.panda_lang.panda.language.interpreter.parser.autowired.handlers.TokenHandler;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 import org.panda_lang.utilities.commons.ArrayUtils;
 
-public final class LateDeclarationParser extends ParserBootstrap<Void> {
+public final class LateDeclarationParser extends AutowiredParser<Void> {
 
     @Override
     public PipelineComponent<? extends Parser>[] pipeline() {
@@ -50,7 +50,7 @@ public final class LateDeclarationParser extends ParserBootstrap<Void> {
     }
 
     @Override
-    protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
+    protected AutowiredInitializer<Void> initialize(Context context, AutowiredInitializer<Void> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.LATE))
                 .functional(pattern -> pattern

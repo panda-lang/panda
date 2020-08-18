@@ -68,9 +68,11 @@ public final class LinearPattern {
         COMPILER.initialize();
     }
 
+    private final String patternSource;
     private final List<LinearPatternElement> element;
 
-    LinearPattern(List<LinearPatternElement> element) {
+    LinearPattern(String patternSource, List<LinearPatternElement> element) {
+        this.patternSource = patternSource;
         this.element = element;
     }
 
@@ -90,6 +92,10 @@ public final class LinearPattern {
 
     protected List<LinearPatternElement> getElements() {
         return element;
+    }
+
+    public String getPatternSource() {
+        return patternSource;
     }
 
     public static LinearPattern compile(String pattern) {

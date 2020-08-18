@@ -175,7 +175,7 @@ main {
     CustomThread thread = new CustomThread()
     thread.start()
 
-    Runnable runnable = { log 'x' }
+    // Runnable runnable = { log 'x' }
 }
 
 // simple interface

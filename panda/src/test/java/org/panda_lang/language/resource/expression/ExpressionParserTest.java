@@ -22,7 +22,7 @@ class ExpressionParserTest extends ExpressionParserTestBootstrap {
 
     @Test
     public void parseUnknown() {
-        parse("u n k n o w n", "Unknown expression");
+        parse("u n k n o w n", "Unknown expression 'u n k n o w n'");
     }
 
     @Test

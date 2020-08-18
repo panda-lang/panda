@@ -18,6 +18,7 @@ package org.panda_lang.language.interpreter.parser.expression;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.ParserFailure;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction.Commit;
 import org.panda_lang.language.interpreter.token.SourceStream;
@@ -88,17 +89,16 @@ public final class PandaExpressionParser implements ExpressionParser {
             }
 
             worker.finish(expressionContext);
-        } catch (Exception e) {
+        } catch (Throwable throwable) {
             for (Commit commit : expressionContext.getCommits()) {
                 commit.rollback();
             }
 
-            if (e instanceof ParserFailure) {
-                throw e;
+            if (throwable instanceof ParserFailure) {
+                throw throwable;
             }
 
-            e.printStackTrace();
-            throw new PandaExpressionParserFailure(expressionContext, expressionContext.getSynchronizedSource().getSource(), e.toString());
+            throw new PandaParserFailure(throwable, expressionContext, expressionContext.getSynchronizedSource().getSource(), throwable.toString(), "");
         }
 
         PandaExpressionTransaction transaction = new PandaExpressionTransaction(null, expressionContext.getCommits());
@@ -106,19 +106,19 @@ public final class PandaExpressionParser implements ExpressionParser {
         // if something went wrong
         if (worker.hasError()) {
             transaction.rollback();
-            throw new PandaExpressionParserFailure(expressionContext, worker.getError().getErrorSource(), worker.getError().getErrorMessage());
+            throw new PandaParserFailure(expressionContext, worker.getError().getErrorSource(), worker.getError().getErrorMessage());
         }
 
         // if context does not contain any results
         if (!expressionContext.hasResults()) {
             transaction.rollback();
-            throw new PandaExpressionParserFailure(expressionContext, source.toSnippet(), "Unknown expression '" + source.toSnippet().getFirstLine() + "'");
+            throw new PandaParserFailure(expressionContext, source, "Unknown expression '" + source.toSnippet().getFirstLine() + "'");
         }
 
         // if worker couldn't prepare the final result (in theory it should never happen)
         if (expressionContext.getResults().size() > 1) {
             transaction.rollback();
-            throw new PandaExpressionParserFailure(expressionContext, source.toSnippet(), "Source contains " + expressionContext.getResults().size() + " expressions");
+            throw new PandaParserFailure(expressionContext, source, "Source contains " + expressionContext.getResults().size() + " expressions");
         }
 
         source.readSilently(worker.getLastSucceededRead());
@@ -138,7 +138,7 @@ public final class PandaExpressionParser implements ExpressionParser {
 
         if (settings.isStandaloneOnly() && worker.getLastCategory() != ExpressionCategory.STANDALONE) {
             transaction.rollback();
-            throw new PandaExpressionParserFailure(expressionContext, source.toSnippet(), "Invalid category of expression");
+            throw new PandaParserFailure(expressionContext, source.toSnippet(), "Invalid category of expression");
         }
 
         return transaction.withExpression(expressionContext.getResults().pop());

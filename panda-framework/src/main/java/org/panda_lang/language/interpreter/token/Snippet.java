@@ -18,6 +18,7 @@ package org.panda_lang.language.interpreter.token;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.auxiliary.Section;
 
 import java.util.ArrayList;
@@ -256,6 +257,14 @@ public interface Snippet extends Iterable<TokenInfo>, Snippetable {
         return getLine(getFirst().getLocation().getLine());
     }
 
+    default Snippet getLastLine() {
+        if (isEmpty()) {
+            return this;
+        }
+
+        return getLine(getLast().getLocation().getLine());
+    }
+
     /**
      * Get tokens at the given line as a snippet
      *
@@ -266,6 +275,11 @@ public interface Snippet extends Iterable<TokenInfo>, Snippetable {
         List<TokenInfo> selected = new ArrayList<>();
 
         for (TokenInfo tokenInfo : getTokensRepresentations()) {
+            if (tokenInfo.getType() == TokenTypes.SECTION) {
+                selected.addAll(tokenInfo.toToken(Section.class).getContent().getLine(line).getTokensRepresentations());
+                continue;
+            }
+
             if (tokenInfo.getLocation().getLine() < line) {
                 continue;
             }

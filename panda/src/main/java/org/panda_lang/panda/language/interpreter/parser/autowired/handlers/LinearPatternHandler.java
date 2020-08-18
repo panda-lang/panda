@@ -14,27 +14,29 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.context.handlers;
+package org.panda_lang.panda.language.interpreter.parser.autowired.handlers;
 
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.LocalChannel;
-import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.parser.pipeline.Handler;
 import org.panda_lang.language.interpreter.pattern.linear.LinearPattern;
-import org.panda_lang.panda.language.interpreter.parser.context.BootstrapContent;
-import org.panda_lang.panda.language.interpreter.parser.context.BootstrapHandler;
+import org.panda_lang.language.interpreter.token.Snippet;
 
-public final class LinearPatternHandler implements BootstrapHandler {
+public final class LinearPatternHandler implements Handler {
 
-    private LinearPattern pattern;
+    private final LinearPattern linearPattern;
 
-    @Override
-    public void initialize(BootstrapContent content) {
-
+    public LinearPatternHandler(LinearPattern linearPattern) {
+        this.linearPattern = linearPattern;
     }
 
     @Override
-    public @Nullable Object handle(Context context, LocalChannel channel, Snippet source) {
-        return null;
+    public @NotNull Object handle(Context context, LocalChannel channel, Snippet source) {
+        return linearPattern
+                .match(source)
+                .isMatched();
     }
+
+
 }

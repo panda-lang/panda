@@ -19,7 +19,8 @@ package org.panda_lang.language.interpreter.parser.expression;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction.Commit;
-import org.panda_lang.language.interpreter.token.SourceStream;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.token.Snippetable;
 import org.panda_lang.language.interpreter.token.SynchronizedSource;
 
 import java.util.ArrayList;
@@ -30,15 +31,13 @@ final public class PandaExpressionContext implements ExpressionContext {
 
     private final ExpressionParser parser;
     private final Context context;
-    private final SourceStream source;
     private final SynchronizedSource synchronizedSource;
     private final Stack<Expression> results = new Stack<>();
     private final List<Commit> commits = new ArrayList<>(1);
 
-    public PandaExpressionContext(ExpressionParser parser, Context context, SourceStream source) {
+    public PandaExpressionContext(ExpressionParser parser, Context context, Snippetable source) {
         this.parser = parser;
         this.context = context;
-        this.source = source;
         this.synchronizedSource = new SynchronizedSource(source.toSnippet());
     }
 
@@ -68,11 +67,6 @@ final public class PandaExpressionContext implements ExpressionContext {
     }
 
     @Override
-    public SourceStream getSource() {
-        return source;
-    }
-
-    @Override
     public List<Commit> getCommits() {
         return commits;
     }
@@ -83,7 +77,12 @@ final public class PandaExpressionContext implements ExpressionContext {
     }
 
     @Override
-    public Context getContext() {
+    public Snippet toSnippet() {
+        return getSynchronizedSource().toSnippet();
+    }
+
+    @Override
+    public Context toContext() {
         return context;
     }
 

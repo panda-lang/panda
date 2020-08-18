@@ -14,26 +14,19 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.context.handlers;
+package org.panda_lang.panda.language.interpreter.parser.block;
 
+import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.LocalChannel;
-import org.panda_lang.language.interpreter.parser.pipeline.Handler;
 import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.interpreter.token.Token;
-import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.language.interpreter.token.PandaSourceStream;
+import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
 
-public final class TokenHandler implements Handler {
-
-    private final Token[] tokens;
-
-    public TokenHandler(Token... tokens) {
-        this.tokens = tokens;
-    }
+public abstract class AutowiredBlockParser extends AutowiredParser<BlockData> implements BlockSubparser {
 
     @Override
-    public Boolean handle(Context context, LocalChannel channel, Snippet source) {
-        return ArrayUtils.contains(tokens, source.getFirst().getToken());
+    public final BlockData parse(Context context, Snippet declaration) {
+        return super.parse(context.withComponent(Components.STREAM, new PandaSourceStream(declaration)));
     }
 
 }

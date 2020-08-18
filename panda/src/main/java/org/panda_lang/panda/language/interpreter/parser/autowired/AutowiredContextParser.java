@@ -14,42 +14,29 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.context;
+package org.panda_lang.panda.language.interpreter.parser.autowired;
 
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;
-import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.interpreter.token.SourceStream;
 import org.panda_lang.utilities.commons.StackUtils;
 
 import java.util.List;
 
-final class BootstrapContextParser<T> implements ContextParser<T> {
+final class AutowiredContextParser<T> implements ContextParser<T> {
 
-    protected final BootstrapContent content;
-    protected final List<? extends BootstrapMethod> methods;
+    protected final AutowiredContent<?> content;
+    protected final List<? extends AutowiredMethod> methods;
 
-    BootstrapContextParser(BootstrapContent content, List<BootstrapMethod> methods) {
+    AutowiredContextParser(AutowiredContent<?> content, List<AutowiredMethod> methods) {
         this.content = content;
         this.methods = methods;
     }
 
     @Override
     public final T parse(Context context) {
-        SourceStream stream = context.getComponent(Components.STREAM);
-        Snippet source = stream.toSnippet();
-        int length = stream.getUnreadLength();
-
         content.getInitializer().handle(context, context.getComponent(Components.CHANNEL));
-        int difference = length - stream.getUnreadLength();
-
-        if (difference > 0) {
-            context.withComponent(BootstrapComponents.CURRENT_SOURCE, source.subSource(0, difference));
-        }
-
-        BootstrapTaskScheduler<T> scheduler = new BootstrapTaskScheduler<>(content, StackUtils.reverse(StackUtils.of(methods)));
-        return scheduler.schedule(context);
+        return new TaskScheduler<T>(content, StackUtils.reverse(StackUtils.of(methods))).schedule(context);
     }
 
 }

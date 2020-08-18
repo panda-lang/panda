@@ -57,7 +57,7 @@ public final class PipelineParser<T extends ContextParser<?>> implements Parser 
 
             ContextParser<?> parser = result.getParser().orThrow(() -> {
                 return result.getFailure().orElseGet(() -> {
-                    throw new PandaParserFailure(delegatedContext, "Unrecognized syntax");
+                    throw new PandaParserFailure(delegatedContext, source, "Unrecognized syntax");
                 });
             });
 
@@ -65,7 +65,7 @@ public final class PipelineParser<T extends ContextParser<?>> implements Parser 
             parser.parse(delegatedContext);
 
             if (sourceLength == stream.getUnreadLength()) {
-                throw new PandaParserFailure(delegatedContext, parser.getClass().getSimpleName() + " did nothing with the current source");
+                throw new PandaParserFailure(delegatedContext, source, parser.getClass().getSimpleName() + " did nothing with the current source");
             }
 
             if (stream.hasUnreadSource() && stream.getCurrent().contentEquals(Separators.SEMICOLON)) {

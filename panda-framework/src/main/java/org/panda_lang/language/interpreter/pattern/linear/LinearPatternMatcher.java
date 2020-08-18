@@ -16,9 +16,9 @@
 
 package org.panda_lang.language.interpreter.pattern.linear;
 
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.token.SourceStream;
 import org.panda_lang.language.interpreter.token.TokenInfo;
-import org.panda_lang.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.auxiliary.Section;
@@ -107,9 +107,9 @@ final class LinearPatternMatcher {
             if (wildcard.getType() == WildcardElement.Type.EXPRESSION) {
                 try {
                     value = matcher.apply(content);
-                } catch (PandaExpressionParserFailure e) {
+                } catch (PandaParserFailure failure) {
                     if (!wildcard.isOptional()) {
-                        throw e;
+                        throw failure;
                     }
                 }
             }
