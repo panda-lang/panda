@@ -64,7 +64,7 @@ class FunctionalPatternTest {
                 () -> Assertions.assertEquals("shared", functionalResult.get("visibility").get().toString()),
                 () -> Assertions.assertTrue(functionalResult.has("isStatic")),
                 () -> Assertions.assertEquals("String [  ]", functionalResult.get("type").get().toString()),
-                () -> Assertions.assertEquals("of", functionalResult.get("name").get().toString()),
+                () -> Assertions.assertEquals("'of'", functionalResult.get("name").get().toString()),
                 () -> Assertions.assertEquals("String a , Int [  ] b", functionalResult.get("parameters").get().toString()),
                 () -> Assertions.assertEquals("/* content */", functionalResult.get("body").get().toString())
         );
