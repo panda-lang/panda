@@ -106,11 +106,7 @@ public final class PandaExpressionParser implements ExpressionParser {
         // if something went wrong
         if (worker.hasError()) {
             transaction.rollback();
-            throw new PandaParserFailure(
-                    expressionContext, worker.getError().getErrorSource(),
-                    worker.getError().getErrorMessage(),
-                    "マルセルへの注意 \uD83E\uDD20"
-            );
+            throw new PandaParserFailure(expressionContext, worker.getError().getErrorSource(), worker.getError().getErrorMessage());
         }
 
         // if context does not contain any results
