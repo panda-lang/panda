@@ -16,6 +16,8 @@
 
 package org.panda_lang.utilities.commons.console;
 
+import org.panda_lang.utilities.commons.StringUtils;
+
 public enum Effect {
 
     LINE_SEPARATOR("\n", "n"),
@@ -88,6 +90,8 @@ public enum Effect {
     WHITE_BACKGROUND_BRIGHT("\033[0;107m");
     */
 
+    public static final char EFFECT_OPERATOR = '&';
+
     private final String code;
     private final String simpleCode;
 
@@ -107,6 +111,14 @@ public enum Effect {
     @Override
     public String toString() {
         return getCode();
+    }
+
+    public static String paint(String text) {
+        for (Effect effect : values()) {
+            text = StringUtils.replace(text, EFFECT_OPERATOR + effect.simpleCode, effect.code);
+        }
+
+        return text + Effect.RESET;
     }
 
 }

@@ -16,6 +16,9 @@
 
 package org.panda_lang.language.interpreter.logging;
 
+import org.panda_lang.utilities.commons.StackTraceUtils;
+import org.panda_lang.utilities.commons.console.Effect;
+
 public final class SystemLogger implements Logger {
 
     private final Channel threshold;
@@ -31,12 +34,37 @@ public final class SystemLogger implements Logger {
     @Override
     public void log(Channel channel, String message) {
         if (channel.getPriority() >= threshold.getPriority()) {
-            System.out.println(message);
+            System.out.println(Effect.paint(message));
         }
     }
 
     @Override
+    public void error(String message) {
+        log(Channel.ERROR, "# " + message);
+    }
+
+    @Override
     public void exception(Throwable throwable) {
+        StackTraceElement[] stackTrace = StackTraceUtils.startsWith(throwable.getStackTrace(), element -> element.toString().contains("org.junit"));
+
+        error("");
+        error("&b- - ~ ~< Exception >~ ~ - -&r");
+        error("");
+        error("Given:");
+        error("    Message:&1 " + throwable.getMessage());
+        error("    In:&1 " + stackTrace[0].toString());
+        error("    By:&1 " + throwable.getClass());
+        error("");
+        error("Stacktrace:");
+
+        for (StackTraceElement element : stackTrace) {
+            error("    at " + element.toString());
+        }
+
+        error("");
+        error("Environment:");
+        error("");
+
         throwable.printStackTrace(System.err);
     }
 

@@ -97,6 +97,10 @@ public class PandaStream<T> {
         return stream.collect(collector);
     }
 
+    public PandaStream<T> takeWhile(Predicate<T> condition) {
+        return new PandaStream<>(StreamSupport.stream(new PandaStreamTakeWhile<>(stream.spliterator(), condition), false));
+    }
+
     public T[] toArray(IntFunction<T[]> function) {
         return stream.toArray(function);
     }
@@ -121,7 +125,8 @@ public class PandaStream<T> {
         return of(StreamSupport.stream(iterable.spliterator(), false));
     }
 
-    public static <T> PandaStream<T> of(T[] array) {
+    @SafeVarargs
+    public static <T> PandaStream<T> of(T... array) {
         return of(Arrays.stream(array));
     }
 

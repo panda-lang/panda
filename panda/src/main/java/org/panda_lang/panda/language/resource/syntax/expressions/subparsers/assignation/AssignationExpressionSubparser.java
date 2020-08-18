@@ -37,6 +37,7 @@ import org.panda_lang.language.resource.syntax.operator.OperatorUtils;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.AbstractExpressionSubparserWorker;
 
+import org.panda_lang.utilities.commons.UnsafeUtils;
 import org.panda_lang.utilities.commons.function.Option;
 
 public final class AssignationExpressionSubparser implements ExpressionSubparser {
@@ -121,11 +122,9 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
             } catch (PandaParserFailure e) {
                 // throw e; we can't throw because as individual subparser we don't know everything
                 // TODO: Support notes/failures by expression results
-                return ExpressionResult.error(e.getMessage() + (e.hasNote() ? ". Note: " + e.getNote() : ""), expressionSource.getOriginalSource());
-            } catch (Exception e) {
-                e.printStackTrace(); // TODO: Improve expression subparser errors
-                throw new PandaParserFailure(context, token, "Cannot parse assigned expression: " + e.toString());
-                // return ExpressionResult.error("Cannot parse assigned expression - " + e.getMessage(), expressionSource.getOriginalSource());
+                return ExpressionResult.error(e.getMessage() + e.getNote().map(note -> ". Note: " + note).orElseGet(""), expressionSource.getOriginalSource());
+            } catch (Throwable e) {
+                return UnsafeUtils.throwException(e);
             }
         }
 

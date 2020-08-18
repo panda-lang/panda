@@ -248,6 +248,14 @@ public interface Snippet extends Iterable<TokenInfo>, Snippetable {
         return getLast(0);
     }
 
+    default Snippet getFirstLine() {
+        if (isEmpty()) {
+            return this;
+        }
+
+        return getLine(getFirst().getLocation().getLine());
+    }
+
     /**
      * Get tokens at the given line as a snippet
      *

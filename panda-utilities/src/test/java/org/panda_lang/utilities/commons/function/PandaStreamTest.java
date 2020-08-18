@@ -18,6 +18,7 @@ package org.panda_lang.utilities.commons.function;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.panda_lang.utilities.commons.ArrayUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -75,6 +76,11 @@ class PandaStreamTest {
     @Test
     void testCount() {
         Assertions.assertEquals(1, PandaStream.of(VALUES).count("2"::equals));
+    }
+
+    @Test
+    void testTakeWhile() {
+        Assertions.assertArrayEquals(ArrayUtils.of(1, 2), PandaStream.of(1, 2, 3, 4, 5).takeWhile(i -> i < 3).toArray(Integer[]::new));
     }
 
     @Test
