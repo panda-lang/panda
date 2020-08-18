@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.context.annotations;
+package org.panda_lang.panda.language.interpreter.parser.autowired.annotations;
 
+import org.panda_lang.utilities.commons.StringUtils;
 import org.panda_lang.utilities.inject.annotations.Injectable;
 
 import java.lang.annotation.ElementType;
@@ -26,8 +27,8 @@ import java.lang.annotation.Target;
 @Injectable
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Src {
+public @interface Channel {
 
-    String value();
+    String value() default StringUtils.EMPTY;
 
 }

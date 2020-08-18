@@ -44,13 +44,13 @@ import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.language.resource.syntax.operator.Operators;
 import org.panda_lang.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
-import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
-import org.panda_lang.panda.language.interpreter.parser.context.Phases;
-import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
+import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
+import org.panda_lang.language.interpreter.parser.stage.Phases;
+import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 import org.panda_lang.panda.language.resource.syntax.scope.branching.Returnable;
 import org.panda_lang.utilities.commons.ArrayUtils;
@@ -58,7 +58,7 @@ import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.List;
 
-public final class MethodParser extends ParserBootstrap<Void> {
+public final class MethodParser extends AutowiredParser<Void> {
 
     private static final ParameterParser PARAMETER_PARSER = new ParameterParser();
     private static final ScopeParser SCOPE_PARSER = new ScopeParser();
@@ -74,7 +74,7 @@ public final class MethodParser extends ParserBootstrap<Void> {
     }
 
     @Override
-    protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
+    protected AutowiredInitializer<Void> initialize(Context context, AutowiredInitializer<Void> initializer) {
         return initializer.functional(pattern -> pattern
                 .keyword(Keywords.OVERRIDE).optional()
                 .variant("visibility").optional().consume(variant -> variant.content("open", "shared", "internal").map(value -> Visibility.valueOf(value.toString().toUpperCase())))
@@ -176,7 +176,7 @@ public final class MethodParser extends ParserBootstrap<Void> {
         }
 
         if (!method.getReturnType().getAssociatedClass().isAssignableTo(void.class) && !methodScope.hasEffective(Returnable.class)) {
-            throw new PandaParserFailure(context, "Missing return statement in method " + method.getName());
+            throw new PandaParserFailure(context, body.getLastLine(), "Missing return statement in method " + method.getName());
         }
     }
 

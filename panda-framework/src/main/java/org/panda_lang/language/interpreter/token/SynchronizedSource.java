@@ -24,7 +24,7 @@ import java.util.Iterator;
 /**
  * SynchronizedSource works like a shared iterator with its own index and source based on {@link org.panda_lang.language.interpreter.token.Snippet}
  */
-public final class SynchronizedSource implements Iterable<TokenInfo>, Iterator<TokenInfo>, Streamable { // lgtm [java/iterator-implements-iterable]
+public final class SynchronizedSource implements Iterable<TokenInfo>, Iterator<TokenInfo>, Streamable, Snippetable { // lgtm [java/iterator-implements-iterable]
 
     private final Snippet source;
     private int index;
@@ -178,6 +178,11 @@ public final class SynchronizedSource implements Iterable<TokenInfo>, Iterator<T
      * @return the original source
      */
     public Snippet getSource() {
+        return source;
+    }
+
+    @Override
+    public Snippet toSnippet() {
         return source;
     }
 

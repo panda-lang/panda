@@ -21,21 +21,22 @@ import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
+import org.panda_lang.language.interpreter.pattern.Mappings;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.block.BlockData;
-import org.panda_lang.panda.language.interpreter.parser.block.BlockSubparserBootstrap;
-import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
+import org.panda_lang.panda.language.interpreter.parser.block.AutowiredBlockParser;
+import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
+import org.panda_lang.panda.language.interpreter.parser.autowired.handlers.TokenHandler;
 import org.panda_lang.utilities.commons.ArrayUtils;
 
-public final class WhileParser extends BlockSubparserBootstrap {
+public final class WhileParser extends AutowiredBlockParser {
 
     @Override
     public PipelineComponent<? extends Parser>[] pipeline() {
@@ -43,16 +44,16 @@ public final class WhileParser extends BlockSubparserBootstrap {
     }
 
     @Override
-    protected BootstrapInitializer<BlockData> initialize(Context context, BootstrapInitializer<BlockData> initializer) {
+    protected AutowiredInitializer<BlockData> initialize(Context context, AutowiredInitializer<BlockData> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.WHILE))
                 .linear("while value:*=expression");
     }
 
     @Autowired(order = 1)
-    public BlockData parseWhile(Context context, @Ctx Scope parent, @Channel Location location, @Src("value") Expression expression) {
+    public BlockData parseWhile(Context context, @Ctx Scope parent, @Channel Location location, @Channel Mappings mappings, @Src("value") Expression expression) {
         if (!expression.getType().getAssociatedClass().isAssignableTo(Boolean.class)) {
-            throw new PandaParserFailure(context, "Loop requires boolean as an argument");
+            throw new PandaParserFailure(context, mappings, "Loop requires boolean as an argument");
         }
 
         return new BlockData(new WhileBlock(parent, location, expression));

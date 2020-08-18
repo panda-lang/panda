@@ -14,28 +14,15 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.context;
+package org.panda_lang.panda.language.interpreter.parser.autowired;
 
-public enum Phases {
+import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.LocalChannel;
 
-    IMMEDIATELY(0),
+public interface IterationInitializer<P> {
 
-    CURRENT_BEFORE(1),
-    CURRENT_DEFAULT(2),
-    CURRENT_AFTER(3),
+    default void initialize() { }
 
-    NEXT_BEFORE(4),
-    NEXT_DEFAULT(5),
-    NEXT_AFTER(6);
-
-    private final int priority;
-
-    Phases(int priority) {
-        this.priority = priority;
-    }
-
-    public int getPriority() {
-        return priority;
-    }
+    void handle(Context context, LocalChannel channel);
 
 }

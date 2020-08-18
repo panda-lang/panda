@@ -14,23 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.context.annotations;
+package org.panda_lang.panda.language.interpreter.parser.autowired;
 
-import org.panda_lang.utilities.commons.StringUtils;
-import org.panda_lang.utilities.inject.annotations.Injectable;
+import org.panda_lang.panda.PandaException;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+public final class AutowiredException extends PandaException {
 
-@Injectable
-@Target(ElementType.PARAMETER)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Ctx {
+    AutowiredException(String message) {
+        super(message);
+    }
 
-    Class<?> type() default Object.class;
-
-    String value() default StringUtils.EMPTY;
+    AutowiredException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
 }

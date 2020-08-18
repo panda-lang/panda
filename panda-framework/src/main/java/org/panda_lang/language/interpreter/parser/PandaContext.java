@@ -57,4 +57,9 @@ public final class PandaContext implements Context {
         return new HashMap<>(components);
     }
 
+    @Override
+    public Context toContext() {
+        return this;
+    }
+
 }

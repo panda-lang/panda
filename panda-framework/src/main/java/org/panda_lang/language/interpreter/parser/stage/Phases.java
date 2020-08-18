@@ -14,24 +14,28 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.context;
+package org.panda_lang.language.interpreter.parser.stage;
 
-public final class ParserBootstrapUtils {
+public enum Phases {
 
-    private static final Class<?>[] INTERNAL = {
-            BootstrapContextParser.class,
-            BootstrapTaskScheduler.class
-    };
+    IMMEDIATELY(0),
 
-    private ParserBootstrapUtils() { }
+    CURRENT_BEFORE(1),
+    CURRENT_DEFAULT(2),
+    CURRENT_AFTER(3),
 
-    /**
-     * Get internal classes. Useful when we want to exclude some internal classes from stacktrace.
-     *
-     * @return the array of internal classes
-     */
-    public static Class<?>[] getInternalClasses() {
-        return INTERNAL.clone();
+    NEXT_BEFORE(4),
+    NEXT_DEFAULT(5),
+    NEXT_AFTER(6);
+
+    private final int priority;
+
+    Phases(int priority) {
+        this.priority = priority;
+    }
+
+    public int getPriority() {
+        return priority;
     }
 
 }

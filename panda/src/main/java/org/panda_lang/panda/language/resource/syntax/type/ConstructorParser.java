@@ -35,19 +35,19 @@ import org.panda_lang.language.architecture.type.TypeScope;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
-import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
-import org.panda_lang.panda.language.interpreter.parser.context.Phases;
-import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
+import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
+import org.panda_lang.language.interpreter.parser.stage.Phases;
+import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
+import org.panda_lang.panda.language.interpreter.parser.autowired.handlers.TokenHandler;
 import org.panda_lang.utilities.commons.ArrayUtils;
 
 import java.util.List;
 
-public final class ConstructorParser extends ParserBootstrap<Void> {
+public final class ConstructorParser extends AutowiredParser<Void> {
 
     private static final ParameterParser PARAMETER_PARSER = new ParameterParser();
     private static final ScopeParser SCOPE_PARSER = new ScopeParser();
@@ -58,7 +58,7 @@ public final class ConstructorParser extends ParserBootstrap<Void> {
     }
 
     @Override
-    protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
+    protected AutowiredInitializer<Void> initialize(Context context, AutowiredInitializer<Void> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.CONSTRUCTOR))
                 .linear("constructor parameters:(~) body:{~}");

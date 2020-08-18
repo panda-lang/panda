@@ -36,16 +36,16 @@ import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.block.BlockData;
-import org.panda_lang.panda.language.interpreter.parser.block.BlockSubparserBootstrap;
-import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
+import org.panda_lang.panda.language.interpreter.parser.block.AutowiredBlockParser;
+import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
+import org.panda_lang.panda.language.interpreter.parser.autowired.handlers.TokenHandler;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.iterable.ArrayIterable;
 
-public final class ForEachParser extends BlockSubparserBootstrap {
+public final class ForEachParser extends AutowiredBlockParser {
 
     @Override
     public PipelineComponent<? extends Parser>[] pipeline() {
@@ -53,7 +53,7 @@ public final class ForEachParser extends BlockSubparserBootstrap {
     }
 
     @Override
-    protected BootstrapInitializer<BlockData> initialize(Context context, BootstrapInitializer<BlockData> initializer) {
+    protected AutowiredInitializer<BlockData> initialize(Context context, AutowiredInitializer<BlockData> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.FOREACH))
                 .linear("foreach content:(~)");

@@ -58,7 +58,7 @@ public final class LinearPatternResult implements PatternResult, Mappings {
     }
 
     @Override
-    public Snippet getSource() {
+    public Snippet toSnippet() {
         return source;
     }
 

@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.context;
+package org.panda_lang.panda.language.interpreter.parser.autowired;
 
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.pipeline.Handler;
 
 import org.panda_lang.utilities.commons.function.Option;
 
-public interface BootstrapContent {
+interface AutowiredContent<P> {
 
     /**
      * Get associated with bootstrap initializer
      *
      * @return the interceptor
      */
-    IterationInitializer getInitializer();
+    IterationInitializer<P> getInitializer();
 
     /**
      * Get associated parser handler
@@ -40,10 +40,9 @@ public interface BootstrapContent {
     /**
      * Get pattern object
      *
-     * @param <R> expected type
      * @return the pattern
      */
-    <R> Option<R> getPattern();
+    Option<P> getPattern();
 
     /**
      * Get top-level parser context used by bootstrap

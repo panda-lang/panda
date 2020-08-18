@@ -25,13 +25,13 @@ import org.panda_lang.language.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.language.architecture.statement.VariableData;
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.SourceStream;
 import org.panda_lang.language.architecture.statement.PandaVariableData;
 import org.panda_lang.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.language.interpreter.parser.expression.PandaExpressionParser;
-import org.panda_lang.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressions;
 import org.panda_lang.utilities.commons.StringUtils;
@@ -63,7 +63,7 @@ class ExpressionParserTestBootstrap {
     }
 
     protected static void parse(String source, String message) {
-        parse(source, PandaExpressionParserFailure.class, message);
+        parse(source, PandaParserFailure.class, message);
     }
 
     protected static void parse(String source, Class<? extends Throwable> clazz, String message) {

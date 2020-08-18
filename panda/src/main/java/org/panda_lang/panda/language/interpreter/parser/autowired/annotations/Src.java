@@ -14,14 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.context;
+package org.panda_lang.panda.language.interpreter.parser.autowired.annotations;
 
-import org.panda_lang.language.interpreter.parser.ContextComponent;
-import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.utilities.inject.annotations.Injectable;
 
-public final class BootstrapComponents {
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-    public static final String CURRENT_SOURCE_LABEL = "bootstrap-current-source";
-    public static final ContextComponent<Snippet> CURRENT_SOURCE = ContextComponent.of(CURRENT_SOURCE_LABEL, Snippet.class);
+@Injectable
+@Target(ElementType.PARAMETER)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Src {
+
+    String value();
 
 }

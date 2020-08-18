@@ -14,32 +14,26 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.context.initializers;
+package org.panda_lang.panda.language.interpreter.parser.autowired.initializers;
 
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.LocalChannel;
-import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.interpreter.token.SourceStream;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.pattern.Mappings;
 import org.panda_lang.language.interpreter.pattern.functional.FunctionalData;
 import org.panda_lang.language.interpreter.pattern.functional.FunctionalPattern;
 import org.panda_lang.language.interpreter.pattern.functional.PatternData;
-import org.panda_lang.panda.language.interpreter.parser.context.BootstrapContent;
-import org.panda_lang.panda.language.interpreter.parser.context.IterationInitializer;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.token.SourceStream;
+import org.panda_lang.panda.language.interpreter.parser.autowired.IterationInitializer;
 
-import java.util.function.Supplier;
+public final class FunctionalPatternInitializer implements IterationInitializer<FunctionalPattern> {
 
-public final class FunctionalPatternInitializer implements IterationInitializer {
+    private FunctionalPattern functionalPattern;
 
-    private FunctionalPattern pattern;
-
-    @Override
-    public void initialize(BootstrapContent content) {
-        this.pattern = (FunctionalPattern) content.getPattern().orThrow((Supplier<? extends PandaParserFailure>) () -> {
-            throw new PandaParserFailure(content.getContext(), "Missing pattern");
-        });
+    public FunctionalPatternInitializer(FunctionalPattern functionalPattern) {
+        this.functionalPattern = functionalPattern;
     }
 
     @Override
@@ -49,14 +43,15 @@ public final class FunctionalPatternInitializer implements IterationInitializer 
         channel.allocated("location", currentSource.getLocation());
 
         PatternData patternData = PatternData.capacity(1).with(FunctionalData.CONTEXT, context);
-        Mappings mappings = pattern.match(currentSource, source, patternData);
+        Mappings mappings = functionalPattern.match(currentSource, source, patternData);
 
         if (!mappings.isMatched()) {
             throw new PandaParserFailure(context, currentSource, "CustomPatternInterceptor could not match pattern", "Make sure that the pattern does not have a typo");
         }
 
-        channel.allocated("source", mappings.getSource());
+        channel.allocated("source", mappings.toSnippet());
         channel.allocated("result", mappings);
     }
+
 
 }

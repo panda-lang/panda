@@ -31,7 +31,7 @@ public class PandaInterpreterFailure extends InterpreterFailure {
         this.note = note;
     }
 
-    public PandaInterpreterFailure(IndicatedSource indicatedSource, String message, Throwable cause, String note) {
+    public PandaInterpreterFailure(Throwable cause, IndicatedSource indicatedSource, String message, String note) {
         super(message, cause);
         this.indicatedSource = indicatedSource;
         this.note = note;

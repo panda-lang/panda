@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.context;
+package org.panda_lang.panda.language.interpreter.parser.autowired;
 
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;
@@ -23,11 +23,11 @@ import org.panda_lang.language.interpreter.parser.LocalChannel;
 import org.panda_lang.language.interpreter.parser.pipeline.Handler;
 import org.panda_lang.language.interpreter.token.Snippet;
 
-public abstract class ParserBootstrap<T> implements ContextParser<T>, Handler {
+public abstract class AutowiredParser<T> implements ContextParser<T>, Handler {
 
     protected ParserRepresentation<ContextParser<T>> parser;
 
-    protected abstract BootstrapInitializer<T> initialize(Context context, BootstrapInitializer<T> initializer);
+    protected abstract AutowiredInitializer<T> initialize(Context context, AutowiredInitializer<T> initializer);
 
     protected Object customHandle(Handler handler, Context context, LocalChannel channel, Snippet source) {
         return handler.handle(context, channel, source);
@@ -48,7 +48,7 @@ public abstract class ParserBootstrap<T> implements ContextParser<T>, Handler {
             return parser;
         }
 
-        return (this.parser = initialize(context, new BootstrapInitializer<T>().instance(this)).build(context));
+        return (this.parser = initialize(context, new AutowiredInitializer<T>().instance(this)).build(context));
     }
 
 }

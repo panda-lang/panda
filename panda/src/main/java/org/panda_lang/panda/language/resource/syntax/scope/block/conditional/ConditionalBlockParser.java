@@ -35,15 +35,15 @@ import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.block.BlockComponents;
 import org.panda_lang.panda.language.interpreter.parser.block.BlockData;
-import org.panda_lang.panda.language.interpreter.parser.block.BlockSubparserBootstrap;
-import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.handlers.TokenHandler;
+import org.panda_lang.panda.language.interpreter.parser.block.AutowiredBlockParser;
+import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
+import org.panda_lang.panda.language.interpreter.parser.autowired.handlers.TokenHandler;
 import org.panda_lang.utilities.commons.ArrayUtils;
 
-public final class ConditionalBlockParser extends BlockSubparserBootstrap {
+public final class ConditionalBlockParser extends AutowiredBlockParser {
 
     @Override
     public PipelineComponent<? extends Parser>[] pipeline() {
@@ -51,7 +51,7 @@ public final class ConditionalBlockParser extends BlockSubparserBootstrap {
     }
 
     @Override
-    protected BootstrapInitializer<BlockData> initialize(Context context, BootstrapInitializer<BlockData> initializer) {
+    protected AutowiredInitializer<BlockData> initialize(Context context, AutowiredInitializer<BlockData> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.IF, Keywords.ELSE))
                 .functional(pattern -> pattern
@@ -86,7 +86,7 @@ public final class ConditionalBlockParser extends BlockSubparserBootstrap {
 
         if (mappings.has("else")) {
             if (!(previous instanceof ConditionalBlock)) {
-                throw new PandaParserFailure(context, "The Else-block without associated If-block");
+                throw new PandaParserFailure(context, mappings, "The Else-block without associated If-block");
             }
 
             ConditionalBlock previousConditionalBlock = (ConditionalBlock) previous;
@@ -98,7 +98,7 @@ public final class ConditionalBlockParser extends BlockSubparserBootstrap {
             return new BlockData(conditionalBlock);
         }
 
-        throw new PandaParserFailure(context, "Unrecognized condition type");
+        throw new PandaParserFailure(context, mappings, "Unrecognized condition type");
     }
 
 }

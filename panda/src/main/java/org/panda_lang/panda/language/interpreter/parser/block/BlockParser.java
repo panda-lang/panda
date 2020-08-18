@@ -35,16 +35,16 @@ import org.panda_lang.language.interpreter.parser.pipeline.PandaLocalChannel;
 import org.panda_lang.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
-import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
-import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
+import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
+import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 import org.panda_lang.utilities.commons.ArrayUtils;
 
-public final class BlockParser extends ParserBootstrap<Void> {
+public final class BlockParser extends AutowiredParser<Void> {
 
     private static final ScopeParser SCOPE_PARSER = new ScopeParser();
     private Pipeline<BlockSubparser> pipeline;
@@ -60,7 +60,7 @@ public final class BlockParser extends ParserBootstrap<Void> {
     }
 
     @Override
-    protected BootstrapInitializer<Void> initialize(Context context, BootstrapInitializer<Void> initializer) {
+    protected AutowiredInitializer<Void> initialize(Context context, AutowiredInitializer<Void> initializer) {
         this.pipeline = context.getComponent(Components.PIPELINE).getPipeline(PandaPipeline.BLOCK);
 
         return initializer.functional(builder -> builder

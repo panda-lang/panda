@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.context;
+package org.panda_lang.panda.language.interpreter.parser.autowired;
 
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.pipeline.Handler;
 
 import org.panda_lang.utilities.commons.function.Option;
 
-final class BootstrapContentImpl implements BootstrapContent {
+final class AutowiredContentImpl<P> implements AutowiredContent<P> {
 
     private final String name;
     private final Object instance;
     private final Context context;
     private final Handler handler;
-    private final IterationInitializer interceptor;
-    private final Object pattern;
+    private final IterationInitializer<P> interceptor;
+    private final P pattern;
 
-    BootstrapContentImpl(String name, Object instance, Context context, Handler handler, IterationInitializer interceptor, Object pattern) {
+    AutowiredContentImpl(String name, Object instance, Context context, Handler handler, IterationInitializer<P> interceptor, P pattern) {
         this.name = name;
         this.instance = instance;
         this.context = context;
@@ -40,7 +40,7 @@ final class BootstrapContentImpl implements BootstrapContent {
     }
 
     @Override
-    public IterationInitializer getInitializer() {
+    public IterationInitializer<P> getInitializer() {
         return interceptor;
     }
 
@@ -50,9 +50,8 @@ final class BootstrapContentImpl implements BootstrapContent {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <R> Option<R> getPattern() {
-        return (Option<R>) Option.of(pattern);
+    public Option<P> getPattern() {
+        return Option.of(pattern);
     }
 
     @Override

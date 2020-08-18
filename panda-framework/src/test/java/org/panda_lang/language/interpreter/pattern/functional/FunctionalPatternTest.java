@@ -58,7 +58,7 @@ class FunctionalPatternTest {
         FunctionalResult functionalResult = functionalPattern.match(source);
 
         Assertions.assertTrue(functionalResult.isMatched());
-        Assertions.assertEquals(convert("shared static String[] 'of'(String a, Int[] b) { /* content */ }"), functionalResult.getSource());
+        Assertions.assertEquals(convert("shared static String[] 'of'(String a, Int[] b) { /* content */ }"), functionalResult.toSnippet());
 
         Assertions.assertAll(
                 () -> Assertions.assertEquals("shared", functionalResult.get("visibility").get().toString()),

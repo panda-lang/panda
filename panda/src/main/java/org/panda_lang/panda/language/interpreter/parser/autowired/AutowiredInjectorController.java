@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.context;
+package org.panda_lang.panda.language.interpreter.parser.autowired;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.LocalChannel;
 import org.panda_lang.language.interpreter.pattern.Mappings;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Src;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
 import org.panda_lang.utilities.commons.ObjectUtils;
 import org.panda_lang.utilities.commons.StringUtils;
 import org.panda_lang.utilities.inject.InjectorController;
@@ -34,7 +34,7 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.Objects;
 
-final class BootstrapInjectorController implements InjectorController {
+final class AutowiredInjectorController implements InjectorController {
 
     @Override
     public void initialize(InjectorResources resources) {
@@ -76,7 +76,7 @@ final class BootstrapInjectorController implements InjectorController {
         LocalChannel channel = channel(context);
 
         if (!channel.contains(Mappings.class)) {
-            throw new BootstrapException("Pattern mappings are not defined for @Redactor");
+            throw new AutowiredException("Pattern mappings are not defined for @Redactor");
         }
 
         Mappings redactor = channel.get(Mappings.class);
@@ -88,7 +88,7 @@ final class BootstrapInjectorController implements InjectorController {
         }
 
         if (value != null && !requiredType.isAssignableFrom(value.getClass())) {
-            throw new BootstrapException("Cannot match types: " + requiredType + " != " + value.getClass());
+            throw new AutowiredException("Cannot match types: " + requiredType + " != " + value.getClass());
         }
 
         return value;

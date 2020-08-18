@@ -14,22 +14,23 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.context;
+package org.panda_lang.panda.language.interpreter.parser.autowired;
 
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
+import org.panda_lang.language.interpreter.parser.stage.Phases;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
 import org.panda_lang.utilities.inject.GeneratedMethodInjector;
 
-final class BootstrapMethod {
+final class AutowiredMethod {
 
     protected final Autowired autowired;
     protected final GeneratedMethodInjector generatedMethod;
 
-    BootstrapMethod(GeneratedMethodInjector generatedMethod) {
+    AutowiredMethod(GeneratedMethodInjector generatedMethod) {
         this.generatedMethod = generatedMethod;
         this.autowired = generatedMethod.getMethod().getAnnotation(Autowired.class);
 
         if (autowired == null) {
-            throw new BootstrapException("Method " + generatedMethod.getMethod().getName() + " is not annotated by @Autowired");
+            throw new AutowiredException("Method " + generatedMethod.getMethod().getName() + " is not annotated by @Autowired");
         }
     }
 
