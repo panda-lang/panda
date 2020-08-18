@@ -16,6 +16,8 @@
 
 package org.panda_lang.utilities.commons;
 
+import org.panda_lang.utilities.commons.function.PandaStream;
+
 import java.util.Arrays;
 import java.util.Stack;
 import java.util.function.Predicate;
@@ -23,6 +25,12 @@ import java.util.function.Predicate;
 public final class StackTraceUtils {
 
     private StackTraceUtils() { }
+
+    public static StackTraceElement[] startsWith(StackTraceElement[] stackTrace, Predicate<StackTraceElement> condition) {
+        return PandaStream.of(stackTrace)
+                .takeWhile(element -> !condition.test(element))
+                .toArray(StackTraceElement[]::new);
+    }
 
     public static StackTraceElement[] filter(StackTraceElement[] stackTrace, Class<?>... ignored) {
         return filter(stackTrace,  Arrays.stream(ignored)

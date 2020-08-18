@@ -43,6 +43,7 @@ import org.panda_lang.panda.language.architecture.PandaApplication;
 import org.panda_lang.panda.language.architecture.PandaScript;
 import org.panda_lang.panda.language.interpreter.parser.PandaComponents;
 import org.panda_lang.utilities.commons.TimeUtils;
+import org.panda_lang.utilities.commons.UnsafeUtils;
 
 public final class PandaInterpreter implements Interpreter {
 
@@ -81,30 +82,36 @@ public final class PandaInterpreter implements Interpreter {
 
         PipelineParser<?> headParser = new PipelineParser<>(Pipelines.HEAD);
 
-        for (Source current : sources) {
-            PandaScript script = new PandaScript(current.getId());
-            application.addScript(script);
+        try {
+            for (Source current : sources) {
+                PandaScript script = new PandaScript(current.getId());
+                application.addScript(script);
 
-            Snippet snippet = lexer.convert(current);
-            SourceStream stream = new PandaSourceStream(snippet);
+                Snippet snippet = lexer.convert(current);
+                SourceStream stream = new PandaSourceStream(snippet);
 
-            Imports imports = new PandaImports(environment.getModulePath(), environment.getTypeLoader());
-            imports.importModule("java");
-            imports.importModule("panda");
+                Imports imports = new PandaImports(environment.getModulePath(), environment.getTypeLoader());
+                imports.importModule("java");
+                imports.importModule("panda");
 
-            Context delegatedContext = context.fork()
-                    .withComponent(PandaComponents.PANDA_SCRIPT, script)
-                    .withComponent(Components.SCRIPT, script)
-                    .withComponent(Components.IMPORTS, imports)
-                    .withComponent(Components.SOURCE, snippet)
-                    .withComponent(Components.STREAM, stream)
-                    .withComponent(Components.CURRENT_SOURCE, snippet)
-                    .withComponent(Components.CHANNEL, new PandaLocalChannel());
+                Context delegatedContext = context.fork()
+                        .withComponent(PandaComponents.PANDA_SCRIPT, script)
+                        .withComponent(Components.SCRIPT, script)
+                        .withComponent(Components.IMPORTS, imports)
+                        .withComponent(Components.SOURCE, snippet)
+                        .withComponent(Components.STREAM, stream)
+                        .withComponent(Components.CURRENT_SOURCE, snippet)
+                        .withComponent(Components.CHANNEL, new PandaLocalChannel());
 
-            headParser.parse(delegatedContext, stream);
+                headParser.parse(delegatedContext, stream);
+            }
+
+            stageController.launch();
         }
-
-        stageController.launch();
+        catch (Throwable throwable) {
+            environment.getLogger().exception(throwable);
+            return UnsafeUtils.throwException(throwable);
+        }
 
         String parseTime = TimeUtils.toMilliseconds(System.nanoTime() - uptime);
         environment.getLogger().debug("--- Interpretation of " + source.getId() + " details ");

@@ -18,6 +18,7 @@ package org.panda_lang.language.interpreter;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.interpreter.source.IndicatedSource;
+import org.panda_lang.utilities.commons.function.Option;
 
 public class PandaInterpreterFailure extends InterpreterFailure {
 
@@ -37,8 +38,8 @@ public class PandaInterpreterFailure extends InterpreterFailure {
     }
 
     @Override
-    public @Nullable String getNote() {
-        return note;
+    public Option<String> getNote() {
+        return Option.of(note);
     }
 
     @Override

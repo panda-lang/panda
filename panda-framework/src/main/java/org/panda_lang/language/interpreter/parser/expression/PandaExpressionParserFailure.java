@@ -16,26 +16,20 @@
 
 package org.panda_lang.language.interpreter.parser.expression;
 
-import org.panda_lang.language.interpreter.source.IndicatedSource;
-import org.panda_lang.language.interpreter.token.Snippetable;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.language.interpreter.token.Snippetable;
 
 public final class PandaExpressionParserFailure extends PandaParserFailure {
 
     private final String expressionMessage;
 
+    public PandaExpressionParserFailure(ExpressionContext context, Snippetable indicated, String message) {
+        this(context, indicated, message, null);
+    }
+
     public PandaExpressionParserFailure(ExpressionContext context, Snippetable indicated, String message, String note) {
         super(context.getContext(), indicated, message, note);
         this.expressionMessage = message;
-    }
-
-    public PandaExpressionParserFailure(Throwable cause, ExpressionContext context, IndicatedSource indicatedSource, String message) {
-        super(cause, context.getContext(), indicatedSource, message, null);
-        this.expressionMessage = message;
-    }
-
-    public PandaExpressionParserFailure(ExpressionContext context, Snippetable indicated, String message) {
-        this(context, indicated, message, null);
     }
 
     @Override

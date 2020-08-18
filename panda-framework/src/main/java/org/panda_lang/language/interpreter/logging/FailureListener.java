@@ -14,20 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.language;
+package org.panda_lang.language.interpreter.logging;
 
-import org.panda_lang.utilities.commons.function.Option;
-
-/**
- * Represents errors occurred in the framework
- */
-public interface Failure {
-
-    /**
-     * Get additional information about the failure
-     *
-     * @return the note
-     */
-    Option<String> getNote();
-
+final class FailureListener {
 }

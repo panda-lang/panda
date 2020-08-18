@@ -24,8 +24,8 @@ public final class UnsafeUtils {
     private UnsafeUtils() { }
 
     @SuppressWarnings("unchecked")
-    public static <E extends Throwable> void throwException(Throwable e) throws E {
-        throw (E) e;
+    public static <R, E extends Throwable> R throwException(Throwable throwable) throws E {
+        throw (E) throwable;
     }
 
     /**
