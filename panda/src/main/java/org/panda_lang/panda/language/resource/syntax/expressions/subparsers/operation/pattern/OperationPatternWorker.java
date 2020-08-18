@@ -38,7 +38,7 @@ final class OperationPatternWorker {
     }
 
     OperationPatternResult extract() {
-        for (TokenInfo representation : result.getSource()) {
+        for (TokenInfo representation : result.toSnippet()) {
             verify(representation);
         }
 

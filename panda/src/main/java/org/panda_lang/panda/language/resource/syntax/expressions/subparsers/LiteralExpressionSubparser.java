@@ -70,7 +70,7 @@ public final class LiteralExpressionSubparser implements ExpressionSubparser {
                 case "null":
                     return ExpressionParserUtils.toExpressionResult(null, null);
                 case "this":
-                    return ExpressionResult.of(ThisExpression.of(context.getContext()));
+                    return ExpressionResult.of(ThisExpression.of(context.toContext()));
                 default:
                     throw new PandaParserException("Unknown literal: " + token);
             }

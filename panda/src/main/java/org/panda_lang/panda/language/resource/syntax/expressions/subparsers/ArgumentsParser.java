@@ -43,7 +43,7 @@ public final class ArgumentsParser implements Parser {
     }
 
     public Expression[] parse(ExpressionContext expressionContext, Snippet snippet) {
-        return parse(expressionContext.getContext(), expressionContext, snippet);
+        return parse(expressionContext.toContext(), expressionContext, snippet);
     }
 
     private Expression[] parse(Context context, @Nullable ExpressionContext expressionContext, Snippet snippet) {

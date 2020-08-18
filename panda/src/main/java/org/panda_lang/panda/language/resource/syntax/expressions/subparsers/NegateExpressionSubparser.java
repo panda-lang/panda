@@ -57,7 +57,7 @@ public final class NegateExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            ExpressionTransaction transaction = context.getParser().parse(context.getContext(), context.getSynchronizedSource());
+            ExpressionTransaction transaction = context.getParser().parse(context.toContext(), context.getSynchronizedSource());
             context.commit(transaction::rollback);
 
             return ExpressionResult.of(new NegateLogicalExpression(transaction.getExpression()).toExpression());

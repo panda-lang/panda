@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn;
 
+import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.resource.syntax.operator.Operator;
@@ -61,7 +62,7 @@ final class RPNOperationTransformer {
             values.push(operators.pop());
         }
 
-        return new RPNOperation(context, suppliers, values);
+        return new RPNOperation(context.getComponent(Components.TYPE_LOADER), suppliers, values);
     }
 
     private boolean compare(Operator a, Operator b) {

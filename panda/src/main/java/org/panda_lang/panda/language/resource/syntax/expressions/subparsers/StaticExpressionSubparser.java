@@ -48,9 +48,9 @@ public final class StaticExpressionSubparser implements PartialResultSubparser {
                 return null;
             }
 
-            return context.getContext().getComponent(Components.IMPORTS)
+            return context.toContext().getComponent(Components.IMPORTS)
                     .forName(token.getValue())
-                    .filter(reference -> VisibilityComparator.requireAccess(reference, context.getContext(), token))
+                    .filter(reference -> VisibilityComparator.requireAccess(reference, context.toContext(), token))
                     .map(type -> ExpressionResult.of(new StaticExpression(type)))
                     .getOrNull();
         }

@@ -22,6 +22,7 @@ import org.panda_lang.language.architecture.expression.ExpressionUtils;
 import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.architecture.statement.Variable;
 import org.panda_lang.language.architecture.statement.VariableData;
+import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.LocalChannel;
 import org.panda_lang.language.interpreter.parser.Parser;
@@ -40,19 +41,19 @@ import org.panda_lang.language.interpreter.token.PandaSnippet;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
-import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
+import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationPriorities;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationSubparserBootstrap;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AutowiredAssignationParser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationType;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.Objects;
 
-public final class VariableDeclarationSubparser extends AssignationSubparserBootstrap {
+public final class VariableDeclarationSubparser extends AutowiredAssignationParser {
 
     @Override
     public PipelineComponent<? extends Parser>[] pipeline() {
@@ -65,7 +66,7 @@ public final class VariableDeclarationSubparser extends AssignationSubparserBoot
     }
 
     @Override
-    protected BootstrapInitializer<@Nullable ExpressionResult> initialize(Context context, BootstrapInitializer<@Nullable ExpressionResult> initializer) {
+    protected AutowiredInitializer<@Nullable ExpressionResult> initialize(Context context, AutowiredInitializer<@Nullable ExpressionResult> initializer) {
         return initializer;
     }
 
@@ -133,7 +134,7 @@ public final class VariableDeclarationSubparser extends AssignationSubparserBoot
         expressionContext.commit(() -> scope.removeVariable(variable.getName()));
 
         if (!variable.getType().isAssignableFrom(expression.getType())) {
-            throw new PandaParserFailure(context,
+            throw new PandaParserFailure(context, context.getComponent(Components.SOURCE).getLine(location.getLine()),
                     "Cannot assign " + expression.getType().getSimpleName() + " to " + variable.getType().getSimpleName(),
                     "Change variable type or ensure the expression has compatible return type"
             );

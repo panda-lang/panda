@@ -71,7 +71,7 @@ public final class CreaseExpressionSubparser implements ExpressionSubparser {
                 expression = context.popExpression();
             }
             else {
-                ExpressionTransaction transaction = context.getParser().parse(context.getContext(), context.getSynchronizedSource());
+                ExpressionTransaction transaction = context.getParser().parse(context.toContext(), context.getSynchronizedSource());
                 context.commit(transaction::rollback);
                 expression = transaction.getExpression();
             }

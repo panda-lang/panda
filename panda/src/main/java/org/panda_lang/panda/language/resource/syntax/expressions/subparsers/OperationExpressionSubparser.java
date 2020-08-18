@@ -127,7 +127,7 @@ public final class OperationExpressionSubparser implements ExpressionSubparser {
             Operation operation = new Operation(elements);
             this.elements = null;
 
-            return OPERATION_PARSER.parse(context.getContext(), operation)
+            return OPERATION_PARSER.parse(context.toContext(), operation)
                     .map(ExpressionResult::of)
                     .getOrNull();
         }

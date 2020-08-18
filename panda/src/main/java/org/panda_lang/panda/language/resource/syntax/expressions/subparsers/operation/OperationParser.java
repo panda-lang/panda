@@ -19,10 +19,10 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ope
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.pattern.OperationPatternResult;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.ConcatenationOperatorSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.LogicalOperatorSubparser;
@@ -38,7 +38,7 @@ public final class OperationParser implements Parser {
 
     public Expression parse(Context context, ExpressionContext expressionContext, Snippet source, OperationPatternResult result) {
         return parse(context, Operation.of(context.getComponent(Components.EXPRESSION), context, expressionContext, result)).orThrow(() -> {
-            throw new PandaExpressionParserFailure(expressionContext, source, "Unknown operation");
+            throw new PandaParserFailure(expressionContext, source, "Unknown operation");
         });
     }
 

@@ -64,7 +64,7 @@ public final class OperationPatternResult implements PatternResult {
     }
 
     @Override
-    public Snippet getSource() {
+    public Snippet toSnippet() {
         return source;
     }
 

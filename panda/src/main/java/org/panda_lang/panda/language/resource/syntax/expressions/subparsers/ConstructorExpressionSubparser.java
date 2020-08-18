@@ -123,9 +123,9 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             }
 
             // parse constructor call
-            Type type = PandaImportsUtils.getTypeOrThrow(context.getContext(), typeSource.asSource(), typeSource);
-            VisibilityComparator.requireAccess(type, context.getContext(), typeSource);
-            StateComparator.requireInstantiation(context.getContext(), type, typeSource);
+            Type type = PandaImportsUtils.getTypeOrThrow(context.toContext(), typeSource.asSource(), typeSource);
+            VisibilityComparator.requireAccess(type, context.toContext(), typeSource);
+            StateComparator.requireInstantiation(context.toContext(), type, typeSource);
 
             return parseDefault(context, type, next);
         }
@@ -151,7 +151,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
                     break;
                 }
 
-                ExpressionTransaction capacityTransaction = context.getParser().parse(context.getContext(), content);
+                ExpressionTransaction capacityTransaction = context.getParser().parse(context.toContext(), content);
                 context.commit(capacityTransaction::rollback);
                 Expression capacity = capacityTransaction.getExpression();
 
@@ -169,7 +169,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             String baseClassName = typeSource.subSource(0, typeSource.size() - sections.size()).asSource();
             String endTypeName = baseClassName + StringUtils.repeated(sections.size(), "[]");
 
-            ArrayType instanceType = (ArrayType) PandaImportsUtils.getTypeOrThrow(context.getContext(), endTypeName, typeSource);
+            ArrayType instanceType = (ArrayType) PandaImportsUtils.getTypeOrThrow(context.toContext(), endTypeName, typeSource);
             ArrayType baseType = instanceType;
 
             for (int declaredCapacities = 0; declaredCapacities < capacities.size() - 1; declaredCapacities++) {
