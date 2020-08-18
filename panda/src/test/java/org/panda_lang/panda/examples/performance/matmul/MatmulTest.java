@@ -26,7 +26,7 @@ class MatmulTest {
     @Test
     void testMatmul() {
         for (int i = 0; i < 1; i++) {
-            assertEquals(-9.3358333, PandaUtils.load("../examples/tests/performance", "../examples/tests/performance/matmul.panda").launch());
+            assertEquals(-9.3358333, PandaUtils.load("../examples/tests/performance", "../examples/tests/performance/matmul.panda").getValue().launch());
         }
     }
 

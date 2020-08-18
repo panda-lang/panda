@@ -29,8 +29,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Ctx {
 
-    Class<?> type() default Object.class;
-
     String value() default StringUtils.EMPTY;
 
 }

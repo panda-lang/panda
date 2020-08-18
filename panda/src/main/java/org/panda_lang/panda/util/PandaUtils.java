@@ -25,6 +25,7 @@ import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.utilities.commons.TimeUtils;
 import org.panda_lang.utilities.commons.UnsafeUtils;
 import org.panda_lang.utilities.commons.function.Lazy;
+import org.panda_lang.utilities.commons.function.Result;
 
 import java.io.File;
 import java.util.Map;
@@ -38,11 +39,11 @@ public final class PandaUtils {
 
     private PandaUtils() { }
 
-    public static Application load(String workingDirectory, String sourceFile) {
+    public static Result<Application, Throwable> load(String workingDirectory, String sourceFile) {
         return load(new File(workingDirectory), new File(sourceFile));
     }
 
-    public static Application load(File workingDirectory, File file) {
+    public static Result<Application, Throwable> load(File workingDirectory, File file) {
         return PANDA_INSTANCE.get().getLoader().load(file, workingDirectory);
     }
 

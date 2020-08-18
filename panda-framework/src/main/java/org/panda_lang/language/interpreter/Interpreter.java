@@ -19,6 +19,7 @@ package org.panda_lang.language.interpreter;
 import org.panda_lang.language.architecture.Application;
 import org.panda_lang.language.architecture.Environment;
 import org.panda_lang.language.interpreter.source.Source;
+import org.panda_lang.utilities.commons.function.Result;
 
 /**
  * Translate source code into efficient intermediate representation and build an application
@@ -30,7 +31,7 @@ public interface Interpreter {
      *
      * @return interpreted application
      */
-    Application interpret(Source source);
+    Result<Application, Throwable> interpret(Source source);
 
     /**
      * Get associated environment

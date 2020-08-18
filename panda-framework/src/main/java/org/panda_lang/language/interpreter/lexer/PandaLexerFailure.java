@@ -19,13 +19,13 @@ package org.panda_lang.language.interpreter.lexer;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.token.Snippetable;
-import org.panda_lang.language.interpreter.PandaInterpreterFailure;
+import org.panda_lang.language.interpreter.InterpreterFailure;
 import org.panda_lang.language.interpreter.source.PandaIndicatedSource;
 import org.panda_lang.language.interpreter.token.PandaToken;
 import org.panda_lang.language.interpreter.token.PandaTokenInfo;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 
-public final class PandaLexerFailure extends PandaInterpreterFailure {
+public final class PandaLexerFailure extends InterpreterFailure {
 
     public PandaLexerFailure(Snippetable line, Snippetable indicated, String message, @Nullable String note) {
         super(new PandaIndicatedSource(line, indicated), message, note);

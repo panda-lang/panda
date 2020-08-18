@@ -18,6 +18,7 @@ package org.panda_lang.panda.bootstrap;
 
 import org.panda_lang.language.architecture.Application;
 import org.panda_lang.panda.Panda;
+import org.panda_lang.utilities.commons.function.Result;
 
 import java.io.File;
 
@@ -71,7 +72,7 @@ public final class PandaApplicationBootstrap {
      *
      * @return loaded application or nothing if something happen
      */
-    public Application createApplication() {
+    public Result<Application, Throwable> createApplication() {
         return panda.getLoader().load(script, directory);
     }
 

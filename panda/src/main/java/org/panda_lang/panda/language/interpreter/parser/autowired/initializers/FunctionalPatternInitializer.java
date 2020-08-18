@@ -30,7 +30,7 @@ import org.panda_lang.panda.language.interpreter.parser.autowired.IterationIniti
 
 public final class FunctionalPatternInitializer implements IterationInitializer<FunctionalPattern> {
 
-    private FunctionalPattern functionalPattern;
+    private final FunctionalPattern functionalPattern;
 
     public FunctionalPatternInitializer(FunctionalPattern functionalPattern) {
         this.functionalPattern = functionalPattern;

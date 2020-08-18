@@ -16,9 +16,8 @@
 
 package org.panda_lang.language.interpreter.parser.pipeline;
 
-import org.panda_lang.language.interpreter.InterpreterFailure;
+import org.panda_lang.language.Failure;
 import org.panda_lang.language.interpreter.parser.Parser;
-
 import org.panda_lang.utilities.commons.function.Option;
 
 /**
@@ -42,7 +41,7 @@ public interface HandleResult<T extends Parser> {
      *
      * @return the failure
      */
-    Option<InterpreterFailure> getFailure();
+    Option<Failure> getFailure();
 
     /**
      * Get matched parser

@@ -27,6 +27,6 @@ import org.panda_lang.language.interpreter.token.TokenInfo;
 @FunctionalInterface
 public interface AssignationSubparser<T> extends Parser {
 
-    @Nullable ExpressionResult parseAssignment(Context context, Snippet declaration, TokenInfo operator, Expression expression) throws Exception;
+    @Nullable ExpressionResult parseAssignment(Context context, Snippet declaration, TokenInfo operator, Expression expression);
 
 }

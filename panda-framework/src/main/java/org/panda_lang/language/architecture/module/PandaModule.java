@@ -27,7 +27,7 @@ public class PandaModule extends PandaModules implements Module {
 
     protected final String name;
     protected final TypesMap types;
-    protected @Nullable Module parent;
+    protected @Nullable final Module parent;
 
     public PandaModule(Module parent, String name) {
         this.name = name;

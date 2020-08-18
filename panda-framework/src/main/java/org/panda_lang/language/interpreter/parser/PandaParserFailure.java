@@ -17,12 +17,12 @@
 package org.panda_lang.language.interpreter.parser;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.interpreter.PandaInterpreterFailure;
+import org.panda_lang.language.interpreter.InterpreterFailure;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.source.PandaIndicatedSource;
 import org.panda_lang.language.interpreter.token.Snippetable;
 
-public class PandaParserFailure extends PandaInterpreterFailure implements ParserFailure {
+public class PandaParserFailure extends InterpreterFailure implements ParserFailure {
 
     private final Context context;
 

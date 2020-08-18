@@ -19,11 +19,11 @@ package org.panda_lang.language.interpreter.parser.pipeline;
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;
-import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.parser.LocalChannel;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.SourceStream;
-import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.resource.syntax.separator.Separators;
 
 public final class PipelineParser<T extends ContextParser<?>> implements Parser {
@@ -56,9 +56,9 @@ public final class PipelineParser<T extends ContextParser<?>> implements Parser 
             HandleResult<T> result = pipeline.handle(context, channel, source);
 
             ContextParser<?> parser = result.getParser().orThrow(() -> {
-                return result.getFailure().orElseGet(() -> {
-                    throw new PandaParserFailure(delegatedContext, source, "Unrecognized syntax");
-                });
+                return result.getFailure()
+                        .map(failure -> (RuntimeException) failure)
+                        .orElseGet(() -> new PandaParserFailure(delegatedContext, source, "Unrecognized syntax"));
             });
 
             int sourceLength = stream.getUnreadLength();

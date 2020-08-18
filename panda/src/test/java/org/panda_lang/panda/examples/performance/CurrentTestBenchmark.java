@@ -51,7 +51,7 @@ public class CurrentTestBenchmark {
 
     @Benchmark
     public Object currentTest() {
-        return PandaUtils.load("./examples/tests", "./examples/tests/current_test.panda").launch();
+        return PandaUtils.load("./examples/tests", "./examples/tests/current_test.panda").getValue().launch();
     }
 
     public static void main(String[] args) throws RunnerException {

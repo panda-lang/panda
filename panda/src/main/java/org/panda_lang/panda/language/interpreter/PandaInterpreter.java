@@ -43,7 +43,7 @@ import org.panda_lang.panda.language.architecture.PandaApplication;
 import org.panda_lang.panda.language.architecture.PandaScript;
 import org.panda_lang.panda.language.interpreter.parser.PandaComponents;
 import org.panda_lang.utilities.commons.TimeUtils;
-import org.panda_lang.utilities.commons.UnsafeUtils;
+import org.panda_lang.utilities.commons.function.Result;
 
 public final class PandaInterpreter implements Interpreter {
 
@@ -54,7 +54,7 @@ public final class PandaInterpreter implements Interpreter {
     }
 
     @Override
-    public Application interpret(Source source) {
+    public Result<Application, Throwable> interpret(Source source) {
         long uptime = System.nanoTime();
 
         Resources resources = environment.getController().getResources();
@@ -110,7 +110,7 @@ public final class PandaInterpreter implements Interpreter {
         }
         catch (Throwable throwable) {
             environment.getLogger().exception(throwable);
-            return UnsafeUtils.throwException(throwable);
+            return Result.error(throwable);
         }
 
         String parseTime = TimeUtils.toMilliseconds(System.nanoTime() - uptime);
@@ -126,7 +126,7 @@ public final class PandaInterpreter implements Interpreter {
         PandaExpressionParser.time = 0;
         PandaExpressionParser.amount = 0;
 
-        return application;
+        return Result.ok(application);
     }
 
     @Override

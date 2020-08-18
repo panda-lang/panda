@@ -16,6 +16,7 @@
 
 package org.panda_lang.language.interpreter.logging;
 
+import org.panda_lang.language.Failure;
 import org.panda_lang.utilities.commons.StackTraceUtils;
 import org.panda_lang.utilities.commons.console.Effect;
 
@@ -47,6 +48,10 @@ public final class SystemLogger implements Logger {
     public void exception(Throwable throwable) {
         StackTraceElement[] stackTrace = StackTraceUtils.startsWith(throwable.getStackTrace(), element -> element.toString().contains("org.junit"));
 
+        if (throwable instanceof Failure) {
+
+        }
+
         error("");
         error("&b- - ~ ~< Exception >~ ~ - -&r");
         error("");
@@ -64,8 +69,6 @@ public final class SystemLogger implements Logger {
         error("");
         error("Environment:");
         error("");
-
-        throwable.printStackTrace(System.err);
     }
 
 }

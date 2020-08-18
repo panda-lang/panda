@@ -49,7 +49,7 @@ final class DynamicClassGenerator {
 
     private final Type type;
     private final CtClass generatedStructure;
-    private boolean isInterface;
+    private final boolean isInterface;
 
     DynamicClassGenerator(Type type, CtClass generatedStructure) {
         this.type = type;
