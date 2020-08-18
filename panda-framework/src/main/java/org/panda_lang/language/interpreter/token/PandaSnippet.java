@@ -70,7 +70,7 @@ public final class PandaSnippet implements Snippet {
     @Override
     public String toString() {
         return ContentJoiner.on(" ")
-                .join(tokens, representation -> representation.getToken().toString())
+                .join(tokens, Object::toString)
                 .toString();
     }
 

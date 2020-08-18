@@ -37,7 +37,7 @@ public final class Section extends EqualableToken {
 
     @Override
     public String getValue() {
-        return content.toString();
+        return getOpeningSeparator().toString() + getClosingSeparator().toString();
     }
 
     @Override
@@ -63,7 +63,7 @@ public final class Section extends EqualableToken {
 
     @Override
     public String toString() {
-        return getSeparator().toString() + " " + super.toString() + " " + getSeparator().getOpposite().toString();
+        return getOpeningSeparator().toString() + " " + getContent() + " " + getClosingSeparator().toString();
     }
 
 }

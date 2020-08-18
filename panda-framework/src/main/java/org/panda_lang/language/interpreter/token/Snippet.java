@@ -276,8 +276,17 @@ public interface Snippet extends Iterable<TokenInfo>, Snippetable {
 
         for (TokenInfo tokenInfo : getTokensRepresentations()) {
             if (tokenInfo.getType() == TokenTypes.SECTION) {
-                selected.addAll(tokenInfo.toToken(Section.class).getContent().getLine(line).getTokensRepresentations());
-                continue;
+                Snippet content = tokenInfo.toToken(Section.class).getContent();
+                Snippet selectedContent = content.getLine(line);
+
+                if (!selectedContent.isEmpty()) {
+                    if (!content.equals(selectedContent)) {
+                        return selectedContent;
+                    }
+
+                    selected.add(tokenInfo);
+                    continue;
+                }
             }
 
             if (tokenInfo.getLocation().getLine() < line) {

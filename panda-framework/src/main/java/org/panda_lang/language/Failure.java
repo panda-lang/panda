@@ -16,6 +16,7 @@
 
 package org.panda_lang.language;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.interpreter.source.IndicatedSource;
 import org.panda_lang.utilities.commons.function.Option;
 
@@ -37,5 +38,28 @@ public interface Failure {
      * @return the note
      */
     Option<String> getNote();
+
+    /**
+     * Returns the cause of this throwable or {@code null} if the
+     * cause is nonexistent or unknown. (The cause is the throwable that
+     * caused this throwable to get thrown.)
+     *
+     * @return the cause
+     */
+    @Nullable Throwable getCause();
+
+    /**
+     * Get failure message
+     *
+     * @return the failure message
+     */
+    String getMessage();
+
+    /**
+     * Get failure stacktrace
+     *
+     * @return the array of stack trace elements
+     */
+    StackTraceElement[] getStackTrace();
 
 }

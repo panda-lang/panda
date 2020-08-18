@@ -65,7 +65,7 @@ public final class PandaTokenInfo implements TokenInfo {
 
     @Override
     public String toString() {
-        return token.getValue();
+        return token.toString();
     }
 
     public static TokenInfo of(TokenType type, String value) {
