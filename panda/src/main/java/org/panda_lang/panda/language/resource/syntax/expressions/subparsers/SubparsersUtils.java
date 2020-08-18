@@ -36,7 +36,7 @@ final class SubparsersUtils {
             return new Produce<>(() -> ExpressionResult.error("Cannot read type", context.getSynchronizedSource().getAvailableSource()));
         }
 
-        return context.getContext().getComponent(Components.IMPORTS)
+        return context.toContext().getComponent(Components.IMPORTS)
                 .forName(typeSource.get().asSource())
                 .map(type -> {
                     context.getSynchronizedSource().next(typeSource.get().size());

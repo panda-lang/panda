@@ -58,7 +58,7 @@ public final class SectionExpressionSubparser implements ExpressionSubparser {
                 return ExpressionResult.error("Expression expected", token);
             }
 
-            ExpressionTransaction expressionTransaction = context.getParser().parse(context.getContext(), section.getContent());
+            ExpressionTransaction expressionTransaction = context.getParser().parse(context.toContext(), section.getContent());
             context.commit(expressionTransaction::rollback);
 
             return ExpressionResult.of(expressionTransaction.getExpression());

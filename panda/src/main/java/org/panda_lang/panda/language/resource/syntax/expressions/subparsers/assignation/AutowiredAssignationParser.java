@@ -25,9 +25,9 @@ import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.token.PandaSourceStream;
-import org.panda_lang.panda.language.interpreter.parser.context.ParserBootstrap;
+import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
 
-public abstract class AssignationSubparserBootstrap extends ParserBootstrap<@Nullable ExpressionResult> implements AssignationSubparser<ExpressionResult> {
+public abstract class AutowiredAssignationParser extends AutowiredParser<@Nullable ExpressionResult> implements AssignationSubparser<ExpressionResult> {
 
     @Override
     public final @Nullable ExpressionResult parseAssignment(Context context, Snippet declaration, TokenInfo operator, Expression expression) {

@@ -83,7 +83,7 @@ public final class ArrayValueExpressionSubparser implements ExpressionSubparser 
                 ExpressionResult.error("Cannot use array index on non-array return type", section.getContent());
             }
 
-            ExpressionTransaction indexTransaction = context.getParser().parse(context.getContext(), section.getContent());
+            ExpressionTransaction indexTransaction = context.getParser().parse(context.toContext(), section.getContent());
             context.commit(indexTransaction::rollback);
             Expression indexExpression = indexTransaction.getExpression();
 
@@ -93,7 +93,7 @@ public final class ArrayValueExpressionSubparser implements ExpressionSubparser 
             }
 
             // access the value
-            ArrayAccessor accessor = PARSER.of(context.getContext(), section.getContent(), instance, indexExpression);
+            ArrayAccessor accessor = PARSER.of(context.toContext(), section.getContent(), instance, indexExpression);
             return ExpressionResult.of(accessor.toExpression());
         }
 

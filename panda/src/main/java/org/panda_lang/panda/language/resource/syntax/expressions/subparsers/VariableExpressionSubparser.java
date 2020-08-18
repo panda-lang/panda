@@ -23,6 +23,7 @@ import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.TypeField;
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser;
@@ -31,7 +32,6 @@ import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.architecture.expression.ThisExpression;
 import org.panda_lang.language.architecture.type.TypeComponents;
 import org.panda_lang.language.architecture.type.utils.VisibilityComparator;
-import org.panda_lang.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.language.interpreter.token.TokenUtils;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.separator.Separators;
@@ -84,7 +84,7 @@ public final class VariableExpressionSubparser implements ExpressionSubparser {
                 return result;
             }
 
-            Option<Variable> variableValue = context.getContext().getComponent(Components.SCOPE).getVariable(name);
+            Option<Variable> variableValue = context.toContext().getComponent(Components.SCOPE).getVariable(name);
 
             // respect local variables before fields
             if (variableValue.isDefined()) {
@@ -92,7 +92,7 @@ public final class VariableExpressionSubparser implements ExpressionSubparser {
                 return ExpressionResult.of(new VariableExpression(variable).toExpression());
             }
 
-            Type type = context.getContext().getComponent(TypeComponents.PROTOTYPE);
+            Type type = context.toContext().getComponent(TypeComponents.PROTOTYPE);
 
             if (type != null) {
                 return fromInstance(context, ThisExpression.of(type), token).orElseGet(() -> {
@@ -108,10 +108,10 @@ public final class VariableExpressionSubparser implements ExpressionSubparser {
             Option<TypeField> fieldValue = instance.getType().getFields().getField(name.getValue());
 
             if (fieldValue.isDefined()) {
-                Option<String> issue = VisibilityComparator.canAccess(fieldValue.get(), context.getContext());
+                Option<String> issue = VisibilityComparator.canAccess(fieldValue.get(), context.toContext());
 
                 if (issue.isDefined()) {
-                    throw new PandaExpressionParserFailure(context, name, issue.get(), VisibilityComparator.NOTE_MESSAGE);
+                    throw new PandaParserFailure(context, name, issue.get(), VisibilityComparator.NOTE_MESSAGE);
                 }
             }
 

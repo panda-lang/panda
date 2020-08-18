@@ -39,15 +39,15 @@ import org.panda_lang.language.architecture.type.ConstructorScope;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
-import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
+import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationPriorities;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationSubparserBootstrap;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AutowiredAssignationParser;
 import org.panda_lang.utilities.commons.ArrayUtils;
 
-public final class VariableAssignationSubparser extends AssignationSubparserBootstrap {
+public final class VariableAssignationSubparser extends AutowiredAssignationParser {
 
     @Override
     public PipelineComponent<? extends Parser>[] pipeline() {
@@ -60,7 +60,7 @@ public final class VariableAssignationSubparser extends AssignationSubparserBoot
     }
 
     @Override
-    protected BootstrapInitializer<@Nullable ExpressionResult> initialize(Context context, BootstrapInitializer<@Nullable ExpressionResult> initializer) {
+    protected AutowiredInitializer<@Nullable ExpressionResult> initialize(Context context, AutowiredInitializer<@Nullable ExpressionResult> initializer) {
         return initializer;
     }
 

@@ -68,7 +68,7 @@ public final class IsExpressionSubparser implements ExpressionSubparser {
             }
 
             Type type = result.getResult();
-            VisibilityComparator.requireAccess(type, context.getContext(), token);
+            VisibilityComparator.requireAccess(type, context.toContext(), token);
 
             DynamicExpression expression = new IsExpression(boolType, context.popExpression(), type);
             return ExpressionResult.of(expression.toExpression());

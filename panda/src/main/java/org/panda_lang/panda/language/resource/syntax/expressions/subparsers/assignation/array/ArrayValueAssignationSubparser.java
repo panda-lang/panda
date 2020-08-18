@@ -36,17 +36,17 @@ import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
-import org.panda_lang.panda.language.interpreter.parser.context.BootstrapInitializer;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.context.annotations.Ctx;
+import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
+import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationComponents;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationPriorities;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationSubparserBootstrap;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AutowiredAssignationParser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationType;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.function.Option;
 
-public final class ArrayValueAssignationSubparser extends AssignationSubparserBootstrap {
+public final class ArrayValueAssignationSubparser extends AutowiredAssignationParser {
 
     private static final ArrayValueAccessorParser PARSER = new ArrayValueAccessorParser();
 
@@ -61,7 +61,7 @@ public final class ArrayValueAssignationSubparser extends AssignationSubparserBo
     }
 
     @Override
-    protected BootstrapInitializer<@Nullable ExpressionResult> initialize(Context context, BootstrapInitializer<@Nullable ExpressionResult> initializer) {
+    protected AutowiredInitializer<@Nullable ExpressionResult> initialize(Context context, AutowiredInitializer<@Nullable ExpressionResult> initializer) {
         return initializer;
     }
 
@@ -114,7 +114,7 @@ public final class ArrayValueAssignationSubparser extends AssignationSubparserBo
         ArrayAccessor accessor = PARSER.parse(context, snippet, channel.get("array-instance", Expression.class), snippet.getLast().toToken());
 
         if (!accessor.getReturnType().isAssignableFrom(value.getType())) {
-            throw new PandaParserFailure(context,
+            throw new PandaParserFailure(context, snippet,
                     "Invalid value type, cannot assign " + value.getType() + " to the array of " + accessor.getReturnType(),
                     "Make sure that you are assigning the proper value or change type of the array"
             );

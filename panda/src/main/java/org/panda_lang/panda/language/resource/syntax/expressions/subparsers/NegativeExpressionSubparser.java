@@ -62,7 +62,7 @@ public final class NegativeExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            ExpressionTransaction transaction = context.getParser().parse(context.getContext(), context.getSynchronizedSource());
+            ExpressionTransaction transaction = context.getParser().parse(context.toContext(), context.getSynchronizedSource());
             context.commit(transaction::rollback);
 
             Expression expression = transaction.getExpression();

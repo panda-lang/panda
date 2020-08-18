@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * Component based set of data used during the interpretation process
  */
-public interface Context {
+public interface Context extends Contextual {
 
     /**
      * Clone context to a new independent instance

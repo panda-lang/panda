@@ -61,7 +61,7 @@ public final class CastExpressionSubparser implements ExpressionSubparser {
             }
 
             Type type = result.getResult();
-            VisibilityComparator.requireAccess(type, context.getContext(), token);
+            VisibilityComparator.requireAccess(type, context.toContext(), token);
             return ExpressionResult.of(new PandaDynamicExpression(type, context.popExpression()).toExpression());
         }
 

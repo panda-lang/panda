@@ -21,6 +21,7 @@ import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.type.Adjustment;
 import org.panda_lang.language.architecture.type.TypeMethod;
 import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
@@ -33,7 +34,6 @@ import org.panda_lang.language.architecture.expression.ThisExpression;
 import org.panda_lang.language.architecture.type.TypeExecutableExpression;
 import org.panda_lang.language.architecture.type.utils.TypedUtils;
 import org.panda_lang.language.architecture.type.utils.VisibilityComparator;
-import org.panda_lang.language.interpreter.parser.expression.PandaExpressionParserFailure;
 import org.panda_lang.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.language.interpreter.token.TokenUtils;
 import org.panda_lang.language.resource.syntax.TokenTypes;
@@ -99,7 +99,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
             }
             // use current instance (this) if source contains only name and section
             else /* if (source.getIndex() == 2) ^ not really */ {
-                instance = ThisExpression.of(context.getContext());
+                instance = ThisExpression.of(context.toContext());
                 autofilled = true;
             }
 
@@ -141,7 +141,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
                     });
                 }
 
-                throw new PandaExpressionParserFailure(context, argumentsSource,
+                throw new PandaParserFailure(context, argumentsSource,
                         "Class " + instance.getType().getSimpleName() + " does not have method &1" + methodName + "&r with parameters &1" + types + "&r",
                         "Change arguments or add a new method with the provided types of parameters. " + similar
                 );
@@ -150,16 +150,16 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
             TypeMethod method = adjustedArguments.get().getExecutable();
 
             if (!method.isStatic() && instance instanceof StaticExpression) {
-                throw new PandaExpressionParserFailure(context, methodName,
+                throw new PandaParserFailure(context, methodName,
                         "Cannot invoke non-static method on static context",
                         "Call method using class instance or add missing 'static' keyword to the '" + methodName.getValue() + "'method signature"
                 );
             }
 
-            Option<String> issue = VisibilityComparator.canAccess(method, context.getContext());
+            Option<String> issue = VisibilityComparator.canAccess(method, context.toContext());
 
             if (issue.isDefined()) {
-                throw new PandaExpressionParserFailure(context, methodName, issue.get(), VisibilityComparator.NOTE_MESSAGE);
+                throw new PandaParserFailure(context, methodName, issue.get(), VisibilityComparator.NOTE_MESSAGE);
             }
 
             return new TypeExecutableExpression(instance, adjustedArguments.get());

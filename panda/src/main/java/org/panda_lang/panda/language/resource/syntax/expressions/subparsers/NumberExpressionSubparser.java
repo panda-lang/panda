@@ -73,7 +73,7 @@ public final class NumberExpressionSubparser implements ExpressionSubparser {
             Expression expression;
 
             try {
-                expression = PARSER.parse(context.getContext(), content);
+                expression = PARSER.parse(context.toContext(), content);
             } catch (NumberFormatException e) {
                 return null;
             }

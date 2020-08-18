@@ -83,7 +83,7 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
                 return null;
             }
 
-            Context context = expressionContext.getContext();
+            Context context = expressionContext.toContext();
             Snippet declaration = source.subSource(0, index);
 
             if (declaration.size() > 16 /* implement max declaration size in assignation subparser in the future*/) {
