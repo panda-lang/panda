@@ -51,6 +51,7 @@ final class Run {
 
         return environment.getInterpreter()
                 .interpret(PandaURLSource.fromFile(mainScript))
+                .orElseThrow(throwable -> new RuntimeException("Cannot launch application due to failures in interpretation process"))
                 .launch();
     }
 

@@ -16,12 +16,20 @@
 
 package org.panda_lang.language;
 
+import org.panda_lang.language.interpreter.source.IndicatedSource;
 import org.panda_lang.utilities.commons.function.Option;
 
 /**
  * Represents errors occurred in the framework
  */
 public interface Failure {
+
+    /**
+     * Get indicated source
+     *
+     * @return the indicated source
+     */
+    IndicatedSource getIndicatedSource();
 
     /**
      * Get additional information about the failure

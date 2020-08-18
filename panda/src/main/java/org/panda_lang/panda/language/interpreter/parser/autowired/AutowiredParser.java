@@ -48,7 +48,7 @@ public abstract class AutowiredParser<T> implements ContextParser<T>, Handler {
             return parser;
         }
 
-        return (this.parser = initialize(context, new AutowiredInitializer<T>().instance(this)).build(context));
+        return (this.parser = initialize(context, new AutowiredInitializer<T>().instance(this)).build());
     }
 
 }

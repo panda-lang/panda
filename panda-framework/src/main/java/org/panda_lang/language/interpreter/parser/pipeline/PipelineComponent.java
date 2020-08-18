@@ -36,11 +36,6 @@ public final class PipelineComponent<P extends Parser> extends Component<P> {
         super(name, type, 0);
     }
 
-    @Override
-    public String toString() {
-        return super.toString();
-    }
-
     /**
      * Create component
      *

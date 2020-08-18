@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.shell;
 
+import org.panda_lang.language.architecture.Application;
 import org.panda_lang.language.interpreter.logging.Channel;
 import org.panda_lang.language.interpreter.logging.SystemLogger;
 import org.panda_lang.panda.Panda;
@@ -101,7 +102,8 @@ final class PandaCli implements ThrowingRunnable<Exception> {
 
         panda.getLoader()
                 .load(script, script.getParentFile())
-                .launch();
+                .map(Application::launch)
+                .onError(throwable -> shell.getLogger().fatal("Cannot launch application due to failures in interpretation process"));
     }
 
 }

@@ -27,12 +27,12 @@ public class Channel implements Comparable<Channel> {
 
     private static final Collection<Channel> VALUES = new ArrayList<>();
 
-    public static Channel FATAL = add(VALUES, new Channel("fatal", 6.0));
-    public static Channel ERROR = add(VALUES, new Channel("error", 5.0));
-    public static Channel WARN = add(VALUES, new Channel("warn", 4.0));
-    public static Channel INFO = add(VALUES, new Channel("info", 3.0));
-    public static Channel DEBUG = add(VALUES, new Channel("debug", 2.0));
-    public static Channel TRACE = add(VALUES, new Channel("trace", 1.0));
+    public static final Channel FATAL = add(VALUES, new Channel("fatal", 6.0));
+    public static final Channel ERROR = add(VALUES, new Channel("error", 5.0));
+    public static final Channel WARN = add(VALUES, new Channel("warn", 4.0));
+    public static final Channel INFO = add(VALUES, new Channel("info", 3.0));
+    public static final Channel DEBUG = add(VALUES, new Channel("debug", 2.0));
+    public static final Channel TRACE = add(VALUES, new Channel("trace", 1.0));
 
     private final String channel;
     private final double priority;

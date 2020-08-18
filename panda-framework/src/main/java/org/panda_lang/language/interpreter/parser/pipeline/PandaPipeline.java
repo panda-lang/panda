@@ -16,12 +16,12 @@
 
 package org.panda_lang.language.interpreter.parser.pipeline;
 
+import org.panda_lang.language.Failure;
 import org.panda_lang.language.PandaFrameworkException;
-import org.panda_lang.language.interpreter.InterpreterFailure;
 import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.LocalChannel;
 import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.parser.ParserRepresentation;
-import org.panda_lang.language.interpreter.parser.LocalChannel;
 import org.panda_lang.language.interpreter.token.Snippet;
 
 import java.util.ArrayList;
@@ -69,14 +69,14 @@ public final class PandaPipeline<P extends Parser> implements Pipeline<P> {
 
     private HandleResult<P> handle(Context context, LocalChannel channel, Snippet source, Collection<? extends ParserRepresentation<P>> representations) {
         long currentTime = System.nanoTime();
-        InterpreterFailure failure = null;
+        Failure failure = null;
 
         for (ParserRepresentation<P> representation : representations) {
             Handler handler = representation.getHandler();
             Object value = handler.handle(context, channel, source);
 
-            if (value instanceof InterpreterFailure) {
-                failure = (InterpreterFailure) value;
+            if (value instanceof Failure) {
+                failure = (Failure) value;
                 continue;
             }
 

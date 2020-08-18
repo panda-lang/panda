@@ -125,7 +125,7 @@ public final class ReplCreator {
     }
 
     /**
-     * Set custom exception handler, by default exceptions are passed through the {@link org.panda_lang.language.interpreter.messenger.Messenger}
+     * Set custom exception handler
      *
      * @param exceptionListener a new exception listener
      * @return the REPL creator instance

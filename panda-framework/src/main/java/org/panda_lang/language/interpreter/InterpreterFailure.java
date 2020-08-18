@@ -16,29 +16,37 @@
 
 package org.panda_lang.language.interpreter;
 
-import org.panda_lang.language.PandaFrameworkException;
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.Failure;
+import org.panda_lang.language.PandaFrameworkException;
 import org.panda_lang.language.interpreter.source.IndicatedSource;
+import org.panda_lang.utilities.commons.function.Option;
 
-/**
- * InterpreterFailures are dedicated exceptions thrown by the Panda Framework.
- * It contains extra data about the error and may be used to enhance logging/tooling.
- */
-public abstract class InterpreterFailure extends PandaFrameworkException implements Failure {
+public class InterpreterFailure extends PandaFrameworkException implements Failure {
 
-    protected InterpreterFailure(String message, Throwable cause) {
-        super(message, cause);
-    }
+    private final IndicatedSource indicatedSource;
+    private final String note;
 
-    protected InterpreterFailure(String message) {
+    public InterpreterFailure(IndicatedSource indicatedSource, String message, @Nullable String note) {
         super(message);
+        this.indicatedSource = indicatedSource;
+        this.note = note;
     }
 
-    /**
-     * Get indicated source
-     *
-     * @return the indicated source
-     */
-    public abstract IndicatedSource getIndicatedSource();
+    public InterpreterFailure(Throwable cause, IndicatedSource indicatedSource, String message, String note) {
+        super(message, cause);
+        this.indicatedSource = indicatedSource;
+        this.note = note;
+    }
+
+    @Override
+    public Option<String> getNote() {
+        return Option.of(note);
+    }
+
+    @Override
+    public IndicatedSource getIndicatedSource() {
+        return indicatedSource;
+    }
 
 }

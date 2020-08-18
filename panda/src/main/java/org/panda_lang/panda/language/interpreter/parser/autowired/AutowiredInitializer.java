@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.language.interpreter.parser.autowired;
 
-import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.ParserRepresentation;
 import org.panda_lang.language.interpreter.parser.pipeline.Handler;
@@ -118,7 +117,7 @@ public final class AutowiredInitializer<T> {
         return this;
     }
 
-    protected ParserRepresentation<ContextParser<T>> build(Context context) {
+    protected ParserRepresentation<ContextParser<T>> build() {
         if (parserName == null && parserInstance != null) {
             name(parserInstance.getClass().getSimpleName());
         }
@@ -135,7 +134,7 @@ public final class AutowiredInitializer<T> {
             initializer = (ctx, channel) -> {};
         }
 
-        AutowiredContent<?> content = new AutowiredContentImpl<>(parserName, parserInstance, context, handler, ObjectUtils.cast(initializer), pattern);
+        AutowiredContent<?> content = new AutowiredContentImpl<>(parserInstance, handler, ObjectUtils.cast(initializer), pattern);
         List<AutowiredMethod> methods = new ArrayList<>(stages.size());
 
         for (Method autowiredMethod : stages) {

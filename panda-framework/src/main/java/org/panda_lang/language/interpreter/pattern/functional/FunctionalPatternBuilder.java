@@ -48,7 +48,7 @@ import java.util.function.Function;
 
 public final class FunctionalPatternBuilder<B extends FunctionalPatternElementBuilder<V, B>, V> {
 
-    private List<Buildable<?>> elements = new ArrayList<>();
+    private final List<Buildable<?>> elements = new ArrayList<>();
     private FunctionalPatternElementBuilder<?, ?> current;
 
     public FunctionalPatternBuilder<B, V> consume(Consumer<B> consumer) {

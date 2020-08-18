@@ -16,24 +16,18 @@
 
 package org.panda_lang.panda.language.interpreter.parser.autowired;
 
-import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.pipeline.Handler;
-
 import org.panda_lang.utilities.commons.function.Option;
 
 final class AutowiredContentImpl<P> implements AutowiredContent<P> {
 
-    private final String name;
     private final Object instance;
-    private final Context context;
     private final Handler handler;
     private final IterationInitializer<P> interceptor;
     private final P pattern;
 
-    AutowiredContentImpl(String name, Object instance, Context context, Handler handler, IterationInitializer<P> interceptor, P pattern) {
-        this.name = name;
+    AutowiredContentImpl(Object instance, Handler handler, IterationInitializer<P> interceptor, P pattern) {
         this.instance = instance;
-        this.context = context;
         this.handler = handler;
         this.interceptor = interceptor;
         this.pattern = pattern;
@@ -55,18 +49,8 @@ final class AutowiredContentImpl<P> implements AutowiredContent<P> {
     }
 
     @Override
-    public Context getContext() {
-        return context;
-    }
-
-    @Override
     public Object getInstance() {
         return instance;
-    }
-
-    @Override
-    public String getName() {
-        return name;
     }
 
 }

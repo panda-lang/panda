@@ -16,9 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parser.autowired;
 
-import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.pipeline.Handler;
-
 import org.panda_lang.utilities.commons.function.Option;
 
 interface AutowiredContent<P> {
@@ -45,24 +43,10 @@ interface AutowiredContent<P> {
     Option<P> getPattern();
 
     /**
-     * Get top-level parser context used by bootstrap
-     *
-     * @return the main context
-     */
-    Context getContext();
-
-    /**
      * Get instance of class used by bootstrap
      *
      * @return the parser instance
      */
     Object getInstance();
-
-    /**
-     * Get bootstrap name, simple class name by default
-     *
-     * @return the name of bootstrap
-     */
-    String getName();
 
 }

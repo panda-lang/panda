@@ -23,7 +23,7 @@ final class TenThousandExpressionsTest {
 
     @Test
     void launch() {
-        PandaUtils.load("../examples/tests/performance", "../examples/tests/performance/ten_thousand_expressions.panda").launch();
+        PandaUtils.load("../examples/tests/performance", "../examples/tests/performance/ten_thousand_expressions.panda").getValue().launch();
     }
 
 }

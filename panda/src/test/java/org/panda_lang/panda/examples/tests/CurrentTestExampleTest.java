@@ -23,24 +23,24 @@ class CurrentTestExampleTest {
 
     @Test
     void helloWorld() {
-        PandaUtils.load("../examples", "../examples/hello_world.panda").launch();
+        PandaUtils.load("../examples", "../examples/hello_world.panda").getValue().launch();
     }
 
     @Test
     void literalMethod() {
-        PandaUtils.load("../examples/tests", "../examples/tests/literal_methods.panda").launch();
+        PandaUtils.load("../examples/tests", "../examples/tests/literal_methods.panda").getValue().launch();
     }
 
     @Test
     void testCurrentTest() {
         for (int i = 0; i < 2; i++) {
-            PandaUtils.load("../examples/tests", "../examples/tests/current_test.panda").launch();
+            PandaUtils.load("../examples/tests", "../examples/tests/current_test.panda").getValue().launch();
         }
     }
 
     @Test
     void testClassTest() {
-        PandaUtils.load("../examples/tests", "../examples/tests/class_test.panda").launch();
+        PandaUtils.load("../examples/tests", "../examples/tests/class_test.panda").getValue().launch();
     }
 
 }

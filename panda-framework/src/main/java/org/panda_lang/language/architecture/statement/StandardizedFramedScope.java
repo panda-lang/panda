@@ -29,6 +29,6 @@ public interface StandardizedFramedScope extends FramedScope {
      *
      * @return instance of the frame
      */
-    Frame revive(ProcessStack stack, Object instance) throws Exception;
+    Frame revive(ProcessStack stack, Object instance);
     
 }   

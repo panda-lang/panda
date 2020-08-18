@@ -16,31 +16,30 @@
 
 package org.panda_lang.language.interpreter.parser.pipeline;
 
-import org.panda_lang.language.interpreter.InterpreterFailure;
+import org.panda_lang.language.Failure;
 import org.panda_lang.language.interpreter.parser.Parser;
-
 import org.panda_lang.utilities.commons.function.Option;
 
 final class PandaHandleResult<T extends Parser> implements HandleResult<T> {
 
     private final T parser;
-    private final InterpreterFailure failure;
+    private final Failure failure;
 
     public PandaHandleResult(T parser) {
         this(parser, null);
     }
 
-    public PandaHandleResult(InterpreterFailure failure) {
+    public PandaHandleResult(Failure failure) {
         this(null, failure);
     }
 
-    private PandaHandleResult(T parser, InterpreterFailure failure) {
+    private PandaHandleResult(T parser, Failure failure) {
         this.parser = parser;
         this.failure = failure;
     }
 
     @Override
-    public Option<InterpreterFailure> getFailure() {
+    public Option<Failure> getFailure() {
         return Option.of(failure);
     }
 
