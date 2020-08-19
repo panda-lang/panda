@@ -17,30 +17,39 @@
 package org.panda_lang.panda.examples.tests;
 
 import org.junit.jupiter.api.Test;
+import org.panda_lang.language.architecture.Application;
 import org.panda_lang.panda.util.PandaUtils;
 
 class CurrentTestExampleTest {
 
     @Test
     void helloWorld() {
-        PandaUtils.load("../examples", "../examples/hello_world.panda").getValue().launch();
+        PandaUtils.load("../examples", "../examples/hello_world.panda")
+                .flatMap(Application::launch)
+                .get();
     }
 
     @Test
     void literalMethod() {
-        PandaUtils.load("../examples/tests", "../examples/tests/literal_methods.panda").getValue().launch();
+        PandaUtils.load("../examples/tests", "../examples/tests/literal_methods.panda")
+                .flatMap(Application::launch)
+                .get();
     }
 
     @Test
     void testCurrentTest() {
         for (int i = 0; i < 1; i++) {
-            PandaUtils.load("../examples/tests", "../examples/tests/current_test.panda").getValue().launch();
+            PandaUtils.load("../examples/tests", "../examples/tests/current_test.panda")
+                    .flatMap(Application::launch)
+                    .get();
         }
     }
 
     @Test
     void testClassTest() {
-        PandaUtils.load("../examples/tests", "../examples/tests/class_test.panda").getValue().launch();
+        PandaUtils.load("../examples/tests", "../examples/tests/class_test.panda")
+                .flatMap(Application::launch)
+                .get();
     }
 
 }

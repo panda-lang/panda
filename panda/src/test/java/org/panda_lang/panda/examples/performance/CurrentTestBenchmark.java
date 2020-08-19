@@ -22,6 +22,7 @@ import org.openjdk.jmh.annotations.Measurement;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.Warmup;
 import org.openjdk.jmh.runner.RunnerException;
+import org.panda_lang.language.architecture.Application;
 import org.panda_lang.panda.util.BenchmarkUtils;
 import org.panda_lang.panda.util.PandaUtils;
 
@@ -51,7 +52,9 @@ public class CurrentTestBenchmark {
 
     @Benchmark
     public Object currentTest() {
-        return PandaUtils.load("./examples/tests", "./examples/tests/current_test.panda").getValue().launch();
+        return PandaUtils.load("./examples/tests", "./examples/tests/current_test.panda")
+                .flatMap(Application::launch)
+                .get();
     }
 
     public static void main(String[] args) throws RunnerException {

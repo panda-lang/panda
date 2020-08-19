@@ -102,7 +102,7 @@ final class PandaCli implements ThrowingRunnable<Exception> {
 
         panda.getLoader()
                 .load(script, script.getParentFile())
-                .map(Application::launch)
+                .flatMap(Application::launch)
                 .onError(throwable -> shell.getLogger().fatal("Cannot launch application due to failures in interpretation process"));
     }
 

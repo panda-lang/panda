@@ -21,10 +21,10 @@ import org.panda_lang.language.PandaFrameworkException;
 import org.panda_lang.language.architecture.Application;
 import org.panda_lang.language.architecture.Environment;
 import org.panda_lang.language.architecture.Script;
-import org.panda_lang.language.runtime.Process;
 import org.panda_lang.language.runtime.PandaProcess;
+import org.panda_lang.language.runtime.Process;
 import org.panda_lang.panda.language.resource.syntax.head.MainScope;
-import org.panda_lang.utilities.commons.UnsafeUtils;
+import org.panda_lang.utilities.commons.function.Result;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,14 +40,14 @@ public final class PandaApplication implements Application {
     }
 
     @Override
-    public @Nullable Object launch(String... args) {
+    public <T> Result<@Nullable T, Throwable> launch(String... args) {
         Process process = new PandaProcess(this, selectMain(), args);
 
         try {
-            return process.execute();
+            return Result.ok(process.execute());
         } catch (Throwable throwable) {
             environment.getLogger().exception(throwable);
-            return UnsafeUtils.throwException(throwable);
+            return Result.error(throwable);
         }
     }
 

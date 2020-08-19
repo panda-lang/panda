@@ -36,12 +36,12 @@ public class MatmulPerformanceTest {
 
     @Setup
     public void setup() {
-        this.matmulApplication = PandaUtils.load("./tests/performance", "./tests/performance/matmul.panda").getValue();
+        this.matmulApplication = PandaUtils.load("./tests/performance", "./tests/performance/matmul.panda").get();
     }
 
     @Benchmark
     public void benchmarkMatmulPanda() {
-        matmulApplication.launch();
+        matmulApplication.launch().get();
     }
 
     @Benchmark

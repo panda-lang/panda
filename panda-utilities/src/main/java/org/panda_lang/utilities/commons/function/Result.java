@@ -32,54 +32,68 @@ public final class Result<V, E>  {
         this.error = error;
     }
 
-    public <R> Result<R, E> map(Function<V, R> function) {
-        return value != null ? Result.ok(function.apply(value)) : Result.error(error);
-    }
-
-    public Result<V, E> orElse(Function<E, Result<V, E>> orElse) {
-        return isDefined() ? this : orElse.apply(error);
-    }
-
-    public V orElseGet(Function<E, V> orElse) {
-        return isDefined() ? value : orElse.apply(error);
-    }
-
-    public <T extends Exception> V orElseThrow(ThrowingFunction<E, T, T> consumer) throws T {
-        if (isDefined()) {
-            return getValue();
-        }
-
-        throw consumer.apply(getError());
-    }
-
-    public void onError(Consumer<E> consumer) {
-        if (containsError()) {
-            consumer.accept(error);
-        }
-    }
-
-    public boolean isDefined() {
+    public boolean isOk() {
         return value != null;
     }
 
-    public V getValue() {
-        if (value == null) {
+    public boolean isErr() {
+        return error != null;
+    }
+
+    public V get() {
+        if (isErr()) {
             throw new NoSuchElementException("No value present");
         }
 
         return value;
     }
 
-    public boolean containsError() {
-        return error != null;
-    }
-
     public E getError() {
-        if (error == null) {
+        if (isOk()) {
             throw new NoSuchElementException("No error present");
         }
 
         return error;
+    }
+
+    public <R> Result<R, E> map(Function<V, R> function) {
+        return isOk() ? Result.ok(function.apply(value)) : Result.error(error);
+    }
+
+    public <R> Result<R, E> flatMap(Function<V, Result<R, E>> function) {
+        return isOk() ? function.apply(value) : Result.error(error);
+    }
+
+    public Result<V, E> orElse(Function<E, Result<V, E>> orElse) {
+        return isOk() ? this : orElse.apply(error);
+    }
+
+    public V orElseGet(Function<E, V> orElse) {
+        return isOk() ? value : orElse.apply(error);
+    }
+
+    public <T extends Exception> V orElseThrow(ThrowingFunction<E, T, T> consumer) throws T {
+        if (isOk()) {
+            return get();
+        }
+
+        throw consumer.apply(getError());
+    }
+
+    public Result<V, E> peek(Consumer<V> consumer) {
+        if (isOk()) {
+            consumer.accept(value);
+        }
+
+        return this;
+    }
+
+    public Result<V, E> onError(Consumer<E> consumer) {
+        if (isErr()) {
+            consumer.accept(error);
+        }
+
+        return this;
     }
 
     public static <V, E> Result<V, E> ok(V value) {

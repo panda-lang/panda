@@ -33,9 +33,9 @@ class IOUtilsTest {
     @Test
     void getURLContent() {
         Result<String, IOException> result = IOUtils.fetchContent("https://panda-lang.org/");
-        assertTrue(result.isDefined());
-        assertNotNull(result.getValue());
-        assertTrue(result.getValue().contains("<html"));
+        assertTrue(result.isOk());
+        assertNotNull(result.get());
+        assertTrue(result.get().contains("<html"));
     }
 
     @Test
@@ -47,7 +47,7 @@ class IOUtilsTest {
 
     @Test
     void convertStreamToString() {
-        assertEquals(MESSAGE, IOUtils.convertStreamToString(IOUtils.convertStringToStream(MESSAGE)).getValue());
+        assertEquals(MESSAGE, IOUtils.convertStreamToString(IOUtils.convertStringToStream(MESSAGE)).get());
     }
 
     @Test
