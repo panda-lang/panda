@@ -28,7 +28,8 @@ main {
     // define mutable nullable variable varFoo
     mut nil Foo varFoo = req
     // assign a new value to the varFoo
-    varFoo = new Foo()
+    varFoo = new Foo().'self test'()
+    varFoo.anotherEcho('Another echo')
 
     // assign string to a new variable s
     mut String s = "Hello Panda v1"
@@ -182,10 +183,10 @@ main {
 shared interface IEcho {
 
     // yes, we require implementation of static method
-    shared static anotherEcho (String doSth)
+    shared static anotherEcho (String doSth) -> String
 
     // standard method to impl
-    internal test ()
+    internal 'self test' () -> self
 
 }
 
@@ -197,12 +198,13 @@ shared class Foo : Test, IEcho {
     }
 
     // we need to mark overridden methods by the keyword
-    override static anotherEcho (String message1) {
+    override static anotherEcho (String message1)  -> String {
         log message1
+        return this
     }
 
     // we need to impl all methods
-    override test () { }
+    override 'self test' () -> self { }
 
     override toString () -> String {
         return 'Foo'

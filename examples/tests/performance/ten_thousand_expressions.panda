@@ -1,5 +1,7 @@
 module example-test
 
+import java.util.Arrays
+
 /*
  * Collect expressions
  */
@@ -7,6 +9,7 @@ internal class Collector {
     
     shared static collect(Object... args) {
         // ignore or log
+        // log Arrays.toString(args)
     }
     
 }

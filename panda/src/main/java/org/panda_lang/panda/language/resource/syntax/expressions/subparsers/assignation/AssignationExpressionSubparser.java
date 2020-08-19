@@ -17,8 +17,10 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.language.Failure;
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
@@ -26,19 +28,18 @@ import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserType;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
+import org.panda_lang.language.interpreter.parser.pipeline.PandaLocalChannel;
+import org.panda_lang.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.SourceStream;
 import org.panda_lang.language.interpreter.token.TokenInfo;
-import org.panda_lang.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.language.interpreter.parser.pipeline.PandaLocalChannel;
-import org.panda_lang.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.language.resource.syntax.operator.OperatorFamilies;
 import org.panda_lang.language.resource.syntax.operator.OperatorUtils;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.AbstractExpressionSubparserWorker;
-
 import org.panda_lang.utilities.commons.UnsafeUtils;
 import org.panda_lang.utilities.commons.function.Option;
+import org.panda_lang.utilities.commons.function.Result;
 
 public final class AssignationExpressionSubparser implements ExpressionSubparser {
 
@@ -98,13 +99,14 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
                     .withComponent(AssignationComponents.CONTEXT, expressionContext)
                     .withComponent(AssignationComponents.SCOPE, context.getComponent(Components.SCOPE));
 
-            Option<AssignationSubparser> handleResult = context.getComponent(Components.PIPELINE)
+            Result<AssignationSubparser, Option<Failure>> handleResult = context.getComponent(Components.PIPELINE)
                     .getPipeline(PandaPipeline.ASSIGNER)
-                    .handle(assignationContext, assignationContext.getComponent(Components.CHANNEL), declaration)
-                    .getParser();
+                    .handle(assignationContext, assignationContext.getComponent(Components.CHANNEL), declaration);
 
-            if (handleResult.isEmpty()) {
-                return null;
+            if (handleResult.isErr()) {
+                return handleResult.getError()
+                        .map(failure -> ExpressionResult.error(failure.getMessage(), failure.getIndicatedSource().getIndicated()))
+                        .orElseGet(() -> ExpressionResult.error("Unrecognized declaration", declaration));
             }
 
             SourceStream expressionSource = new PandaSourceStream(source.subSource(index + 1, source.size()));

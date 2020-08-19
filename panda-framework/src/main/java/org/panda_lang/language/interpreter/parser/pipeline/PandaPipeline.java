@@ -23,6 +23,8 @@ import org.panda_lang.language.interpreter.parser.LocalChannel;
 import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.parser.ParserRepresentation;
 import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.utilities.commons.function.Option;
+import org.panda_lang.utilities.commons.function.Result;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,16 +52,16 @@ public final class PandaPipeline<P extends Parser> implements Pipeline<P> {
     }
 
     @Override
-    public HandleResult<P> handle(Context context, LocalChannel channel, Snippet source) {
+    public Result<P, Option<Failure>> handle(Context context, LocalChannel channel, Snippet source) {
         if (count > 1000) {
             count = 0;
             sort();
         }
 
         if (parentPipeline != null) {
-            HandleResult<P> result = handle(context, channel, source, parentPipeline.getRepresentations());
+            Result<P, Option<Failure>> result = handle(context, channel, source, parentPipeline.getRepresentations());
 
-            if (result.isFound()) {
+            if (result.isOk()) {
                 return result;
             }
         }
@@ -67,7 +69,7 @@ public final class PandaPipeline<P extends Parser> implements Pipeline<P> {
         return handle(context, channel, source, representations);
     }
 
-    private HandleResult<P> handle(Context context, LocalChannel channel, Snippet source, Collection<? extends ParserRepresentation<P>> representations) {
+    private Result<P, Option<Failure>> handle(Context context, LocalChannel channel, Snippet source, Collection<? extends ParserRepresentation<P>> representations) {
         long currentTime = System.nanoTime();
         Failure failure = null;
 
@@ -100,12 +102,12 @@ public final class PandaPipeline<P extends Parser> implements Pipeline<P> {
                 handleTime += time;
                 count++;
 
-                return new PandaHandleResult<>(representation.getParser());
+                return Result.ok(representation.getParser());
             }
         }
 
         handleTime += (System.nanoTime() - currentTime);
-        return new PandaHandleResult<>(failure);
+        return Result.error(Option.of(failure));
     }
 
     protected void sort() {

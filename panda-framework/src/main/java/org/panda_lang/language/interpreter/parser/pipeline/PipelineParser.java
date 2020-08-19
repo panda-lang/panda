@@ -53,13 +53,10 @@ public final class PipelineParser<T extends ContextParser<?>> implements Parser 
                     .withComponent(Components.CHANNEL, channel)
                     .withComponent(Components.STREAM, stream);
 
-            HandleResult<T> result = pipeline.handle(context, channel, source);
-
-            ContextParser<?> parser = result.getParser().orThrow(() -> {
-                return result.getFailure()
-                        .map(failure -> (RuntimeException) failure)
-                        .orElseGet(() -> new PandaParserFailure(delegatedContext, source, "Unrecognized syntax"));
-            });
+            ContextParser<?> parser = pipeline.handle(context, channel, source).orElseThrow(failure -> failure
+                    .map(exception -> (RuntimeException) exception)
+                    .orElseGet(() -> new PandaParserFailure(delegatedContext, source, "Unrecognized syntax"))
+            );
 
             int sourceLength = stream.getUnreadLength();
             parser.parse(delegatedContext);

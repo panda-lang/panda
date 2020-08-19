@@ -19,6 +19,7 @@ package org.panda_lang.panda.manager;
 import org.panda_lang.language.FrameworkController;
 import org.panda_lang.language.interpreter.logging.Logger;
 import org.panda_lang.language.interpreter.logging.LoggerHolder;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,13 +39,13 @@ public final class PackageManager implements LoggerHolder {
         install.run();
     }
 
-    public void run(File documentFile) throws IOException {
-        run(controller, documentFile);
+    public Option<Object> run(File documentFile) throws IOException {
+        return run(controller, documentFile);
     }
 
-    public void run(FrameworkController controller, File documentFile) throws IOException {
+    public Option<Object> run(FrameworkController controller, File documentFile) throws IOException {
         Run run = new Run(this, new PackageDocumentFile(documentFile).getContent());
-        run.run(controller);
+        return run.run(controller);
     }
 
     protected File getWorkingDirectory() {

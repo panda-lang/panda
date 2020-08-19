@@ -96,7 +96,9 @@ final class PandaCli implements ThrowingRunnable<Exception> {
         if (script.getName().endsWith("panda.cdn")) {
             PackageManager packageManager = new PackageManager(panda, script.getParentFile());
             packageManager.install(script);
-            packageManager.run(panda, script);
+            packageManager.run(panda, script).peek(value -> {
+                shell.getLogger().debug("Process exited with " + value + " object");
+            });
             return;
         }
 

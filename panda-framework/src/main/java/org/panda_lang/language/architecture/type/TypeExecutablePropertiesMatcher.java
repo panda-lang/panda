@@ -65,7 +65,7 @@ final class TypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
             if (!parameter.isVarargs()) {
                 target[required] = index;
 
-                if (!parameter.getType().isAssignableFrom(requiredTypes[required++])) {
+                if (!requiredTypes[required++].isAssignableFrom(parameter.getType())) {
                     return null;
                 }
 
@@ -82,7 +82,7 @@ final class TypeExecutablePropertiesMatcher<T extends ExecutableProperty> {
 
                 if (!type.isAssignableFrom(nextType)) {
                     // array was directly passed to the varargs
-                    if (parameter.getType().isAssignableFrom(nextType)) {
+                    if (nextType.isAssignableFrom(parameter.getType())) {
                         target[required++] = index;
                     }
 

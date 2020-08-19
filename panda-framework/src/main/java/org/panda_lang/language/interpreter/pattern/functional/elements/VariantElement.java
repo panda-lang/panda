@@ -42,14 +42,11 @@ public final class VariantElement extends FunctionalPatternElementBuilder<Object
     }
 
     public VariantElement content(String... variants) {
-        super.reader((data, source) -> {
-            return TokenUtils.valueEquals(source.next(), variants) ? source.getCurrent().getOrNull() : null;
-        });
-
+        super.reader((data, source) -> TokenUtils.valueEquals(source.next(), variants) ? source.getCurrent().getOrNull() : null);
         return this;
     }
 
-    public VariantElement content(Buildable<?>... elements) {
+    public final VariantElement content(Buildable<?>... elements) {
         List<Reader<FunctionalResult>> readers = Arrays.stream(elements)
                 .map(FunctionalPattern::of)
                 .map(SubPatternElement::createReader)

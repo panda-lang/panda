@@ -138,6 +138,12 @@ public final class PandaExpressionParser implements ExpressionParser {
 
         if (settings.isStandaloneOnly() && worker.getLastCategory() != ExpressionCategory.STANDALONE) {
             transaction.rollback();
+
+            if (!expressionContext.getErrors().isEmpty()) {
+                ExpressionResult error = expressionContext.getErrors().peek();
+                throw new PandaParserFailure(expressionContext, error.getErrorSource(), error.getErrorMessage());
+            }
+
             throw new PandaParserFailure(expressionContext, source.toSnippet(), "Invalid category of expression");
         }
 

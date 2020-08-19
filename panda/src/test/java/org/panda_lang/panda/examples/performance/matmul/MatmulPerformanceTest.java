@@ -25,6 +25,7 @@ import org.openjdk.jmh.annotations.Warmup;
 import org.panda_lang.language.architecture.Application;
 import org.panda_lang.panda.util.BenchmarkUtils;
 import org.panda_lang.panda.util.PandaUtils;
+import org.panda_lang.utilities.commons.function.Option;
 
 @State(Scope.Benchmark)
 @Warmup(time = 1, iterations = 1)
@@ -40,13 +41,13 @@ public class MatmulPerformanceTest {
     }
 
     @Benchmark
-    public void benchmarkMatmulPanda() {
-        matmulApplication.launch().get();
+    public Option<Object> benchmarkMatmulPanda() {
+        return matmulApplication.launch().get();
     }
 
     @Benchmark
-    public void benchmarkMatmulJava() {
-        MatmulJava.main();
+    public Object benchmarkMatmulJava() {
+        return MatmulJava.run();
     }
 
     public static void main(String[] args) throws Exception {

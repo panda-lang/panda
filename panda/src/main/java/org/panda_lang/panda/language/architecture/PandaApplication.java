@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.language.architecture;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.PandaFrameworkException;
 import org.panda_lang.language.architecture.Application;
 import org.panda_lang.language.architecture.Environment;
@@ -24,6 +23,7 @@ import org.panda_lang.language.architecture.Script;
 import org.panda_lang.language.runtime.PandaProcess;
 import org.panda_lang.language.runtime.Process;
 import org.panda_lang.panda.language.resource.syntax.head.MainScope;
+import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.Result;
 
 import java.util.ArrayList;
@@ -40,11 +40,11 @@ public final class PandaApplication implements Application {
     }
 
     @Override
-    public <T> Result<@Nullable T, Throwable> launch(String... args) {
+    public <T> Result<Option<T>, Throwable> launch(String... args) {
         Process process = new PandaProcess(this, selectMain(), args);
 
         try {
-            return Result.ok(process.execute());
+            return Result.ok(Option.of(process.execute()));
         } catch (Throwable throwable) {
             environment.getLogger().exception(throwable);
             return Result.error(throwable);

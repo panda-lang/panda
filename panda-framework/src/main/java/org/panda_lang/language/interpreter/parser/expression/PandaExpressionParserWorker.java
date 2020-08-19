@@ -161,10 +161,14 @@ public final class PandaExpressionParserWorker {
 
         // save the result
         context.getResults().push(result.get());
-
         // cleanup cache, move the index
-        lastSucceededRead = context.getSynchronizedSource().getIndex();
-        error = subparser instanceof PartialResultSubparser ? error : null;
+        this.lastSucceededRead = context.getSynchronizedSource().getIndex();
+
+        if (!(subparser instanceof PartialResultSubparser)) {
+            context.getErrors().push(error);
+            this.error = null;
+        }
+
         return true;
     }
 

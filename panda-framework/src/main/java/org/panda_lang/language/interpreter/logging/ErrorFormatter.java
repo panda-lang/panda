@@ -49,11 +49,13 @@ public final class ErrorFormatter {
             logger.error("&1" + failure.getMessage());
             logger.error("");
 
-            failure.getNote().peek(note -> {
-                logger.error("Note:");
-                logger.error("  &1" + note);
-                logger.error("");
-            });
+            failure.getNote()
+                    .filterNot(StringUtils::isEmpty)
+                    .peek(note -> {
+                        logger.error("Note:");
+                        logger.error("  &1" + note);
+                        logger.error("");
+                    });
 
             IndicatedSource indicatedSource = failure.getIndicatedSource();
             Location location = indicatedSource.getIndicated().getLocation();
@@ -76,13 +78,9 @@ public final class ErrorFormatter {
             logger.error("  Panda: &b" + location.getSource().getId() + "&r at line &1" + location.getDisplayLine() + "&r:&1" + location.getIndex());
             logger.error("");
             logger.error("Stacktrace:");
-
-            for (int index = 0; index < 2 && index < stackTrace.length; index++) {
-                StackTraceElement stackTraceElement = stackTrace[index];
-                logger.error("  at " + stackTraceElement.toString());
-            }
+            printStackTrace(throwable);
         }
-        if (throwable instanceof PandaProcessFailure) {
+        else if (throwable instanceof PandaProcessFailure) {
             PandaProcessFailure failure = (PandaProcessFailure) throwable;
             stackTrace = cleanStackTrace(failure.getException());
 
@@ -125,6 +123,20 @@ public final class ErrorFormatter {
         logger.error("  Panda: " + PandaFrameworkConstants.VERSION);
         logger.error("  Java: " + System.getProperty("java.version") + " (" + System.getProperty("os.name") + ")");
         logger.error("");
+    }
+
+    private void printStackTrace(Throwable throwable) {
+        StackTraceElement[] stackTrace = cleanStackTrace(throwable);
+
+        for (int index = 0; index < 2 && index < stackTrace.length; index++) {
+            StackTraceElement stackTraceElement = stackTrace[index];
+            logger.error("  at " + stackTraceElement.toString());
+        }
+
+        if (throwable.getCause() != null) {
+            logger.error("  --- cause: " + throwable.getCause().toString());
+            printStackTrace(throwable.getCause());
+        }
     }
 
     private StackTraceElement[] cleanStackTrace(Throwable throwable) {

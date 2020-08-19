@@ -74,6 +74,13 @@ public interface ExpressionContext extends Contextual, Snippetable {
     List<Commit> getCommits();
 
     /**
+     * Get errors
+     *
+     * @return the stack containing latest errors
+     */
+    Stack<ExpressionResult> getErrors();
+
+    /**
      * Get results
      *
      * @return the stack containing results

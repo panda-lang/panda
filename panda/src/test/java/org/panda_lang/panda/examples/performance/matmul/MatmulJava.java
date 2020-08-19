@@ -66,7 +66,7 @@ final class MatmulJava {
         return x;
     }
 
-    public static void main(String... args) {
+    public static Number run() {
         Integer n = 100;
         Long time = System.nanoTime();
 
@@ -76,8 +76,15 @@ final class MatmulJava {
         b = m.matgen(n);
         x = m.matmul(a, b);
 
-        System.out.println(x[n / 2][n / 2]);
+        Number result = x[n / 2][n / 2];
+        System.out.println(result);
         System.out.println(TimeUtils.toMilliseconds(System.nanoTime() - time));
+
+        return result;
+    }
+
+    public static void main(String... args) {
+        run();
     }
 
 }

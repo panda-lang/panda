@@ -17,21 +17,21 @@
 package org.panda_lang.panda.language.interpreter.parser.block;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.language.Failure;
 import org.panda_lang.language.architecture.statement.Block;
 import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.architecture.statement.Statement;
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.LocalChannel;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pipeline.HandleResult;
 import org.panda_lang.language.interpreter.parser.pipeline.Handler;
+import org.panda_lang.language.interpreter.parser.pipeline.PandaLocalChannel;
 import org.panda_lang.language.interpreter.parser.pipeline.Pipeline;
 import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.language.interpreter.parser.pipeline.PandaLocalChannel;
 import org.panda_lang.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
@@ -43,6 +43,8 @@ import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ct
 import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.function.Option;
+import org.panda_lang.utilities.commons.function.Result;
 
 public final class BlockParser extends AutowiredParser<Void> {
 
@@ -70,9 +72,9 @@ public final class BlockParser extends AutowiredParser<Void> {
 
     @Override
     protected Boolean customHandle(Handler handler, Context context, LocalChannel channel, Snippet source) {
-        HandleResult<BlockSubparser> result = pipeline.handle(context, channel, source);
-        channel.allocated("subparser", result.getParser().getOrNull());
-        return result.getParser().isPresent();
+        Result<BlockSubparser, Option<Failure>> result = pipeline.handle(context, channel, source);
+        result.peek(parser -> channel.allocated("subparser", parser));
+        return result.isOk();
     }
 
     @Autowired(order = 1)

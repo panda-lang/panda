@@ -16,11 +16,14 @@
 
 package org.panda_lang.language.interpreter.parser.pipeline;
 
+import org.panda_lang.language.Failure;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.LocalChannel;
 import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.parser.ParserRepresentation;
 import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.utilities.commons.function.Option;
+import org.panda_lang.utilities.commons.function.Result;
 
 import java.util.Collection;
 
@@ -34,7 +37,7 @@ public interface Pipeline<P extends Parser> {
      * @param source the source
      * @return parser which fits to the source
      */
-    HandleResult<P> handle(Context context, LocalChannel channel, Snippet source);
+    Result<P, Option<Failure>> handle(Context context, LocalChannel channel, Snippet source);
 
     /**
      * Register the specified parser to

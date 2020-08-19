@@ -92,6 +92,8 @@ public final class Keywords {
 
     public static final Keyword REQUIRE = add(VALUES, new Keyword("require"));
 
+    public static final Keyword SELF = add(VALUES, new Keyword("self"));
+
     public static final Keyword SHARED = add(VALUES, new Keyword("shared"));
 
     public static final Keyword STATIC = add(VALUES, new Keyword("static"));

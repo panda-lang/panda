@@ -25,6 +25,7 @@ import org.openjdk.jmh.runner.RunnerException;
 import org.panda_lang.language.architecture.Application;
 import org.panda_lang.panda.util.BenchmarkUtils;
 import org.panda_lang.panda.util.PandaUtils;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.concurrent.TimeUnit;
 
@@ -51,7 +52,7 @@ import java.util.concurrent.TimeUnit;
 public class CurrentTestBenchmark {
 
     @Benchmark
-    public Object currentTest() {
+    public Option<Object> currentTest() {
         return PandaUtils.load("./examples/tests", "./examples/tests/current_test.panda")
                 .flatMap(Application::launch)
                 .get();

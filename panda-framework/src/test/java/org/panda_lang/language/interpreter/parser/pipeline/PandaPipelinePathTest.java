@@ -16,15 +16,16 @@
 
 package org.panda_lang.language.interpreter.parser.pipeline;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.parser.PandaContext;
+import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.token.PandaTokenInfo;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 
 import java.util.Arrays;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class PandaPipelinePathTest {
 
@@ -41,33 +42,33 @@ class PandaPipelinePathTest {
 
     @Test
     void createPipeline() {
-        Assertions.assertNotNull(defaultPath.computeIfAbsent(ANOTHER_TEST_COMPONENT));
+        assertNotNull(defaultPath.computeIfAbsent(ANOTHER_TEST_COMPONENT));
     }
 
     @Test
     void hasPipeline() {
-        Assertions.assertTrue(defaultPath.hasPipeline(TEST_COMPONENT));
-        Assertions.assertFalse(defaultPath.hasPipeline(ANOTHER_TEST_COMPONENT));
+        assertTrue(defaultPath.hasPipeline(TEST_COMPONENT));
+        assertFalse(defaultPath.hasPipeline(ANOTHER_TEST_COMPONENT));
     }
 
     @Test
     void getPipeline() {
-        Assertions.assertNotNull(defaultPath.getPipeline(TEST_COMPONENT));
-        Assertions.assertNull(defaultPath.getPipeline(ANOTHER_TEST_COMPONENT));
+        assertNotNull(defaultPath.getPipeline(TEST_COMPONENT));
+        assertNull(defaultPath.getPipeline(ANOTHER_TEST_COMPONENT));
     }
 
     @Test
     void getTotalHandleTime() {
-        Assertions.assertNull(defaultPath.getPipeline(TEST_COMPONENT)
+        assertTrue(defaultPath.getPipeline(TEST_COMPONENT)
                 .handle(new PandaContext(), new PandaLocalChannel(), PandaTokenInfo.of(TokenTypes.UNKNOWN, "test").toSnippet())
-                .getParser().getOrNull());
+                .isErr());
 
-        Assertions.assertTrue(defaultPath.getTotalHandleTime() > 0);
+        assertTrue(defaultPath.getTotalHandleTime() > 0);
     }
 
     @Test
     void names() {
-        Assertions.assertTrue(Arrays.asList("all", "test").containsAll(defaultPath.names()));
+        assertTrue(Arrays.asList("all", "test").containsAll(defaultPath.names()));
     }
 
 }

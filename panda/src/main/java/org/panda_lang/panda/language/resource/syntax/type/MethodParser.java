@@ -17,41 +17,44 @@
 package org.panda_lang.panda.language.resource.syntax.type;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.architecture.module.Imports;
+import org.panda_lang.language.architecture.expression.ThisExpression;
+import org.panda_lang.language.architecture.module.PandaImportsUtils;
+import org.panda_lang.language.architecture.type.MethodScope;
+import org.panda_lang.language.architecture.type.PandaMethod;
 import org.panda_lang.language.architecture.type.PropertyParameter;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.TypeMethod;
 import org.panda_lang.language.architecture.type.Visibility;
+import org.panda_lang.language.architecture.type.utils.TypedUtils;
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.LocalChannel;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.language.interpreter.source.Location;
-import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.interpreter.token.SnippetUtils;
-import org.panda_lang.language.interpreter.token.TokenInfo;
-import org.panda_lang.language.architecture.module.PandaImportsUtils;
-import org.panda_lang.language.architecture.type.MethodScope;
-import org.panda_lang.language.architecture.type.PandaMethod;
-import org.panda_lang.language.architecture.type.utils.TypedUtils;
-import org.panda_lang.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.language.interpreter.parser.stage.Phases;
 import org.panda_lang.language.interpreter.parser.stage.Stages;
 import org.panda_lang.language.interpreter.pattern.Mappings;
+import org.panda_lang.language.interpreter.pattern.functional.elements.TypeElement;
+import org.panda_lang.language.interpreter.pattern.functional.elements.UnitElement;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.token.SnippetUtils;
+import org.panda_lang.language.interpreter.token.Snippetable;
+import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.language.resource.syntax.operator.Operators;
 import org.panda_lang.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
 import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
-import org.panda_lang.language.interpreter.parser.stage.Phases;
 import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
 import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
 import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
+import org.panda_lang.panda.language.resource.syntax.scope.StandaloneExpression;
 import org.panda_lang.panda.language.resource.syntax.scope.branching.Returnable;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.function.Option;
@@ -92,14 +95,21 @@ public final class MethodParser extends AutowiredParser<Void> {
     }
 
     @Autowired(order = 1, stage = Stages.TYPES_LABEL)
-    public void parseReturnType(Context context, LocalChannel channel, @Ctx Imports imports, @Src("type") Snippet returnTypeName) {
+    public void parseReturnType(Context context, LocalChannel channel, @Ctx Type type, @Src("type") @Nullable Snippetable returnTypeNameSource) {
+        Snippet returnTypeName = returnTypeNameSource != null ? returnTypeNameSource.toSnippet() : null;
+
+        if (returnTypeName != null && returnTypeName.size() == 1 && Keywords.SELF.equals(returnTypeName.getFirst())) {
+            channel.allocated("type", type);
+            return;
+        }
+
         Option.of(returnTypeName)
-                .map(value -> PandaImportsUtils.getTypeOrThrow(context, returnTypeName,
+                .map(value -> PandaImportsUtils.getTypeOrThrow(context, value,
                         "Unknown type {name}",
                         "Make sure that the name does not have a typo and module which should contain that class is imported"
                 ))
                 .orElse(() -> context.getComponent(Components.IMPORTS).forName("void"))
-                .peek(type -> channel.allocated("type", type));
+                .peek(returnType -> channel.allocated("type", returnType));
     }
 
     @Autowired(order = 2, stage = Stages.TYPES_LABEL)
@@ -115,7 +125,6 @@ public final class MethodParser extends AutowiredParser<Void> {
         LocalChannel channel,
         @Ctx Type type,
         @Channel Mappings mappings,
-        @Channel Location location,
         @Channel Type returnType,
         @Channel MethodScope scope,
         @Src("name") TokenInfo name
@@ -137,7 +146,7 @@ public final class MethodParser extends AutowiredParser<Void> {
                 .filterNot(method -> mappings.has(Keywords.OVERRIDE))
                 .peek(method -> {
                     throw new PandaParserFailure(context, name,
-                            "Method &b" + name + "&r overrides &b" + existingMethod.get() + "&r but does not contain&b override&r modifier",
+                            "&rMethod &b" + name + "&r overrides &b" + existingMethod.get() + "&r but does not contain&b override&r modifier",
                             "Add missing modifier if you want to override that method or rename current method"
                     );
                 });
@@ -180,7 +189,7 @@ public final class MethodParser extends AutowiredParser<Void> {
     }
 
     @Autowired(order = 5, phase = Phases.NEXT_DEFAULT)
-    public void parse(Context context, @Channel MethodScope methodScope, @Channel TypeMethod method, @Nullable @Src("body") Snippet body) {
+    public void parse(Context context, @Ctx Type type, @Channel Mappings mappings, @Channel MethodScope methodScope, @Channel TypeMethod method, @Nullable @Src("body") Snippet body) {
         if (!SnippetUtils.isEmpty(body)) {
             SCOPE_PARSER.parse(context, methodScope, body);
         }
@@ -190,7 +199,12 @@ public final class MethodParser extends AutowiredParser<Void> {
         }
 
         if (!method.getReturnType().getAssociatedClass().isAssignableTo(void.class) && !methodScope.hasEffective(Returnable.class)) {
-            throw new PandaParserFailure(context, body.getLastLine(), "Missing return statement in method " + method.getName());
+            if (method.getReturnType().equals(type)) {
+                methodScope.addStatement(new StandaloneExpression(mappings.toSnippet().getLocation(), ThisExpression.of(type)));
+                return;
+            }
+
+            throw new PandaParserFailure(context, body != null ? body.getLastLine() : mappings, "Missing return statement in method " + method.getName());
         }
     }
 

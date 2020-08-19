@@ -33,6 +33,7 @@ final public class PandaExpressionContext implements ExpressionContext {
     private final Context context;
     private final SynchronizedSource synchronizedSource;
     private final Stack<Expression> results = new Stack<>();
+    private final Stack<ExpressionResult> errors = new Stack<>();
     private final List<Commit> commits = new ArrayList<>(1);
 
     public PandaExpressionContext(ExpressionParser parser, Context context, Snippetable source) {
@@ -69,6 +70,11 @@ final public class PandaExpressionContext implements ExpressionContext {
     @Override
     public List<Commit> getCommits() {
         return commits;
+    }
+
+    @Override
+    public Stack<ExpressionResult> getErrors() {
+        return errors;
     }
 
     @Override
