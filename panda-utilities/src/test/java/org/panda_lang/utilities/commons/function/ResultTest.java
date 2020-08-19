@@ -26,12 +26,12 @@ class ResultTest {
 
     @Test
     void map() {
-        assertEquals(7, Result.ok("7").map(Integer::parseInt).getValue());
+        assertEquals(7, Result.ok("7").map(Integer::parseInt).get());
     }
 
     @Test
     void orElse() {
-        assertEquals(7, Result.error(-1).orElse(err -> Result.ok(7)).getValue());
+        assertEquals(7, Result.error(-1).orElse(err -> Result.ok(7)).get());
     }
 
     @Test
@@ -48,19 +48,19 @@ class ResultTest {
 
     @Test
     void isDefined() {
-        assertTrue(Result.ok("ok").isDefined());
-        assertFalse(Result.error("err").isDefined());
+        assertTrue(Result.ok("ok").isOk());
+        assertFalse(Result.error("err").isOk());
     }
 
     @Test
     void getValue() {
-        assertEquals("value", Result.ok("value").getValue());
+        assertEquals("value", Result.ok("value").get());
     }
 
     @Test
     void containsError() {
-        assertTrue(Result.error("err").containsError());
-        assertFalse(Result.ok("ok").containsError());
+        assertTrue(Result.error("err").isErr());
+        assertFalse(Result.ok("ok").isErr());
     }
 
     @Test

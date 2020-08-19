@@ -19,6 +19,7 @@ package org.panda_lang.language.architecture;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.interpreter.logging.Logger;
 import org.panda_lang.language.interpreter.logging.LoggerHolder;
+import org.panda_lang.utilities.commons.function.Result;
 
 /**
  * Application is a group of bundled scripts
@@ -28,7 +29,7 @@ public interface Application extends LoggerHolder {
     /**
      * Launch application with a specified arguments
      */
-    @Nullable Object launch(String... arguments);
+    <T> Result<@Nullable T, Throwable> launch(String... arguments);
 
     /**
      * Get application environment

@@ -21,7 +21,7 @@ import org.panda_lang.panda.util.PandaUtils;
 final class SwingExample {
 
     public static void main(String[] args) {
-        PandaUtils.load("", "./examples/swing.panda").getValue().launch();
+        PandaUtils.load("", "./examples/swing.panda").get().launch();
     }
 
 }

@@ -17,6 +17,7 @@
 package org.panda_lang.panda.examples.performance.matmul;
 
 import org.junit.jupiter.api.Test;
+import org.panda_lang.language.architecture.Application;
 import org.panda_lang.panda.util.PandaUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,7 +27,7 @@ class MatmulTest {
     @Test
     void testMatmul() {
         for (int i = 0; i < 1; i++) {
-            assertEquals(-9.3358333, PandaUtils.load("../examples/tests/performance", "../examples/tests/performance/matmul.panda").getValue().launch());
+            assertEquals(-9.3358333, PandaUtils.load("../examples/tests/performance", "../examples/tests/performance/matmul.panda").flatMap(Application::launch).get());
         }
     }
 
