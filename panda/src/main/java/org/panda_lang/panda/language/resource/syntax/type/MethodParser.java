@@ -122,6 +122,13 @@ public final class MethodParser extends AutowiredParser<Void> {
     ) {
         Option<TypeMethod> existingMethod = type.getMethods().getMethod(name.getValue(), TypedUtils.toTypes(scope.getParameters()));
 
+        if (mappings.has(Keywords.OVERRIDE) && existingMethod.isEmpty()) {
+            throw new PandaParserFailure(context, name,
+                    "&1Method &b" + name + "&1 is defined as overridden, but there is no such a method in parent type",
+                    "Compare method signature with a target signature and apply required changes or remove this modifier to create independent method"
+            );
+        }
+
         existingMethod
                 .filter(TypeMethod::isNative)
                 .peek(method -> channel.allocated("native", true));
