@@ -83,7 +83,10 @@ public final class MethodParser extends AutowiredParser<Void> {
                 .section("parameters", Separators.PARENTHESIS_LEFT)
                 .subPattern("return-type", sub -> sub
                         .unit("arrow", Operators.ARROW.getValue())
-                        .type("type").verifyNextSection(Separators.BRACE_LEFT)
+                        .variant("type-variant").consume(variant -> variant.content(
+                                UnitElement.create("type").content(Keywords.SELF.getValue()),
+                                TypeElement.create("type")
+                        ))
                 ).optional()
                 .section("body", Separators.BRACE_LEFT).optional());
     }
@@ -173,6 +176,10 @@ public final class MethodParser extends AutowiredParser<Void> {
     public void parse(Context context, @Channel MethodScope methodScope, @Channel TypeMethod method, @Nullable @Src("body") Snippet body) {
         if (!SnippetUtils.isEmpty(body)) {
             SCOPE_PARSER.parse(context, methodScope, body);
+        }
+
+        if (method.isAbstract()) {
+            return;
         }
 
         if (!method.getReturnType().getAssociatedClass().isAssignableTo(void.class) && !methodScope.hasEffective(Returnable.class)) {
