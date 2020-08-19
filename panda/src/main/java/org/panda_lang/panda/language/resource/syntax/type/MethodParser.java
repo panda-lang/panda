@@ -144,7 +144,7 @@ public final class MethodParser extends AutowiredParser<Void> {
 
         existingMethod
                 .map(TypeMethod::getReturnType)
-                .filterNot(existingReturnType -> existingReturnType.isAssignableFrom(returnType))
+                .filterNot(returnType::isAssignableFrom)
                 .peek(existingReturnType -> {
                     throw new PandaParserFailure(context, name,
                             "&rMethod &b" + name + "&r overrides &b" + existingMethod.get() + "&r but does not return the same type",
