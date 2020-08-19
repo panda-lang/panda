@@ -24,6 +24,7 @@ import org.panda_lang.language.architecture.Script;
 import org.panda_lang.language.runtime.Process;
 import org.panda_lang.language.runtime.PandaProcess;
 import org.panda_lang.panda.language.resource.syntax.head.MainScope;
+import org.panda_lang.utilities.commons.UnsafeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,13 @@ public final class PandaApplication implements Application {
     @Override
     public @Nullable Object launch(String... args) {
         Process process = new PandaProcess(this, selectMain(), args);
-        return process.execute();
+
+        try {
+            return process.execute();
+        } catch (Throwable throwable) {
+            environment.getLogger().exception(throwable);
+            return UnsafeUtils.throwException(throwable);
+        }
     }
 
     private MainScope selectMain() {
