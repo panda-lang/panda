@@ -33,7 +33,7 @@ class CurrentTestExampleTest {
 
     @Test
     void testCurrentTest() {
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 1; i++) {
             PandaUtils.load("../examples/tests", "../examples/tests/current_test.panda").getValue().launch();
         }
     }
