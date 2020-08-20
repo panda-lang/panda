@@ -182,7 +182,7 @@ main {
 // simple interface
 shared interface IEcho {
 
-    // yes, we require implementation of static method
+    // require implementation of static method
     shared static anotherEcho (String doSth) -> String
 
     // standard method to impl

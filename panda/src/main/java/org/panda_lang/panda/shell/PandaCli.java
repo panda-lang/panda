@@ -79,6 +79,10 @@ final class PandaCli implements ThrowingRunnable<Exception> {
             return;
         }
 
+        if (level == null) {
+            level = Channel.INFO.getChannel();
+        }
+
         PandaUtils.printJVMUptime(shell);
         Panda panda = new PandaFactory().createPanda(new SystemLogger(Channel.of(level)));
 
