@@ -21,7 +21,6 @@ import org.panda_lang.language.architecture.dynamic.Frameable;
 
 public interface TypeInstance extends Frameable {
 
-    @SuppressWarnings("unused")
     TypeFrame __panda__get_frame();
 
     @Override

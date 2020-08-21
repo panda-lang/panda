@@ -20,11 +20,12 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.expression.ExpressionUtils;
 import org.panda_lang.language.architecture.expression.ExpressionValueType;
+import org.panda_lang.language.architecture.type.member.Member;
 import org.panda_lang.language.runtime.ProcessStack;
 
 public final class TypeExecutableExpression implements Expression {
 
-    private final ExecutableProperty executable;
+    private final Member executable;
     private final Expression instanceExpression;
     private final Expression[] arguments;
 
@@ -32,7 +33,7 @@ public final class TypeExecutableExpression implements Expression {
         this(instance, adjustment.getExecutable(), adjustment.getArguments());
     }
 
-    public TypeExecutableExpression(@Nullable Expression instance, ExecutableProperty executable, Expression[] arguments) {
+    public TypeExecutableExpression(@Nullable Expression instance, Member executable, Expression[] arguments) {
         this.executable = executable;
         this.instanceExpression = instance;
         this.arguments = arguments;

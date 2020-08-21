@@ -17,9 +17,9 @@
 package org.panda_lang.panda.language.resource.syntax.type;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.architecture.type.PropertyParameter;
+import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.TypeConstructor;
+import org.panda_lang.language.architecture.type.member.constructor.TypeConstructor;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.LocalChannel;
 import org.panda_lang.language.interpreter.parser.Parser;
@@ -27,9 +27,9 @@ import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.architecture.type.ConstructorScope;
-import org.panda_lang.language.architecture.type.ConstructorScope.ConstructorFrame;
-import org.panda_lang.language.architecture.type.PandaConstructor;
+import org.panda_lang.language.architecture.type.member.constructor.ConstructorScope;
+import org.panda_lang.language.architecture.type.member.constructor.ConstructorFrame;
+import org.panda_lang.language.architecture.type.member.constructor.PandaConstructor;
 import org.panda_lang.language.architecture.type.TypeInstance;
 import org.panda_lang.language.architecture.type.TypeScope;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;

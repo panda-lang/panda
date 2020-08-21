@@ -17,13 +17,14 @@
 package org.panda_lang.language.architecture.type;
 
 import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.architecture.type.member.Member;
 
 /**
  * Container for arguments adjusted to the property signature
  *
  * @param <T> generic type of property
  */
-public interface Adjustment<T extends ExecutableProperty> {
+public interface Adjustment<T extends Member> {
 
     /**
      * Get adjusted arguments

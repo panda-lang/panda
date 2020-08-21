@@ -17,7 +17,7 @@
 package org.panda_lang.language.interpreter.pattern.functional.elements;
 
 import org.panda_lang.language.interpreter.token.Snippetable;
-import org.panda_lang.language.architecture.type.utils.TypeDeclarationUtils;
+import org.panda_lang.language.architecture.type.TypeDeclarationUtils;
 import org.panda_lang.language.interpreter.pattern.functional.FunctionalPatternElementBuilder;
 
 public final class TypeElement extends FunctionalPatternElementBuilder<Snippetable, TypeElement> {

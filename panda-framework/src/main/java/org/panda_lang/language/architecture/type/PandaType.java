@@ -22,7 +22,19 @@ import org.panda_lang.language.architecture.expression.ExpressionUtils;
 import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.architecture.module.TypeLoader;
 import org.panda_lang.language.architecture.type.array.ArrayClassTypeFetcher;
-import org.panda_lang.language.architecture.type.dynamic.PandaDynamicClass;
+import org.panda_lang.language.architecture.type.generator.dynamic.PandaDynamicClass;
+import org.panda_lang.language.architecture.type.member.AbstractProperty;
+import org.panda_lang.language.architecture.type.member.constructor.Constructors;
+import org.panda_lang.language.architecture.type.member.Member;
+import org.panda_lang.language.architecture.type.member.field.Fields;
+import org.panda_lang.language.architecture.type.member.method.Methods;
+import org.panda_lang.language.architecture.type.member.constructor.PandaConstructors;
+import org.panda_lang.language.architecture.type.member.field.PandaFields;
+import org.panda_lang.language.architecture.type.member.method.PandaMethods;
+import org.panda_lang.language.architecture.type.member.Properties;
+import org.panda_lang.language.architecture.type.member.constructor.TypeConstructor;
+import org.panda_lang.language.architecture.type.member.field.TypeField;
+import org.panda_lang.language.architecture.type.member.method.TypeMethod;
 import org.panda_lang.utilities.commons.ValidationUtils;
 import org.panda_lang.utilities.commons.function.Option;
 
@@ -163,7 +175,7 @@ public class PandaType extends AbstractProperty implements Type {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T extends ExecutableProperty> Option<Properties<T>> getProperties(Class<T> propertyType) {
+    public <T extends Member> Option<Properties<T>> getProperties(Class<T> propertyType) {
         Properties<T> properties = null;
 
         if (TypeMethod.class.isAssignableFrom(propertyType)) {

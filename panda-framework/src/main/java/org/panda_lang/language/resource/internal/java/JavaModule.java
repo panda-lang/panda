@@ -19,8 +19,12 @@ package org.panda_lang.language.resource.internal.java;
 import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.architecture.module.TypeLoader;
 import org.panda_lang.language.architecture.type.Autocast;
+import org.panda_lang.language.architecture.type.PandaType;
+import org.panda_lang.language.architecture.type.State;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.PandaTypeUtils;
+import org.panda_lang.language.architecture.type.TypeModels;
+import org.panda_lang.language.architecture.type.Visibility;
+import org.panda_lang.language.interpreter.source.PandaClassSource;
 import org.panda_lang.language.resource.internal.InternalModuleInfo;
 import org.panda_lang.language.resource.internal.InternalModuleInfo.CustomInitializer;
 import org.panda_lang.utilities.commons.ClassUtils;
@@ -34,8 +38,8 @@ public final class JavaModule implements CustomInitializer {
 
     @Override
     public void initialize(Module module, TypeLoader typeLoader) {
-        PandaTypeUtils.of(module, void.class);
-        PandaTypeUtils.of(module, Void.class);
+        of(module, void.class);
+        of(module, Void.class);
 
         type(module, typeLoader, "Int", int.class);
         type(module, typeLoader, "Bool", boolean.class);
@@ -67,13 +71,30 @@ public final class JavaModule implements CustomInitializer {
     }
 
     private void type(Module module, TypeLoader typeLoader, String name, Class<?> primitiveClass) {
-        PandaTypeUtils.of(module, "Primitive" + name, primitiveClass);
+        of(module, "Primitive" + name, primitiveClass);
         typeLoader.load(module, ClassUtils.getNonPrimitiveClass(primitiveClass), name);
     }
 
     private Type generate(Module module, TypeLoader typeLoader, Class<?> primitiveClass, String name) {
-        PandaTypeUtils.of(module, "Primitive" + name, primitiveClass);
+        of(module, "Primitive" + name, primitiveClass);
         return typeLoader.load(module, ClassUtils.getNonPrimitiveClass(primitiveClass), name);
+    }
+
+
+    public static Type of(Module module, Class<?> type) {
+        return of(module, type.getSimpleName(), type);
+    }
+
+    public static Type of(Module module, String name, Class<?> javaType) {
+        return module.add(PandaType.builder()
+                .name(name)
+                .module(module)
+                .javaType(javaType)
+                .visibility(Visibility.OPEN)
+                .state(State.DEFAULT)
+                .model(javaType.isInterface() ? TypeModels.INTERFACE : TypeModels.CLASS)
+                .location(new PandaClassSource(javaType).toLocation())
+                .build());
     }
 
 }

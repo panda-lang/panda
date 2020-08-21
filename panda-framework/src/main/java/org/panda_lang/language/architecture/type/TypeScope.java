@@ -19,6 +19,8 @@ package org.panda_lang.language.architecture.type;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.PandaFrameworkException;
 import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.architecture.type.member.constructor.TypeConstructor;
+import org.panda_lang.language.architecture.type.member.field.TypeField;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.language.architecture.statement.AbstractFramedScope;

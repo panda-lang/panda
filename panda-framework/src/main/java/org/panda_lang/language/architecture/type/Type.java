@@ -19,6 +19,12 @@ package org.panda_lang.language.architecture.type;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.architecture.module.TypeLoader;
+import org.panda_lang.language.architecture.type.member.constructor.Constructors;
+import org.panda_lang.language.architecture.type.member.Member;
+import org.panda_lang.language.architecture.type.member.field.Fields;
+import org.panda_lang.language.architecture.type.member.method.Methods;
+import org.panda_lang.language.architecture.type.member.Properties;
+import org.panda_lang.language.architecture.type.member.Property;
 import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.Collection;
@@ -113,7 +119,7 @@ public interface Type extends Property {
      * @param <T> generic type that represents the property type
      * @return the properties
      */
-    <T extends ExecutableProperty> Option<Properties<T>> getProperties(Class<T> propertyType);
+    <T extends Member> Option<Properties<T>> getProperties(Class<T> propertyType);
 
     /**
      * Get autocast for the given type

@@ -16,7 +16,7 @@
 
 package org.panda_lang.language.architecture.expression;
 
-import org.panda_lang.language.architecture.type.PropertyFrame;
+import org.panda_lang.language.architecture.type.member.PropertyFrame;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.runtime.ProcessStack;

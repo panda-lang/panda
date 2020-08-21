@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.expression.ExpressionUtils;
 import org.panda_lang.language.architecture.type.Adjustment;
-import org.panda_lang.language.architecture.type.TypeConstructor;
+import org.panda_lang.language.architecture.type.member.constructor.TypeConstructor;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.language.architecture.dynamic.AbstractExecutableStatement;

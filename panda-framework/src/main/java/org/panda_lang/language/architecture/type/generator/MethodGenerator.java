@@ -18,11 +18,11 @@ package org.panda_lang.language.architecture.type.generator;
 
 import org.panda_lang.language.FrameworkController;
 import org.panda_lang.language.architecture.module.TypeLoader;
-import org.panda_lang.language.architecture.type.PandaMethod;
-import org.panda_lang.language.architecture.type.PropertyParameter;
+import org.panda_lang.language.architecture.type.member.method.PandaMethod;
+import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.TypeExecutableCallback;
-import org.panda_lang.language.architecture.type.TypeMethod;
+import org.panda_lang.language.architecture.type.MemberInvoker;
+import org.panda_lang.language.architecture.type.member.method.TypeMethod;
 import org.panda_lang.language.runtime.PandaRuntimeException;
 
 import java.lang.reflect.Array;
@@ -54,7 +54,7 @@ final class MethodGenerator {
         // TODO: Generate bytecode
         method.setAccessible(true);
 
-        TypeExecutableCallback<TypeMethod, Object> methodBody = (typeMethod, stack, instance, arguments) -> {
+        MemberInvoker<TypeMethod, Object> methodBody = (typeMethod, stack, instance, arguments) -> {
             int amountOfArgs = arguments.length;
             int parameterCount = method.getParameterCount();
             Object varargs = null;

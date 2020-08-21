@@ -20,7 +20,7 @@ import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.Snippetable;
-import org.panda_lang.language.architecture.type.utils.VisibilityComparator;
+import org.panda_lang.language.architecture.type.VisibilityComparator;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 
 import java.util.Objects;

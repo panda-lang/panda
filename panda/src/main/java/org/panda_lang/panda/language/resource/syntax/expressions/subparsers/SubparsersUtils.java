@@ -22,7 +22,7 @@ import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.architecture.type.utils.TypeDeclarationUtils;
+import org.panda_lang.language.architecture.type.TypeDeclarationUtils;
 import org.panda_lang.utilities.commons.function.Produce;
 
 final class SubparsersUtils {

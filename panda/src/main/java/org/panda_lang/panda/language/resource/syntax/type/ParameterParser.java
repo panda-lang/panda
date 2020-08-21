@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.resource.syntax.type;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.module.Imports;
-import org.panda_lang.language.architecture.type.PropertyParameter;
+import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
@@ -26,7 +26,7 @@ import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.SnippetUtils;
 import org.panda_lang.language.interpreter.token.Token;
-import org.panda_lang.language.architecture.type.PandaPropertyParameter;
+import org.panda_lang.language.architecture.type.member.parameter.PropertyParameterImpl;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.language.resource.syntax.separator.Separators;
@@ -80,7 +80,7 @@ public final class ParameterParser implements Parser {
                 type = type.toArray(context.getComponent(Components.TYPE_LOADER));
             }
 
-            PropertyParameter parameter = new PandaPropertyParameter(index, type, name.getValue(), varargs, mutable, nillable);
+            PropertyParameter parameter = new PropertyParameterImpl(index, type, name.getValue(), varargs, mutable, nillable);
             parameters.add(parameter);
         }
 

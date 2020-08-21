@@ -35,7 +35,7 @@ import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.language.architecture.statement.PandaVariableDataInitializer;
-import org.panda_lang.language.architecture.type.utils.TypeDeclarationUtils;
+import org.panda_lang.language.architecture.type.TypeDeclarationUtils;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.token.PandaSnippet;
 import org.panda_lang.language.resource.syntax.TokenTypes;

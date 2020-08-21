@@ -17,7 +17,7 @@
 package org.panda_lang.language.architecture.statement;
 
 import org.panda_lang.language.architecture.dynamic.Frame;
-import org.panda_lang.language.architecture.type.PropertyFrame;
+import org.panda_lang.language.architecture.type.member.PropertyFrame;
 import org.panda_lang.language.architecture.dynamic.AbstractFrame;
 
 public class PandaPropertyFrame<T extends StandardizedFramedScope> extends AbstractFrame<T> implements PropertyFrame {

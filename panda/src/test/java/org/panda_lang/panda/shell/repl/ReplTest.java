@@ -19,8 +19,8 @@ package org.panda_lang.panda.shell.repl;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.language.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.language.architecture.statement.PandaVariableData;
-import org.panda_lang.language.architecture.type.PandaMethod;
-import org.panda_lang.language.architecture.type.PandaPropertyParameter;
+import org.panda_lang.language.architecture.type.member.method.PandaMethod;
+import org.panda_lang.language.architecture.type.member.parameter.PropertyParameterImpl;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.source.PandaClassSource;
 import org.panda_lang.panda.Panda;
@@ -39,7 +39,7 @@ class ReplTest {
                 .variable(new PandaVariableData(ModuleLoaderUtils.requireType(context, int.class), "i"), 5)
                 .define(PandaMethod.builder()
                         .name("sqrt")
-                        .parameters(new PandaPropertyParameter(0, ModuleLoaderUtils.requireType(context, Double.class), "i"))
+                        .parameters(new PropertyParameterImpl(0, ModuleLoaderUtils.requireType(context, Double.class), "i"))
                         .customBody((method, stack, instance, arguments) -> Math.sqrt(((Number) arguments[0]).doubleValue()))
                         .returnType(ModuleLoaderUtils.requireType(context, Double.class))
                         .location(new PandaClassSource(ReplTest.class).toLocation())

@@ -25,7 +25,7 @@ import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.architecture.expression.PandaDynamicExpression;
-import org.panda_lang.language.architecture.type.utils.VisibilityComparator;
+import org.panda_lang.language.architecture.type.VisibilityComparator;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.utilities.commons.function.Produce;
 

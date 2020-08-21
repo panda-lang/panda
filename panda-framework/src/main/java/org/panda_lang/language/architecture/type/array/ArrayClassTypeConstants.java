@@ -17,9 +17,9 @@
 package org.panda_lang.language.architecture.type.array;
 
 import org.panda_lang.language.architecture.module.TypeLoader;
-import org.panda_lang.language.architecture.type.TypeMethod;
+import org.panda_lang.language.architecture.type.member.method.TypeMethod;
 import org.panda_lang.language.interpreter.source.Location;
-import org.panda_lang.language.architecture.type.PandaMethod;
+import org.panda_lang.language.architecture.type.member.method.PandaMethod;
 import org.panda_lang.language.interpreter.source.PandaClassSource;
 
 import java.util.Arrays;

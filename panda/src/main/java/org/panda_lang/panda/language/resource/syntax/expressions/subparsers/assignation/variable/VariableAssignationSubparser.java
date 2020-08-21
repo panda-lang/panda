@@ -35,7 +35,7 @@ import org.panda_lang.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.language.architecture.dynamic.accessor.AccessorExpression;
 import org.panda_lang.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.language.architecture.dynamic.assigner.AssignerExpression;
-import org.panda_lang.language.architecture.type.ConstructorScope;
+import org.panda_lang.language.architecture.type.member.constructor.ConstructorScope;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;

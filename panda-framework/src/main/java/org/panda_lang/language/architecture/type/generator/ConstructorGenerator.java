@@ -16,11 +16,11 @@
 
 package org.panda_lang.language.architecture.type.generator;
 
-import org.panda_lang.language.architecture.type.PropertyParameter;
+import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.TypeConstructor;
+import org.panda_lang.language.architecture.type.member.constructor.TypeConstructor;
 import org.panda_lang.language.architecture.module.TypeLoader;
-import org.panda_lang.language.architecture.type.PandaConstructor;
+import org.panda_lang.language.architecture.type.member.constructor.PandaConstructor;
 
 import java.lang.reflect.Constructor;
 

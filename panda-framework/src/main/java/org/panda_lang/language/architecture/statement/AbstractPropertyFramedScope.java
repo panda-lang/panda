@@ -16,7 +16,7 @@
 
 package org.panda_lang.language.architecture.statement;
 
-import org.panda_lang.language.architecture.type.PropertyParameter;
+import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
 import org.panda_lang.language.interpreter.source.Location;
 
 import java.util.ArrayList;

@@ -26,7 +26,7 @@ import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.architecture.type.ConstructorScope;
+import org.panda_lang.language.architecture.type.member.constructor.ConstructorScope;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.literal.Literals;
