@@ -14,9 +14,8 @@ class ValidationUtilsTest {
 
     @Test
     void notNull__non_null_argument_returns_argument() {
-        final String value = "testValue";
-        String actual = ValidationUtils.notNull(value);
+        String actual = ValidationUtils.notNull("testValue");
 
-        Assertions.assertEquals(value, actual);
+        Assertions.assertEquals("testValue", actual);
     }
 }
