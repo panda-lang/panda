@@ -19,14 +19,14 @@ package org.panda_lang.language.architecture.type.member;
 import org.panda_lang.language.architecture.type.Visibility;
 import org.panda_lang.language.interpreter.source.Location;
 
-public abstract class AbstractProperty implements Property {
+public abstract class AbstractMetadata implements Metadata {
 
     private final String name;
     private final Location location;
     private final Visibility visibility;
     private final boolean isNative;
 
-    protected AbstractProperty(String name, Location location, Visibility visibility, boolean isNative) {
+    protected AbstractMetadata(String name, Location location, Visibility visibility, boolean isNative) {
         if (name == null) {
             throw new IllegalArgumentException("Name is not defined");
         }

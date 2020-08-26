@@ -18,7 +18,7 @@ package org.panda_lang.language.architecture.type;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.module.Module;
-import org.panda_lang.language.architecture.type.member.Property;
+import org.panda_lang.language.architecture.type.member.Metadata;
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
@@ -30,18 +30,18 @@ public final class VisibilityComparator {
 
     public static final String NOTE_MESSAGE = "You may want to change the architecture of your application or you can just simply hack it";
 
-    public static boolean requireAccess(Property requested, Context context, Snippetable source) {
+    public static boolean requireAccess(Metadata requested, Context context, Snippetable source) {
         canAccess(requested, context).peek(message -> {
             throw new PandaParserFailure(context, source, message, NOTE_MESSAGE);
         });
         return true;
     }
 
-    public static Option<String> canAccess(Property requested, Context context) {
+    public static Option<String> canAccess(Metadata requested, Context context) {
         return canAccess(requested, context.getComponent(Components.SCRIPT).getModule(), context.getComponent(Components.CURRENT_SOURCE).getLocation().getSource());
     }
 
-    public static Option<String> canAccess(Property requested, Module currentModule, @Nullable Source currentSource) {
+    public static Option<String> canAccess(Metadata requested, Module currentModule, @Nullable Source currentSource) {
         if (requested.getVisibility() == Visibility.OPEN) {
             return Option.none();
         }

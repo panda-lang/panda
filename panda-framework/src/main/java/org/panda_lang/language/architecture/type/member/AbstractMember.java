@@ -16,6 +16,7 @@
 
 package org.panda_lang.language.architecture.type.member;
 
+import org.panda_lang.language.architecture.type.Signature;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.MemberInvoker;
 import org.panda_lang.language.architecture.type.Visibility;
@@ -27,7 +28,7 @@ import org.panda_lang.language.runtime.ProcessStack;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractMember<E extends Member> extends AbstractProperty implements Member {
+public abstract class AbstractMember<E extends Member> extends AbstractMetadata implements Member {
 
     private final Type type;
     private final PropertyParameter[] parameters;
@@ -50,10 +51,10 @@ public abstract class AbstractMember<E extends Member> extends AbstractProperty 
     }
 
     @Override
-    public Type[] getParameterTypes() {
+    public Signature[] getParameterTypes() {
         return Arrays.stream(getParameters())
-                .map(PropertyParameter::getType)
-                .toArray(Type[]::new);
+                .map(PropertyParameter::getSignature)
+                .toArray(Signature[]::new);
     }
 
     @Override

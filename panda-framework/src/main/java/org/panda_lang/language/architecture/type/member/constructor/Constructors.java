@@ -19,13 +19,13 @@ package org.panda_lang.language.architecture.type.member.constructor;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.type.Adjustment;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.member.Properties;
+import org.panda_lang.language.architecture.type.member.Members;
 import org.panda_lang.utilities.commons.function.Option;
 
 /**
  * Container for constructors
  */
-public interface Constructors extends Properties<TypeConstructor> {
+public interface Constructors extends Members<TypeConstructor> {
 
     /**
      * Adjust property to the given arguments (with varargs support)

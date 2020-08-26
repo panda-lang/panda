@@ -20,13 +20,13 @@ import org.panda_lang.language.architecture.expression.Expression;
 
 import org.panda_lang.language.architecture.type.Adjustment;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.member.Properties;
+import org.panda_lang.language.architecture.type.member.Members;
 import org.panda_lang.utilities.commons.function.Option;
 
 /**
  * Container for methods
  */
-public interface Methods extends Properties<TypeMethod> {
+public interface Methods extends Members<TypeMethod> {
 
     /**
      * Adjust property to the given arguments

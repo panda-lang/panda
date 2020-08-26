@@ -16,13 +16,13 @@
 
 package org.panda_lang.language.architecture.type.member.field;
 
-import org.panda_lang.language.architecture.type.member.Properties;
+import org.panda_lang.language.architecture.type.member.Members;
 import org.panda_lang.utilities.commons.function.Option;
 
 /**
  * Container for fields
  */
-public interface Fields extends Properties<TypeField> {
+public interface Fields extends Members<TypeField> {
 
     /**
      * Get field with the given name

@@ -23,8 +23,8 @@ import org.panda_lang.language.architecture.type.member.constructor.Constructors
 import org.panda_lang.language.architecture.type.member.Member;
 import org.panda_lang.language.architecture.type.member.field.Fields;
 import org.panda_lang.language.architecture.type.member.method.Methods;
-import org.panda_lang.language.architecture.type.member.Properties;
-import org.panda_lang.language.architecture.type.member.Property;
+import org.panda_lang.language.architecture.type.member.Members;
+import org.panda_lang.language.architecture.type.member.Metadata;
 import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.Collection;
@@ -32,7 +32,7 @@ import java.util.Collection;
 /**
  * Extensible owner of properties
  */
-public interface Type extends Property {
+public interface Type extends Metadata {
 
     /**
      * Execute all registered initializers
@@ -119,7 +119,7 @@ public interface Type extends Property {
      * @param <T> generic type that represents the property type
      * @return the properties
      */
-    <T extends Member> Option<Properties<T>> getProperties(Class<T> propertyType);
+    <T extends Member> Option<Members<T>> getProperties(Class<T> propertyType);
 
     /**
      * Get autocast for the given type

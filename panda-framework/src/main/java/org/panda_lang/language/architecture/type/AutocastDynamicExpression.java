@@ -23,10 +23,10 @@ import org.panda_lang.language.architecture.expression.DynamicExpression;
 public final class AutocastDynamicExpression implements DynamicExpression {
 
     private final Expression original;
-    private final Type to;
+    private final Signature to;
     private final Autocast<?, ?> autocast;
 
-    public AutocastDynamicExpression(Expression original, Type to, Autocast<?, ?> autocast) {
+    public AutocastDynamicExpression(Expression original, Signature to, Autocast<?, ?> autocast) {
         this.original = original;
         this.to = to;
         this.autocast = autocast;
@@ -35,11 +35,11 @@ public final class AutocastDynamicExpression implements DynamicExpression {
     @Override
     @SuppressWarnings("unchecked")
     public Object evaluate(ProcessStack stack, Object instance) throws Exception {
-        return autocast.cast(original.getType(), original.evaluate(stack, instance), to);
+        return autocast.cast(original.getSignature(), original.evaluate(stack, instance), to);
     }
 
     @Override
-    public Type getReturnType() {
+    public Signature getReturnType() {
         return to;
     }
 

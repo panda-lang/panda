@@ -26,7 +26,7 @@ import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.language.runtime.Result;
 import org.panda_lang.language.architecture.statement.AbstractPropertyFramedScope;
-import org.panda_lang.language.architecture.statement.PandaPropertyFrame;
+import org.panda_lang.language.architecture.type.member.MemberFrameImpl;
 
 import java.util.List;
 
@@ -45,7 +45,7 @@ public final class MethodScope extends AbstractPropertyFramedScope {
         return new PandaMethodCallback(this);
     }
 
-    public static final class MethodFrame extends PandaPropertyFrame<MethodScope> {
+    public static final class MethodFrame extends MemberFrameImpl<MethodScope> {
 
         public MethodFrame(MethodScope method, Frame instance) {
             super(method, instance);

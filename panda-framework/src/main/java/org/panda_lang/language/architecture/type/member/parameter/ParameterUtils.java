@@ -18,7 +18,7 @@ package org.panda_lang.language.architecture.type.member.parameter;
 
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.statement.AbstractPropertyFramedScope;
-import org.panda_lang.language.architecture.statement.PandaPropertyFrame;
+import org.panda_lang.language.architecture.type.member.MemberFrameImpl;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.runtime.PandaRuntimeException;
 import org.panda_lang.utilities.commons.text.ContentJoiner;
@@ -31,7 +31,7 @@ public final class ParameterUtils {
 
     private ParameterUtils() { }
 
-    public static void assignValues(PandaPropertyFrame<? extends AbstractPropertyFramedScope> instance, Object[] parameterValues) {
+    public static void assignValues(MemberFrameImpl<? extends AbstractPropertyFramedScope> instance, Object[] parameterValues) {
         if (instance.getMemorySize() < parameterValues.length) {
             throw new PandaRuntimeException("Incompatible number of parameters");
         }

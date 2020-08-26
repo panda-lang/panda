@@ -17,15 +17,14 @@
 package org.panda_lang.language.architecture.type.member;
 
 import org.panda_lang.language.architecture.module.Module;
-import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.Typed;
+import org.panda_lang.language.architecture.type.Signed;
 import org.panda_lang.language.architecture.type.Visibility;
 import org.panda_lang.language.interpreter.source.Location;
 
 /**
  * Element of type
  */
-public interface Property extends Typed {
+public interface Metadata extends Signed {
 
     /**
      * Check if refers to the native context
@@ -42,19 +41,12 @@ public interface Property extends Typed {
     Visibility getVisibility();
 
     /**
-     * Get associated type
-     *
-     * @return the associated to type
-     */
-    Type getType();
-
-    /**
      * Get module of property
      *
      * @return the module
      */
     default Module getModule() {
-        return getType().getModule();
+        return getSignature().getType().getModule();
     }
 
     /**

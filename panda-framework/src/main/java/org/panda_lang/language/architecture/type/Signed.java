@@ -19,13 +19,13 @@ package org.panda_lang.language.architecture.type;
 /**
  * Represents typed properties
  */
-public interface Typed {
+public interface Signed {
 
     /**
      * Get associated type
      *
      * @return the type of result
      */
-    Type getType();
+    Signature getSignature();
 
 }

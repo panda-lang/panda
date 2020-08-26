@@ -14,24 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.language.architecture.statement;
+package org.panda_lang.language.architecture.type.member;
 
 import org.panda_lang.language.architecture.dynamic.Frame;
-import org.panda_lang.language.architecture.type.member.PropertyFrame;
-import org.panda_lang.language.architecture.dynamic.AbstractFrame;
 
-public class PandaPropertyFrame<T extends StandardizedFramedScope> extends AbstractFrame<T> implements PropertyFrame {
+/**
+ * Represents frames within the type frame (e.g. methods)
+ */
+public interface MemberFrame extends Frame {
 
-    private final Frame instance;
-
-    public PandaPropertyFrame(T frame, Frame instance) {
-        super(frame);
-        this.instance = instance;
-    }
-
-    @Override
-    public Frame getInstance() {
-        return instance;
-    }
+    /**
+     * Get the type instance of the current property
+     *
+     * @return the instance
+     */
+    Frame getInstance();
 
 }

@@ -16,12 +16,12 @@
 
 package org.panda_lang.language.architecture.statement;
 
-import org.panda_lang.language.architecture.type.Typed;
+import org.panda_lang.language.architecture.type.Signed;
 
 /**
  * Represents basic data about variable
  */
-public interface VariableData extends Typed {
+public interface VariableData extends Signed {
 
     /**
      * Check if variable is nillable (accepts null values)

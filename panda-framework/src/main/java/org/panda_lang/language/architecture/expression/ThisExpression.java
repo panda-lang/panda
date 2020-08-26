@@ -16,7 +16,7 @@
 
 package org.panda_lang.language.architecture.expression;
 
-import org.panda_lang.language.architecture.type.member.PropertyFrame;
+import org.panda_lang.language.architecture.type.member.MemberFrame;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.runtime.ProcessStack;
@@ -33,7 +33,7 @@ public final class ThisExpression implements DynamicExpression {
 
     @Override
     public <T> T evaluate(ProcessStack stack, Object instance) {
-        return ObjectUtils.cast(instance instanceof PropertyFrame ? ((PropertyFrame) instance).getInstance() : instance);
+        return ObjectUtils.cast(instance instanceof MemberFrame ? ((MemberFrame) instance).getInstance() : instance);
     }
 
     @Override

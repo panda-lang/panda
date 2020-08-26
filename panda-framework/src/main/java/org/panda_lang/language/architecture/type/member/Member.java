@@ -16,6 +16,7 @@
 
 package org.panda_lang.language.architecture.type.member;
 
+import org.panda_lang.language.architecture.type.Signature;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.TypedUtils;
 import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
@@ -26,7 +27,7 @@ import java.util.Arrays;
 /**
  * ExecutableProperty is equivalent to {@link java.lang.reflect.Executable} 
  */
-public interface Member extends Property {
+public interface Member extends Metadata {
 
     /**
      * Invoke the executable
@@ -47,7 +48,7 @@ public interface Member extends Property {
      */
     default Class<?>[] getJavaParameterTypes() {
         return Arrays.stream(getParameterTypes())
-                .map(parameterType -> parameterType.getAssociatedClass().fetchStructure())
+                .map(parameterType -> parameterType.getType().getAssociatedClass().fetchStructure())
                 .toArray(Class[]::new);
     }
 
@@ -56,7 +57,7 @@ public interface Member extends Property {
      *
      * @return array of used by parameter types
      */
-    Type[] getParameterTypes();
+    Signature[] getParameterTypes();
 
     /**
      * Get parameters used by executable

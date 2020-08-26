@@ -19,12 +19,12 @@ package org.panda_lang.language.architecture.type.member.constructor;
 import org.panda_lang.language.architecture.type.Adjustment;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.SignatureMatcher;
-import org.panda_lang.language.architecture.type.member.AbstractProperties;
+import org.panda_lang.language.architecture.type.member.AbstractMembers;
 import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.type.TypedUtils;
 
-public final class PandaConstructors extends AbstractProperties<TypeConstructor> implements Constructors {
+public final class PandaConstructors extends AbstractMembers<TypeConstructor> implements Constructors {
 
     private static final SignatureMatcher<TypeConstructor> MATCHER = new SignatureMatcher<>();
 

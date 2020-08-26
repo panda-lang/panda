@@ -20,14 +20,14 @@ import org.panda_lang.language.architecture.type.Adjustment;
 import org.panda_lang.language.architecture.type.State;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.SignatureMatcher;
-import org.panda_lang.language.architecture.type.member.AbstractProperties;
+import org.panda_lang.language.architecture.type.member.AbstractMembers;
 import org.panda_lang.language.architecture.type.member.parameter.ParameterUtils;
 import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.language.architecture.expression.Expression;
 
 import java.util.List;
 
-public final class PandaMethods extends AbstractProperties<TypeMethod> implements Methods {
+public final class PandaMethods extends AbstractMembers<TypeMethod> implements Methods {
 
     private static final SignatureMatcher<TypeMethod> MATCHER = new SignatureMatcher<>();
 

@@ -16,18 +16,22 @@
 
 package org.panda_lang.language.architecture.type.member;
 
+import org.panda_lang.language.architecture.dynamic.AbstractFrame;
 import org.panda_lang.language.architecture.dynamic.Frame;
+import org.panda_lang.language.architecture.statement.StandardizedFramedScope;
 
-/**
- * Represents frames within the type frame (e.g. methods)
- */
-public interface PropertyFrame extends Frame {
+public class MemberFrameImpl<T extends StandardizedFramedScope> extends AbstractFrame<T> implements MemberFrame {
 
-    /**
-     * Get the type instance of the current property
-     *
-     * @return the instance
-     */
-    Frame getInstance();
+    private final Frame instance;
+
+    public MemberFrameImpl(T frame, Frame instance) {
+        super(frame);
+        this.instance = instance;
+    }
+
+    @Override
+    public Frame getInstance() {
+        return instance;
+    }
 
 }

@@ -16,12 +16,12 @@
 
 package org.panda_lang.language.architecture.expression;
 
-import org.panda_lang.language.architecture.type.Typed;
+import org.panda_lang.language.architecture.type.Signed;
 
 /**
  * Represents dynamic values
  */
-public interface Expression extends Typed, ExpressionEvaluator, Expressible {
+public interface Expression extends Signed, ExpressionEvaluator, Expressible {
 
     /**
      * Get expression type
@@ -36,7 +36,7 @@ public interface Expression extends Typed, ExpressionEvaluator, Expressible {
      * @return true if expression returns null
      */
     default boolean isNull() {
-        return getType() == null;
+        return getSignature() == null;
     }
 
 

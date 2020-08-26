@@ -17,12 +17,12 @@
 package org.panda_lang.language.architecture.type.member.field;
 
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.member.AbstractProperties;
+import org.panda_lang.language.architecture.type.member.AbstractMembers;
 import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.List;
 
-public final class PandaFields extends AbstractProperties<TypeField> implements Fields {
+public final class PandaFields extends AbstractMembers<TypeField> implements Fields {
 
     public PandaFields(Type type) {
         super(TypeField.class, type);

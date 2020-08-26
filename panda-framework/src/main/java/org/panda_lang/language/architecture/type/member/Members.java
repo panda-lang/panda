@@ -26,7 +26,7 @@ import java.util.function.Supplier;
  *
  * @param <T> generic type of represented properties
  */
-public interface Properties<T extends Member> {
+public interface Members<T extends Member> {
 
     /**
      * Declare a new property

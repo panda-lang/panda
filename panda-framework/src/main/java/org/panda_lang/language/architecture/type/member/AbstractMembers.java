@@ -31,13 +31,13 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-public abstract class AbstractProperties<T extends Member> implements Properties<T> {
+public abstract class AbstractMembers<T extends Member> implements Members<T> {
 
     protected final Class<T> propertiesType;
     protected final Type type;
     protected final Map<String, Collection<Lazy<T>>> propertiesMap = new HashMap<>();
 
-    protected AbstractProperties(Class<T> propertiesType, Type type) {
+    protected AbstractMembers(Class<T> propertiesType, Type type) {
         this.propertiesType = propertiesType;
         this.type = type;
     }
@@ -62,7 +62,7 @@ public abstract class AbstractProperties<T extends Member> implements Properties
         }
 
         for (Type base : type.getBases()) {
-            Option<Properties<T>> properties = base.getProperties(propertiesType);
+            Option<Members<T>> properties = base.getProperties(propertiesType);
 
             if (properties.isPresent() && properties.get().hasPropertyLike(name)) {
                 return true;
@@ -72,7 +72,7 @@ public abstract class AbstractProperties<T extends Member> implements Properties
         return false;
     }
 
-    private List<T> withBases(List<T> properties, Function<Properties<? extends T>, Collection<? extends T>> mapper, Predicate<T> filter) {
+    private List<T> withBases(List<T> properties, Function<Members<? extends T>, Collection<? extends T>> mapper, Predicate<T> filter) {
         for (Type base : type.getBases()) {
             base.getProperties(propertiesType).peek(baseProperties -> properties.addAll(mapper.apply(baseProperties).stream()
                     .filter(filter)
@@ -98,7 +98,7 @@ public abstract class AbstractProperties<T extends Member> implements Properties
     }
 
     protected List<T> getProperties(Predicate<T> filter) {
-        return withBases(new ArrayList<>(getDeclaredProperties(filter)), Properties::getProperties, filter);
+        return withBases(new ArrayList<>(getDeclaredProperties(filter)), Members::getProperties, filter);
     }
 
     @Override
