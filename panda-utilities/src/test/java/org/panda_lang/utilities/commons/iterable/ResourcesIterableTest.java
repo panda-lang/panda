@@ -35,9 +35,18 @@ final class ResourcesIterableTest {
         mutable.add("b");
         Iterator<String> iterator = iterable.iterator();
 
+        Assertions.assertTrue(iterator.hasNext());
         Assertions.assertEquals("a", iterator.next());
         Assertions.assertEquals("b", iterator.next());
         Assertions.assertEquals("c", iterator.next());
+        Assertions.assertFalse(iterator.hasNext());
     }
 
+    @Test
+    void construct_with_nothing_throws_exception() {
+        Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> new ResourcesIterable()
+        );
+    }
 }
