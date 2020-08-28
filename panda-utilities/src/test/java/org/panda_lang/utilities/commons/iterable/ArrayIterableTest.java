@@ -10,7 +10,6 @@ class ArrayIterableTest {
     @Test
     void next_should_move_to_the_next_element_and_return_it() {
         ArrayIterable<String> arrayIterable = new ArrayIterable<>(new String[]{"a", "b", "c"});
-
         Iterator<String> iterator = arrayIterable.iterator();
 
         Assertions.assertTrue(iterator.hasNext());
