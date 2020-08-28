@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 class SingletonIteratorTest {
 
     @Test
-    void next_should_returns_singleton_element() {
+    void next_should_return_singleton_element() {
         SingletonIterator<String> reversedIterable = new SingletonIterator<>("a");
 
         Assertions.assertTrue(reversedIterable.hasNext());

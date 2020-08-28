@@ -10,7 +10,7 @@ class CharArrayDistributorTest {
     static final int ILLEGAL_INDEX_UNDER_ZERO = -10;
 
     @Test
-    void next_and_previous_should_moves_to_the_neighbor_element_and_return_it() {
+    void next_and_previous_should_move_to_the_neighbor_element_and_return_it() {
         CharArrayDistributor charArrayDistributor = new CharArrayDistributor(PATTERN);
 
         Assertions.assertTrue(charArrayDistributor.hasNext());
@@ -68,7 +68,7 @@ class CharArrayDistributorTest {
     }
 
     @Test
-    void getPrevious_should_returns_the_previous_element_by_the_specified_number() {
+    void getPrevious_should_return_the_previous_element_by_the_specified_number() {
         CharArrayDistributor charArrayDistributor = new CharArrayDistributor(PATTERN);
 
         Assertions.assertEquals('a', charArrayDistributor.getPrevious(1));
