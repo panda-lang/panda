@@ -91,4 +91,5 @@ class CharArrayDistributorTest {
 
         Assertions.assertEquals('a', charArrayDistributor.previous());
     }
+
 }
