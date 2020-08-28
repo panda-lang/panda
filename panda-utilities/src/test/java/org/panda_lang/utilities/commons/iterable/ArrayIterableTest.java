@@ -8,13 +8,10 @@ import java.util.Iterator;
 class ArrayIterableTest {
 
     @Test
-    void testArrayIterable() {
-        ArrayIterable<String> arrayIterable =
-                new ArrayIterable<>(new String[]{"a", "b", "c"});
-
+    void next_should_moves_to_the_next_element_and_return_it() {
+        ArrayIterable<String> arrayIterable = new ArrayIterable<>(new String[]{"a", "b", "c"});
 
         Iterator<String> iterator = arrayIterable.iterator();
-
 
         Assertions.assertTrue(iterator.hasNext());
         Assertions.assertEquals("a", iterator.next());

@@ -10,7 +10,7 @@ class CharArrayDistributorTest {
     static final int ILLEGAL_INDEX_UNDER_ZERO = -10;
 
     @Test
-    void iterate_next_and_previous() {
+    void next_and_previous_should_moves_to_the_neighbor_element_and_return_it() {
         CharArrayDistributor charArrayDistributor = new CharArrayDistributor(PATTERN);
 
         Assertions.assertTrue(charArrayDistributor.hasNext());
@@ -26,7 +26,7 @@ class CharArrayDistributorTest {
     }
 
     @Test
-    void further() {
+    void further_should_return_next_element_of_current_element() {
         CharArrayDistributor charArrayDistributor = new CharArrayDistributor(PATTERN);
 
         Assertions.assertEquals('a', charArrayDistributor.further());
@@ -39,7 +39,7 @@ class CharArrayDistributorTest {
     }
 
     @Test
-    void future() {
+    void future_should_return_next_element_after_the_current_element() {
         CharArrayDistributor charArrayDistributor = new CharArrayDistributor(PATTERN);
 
         Assertions.assertEquals('b', charArrayDistributor.future());
@@ -50,7 +50,7 @@ class CharArrayDistributorTest {
     }
 
     @Test
-    void getNext() {
+    void getNext_should_return_next_element_of_current_element() {
         CharArrayDistributor charArrayDistributor = new CharArrayDistributor(PATTERN);
 
         Assertions.assertEquals('a', charArrayDistributor.getNext());
@@ -59,7 +59,7 @@ class CharArrayDistributorTest {
     }
 
     @Test
-    void getPrevious() {
+    void getPrevious_should_return_previous_element_of_current_element() {
         CharArrayDistributor charArrayDistributor = new CharArrayDistributor(PATTERN);
 
         Assertions.assertEquals('a', charArrayDistributor.getPrevious());
@@ -68,7 +68,7 @@ class CharArrayDistributorTest {
     }
 
     @Test
-    void getPrevious_with_param() {
+    void getPrevious_should_returns_the_previous_element_by_the_specified_number() {
         CharArrayDistributor charArrayDistributor = new CharArrayDistributor(PATTERN);
 
         Assertions.assertEquals('a', charArrayDistributor.getPrevious(1));
@@ -77,7 +77,7 @@ class CharArrayDistributorTest {
     }
 
     @Test
-    void illegal_index_over_array_size_and_previous() {
+    void previous_should_return_last_item_when_current_index_is_over_array_size() {
         CharArrayDistributor charArrayDistributor = new CharArrayDistributor(PATTERN);
         charArrayDistributor.setIndex(ILLEGAL_INDEX_OVER_SIZE);
 
@@ -85,7 +85,7 @@ class CharArrayDistributorTest {
     }
 
     @Test
-    void illegal_index_under_minus_one_and_previous() {
+    void previous_should_return_first_item_when_current_index_is_under_minus_one() {
         CharArrayDistributor charArrayDistributor = new CharArrayDistributor(PATTERN);
         charArrayDistributor.setIndex(ILLEGAL_INDEX_UNDER_ZERO);
 
