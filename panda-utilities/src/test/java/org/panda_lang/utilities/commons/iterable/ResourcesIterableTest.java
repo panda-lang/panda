@@ -49,4 +49,5 @@ final class ResourcesIterableTest {
                 () -> new ResourcesIterable()
         );
     }
+
 }
