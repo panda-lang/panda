@@ -11,7 +11,6 @@ class ReversedIterableTest {
     @Test
     void next_should_move_to_the_next_element_in_order_from_the_back_and_return_it() {
         ReversedIterable<String> reversedIterable = new ReversedIterable<>(Arrays.asList("a", "b", "c"));
-
         Iterator<String> iterator = reversedIterable.iterator();
 
         Assertions.assertTrue(iterator.hasNext());
