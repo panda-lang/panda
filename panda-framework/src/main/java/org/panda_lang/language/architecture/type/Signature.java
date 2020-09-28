@@ -1,5 +1,6 @@
 package org.panda_lang.language.architecture.type;
 
+import org.panda_lang.utilities.commons.function.Result;
 import org.panda_lang.utilities.commons.text.ContentJoiner;
 
 import java.util.Arrays;
@@ -12,14 +13,18 @@ public final class Signature {
         SUPER
     }
 
-    private final Type type;
+    private final Result<Type, String> type;
     private final Signature[] generics;
     private final Relation relation;
 
-    public Signature(Type type, Signature[] generics, Relation relation) {
+    public Signature(Result<Type, String> type, Signature[] generics, Relation relation) {
         this.type = type;
         this.generics = generics;
         this.relation = relation;
+    }
+
+    public boolean isAbstract() {
+        return type.isErr();
     }
 
     @Override
@@ -62,11 +67,11 @@ public final class Signature {
             return false;
         }
 
-        if (Relation.EXTENDS == relation && !type.isAssignableFrom(signature.getType())) {
+        if (Relation.EXTENDS == relation && !satisfies(signature.getType())) {
             return false;
         }
 
-        if (Relation.SUPER == relation && signature.getType().isAssignableFrom(type)) {
+        if (Relation.SUPER == relation && signature.satisfies(type)) {
             return false;
         }
 
@@ -82,9 +87,13 @@ public final class Signature {
         return true;
     }
 
+    private boolean satisfies(Result<Type, String> toType) {
+        return false;
+    }
+
     @Override
     public String toString() {
-        return getType().getSimpleName() + "<" + ContentJoiner.on(" & ").join(generics) + ">";
+        return getType().map(Type::getSimpleName).getAny() + "<" + ContentJoiner.on(" & ").join(generics) + ">";
     }
 
     public Relation getRelation() {
@@ -95,7 +104,7 @@ public final class Signature {
         return generics;
     }
 
-    public Type getType() {
+    public Result<Type, String> getType() {
         return type;
     }
 

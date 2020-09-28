@@ -17,8 +17,10 @@
 package org.panda_lang.utilities.commons.function;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.utilities.commons.ObjectUtils;
 
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -30,6 +32,19 @@ public final class Result<V, E>  {
     private Result(@Nullable V value, @Nullable E error) {
         this.value = value;
         this.error = error;
+    }
+
+    @Override
+    @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
+    public boolean equals(Object to) {
+        return ObjectUtils.equals(this, to, (that, toResult) -> Objects.equals(value, toResult.value) && Objects.equals(error, toResult.error));
+    }
+
+    @Override
+    public int hashCode() {
+        int result = value != null ? value.hashCode() : 0;
+        result = 31 * result + (error != null ? error.hashCode() : 0);
+        return result;
     }
 
     public boolean isOk() {
@@ -54,6 +69,10 @@ public final class Result<V, E>  {
         }
 
         return error;
+    }
+
+    public Object getAny() {
+        return isOk() ? value : error;
     }
 
     public <R> Result<R, E> map(Function<V, R> function) {
