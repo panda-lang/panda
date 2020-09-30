@@ -74,8 +74,8 @@ class ResultTest {
         def res2 = Result.ok("another-test")
         def res3 = Result.ok("test")
 
-        assertTrue res1.equals(res3)
-        assertFalse res1.equals(res2)
+        assertTrue res1 == res3
+        assertFalse res1 == res2
     }
 
 }

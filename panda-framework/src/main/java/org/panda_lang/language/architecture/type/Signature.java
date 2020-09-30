@@ -13,11 +13,11 @@ public final class Signature {
         SUPER
     }
 
-    private final Result<Type, String> type;
+    private final Result<Type, AbstractSignature> type;
     private final Signature[] generics;
     private final Relation relation;
 
-    public Signature(Result<Type, String> type, Signature[] generics, Relation relation) {
+    public Signature(Result<Type, AbstractSignature> type, Signature[] generics, Relation relation) {
         this.type = type;
         this.generics = generics;
         this.relation = relation;
@@ -87,7 +87,7 @@ public final class Signature {
         return true;
     }
 
-    private boolean satisfies(Result<Type, String> toType) {
+    private boolean satisfies(Result<Type, AbstractSignature> toType) {
         return false;
     }
 
@@ -104,7 +104,7 @@ public final class Signature {
         return generics;
     }
 
-    public Result<Type, String> getType() {
+    public Result<Type, AbstractSignature> getType() {
         return type;
     }
 

@@ -19,16 +19,16 @@ package org.panda_lang.panda.language.resource.syntax.type;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.Script;
 import org.panda_lang.language.architecture.module.TypeLoader;
-import org.panda_lang.language.architecture.type.member.constructor.PandaConstructor;
 import org.panda_lang.language.architecture.type.PandaType;
 import org.panda_lang.language.architecture.type.State;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.TypeComponents;
-import org.panda_lang.language.architecture.type.member.field.TypeField;
-import org.panda_lang.language.architecture.type.member.method.TypeMethod;
 import org.panda_lang.language.architecture.type.TypeModels;
 import org.panda_lang.language.architecture.type.TypeScope;
 import org.panda_lang.language.architecture.type.Visibility;
+import org.panda_lang.language.architecture.type.member.constructor.PandaConstructor;
+import org.panda_lang.language.architecture.type.member.field.TypeField;
+import org.panda_lang.language.architecture.type.member.method.TypeMethod;
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
@@ -36,18 +36,21 @@ import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.language.interpreter.parser.pipeline.PipelineParser;
 import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.language.interpreter.parser.stage.Phases;
 import org.panda_lang.language.interpreter.parser.stage.Stages;
 import org.panda_lang.language.interpreter.pattern.Mappings;
+import org.panda_lang.language.interpreter.pattern.functional.elements.GenericsElement;
+import org.panda_lang.language.interpreter.pattern.functional.verifiers.TokenVerifier;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.Snippetable;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.language.resource.syntax.operator.Operators;
 import org.panda_lang.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
 import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
-import org.panda_lang.language.interpreter.parser.stage.Phases;
 import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
@@ -72,6 +75,7 @@ public final class TypeParser extends AutowiredParser<Void> {
                 .variant("visibility").consume(variant -> variant.content(Keywords.OPEN, Keywords.SHARED, Keywords.INTERNAL)).optional()
                 .variant("model").consume(variant -> variant.content(Keywords.CLASS, Keywords.TYPE, Keywords.INTERFACE))
                 .wildcard("name").verifyType(TokenTypes.UNKNOWN)
+                .element(GenericsElement.create("generics"))
                 .subPattern("extended", sub -> sub
                         .unit("extends", ":")
                         .custom("inherited").consume(custom -> custom.reader((data, source) -> TypeParserUtils.readTypes(source)))
@@ -142,7 +146,7 @@ public final class TypeParser extends AutowiredParser<Void> {
                     .find(constructor -> constructor.getParameters().length > 0)
                     .peek(constructorWithParameters -> {
                         throw new PandaParserFailure(context, constructorWithParameters.getLocation(),
-                                "Type " + type + " does not implement any constructor from the base type " + constructorWithParameters.getType(),
+                                "Type " + type + " does not implement any constructor from the base type " + constructorWithParameters.getSignature(),
                                 "Some of the overridden types may contain custom constructors. To properly initialize object, you have to call one of them."
                         );
                     })

@@ -57,59 +57,59 @@ public final class FunctionalPatternBuilder<B extends FunctionalPatternElementBu
     }
 
     public FunctionalPatternBuilder<ArgumentsElement, ExpressionTransaction[]> arguments(String id) {
-        return push(ArgumentsElement.create(id));
+        return element(ArgumentsElement.create(id));
     }
 
     public FunctionalPatternBuilder<ContentBeforeElement, Snippetable> contentBefore(String id, Separator separator) {
-        return push(ContentBeforeElement.create(id, separator));
+        return element(ContentBeforeElement.create(id, separator));
     }
 
     public <T> FunctionalPatternBuilder<CustomElement<T>, T> custom(String id) {
-        return push(CustomElement.create(id));
+        return element(CustomElement.create(id));
     }
 
     public FunctionalPatternBuilder<ExpressionElement, ExpressionTransaction> expression(String id) {
-        return push(ExpressionElement.create(id));
+        return element(ExpressionElement.create(id));
     }
 
     public FunctionalPatternBuilder<UnitElement, TokenInfo> keyword(Keyword keyword) {
-        return push(KeywordElement.create(keyword));
+        return element(KeywordElement.create(keyword));
     }
 
     public FunctionalPatternBuilder<UnitElement, TokenInfo> token(Token token) {
-        return push(UnitElement.create("").content(token.getValue()));
+        return element(UnitElement.create("").content(token.getValue()));
     }
 
     public FunctionalPatternBuilder<QualifierElement, Snippetable> qualifier(String id) {
-        return push(QualifierElement.create(id));
+        return element(QualifierElement.create(id));
     }
 
     public FunctionalPatternBuilder<WildcardElement<Snippet>, Snippet> section(String id, Separator type) {
-        return push(SectionElement.create(id, type));
+        return element(SectionElement.create(id, type));
     }
 
     public FunctionalPatternBuilder<SubPatternElement, FunctionalResult> subPattern(String id) {
-        return push(SubPatternElement.create(id));
+        return element(SubPatternElement.create(id));
     }
 
     public FunctionalPatternBuilder<SubPatternElement, FunctionalResult> subPattern(String id, Function<FunctionalPatternBuilder<?, ?>, FunctionalPatternBuilder<?, ?>> function) {
-        return push(SubPatternElement.create(id, function));
+        return element(SubPatternElement.create(id, function));
     }
 
     public FunctionalPatternBuilder<TypeElement, Snippetable> type(String id) {
-        return push(TypeElement.create(id));
+        return element(TypeElement.create(id));
     }
 
     public FunctionalPatternBuilder<UnitElement, TokenInfo> unit(String id, String value) {
-        return push(UnitElement.create(id).content(value));
+        return element(UnitElement.create(id).content(value));
     }
 
     public FunctionalPatternBuilder<VariantElement, Object> variant(String id) {
-        return push(VariantElement.create(id));
+        return element(VariantElement.create(id));
     }
 
     public <T extends Snippetable> FunctionalPatternBuilder<WildcardElement<T>, T> wildcard(String id) {
-        return push(WildcardElement.create(id));
+        return element(WildcardElement.create(id));
     }
 
     public <T, R> FunctionalPatternBuilder<? extends FunctionalPatternElementBuilder<R, ? extends Buildable<R>>, R> map(Function<T, R> mapper) {
@@ -142,7 +142,7 @@ public final class FunctionalPatternBuilder<B extends FunctionalPatternElementBu
         return this;
     }
 
-    private <R extends FunctionalPatternElementBuilder<C, R>, C> FunctionalPatternBuilder<R, C> push(R element) {
+    public <R extends FunctionalPatternElementBuilder<C, R>, C> FunctionalPatternBuilder<R, C> element(R element) {
         this.current = element;
         this.elements.add(element);
         return ObjectUtils.cast(this);
