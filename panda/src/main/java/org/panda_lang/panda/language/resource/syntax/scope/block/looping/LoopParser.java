@@ -20,7 +20,7 @@ import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
+import org.panda_lang.language.interpreter.parser.pool.Target;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.parser.PandaParserException;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
@@ -38,7 +38,7 @@ import org.panda_lang.utilities.commons.ArrayUtils;
 public final class LoopParser extends AutowiredBlockParser {
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
+    public Target<? extends Parser>[] pipeline() {
         return ArrayUtils.of(PandaPipeline.BLOCK);
     }
 

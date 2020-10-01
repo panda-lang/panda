@@ -23,11 +23,10 @@ import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.member.field.TypeField;
 import org.panda_lang.language.architecture.type.Visibility;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.LocalChannel;
 import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.language.interpreter.parser.pool.Target;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.TokenInfo;
@@ -35,7 +34,7 @@ import org.panda_lang.language.architecture.module.PandaImportsUtils;
 import org.panda_lang.language.architecture.type.member.field.PandaField;
 import org.panda_lang.language.architecture.type.TypeComponents;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.language.interpreter.parser.stage.Stages;
+import org.panda_lang.language.interpreter.parser.stage.Phases;
 import org.panda_lang.language.interpreter.pattern.Mappings;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
@@ -50,8 +49,8 @@ import org.panda_lang.utilities.commons.ArrayUtils;
 public final class FieldParser extends AutowiredParser<Void> {
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(Pipelines.TYPE);
+    public Target<? extends Parser>[] pipeline() {
+        return ArrayUtils.of(Targets.TYPE);
     }
 
     @Override
@@ -74,7 +73,7 @@ public final class FieldParser extends AutowiredParser<Void> {
                 ).optional());
     }
 
-    @Autowired(order = 1, stage = Stages.TYPES_LABEL)
+    @Autowired(order = 1, stage = Phases.TYPES_LABEL)
     public void parse(Context context, LocalChannel channel, @Channel Mappings mappings, @Channel Location location, @Src("type") Snippet typeName, @Src("name") TokenInfo name) {
         Type returnType = PandaImportsUtils.getTypeOrThrow(context, typeName.asSource(), typeName);
         Visibility visibility = Visibility.valueOf(mappings.get("visibility").get().toString().toUpperCase());
@@ -98,7 +97,7 @@ public final class FieldParser extends AutowiredParser<Void> {
         channel.allocated("field", field);
     }
 
-    @Autowired(order = 2, stage = Stages.CONTENT_LABEL)
+    @Autowired(order = 2, stage = Phases.CONTENT_LABEL)
     public void parseAssignation(Context context, @Channel Snippet source, @Channel TypeField field, @Src("assignation") @Nullable Expression assignationValue) {
         if (assignationValue == null) {
             //throw new PandaParserFailure("Cannot parse expression '" + assignationValue + "'", context, name);

@@ -29,8 +29,8 @@ import org.panda_lang.language.architecture.module.PandaTypeLoader;
 import org.panda_lang.language.interpreter.parser.PandaContext;
 import org.panda_lang.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.language.interpreter.parser.expression.PandaExpressionSubparsers;
-import org.panda_lang.language.interpreter.parser.stage.Stages;
-import org.panda_lang.language.interpreter.parser.stage.PandaStageController;
+import org.panda_lang.language.interpreter.parser.stage.Phases;
+import org.panda_lang.language.interpreter.parser.stage.PandaStageManager;
 import org.panda_lang.panda.language.architecture.PandaEnvironment;
 import org.panda_lang.panda.language.architecture.PandaScript;
 import org.panda_lang.panda.language.resource.ResourcesLoader;
@@ -69,7 +69,7 @@ public final class PandaContextUtils {
                 .withComponent(Components.TYPE_LOADER, loader)
                 .withComponent(Components.IMPORTS, imports)
                 .withComponent(Components.PIPELINE, frameworkController.getResources().getPipelinePath())
-                .withComponent(Components.GENERATION, new PandaStageController().initialize(Stages.getValues()));
+                .withComponent(Components.STAGE, new PandaStageManager().initialize(Phases.getValues()));
     }
 
 }

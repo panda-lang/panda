@@ -23,14 +23,11 @@ import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.architecture.statement.Statement;
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.LocalChannel;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pipeline.Handler;
-import org.panda_lang.language.interpreter.parser.pipeline.PandaLocalChannel;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipeline;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.language.interpreter.parser.pool.ParserPool;
+import org.panda_lang.language.interpreter.parser.pool.Target;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
@@ -49,11 +46,11 @@ import org.panda_lang.utilities.commons.function.Result;
 public final class BlockParser extends AutowiredParser<Void> {
 
     private static final ScopeParser SCOPE_PARSER = new ScopeParser();
-    private Pipeline<BlockSubparser> pipeline;
+    private ParserPool<BlockSubparser> parserPool;
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(Pipelines.SCOPE);
+    public Target<? extends Parser>[] pipeline() {
+        return ArrayUtils.of(Targets.SCOPE);
     }
 
     @Override
@@ -63,7 +60,7 @@ public final class BlockParser extends AutowiredParser<Void> {
 
     @Override
     protected AutowiredInitializer<Void> initialize(Context context, AutowiredInitializer<Void> initializer) {
-        this.pipeline = context.getComponent(Components.PIPELINE).getPipeline(PandaPipeline.BLOCK);
+        this.parserPool = context.getComponent(Components.PIPELINE).getPipeline(PandaPipeline.BLOCK);
 
         return initializer.functional(builder -> builder
                 .contentBefore("declaration", Separators.BRACE_LEFT)
@@ -72,7 +69,7 @@ public final class BlockParser extends AutowiredParser<Void> {
 
     @Override
     protected Boolean customHandle(Handler handler, Context context, LocalChannel channel, Snippet source) {
-        Result<BlockSubparser, Option<Failure>> result = pipeline.handle(context, channel, source);
+        Result<BlockSubparser, Option<Failure>> result = parserPool.handle(context, channel, source);
         result.peek(parser -> channel.allocated("subparser", parser));
         return result.isOk();
     }

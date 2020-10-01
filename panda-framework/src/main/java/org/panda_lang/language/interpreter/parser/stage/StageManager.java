@@ -21,7 +21,7 @@ import org.panda_lang.utilities.commons.function.Option;
 /**
  * Generation is the multilayer task manager divided into cycles and phases.
  */
-public interface StageController {
+public interface StageManager {
 
     /**
      * Launch cycles
@@ -34,7 +34,7 @@ public interface StageController {
      * @param to the cycle to which it count
      * @return the amount of tasks
      */
-    int countTasks(Stage to);
+    int countTasks(StagePhase to);
 
     /**
      * Get amount of all tasks
@@ -46,7 +46,7 @@ public interface StageController {
     /**
      * @return current cycle
      */
-    Option<Stage> getCurrentCycle();
+    Option<StagePhase> getCurrentCycle();
 
     /**
      * Get cycle
@@ -54,7 +54,7 @@ public interface StageController {
      * @param name the name of cycle
      * @return the cycle
      */
-    Stage getCycle(String name);
+    StagePhase getPhase(String name);
 
     /**
      * Get cycle
@@ -62,6 +62,6 @@ public interface StageController {
      * @param type the type of cycle
      * @return the cycle
      */
-    Stage getCycle(StageType type);
+    StagePhase getPhase(Phase type);
 
 }

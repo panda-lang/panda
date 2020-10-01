@@ -16,24 +16,24 @@
 
 package org.panda_lang.language.interpreter.parser.stage;
 
-import org.panda_lang.language.interpreter.parser.Context;
+public enum Layer {
 
-final class DelegatedTask {
+    CURRENT_BEFORE(1),
+    CURRENT_DEFAULT(2),
+    CURRENT_AFTER(3),
 
-    private final StageTask<?> task;
-    private final Context delegated;
+    NEXT_BEFORE(4),
+    NEXT_DEFAULT(5),
+    NEXT_AFTER(6);
 
-    DelegatedTask(StageTask<?> task, Context delegated) {
-        this.task = task;
-        this.delegated = delegated;
+    private final int priority;
+
+    Layer(int priority) {
+        this.priority = priority;
     }
 
-    public Context getDelegated() {
-        return delegated;
-    }
-
-    public StageTask<?> getTask() {
-        return task;
+    public int getPriority() {
+        return priority;
     }
 
 }

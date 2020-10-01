@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parser.autowired;
 
-import org.panda_lang.language.interpreter.parser.stage.Phases;
+import org.panda_lang.language.interpreter.parser.stage.Layer;
 import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
 import org.panda_lang.utilities.inject.GeneratedMethodInjector;
 
@@ -34,7 +34,7 @@ final class AutowiredMethod {
         }
     }
 
-    protected Phases getDelegation() {
+    protected Layer getDelegation() {
         return autowired.phase();
     }
 

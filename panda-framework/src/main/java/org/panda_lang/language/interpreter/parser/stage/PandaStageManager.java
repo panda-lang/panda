@@ -24,16 +24,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class PandaStageController implements StageController {
+public final class PandaStageManager implements StageManager {
 
-    private final Map<String, Stage> cycles = new LinkedHashMap<>();
-    private Stage currentCycle;
+    private final Map<String, StagePhase> cycles = new LinkedHashMap<>();
+    private StagePhase currentCycle;
 
-    public PandaStageController initialize(List<? extends StageType> types) {
+    public PandaStageManager initialize(List<? extends Phase> types) {
         Collections.sort(types);
 
-        for (StageType type : types) {
-            cycles.put(type.getName(), new PandaStage(this, type.getName()));
+        for (Phase type : types) {
+            cycles.put(type.getName(), new PandaStagePhase(this, type.getName()));
         }
 
         return this;
@@ -47,7 +47,7 @@ public final class PandaStageController implements StageController {
     }
 
     private void executeOnce() {
-        for (Stage cycle : cycles.values()) {
+        for (StagePhase cycle : cycles.values()) {
             currentCycle = cycle;
 
             if (!cycle.execute()) {
@@ -59,10 +59,10 @@ public final class PandaStageController implements StageController {
     }
 
     @Override
-    public int countTasks(@Nullable Stage to) {
+    public int countTasks(@Nullable StagePhase to) {
         int count = 0;
 
-        for (Stage cycle : cycles.values()) {
+        for (StagePhase cycle : cycles.values()) {
             count += cycle.countTasks();
 
             if (cycle.equals(to)) {
@@ -79,18 +79,18 @@ public final class PandaStageController implements StageController {
     }
 
     @Override
-    public Option<Stage> getCurrentCycle() {
+    public Option<StagePhase> getCurrentCycle() {
         return Option.of(currentCycle);
     }
 
     @Override
-    public Stage getCycle(StageType type) {
-        return getCycle(type.getName());
+    public StagePhase getPhase(Phase type) {
+        return getPhase(type.getName());
     }
 
     @Override
-    public Stage getCycle(String name) {
-        Stage cycle = cycles.get(name);
+    public StagePhase getPhase(String name) {
+        StagePhase cycle = cycles.get(name);
 
         if (cycle == null) {
             throw new IllegalArgumentException("Cycle " + name + " does not exist");

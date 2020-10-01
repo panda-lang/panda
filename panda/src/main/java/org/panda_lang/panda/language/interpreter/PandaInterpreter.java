@@ -27,11 +27,10 @@ import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaContext;
 import org.panda_lang.language.interpreter.parser.expression.PandaExpressionParser;
-import org.panda_lang.language.interpreter.parser.pipeline.PandaLocalChannel;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineParser;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.language.interpreter.parser.stage.PandaStageController;
-import org.panda_lang.language.interpreter.parser.stage.Stages;
+import org.panda_lang.language.interpreter.parser.pool.PoolParser;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
+import org.panda_lang.language.interpreter.parser.stage.PandaStageManager;
+import org.panda_lang.language.interpreter.parser.stage.Phases;
 import org.panda_lang.language.interpreter.source.PandaSourceSet;
 import org.panda_lang.language.interpreter.source.Source;
 import org.panda_lang.language.interpreter.source.SourceSet;
@@ -41,7 +40,6 @@ import org.panda_lang.language.interpreter.token.SourceStream;
 import org.panda_lang.language.resource.Resources;
 import org.panda_lang.panda.language.architecture.PandaApplication;
 import org.panda_lang.panda.language.architecture.PandaScript;
-import org.panda_lang.panda.language.interpreter.parser.PandaComponents;
 import org.panda_lang.utilities.commons.TimeUtils;
 import org.panda_lang.utilities.commons.function.Result;
 
@@ -60,8 +58,8 @@ public final class PandaInterpreter implements Interpreter {
         Resources resources = environment.getController().getResources();
         PandaApplication application = new PandaApplication(environment);
 
-        PandaStageController stageController = new PandaStageController();
-        stageController.initialize(Stages.getValues());
+        PandaStageManager stageController = new PandaStageManager();
+        stageController.initialize(Phases.getValues());
 
         SourceSet sources = new PandaSourceSet();
         sources.addSource(source);
@@ -74,13 +72,13 @@ public final class PandaInterpreter implements Interpreter {
                 .withComponent(Components.CONTROLLER, environment.getController())
                 .withComponent(Components.APPLICATION, application)
                 .withComponent(Components.ENVIRONMENT, environment)
-                .withComponent(Components.GENERATION, stageController)
+                .withComponent(Components.STAGE, stageController)
                 .withComponent(Components.TYPE_LOADER, environment.getTypeLoader())
                 .withComponent(Components.PIPELINE, resources.getPipelinePath())
                 .withComponent(Components.EXPRESSION, resources.getExpressionSubparsers().toParser())
                 .withComponent(Components.SOURCES, sources);
 
-        PipelineParser<?> headParser = new PipelineParser<>(Pipelines.HEAD);
+        PoolParser<?> headParser = new PoolParser<>(Targets.HEAD);
 
         try {
             for (Source current : sources) {
@@ -95,7 +93,6 @@ public final class PandaInterpreter implements Interpreter {
                 imports.importModule("panda");
 
                 Context delegatedContext = context.fork()
-                        .withComponent(PandaComponents.PANDA_SCRIPT, script)
                         .withComponent(Components.SCRIPT, script)
                         .withComponent(Components.IMPORTS, imports)
                         .withComponent(Components.SOURCE, snippet)

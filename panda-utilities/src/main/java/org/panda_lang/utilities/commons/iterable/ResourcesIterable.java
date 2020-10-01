@@ -22,10 +22,10 @@ import java.util.function.IntFunction;
 
 public final class ResourcesIterable<T> implements Iterable<T> {
 
-    private final Iterable<T>[] iterables;
+    private final Iterable<? extends T>[] iterables;
 
     @SafeVarargs
-    public ResourcesIterable(Iterable<T>... iterables) {
+    public ResourcesIterable(Iterable<? extends T>... iterables) {
         if (iterables.length == 0) {
             throw new IllegalArgumentException("ResourcesIterable requires at least one resource");
         }
@@ -40,9 +40,9 @@ public final class ResourcesIterable<T> implements Iterable<T> {
 
     final class ResourceIterator implements Iterator<T> {
 
-        private final Iterator<T>[] iterators = Arrays.stream(iterables)
+        private final Iterator<? extends T>[] iterators = Arrays.stream(iterables)
                 .map(Iterable::iterator)
-                .toArray((IntFunction<Iterator<T>[]>) Iterator[]::new);
+                .toArray((IntFunction<Iterator<? extends T>[]>) Iterator[]::new);
 
         private int selected;
 
@@ -68,7 +68,7 @@ public final class ResourcesIterable<T> implements Iterable<T> {
 
         private void selectNext() {
             for (int i = selected; i < iterators.length; i++) {
-                Iterator<T> iterator = iterators[i];
+                Iterator<? extends T> iterator = iterators[i];
 
                 if (iterator.hasNext()) {
                     selected = i;

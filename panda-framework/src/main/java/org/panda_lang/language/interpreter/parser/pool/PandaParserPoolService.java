@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.language.interpreter.parser.pipeline;
+package org.panda_lang.language.interpreter.parser.pool;
 
 import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.utilities.commons.function.StreamUtils;
@@ -24,40 +24,35 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class PandaPipelinePath implements PipelinePath {
+public final class PandaParserPoolService implements ParserPoolService {
 
-    private final Map<PipelineComponent<?>, Pipeline<?>> pipelines = new HashMap<>(3);
+    private final Map<Target<?>, ParserPool<?>> pipelines = new HashMap<>(3);
 
-    public PandaPipelinePath() {
-        pipelines.put(Pipelines.ALL, new PandaPipeline<>(Pipelines.ALL.getName()));
+    public PandaParserPoolService() {
+        pipelines.put(Targets.ALL, new PandaParserPool<>(Targets.ALL.getName()));
     }
 
     @Override
-    public <P extends Parser> Pipeline<P> computeIfAbsent(PipelineComponent<P> component) {
-        Pipeline<P> pipeline = getPipeline(component);
+    public <P extends Parser> ParserPool<P> computeIfAbsent(Target<P> component) {
+        ParserPool<P> parserPool = getPool(component);
 
-        if (pipeline == null) {
-            pipelines.put(component, new PandaPipeline<>(pipelines.get(Pipelines.ALL), component.getName()));
-            pipeline = getPipeline(component);
+        if (parserPool == null) {
+            pipelines.put(component, new PandaParserPool<>(pipelines.get(Targets.ALL), component.getName()));
+            parserPool = getPool(component);
         }
 
-        return pipeline;
+        return parserPool;
     }
 
     @Override
-    public boolean hasPipeline(PipelineComponent<?> component) {
-        return getPipeline(component) != null;
+    public boolean hasPool(Target<?> component) {
+        return getPool(component) != null;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public <P extends Parser> Pipeline<P> getPipeline(PipelineComponent<P> component) {
-        return (Pipeline<P>) pipelines.get(component);
-    }
-
-    @Override
-    public long getTotalHandleTime() {
-        return StreamUtils.sumLongs(pipelines.values(), Pipeline::getHandleTime);
+    public <P extends Parser> ParserPool<P> getPool(Target<P> component) {
+        return (ParserPool<P>) pipelines.get(component);
     }
 
     @Override

@@ -20,14 +20,14 @@ import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineParser;
+import org.panda_lang.language.interpreter.parser.pool.PoolParser;
 import org.panda_lang.language.interpreter.token.PandaSourceStream;
 
 public final class ScopeParser implements Parser {
 
-    private static final PipelineParser<?> SCOPE_PIPELINE_PARSER = new PipelineParser<>(Pipelines.SCOPE);
+    private static final PoolParser<?> SCOPE_PIPELINE_PARSER = new PoolParser<>(Targets.SCOPE);
 
     public Scope parse(Context context, Scope scope, Snippet body) {
         PandaSourceStream stream = new PandaSourceStream(body);

@@ -21,8 +21,8 @@ import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.language.interpreter.parser.pool.Target;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
@@ -37,8 +37,8 @@ import org.panda_lang.utilities.commons.ArrayUtils;
 public final class ReturnParser extends AutowiredParser<Void> {
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(Pipelines.SCOPE);
+    public Target<? extends Parser>[] pipeline() {
+        return ArrayUtils.of(Targets.SCOPE);
     }
 
     @Override

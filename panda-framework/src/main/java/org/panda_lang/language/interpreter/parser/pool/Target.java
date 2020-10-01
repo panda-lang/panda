@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.language.interpreter.parser.pipeline;
+package org.panda_lang.language.interpreter.parser.pool;
 
 import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.utilities.commons.collection.Component;
@@ -28,11 +28,11 @@ import java.util.Map;
  *
  * @param <P> pipeline parser type
  */
-public final class PipelineComponent<P extends Parser> extends Component<P> {
+public final class Target<P extends Parser> extends Component<P> {
 
-    private static final Map<String, PipelineComponent<? extends Parser>> COMPONENTS = new HashMap<>();
+    private static final Map<String, Target<? extends Parser>> COMPONENTS = new HashMap<>();
 
-    private PipelineComponent(String name, Class<P> type) {
+    private Target(String name, Class<P> type) {
         super(name, type, 0);
     }
 
@@ -45,8 +45,8 @@ public final class PipelineComponent<P extends Parser> extends Component<P> {
      * @return a new component
      */
     @SuppressWarnings("unchecked")
-    public static <T extends Parser> PipelineComponent<T> of(String name, Class<T> type) {
-        return (PipelineComponent<T>) ofComponents(COMPONENTS, name, () -> new PipelineComponent<>(name, type));
+    public static <T extends Parser> Target<T> of(String name, Class<T> type) {
+        return (Target<T>) ofComponents(COMPONENTS, name, () -> new Target<>(name, type));
     }
 
     /**
@@ -56,10 +56,10 @@ public final class PipelineComponent<P extends Parser> extends Component<P> {
      * @return a found component
      */
     @SuppressWarnings("unchecked")
-    public static Option<PipelineComponent<Parser>> get(String name) {
-        for (Map.Entry<String, PipelineComponent<? extends Parser>> entry : COMPONENTS.entrySet()) {
+    public static Option<Target<Parser>> get(String name) {
+        for (Map.Entry<String, Target<? extends Parser>> entry : COMPONENTS.entrySet()) {
             if (entry.getKey().equals(name)) {
-                return Option.of((PipelineComponent<Parser>) entry.getValue());
+                return Option.of((Target<Parser>) entry.getValue());
             }
         }
 

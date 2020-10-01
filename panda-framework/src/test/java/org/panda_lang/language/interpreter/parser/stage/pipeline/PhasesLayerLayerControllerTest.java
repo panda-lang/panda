@@ -19,21 +19,21 @@ package org.panda_lang.language.interpreter.parser.stage.pipeline;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.panda_lang.language.interpreter.parser.stage.StageType;
-import org.panda_lang.language.interpreter.parser.stage.PandaStageController;
+import org.panda_lang.language.interpreter.parser.stage.Phase;
+import org.panda_lang.language.interpreter.parser.stage.PandaStageManager;
 
 import java.util.Arrays;
 
-class StagePhaseControllerTest {
+class PhasesLayerLayerControllerTest {
 
-    private static final PandaStageController generation = new PandaStageController();
+    private static final PandaStageManager STAGE_CONTROLLER = new PandaStageManager();
 
     @BeforeAll
     public static void createPipelines() {
-        generation.initialize(Arrays.asList(
-                new StageType("b", 2.0),
-                new StageType("a", 1.0),
-                new StageType("c", 3.0))
+        STAGE_CONTROLLER.initialize(Arrays.asList(
+                new Phase("b", 2.0),
+                new Phase("a", 1.0),
+                new Phase("c", 3.0))
         );
     }
 
@@ -41,15 +41,15 @@ class StagePhaseControllerTest {
     public void testPipelineGeneration() {
         StringBuilder outputBuilder = new StringBuilder();
 
-        generation.getCycle("b").nextPhase().delegate((pipeline, context) -> outputBuilder.append("b "), null);
-        generation.getCycle("a").nextPhase().delegate((pipeline, context) -> outputBuilder.append("a "), null);
-        generation.getCycle("c").nextPhase().delegate((pipeline, context) -> outputBuilder.append("c "), null);
+        STAGE_CONTROLLER.getPhase("b").nextPhase().delegate((pipeline, context) -> outputBuilder.append("b "), null);
+        STAGE_CONTROLLER.getPhase("a").nextPhase().delegate((pipeline, context) -> outputBuilder.append("a "), null);
+        STAGE_CONTROLLER.getPhase("c").nextPhase().delegate((pipeline, context) -> outputBuilder.append("c "), null);
 
-        generation.getCycle("b").nextPhase().delegate((pipeline, delegatedContext) -> {
+        STAGE_CONTROLLER.getPhase("b").nextPhase().delegate((pipeline, delegatedContext) -> {
             outputBuilder.append("b2 ");
 
             pipeline.nextPhase().delegate((pipeline1, delegatedContext1) -> {
-                pipeline1.stage().getCycle("a").nextPhase().delegate((pipeline2, delegatedContext2) -> outputBuilder.append("a2 "), delegatedContext1);
+                STAGE_CONTROLLER.getPhase("a").nextPhase().delegate((pipeline2, delegatedContext2) -> outputBuilder.append("a2 "), delegatedContext1);
                 outputBuilder.append("b3 ");
                 return null;
             }, delegatedContext);
@@ -57,11 +57,11 @@ class StagePhaseControllerTest {
             return null;
         }, null);
 
-        generation.launch();
+        STAGE_CONTROLLER.launch();
         Assertions.assertEquals("a b b2 b3 a2 c", outputBuilder.toString().trim());
 
         outputBuilder.setLength(0);
-        generation.launch();
+        STAGE_CONTROLLER.launch();
         Assertions.assertEquals("", outputBuilder.toString());
     }
 

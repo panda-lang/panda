@@ -21,10 +21,9 @@ import org.panda_lang.language.architecture.statement.Variable;
 import org.panda_lang.language.architecture.statement.VariableData;
 import org.panda_lang.language.architecture.type.DynamicClass;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.LocalChannel;
 import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.language.interpreter.parser.pool.Target;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.architecture.statement.PandaBlock;
@@ -45,8 +44,8 @@ public final class TryCatchParser extends AutowiredParser<Void> {
     private static final ScopeParser SCOPE_PARSER = new ScopeParser();
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(Pipelines.SCOPE);
+    public Target<? extends Parser>[] pipeline() {
+        return ArrayUtils.of(Targets.SCOPE);
     }
 
     @Override

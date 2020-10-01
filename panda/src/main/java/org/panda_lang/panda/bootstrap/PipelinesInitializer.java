@@ -16,19 +16,19 @@
 
 package org.panda_lang.panda.bootstrap;
 
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelinePath;
-import org.panda_lang.language.interpreter.parser.pipeline.PandaPipelinePath;
+import org.panda_lang.language.interpreter.parser.pool.Target;
+import org.panda_lang.language.interpreter.parser.pool.ParserPoolService;
+import org.panda_lang.language.interpreter.parser.pool.PandaParserPoolService;
 
 import java.util.Collection;
 
 /**
- * {@link org.panda_lang.language.interpreter.parser.pipeline.PipelinePath} initializer
+ * {@link org.panda_lang.language.interpreter.parser.pool.ParserPoolService} initializer
  */
 public final class PipelinesInitializer implements Initializer {
 
     private final PandaBootstrap bootstrap;
-    private final PipelinePath path = new PandaPipelinePath();
+    private final ParserPoolService path = new PandaParserPoolService();
 
     PipelinesInitializer(PandaBootstrap bootstrap) {
         this.bootstrap = bootstrap;
@@ -41,9 +41,9 @@ public final class PipelinesInitializer implements Initializer {
      * @return the initializer
      */
     @SafeVarargs
-    public final PipelinesInitializer usePipelines(Collection<PipelineComponent<?>>... componentsCollections) {
-        for (Collection<PipelineComponent<?>> components : componentsCollections) {
-            for (PipelineComponent<?> component : components) {
+    public final PipelinesInitializer usePipelines(Collection<Target<?>>... componentsCollections) {
+        for (Collection<Target<?>> components : componentsCollections) {
+            for (Target<?> component : components) {
                 path.computeIfAbsent(component);
             }
         }

@@ -21,10 +21,9 @@ import org.panda_lang.language.architecture.type.member.parameter.PropertyParame
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.member.constructor.TypeConstructor;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.LocalChannel;
 import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.language.interpreter.parser.pool.Target;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.architecture.type.member.constructor.ConstructorScope;
@@ -36,7 +35,7 @@ import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
 import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
-import org.panda_lang.language.interpreter.parser.stage.Phases;
+import org.panda_lang.language.interpreter.parser.stage.Layer;
 import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
 import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
 import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
@@ -53,8 +52,8 @@ public final class ConstructorParser extends AutowiredParser<Void> {
     private static final ScopeParser SCOPE_PARSER = new ScopeParser();
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(Pipelines.TYPE);
+    public Target<? extends Parser>[] pipeline() {
+        return ArrayUtils.of(Targets.TYPE);
     }
 
     @Override
@@ -89,7 +88,7 @@ public final class ConstructorParser extends AutowiredParser<Void> {
         typeScope.getType().getConstructors().declare(constructor);
     }
 
-    @Autowired(order = 2, phase = Phases.NEXT_DEFAULT)
+    @Autowired(order = 2, phase = Layer.NEXT_DEFAULT)
     public void parse(Context context, @Ctx TypeScope typeScope, @Channel ConstructorScope scope, @Channel TypeConstructor constructor, @Channel Snippet src, @Src("body") @Nullable Snippet body) {
         SCOPE_PARSER.parse(context, scope, body);
 

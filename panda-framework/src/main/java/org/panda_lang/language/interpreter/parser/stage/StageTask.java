@@ -16,23 +16,16 @@
 
 package org.panda_lang.language.interpreter.parser.stage;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.interpreter.parser.Context;
-
 /**
  * Task that can be delegated to the generation
- *
- * @param <T> type of result
  */
-public interface StageTask<T> {
+public interface StageTask {
 
     /**
      * Call task
      *
-     * @param cycle current cycle
-     * @param context data assigned to task
-     * @return task value
+     * @param layer current cycle
      */
-    @Nullable T call(Stage cycle, Context context);
+    void call(StagePhase layer);
 
 }

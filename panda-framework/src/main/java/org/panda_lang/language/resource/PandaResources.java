@@ -17,8 +17,8 @@
 package org.panda_lang.language.resource;
 
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparsers;
-import org.panda_lang.language.interpreter.parser.pipeline.PandaPipelinePath;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelinePath;
+import org.panda_lang.language.interpreter.parser.pool.PandaParserPoolService;
+import org.panda_lang.language.interpreter.parser.pool.ParserPoolService;
 
 public final class PandaResources implements Resources {
 
@@ -34,8 +34,8 @@ public final class PandaResources implements Resources {
     }
 
     @Override
-    public PipelinePath getPipelinePath() {
-        return builder.pipelinePath;
+    public ParserPoolService getPipelinePath() {
+        return builder.parserPoolService;
     }
 
     public static PandaResourcesBuilder builder() {
@@ -44,13 +44,13 @@ public final class PandaResources implements Resources {
 
     public static final class PandaResourcesBuilder {
 
-        public PipelinePath pipelinePath;
+        public ParserPoolService parserPoolService;
         public ExpressionSubparsers expressionSubparsers;
 
         private PandaResourcesBuilder() { }
 
-        public PandaResourcesBuilder withPipelinePath(PipelinePath pipelinePath) {
-            this.pipelinePath = pipelinePath;
+        public PandaResourcesBuilder withPipelinePath(ParserPoolService parserPoolService) {
+            this.parserPoolService = parserPoolService;
             return this;
         }
 
@@ -60,8 +60,8 @@ public final class PandaResources implements Resources {
         }
 
         public PandaResources build() {
-            if (pipelinePath == null) {
-                this.pipelinePath = new PandaPipelinePath();
+            if (parserPoolService == null) {
+                this.parserPoolService = new PandaParserPoolService();
             }
 
             return new PandaResources(this);

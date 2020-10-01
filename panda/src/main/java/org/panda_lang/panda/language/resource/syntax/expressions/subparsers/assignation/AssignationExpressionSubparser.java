@@ -28,7 +28,6 @@ import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserType;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
-import org.panda_lang.language.interpreter.parser.pipeline.PandaLocalChannel;
 import org.panda_lang.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.SourceStream;

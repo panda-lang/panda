@@ -79,11 +79,11 @@ public final class ParsersInitializer implements Initializer {
      * @return the initializer instance
      */
     public ParsersInitializer loadParsers(Collection<Parser> parsers) {
-        if (bootstrap.resources.pipelinePath == null) {
+        if (bootstrap.resources.parserPoolService == null) {
             throw new BootstrapException("Cannot load parsers because pipeline was not initialized");
         }
 
-        registrationLoader.loadParsers(bootstrap.resources.pipelinePath, parsers);
+        registrationLoader.loadParsers(bootstrap.resources.parserPoolService, parsers);
         return this;
     }
 

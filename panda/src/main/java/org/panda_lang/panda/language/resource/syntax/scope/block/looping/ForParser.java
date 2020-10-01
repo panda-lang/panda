@@ -23,7 +23,7 @@ import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
+import org.panda_lang.language.interpreter.parser.pool.Target;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.architecture.expression.PandaExpression;
@@ -47,7 +47,7 @@ public final class ForParser extends AutowiredBlockParser {
     private Expression defaultCondition;
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
+    public Target<? extends Parser>[] pipeline() {
         return ArrayUtils.of(PandaPipeline.BLOCK);
     }
 

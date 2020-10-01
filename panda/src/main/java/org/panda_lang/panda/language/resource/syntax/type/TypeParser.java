@@ -31,23 +31,22 @@ import org.panda_lang.language.architecture.type.member.field.TypeField;
 import org.panda_lang.language.architecture.type.member.method.TypeMethod;
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineParser;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.language.interpreter.parser.pool.Target;
+import org.panda_lang.language.interpreter.parser.pool.PoolParser;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
+import org.panda_lang.language.interpreter.parser.stage.Layer;
 import org.panda_lang.language.interpreter.parser.stage.Phases;
-import org.panda_lang.language.interpreter.parser.stage.Stages;
 import org.panda_lang.language.interpreter.pattern.Mappings;
 import org.panda_lang.language.interpreter.pattern.functional.elements.GenericsElement;
-import org.panda_lang.language.interpreter.pattern.functional.verifiers.TokenVerifier;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.Snippetable;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.language.resource.syntax.operator.Operators;
 import org.panda_lang.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
 import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
@@ -60,13 +59,13 @@ import org.panda_lang.utilities.commons.function.PandaStream;
 
 import java.util.Collection;
 
-public final class TypeParser extends AutowiredParser<Void> {
+public final class TypeParser extends ContextParser<Void> {
 
-    private static final PipelineParser<?> TYPE_PIPELINE_PARSER = new PipelineParser<>(Pipelines.TYPE);
+    private static final PoolParser<?> TYPE_PIPELINE_PARSER = new PoolParser<>(Targets.TYPE);
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(Pipelines.HEAD);
+    public Target<? extends Parser>[] pipeline() {
+        return ArrayUtils.of(Targets.HEAD);
     }
 
     @Override
@@ -83,7 +82,7 @@ public final class TypeParser extends AutowiredParser<Void> {
                 .section("body", Separators.BRACE_LEFT));
     }
 
-    @Autowired(order = 0, stage = Stages.TYPES_LABEL)
+    @Autowired(order = 0, stage = Phases.TYPES_LABEL)
     public void parse(Context context, @Channel Location location, @Channel Mappings mappings, @Ctx Script script, @Src("model") String model, @Src("name") String name) {
         Visibility visibility = mappings.get("visibility")
                 .map(Visibility::of)
@@ -110,7 +109,7 @@ public final class TypeParser extends AutowiredParser<Void> {
                 .withComponent(TypeComponents.PROTOTYPE, type);
     }
 
-    @Autowired(order = 1, stage = Stages.TYPES_LABEL, phase = Phases.CURRENT_AFTER)
+    @Autowired(order = 1, stage = Phases.TYPES_LABEL, phase = Layer.CURRENT_AFTER)
     public void parseDeclaration(Context context, @Ctx Type type, @Ctx TypeLoader loader, @Nullable @Src("inherited") Collection<Snippetable> inherited) {
         if (inherited != null) {
             inherited.forEach(typeSource -> TypeParserUtils.appendExtended(context, type, typeSource));
@@ -121,12 +120,12 @@ public final class TypeParser extends AutowiredParser<Void> {
         }
     }
 
-    @Autowired(order = 2, stage = Stages.TYPES_LABEL, phase = Phases.NEXT_BEFORE)
+    @Autowired(order = 2, stage = Phases.TYPES_LABEL, phase = Layer.NEXT_BEFORE)
     public Object parseBody(Context context, @Ctx Type type, @Src("body") Snippet body) {
         return TYPE_PIPELINE_PARSER.parse(context, new PandaSourceStream(body));
     }
 
-    @Autowired(order = 3, stage = Stages.TYPES_LABEL, phase = Phases.CURRENT_AFTER)
+    @Autowired(order = 3, stage = Phases.TYPES_LABEL, phase = Layer.CURRENT_AFTER)
     public void verifyProperties(Context context, @Ctx Type type, @Ctx TypeScope scope) {
         if (type.getState() != State.ABSTRACT) {
             type.getBases().stream()
@@ -160,7 +159,7 @@ public final class TypeParser extends AutowiredParser<Void> {
         }
     }
 
-    @Autowired(order = 4, stage = Stages.CONTENT_LABEL, phase = Phases.CURRENT_AFTER)
+    @Autowired(order = 4, stage = Phases.CONTENT_LABEL, phase = Layer.CURRENT_AFTER)
     public void verifyContent(Context context, @Ctx Type type) {
         for (TypeField field : type.getFields().getDeclaredProperties()) {
             if (!field.isInitialized() && !(field.isNillable() && field.isMutable())) {

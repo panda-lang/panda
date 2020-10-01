@@ -14,24 +14,23 @@
  * limitations under the License.
  */
 
-package org.panda_lang.language.interpreter.parser.pipeline;
+package org.panda_lang.language.interpreter.parser.pool;
 
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;
-import org.panda_lang.language.interpreter.parser.LocalChannel;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.SourceStream;
 import org.panda_lang.language.resource.syntax.separator.Separators;
 
-public final class PipelineParser<T extends ContextParser<?>> implements Parser {
+public final class PoolParser<T extends ContextParser<?>> implements Parser {
 
-    private final PipelineComponent<T> pipelineComponent;
+    private final Target<T> target;
 
-    public PipelineParser(PipelineComponent<T> component) {
-        this.pipelineComponent = component;
+    public PoolParser(Target<T> component) {
+        this.target = component;
     }
 
     /**
@@ -42,18 +41,17 @@ public final class PipelineParser<T extends ContextParser<?>> implements Parser 
      * @return returns always null
      */
     public boolean parse(Context context, SourceStream stream) {
-        Pipeline<T> pipeline = context.getComponent(Components.PIPELINE).getPipeline(pipelineComponent);
+        ParserPool<T> parserPool = context.getPoolService().getPool(target);
 
         while (stream.hasUnreadSource()) {
-            LocalChannel channel = new PandaLocalChannel();
             Snippet source = stream.toSnippet();
 
-            Context delegatedContext = context.fork()
-                    .withComponent(Components.CURRENT_SOURCE, source)
-                    .withComponent(Components.CHANNEL, channel)
-                    .withComponent(Components.STREAM, stream);
+            Context delegatedContext = context.forkCreator()
+                    .withSource(source)
+                    .withStream(stream)
+                    .toContext();
 
-            ContextParser<?> parser = pipeline.handle(context, channel, source).orElseThrow(failure -> failure
+            ContextParser<?> parser = parserPool.handle(context, channel, source).orElseThrow(failure -> failure
                     .map(exception -> (RuntimeException) exception)
                     .orElseGet(() -> new PandaParserFailure(delegatedContext, source, "Unrecognized syntax"))
             );
@@ -71,6 +69,11 @@ public final class PipelineParser<T extends ContextParser<?>> implements Parser 
         }
 
         return true;
+    }
+
+    @Override
+    public String getName() {
+        return "pool";
     }
 
 }

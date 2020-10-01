@@ -21,8 +21,8 @@ import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.architecture.statement.ScopeUtils;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.language.interpreter.parser.pool.Target;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
@@ -38,8 +38,8 @@ import org.panda_lang.utilities.commons.ArrayUtils;
 public final class ContinueParser extends AutowiredParser<Void> {
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(Pipelines.SCOPE);
+    public Target<? extends Parser>[] pipeline() {
+        return ArrayUtils.of(Targets.SCOPE);
     }
 
     @Override

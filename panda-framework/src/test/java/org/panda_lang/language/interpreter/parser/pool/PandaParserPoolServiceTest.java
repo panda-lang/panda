@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.language.interpreter.parser.pipeline;
+package org.panda_lang.language.interpreter.parser.pool;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,16 +27,16 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PandaPipelinePathTest {
+class PandaParserPoolServiceTest {
 
-    private static final PipelineComponent<?> TEST_COMPONENT = PipelineComponent.of("test", Parser.class);
-    private static final PipelineComponent<?> ANOTHER_TEST_COMPONENT = PipelineComponent.of("another-test", Parser.class);
+    private static final Target<?> TEST_COMPONENT = Target.of("test", Parser.class);
+    private static final Target<?> ANOTHER_TEST_COMPONENT = Target.of("another-test", Parser.class);
 
-    private PipelinePath defaultPath;
+    private ParserPoolService defaultPath;
 
     @BeforeEach
     void prepareDefaultPipelinePath() {
-        this.defaultPath = new PandaPipelinePath();
+        this.defaultPath = new PandaParserPoolService();
         defaultPath.computeIfAbsent(TEST_COMPONENT);
     }
 
@@ -47,19 +47,19 @@ class PandaPipelinePathTest {
 
     @Test
     void hasPipeline() {
-        assertTrue(defaultPath.hasPipeline(TEST_COMPONENT));
-        assertFalse(defaultPath.hasPipeline(ANOTHER_TEST_COMPONENT));
+        assertTrue(defaultPath.hasPool(TEST_COMPONENT));
+        assertFalse(defaultPath.hasPool(ANOTHER_TEST_COMPONENT));
     }
 
     @Test
     void getPipeline() {
-        assertNotNull(defaultPath.getPipeline(TEST_COMPONENT));
-        assertNull(defaultPath.getPipeline(ANOTHER_TEST_COMPONENT));
+        assertNotNull(defaultPath.getPool(TEST_COMPONENT));
+        assertNull(defaultPath.getPool(ANOTHER_TEST_COMPONENT));
     }
 
     @Test
     void getTotalHandleTime() {
-        assertTrue(defaultPath.getPipeline(TEST_COMPONENT)
+        assertTrue(defaultPath.getPool(TEST_COMPONENT)
                 .handle(new PandaContext(), new PandaLocalChannel(), PandaTokenInfo.of(TokenTypes.UNKNOWN, "test").toSnippet())
                 .isErr());
 

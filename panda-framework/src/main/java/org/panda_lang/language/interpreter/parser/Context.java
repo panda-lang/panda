@@ -16,32 +16,63 @@
 
 package org.panda_lang.language.interpreter.parser;
 
-import java.util.Map;
+import org.panda_lang.language.FrameworkController;
+import org.panda_lang.language.architecture.Application;
+import org.panda_lang.language.architecture.Environment;
+import org.panda_lang.language.architecture.Script;
+import org.panda_lang.language.architecture.module.Imports;
+import org.panda_lang.language.architecture.module.TypeLoader;
+import org.panda_lang.language.architecture.statement.Scope;
+import org.panda_lang.language.interpreter.logging.LoggerHolder;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
+import org.panda_lang.language.interpreter.parser.pool.ParserPoolService;
+import org.panda_lang.language.interpreter.parser.stage.StageService;
+import org.panda_lang.language.interpreter.source.SourceSet;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.token.SourceStream;
 
 /**
  * Component based set of data used during the interpretation process
  */
-public interface Context extends Contextual {
+public interface Context<T> extends Contextual<T>, LoggerHolder {
 
     /**
      * Clone context to a new independent instance
      */
-    Context fork();
+    Context<T> fork();
 
-    /**
-     * @param componentName a name of the specified component
-     */
-    <T> Context withComponent(ContextComponent<T> componentName, T component);
+    ContextCreator<T> forkCreator();
 
-    /***
-     * @param componentName a name of the specified component
-     * @return selected component
-     */
-    <T> T getComponent(ContextComponent<T> componentName);
+    T getSubject();
 
-    /**
-     * @return all components stored in the current parser data
-     */
-    Map<? extends ContextComponent<?>, ? extends Object> getComponents();
+    SourceStream getStream();
+
+    LocalChannel getChannel();
+
+    Snippet getSource();
+
+    Scope getScope();
+
+    Imports getImports();
+
+    Snippet getScriptSource();
+
+    Script getScript();
+
+    SourceSet getSourceSet();
+
+    Application getApplication();
+
+    TypeLoader getTypeLoader();
+
+    ExpressionParser getExpressionParser();
+
+    ParserPoolService getPoolService();
+
+    StageService getStageService();
+
+    Environment getEnvironment();
+
+    FrameworkController getFrameworkController();
 
 }

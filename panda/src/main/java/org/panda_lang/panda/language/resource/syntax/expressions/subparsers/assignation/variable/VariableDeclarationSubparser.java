@@ -24,12 +24,10 @@ import org.panda_lang.language.architecture.statement.Variable;
 import org.panda_lang.language.architecture.statement.VariableData;
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.LocalChannel;
 import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
-import org.panda_lang.language.interpreter.parser.pipeline.Handler;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
+import org.panda_lang.language.interpreter.parser.pool.Target;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.TokenInfo;
@@ -56,7 +54,7 @@ import java.util.Objects;
 public final class VariableDeclarationSubparser extends AutowiredAssignationParser {
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
+    public Target<? extends Parser>[] pipeline() {
         return ArrayUtils.of(PandaPipeline.ASSIGNER);
     }
 

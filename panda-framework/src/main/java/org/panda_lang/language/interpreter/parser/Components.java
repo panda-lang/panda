@@ -24,8 +24,8 @@ import org.panda_lang.language.architecture.module.Imports;
 import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.architecture.module.TypeLoader;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.language.interpreter.parser.stage.StageController;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelinePath;
+import org.panda_lang.language.interpreter.parser.stage.StageManager;
+import org.panda_lang.language.interpreter.parser.pool.ParserPoolService;
 import org.panda_lang.language.interpreter.source.SourceSet;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.SourceStream;
@@ -48,12 +48,12 @@ public final class Components {
     /**
      * Represents the generation
      */
-    public static final ContextComponent<StageController> GENERATION = ContextComponent.of("generation", StageController.class);
+    public static final ContextComponent<StageManager> STAGE = ContextComponent.of("generation", StageManager.class);
 
     /**
      * Represents the pipeline path with all registered pipelines
      */
-    public static final ContextComponent<PipelinePath> PIPELINE = ContextComponent.of("pipeline-path", PipelinePath.class);
+    public static final ContextComponent<ParserPoolService> PIPELINE = ContextComponent.of("pipeline-path", ParserPoolService.class);
 
     /**
      * Represents the main expression parser with all registered subparsers

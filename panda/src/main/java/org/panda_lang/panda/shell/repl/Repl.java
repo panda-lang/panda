@@ -25,7 +25,6 @@ import org.panda_lang.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.language.interpreter.parser.pipeline.PandaLocalChannel;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.source.PandaSource;
 import org.panda_lang.language.interpreter.token.PandaLocation;

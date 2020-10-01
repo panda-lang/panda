@@ -19,11 +19,9 @@ package org.panda_lang.panda.language.resource.syntax.head;
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;
-import org.panda_lang.language.interpreter.parser.LocalChannel;
 import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pipeline.Handler;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.language.interpreter.parser.pool.Target;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.resource.syntax.sequence.SequencesUtils;
 import org.panda_lang.utilities.commons.ArrayUtils;
@@ -31,8 +29,8 @@ import org.panda_lang.utilities.commons.ArrayUtils;
 public final class CommentParser implements ContextParser<CommentStatement>, Handler {
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(Pipelines.ALL);
+    public Target<? extends Parser>[] pipeline() {
+        return ArrayUtils.of(Targets.ALL);
     }
 
     @Override

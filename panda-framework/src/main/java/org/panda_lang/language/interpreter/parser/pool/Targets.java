@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.language.interpreter.parser.pipeline;
+package org.panda_lang.language.interpreter.parser.pool;
 
 import org.panda_lang.language.interpreter.parser.ContextParser;
 
@@ -24,50 +24,50 @@ import java.util.Collection;
 /**
  * Default pipelines used by the framework
  */
-public final class Pipelines {
+public final class Targets {
 
     /**
-     * Text representation of {@link Pipelines#ALL}
+     * Text representation of {@link Targets#ALL}
      */
     public static final String ALL_LABEL = "all";
     /**
      * All pipelines
      */
-    public static final PipelineComponent<ContextParser> ALL = PipelineComponent.of(ALL_LABEL, ContextParser.class);
+    public static final Target<ContextParser> ALL = Target.of(ALL_LABEL, ContextParser.class);
 
     /**
-     * Text representation of {@link Pipelines#HEAD}
+     * Text representation of {@link Targets#HEAD}
      */
     public static final String HEAD_LABEL = "head";
     /**
      * Head pipeline
      */
-    public static final PipelineComponent<ContextParser> HEAD = PipelineComponent.of(HEAD_LABEL, ContextParser.class);
+    public static final Target<ContextParser> HEAD = Target.of(HEAD_LABEL, ContextParser.class);
 
     /**
-     * Text representation of {@link Pipelines#TYPE}
+     * Text representation of {@link Targets#TYPE}
      */
     public static final String TYPE_LABEL = "type";
     /**
      * Class type parsers, used by type parser
      */
-    public static final PipelineComponent<ContextParser> TYPE = PipelineComponent.of(TYPE_LABEL, ContextParser.class);
+    public static final Target<ContextParser> TYPE = Target.of(TYPE_LABEL, ContextParser.class);
 
     /**
-     * Text representation of {@link Pipelines#SCOPE}
+     * Text representation of {@link Targets#SCOPE}
      */
     public static final String SCOPE_LABEL = "scope";
     /**
      * Scope parsers
      */
-    public static final PipelineComponent<ContextParser> SCOPE = PipelineComponent.of(SCOPE_LABEL, ContextParser.class);
+    public static final Target<ContextParser> SCOPE = Target.of(SCOPE_LABEL, ContextParser.class);
 
     /**
      * Get collection of all components
      *
      * @return the collection of components
      */
-    public static Collection<PipelineComponent<?>> getPipelineComponents() {
+    public static Collection<Target<?>> getPipelineComponents() {
         return Arrays.asList(ALL, HEAD, TYPE, SCOPE);
     }
 

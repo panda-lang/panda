@@ -21,12 +21,12 @@ import org.panda_lang.language.architecture.module.Imports;
 import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.language.interpreter.parser.pool.Target;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.parser.PandaParserException;
-import org.panda_lang.language.interpreter.parser.stage.Stages;
+import org.panda_lang.language.interpreter.parser.stage.Phases;
 import org.panda_lang.language.interpreter.pattern.functional.elements.QualifierElement;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.architecture.PandaScript;
@@ -42,8 +42,8 @@ import org.panda_lang.utilities.commons.ArrayUtils;
 public final class ModuleParser extends AutowiredParser<Void> {
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(Pipelines.HEAD);
+    public Target<? extends Parser>[] pipeline() {
+        return ArrayUtils.of(Targets.HEAD);
     }
 
     @Override
@@ -53,7 +53,7 @@ public final class ModuleParser extends AutowiredParser<Void> {
                 .functional(builder -> builder.token(Keywords.MODULE).qualifier("module").consume(QualifierElement::pandaModule));
     }
 
-    @Autowired(order = 1, stage = Stages.TYPES_LABEL)
+    @Autowired(order = 1, stage = Phases.TYPES_LABEL)
     public void parse(@Ctx Environment environment, @Ctx Imports imports, @Ctx PandaScript script, @Channel Location location, @Src("module") Snippet source) {
         if (script.select(ModuleStatement.class).size() > 0) {
             throw new PandaParserException("Script contains more than one declaration of the group");

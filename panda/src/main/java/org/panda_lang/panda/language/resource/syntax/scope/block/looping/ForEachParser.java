@@ -24,7 +24,7 @@ import org.panda_lang.language.architecture.statement.VariableData;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
+import org.panda_lang.language.interpreter.parser.pool.Target;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.language.architecture.expression.PandaDynamicExpression;
@@ -48,7 +48,7 @@ import org.panda_lang.utilities.commons.iterable.ArrayIterable;
 public final class ForEachParser extends AutowiredBlockParser {
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
+    public Target<? extends Parser>[] pipeline() {
         return ArrayUtils.of(PandaPipeline.BLOCK);
     }
 

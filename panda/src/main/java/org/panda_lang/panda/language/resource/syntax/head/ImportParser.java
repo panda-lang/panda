@@ -19,8 +19,8 @@ package org.panda_lang.panda.language.resource.syntax.head;
 import org.panda_lang.language.architecture.module.Imports;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.language.interpreter.parser.pool.Target;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.pattern.functional.elements.QualifierElement;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
@@ -35,8 +35,8 @@ import org.panda_lang.utilities.commons.ArrayUtils;
 public final class ImportParser extends AutowiredParser<Void> {
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(Pipelines.HEAD);
+    public Target<? extends Parser>[] pipeline() {
+        return ArrayUtils.of(Targets.HEAD);
     }
 
     @Override

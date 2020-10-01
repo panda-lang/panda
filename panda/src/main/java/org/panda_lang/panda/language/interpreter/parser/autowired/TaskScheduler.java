@@ -19,9 +19,9 @@ package org.panda_lang.panda.language.interpreter.parser.autowired;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.stage.StageController;
-import org.panda_lang.language.interpreter.parser.stage.Stage;
+import org.panda_lang.language.interpreter.parser.stage.StageManager;
 import org.panda_lang.language.interpreter.parser.stage.StagePhase;
+import org.panda_lang.language.interpreter.parser.stage.StageLayer;
 import org.panda_lang.language.interpreter.parser.stage.StageTask;
 import org.panda_lang.utilities.commons.UnsafeUtils;
 
@@ -82,11 +82,11 @@ final class TaskScheduler<T> {
     }
 
     private @Nullable T delegateMethod(Context context, StageTask<T> callback, AutowiredMethod method) {
-        StageController stageController = context.getComponent(Components.GENERATION);
+        StageManager stageManager = context.getComponent(Components.STAGE);
 
-        Stage cycle = stageController.getCycle(method.getCycle());
-        StagePhase phase = cycle.currentPhase();
-        StagePhase nextPhase = cycle.nextPhase();
+        StagePhase cycle = stageManager.getPhase(method.getCycle());
+        StageLayer phase = cycle.currentPhase();
+        StageLayer nextPhase = cycle.nextPhase();
 
         switch (method.getDelegation()) {
             case IMMEDIATELY:

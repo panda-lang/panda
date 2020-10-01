@@ -28,13 +28,12 @@ import org.panda_lang.language.architecture.type.Visibility;
 import org.panda_lang.language.architecture.type.TypedUtils;
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.LocalChannel;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.language.interpreter.parser.pool.Target;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
+import org.panda_lang.language.interpreter.parser.stage.Layer;
 import org.panda_lang.language.interpreter.parser.stage.Phases;
-import org.panda_lang.language.interpreter.parser.stage.Stages;
 import org.panda_lang.language.interpreter.pattern.Mappings;
 import org.panda_lang.language.interpreter.pattern.functional.elements.TypeElement;
 import org.panda_lang.language.interpreter.pattern.functional.elements.UnitElement;
@@ -67,8 +66,8 @@ public final class MethodParser extends AutowiredParser<Void> {
     private static final ScopeParser SCOPE_PARSER = new ScopeParser();
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(Pipelines.TYPE);
+    public Target<? extends Parser>[] pipeline() {
+        return ArrayUtils.of(Targets.TYPE);
     }
 
     @Override
@@ -94,7 +93,7 @@ public final class MethodParser extends AutowiredParser<Void> {
                 .section("body", Separators.BRACE_LEFT).optional());
     }
 
-    @Autowired(order = 1, stage = Stages.TYPES_LABEL)
+    @Autowired(order = 1, stage = Phases.TYPES_LABEL)
     public void parseReturnType(Context context, LocalChannel channel, @Ctx Type type, @Src("type") @Nullable Snippetable returnTypeNameSource) {
         Snippet returnTypeName = returnTypeNameSource != null ? returnTypeNameSource.toSnippet() : null;
 
@@ -112,14 +111,14 @@ public final class MethodParser extends AutowiredParser<Void> {
                 .peek(returnType -> channel.allocated("type", returnType));
     }
 
-    @Autowired(order = 2, stage = Stages.TYPES_LABEL)
+    @Autowired(order = 2, stage = Phases.TYPES_LABEL)
     public void parseParameters(Context context, LocalChannel channel, @Src("name") TokenInfo name, @Src("parameters") Snippet parametersSource) {
         List<PropertyParameter> parameters = PARAMETER_PARSER.parse(context, parametersSource);
         MethodScope methodScope = new MethodScope(name.getLocation(), parameters);
         channel.allocated("scope", methodScope);
     }
 
-    @Autowired(order = 3, stage = Stages.TYPES_LABEL)
+    @Autowired(order = 3, stage = Phases.TYPES_LABEL)
     public void verifyData(
         Context context,
         LocalChannel channel,
@@ -169,7 +168,7 @@ public final class MethodParser extends AutowiredParser<Void> {
                 });
     }
 
-    @Autowired(order = 4, stage = Stages.TYPES_LABEL)
+    @Autowired(order = 4, stage = Phases.TYPES_LABEL)
     public void declareMethod(LocalChannel channel, @Ctx Type type, @Channel Mappings mappings, @Src("name") TokenInfo name, @Channel Type returnType, @Channel MethodScope scope, @Src("body") Snippet body) {
         TypeMethod method = PandaMethod.builder()
                 .type(type)
@@ -188,7 +187,7 @@ public final class MethodParser extends AutowiredParser<Void> {
         channel.allocated("method", method);
     }
 
-    @Autowired(order = 5, phase = Phases.NEXT_DEFAULT)
+    @Autowired(order = 5, phase = Layer.NEXT_DEFAULT)
     public void parse(Context context, @Ctx Type type, @Channel Mappings mappings, @Channel MethodScope methodScope, @Channel TypeMethod method, @Nullable @Src("body") Snippet body) {
         if (!SnippetUtils.isEmpty(body)) {
             SCOPE_PARSER.parse(context, methodScope, body);

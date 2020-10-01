@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.interpreter.parser.autowired.annotations;
 
-import org.panda_lang.language.interpreter.parser.stage.Stages;
 import org.panda_lang.language.interpreter.parser.stage.Phases;
+import org.panda_lang.language.interpreter.parser.stage.Layer;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -28,10 +28,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Autowired {
 
-    Phases phase() default Phases.IMMEDIATELY;
+    Layer phase() default Layer.IMMEDIATELY;
 
     int order();
 
-    String stage() default Stages.DEFAULT_LABEL;
+    String stage() default Phases.DEFAULT_LABEL;
 
 }

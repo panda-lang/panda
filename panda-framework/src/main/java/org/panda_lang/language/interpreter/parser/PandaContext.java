@@ -16,50 +16,96 @@
 
 package org.panda_lang.language.interpreter.parser;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.panda_lang.language.FrameworkController;
+import org.panda_lang.language.architecture.Application;
+import org.panda_lang.language.architecture.Environment;
+import org.panda_lang.language.architecture.Script;
+import org.panda_lang.language.architecture.module.Imports;
+import org.panda_lang.language.architecture.module.TypeLoader;
+import org.panda_lang.language.architecture.statement.Scope;
+import org.panda_lang.language.interpreter.logging.Logger;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
+import org.panda_lang.language.interpreter.parser.pool.ParserPoolService;
+import org.panda_lang.language.interpreter.parser.stage.StageService;
+import org.panda_lang.language.interpreter.source.SourceSet;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.token.SourceStream;
 
-public final class PandaContext implements Context {
+// @formatter:off
+public class PandaContext<T> implements Context<T> {
 
-    private final Map<ContextComponent<?>, Object> components;
+    protected final PandaContextCreator<T> creator;
 
-    private PandaContext(Map<ContextComponent<?>, Object> components) {
-        this.components = components;
-    }
-
-    public PandaContext() {
-        this(new HashMap<>());
+    protected PandaContext(PandaContextCreator<T> creator) {
+        this.creator = creator;
     }
 
     @Override
-    public PandaContext fork() {
-        return new PandaContext(new HashMap<>(components));
+    public PandaContext<T> fork() {
+        return new PandaContext<T>(creator.fork());
     }
 
     @Override
-    public <T> PandaContext withComponent(ContextComponent<T> component, T value) {
-        this.components.put(component, value);
+    public ContextCreator<T> forkCreator() {
+        return creator.fork();
+    }
+
+    @Override
+    public Context<T> toContext() {
         return this;
     }
 
-    /**
-     * @param componentName a name of the specified component
-     * @return selected component
-     */
     @Override
-    @SuppressWarnings({ "unchecked" })
-    public <T> T getComponent(ContextComponent<T> componentName) {
-        return (T) components.get(componentName);
+    public Logger getLogger() {
+        return getFrameworkController().getLogger();
     }
 
     @Override
-    public Map<? extends ContextComponent<?>, ? extends Object> getComponents() {
-        return new HashMap<>(components);
-    }
+    public T getSubject() { return creator.subject; }
 
     @Override
-    public Context toContext() {
-        return this;
-    }
+    public SourceStream getStream() { return creator.stream; }
+
+    @Override
+    public LocalChannel getChannel() { return creator.channel; }
+
+    @Override
+    public Snippet getSource() { return creator.source; }
+
+    @Override
+    public Scope getScope() { return creator.scope; }
+
+    @Override
+    public Imports getImports() { return creator.imports; }
+
+    @Override
+    public Snippet getScriptSource() { return creator.scriptSource; }
+
+    @Override
+    public Script getScript() { return creator.script; }
+
+    @Override
+    public SourceSet getSourceSet() { return creator.sourceSet; }
+
+    @Override
+    public Application getApplication() { return creator.application; }
+
+    @Override
+    public TypeLoader getTypeLoader() { return creator.typeLoader; }
+
+    @Override
+    public ExpressionParser getExpressionParser() { return creator.expressionParser; }
+
+    @Override
+    public ParserPoolService getPoolService() { return creator.parserPoolService; }
+
+    @Override
+    public StageService getStageService() { return creator.stageService; }
+
+    @Override
+    public Environment getEnvironment() { return creator.environment; }
+
+    @Override
+    public FrameworkController getFrameworkController() { return creator.frameworkController; }
 
 }

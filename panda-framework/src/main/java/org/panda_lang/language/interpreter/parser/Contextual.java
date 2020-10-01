@@ -16,8 +16,8 @@
 
 package org.panda_lang.language.interpreter.parser;
 
-public interface Contextual {
+public interface Contextual<T> {
 
-    Context toContext();
+    Context<T> toContext();
 
 }

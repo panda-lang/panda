@@ -20,7 +20,7 @@ import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
+import org.panda_lang.language.interpreter.parser.pool.Target;
 import org.panda_lang.language.interpreter.pattern.Mappings;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
@@ -39,7 +39,7 @@ import org.panda_lang.utilities.commons.ArrayUtils;
 public final class WhileParser extends AutowiredBlockParser {
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
+    public Target<? extends Parser>[] pipeline() {
         return ArrayUtils.of(PandaPipeline.BLOCK);
     }
 

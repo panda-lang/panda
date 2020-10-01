@@ -20,14 +20,12 @@ import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.LocalChannel;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParserSettings;
-import org.panda_lang.language.interpreter.parser.pipeline.Handler;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.language.interpreter.parser.pool.Target;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.SourceStream;
@@ -49,8 +47,8 @@ public final class StandaloneExpressionParser extends AutowiredParser<Object> {
     private ExpressionParser expressionParser;
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(Pipelines.SCOPE);
+    public Target<? extends Parser>[] pipeline() {
+        return ArrayUtils.of(Targets.SCOPE);
     }
 
     @Override

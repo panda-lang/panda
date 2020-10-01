@@ -17,48 +17,45 @@
 package org.panda_lang.language.interpreter.parser.stage;
 
 /**
- * Cycle represents following continuously pair of phases identified by the specific {@link StageType}
+ * Comparable type of cycle, required to create a new cycle
  */
-public interface Stage {
+public final class Phase implements Comparable<Phase> {
+
+    private final String name;
+    private final double priority;
 
     /**
-     * Launch cycle
+     * Create new cycle type
      *
-     * @return true if all tasks was called
+     * @param name the name of cycle
+     * @param priority the priority
      */
-    boolean execute();
+    public Phase(String name, double priority) {
+        this.name = name;
+        this.priority = priority;
+    }
+
+    @Override
+    public int compareTo(Phase to) {
+        return Double.compare(priority, to.priority);
+    }
 
     /**
-     * @return amount of tasks
-     */
-    int countTasks();
-
-    /**
-     * Get next phase
+     * Get priority of cycle
      *
-     * @return the next phase
+     * @return the priority
      */
-    StagePhase nextPhase();
-
-    /**
-     * Get current phase
-     *
-     * @return the current phase
-     */
-    StagePhase currentPhase();
-
-    /**
-     * Get generation
-     *
-     * @return the generation
-     */
-    StageController stage();
+    public double getPriority() {
+        return priority;
+    }
 
     /**
      * Get name of cycle
      *
      * @return the name
      */
-    String name();
+    public String getName() {
+        return name;
+    }
 
 }

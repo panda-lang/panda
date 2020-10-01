@@ -14,40 +14,29 @@
  * limitations under the License.
  */
 
-package org.panda_lang.language.interpreter.parser;
+package org.panda_lang.language.interpreter.parser.pool;
 
-import org.panda_lang.language.interpreter.parser.pipeline.Handler;
+import org.panda_lang.language.interpreter.parser.Parser;
 
-/**
- * Parser container
- *
- * @param <P> type of stored parser
- */
-public interface ParserRepresentation<P> {
+public interface ParserPool<P extends Parser> {
 
     /**
-     * Add 1 to number of use. It's used to optimization process of parsing.
+     * Register the specified parser to
+     *
+     * @param parser specified parser representation which will be registered in the pipeline
      */
-    void increaseUsages();
+    void register(P parser);
 
     /**
-     * @return amount of usages
+     * @return a collection of registered parser
      */
-    int getUsages();
+    Iterable<? extends P> getParsers();
 
     /**
-     * @return priority
+     * Get name of pipeline
+     *
+     * @return the name
      */
-    double getPriority();
-
-    /**
-     * @return associated handler
-     */
-    Handler getHandler();
-
-    /**
-     * @return associated parser
-     */
-    P getParser();
+    String getName();
 
 }

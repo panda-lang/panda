@@ -24,9 +24,9 @@ import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.language.interpreter.parser.stage.Stages;
+import org.panda_lang.language.interpreter.parser.pool.Target;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
+import org.panda_lang.language.interpreter.parser.stage.Phases;
 import org.panda_lang.language.interpreter.pattern.functional.elements.QualifierElement;
 import org.panda_lang.language.interpreter.pattern.functional.elements.WildcardElement;
 import org.panda_lang.language.interpreter.pattern.functional.verifiers.TokenTypeVerifier;
@@ -53,8 +53,8 @@ import java.util.Objects;
 public final class RequireParser extends AutowiredParser<Void> {
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(Pipelines.HEAD);
+    public Target<? extends Parser>[] pipeline() {
+        return ArrayUtils.of(Targets.HEAD);
     }
 
     @Override
@@ -69,7 +69,7 @@ public final class RequireParser extends AutowiredParser<Void> {
                         )));
     }
 
-    @Autowired(order = 1, stage = Stages.TYPES_LABEL)
+    @Autowired(order = 1, stage = Phases.TYPES_LABEL)
     public void parse(Context context, @Ctx Imports imports, @Src("required") @Nullable Snippetable require, @Src("requiredFile") @Nullable TokenInfo requiredFile) {
         if (require != null) {
             parseModule(context, imports, require.toSnippet());

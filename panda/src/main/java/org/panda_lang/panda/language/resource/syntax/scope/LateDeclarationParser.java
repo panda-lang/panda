@@ -20,8 +20,8 @@ import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.architecture.statement.VariableData;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.language.interpreter.parser.pool.Target;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.interpreter.token.Snippetable;
 import org.panda_lang.language.architecture.statement.PandaVariableDataInitializer;
 import org.panda_lang.language.interpreter.pattern.Mappings;
@@ -40,8 +40,8 @@ import org.panda_lang.utilities.commons.ArrayUtils;
 public final class LateDeclarationParser extends AutowiredParser<Void> {
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(Pipelines.SCOPE);
+    public Target<? extends Parser>[] pipeline() {
+        return ArrayUtils.of(Targets.SCOPE);
     }
 
     @Override
