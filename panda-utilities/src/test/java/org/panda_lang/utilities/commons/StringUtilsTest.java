@@ -240,5 +240,4 @@ final class StringUtilsTest {
         Assertions.assertEquals("", StringUtils.toString(new Object[]{}));
     }
 
-
 }
