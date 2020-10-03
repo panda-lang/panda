@@ -65,19 +65,19 @@ final class PackageDocument {
     }
 
     protected @Nullable String getMainScript() {
-        return content.getString("scripts.main");
+        return content.getString("scripts.main").get();
     }
 
     protected String getOwner() {
-        return content.getString("owner");
+        return content.getString("owner").get();
     }
 
     protected String getVersion() {
-        return content.getString("version");
+        return content.getString("version").get();
     }
 
     protected String getName() {
-        return content.getString("name");
+        return content.getString("name").get();
     }
 
     protected File getPandaModules() {
