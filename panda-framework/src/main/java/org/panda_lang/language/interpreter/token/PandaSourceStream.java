@@ -16,9 +16,12 @@
 
 package org.panda_lang.language.interpreter.token;
 
+import org.panda_lang.utilities.commons.function.Option;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.function.Predicate;
 
 public final class PandaSourceStream implements SourceStream {
 
@@ -40,6 +43,13 @@ public final class PandaSourceStream implements SourceStream {
         }
 
         return original.get(index++);
+    }
+
+    @Override
+    public Option<TokenInfo> read(Predicate<TokenInfo> condition) {
+        return hasUnreadSource()
+                ? Option.of(read()).filter(condition).onEmpty(() -> read(-1))
+                : Option.none();
     }
 
     @Override

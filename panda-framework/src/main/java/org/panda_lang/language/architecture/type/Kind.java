@@ -16,22 +16,26 @@
 
 package org.panda_lang.language.architecture.type;
 
-public final class TypeModels {
+public final class Kind {
 
     public static final String CLASS = "class";
 
-    public static final String ENUM = "enum";
-
     public static final String INTERFACE = "interface";
 
-    private TypeModels() { }
+    public static final String ENUM = "enum";
+
+    public static final String STRUCT = "struct";
+
+    public static final String TRAIT = "trait";
+
+    private Kind() { }
 
     public static boolean isClass(Type type) {
-        return CLASS.equals(type.getModel());
+        return CLASS.equals(type.getKind());
     }
 
     public static boolean isInterface(Type type) {
-        return INTERFACE.equals(type.getModel());
+        return INTERFACE.equals(type.getKind());
     }
 
     public static String of(Class<?> clazz) {

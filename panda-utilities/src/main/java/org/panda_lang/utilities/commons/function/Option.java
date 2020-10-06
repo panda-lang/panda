@@ -36,9 +36,9 @@ public class Option<T> implements Iterable<T>, Serializable {
 
     private static final Option<?> NONE = new Option<>(null);
 
-    private final @Nullable T value;
+    protected @Nullable T value;
 
-    private Option(@Nullable T value) {
+    protected Option(@Nullable T value) {
         this.value = value;
     }
 

@@ -76,9 +76,10 @@ public class PandaContextCreator<T> implements ContextCreator<T> {
     }
 
     @Override
-    public ContextCreator<T> withSubject(T subject) {
-        this.subject = subject;
-        return this;
+    @SuppressWarnings("unchecked")
+    public <S> ContextCreator<S> withSubject(S subject) {
+        this.subject = (T) subject;
+        return (ContextCreator<S>) this;
     }
 
     @Override

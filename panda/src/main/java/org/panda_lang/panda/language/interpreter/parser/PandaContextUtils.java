@@ -17,12 +17,10 @@
 package org.panda_lang.panda.language.interpreter.parser;
 
 import org.panda_lang.language.FrameworkController;
-import org.panda_lang.language.architecture.module.Imports;
 import org.panda_lang.language.architecture.module.ModulePath;
 import org.panda_lang.language.architecture.module.TypeLoader;
-import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.architecture.module.PandaImports;
+import org.panda_lang.language.architecture.module.Imports;
 import org.panda_lang.language.architecture.module.PandaModule;
 import org.panda_lang.language.architecture.module.PandaModulePath;
 import org.panda_lang.language.architecture.module.PandaTypeLoader;
@@ -57,7 +55,7 @@ public final class PandaContextUtils {
         ResourcesLoader resourcesLoader = new ResourcesLoader();
         resourcesLoader.load(path, loader);
 
-        Imports imports = new PandaImports(path, loader);
+        Imports imports = new Imports(path, loader);
         imports.importModule("java");
         imports.importModule("panda");
 

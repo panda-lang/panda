@@ -22,7 +22,7 @@ import org.panda_lang.language.architecture.type.Autocast;
 import org.panda_lang.language.architecture.type.PandaType;
 import org.panda_lang.language.architecture.type.State;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.TypeModels;
+import org.panda_lang.language.architecture.type.Kind;
 import org.panda_lang.language.architecture.type.Visibility;
 import org.panda_lang.language.interpreter.source.PandaClassSource;
 import org.panda_lang.language.resource.internal.InternalModuleInfo;
@@ -89,10 +89,10 @@ public final class JavaModule implements CustomInitializer {
         return module.add(PandaType.builder()
                 .name(name)
                 .module(module)
-                .javaType(javaType)
+                .associatedType(javaType)
                 .visibility(Visibility.OPEN)
                 .state(State.DEFAULT)
-                .model(javaType.isInterface() ? TypeModels.INTERFACE : TypeModels.CLASS)
+                .kind(javaType.isInterface() ? Kind.INTERFACE : Kind.CLASS)
                 .location(new PandaClassSource(javaType).toLocation())
                 .build());
     }

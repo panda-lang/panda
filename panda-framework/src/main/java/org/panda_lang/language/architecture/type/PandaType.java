@@ -21,22 +21,22 @@ import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.expression.ExpressionUtils;
 import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.architecture.module.TypeLoader;
-import org.panda_lang.language.architecture.type.array.ArrayClassTypeFetcher;
-import org.panda_lang.language.architecture.type.generator.dynamic.PandaDynamicClass;
 import org.panda_lang.language.architecture.type.member.AbstractMetadata;
-import org.panda_lang.language.architecture.type.member.constructor.Constructors;
 import org.panda_lang.language.architecture.type.member.Member;
-import org.panda_lang.language.architecture.type.member.field.Fields;
-import org.panda_lang.language.architecture.type.member.method.Methods;
-import org.panda_lang.language.architecture.type.member.constructor.PandaConstructors;
-import org.panda_lang.language.architecture.type.member.field.PandaFields;
-import org.panda_lang.language.architecture.type.member.method.PandaMethods;
 import org.panda_lang.language.architecture.type.member.Members;
+import org.panda_lang.language.architecture.type.member.constructor.Constructors;
+import org.panda_lang.language.architecture.type.member.constructor.PandaConstructors;
 import org.panda_lang.language.architecture.type.member.constructor.TypeConstructor;
+import org.panda_lang.language.architecture.type.member.field.Fields;
+import org.panda_lang.language.architecture.type.member.field.PandaFields;
 import org.panda_lang.language.architecture.type.member.field.TypeField;
+import org.panda_lang.language.architecture.type.member.method.Methods;
+import org.panda_lang.language.architecture.type.member.method.PandaMethods;
 import org.panda_lang.language.architecture.type.member.method.TypeMethod;
 import org.panda_lang.utilities.commons.ValidationUtils;
+import org.panda_lang.utilities.commons.function.CompletableOption;
 import org.panda_lang.utilities.commons.function.Option;
+import org.panda_lang.utilities.commons.function.PandaStream;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,30 +49,25 @@ import java.util.Objects;
 public class PandaType extends AbstractMetadata implements Type {
 
     protected final Module module;
-    protected final String model;
+    protected final String kind;
     protected final State state;
-    protected final DynamicClass associated;
-    protected final Collection<Type> bases = new ArrayList<>(1);
+    protected final CompletableOption<? extends Class<?>> associated;
+    protected final List<Signature> bases;
     protected final Map<Type, Autocast<?, ?>> autocasts = new HashMap<>();
-    protected final List<Initializer<Type>> initializers = new ArrayList<>(2);
     protected final Fields fields = new PandaFields(this);
     protected final Constructors constructors = new PandaConstructors(this);
     protected final Methods methods = new PandaMethods(this);
+    protected final List<Initializer<Type>> initializers = new ArrayList<>(2);
     protected TypeLoader typeLoader;
 
     public PandaType(PandaTypeMetadata<?, ?> metadata) {
         super(metadata.name, metadata.location, metadata.visibility, metadata.isNative);
 
         this.module = ValidationUtils.notNull(metadata.module, "Type needs module");
-        this.model = ValidationUtils.notNull(metadata.model, "Type requires defined model");
+        this.kind = ValidationUtils.notNull(metadata.kind, "The kind of type is not defined");
         this.state = ValidationUtils.notNull(metadata.state, "State of type is missing");
-
-        if (metadata.javaType == null) {
-            this.associated = new PandaDynamicClass(this, getName(), getModule().getName(), getModel());
-        }
-        else {
-            this.associated = new PandaDynamicClass(this, metadata.javaType);
-        }
+        this.associated = ValidationUtils.notNull(metadata.associatedType, "Associated type is missing");
+        this.bases = ValidationUtils.notNull(metadata.bases, "Bases are not defined");
     }
 
     @Override
@@ -106,14 +101,21 @@ public class PandaType extends AbstractMetadata implements Type {
     }
 
     @Override
-    public void addBase(Type baseType) {
-        bases.add(baseType);
-        associated.append(baseType);
+    public void addAutocast(Type to, Autocast<?, ?> autocast) {
+        if (isInitialized()) {
+            throw new IllegalStateException("Cannot add autocast to initialized type");
+        }
+
+        autocasts.put(to, autocast);
     }
 
     @Override
-    public void addAutocast(Type to, Autocast<?, ?> autocast) {
-        autocasts.put(to, autocast);
+    public void addBase(Signature baseSignature) {
+        if (isInitialized()) {
+            throw new IllegalStateException("Cannot add base type to initialized type");
+        }
+
+        bases.add(baseSignature);
     }
 
     @Override
@@ -127,45 +129,27 @@ public class PandaType extends AbstractMetadata implements Type {
     }
 
     @Override
-    public Type toArray(TypeLoader loader) {
-        return ArrayClassTypeFetcher.getArrayOf(typeLoader, this, 1);
-    }
-
-    @Override
     public int hashCode() {
         return Objects.hash(getModule(), getSimpleName());
     }
 
     @Override
-    public boolean equals(@Nullable Object o) {
-        return this == o;
+    public boolean equals(@Nullable Object to) {
+        return this == to;
     }
 
     @Override
-    public boolean isAssignableFrom(@Nullable Type to) {
-        if (to == null) {
-            return true;
-        }
-
-        return to.equals(this)
-                || getAssociatedClass().isAssignableFrom(to.getAssociatedClass())
-                || hasCommonTypes(bases, to)
+    public boolean isAssignableFrom(Type to) {
+        return getSignature().isAssignableFrom(to.getSignature())
+                || hasCommonTypes(to)
                 || to.getAutocast(this).isPresent();
     }
 
-    private boolean hasCommonTypes(Collection<? extends Type> fromTypes, Type to) {
-        for (Type from : fromTypes) {
-            if (to.equals(from) || to.getAssociatedClass().isAssignableFrom(from.getAssociatedClass())) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    @Override
-    public boolean isArray() {
-        return false;
+    private boolean hasCommonTypes(Type to) {
+        return PandaStream.of(bases)
+                .map(Signature::getPrimaryType)
+                .find(from -> from.equals(to) || to.isAssignableFrom(from))
+                .isDefined();
     }
 
     @Override
@@ -193,13 +177,9 @@ public class PandaType extends AbstractMetadata implements Type {
 
     @Override
     public Option<Autocast<?, ?>> getAutocast(Type to) {
-        for (Entry<Type, Autocast<?, ?>> autocastEntry : autocasts.entrySet()) {
-            if (to.isAssignableFrom(autocastEntry.getKey())) {
-                return Option.of(autocastEntry.getValue());
-            }
-        }
-
-        return Option.none();
+        return PandaStream.of(autocasts.entrySet())
+                .find(autocastEntry -> to.isAssignableFrom(autocastEntry.getKey()))
+                .map(Entry::getValue);
     }
 
     @Override
@@ -218,19 +198,13 @@ public class PandaType extends AbstractMetadata implements Type {
     }
 
     @Override
-    public Collection<Type> getBases() {
+    public Collection<? extends Signature> getBases() {
         return bases;
     }
 
     @Override
-    public Option<Type> getSuperclass() {
-        for (Type base : getBases()) {
-            if (TypeModels.isClass(base)) {
-                return Option.of(base);
-            }
-        }
-
-        return Option.none();
+    public Option<? extends Signature> getSuperclass() {
+        return PandaStream.of(getBases()).find(base -> Kind.isClass(base.getType().get()));
     }
 
     @Override
@@ -239,17 +213,17 @@ public class PandaType extends AbstractMetadata implements Type {
     }
 
     @Override
-    public String getModel() {
-        return model;
+    public String getKind() {
+        return kind;
     }
 
     @Override
-    public Type getType() {
-        return this;
+    public Signature getSignature() {
+        return null;
     }
 
     @Override
-    public DynamicClass getAssociatedClass() {
+    public CompletableOption<? extends Class<?>> getAssociated() {
         return associated;
     }
 
@@ -261,6 +235,11 @@ public class PandaType extends AbstractMetadata implements Type {
     @Override
     public Module getModule() {
         return module;
+    }
+
+    @Override
+    public String getName() {
+        return getModule().getName() + "::" + getSimpleName();
     }
 
     @Override

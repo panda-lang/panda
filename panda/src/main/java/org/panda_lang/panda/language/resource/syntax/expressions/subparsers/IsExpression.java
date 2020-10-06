@@ -36,7 +36,7 @@ final class IsExpression implements DynamicExpression {
     @Override
     @SuppressWarnings("unchecked")
     public Object evaluate(ProcessStack stack, Object instance) throws Exception {
-        return requestedTypeType.getAssociatedClass().isAssignableFrom(value.evaluate(stack, instance).getClass());
+        return requestedTypeType.getAssociated().isAssignableFrom(value.evaluate(stack, instance).getClass());
     }
 
     @Override

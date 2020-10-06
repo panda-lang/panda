@@ -34,8 +34,8 @@ public final class ArrayType extends PandaType {
                 .module(module)
                 .name(name)
                 .location(associated)
-                .javaType(associated)
-                .model(type.getModel())
+                .associatedType(associated)
+                .kind(type.getKind())
                 .state(type.getState())
                 .visibility(Visibility.OPEN)
         );

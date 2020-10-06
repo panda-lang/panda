@@ -16,8 +16,8 @@
 
 package org.panda_lang.language.architecture.module;
 
-import org.panda_lang.utilities.commons.function.StreamUtils;
 import org.panda_lang.utilities.commons.function.Option;
+import org.panda_lang.utilities.commons.function.StreamUtils;
 
 import java.util.Collection;
 
@@ -31,14 +31,22 @@ public interface Modules {
      *
      * @param module the module to add
      */
-    void include(Module module);
+    Module include(Module module);
 
     /**
-     * Allocates module with the given qualifier
+     * Allocates module with the given qualifier or
      *
      * @return a module with the given name
      */
-    Module allocate(String moduleQualifier);
+    Module acquire(String moduleQualifier);
+
+    /**
+     * Get module with the given name
+     *
+     * @param moduleQualifier the name of module
+     * @return the module
+     */
+    Option<Module> forModule(String moduleQualifier);
 
     /**
      * Count used types
@@ -57,14 +65,6 @@ public interface Modules {
     default long countTypes() {
         return StreamUtils.sum(getModules(), Module::countTypes);
     }
-
-    /**
-     * Get module with the given name
-     *
-     * @param moduleQualifier the name of module
-     * @return the module
-     */
-    Option<Module> get(String moduleQualifier);
 
     /**
      * Get all names of modules

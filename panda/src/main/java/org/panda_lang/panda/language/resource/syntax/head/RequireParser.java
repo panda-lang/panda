@@ -18,13 +18,10 @@ package org.panda_lang.panda.language.resource.syntax.head;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.Environment;
-import org.panda_lang.language.architecture.module.Imports;
 import org.panda_lang.language.architecture.module.Module;
-import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pool.Target;
 import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.interpreter.parser.stage.Phases;
 import org.panda_lang.language.interpreter.pattern.functional.elements.QualifierElement;
@@ -117,7 +114,7 @@ public final class RequireParser extends AutowiredParser<Void> {
             throw new PandaParserFailure(context, requiredFile, e.getMessage());
         }
 
-        environment.getModulePath().get(requiredFile.getValue())
+        environment.getModulePath().forModule(requiredFile.getValue())
                 .peek(imports::importModule)
                 .onEmpty(() -> environment.getLogger().warn("Imported local package " + requiredFile.getValue() + " does not have module with the same name"));
     }

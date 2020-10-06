@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.architecture.type.Signature;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.language.architecture.expression.AbstractDynamicExpression;
@@ -29,7 +30,7 @@ final class ArrayInstanceExpression extends AbstractDynamicExpression {
     private final Type type;
     private final Expression[] capacities;
 
-    public ArrayInstanceExpression(ArrayType instanceType, Type baseType, Expression[] capacities) {
+    public ArrayInstanceExpression(ArrayType instanceType, Signature baseType, Expression[] capacities) {
         super(instanceType);
 
         this.type = baseType;
@@ -45,7 +46,7 @@ final class ArrayInstanceExpression extends AbstractDynamicExpression {
             capacitiesValues[index] = capacities[index].evaluate(stack, instance);
         }
 
-        return Array.newInstance(type.getAssociatedClass().fetchImplementation(), capacitiesValues);
+        return Array.newInstance(type.getAssociated().fetchImplementation(), capacitiesValues);
     }
 
 }

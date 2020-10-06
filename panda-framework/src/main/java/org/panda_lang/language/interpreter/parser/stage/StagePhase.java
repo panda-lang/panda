@@ -33,14 +33,14 @@ public interface StagePhase {
      *
      * @return the next phase
      */
-    StageLayer nextPhase();
+    StageLayer nextLayer();
 
     /**
      * Get current phase
      *
      * @return the current phase
      */
-    StageLayer currentPhase();
+    StageLayer currentLayer();
 
     /**
      * @return amount of tasks

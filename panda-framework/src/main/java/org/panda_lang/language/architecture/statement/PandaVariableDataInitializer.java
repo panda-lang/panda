@@ -16,7 +16,6 @@
 
 package org.panda_lang.language.architecture.statement;
 
-import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.Snippetable;

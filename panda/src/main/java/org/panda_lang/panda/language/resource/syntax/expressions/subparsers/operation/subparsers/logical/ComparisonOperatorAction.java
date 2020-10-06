@@ -29,7 +29,7 @@ public abstract class ComparisonOperatorAction extends RPNSimplifiedAction<Numbe
 
     @Override
     public Type returnType(TypeLoader typeLoader) {
-        return typeLoader.requireType(boolean.class);
+        return typeLoader.requireType("Bool");
     }
 
 }

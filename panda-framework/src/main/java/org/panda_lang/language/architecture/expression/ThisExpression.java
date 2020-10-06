@@ -20,7 +20,6 @@ import org.panda_lang.language.architecture.type.member.MemberFrame;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.runtime.ProcessStack;
-import org.panda_lang.language.architecture.type.TypeComponents;
 import org.panda_lang.utilities.commons.ObjectUtils;
 
 public final class ThisExpression implements DynamicExpression {

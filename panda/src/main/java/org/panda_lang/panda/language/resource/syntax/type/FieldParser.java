@@ -25,14 +25,12 @@ import org.panda_lang.language.architecture.type.Visibility;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
-import org.panda_lang.language.interpreter.parser.pool.Target;
 import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.TokenInfo;
-import org.panda_lang.language.architecture.module.PandaImportsUtils;
+import org.panda_lang.language.architecture.module.ImportsUtils;
 import org.panda_lang.language.architecture.type.member.field.PandaField;
-import org.panda_lang.language.architecture.type.TypeComponents;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.stage.Phases;
 import org.panda_lang.language.interpreter.pattern.Mappings;
@@ -75,7 +73,7 @@ public final class FieldParser extends AutowiredParser<Void> {
 
     @Autowired(order = 1, stage = Phases.TYPES_LABEL)
     public void parse(Context context, LocalChannel channel, @Channel Mappings mappings, @Channel Location location, @Src("type") Snippet typeName, @Src("name") TokenInfo name) {
-        Type returnType = PandaImportsUtils.getTypeOrThrow(context, typeName.asSource(), typeName);
+        Type returnType = ImportsUtils.getTypeOrThrow(context, typeName.asSource(), typeName);
         Visibility visibility = Visibility.valueOf(mappings.get("visibility").get().toString().toUpperCase());
 
         Type type = context.getComponent(TypeComponents.PROTOTYPE);

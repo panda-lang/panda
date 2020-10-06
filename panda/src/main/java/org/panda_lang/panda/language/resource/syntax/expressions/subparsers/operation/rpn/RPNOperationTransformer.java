@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn;
 
-import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.resource.syntax.operator.Operator;

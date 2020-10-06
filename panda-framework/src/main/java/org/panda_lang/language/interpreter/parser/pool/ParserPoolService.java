@@ -17,6 +17,7 @@
 package org.panda_lang.language.interpreter.parser.pool;
 
 import org.panda_lang.language.interpreter.parser.Parser;
+import org.panda_lang.utilities.commons.collection.Component;
 
 import java.util.Collection;
 
@@ -32,7 +33,7 @@ public interface ParserPoolService {
      * @param <P> type of parsers represented by pipeline
      * @return a new pipeline
      */
-    <P extends Parser> ParserPool<P> computeIfAbsent(Target<P> component);
+    <P extends Parser> ParserPool<P> computeIfAbsent(Component<P> component);
 
     /**
      * Check if path contains the given pipeline
@@ -40,16 +41,16 @@ public interface ParserPoolService {
      * @param component the identifier of pipeline to search for
      * @return true if pipeline exists in the path, otherwise false
      */
-    boolean hasPool(Target<?> component);
+    boolean hasPool(Component<?> component);
 
     /**
      * Get pipeline using the given component
      *
      * @param component the component to search for
-     * @param <P> the type of represented parsers by requested pipeline
+     * @param <T> the type of represented parsers by requested pipeline
      * @return the found pipeline
      */
-    <P extends Parser> ParserPool<P> getPool(Target<P> component);
+    <T> ParserPool<T> getPool(Component<T> component);
 
     /**
      * Collect names of pipelines

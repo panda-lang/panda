@@ -53,7 +53,7 @@ public class OrOperation implements RPNOperationSupplier<Boolean> {
 
     @Override
     public Type requiredType(TypeLoader typeLoader) {
-        return typeLoader.requireType(boolean.class);
+        return typeLoader.requireType("boolean");
     }
 
 }

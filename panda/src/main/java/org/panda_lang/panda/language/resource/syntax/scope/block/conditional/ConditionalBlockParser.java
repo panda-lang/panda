@@ -23,7 +23,6 @@ import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
-import org.panda_lang.language.interpreter.parser.pool.Target;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.architecture.expression.PandaExpression;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
@@ -80,7 +79,7 @@ public final class ConditionalBlockParser extends AutowiredBlockParser {
     ) {
         Expression condition = mappings
                 .get("condition", Expression.class)
-                .orElseGet(() -> new PandaExpression(loader.requireType(Boolean.class), true));
+                .orElseGet(() -> new PandaExpression(loader.requireType("Boolean"), true));
 
         ConditionalBlock conditionalBlock = new ConditionalBlock(parent, location, condition);
 

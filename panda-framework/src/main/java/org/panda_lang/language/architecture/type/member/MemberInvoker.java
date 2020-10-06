@@ -14,20 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.language.interpreter.parser;
+package org.panda_lang.language.architecture.type.member;
 
-import org.panda_lang.language.Failure;
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.language.runtime.ProcessStack;
 
-/**
- * Represents errors associated with parsers
- */
-public interface ParserFailure extends Failure {
+public interface MemberInvoker<E extends Member, T> {
 
-    /**
-     * Get associated context
-     *
-     * @return the context
-     */
-    Context getContext();
+    Object invoke(E property, ProcessStack stack, @Nullable T instance, Object[] arguments) throws Exception;
 
 }

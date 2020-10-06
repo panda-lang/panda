@@ -45,7 +45,7 @@ public final class ArrayClassTypeFetcher {
         return Option.of(ARRAY_PROTOTYPES.get(typeName))
                 .orElse(() -> {
                     String arrayType = StringUtils.replace(typeName, PandaArray.IDENTIFIER, StringUtils.EMPTY);
-                    return typeLoader.forName(arrayType);
+                    return typeLoader.forType(arrayType);
                 })
                 .map(type -> {
                     int dimensions = StringUtils.countOccurrences(typeName, PandaArray.IDENTIFIER);
@@ -54,7 +54,7 @@ public final class ArrayClassTypeFetcher {
     }
 
     public static Type getArrayOf(TypeLoader typeLoader, Type baseType, int dimensions) {
-        Class<?> componentType = ArrayUtils.getDimensionalArrayType(baseType.getAssociatedClass().fetchStructure(), dimensions);
+        Class<?> componentType = ArrayUtils.getDimensionalArrayType(baseType.getAssociated().fetchStructure(), dimensions);
         Class<?> arrayClass = ArrayUtils.getArrayClass(componentType);
 
         Module module = baseType.getModule();

@@ -17,7 +17,6 @@
 package org.panda_lang.language.architecture.expression;
 
 import org.panda_lang.language.architecture.type.Signature;
-import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.runtime.ProcessStack;
 
 import java.security.InvalidParameterException;
@@ -66,7 +65,7 @@ public class PandaExpression implements Expression {
 
     @Override
     public String toString() {
-        String s = type.name() + ":" + (returnType != null ? returnType.getType().getSimpleName() : "any");
+        String s = type.name() + ":" + (returnType != null ? returnType.getType() : "any");
         return ExpressionValueType.CONST == type ? s + ":" + value : s;
     }
 

@@ -44,7 +44,7 @@ public final class ResourcesLoader {
 
     private void loadClass(ModulePath modulePath, TypeLoader typeLoader, Class<?> annotatedClass) throws Exception {
         InternalModuleInfo moduleInfo = annotatedClass.getAnnotation(InternalModuleInfo.class);
-        Module module = modulePath.allocate(moduleInfo.module());
+        Module module = modulePath.acquire(moduleInfo.module());
 
         if (CustomInitializer.class.isAssignableFrom(annotatedClass)) {
             CustomInitializer initializer = (CustomInitializer) annotatedClass.newInstance();

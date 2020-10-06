@@ -60,18 +60,13 @@ public final class PandaStagePhase implements StagePhase {
     }
 
     @Override
-    public StageLayer currentPhase() {
+    public StageLayer currentLayer() {
         return currentPhase;
     }
 
     @Override
-    public StageLayer nextPhase() {
+    public StageLayer nextLayer() {
         return nextPhase;
-    }
-
-    @Override
-    public StageManager stage() {
-        return stageManager;
     }
 
     @Override

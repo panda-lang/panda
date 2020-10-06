@@ -16,7 +16,6 @@
 
 package org.panda_lang.language.interpreter.pattern.functional.elements;
 
-import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;

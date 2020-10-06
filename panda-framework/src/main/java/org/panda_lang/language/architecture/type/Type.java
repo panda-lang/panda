@@ -16,15 +16,14 @@
 
 package org.panda_lang.language.architecture.type;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.architecture.module.TypeLoader;
-import org.panda_lang.language.architecture.type.member.constructor.Constructors;
 import org.panda_lang.language.architecture.type.member.Member;
-import org.panda_lang.language.architecture.type.member.field.Fields;
-import org.panda_lang.language.architecture.type.member.method.Methods;
 import org.panda_lang.language.architecture.type.member.Members;
 import org.panda_lang.language.architecture.type.member.Metadata;
+import org.panda_lang.language.architecture.type.member.constructor.Constructors;
+import org.panda_lang.language.architecture.type.member.field.Fields;
+import org.panda_lang.language.architecture.type.member.method.Methods;
+import org.panda_lang.utilities.commons.function.CompletableOption;
 import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.Collection;
@@ -40,19 +39,11 @@ public interface Type extends Metadata {
     void initialize(TypeLoader typeLoader);
 
     /**
-     * Get type to the array type of this type
-     *
-     * @param typeLoader the loader to use
-     * @return the array type
-     */
-    Type toArray(TypeLoader typeLoader);
-
-    /**
      * Inherit the given type
      *
      * @param baseType the type to inherit from
      */
-    void addBase(Type baseType);
+    void addBase(Signature baseType);
 
     /**
      * Support automatic casting to other type
@@ -75,14 +66,7 @@ public interface Type extends Metadata {
      * @param type to compare with
      * @return true if this type is assignable from the given declaration, otherwise false
      */
-    boolean isAssignableFrom(@Nullable Type type);
-
-    /**
-     * Check if the type represents array type
-     *
-     * @return true if the type represents array type, otherwise false
-     */
-    boolean isArray();
+    boolean isAssignableFrom(Type type);
 
     /**
      * Check if the type has been initialized
@@ -119,7 +103,7 @@ public interface Type extends Metadata {
      * @param <T> generic type that represents the property type
      * @return the properties
      */
-    <T extends Member> Option<Members<T>> getProperties(Class<T> propertyType);
+    <T extends Member> Option<? extends Members<T>> getProperties(Class<T> propertyType);
 
     /**
      * Get autocast for the given type
@@ -127,28 +111,28 @@ public interface Type extends Metadata {
      * @param to the type to search for
      * @return the autocast
      */
-    Option<Autocast<?, ?>> getAutocast(Type to);
+    Option<? extends Autocast<?, ?>> getAutocast(Type to);
 
     /**
      * Get supertypes of type
      *
      * @return collection of supertypes
      */
-    Collection<? extends Type> getBases();
+    Collection<? extends Signature> getBases();
 
     /**
      * Get super class
      *
      * @return the superclass
      */
-    Option<Type> getSuperclass();
+    Option<? extends Signature> getSuperclass();
 
     /**
      * Get Java class associated with the type
      *
      * @return the associated class
      */
-    DynamicClass getAssociatedClass();
+    CompletableOption<? extends Class<?>> getAssociated();
 
     /**
      * Get state of type
@@ -162,33 +146,13 @@ public interface Type extends Metadata {
      *
      * @return the model that represents type
      */
-    String getModel();
+    String getKind();
 
     /**
      * Get loader that loaded this type
      *
      * @return a type loader
      */
-    Option<TypeLoader> getTypeLoader();
-
-    /**
-     * Get associated module
-     *
-     * @return the associated module
-     */
-    @Override
-    Module getModule();
-
-    /**
-     * Get simple name of property (without extra data)
-     *
-     * @return the name
-     */
-    String getSimpleName();
-
-    @Override
-    default String getName() {
-        return getModule().getName() + "::" + getSimpleName();
-    }
+    Option<? extends TypeLoader> getTypeLoader();
 
 }

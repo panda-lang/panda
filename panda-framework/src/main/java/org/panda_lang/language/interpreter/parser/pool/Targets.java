@@ -16,7 +16,8 @@
 
 package org.panda_lang.language.interpreter.parser.pool;
 
-import org.panda_lang.language.interpreter.parser.ContextParser;
+import org.panda_lang.language.architecture.type.TypeContext;
+import org.panda_lang.utilities.commons.collection.Component;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -33,7 +34,7 @@ public final class Targets {
     /**
      * All pipelines
      */
-    public static final Target<ContextParser> ALL = Target.of(ALL_LABEL, ContextParser.class);
+    public static final Component<Object> ALL = Component.of(ALL_LABEL, Object.class);
 
     /**
      * Text representation of {@link Targets#HEAD}
@@ -42,7 +43,7 @@ public final class Targets {
     /**
      * Head pipeline
      */
-    public static final Target<ContextParser> HEAD = Target.of(HEAD_LABEL, ContextParser.class);
+    public static final Component<Object> HEAD = Component.of(HEAD_LABEL, Object.class);
 
     /**
      * Text representation of {@link Targets#TYPE}
@@ -51,7 +52,7 @@ public final class Targets {
     /**
      * Class type parsers, used by type parser
      */
-    public static final Target<ContextParser> TYPE = Target.of(TYPE_LABEL, ContextParser.class);
+    public static final Component<TypeContext> TYPE = Component.of(TYPE_LABEL, TypeContext.class);
 
     /**
      * Text representation of {@link Targets#SCOPE}
@@ -60,14 +61,14 @@ public final class Targets {
     /**
      * Scope parsers
      */
-    public static final Target<ContextParser> SCOPE = Target.of(SCOPE_LABEL, ContextParser.class);
+    public static final Component<Object> SCOPE = Component.of(SCOPE_LABEL, Object.class);
 
     /**
      * Get collection of all components
      *
      * @return the collection of components
      */
-    public static Collection<Target<?>> getPipelineComponents() {
+    public static Collection<Component<?>> getPipelineComponents() {
         return Arrays.asList(ALL, HEAD, TYPE, SCOPE);
     }
 

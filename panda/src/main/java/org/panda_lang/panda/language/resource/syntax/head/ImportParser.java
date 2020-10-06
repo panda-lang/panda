@@ -16,10 +16,8 @@
 
 package org.panda_lang.panda.language.resource.syntax.head;
 
-import org.panda_lang.language.architecture.module.Imports;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pool.Target;
 import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.pattern.functional.elements.QualifierElement;

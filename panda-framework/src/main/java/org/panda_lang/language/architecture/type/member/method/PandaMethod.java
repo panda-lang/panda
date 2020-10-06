@@ -16,7 +16,7 @@
 
 package org.panda_lang.language.architecture.type.member.method;
 
-import org.panda_lang.language.architecture.type.MemberInvoker;
+import org.panda_lang.language.architecture.type.member.MemberInvoker;
 import org.panda_lang.language.architecture.type.member.AbstractMember;
 import org.panda_lang.language.architecture.type.member.parameter.ParameterUtils;
 import org.panda_lang.language.runtime.ProcessStack;

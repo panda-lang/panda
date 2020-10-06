@@ -18,6 +18,7 @@ package org.panda_lang.language.architecture.type.member;
 
 import org.panda_lang.language.architecture.type.Visibility;
 import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.utilities.commons.ValidationUtils;
 
 public abstract class AbstractMetadata implements Metadata {
 
@@ -27,21 +28,9 @@ public abstract class AbstractMetadata implements Metadata {
     private final boolean isNative;
 
     protected AbstractMetadata(String name, Location location, Visibility visibility, boolean isNative) {
-        if (name == null) {
-            throw new IllegalArgumentException("Name is not defined");
-        }
-
-        if (location == null) {
-            throw new IllegalArgumentException("Missing location of type");
-        }
-
-        if (visibility == null) {
-            throw new IllegalArgumentException("Missing visibility of type");
-        }
-
-        this.name = name;
-        this.location = location;
-        this.visibility = visibility;
+        this.name = ValidationUtils.notNull(name, "Name is not defined");
+        this.location = ValidationUtils.notNull(location, "Missing location of type");
+        this.visibility = ValidationUtils.notNull(visibility, "Missing visibility of type");
         this.isNative = isNative;
     }
 

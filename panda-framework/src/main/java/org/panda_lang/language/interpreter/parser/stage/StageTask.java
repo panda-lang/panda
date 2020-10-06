@@ -24,8 +24,8 @@ public interface StageTask {
     /**
      * Call task
      *
-     * @param layer current cycle
+     * @param phase current cycle
      */
-    void call(StagePhase layer);
+    void call(StagePhase phase);
 
 }

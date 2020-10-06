@@ -41,27 +41,13 @@ public final class TokenUtils {
         return false;
     }
 
-    public static boolean isTypeOf(TokenInfo representation, TokenType type) {
-        return type.equals(representation.getToken().getType());
-    }
-
-    public static TokenInfo[] toPseudoRepresentations(Token... tokens) {
-        TokenInfo[] representations = new TokenInfo[tokens.length];
-
-        for (int i = 0; i < tokens.length; i++) {
-            representations[i] = PandaTokenInfo.of(tokens[i]);
+    public static boolean contentEquals(@Nullable TokenInfo token, Token... variants) {
+        if (token == null) {
+            return ArrayUtils.contains(variants, null);
         }
 
-        return representations;
-    }
-
-    public static boolean contentEquals(@Nullable TokenInfo representation, Token... tokens) {
-        if (representation == null) {
-            return ArrayUtils.contains(tokens, null);
-        }
-
-        for (Token token : tokens) {
-            if (representation.contentEquals(token)) {
+        for (Token variant : variants) {
+            if (token.contentEquals(variant)) {
                 return true;
             }
         }
@@ -69,9 +55,9 @@ public final class TokenUtils {
         return false;
     }
 
-    public static boolean valueEquals(Token token, String... contents) {
-        for (String content : contents) {
-            if (token.getValue().equals(content)) {
+    public static boolean valueEquals(Token token, String... variants) {
+        for (String variant : variants) {
+            if (token.getValue().equals(variant)) {
                 return true;
             }
         }

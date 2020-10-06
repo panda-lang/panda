@@ -47,8 +47,6 @@ public interface Context<T> extends Contextual<T>, LoggerHolder {
 
     SourceStream getStream();
 
-    LocalChannel getChannel();
-
     Snippet getSource();
 
     Scope getScope();

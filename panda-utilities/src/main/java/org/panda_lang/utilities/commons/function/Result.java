@@ -79,6 +79,10 @@ public final class Result<V, E>  {
         return isOk() ? Result.ok(function.apply(value)) : Result.error(error);
     }
 
+    public <R> Result<V, R> mapErr(Function<E, R> function) {
+        return isOk() ? Result.ok(value) : Result.error(function.apply(error));
+    }
+
     public <R> Result<R, E> flatMap(Function<V, Result<R, E>> function) {
         return isOk() ? function.apply(value) : Result.error(error);
     }
@@ -113,6 +117,10 @@ public final class Result<V, E>  {
         }
 
         return this;
+    }
+
+    public Option<V> toOption() {
+        return Option.of(value);
     }
 
     public static <V, E> Result<V, E> ok(V value) {

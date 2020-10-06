@@ -16,21 +16,25 @@
 
 package org.panda_lang.language.interpreter.parser.pool;
 
-import org.panda_lang.language.interpreter.parser.Parser;
+import org.panda_lang.language.interpreter.parser.ContextParser;
 
-public interface ParserPool<P extends Parser> {
+public interface ParserPool<C> {
 
     /**
      * Register the specified parser to
      *
      * @param parser specified parser representation which will be registered in the pipeline
      */
-    void register(P parser);
+    void register(ContextParser<C, ?> parser);
 
     /**
      * @return a collection of registered parser
      */
-    Iterable<? extends P> getParsers();
+    Iterable<? extends ContextParser<C, ?>> getParsers();
+
+    default PoolParser<C> toParser() {
+        return new PoolParser<>(this);
+    }
 
     /**
      * Get name of pipeline

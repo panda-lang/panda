@@ -16,6 +16,7 @@
 
 package org.panda_lang.language.architecture.type;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.type.member.Member;
 
@@ -24,20 +25,33 @@ import org.panda_lang.language.architecture.type.member.Member;
  *
  * @param <T> generic type of property
  */
-public interface Adjustment<T extends Member> {
+public class Adjustment<T extends Member> {
+
+    private final T executable;
+    private final Expression[] arguments;
+
+    public Adjustment(T executable, @Nullable Expression[] arguments) {
+        this.executable = executable;
+        this.arguments = arguments;
+    }
 
     /**
      * Get adjusted arguments
      *
      * @return the array of arguments
      */
-    Expression[] getArguments();
+    public Expression[] getArguments() {
+        return arguments;
+
+    }
 
     /**
      * Get associated parametrized executable
      *
      * @return the executable
      */
-    T getExecutable();
+    public T getExecutable() {
+        return executable;
+    }
 
 }

@@ -23,21 +23,15 @@ import org.panda_lang.utilities.commons.function.Option;
 /**
  * References container
  */
-public interface ModuleResource {
+public interface TypeResolver {
 
     /**
-     * Get type associated with the given class.
-     * Use this method only if you are absolutely sure that the requested type exists
+     * Find reference using the given name
      *
-     * @param associatedClass the associated class to search for
-     * @return the found type
-     * @throws org.panda_lang.language.runtime.PandaRuntimeException if type does not exist
+     * @param typeName the name to search for
+     * @return the reference
      */
-    default Type requireType(Class<?> associatedClass) throws PandaRuntimeException {
-        return forClass(associatedClass).orThrow(() -> {
-            throw new PandaRuntimeException("Cannot find type associated with " + associatedClass);
-        });
-    }
+    Option<Type> forType(String typeName);
 
     /**
      * Get type with the given name.
@@ -48,25 +42,11 @@ public interface ModuleResource {
      * @throws org.panda_lang.language.runtime.PandaRuntimeException if type does not exist
      */
     default Type requireType(String name) throws PandaRuntimeException {
-        return forName(name).orThrow(() -> {
+        return forType(name).orThrow(() -> {
             throw new PandaRuntimeException("Cannot find type " + name);
         });
     }
 
-    /**
-     * Find reference using the given class
-     *
-     * @param associatedClass the class associated with type to search for
-     * @return the reference
-     */
-    Option<Type> forClass(Class<?> associatedClass);
-
-    /**
-     * Find reference using the given name
-     *
-     * @param typeName the name to search for
-     * @return the reference
-     */
-    Option<Type> forName(CharSequence typeName);
+    Option<Module> forModule(String moduleName);
 
 }

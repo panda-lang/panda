@@ -17,6 +17,9 @@
 package org.panda_lang.language.interpreter.token;
 
 import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.utilities.commons.function.Option;
+
+import java.util.function.Predicate;
 
 /**
  * Represents stream of tokens
@@ -29,6 +32,14 @@ public interface SourceStream extends Snippetable {
      * @return the next token
      */
     TokenInfo read();
+
+    /**
+     * Conditional read
+     *
+     * @param condition
+     * @return
+     */
+    Option<TokenInfo> read(Predicate<TokenInfo> condition);
 
     /**
      * Read the specified amount of tokens
@@ -101,9 +112,7 @@ public interface SourceStream extends Snippetable {
      *
      * @return the amount of unread tokens
      */
-    default int getUnreadLength() {
-        return toSnippet().size();
-    }
+    int getUnreadLength();
 
     /**
      * Get current source as snippet

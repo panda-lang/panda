@@ -21,7 +21,6 @@ import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.statement.Variable;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.member.field.TypeField;
-import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
@@ -30,7 +29,6 @@ import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.architecture.expression.ThisExpression;
-import org.panda_lang.language.architecture.type.TypeComponents;
 import org.panda_lang.language.architecture.type.VisibilityComparator;
 import org.panda_lang.language.interpreter.token.TokenUtils;
 import org.panda_lang.language.resource.syntax.TokenTypes;

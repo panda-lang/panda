@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.IntFunction;
 import java.util.function.Predicate;
@@ -36,6 +37,11 @@ public class PandaStream<T> {
         this.stream = stream;
     }
 
+    public PandaStream<T> forEach(Consumer<? super T> consumer) {
+        stream.forEach(consumer);
+        return this;
+    }
+
     public <R> PandaStream<R> stream(Function<Stream<T>, Stream<R>> function) {
         return new PandaStream<>(function.apply(stream));
     }
@@ -48,8 +54,18 @@ public class PandaStream<T> {
         return new PandaStream<>(stream.map(function));
     }
 
+    public <R> PandaStream<R> mapOpt(Function<T, Option<R>> function) {
+        return map(function)
+                .filter(Option::isDefined)
+                .map(Option::get);
+    }
+
     public <R> PandaStream<R> flatMap(Function<T, Iterable<R>> function) {
         return new PandaStream<>(stream.flatMap(value -> StreamSupport.stream(function.apply(value).spliterator(), false)));
+    }
+
+    public <R> PandaStream<R> flatMapStream(Function<T, Stream<R>> function) {
+        return new PandaStream<>(stream.flatMap(function));
     }
 
     public PandaStream<T> filter(Predicate<T> predicate) {
@@ -80,6 +96,10 @@ public class PandaStream<T> {
         return Option.ofOptional(stream.findFirst());
     }
 
+    public Option<T> any() {
+        return Option.ofOptional(stream.findAny());
+    }
+
     public long count(Predicate<T> predicate) {
         return filter(predicate).count();
     }
@@ -98,7 +118,7 @@ public class PandaStream<T> {
     }
 
     public PandaStream<T> takeWhile(Predicate<T> condition) {
-        return new PandaStream<>(StreamSupport.stream(new PandaStreamTakeWhile<>(stream.spliterator(), condition), false));
+        return new PandaStream<>(StreamSupport.stream(new TakeWhileSpliterator<>(stream.spliterator(), condition), false));
     }
 
     public T[] toArray(IntFunction<T[]> function) {

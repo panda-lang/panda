@@ -18,7 +18,6 @@ package org.panda_lang.language.interpreter.pattern.functional;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.language.interpreter.token.Snippet;

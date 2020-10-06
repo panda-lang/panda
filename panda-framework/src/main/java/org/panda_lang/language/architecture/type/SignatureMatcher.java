@@ -152,26 +152,4 @@ public final class SignatureMatcher<T extends Member> {
         return new ResultAdjustment<>(executable, fixedArguments);
     }
 
-    public static final class ResultAdjustment<R extends Member> implements Adjustment<R> {
-
-        private final R executable;
-        private final Expression[] arguments;
-
-        private ResultAdjustment(R executable, @Nullable Expression[] arguments) {
-            this.executable = executable;
-            this.arguments = arguments;
-        }
-
-        @Override
-        public @Nullable Expression[] getArguments() {
-            return arguments;
-        }
-
-        @Override
-        public R getExecutable() {
-            return executable;
-        }
-
-    }
-
 }

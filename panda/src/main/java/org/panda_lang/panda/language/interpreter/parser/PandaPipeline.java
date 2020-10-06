@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.language.interpreter.parser;
 
-import org.panda_lang.language.interpreter.parser.pool.Target;
 import org.panda_lang.panda.language.interpreter.parser.block.BlockSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationSubparser;
 
@@ -41,7 +40,7 @@ public final class PandaPipeline {
     /**
      * Assigner parsers, used by {@link org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationExpressionSubparser}
      */
-    public static final Target<AssignationSubparser> ASSIGNER = Target.of(ASSIGNER_LABEL, AssignationSubparser.class);
+    public static final Target<AssignationSubparser<?>> ASSIGNER = Target.of(ASSIGNER_LABEL, AssignationSubparser.class);
 
     /**
      * Get collection of all components

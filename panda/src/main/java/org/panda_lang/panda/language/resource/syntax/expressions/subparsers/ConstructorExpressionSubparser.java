@@ -16,12 +16,17 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
-import org.panda_lang.utilities.commons.function.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.PandaFrameworkException;
 import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.architecture.module.ImportsUtils;
 import org.panda_lang.language.architecture.type.Adjustment;
+import org.panda_lang.language.architecture.type.State;
 import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.TypeDeclarationUtils;
+import org.panda_lang.language.architecture.type.TypeExecutableExpression;
+import org.panda_lang.language.architecture.type.VisibilityComparator;
+import org.panda_lang.language.architecture.type.array.ArrayType;
 import org.panda_lang.language.architecture.type.member.constructor.TypeConstructor;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionCategory;
@@ -31,19 +36,14 @@ import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.interpreter.token.TokenInfo;
-import org.panda_lang.language.architecture.module.PandaImportsUtils;
-import org.panda_lang.language.architecture.type.TypeExecutableExpression;
-import org.panda_lang.language.architecture.type.array.ArrayType;
-import org.panda_lang.language.architecture.type.StateComparator;
-import org.panda_lang.language.architecture.type.TypeDeclarationUtils;
-import org.panda_lang.language.architecture.type.VisibilityComparator;
 import org.panda_lang.language.interpreter.token.SynchronizedSource;
+import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.language.resource.syntax.separator.Separators;
 import org.panda_lang.utilities.commons.StringUtils;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -123,9 +123,9 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             }
 
             // parse constructor call
-            Type type = PandaImportsUtils.getTypeOrThrow(context.toContext(), typeSource.asSource(), typeSource);
+            Type type = ImportsUtils.getTypeOrThrow(context.toContext(), typeSource.asSource(), typeSource);
             VisibilityComparator.requireAccess(type, context.toContext(), typeSource);
-            StateComparator.requireInstantiation(context.toContext(), type, typeSource);
+            State.requireInstantiation(context.toContext(), type, typeSource);
 
             return parseDefault(context, type, next);
         }
@@ -169,7 +169,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             String baseClassName = typeSource.subSource(0, typeSource.size() - sections.size()).asSource();
             String endTypeName = baseClassName + StringUtils.repeated(sections.size(), "[]");
 
-            ArrayType instanceType = (ArrayType) PandaImportsUtils.getTypeOrThrow(context.toContext(), endTypeName, typeSource);
+            ArrayType instanceType = (ArrayType) ImportsUtils.getTypeOrThrow(context.toContext(), endTypeName, typeSource);
             ArrayType baseType = instanceType;
 
             for (int declaredCapacities = 0; declaredCapacities < capacities.size() - 1; declaredCapacities++) {

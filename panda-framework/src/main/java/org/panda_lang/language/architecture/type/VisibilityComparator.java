@@ -19,7 +19,6 @@ package org.panda_lang.language.architecture.type;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.architecture.type.member.Metadata;
-import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.source.Source;
@@ -49,7 +48,7 @@ public final class VisibilityComparator {
         if (requested.getVisibility() == Visibility.SHARED) {
             Module requestedModule = requested.getType().getModule();
 
-            if (currentModule.equals(requestedModule) || requestedModule.isSubmodule(currentModule)) {
+            if (currentModule.equals(requestedModule) || requestedModule.hasSubmodule(currentModule)) {
                 return Option.none();
             }
 

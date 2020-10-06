@@ -22,7 +22,6 @@ import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.statement.Statement;
 import org.panda_lang.language.architecture.statement.Variable;
 import org.panda_lang.language.interpreter.lexer.PandaLexerUtils;
-import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.language.interpreter.source.Location;

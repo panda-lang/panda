@@ -41,21 +41,18 @@ class PhasesLayerLayerControllerTest {
     public void testPipelineGeneration() {
         StringBuilder outputBuilder = new StringBuilder();
 
-        STAGE_CONTROLLER.getPhase("b").nextPhase().delegate((pipeline, context) -> outputBuilder.append("b "), null);
-        STAGE_CONTROLLER.getPhase("a").nextPhase().delegate((pipeline, context) -> outputBuilder.append("a "), null);
-        STAGE_CONTROLLER.getPhase("c").nextPhase().delegate((pipeline, context) -> outputBuilder.append("c "), null);
+        STAGE_CONTROLLER.getPhase("b").nextLayer().delegate(pipeline -> outputBuilder.append("b "));
+        STAGE_CONTROLLER.getPhase("a").nextLayer().delegate(pipeline -> outputBuilder.append("a "));
+        STAGE_CONTROLLER.getPhase("c").nextLayer().delegate(pipeline -> outputBuilder.append("c "));
 
-        STAGE_CONTROLLER.getPhase("b").nextPhase().delegate((pipeline, delegatedContext) -> {
+        STAGE_CONTROLLER.getPhase("b").nextLayer().delegate(pipeline -> {
             outputBuilder.append("b2 ");
 
-            pipeline.nextPhase().delegate((pipeline1, delegatedContext1) -> {
-                STAGE_CONTROLLER.getPhase("a").nextPhase().delegate((pipeline2, delegatedContext2) -> outputBuilder.append("a2 "), delegatedContext1);
+            pipeline.nextLayer().delegate((phase) -> {
+                STAGE_CONTROLLER.getPhase("a").nextLayer().delegate((pipeline2) -> outputBuilder.append("a2 "));
                 outputBuilder.append("b3 ");
-                return null;
-            }, delegatedContext);
-
-            return null;
-        }, null);
+            });
+        });
 
         STAGE_CONTROLLER.launch();
         Assertions.assertEquals("a b b2 b3 a2 c", outputBuilder.toString().trim());

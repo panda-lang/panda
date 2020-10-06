@@ -19,7 +19,6 @@ package org.panda_lang.language.interpreter.parser.expression;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.language.interpreter.parser.ParserFailure;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction.Commit;
 import org.panda_lang.language.interpreter.token.SourceStream;
 import org.panda_lang.language.interpreter.token.Streamable;

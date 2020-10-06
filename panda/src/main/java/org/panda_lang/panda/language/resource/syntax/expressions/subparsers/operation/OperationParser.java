@@ -17,7 +17,6 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation;
 
 import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.Parser;

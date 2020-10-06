@@ -26,14 +26,14 @@ import java.util.Map;
 
 public final class PandaParserPoolService implements ParserPoolService {
 
-    private final Map<Target<?>, ParserPool<?>> pipelines = new HashMap<>(3);
+    private final Map<Component<?>, ParserPool<?>> pipelines = new HashMap<>(3);
 
     public PandaParserPoolService() {
         pipelines.put(Targets.ALL, new PandaParserPool<>(Targets.ALL.getName()));
     }
 
     @Override
-    public <P extends Parser> ParserPool<P> computeIfAbsent(Target<P> component) {
+    public <P extends Parser> ParserPool<P> computeIfAbsent(Component<P> component) {
         ParserPool<P> parserPool = getPool(component);
 
         if (parserPool == null) {
@@ -45,13 +45,13 @@ public final class PandaParserPoolService implements ParserPoolService {
     }
 
     @Override
-    public boolean hasPool(Target<?> component) {
+    public boolean hasPool(Component<?> component) {
         return getPool(component) != null;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public <P extends Parser> ParserPool<P> getPool(Target<P> component) {
+    public <P> ParserPool<P> getPool(Component<P> component) {
         return (ParserPool<P>) pipelines.get(component);
     }
 

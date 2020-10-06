@@ -16,120 +16,195 @@
 
 package org.panda_lang.panda.language.resource.syntax.type;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.architecture.Script;
-import org.panda_lang.language.architecture.module.TypeLoader;
+import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.architecture.type.PandaType;
+import org.panda_lang.language.architecture.type.Reference;
+import org.panda_lang.language.architecture.type.Signature;
 import org.panda_lang.language.architecture.type.State;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.TypeComponents;
-import org.panda_lang.language.architecture.type.TypeModels;
+import org.panda_lang.language.architecture.type.TypeContext;
 import org.panda_lang.language.architecture.type.TypeScope;
 import org.panda_lang.language.architecture.type.Visibility;
 import org.panda_lang.language.architecture.type.member.constructor.PandaConstructor;
 import org.panda_lang.language.architecture.type.member.field.TypeField;
 import org.panda_lang.language.architecture.type.member.method.TypeMethod;
-import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pool.Target;
 import org.panda_lang.language.interpreter.parser.pool.PoolParser;
 import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.interpreter.parser.stage.Layer;
 import org.panda_lang.language.interpreter.parser.stage.Phases;
-import org.panda_lang.language.interpreter.pattern.Mappings;
-import org.panda_lang.language.interpreter.pattern.functional.elements.GenericsElement;
-import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.interpreter.parser.stage.StageService;
+import org.panda_lang.language.interpreter.token.PandaSnippet;
 import org.panda_lang.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.interpreter.token.Snippetable;
-import org.panda_lang.language.resource.syntax.TokenTypes;
+import org.panda_lang.language.interpreter.token.TokenInfo;
+import org.panda_lang.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.language.resource.syntax.operator.Operators;
 import org.panda_lang.language.resource.syntax.separator.Separators;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
+import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.CompletableOption;
+import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.PandaStream;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
-public final class TypeParser extends ContextParser<Void> {
+public final class TypeParser implements ContextParser<Object, Type> {
 
-    private static final PoolParser<?> TYPE_PIPELINE_PARSER = new PoolParser<>(Targets.TYPE);
+    private static final SignatureParser SIGNATURE_PARSER = new SignatureParser();
+    private PoolParser<TypeContext> typePoolParser;
 
     @Override
-    public Target<? extends Parser>[] pipeline() {
+    public String name() {
+        return "type";
+    }
+
+    @Override
+    public Component<?>[] targetPools() {
         return ArrayUtils.of(Targets.HEAD);
     }
 
     @Override
-    protected AutowiredInitializer<Void> initialize(Context context, AutowiredInitializer<Void> initializer) {
-        return initializer.functional(pattern -> pattern
-                .variant("visibility").consume(variant -> variant.content(Keywords.OPEN, Keywords.SHARED, Keywords.INTERNAL)).optional()
-                .variant("model").consume(variant -> variant.content(Keywords.CLASS, Keywords.TYPE, Keywords.INTERFACE))
-                .wildcard("name").verifyType(TokenTypes.UNKNOWN)
-                .element(GenericsElement.create("generics"))
-                .subPattern("extended", sub -> sub
-                        .unit("extends", ":")
-                        .custom("inherited").consume(custom -> custom.reader((data, source) -> TypeParserUtils.readTypes(source)))
-                ).optional()
-                .section("body", Separators.BRACE_LEFT));
+    public void initialize(Context<Object> context) {
+        this.typePoolParser = context.getPoolService().getPool(Targets.TYPE).toParser();
     }
 
-    @Autowired(order = 0, stage = Phases.TYPES_LABEL)
-    public void parse(Context context, @Channel Location location, @Channel Mappings mappings, @Ctx Script script, @Src("model") String model, @Src("name") String name) {
-        Visibility visibility = mappings.get("visibility")
-                .map(Visibility::of)
+    @Override
+    public Option<CompletableFuture<Type>> parse(Context<Object> context) {
+        PandaSourceReader reader = new PandaSourceReader(context.getStream());
+
+        // read optional visibility
+
+        Visibility visibility = reader
+                .optionalRead(() -> reader.readVariant(Keywords.OPEN, Keywords.SHARED, Keywords.INTERNAL)
+                        .map(Visibility::of))
                 .orElseGet(Visibility.INTERNAL);
 
-        if (Keywords.TYPE.getValue().equals(model)) {
-            model = Keywords.CLASS.getValue();
+        // read required model
+
+        Option<TokenInfo> kind = reader.readVariant(Keywords.CLASS, Keywords.TYPE, Keywords.INTERFACE);
+        
+        if (kind.isEmpty()) {
+            return Option.none();
         }
 
-        Type type = PandaType.builder()
-                .name(name)
-                .location(location)
-                .module(script.getModule())
-                .model(model)
-                .state(State.of(model))
-                .visibility(visibility)
-                .build();
+        // read required signature
 
-        TypeScope typeScope = new TypeScope(location, type);
-        script.getModule().add(type);
+        Option<SignatureSource> signatureSource = reader.readSignature();
 
-        context.withComponent(Components.SCOPE, typeScope)
-                .withComponent(TypeComponents.PROTOTYPE_SCOPE, typeScope)
-                .withComponent(TypeComponents.PROTOTYPE, type);
-    }
-
-    @Autowired(order = 1, stage = Phases.TYPES_LABEL, phase = Layer.CURRENT_AFTER)
-    public void parseDeclaration(Context context, @Ctx Type type, @Ctx TypeLoader loader, @Nullable @Src("inherited") Collection<Snippetable> inherited) {
-        if (inherited != null) {
-            inherited.forEach(typeSource -> TypeParserUtils.appendExtended(context, type, typeSource));
+        if (signatureSource.isEmpty()) {
+            return Option.none();
         }
 
-        if (TypeModels.isClass(type) && type.getBases().stream().noneMatch(TypeModels::isClass)) {
-            type.addBase(loader.requireType(Object.class));
+        // read optional extended types
+
+        List<SignatureSource> extendedSignatures = new ArrayList<>(3);
+        Option<?> extendsOperator = reader.optionalRead(() -> reader.read(Operators.COLON)
+                .flatMap(operator -> reader.readSignature()));
+
+        if (extendsOperator.isDefined()) {
+            do {
+                extendedSignatures.add(reader.readSignature().get());
+            } while (reader.optionalRead(() -> reader.read(Operators.COLON)).isDefined());
         }
+
+        // read optional body
+
+        Snippet body = reader.optionalRead(() -> reader.readSection(Separators.BRACE_LEFT))
+                .map(bodyToken -> bodyToken.toToken(Section.class).getContent())
+                .orElseGet(PandaSnippet.empty());
+
+        // prepare reference and delegate tasks
+
+        CompletableOption<Type> futureType = new CompletableOption<>();
+        StageService stageService = context.getStageService();
+
+        Module module = context.getScript().getModule().orThrow(() -> {
+            throw new PandaParserFailure(context, signatureSource.get().getName(), "Cannot add type to module, because script does not declare any of it");
+        });
+
+        Reference reference = new Reference(
+                futureType,
+                module,
+                signatureSource.get().getName().getValue(),
+                visibility,
+                kind.get().getValue(),
+                context.getSource().getLocation());
+        module.add(reference);
+
+        stageService.delegate("parse type signature", Phases.TYPES, Layer.NEXT_DEFAULT, signaturePhase -> {
+            Signature signature = SIGNATURE_PARSER.parse(context, signatureSource.get());
+
+            List<Signature> bases = extendedSignatures.stream()
+                    .map(extendedSignature -> SIGNATURE_PARSER.parse(context, extendedSignature))
+                    .collect(Collectors.toList());
+
+            CompletableOption<Class<?>> associatedType = new CompletableOption<>();
+
+            Type type = PandaType.builder()
+                    .module(module)
+                    .name(reference.getName())
+                    .signature(signature)
+                    .associatedType(associatedType)
+                    .bases(bases)
+                    .kind(kind.get().getValue())
+                    .state(State.of(kind.get().getValue()))
+                    .location(context.getSource().getLocation())
+                    .visibility(visibility)
+                    .build();
+
+            TypeScope scope = new TypeScope(reference.getLocation(), type);
+
+            Context<TypeContext> typeContext = context.forkCreator()
+                    .withSubject(new TypeContext(type, scope))
+                    .withScope(scope)
+                    .toContext();
+
+            stageService.delegate("parse body", Phases.CONTENT, Layer.NEXT_DEFAULT, bodyPhase -> {
+                typePoolParser.parse(typeContext, new PandaSourceStream(body));
+            });
+
+            stageService.delegate("verify properties", Phases.VERIFY, Layer.NEXT_DEFAULT, verifyPhase -> {
+                verifyProperties(typeContext);
+            });
+
+            stageService.delegate("generate class", Phases.INITIALIZE, Layer.NEXT_DEFAULT, initializePhase -> {
+                associatedType.complete(Object.class); // generate class
+            });
+
+            stageService.delegate("initialize fields", Phases.INITIALIZE, Layer.NEXT_DEFAULT, initializePhase -> {
+                for (TypeField field : type.getFields().getDeclaredProperties()) {
+                    if (!field.isInitialized() && !(field.isNillable() && field.isMutable())) {
+                        throw new PandaParserFailure(context, field.getLocation(), "Field " + field + " is not initialized");
+                    }
+
+                    field.initialize();
+                    futureType.complete(type);
+                }
+            });
+        });
+
+        return Option.of(futureType.toFuture());
     }
 
-    @Autowired(order = 2, stage = Phases.TYPES_LABEL, phase = Layer.NEXT_BEFORE)
-    public Object parseBody(Context context, @Ctx Type type, @Src("body") Snippet body) {
-        return TYPE_PIPELINE_PARSER.parse(context, new PandaSourceStream(body));
-    }
+    private void verifyProperties(Context<TypeContext> context) {
+        Type type = context.getSubject().getType();
 
-    @Autowired(order = 3, stage = Phases.TYPES_LABEL, phase = Layer.CURRENT_AFTER)
-    public void verifyProperties(Context context, @Ctx Type type, @Ctx TypeScope scope) {
+        for (Signature base : type.getBases()) {
+            State.requireInheritance(context, base.getType().get(), context.getSource());
+        }
+
         if (type.getState() != State.ABSTRACT) {
-            type.getBases().stream()
-                    .flatMap(base -> base.getMethods().getProperties().stream())
+            PandaStream.of(type.getBases())
+                    .mapOpt(base -> base.getType().toOption())
+                    .flatMapStream(base -> base.getMethods().getProperties().stream())
                     .filter(TypeMethod::isAbstract)
                     .filter(method -> !type.getMethods().getMethod(method.getSimpleName(), method.getParameterTypes()).isDefined())
                     .forEach(method -> {
@@ -141,33 +216,24 @@ public final class TypeParser extends ContextParser<Void> {
         }
 
         if (type.getConstructors().getDeclaredProperties().isEmpty()) {
-            type.getSuperclass().peek(superclass -> PandaStream.of(superclass.getConstructors().getDeclaredProperties())
+            type.getSuperclass().toStream()
+                    .flatMapStream(superSignature -> superSignature.getType().get().getConstructors().getProperties().stream())
                     .find(constructor -> constructor.getParameters().length > 0)
                     .peek(constructorWithParameters -> {
                         throw new PandaParserFailure(context, constructorWithParameters.getLocation(),
                                 "Type " + type + " does not implement any constructor from the base type " + constructorWithParameters.getSignature(),
                                 "Some of the overridden types may contain custom constructors. To properly initialize object, you have to call one of them."
                         );
-                    })
-            );
+                    });
 
             type.getConstructors().declare(PandaConstructor.builder()
                     .type(type)
-                    .callback((typeConstructor, frame, instance, arguments) -> scope.createInstance(frame, instance, typeConstructor, new Class<?>[0], arguments))
+                    .callback((typeConstructor, frame, instance, arguments) -> {
+                        return context.getSubject().getScope().createInstance(frame, instance, typeConstructor, new Class<?>[0], arguments);
+                    })
                     .location(type.getLocation())
                     .build());
         }
     }
-
-    @Autowired(order = 4, stage = Phases.CONTENT_LABEL, phase = Layer.CURRENT_AFTER)
-    public void verifyContent(Context context, @Ctx Type type) {
-        for (TypeField field : type.getFields().getDeclaredProperties()) {
-            if (!field.isInitialized() && !(field.isNillable() && field.isMutable())) {
-                throw new PandaParserFailure(context, field.getLocation(), "Field " + field + " is not initialized");
-            }
-
-            field.initialize();
-        }
-    }
-
+    
 }

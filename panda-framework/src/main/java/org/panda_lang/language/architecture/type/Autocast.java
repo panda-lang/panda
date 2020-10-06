@@ -16,7 +16,6 @@
 
 package org.panda_lang.language.architecture.type;
 
-
 @FunctionalInterface
 public interface Autocast<T, R> {
 

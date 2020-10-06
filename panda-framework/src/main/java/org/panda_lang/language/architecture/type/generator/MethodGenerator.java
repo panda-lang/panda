@@ -21,7 +21,7 @@ import org.panda_lang.language.architecture.module.TypeLoader;
 import org.panda_lang.language.architecture.type.member.method.PandaMethod;
 import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.MemberInvoker;
+import org.panda_lang.language.architecture.type.member.MemberInvoker;
 import org.panda_lang.language.architecture.type.member.method.TypeMethod;
 import org.panda_lang.language.runtime.PandaRuntimeException;
 

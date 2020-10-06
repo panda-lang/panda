@@ -18,7 +18,6 @@ package org.panda_lang.language.architecture.type.member;
 
 import org.panda_lang.language.architecture.type.Signature;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.MemberInvoker;
 import org.panda_lang.language.architecture.type.Visibility;
 import org.panda_lang.language.architecture.type.member.parameter.ParameterUtils;
 import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
@@ -63,7 +62,7 @@ public abstract class AbstractMember<E extends Member> extends AbstractMetadata 
     }
 
     @Override
-    public Type getReturnType() {
+    public Signature getReturnType() {
         return returnType;
     }
 

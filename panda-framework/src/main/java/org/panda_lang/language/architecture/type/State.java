@@ -16,6 +16,9 @@
 
 package org.panda_lang.language.architecture.type;
 
+import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.language.interpreter.token.Snippetable;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 
 import java.lang.reflect.Modifier;
@@ -99,6 +102,18 @@ public enum State {
      */
     public static State of(String state) {
         return state.equals(Keywords.CLASS.getValue()) ? State.DEFAULT : State.ABSTRACT;
+    }
+
+    public static void requireInstantiation(Context<?> context, Type type, Snippetable source) {
+        if (!type.getState().canBeInstantiated()) {
+            throw new PandaParserFailure(context, source, "Cannot create instance of abstract type");
+        }
+    }
+
+    public static void requireInheritance(Context<?> context, Type type, Snippetable source) {
+        if (!type.getState().canBeInherited()) {
+            throw new PandaParserFailure(context, source, "Cannot inherit final type");
+        }
     }
 
 }

@@ -18,7 +18,7 @@ package org.panda_lang.language.architecture.module;
 
 import org.panda_lang.language.architecture.type.Type;
 
-public interface TypeLoader extends ModuleResource {
+public interface TypeLoader extends TypeResolver {
 
     /**
      * Load type by this loader
@@ -27,33 +27,5 @@ public interface TypeLoader extends ModuleResource {
      * @return loaded type
      */
     Type load(Type type);
-
-    /**
-     * Load java class as panda type
-     *
-     * @param module the associated with type module
-     * @param type the class to load
-     * @return loaded type
-     */
-    default Type load(Module module, Class<?> type) {
-        return load(module, type, type.getSimpleName());
-    }
-
-    /**
-     * Load java class as panda type
-     *
-     * @param module the associated with type module
-     * @param type the class to load
-     * @param alias the alias name for class type
-     * @return loaded type
-     */
-    Type load(Module module, Class<?> type, String alias);
-
-    /**
-     * Load all types that belongs to the given module
-     *
-     * @param module the module to load
-     */
-    void load(Module module);
 
 }

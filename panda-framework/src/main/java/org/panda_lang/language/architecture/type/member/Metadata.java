@@ -46,7 +46,7 @@ public interface Metadata extends Signed {
      * @return the module
      */
     default Module getModule() {
-        return getSignature().getType().getModule();
+        return getSignature().getType().get().getModule();
     }
 
     /**

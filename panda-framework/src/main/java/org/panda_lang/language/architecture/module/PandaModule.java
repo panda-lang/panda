@@ -17,22 +17,23 @@
 package org.panda_lang.language.architecture.module;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.Reference;
 import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PandaModule extends PandaModules implements Module {
 
     protected final String name;
-    protected final TypesMap types;
-    protected @Nullable final Module parent;
+    protected final Map<String, Reference> types = new HashMap<>(32);
+    protected final @Nullable Module parent;
 
-    public PandaModule(Module parent, String name) {
+    public PandaModule(@Nullable Module parent, String name) {
         this.name = name;
         this.parent = parent;
-        this.types = new PandaTypesMap();
     }
 
     public PandaModule(String name) {
@@ -40,14 +41,14 @@ public class PandaModule extends PandaModules implements Module {
     }
 
     @Override
-    public Type add(Type type) {
-        types.put(type);
-        return type;
+    public Reference add(Reference reference) {
+        types.put(reference.getName(), reference);
+        return reference;
     }
 
     @Override
     public long countUsedTypes() {
-        return types.countUsedTypes();
+        return types.size();
     }
 
     @Override
@@ -56,8 +57,8 @@ public class PandaModule extends PandaModules implements Module {
     }
 
     @Override
-    public boolean isSubmodule(Module module) {
-        Option<Module> parentModule = module.getParent();
+    public boolean hasSubmodule(Module module) {
+        Option<? extends Module> parentModule = module.getParent();
 
         while (parentModule.isDefined()) {
             Module parent = parentModule.get();
@@ -73,28 +74,12 @@ public class PandaModule extends PandaModules implements Module {
     }
 
     @Override
-    public Option<Type> forClass(Class<?> associatedClass) {
-        return types.forClass(associatedClass);
+    public Option<? extends Reference> get(String typeName) {
+        return Option.of(types.get(typeName));
     }
 
     @Override
-    public Option<Type> forName(CharSequence typeName) {
-        return types.forName(typeName);
-    }
-
-    @Override
-    public Collection<Type> getAllTypes() {
-        Collection<Type> entries = new ArrayList<>(types.values());
-
-        for (Module submodule : getModules()) {
-            entries.addAll(submodule.getAllTypes());
-        }
-
-        return entries;
-    }
-
-    @Override
-    public Collection<Type> getTypes() {
+    public Collection<? extends Reference> getReferences() {
         return new ArrayList<>(types.values());
     }
 
@@ -104,13 +89,18 @@ public class PandaModule extends PandaModules implements Module {
     }
 
     @Override
-    public String getName() {
+    public String getSimpleName() {
         return name;
     }
 
     @Override
-    public String toString() {
+    public String getName() {
         return (parent != null ? parent.toString() + ":" : "") + name;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
     }
 
 }

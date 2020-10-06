@@ -1,5 +1,6 @@
 package org.panda_lang.language.architecture.type;
 
+import org.panda_lang.language.architecture.module.TypeLoader;
 import org.panda_lang.utilities.commons.function.Result;
 import org.panda_lang.utilities.commons.text.ContentJoiner;
 
@@ -13,11 +14,13 @@ public final class Signature {
         SUPER
     }
 
+    private final TypeLoader typeLoader;
     private final Result<Type, AbstractSignature> type;
     private final Signature[] generics;
     private final Relation relation;
 
-    public Signature(Result<Type, AbstractSignature> type, Signature[] generics, Relation relation) {
+    public Signature(TypeLoader typeLoader, Result<Type, AbstractSignature> type, Signature[] generics, Relation relation) {
+        this.typeLoader = typeLoader;
         this.type = type;
         this.generics = generics;
         this.relation = relation;
@@ -94,6 +97,14 @@ public final class Signature {
     @Override
     public String toString() {
         return getType().map(Type::getSimpleName).getAny() + "<" + ContentJoiner.on(" & ").join(generics) + ">";
+    }
+
+    public Type getPrimaryType() {
+        return getType()
+                .orElseGet(abstractSignature -> abstractSignature.getExtendsSignature()
+                    .orElse(abstractSignature::getSupersSignature)
+                    .map(Signature::getPrimaryType)
+                    .orElseGet(() -> typeLoader.requireType("panda::Object")));
     }
 
     public Relation getRelation() {

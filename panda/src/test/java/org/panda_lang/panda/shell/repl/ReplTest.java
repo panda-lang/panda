@@ -17,7 +17,6 @@
 package org.panda_lang.panda.shell.repl;
 
 import org.junit.jupiter.api.Test;
-import org.panda_lang.language.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.language.architecture.statement.PandaVariableData;
 import org.panda_lang.language.architecture.type.member.method.PandaMethod;
 import org.panda_lang.language.architecture.type.member.parameter.PropertyParameterImpl;

@@ -19,7 +19,7 @@ package org.panda_lang.language.architecture.type.member.method;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.dynamic.Frame;
 import org.panda_lang.language.architecture.dynamic.Frameable;
-import org.panda_lang.language.architecture.type.MemberInvoker;
+import org.panda_lang.language.architecture.type.member.MemberInvoker;
 import org.panda_lang.language.architecture.type.member.parameter.ParameterUtils;
 import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
 import org.panda_lang.language.interpreter.source.Location;

@@ -21,6 +21,6 @@ package org.panda_lang.language.interpreter.parser;
  */
 public interface Parser {
 
-    String getName();
+    String name();
 
 }

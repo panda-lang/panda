@@ -10,7 +10,7 @@ public interface ContextCreator<T> extends Contextual<T> {
 
     ContextCreator<T> fork();
 
-    ContextCreator<T> withSubject(T subject);
+    <S> ContextCreator<S> withSubject(S subject);
 
     ContextCreator<T> withStream(SourceStream stream);
 

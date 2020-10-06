@@ -20,13 +20,13 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-final class PandaStreamTakeWhile<T> implements Spliterator<T> {
+final class TakeWhileSpliterator<T> implements Spliterator<T> {
 
     private final Spliterator<T> source;
     private final Predicate<T> condition;
     private boolean conditionHolds;
 
-    PandaStreamTakeWhile(Spliterator<T> source, Predicate<T> condition) {
+    TakeWhileSpliterator(Spliterator<T> source, Predicate<T> condition) {
         this.source = source;
         this.condition = condition;
         this.conditionHolds = true;

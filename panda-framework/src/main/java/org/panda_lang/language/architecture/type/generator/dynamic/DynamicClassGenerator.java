@@ -25,7 +25,7 @@ import javassist.Modifier;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.member.constructor.TypeConstructor;
 import org.panda_lang.language.architecture.type.member.method.TypeMethod;
-import org.panda_lang.language.architecture.type.TypeModels;
+import org.panda_lang.language.architecture.type.Kind;
 import org.panda_lang.language.architecture.type.member.constructor.BaseCall;
 import org.panda_lang.language.architecture.type.TypeFrame;
 import org.panda_lang.language.architecture.type.TypeInstance;
@@ -54,7 +54,7 @@ final class DynamicClassGenerator {
     DynamicClassGenerator(Type type, CtClass generatedStructure) {
         this.type = type;
         this.generatedStructure = generatedStructure;
-        this.isInterface = TypeModels.isInterface(type);
+        this.isInterface = Kind.isInterface(type);
     }
 
     protected void generateDeclaration() {

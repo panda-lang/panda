@@ -18,33 +18,30 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.architecture.type.TypeDeclarationUtils;
-import org.panda_lang.utilities.commons.function.Produce;
+import org.panda_lang.utilities.commons.function.Result;
 
 final class SubparsersUtils {
 
     private SubparsersUtils() { }
 
-    protected static Produce<Type, ExpressionResult> readType(ExpressionContext context) {
+    protected static Result<Type, ExpressionResult> readType(ExpressionContext context) {
         Option<Snippet> typeSource = TypeDeclarationUtils.readType(context.getSynchronizedSource().getAvailableSource());
 
         if (!typeSource.isDefined()) {
-            return new Produce<>(() -> ExpressionResult.error("Cannot read type", context.getSynchronizedSource().getAvailableSource()));
+            return Result.error(ExpressionResult.error("Cannot read type", context.getSynchronizedSource().getAvailableSource()));
         }
 
-        return context.toContext().getComponent(Components.IMPORTS)
-                .forName(typeSource.get().asSource())
+        return context.toContext().getImports()
+                .forType(typeSource.get().asSource())
                 .map(type -> {
                     context.getSynchronizedSource().next(typeSource.get().size());
-                    return new Produce<Type, ExpressionResult>(type);
+                    return Result.<Type, ExpressionResult>ok(type);
                 })
-                .orElseGet(() -> {
-                    return new Produce<>(() -> ExpressionResult.error("Unknown type", context.getSynchronizedSource().getAvailableSource()));
-                });
+                .orElseGet(() -> Result.error(ExpressionResult.error("Unknown type", context.getSynchronizedSource().getAvailableSource())));
     }
 
 }

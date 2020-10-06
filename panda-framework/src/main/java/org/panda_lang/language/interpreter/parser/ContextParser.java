@@ -16,6 +16,7 @@
 
 package org.panda_lang.language.interpreter.parser;
 
+import org.panda_lang.utilities.commons.collection.Component;
 import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.concurrent.CompletableFuture;
@@ -27,6 +28,18 @@ import java.util.concurrent.CompletableFuture;
  */
 public interface ContextParser<T, R> extends Parser {
 
+    /**
+     * Get targeted pools by this parser
+     *
+     * @return the targeted pools
+     */
+    Component<?>[] targetPools();
+
+    /**
+     * Initialize parser
+     *
+     * @param context
+     */
     default void initialize(Context<T> context) { }
 
     /**
@@ -35,5 +48,7 @@ public interface ContextParser<T, R> extends Parser {
      * @param context set of information about source and interpretation process
      */
     Option<CompletableFuture<R>> parse(Context<T> context);
+
+
 
 }

@@ -44,7 +44,7 @@ public final class TypedUtils {
 
     public static Class<?>[] toClasses(Collection<? extends Signed> typed) {
         return toTypesStream(typed)
-                .map(type -> type.getAssociatedClass().fetchStructure())
+                .map(type -> type.getAssociated().fetchStructure())
                 .toArray(Class[]::new);
     }
 

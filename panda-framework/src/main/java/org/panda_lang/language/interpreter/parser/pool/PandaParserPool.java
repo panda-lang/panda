@@ -16,35 +16,35 @@
 
 package org.panda_lang.language.interpreter.parser.pool;
 
-import org.panda_lang.language.interpreter.parser.Parser;
+import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.utilities.commons.iterable.ResourcesIterable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class PandaParserPool<P extends Parser> implements ParserPool<P> {
+public final class PandaParserPool<C> implements ParserPool<C> {
 
     private final String name;
-    private final ParserPool<P> parentPool;
-    private final List<P> parsers;
+    private final ParserPool<C> parentPool;
+    private final List<ContextParser<C, ?>> parsers;
 
     public PandaParserPool(String name) {
         this(null, name);
     }
 
-    public PandaParserPool(ParserPool<P> parentPool, String name) {
+    public PandaParserPool(ParserPool<C> parentPool, String name) {
         this.name = name;
         this.parentPool = parentPool;
         this.parsers = new ArrayList<>();
     }
 
     @Override
-    public void register(P parser) {
+    public void register(ContextParser<C, ?> parser) {
         parsers.add(parser);
     }
 
     @Override
-    public Iterable<? extends P> getParsers() {
+    public Iterable<ContextParser<C, ?>> getParsers() {
         return parentPool != null ? new ResourcesIterable<>(parentPool.getParsers(), parsers) : parsers;
     }
 

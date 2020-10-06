@@ -15,22 +15,22 @@ public class StageService {
 
         switch (layer) {
             case CURRENT_BEFORE:
-                selectedPhase.currentPhase().delegateBefore(task);
+                selectedPhase.currentLayer().delegateBefore(task);
                 break;
             case CURRENT_DEFAULT:
-                selectedPhase.currentPhase().delegate(task);
+                selectedPhase.currentLayer().delegate(task);
                 break;
             case CURRENT_AFTER:
-                selectedPhase.currentPhase().delegateAfter(task);
+                selectedPhase.currentLayer().delegateAfter(task);
                 break;
             case NEXT_BEFORE:
-                selectedPhase.nextPhase().delegateBefore(task);
+                selectedPhase.nextLayer().delegateBefore(task);
                 break;
             case NEXT_DEFAULT:
-                selectedPhase.nextPhase().delegate(task);
+                selectedPhase.nextLayer().delegate(task);
                 break;
             case NEXT_AFTER:
-                selectedPhase.nextPhase().delegateAfter(task);
+                selectedPhase.nextLayer().delegateAfter(task);
                 break;
             default:
                 throw new PandaParserException("Unknown layer: " + layer);

@@ -21,7 +21,6 @@ import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.architecture.statement.ScopeUtils;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pool.Target;
 import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.token.Snippet;

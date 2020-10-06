@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.bootstrap;
 
-import org.panda_lang.language.interpreter.parser.pool.Target;
 import org.panda_lang.language.interpreter.parser.pool.ParserPoolService;
 import org.panda_lang.language.interpreter.parser.pool.PandaParserPoolService;
 

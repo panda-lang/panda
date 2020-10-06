@@ -18,7 +18,6 @@ package org.panda_lang.panda.language.resource.syntax.head;
 
 import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.token.Snippet;

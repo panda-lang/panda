@@ -19,7 +19,6 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ope
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.Operation;

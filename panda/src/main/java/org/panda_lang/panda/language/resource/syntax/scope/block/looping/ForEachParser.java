@@ -24,7 +24,6 @@ import org.panda_lang.language.architecture.statement.VariableData;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.language.interpreter.parser.pool.Target;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.language.architecture.expression.PandaDynamicExpression;
@@ -72,7 +71,7 @@ public final class ForEachParser extends AutowiredBlockParser {
         if (iterableExpression.getType().isArray()) {
             Expression arrayExpression = iterableExpression;
 
-            iterableExpression = new PandaDynamicExpression(loader.requireType(Iterable.class), new ExpressionEvaluator() {
+            iterableExpression = new PandaDynamicExpression(loader.requireType("Iterable"), new ExpressionEvaluator() {
                 @Override
                 @SuppressWarnings("unchecked")
                 public Object evaluate(ProcessStack stack, Object instance) throws Exception {

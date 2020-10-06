@@ -16,63 +16,76 @@
 
 package org.panda_lang.language.interpreter.parser.pool;
 
-import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.SourceStream;
+import org.panda_lang.language.interpreter.token.Streamable;
 import org.panda_lang.language.resource.syntax.separator.Separators;
+import org.panda_lang.utilities.commons.function.Option;
 
-public final class PoolParser<T extends ContextParser<?>> implements Parser {
+import java.util.concurrent.CompletableFuture;
 
-    private final Target<T> target;
+public final class PoolParser<T> implements Parser {
 
-    public PoolParser(Target<T> component) {
-        this.target = component;
+    private final ParserPool<T> pool;
+
+    public PoolParser(ParserPool<T> pool) {
+        this.pool = pool;
     }
 
     /**
-     * Parse source using the declared pipeline
+     * Parse source using the given pool
      *
      * @param context the context to use
-     * @param stream the stream to parse
-     * @return returns always null
+     * @param streamable the source to parse
+     * @return true if succeed, otherwise false
      */
-    public boolean parse(Context context, SourceStream stream) {
-        ParserPool<T> parserPool = context.getPoolService().getPool(target);
+    public boolean parse(Context<T> context, Streamable streamable) {
+        SourceStream stream = streamable.toStream();
 
         while (stream.hasUnreadSource()) {
-            Snippet source = stream.toSnippet();
-
-            Context delegatedContext = context.forkCreator()
-                    .withSource(source)
+            Context<T> delegatedContext = context.forkCreator()
+                    .withSource(stream.toSnippet())
                     .withStream(stream)
                     .toContext();
 
-            ContextParser<?> parser = parserPool.handle(context, channel, source).orElseThrow(failure -> failure
-                    .map(exception -> (RuntimeException) exception)
-                    .orElseGet(() -> new PandaParserFailure(delegatedContext, source, "Unrecognized syntax"))
-            );
-
-            int sourceLength = stream.getUnreadLength();
-            parser.parse(delegatedContext);
-
-            if (sourceLength == stream.getUnreadLength()) {
-                throw new PandaParserFailure(delegatedContext, source, parser.getClass().getSimpleName() + " did nothing with the current source");
-            }
-
-            if (stream.hasUnreadSource() && stream.getCurrent().contentEquals(Separators.SEMICOLON)) {
-                stream.read();
+            if (!parseNext(delegatedContext)) {
+                throw new PandaParserFailure(delegatedContext, delegatedContext.getSource(), "Unrecognized syntax");
             }
         }
 
         return true;
     }
 
+    private boolean parseNext(Context<T> delegatedContext) {
+        SourceStream stream = delegatedContext.getStream();
+        int sourceLength = stream.getUnreadLength();
+
+        for (ContextParser<T, ?> parser : pool.getParsers()) {
+            Option<? extends CompletableFuture<?>> result = parser.parse(delegatedContext);
+
+            if (result.isEmpty()) {
+                continue;
+            }
+
+            if (sourceLength == stream.getUnreadLength()) {
+                throw new PandaParserFailure(delegatedContext, delegatedContext.getSource(), parser.getClass().getSimpleName() + " didn't process the source");
+            }
+
+            if (stream.hasUnreadSource() && stream.getCurrent().contentEquals(Separators.SEMICOLON)) {
+                stream.read();
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
     @Override
-    public String getName() {
+    public String name() {
         return "pool";
     }
 

@@ -36,6 +36,10 @@ public final class Phases {
 
     public static final Phase CONTENT = add(VALUES, new Phase("CONTENT", 4.0));
 
+    public static final Phase VERIFY = add(VALUES, new Phase("VERIFY", 5.0));
+
+    public static final Phase INITIALIZE = add(VALUES, new Phase("INITIALIZE", 6.0));
+
     private Phases() { }
 
     public static List<? extends Phase> getValues() {

@@ -19,11 +19,9 @@ package org.panda_lang.panda.language.interpreter;
 import org.panda_lang.language.architecture.Application;
 import org.panda_lang.language.architecture.Environment;
 import org.panda_lang.language.architecture.module.Imports;
-import org.panda_lang.language.architecture.module.PandaImports;
 import org.panda_lang.language.interpreter.Interpreter;
 import org.panda_lang.language.interpreter.lexer.Lexer;
 import org.panda_lang.language.interpreter.lexer.PandaLexer;
-import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaContext;
 import org.panda_lang.language.interpreter.parser.expression.PandaExpressionParser;
@@ -88,7 +86,7 @@ public final class PandaInterpreter implements Interpreter {
                 Snippet snippet = lexer.convert(current);
                 SourceStream stream = new PandaSourceStream(snippet);
 
-                Imports imports = new PandaImports(environment.getModulePath(), environment.getTypeLoader());
+                Imports imports = new Imports(environment.getModulePath(), environment.getTypeLoader());
                 imports.importModule("java");
                 imports.importModule("panda");
 

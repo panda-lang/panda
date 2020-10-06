@@ -48,7 +48,7 @@ public interface Member extends Metadata {
      */
     default Class<?>[] getJavaParameterTypes() {
         return Arrays.stream(getParameterTypes())
-                .map(parameterType -> parameterType.getType().getAssociatedClass().fetchStructure())
+                .map(parameterType -> parameterType.getType().getAssociated())
                 .toArray(Class[]::new);
     }
 
@@ -71,7 +71,7 @@ public interface Member extends Metadata {
      *
      * @return the return type of property
      */
-    Type getReturnType();
+    Signature getReturnType();
 
     @Override
     default String getName() {

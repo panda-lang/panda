@@ -42,7 +42,7 @@ public final class PandaModulePath extends PandaModules implements ModulePath {
     }
 
     @Override
-    public Option<Module> get(String moduleQualifier) {
+    public Option<Module> forModule(String moduleQualifier) {
         Runnable initialize = modulesInitializers.get(moduleQualifier);
 
         if (initialize != null) {
@@ -50,7 +50,7 @@ public final class PandaModulePath extends PandaModules implements ModulePath {
             initialize.run();
         }
 
-        return super.get(moduleQualifier);
+        return super.forModule(moduleQualifier);
     }
 
 }

@@ -19,13 +19,15 @@ package org.panda_lang.utilities.commons.collection;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public abstract class Component<R> {
+public class Component<R> {
+
+    public static final double DEFAULT_PRIORITY = 1.0;
 
     private final String name;
-    private final Class<R> type;
+    private final Class<? super R> type;
     private final double priority;
 
-    protected Component(String name, Class<R> type, double priority) {
+    public Component(String name, Class<? super R> type, double priority) {
         this.name = name;
         this.type = type;
         this.priority = priority;
@@ -39,7 +41,7 @@ public abstract class Component<R> {
         return name;
     }
 
-    public Class<R> getType() {
+    public Class<? super R> getType() {
         return type;
     }
 
@@ -48,11 +50,15 @@ public abstract class Component<R> {
         return name + "::" + type.getSimpleName();
     }
 
+    public static <R> Component<R> of(String name, Class<? super R> type) {
+        return new Component<>(name, type, DEFAULT_PRIORITY);
+    }
+
     protected static <TYPE> TYPE ofComponents(Map<String, TYPE> components, String name, Supplier<TYPE> supplier) {
         TYPE existingComponent = components.get(name);
 
         if (existingComponent != null) {
-            throw new RuntimeException("Component '" + name + "' already exists (type: " + ((Component) existingComponent).getType() + ")");
+            throw new RuntimeException("Component '" + name + "' already exists (type: " + ((Component<?>) existingComponent).getType() + ")");
         }
 
         TYPE component = supplier.get();

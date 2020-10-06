@@ -16,6 +16,8 @@
 
 package org.panda_lang.language.architecture.module;
 
+import jdk.internal.access.SharedSecrets;
+
 /**
  * ModulePath is collection of all available modules
  */
@@ -28,5 +30,7 @@ public interface ModulePath extends Modules {
      * @param initializer module initializer
      */
     void include(String name, Runnable initializer);
+
+    SharedSecrets.
 
 }

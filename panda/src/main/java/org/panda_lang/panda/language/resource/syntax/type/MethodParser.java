@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.resource.syntax.type;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.expression.ThisExpression;
-import org.panda_lang.language.architecture.module.PandaImportsUtils;
+import org.panda_lang.language.architecture.module.ImportsUtils;
 import org.panda_lang.language.architecture.type.member.method.MethodScope;
 import org.panda_lang.language.architecture.type.member.method.PandaMethod;
 import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
@@ -26,11 +26,9 @@ import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.member.method.TypeMethod;
 import org.panda_lang.language.architecture.type.Visibility;
 import org.panda_lang.language.architecture.type.TypedUtils;
-import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pool.Target;
 import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.interpreter.parser.stage.Layer;
 import org.panda_lang.language.interpreter.parser.stage.Phases;
@@ -103,7 +101,7 @@ public final class MethodParser extends AutowiredParser<Void> {
         }
 
         Option.of(returnTypeName)
-                .map(value -> PandaImportsUtils.getTypeOrThrow(context, value,
+                .map(value -> ImportsUtils.getTypeOrThrow(context, value,
                         "Unknown type {name}",
                         "Make sure that the name does not have a typo and module which should contain that class is imported"
                 ))

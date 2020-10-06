@@ -17,9 +17,8 @@
 package org.panda_lang.language.architecture.type.member.method;
 
 import org.panda_lang.language.architecture.expression.Expression;
-
 import org.panda_lang.language.architecture.type.Adjustment;
-import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.Signature;
 import org.panda_lang.language.architecture.type.member.Members;
 import org.panda_lang.utilities.commons.function.Option;
 
@@ -43,6 +42,6 @@ public interface Methods extends Members<TypeMethod> {
      * @param parameterTypes the parameter types to search for
      * @return the found method
      */
-    Option<TypeMethod> getMethod(String name, Type[] parameterTypes);
+    Option<TypeMethod> getMethod(String name, Signature[] parameterTypes);
 
 }

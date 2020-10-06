@@ -20,7 +20,7 @@ import javassist.CannotCompileException;
 import javassist.CtClass;
 import org.panda_lang.language.architecture.type.DynamicClass;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.TypeModels;
+import org.panda_lang.language.architecture.type.Kind;
 import org.panda_lang.language.architecture.type.TypeInstance;
 import org.panda_lang.utilities.commons.ClassPoolUtils;
 import org.panda_lang.utilities.commons.ClassUtils;
@@ -61,7 +61,7 @@ public final class PandaDynamicClass implements DynamicClass {
     }
 
     public PandaDynamicClass(Type type, Class<?> clazz, String customName, String module) {
-        this(type, customName, module, TypeModels.of(clazz));
+        this(type, customName, module, Kind.of(clazz));
         this.structure = clazz;
         this.implementation = clazz;
         this.frozen = true;
@@ -90,7 +90,7 @@ public final class PandaDynamicClass implements DynamicClass {
                     generatedStructure = ClassPoolUtils.getClassPool().makeInterface(className, PROTOTYPE_CLASS);
 
                     for (Type base : type.getBases()) {
-                        Class<?> baseStructure = base.getAssociatedClass().fetchStructure();
+                        Class<?> baseStructure = base.getAssociated().fetchStructure();
 
                         if (baseStructure.isInterface()) {
                             generatedStructure.addInterface(ClassPoolUtils.get(baseStructure));
@@ -124,7 +124,7 @@ public final class PandaDynamicClass implements DynamicClass {
         String generatedClassName = "Panda_" + name.replace("::", "_") + "$" + ID.getAndIncrement();
         CtClass generatedImplementation;
 
-        if (TypeModels.isInterface(type)) {
+        if (Kind.isInterface(type)) {
             generatedImplementation = ClassPoolUtils.getClassPool().makeInterface("I" + generatedClassName, superclassCt);
         }
         else if (superclassCt != null && superclassCt.isInterface()) {
@@ -136,7 +136,7 @@ public final class PandaDynamicClass implements DynamicClass {
         }
 
         for (Type base : type.getBases()) {
-            Class<?> baseStructure = base.getAssociatedClass().fetchStructure();
+            Class<?> baseStructure = base.getAssociated().fetchStructure();
 
             if (baseStructure.isInterface()) {
                 generatedImplementation.addInterface(ClassPoolUtils.require(baseStructure));
@@ -163,11 +163,11 @@ public final class PandaDynamicClass implements DynamicClass {
 
     @Override
     public DynamicClass append(Type toAppend) {
-        if (TypeModels.isInterface(toAppend)) {
-            return implementInterface(toAppend.getAssociatedClass());
+        if (Kind.isInterface(toAppend)) {
+            return implementInterface(toAppend.getAssociated());
         }
         else {
-            extendClass(toAppend.getAssociatedClass());
+            extendClass(toAppend.getAssociated());
 
             if (toAppend.getName().equals("java::Object")) {
                 this.changedStructure = false;
@@ -222,12 +222,12 @@ public final class PandaDynamicClass implements DynamicClass {
 
     @Override
     public boolean isClass() {
-        return TypeModels.CLASS.equals(model);
+        return Kind.CLASS.equals(model);
     }
 
     @Override
     public boolean isInterface() {
-        return TypeModels.INTERFACE.equals(model);
+        return Kind.INTERFACE.equals(model);
     }
 
     @Override

@@ -22,7 +22,7 @@ import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.architecture.module.TypeLoader;
 import org.panda_lang.language.architecture.type.State;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.TypeModels;
+import org.panda_lang.language.architecture.type.Kind;
 import org.panda_lang.language.architecture.type.Visibility;
 import org.panda_lang.language.architecture.type.PandaType;
 import org.panda_lang.language.interpreter.source.PandaClassSource;
@@ -53,10 +53,10 @@ final class TypeGenerator {
                     Type type = PandaType.builder()
                             .name(name)
                             .module(module)
-                            .javaType(javaType)
+                            .associatedType(javaType)
                             .isNative(true)
                             .location(new PandaClassSource(javaType).toLocation())
-                            .model(TypeModels.of(javaType))
+                            .kind(Kind.of(javaType))
                             .state(State.of(javaType))
                             .visibility(Visibility.OPEN)
                             .build();
