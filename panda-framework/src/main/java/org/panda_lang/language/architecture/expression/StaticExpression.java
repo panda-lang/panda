@@ -17,15 +17,15 @@
 package org.panda_lang.language.architecture.expression;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.Signature;
 import org.panda_lang.language.runtime.ProcessStack;
 
 public final class StaticExpression implements Expression {
 
-    private final Type type;
+    private final Signature signature;
 
-    public StaticExpression(Type type) {
-        this.type = type;
+    public StaticExpression(Signature signature) {
+        this.signature = signature;
     }
 
     @Override
@@ -34,8 +34,8 @@ public final class StaticExpression implements Expression {
     }
 
     @Override
-    public Type getType() {
-        return type;
+    public Signature getSignature() {
+        return signature;
     }
 
     @Override
@@ -45,7 +45,7 @@ public final class StaticExpression implements Expression {
 
     @Override
     public String toString() {
-        return "static " + getType().getSimpleName();
+        return "static " + getSignature();
     }
 
 }

@@ -67,7 +67,7 @@ public final class TypeParser implements ContextParser<Object, Type> {
     }
 
     @Override
-    public Component<?>[] targetPools() {
+    public Component<?>[] targets() {
         return ArrayUtils.of(Targets.HEAD);
     }
 

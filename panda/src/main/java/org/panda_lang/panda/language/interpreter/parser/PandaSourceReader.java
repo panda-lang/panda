@@ -59,6 +59,7 @@ public class PandaSourceReader extends SourceReader {
         while (super.stream.hasUnreadSource()) {
             Option<TokenInfo> result = optionalRead(() ->
                     read(read -> read.getType() == TokenTypes.UNKNOWN
+                        || read.contentEquals(Separators.COMMA)
                         || read.contentEquals(Operators.SUBTRACTION)
                         || read.contentEquals(Operators.COLON))
                     .peek(tokens::add));

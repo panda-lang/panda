@@ -16,9 +16,8 @@
 
 package org.panda_lang.language.interpreter.parser.pool;
 
-import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.utilities.commons.function.StreamUtils;
 import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.StreamUtils;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -33,8 +32,8 @@ public final class PandaParserPoolService implements ParserPoolService {
     }
 
     @Override
-    public <P extends Parser> ParserPool<P> computeIfAbsent(Component<P> component) {
-        ParserPool<P> parserPool = getPool(component);
+    public <T> ParserPool<T> computeIfAbsent(Component<T> component) {
+        ParserPool<T> parserPool = getPool(component);
 
         if (parserPool == null) {
             pipelines.put(component, new PandaParserPool<>(pipelines.get(Targets.ALL), component.getName()));

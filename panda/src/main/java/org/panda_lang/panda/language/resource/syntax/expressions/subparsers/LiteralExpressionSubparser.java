@@ -38,12 +38,12 @@ public final class LiteralExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public ExpressionSubparserType getSubparserType() {
+    public ExpressionSubparserType type() {
         return ExpressionSubparserType.INDIVIDUAL;
     }
 
     @Override
-    public String getSubparserName() {
+    public String name() {
         return "literal";
     }
 
@@ -51,8 +51,8 @@ public final class LiteralExpressionSubparser implements ExpressionSubparser {
 
         private final Type boolType;
 
-        public SequenceWorker(Context context) {
-            this.boolType = ModuleLoaderUtils.requireType(context, boolean.class);
+        public SequenceWorker(Context<?> context) {
+            this.boolType = context.getTypeLoader().requireType("panda::Bool");
         }
 
         @Override

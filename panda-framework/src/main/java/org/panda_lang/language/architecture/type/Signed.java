@@ -21,6 +21,10 @@ package org.panda_lang.language.architecture.type;
  */
 public interface Signed {
 
+    default Type getKnownType() {
+        return getSignature().getPrimaryType();
+    }
+
     /**
      * Get associated type
      *

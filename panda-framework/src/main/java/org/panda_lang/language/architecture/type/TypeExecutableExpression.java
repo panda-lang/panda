@@ -52,7 +52,7 @@ public final class TypeExecutableExpression implements Expression {
     }
 
     @Override
-    public Type getType() {
+    public Signature getSignature() {
         return executable.getReturnType();
     }
 
@@ -63,7 +63,7 @@ public final class TypeExecutableExpression implements Expression {
 
     @Override
     public String toString() {
-        return executable + " -> " + getType().getSimpleName();
+        return executable + " -> " + getSignature();
     }
 
 }

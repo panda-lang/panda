@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parser.block;
+package org.panda_lang.panda.language.resource.syntax.block;
 
+import jdk.nashorn.internal.ir.BlockStatement;
+import org.graalvm.compiler.lir.alloc.lsra.LinearScan.BlockData;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.Failure;
 import org.panda_lang.language.architecture.statement.Block;

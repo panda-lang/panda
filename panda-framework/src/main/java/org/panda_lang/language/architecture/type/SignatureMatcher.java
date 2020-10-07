@@ -16,26 +16,20 @@
 
 package org.panda_lang.language.architecture.type;
 
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.type.member.Member;
 import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
 import org.panda_lang.utilities.commons.function.Option;
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.architecture.expression.ExpressionUtils;
-import org.panda_lang.language.runtime.ProcessStack;
-import org.panda_lang.language.architecture.expression.AbstractDynamicExpression;
-import org.panda_lang.language.architecture.type.array.ArrayType;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 public final class SignatureMatcher<T extends Member> {
 
-    public Option<Adjustment<T>> match(Collection<? extends T> collection, Type[] requiredTypes, @Nullable Expression[] arguments) {
-        Type[] required = Arrays.stream(requiredTypes)
-                .toArray(Type[]::new);
+    public Option<Adjustment<T>> match(Collection<? extends T> collection, Signature[] requiredTypes, @Nullable Expression[] arguments) {
+        Signature[] required = Arrays.stream(requiredTypes)
+                .toArray(Signature[]::new);
 
         for (T executable : collection) {
             Adjustment<T> args = match(executable, required, arguments);
@@ -48,12 +42,12 @@ public final class SignatureMatcher<T extends Member> {
         return Option.none();
     }
 
-    private @Nullable Adjustment<T> match(T executable, Type[] requiredTypes, @Nullable Expression[] arguments) {
+    private @Nullable Adjustment<T> match(T executable, Signature[] requiredTypes, @Nullable Expression[] arguments) {
         PropertyParameter[] parameters = executable.getParameters();
 
         // return result for parameterless executables
         if (parameters.length == 0) {
-            return requiredTypes.length == 0 ? new ResultAdjustment<>(executable, arguments) : null;
+            return requiredTypes.length == 0 ? new Adjustment<>(executable, arguments) : null;
         }
 
         // map arguments into parameters
@@ -67,20 +61,21 @@ public final class SignatureMatcher<T extends Member> {
             if (!parameter.isVarargs()) {
                 target[required] = index;
 
-                if (!requiredTypes[required++].isAssignableFrom(parameter.getType())) {
+                if (!requiredTypes[required++].isAssignableFrom(parameter.getSignature())) {
                     return null;
                 }
 
                 continue;
             }
 
+            /*
             // varargs parameter has to be array
             Type type = ((ArrayType) parameter.getType()).getArrayType();
             varArgs++;
 
             // read vararg
             while (required < requiredTypes.length) {
-                Type nextType = requiredTypes[required];
+                Signature nextType = requiredTypes[required];
 
                 if (!type.isAssignableFrom(nextType)) {
                     // array was directly passed to the varargs
@@ -93,6 +88,7 @@ public final class SignatureMatcher<T extends Member> {
 
                 target[required++] = index;
             }
+             */
         }
 
         // return if does not match
@@ -102,12 +98,15 @@ public final class SignatureMatcher<T extends Member> {
 
         // return executable if only types was requested
         if (arguments == null) {
-            return new ResultAdjustment<>(executable, null);
+            return new Adjustment<>(executable, null);
         }
 
+        return new Adjustment<>(executable, arguments);
+
+        /*
         // return result without varargs mappings
         if (varArgs == 0) {
-            return new ResultAdjustment<>(executable, arguments);
+            return new Adjustment<>(executable, arguments);
         }
 
         @SuppressWarnings("unchecked")
@@ -140,7 +139,7 @@ public final class SignatureMatcher<T extends Member> {
             Expression[] expressionsArray = expressions.toArray(new Expression[0]);
 
             // generate varargs array expression
-            fixedArguments[argumentIndex] = new AbstractDynamicExpression(((ArrayType) parameters[argumentIndex].getType()/*.fetch()*/).getArrayType()) {
+            fixedArguments[argumentIndex] = new AbstractDynamicExpression(((ArrayType) parameters[argumentIndex].getType()).getArrayType()) {
                 @Override
                 @SuppressWarnings("unchecked")
                 public Object evaluate(ProcessStack stack, Object instance) throws Exception {
@@ -149,7 +148,8 @@ public final class SignatureMatcher<T extends Member> {
             }.toExpression();
         }
 
-        return new ResultAdjustment<>(executable, fixedArguments);
+        return new Adjustment<>(executable, fixedArguments);
+        */
     }
 
 }

@@ -17,19 +17,19 @@
 package org.panda_lang.language.architecture.type.member.parameter;
 
 import org.panda_lang.language.architecture.statement.PandaVariable;
-import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.Signature;
 
 public final class PropertyParameterImpl extends PandaVariable implements PropertyParameter {
 
     private final boolean varargs;
 
-    public PropertyParameterImpl(int parameterIndex, Type type, String name, boolean varargs, boolean mutable, boolean nillable) {
-        super(parameterIndex, type, name, mutable, nillable);
+    public PropertyParameterImpl(int parameterIndex, Signature signature, String name, boolean varargs, boolean mutable, boolean nillable) {
+        super(parameterIndex, signature, name, mutable, nillable);
         this.varargs = varargs;
     }
 
-    public PropertyParameterImpl(int parameterIndex, Type type, String name) {
-        this(parameterIndex, type, name, false, false, false);
+    public PropertyParameterImpl(int parameterIndex, Signature signature, String name) {
+        this(parameterIndex, signature, name, false, false, false);
     }
 
     @Override

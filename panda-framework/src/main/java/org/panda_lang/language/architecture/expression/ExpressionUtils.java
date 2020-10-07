@@ -17,15 +17,14 @@
 package org.panda_lang.language.architecture.expression;
 
 import org.panda_lang.language.architecture.type.Autocast;
-import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.runtime.Process;
-import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.language.architecture.type.AutocastDynamicExpression;
+import org.panda_lang.language.architecture.type.Signature;
 import org.panda_lang.language.runtime.PandaProcess;
 import org.panda_lang.language.runtime.PandaProcessStack;
 import org.panda_lang.language.runtime.PandaRuntimeConstants;
 import org.panda_lang.language.runtime.PandaRuntimeException;
-
+import org.panda_lang.language.runtime.Process;
+import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.utilities.commons.function.Option;
 
 public final class ExpressionUtils {
@@ -75,12 +74,12 @@ public final class ExpressionUtils {
      * @param target the target type
      * @return expression in the given type
      */
-    public static Expression equalize(Expression expression, Type target) {
+    public static Expression equalize(Expression expression, Signature target) {
         if (expression.isNull()) {
             return expression;
         }
 
-        Option<Autocast<?, ?>> autocast = expression.getType().getAutocast(target);
+        Option<? extends Autocast<?, ?>> autocast = expression.getKnownType().getAutocast(target.getPrimaryType());
 
         if (autocast.isPresent()) {
             return new AutocastDynamicExpression(expression, target, autocast.get()).toExpression();

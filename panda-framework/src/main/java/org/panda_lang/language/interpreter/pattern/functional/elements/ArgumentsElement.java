@@ -33,8 +33,8 @@ public final class ArgumentsElement extends FunctionalPatternElementBuilder<Expr
         super(id);
 
         super.reader(((data, source) -> {
-            Context context = data.get(FunctionalData.CONTEXT, Context.class).get();
-            ExpressionParser parser = context.getComponent(Components.EXPRESSION);
+            Context<?> context = data.get(FunctionalData.CONTEXT, Context.class).get();
+            ExpressionParser parser = context.getExpressionParser();
             Collection<ExpressionTransaction> transactions = new ArrayList<>();
 
             while (source.hasNext()) {

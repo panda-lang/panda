@@ -19,15 +19,16 @@ package org.panda_lang.language.resource.internal.java;
 import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.architecture.module.TypeLoader;
 import org.panda_lang.language.architecture.type.Autocast;
+import org.panda_lang.language.architecture.type.Kind;
 import org.panda_lang.language.architecture.type.PandaType;
+import org.panda_lang.language.architecture.type.Reference;
 import org.panda_lang.language.architecture.type.State;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.Kind;
 import org.panda_lang.language.architecture.type.Visibility;
 import org.panda_lang.language.interpreter.source.PandaClassSource;
 import org.panda_lang.language.resource.internal.InternalModuleInfo;
 import org.panda_lang.language.resource.internal.InternalModuleInfo.CustomInitializer;
-import org.panda_lang.utilities.commons.ClassUtils;
+import org.panda_lang.utilities.commons.function.CompletableOption;
 
 @InternalModuleInfo(module = "java", pkg = "java.lang", classes = {
         "String",
@@ -50,7 +51,7 @@ public final class JavaModule implements CustomInitializer {
         type(module, typeLoader, "Float", float.class);
         type(module, typeLoader, "Double", double.class);
 
-        typeLoader.load(module, Object.class);
+        of(module, Object.class);
         Type intType = generate(module, typeLoader, int.class, "Int");
         Type boolType = generate(module, typeLoader, boolean.class, "Bool");
         Type charType = generate(module, typeLoader, char.class, "Char");
@@ -72,12 +73,12 @@ public final class JavaModule implements CustomInitializer {
 
     private void type(Module module, TypeLoader typeLoader, String name, Class<?> primitiveClass) {
         of(module, "Primitive" + name, primitiveClass);
-        typeLoader.load(module, ClassUtils.getNonPrimitiveClass(primitiveClass), name);
+        // typeLoader.load(module, ClassUtils.getNonPrimitiveClass(primitiveClass), name);
     }
 
     private Type generate(Module module, TypeLoader typeLoader, Class<?> primitiveClass, String name) {
-        of(module, "Primitive" + name, primitiveClass);
-        return typeLoader.load(module, ClassUtils.getNonPrimitiveClass(primitiveClass), name);
+        return of(module, "Primitive" + name, primitiveClass);
+        // return typeLoader.load(module, ClassUtils.getNonPrimitiveClass(primitiveClass), name);
     }
 
 
@@ -86,15 +87,18 @@ public final class JavaModule implements CustomInitializer {
     }
 
     public static Type of(Module module, String name, Class<?> javaType) {
-        return module.add(PandaType.builder()
+        Type type = PandaType.builder()
                 .name(name)
                 .module(module)
-                .associatedType(javaType)
+                .associatedType(CompletableOption.completed(javaType))
                 .visibility(Visibility.OPEN)
                 .state(State.DEFAULT)
                 .kind(javaType.isInterface() ? Kind.INTERFACE : Kind.CLASS)
                 .location(new PandaClassSource(javaType).toLocation())
-                .build());
+                .build();
+
+        module.add(new Reference(type));
+        return type;
     }
 
 }

@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.interpreter.parser;
 
-import org.panda_lang.panda.language.interpreter.parser.block.BlockSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationSubparser;
+import org.panda_lang.utilities.commons.collection.Component;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -31,7 +31,7 @@ public final class PandaPipeline {
     /**
      * Class type parsers, used by {@link org.panda_lang.panda.language.interpreter.parser.block.BlockParser}
      */
-    public static final Target<BlockSubparser> BLOCK = Target.of(BLOCK_LABEL, BlockSubparser.class);
+    public static final Component<?> BLOCK = Component.of(BLOCK_LABEL, Object.class);
 
     /**
      * Text representation of {@link PandaPipeline#ASSIGNER}
@@ -40,14 +40,14 @@ public final class PandaPipeline {
     /**
      * Assigner parsers, used by {@link org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationExpressionSubparser}
      */
-    public static final Target<AssignationSubparser<?>> ASSIGNER = Target.of(ASSIGNER_LABEL, AssignationSubparser.class);
+    public static final Component<AssignationSubparser<?>> ASSIGNER = Component.of(ASSIGNER_LABEL, AssignationSubparser.class);
 
     /**
      * Get collection of all components
      *
      * @return the collection of components
      */
-    public static Collection<Target<?>> getPipelineComponents() {
+    public static Collection<Component<?>> getPipelineComponents() {
         return Arrays.asList(BLOCK, ASSIGNER);
     }
 

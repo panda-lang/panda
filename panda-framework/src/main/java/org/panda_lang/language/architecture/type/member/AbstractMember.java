@@ -31,7 +31,7 @@ public abstract class AbstractMember<E extends Member> extends AbstractMetadata 
 
     private final Type type;
     private final PropertyParameter[] parameters;
-    private final Type returnType;
+    private final Signature returnType;
     private final MemberInvoker<E, Object> callback;
 
     protected AbstractMember(PandaParametrizedExecutableBuilder<E, ?> builder) {
@@ -79,8 +79,8 @@ public abstract class AbstractMember<E extends Member> extends AbstractMetadata 
     public abstract static class PandaParametrizedExecutableBuilder<E extends Member, T extends PandaParametrizedExecutableBuilder<E, ?>> {
 
         protected String name;
-        protected Type returnType;
         protected Type type;
+        protected Signature returnType;
         protected Location location;
         protected MemberInvoker<E, Object> callback;
         protected Visibility visibility = Visibility.OPEN;
@@ -89,11 +89,6 @@ public abstract class AbstractMember<E extends Member> extends AbstractMetadata 
 
         public T type(Type type) {
             this.type = type;
-
-            if (returnType == null) {
-                this.returnType = type;
-            }
-
             return returnThis();
         }
 
@@ -117,7 +112,7 @@ public abstract class AbstractMember<E extends Member> extends AbstractMetadata 
             return returnThis();
         }
 
-        public T returnType(Type returnType) {
+        public T returnType(Signature returnType) {
             this.returnType = returnType;
             return returnThis();
         }

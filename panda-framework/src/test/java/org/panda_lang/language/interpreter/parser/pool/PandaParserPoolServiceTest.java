@@ -18,10 +18,8 @@ package org.panda_lang.language.interpreter.parser.pool;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.panda_lang.language.interpreter.parser.PandaContext;
 import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.token.PandaTokenInfo;
-import org.panda_lang.language.resource.syntax.TokenTypes;
+import org.panda_lang.utilities.commons.collection.Component;
 
 import java.util.Arrays;
 
@@ -29,8 +27,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PandaParserPoolServiceTest {
 
-    private static final Target<?> TEST_COMPONENT = Target.of("test", Parser.class);
-    private static final Target<?> ANOTHER_TEST_COMPONENT = Target.of("another-test", Parser.class);
+    private static final Component<Parser> TEST_COMPONENT = Component.of("test", Parser.class);
+    private static final Component<Parser> ANOTHER_TEST_COMPONENT = Component.of("another-test", Parser.class);
 
     private ParserPoolService defaultPath;
 
@@ -55,15 +53,6 @@ class PandaParserPoolServiceTest {
     void getPipeline() {
         assertNotNull(defaultPath.getPool(TEST_COMPONENT));
         assertNull(defaultPath.getPool(ANOTHER_TEST_COMPONENT));
-    }
-
-    @Test
-    void getTotalHandleTime() {
-        assertTrue(defaultPath.getPool(TEST_COMPONENT)
-                .handle(new PandaContext(), new PandaLocalChannel(), PandaTokenInfo.of(TokenTypes.UNKNOWN, "test").toSnippet())
-                .isErr());
-
-        assertTrue(defaultPath.getTotalHandleTime() > 0);
     }
 
     @Test

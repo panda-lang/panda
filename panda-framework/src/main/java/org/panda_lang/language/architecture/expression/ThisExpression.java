@@ -16,18 +16,19 @@
 
 package org.panda_lang.language.architecture.expression;
 
+import org.panda_lang.language.architecture.type.Signature;
+import org.panda_lang.language.architecture.type.TypeContext;
 import org.panda_lang.language.architecture.type.member.MemberFrame;
-import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.utilities.commons.ObjectUtils;
 
 public final class ThisExpression implements DynamicExpression {
 
-    private final Type type;
+    private final Signature signature;
 
-    private ThisExpression(Type type) {
-        this.type = type;
+    private ThisExpression(Signature signature) {
+        this.signature = signature;
     }
 
     @Override
@@ -36,16 +37,16 @@ public final class ThisExpression implements DynamicExpression {
     }
 
     @Override
-    public Type getReturnType() {
-        return type;
+    public Signature getReturnType() {
+        return signature;
     }
 
-    public static Expression of(Type type) {
-        return new PandaExpression(new ThisExpression(type));
+    public static Expression of(Signature signature) {
+        return new PandaExpression(new ThisExpression(signature));
     }
 
-    public static Expression of(Context context) {
-        return of(context.getComponent(TypeComponents.PROTOTYPE));
+    public static Expression of(Context<TypeContext> context) {
+        return of(context.getSubject().getType().getSignature());
     }
 
 }

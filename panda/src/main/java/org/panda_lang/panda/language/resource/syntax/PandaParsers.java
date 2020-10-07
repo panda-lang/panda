@@ -17,7 +17,6 @@
 package org.panda_lang.panda.language.resource.syntax;
 
 import org.panda_lang.language.interpreter.parser.ContextParser;
-import org.panda_lang.panda.language.interpreter.parser.block.BlockParser;
 import org.panda_lang.panda.language.resource.syntax.head.CommentParser;
 import org.panda_lang.panda.language.resource.syntax.head.ExportParser;
 import org.panda_lang.panda.language.resource.syntax.head.ImportParser;
@@ -46,7 +45,7 @@ import org.panda_lang.panda.language.resource.syntax.type.TypeParser;
 
 public final class PandaParsers {
 
-    public static final ContextParser<?>[] PARSERS = {
+    public static final ContextParser<?, ?>[] PARSERS = {
             new CommentParser(),
 
             new ExportParser(),
@@ -67,7 +66,7 @@ public final class PandaParsers {
             new StandaloneExpressionParser(),
             new TryCatchParser(),
 
-            new BlockParser(),
+            // new BlockParser(),
             new ConditionalBlockParser(),
             new ForEachParser(),
             new ForParser(),

@@ -37,7 +37,7 @@ public final class VisibilityComparator {
     }
 
     public static Option<String> canAccess(Metadata requested, Context context) {
-        return canAccess(requested, context.getComponent(Components.SCRIPT).getModule(), context.getComponent(Components.CURRENT_SOURCE).getLocation().getSource());
+        return canAccess(requested, context.getScript().getModule().get(), context.getSource().getLocation().getSource());
     }
 
     public static Option<String> canAccess(Metadata requested, Module currentModule, @Nullable Source currentSource) {

@@ -26,26 +26,16 @@ public final class TypedUtils {
 
     private TypedUtils() { }
 
-    private static Stream<Type> toTypesStream(Collection<? extends Signed> typed) {
-        return typed.stream().map(Signed::getType);
+    private static Stream<Signature> toTypesStream(Collection<? extends Signed> typed) {
+        return typed.stream().map(Signed::getSignature);
     }
 
-    public static Type[] toTypes(Signed... signed) {
+    public static Signature[] toTypes(Signed... signed) {
         return toTypes(Arrays.asList(signed));
     }
 
-    public static Type[] toTypes(Collection<? extends Signed> typed) {
-        return toTypesStream(typed).toArray(Type[]::new);
-    }
-
-    public static Class<?>[] toClasses(Signed... signed) {
-        return toClasses(Arrays.asList(signed));
-    }
-
-    public static Class<?>[] toClasses(Collection<? extends Signed> typed) {
-        return toTypesStream(typed)
-                .map(type -> type.getAssociated().fetchStructure())
-                .toArray(Class[]::new);
+    public static Signature[] toTypes(Collection<? extends Signed> typed) {
+        return toTypesStream(typed).toArray(Signature[]::new);
     }
 
     public static String toString(Signed... signed) {
@@ -55,7 +45,7 @@ public final class TypedUtils {
     public static String toString(Collection<? extends Signed> typed) {
         return ContentJoiner.on(", ")
                 .join(toTypesStream(typed)
-                    .map(Type::getSimpleName)
+                    .map(Signature::toString)
                     .toArray())
                 .toString();
     }

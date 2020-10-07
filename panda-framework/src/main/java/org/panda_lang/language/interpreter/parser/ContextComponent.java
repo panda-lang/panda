@@ -35,18 +35,6 @@ public final class ContextComponent<T> extends Component<T> {
     }
 
     /**
-     * Create component
-     *
-     * @param name name of component
-     * @param type type of component
-     * @param <T> generic type of component
-     * @return a new component
-     */
-    public static <T> ContextComponent<T> of(String name, Class<T> type) {
-        return of(name, type, 1.0);
-    }
-
-    /**
      * Create component with a custom priority
      *
      * @param name name of component

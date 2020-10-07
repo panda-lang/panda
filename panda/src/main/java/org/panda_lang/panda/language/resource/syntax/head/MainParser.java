@@ -16,49 +16,61 @@
 
 package org.panda_lang.panda.language.resource.syntax.head;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.architecture.Script;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.Parser;
+import org.panda_lang.language.interpreter.parser.ContextParser;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.language.interpreter.parser.SourceReader;
 import org.panda_lang.language.interpreter.parser.pool.Targets;
-import org.panda_lang.language.interpreter.source.Location;
-import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
 import org.panda_lang.language.interpreter.parser.stage.Layer;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.autowired.handlers.TokenHandler;
+import org.panda_lang.language.interpreter.parser.stage.Phases;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.resource.syntax.auxiliary.Section;
+import org.panda_lang.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.language.resource.syntax.separator.Separators;
+import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
 import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Option;
 
-public final class MainParser extends AutowiredParser<Void> {
+import java.util.concurrent.CompletableFuture;
+
+public final class MainParser implements ContextParser<Object, MainScope> {
 
     private static final ScopeParser SCOPE_PARSER = new ScopeParser();
 
     @Override
-    public Target<? extends Parser>[] pipeline() {
+    public String name() {
+        return "main";
+    }
+
+    @Override
+    public Component<?>[] targets() {
         return ArrayUtils.of(Targets.HEAD);
     }
 
     @Override
-    protected AutowiredInitializer<Void> initialize(Context context, AutowiredInitializer<Void> initializer) {
-        return initializer
-                .handler(new TokenHandler(Keywords.MAIN))
-                .linear("main body:{~}");
-    }
+    public Option<CompletableFuture<MainScope>> parse(Context<Object> context) {
+        SourceReader sourceReader = new SourceReader(context.getStream());
 
-    @Autowired(order = 1, phase = Layer.NEXT_DEFAULT)
-    public void createScope(LocalChannel channel, @Ctx Script script, @Channel Location location) {
-        script.addStatement(channel.allocated("main", new MainScope(location)));
-    }
+        if (sourceReader.read(Keywords.MAIN).isEmpty()) {
+            return Option.none();
+        }
 
-    @Autowired(order = 2, phase = Layer.NEXT_AFTER)
-    public void parseScope(Context context, @Channel MainScope main, @Src("body") @Nullable Snippet body) {
-        SCOPE_PARSER.parse(context.fork(), main, body);
+        Option<Snippet> body = sourceReader.readSection(Separators.BRACE_LEFT)
+                .map(token -> token.toToken(Section.class).getContent());
+
+        if (body.isEmpty()) {
+            throw new PandaParserFailure(context, context.getSource(), "Missing body for main statement");
+        }
+
+        CompletableFuture<MainScope> futureScope = new CompletableFuture<>();
+        MainScope mainScope = new MainScope(context.getSource().getLocation());
+
+        context.getStageService().delegate("parse main body", Phases.CONTENT, Layer.NEXT_DEFAULT, contentPhase -> {
+            SCOPE_PARSER.parse(context.fork(), mainScope, body.get());
+        });
+
+        return Option.of(futureScope);
     }
 
 }

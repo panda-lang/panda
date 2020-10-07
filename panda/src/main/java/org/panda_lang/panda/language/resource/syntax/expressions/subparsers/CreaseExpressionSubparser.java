@@ -38,12 +38,12 @@ public final class CreaseExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public ExpressionCategory getCategory() {
+    public ExpressionCategory category() {
         return ExpressionCategory.STANDALONE;
     }
 
     @Override
-    public String getSubparserName() {
+    public String name() {
         return "crease";
     }
 

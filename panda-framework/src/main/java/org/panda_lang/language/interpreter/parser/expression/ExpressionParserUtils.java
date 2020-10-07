@@ -16,15 +16,15 @@
 
 package org.panda_lang.language.interpreter.parser.expression;
 
-import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.expression.PandaExpression;
+import org.panda_lang.language.architecture.type.Signature;
 
 public final class ExpressionParserUtils {
 
     private ExpressionParserUtils() { }
 
-    public static ExpressionResult toExpressionResult(Type type, Object value) {
-        return ExpressionResult.of(new PandaExpression(type, value));
+    public static ExpressionResult toExpressionResult(Signature signature, Object value) {
+        return ExpressionResult.of(new PandaExpression(signature, value));
     }
 
 }

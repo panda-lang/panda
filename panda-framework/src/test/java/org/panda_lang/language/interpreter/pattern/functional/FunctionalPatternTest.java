@@ -19,6 +19,7 @@ package org.panda_lang.language.interpreter.pattern.functional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.PandaContextCreator;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.lexer.PandaLexerUtils;
@@ -71,7 +72,7 @@ class FunctionalPatternTest {
 
     @Test
     void field() {
-        Context fakeContext = new PandaContext();
+        Context<?> fakeContext = new PandaContextCreator<>()
         fakeContext.withComponent(Components.EXPRESSION, new PandaExpressionParser(Collections::emptyList));
 
         FunctionalPattern pattern = FunctionalPattern.of(

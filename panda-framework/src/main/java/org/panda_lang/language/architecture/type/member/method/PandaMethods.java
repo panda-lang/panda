@@ -17,6 +17,7 @@
 package org.panda_lang.language.architecture.type.member.method;
 
 import org.panda_lang.language.architecture.type.Adjustment;
+import org.panda_lang.language.architecture.type.Signature;
 import org.panda_lang.language.architecture.type.State;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.SignatureMatcher;
@@ -36,7 +37,7 @@ public final class PandaMethods extends AbstractMembers<TypeMethod> implements M
     }
 
     @Override
-    public Option<TypeMethod> getMethod(String name, Type[] parameterTypes) {
+    public Option<TypeMethod> getMethod(String name, Signature[] parameterTypes) {
         return MATCHER.match(getPropertiesLike(name), parameterTypes, null).map(Adjustment::getExecutable);
     }
 

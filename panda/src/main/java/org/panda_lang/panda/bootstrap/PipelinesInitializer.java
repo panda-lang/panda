@@ -18,6 +18,7 @@ package org.panda_lang.panda.bootstrap;
 
 import org.panda_lang.language.interpreter.parser.pool.ParserPoolService;
 import org.panda_lang.language.interpreter.parser.pool.PandaParserPoolService;
+import org.panda_lang.utilities.commons.collection.Component;
 
 import java.util.Collection;
 
@@ -27,7 +28,7 @@ import java.util.Collection;
 public final class PipelinesInitializer implements Initializer {
 
     private final PandaBootstrap bootstrap;
-    private final ParserPoolService path = new PandaParserPoolService();
+    private final ParserPoolService poolService = new PandaParserPoolService();
 
     PipelinesInitializer(PandaBootstrap bootstrap) {
         this.bootstrap = bootstrap;
@@ -40,15 +41,15 @@ public final class PipelinesInitializer implements Initializer {
      * @return the initializer
      */
     @SafeVarargs
-    public final PipelinesInitializer usePipelines(Collection<Target<?>>... componentsCollections) {
-        for (Collection<Target<?>> components : componentsCollections) {
-            for (Target<?> component : components) {
-                path.computeIfAbsent(component);
+    public final PipelinesInitializer usePipelines(Collection<Component<?>>... componentsCollections) {
+        for (Collection<Component<?>> components : componentsCollections) {
+            for (Component<?> component : components) {
+                poolService.computeIfAbsent(component);
             }
         }
 
         bootstrap.logger.debug("--- Loading pipelines");
-        bootstrap.logger.debug("Pipelines: (" + path.names().size() + ") " + path.names());
+        bootstrap.logger.debug("Pipelines: (" + poolService.names().size() + ") " + poolService.names());
         bootstrap.logger.debug("");
 
         return this;
@@ -56,7 +57,7 @@ public final class PipelinesInitializer implements Initializer {
 
     @Override
     public PandaBootstrap collect() {
-        bootstrap.resources.withPipelinePath(path);
+        bootstrap.resources.withPipelinePath(poolService);
         return bootstrap;
     }
 

@@ -64,6 +64,10 @@ public final class Imports {
         importedModules.putIfAbsent(module.getName(), module);
     }
 
+    public boolean importType(Reference reference) {
+        return importType(reference.getSimpleName(), reference);
+    }
+
     /**
      * Import reference
      *

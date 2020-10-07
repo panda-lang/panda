@@ -44,7 +44,7 @@ public final class VariableExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public String getSubparserName() {
+    public String name() {
         return "variable";
     }
 

@@ -16,6 +16,7 @@
 
 package org.panda_lang.language.architecture.type;
 
+import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.architecture.module.TypeLoader;
 import org.panda_lang.language.architecture.type.member.Member;
 import org.panda_lang.language.architecture.type.member.Members;
@@ -31,7 +32,7 @@ import java.util.Collection;
 /**
  * Extensible owner of properties
  */
-public interface Type extends Metadata {
+public interface Type extends Metadata, Signed {
 
     /**
      * Execute all registered initializers
@@ -154,5 +155,12 @@ public interface Type extends Metadata {
      * @return a type loader
      */
     Option<? extends TypeLoader> getTypeLoader();
+
+    /**
+     * Get associated module
+     *
+     * @return the associated module
+     */
+    Module getModule();
 
 }

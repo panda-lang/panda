@@ -33,7 +33,7 @@ public interface ContextParser<T, R> extends Parser {
      *
      * @return the targeted pools
      */
-    Component<?>[] targetPools();
+    Component<?>[] targets();
 
     /**
      * Initialize parser

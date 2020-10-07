@@ -48,7 +48,7 @@ final class TypeGenerator {
         String identifier = getId(module, name);
 
         return Option.of(initializedTypes.get(identifier))
-                .orElse(() -> module.forClass(javaType))
+                .orElse(() -> module.get(javaType))
                 .orElseGet(() -> {
                     Type type = PandaType.builder()
                             .name(name)

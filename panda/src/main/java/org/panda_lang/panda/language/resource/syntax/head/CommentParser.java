@@ -18,27 +18,33 @@ package org.panda_lang.panda.language.resource.syntax.head;
 
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;
-import org.panda_lang.language.interpreter.parser.Parser;
+import org.panda_lang.language.interpreter.parser.SourceReader;
 import org.panda_lang.language.interpreter.parser.pool.Targets;
-import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.resource.syntax.sequence.SequencesUtils;
 import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Option;
 
-public final class CommentParser implements ContextParser<CommentStatement>, Handler {
+import java.util.concurrent.CompletableFuture;
+
+public final class CommentParser implements ContextParser<Object, CommentStatement> {
 
     @Override
-    public Target<? extends Parser>[] pipeline() {
+    public String name() {
+        return "comment";
+    }
+
+    @Override
+    public Component<?>[] targets() {
         return ArrayUtils.of(Targets.ALL);
     }
 
     @Override
-    public Boolean handle(Context context, LocalChannel channel, Snippet source) {
-        return SequencesUtils.isComment(source.getFirst().getToken());
-    }
-
-    @Override
-    public CommentStatement parse(Context context) {
-        return new CommentStatement(context.getComponent(Components.STREAM).read());
+    public Option<CompletableFuture<CommentStatement>> parse(Context<Object> context) {
+        return new SourceReader(context.getStream())
+                .read(SequencesUtils::isComment)
+                .map(CommentStatement::new)
+                .map(CompletableFuture::completedFuture);
     }
 
 }

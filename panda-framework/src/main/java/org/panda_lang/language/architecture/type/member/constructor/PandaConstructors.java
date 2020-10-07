@@ -17,6 +17,7 @@
 package org.panda_lang.language.architecture.type.member.constructor;
 
 import org.panda_lang.language.architecture.type.Adjustment;
+import org.panda_lang.language.architecture.type.Signature;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.SignatureMatcher;
 import org.panda_lang.language.architecture.type.member.AbstractMembers;
@@ -33,7 +34,7 @@ public final class PandaConstructors extends AbstractMembers<TypeConstructor> im
     }
 
     @Override
-    public Option<TypeConstructor> getConstructor(Type[] types) {
+    public Option<TypeConstructor> getConstructor(Signature[] types) {
         return MATCHER.match(getDeclaredProperties(), types, null).map(Adjustment::getExecutable);
     }
 

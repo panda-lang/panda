@@ -26,16 +26,20 @@ final class ConveyanceUtils {
 
     private ConveyanceUtils() { }
 
-    protected static Type fetchType(Context context, Snippet classNameSource) {
+    protected static Type fetchType(Context<?> context, Snippet javaTypeSource) {
         try {
-            Class<?> importedClass = Class.forName(classNameSource.asSource(), true, context.getComponent(Components.CONTROLLER).getClassLoader());
+            Class<?> importedClass = Class.forName(javaTypeSource.asSource(), true, context.getFrameworkController().getClassLoader());
 
-            Module module = context.getComponent(Components.SCRIPT).getModule();
+            Module module = context.getScript().getModule().orThrow(() -> {
+                throw new PandaParserFailure(context, javaTypeSource, "");
+            });
+
             String className = importedClass.getSimpleName();
 
-            return context.getComponent(Components.TYPE_LOADER).load(module, importedClass, className);
+            // return context.getTypeLoader().load(module, importedClass, className);
+            return null;
         } catch (ClassNotFoundException e) {
-            throw new PandaParserFailure(context, classNameSource, "Class " + classNameSource.asSource() + " does not exist");
+            throw new PandaParserFailure(context, javaTypeSource, "Class " + javaTypeSource.asSource() + " does not exist");
         }
     }
 

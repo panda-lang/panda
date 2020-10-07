@@ -41,7 +41,7 @@ public final class NumberExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public String getSubparserName() {
+    public String name() {
         return "number";
     }
 

@@ -47,27 +47,27 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
     }
 
     @Override
-    public int getMinimalRequiredLengthOfSource() {
+    public int minimalRequiredLengthOfSource() {
         return 3;
     }
 
     @Override
-    public double getPriority() {
+    public double priority() {
         return -1;
     }
 
     @Override
-    public ExpressionCategory getCategory() {
+    public ExpressionCategory category() {
         return ExpressionCategory.STANDALONE;
     }
 
     @Override
-    public ExpressionSubparserType getSubparserType() {
+    public ExpressionSubparserType type() {
         return ExpressionSubparserType.INDIVIDUAL;
     }
 
     @Override
-    public String getSubparserName() {
+    public String name() {
         return "assignation";
     }
 

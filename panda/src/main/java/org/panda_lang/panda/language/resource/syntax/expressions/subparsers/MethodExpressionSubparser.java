@@ -18,7 +18,13 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.architecture.expression.StaticExpression;
+import org.panda_lang.language.architecture.expression.ThisExpression;
 import org.panda_lang.language.architecture.type.Adjustment;
+import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.TypeExecutableExpression;
+import org.panda_lang.language.architecture.type.TypedUtils;
+import org.panda_lang.language.architecture.type.VisibilityComparator;
 import org.panda_lang.language.architecture.type.member.method.TypeMethod;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
@@ -28,13 +34,8 @@ import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.interpreter.token.TokenInfo;
-import org.panda_lang.language.architecture.expression.StaticExpression;
-import org.panda_lang.language.architecture.expression.ThisExpression;
-import org.panda_lang.language.architecture.type.TypeExecutableExpression;
-import org.panda_lang.language.architecture.type.TypedUtils;
-import org.panda_lang.language.architecture.type.VisibilityComparator;
 import org.panda_lang.language.interpreter.token.SynchronizedSource;
+import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.interpreter.token.TokenUtils;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.auxiliary.Section;
@@ -54,17 +55,17 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public int getMinimalRequiredLengthOfSource() {
+    public int minimalRequiredLengthOfSource() {
         return 2;
     }
 
     @Override
-    public ExpressionCategory getCategory() {
+    public ExpressionCategory category() {
         return ExpressionCategory.STANDALONE;
     }
 
     @Override
-    public String getSubparserName() {
+    public String name() {
         return "method";
     }
 
@@ -108,13 +109,15 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
+            Type type = instance.getSignature().getPrimaryType();
+
             // check if type of instance contains required method
-            if (!instance.getType().getMethods().hasPropertyLike(nameToken.getValue())) {
-                return ExpressionResult.error("Cannot find method called '" + nameToken.getValue() + "' in type " + instance.getType(), nameToken);
+            if (!type.getMethods().hasPropertyLike(nameToken.getValue())) {
+                return ExpressionResult.error("Cannot find method called '" + nameToken.getValue() + "' in type " + type, nameToken);
             }
 
             // parse method
-            Expression expression = parseMethod(context, instance, nameToken, section.getContent());
+            Expression expression = parseMethod(context, type, instance, nameToken, section.getContent());
 
             // drop used instance
             if (context.hasResults() && !autofilled) {
@@ -124,14 +127,14 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
             return ExpressionResult.of(expression);
         }
 
-        private Expression parseMethod(ExpressionContext context, Expression instance, TokenInfo methodName, Snippet argumentsSource) {
+        private Expression parseMethod(ExpressionContext<?> context, Type type, Expression instance, TokenInfo methodName, Snippet argumentsSource) {
             Expression[] arguments = ARGUMENT_PARSER.parse(context, argumentsSource);
-            Option<Adjustment<TypeMethod>> adjustedArguments = instance.getType().getMethods().getAdjustedArguments(methodName.getValue(), arguments);
+            Option<Adjustment<TypeMethod>> adjustedArguments = type.getMethods().getAdjustedArguments(methodName.getValue(), arguments);
 
             if (!adjustedArguments.isDefined()) {
                 String types = TypedUtils.toString(arguments);
 
-                List<? extends TypeMethod> propertiesLike = instance.getType().getMethods().getPropertiesLike(methodName.getValue());
+                List<? extends TypeMethod> propertiesLike = type.getMethods().getPropertiesLike(methodName.getValue());
                 String similar = "";
 
                 if (!propertiesLike.isEmpty()) {
@@ -141,8 +144,8 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
                     });
                 }
 
-                throw new PandaParserFailure(context, argumentsSource,
-                        "Class " + instance.getType().getSimpleName() + " does not have method &1" + methodName + "&r with parameters &1" + types + "&r",
+                throw new PandaParserFailure(context.toContext(), argumentsSource,
+                        "Class " + type.getSimpleName() + " does not have method &1" + methodName + "&r with parameters &1" + types + "&r",
                         "Change arguments or add a new method with the provided types of parameters. " + similar
                 );
             }
@@ -150,7 +153,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
             TypeMethod method = adjustedArguments.get().getExecutable();
 
             if (!method.isStatic() && instance instanceof StaticExpression) {
-                throw new PandaParserFailure(context, methodName,
+                throw new PandaParserFailure(context.toContext(), methodName,
                         "Cannot invoke non-static method on static context",
                         "Call method using class instance or add missing 'static' keyword to the '" + methodName.getValue() + "'method signature"
                 );
@@ -159,7 +162,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
             Option<String> issue = VisibilityComparator.canAccess(method, context.toContext());
 
             if (issue.isDefined()) {
-                throw new PandaParserFailure(context, methodName, issue.get(), VisibilityComparator.NOTE_MESSAGE);
+                throw new PandaParserFailure(context.toContext(), methodName, issue.get(), VisibilityComparator.NOTE_MESSAGE);
             }
 
             return new TypeExecutableExpression(instance, adjustedArguments.get());

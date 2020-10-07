@@ -36,12 +36,12 @@ public final class CastExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public int getMinimalRequiredLengthOfSource() {
+    public int minimalRequiredLengthOfSource() {
         return 2;
     }
 
     @Override
-    public String getSubparserName() {
+    public String name() {
         return "cast";
     }
 

@@ -18,6 +18,7 @@ package org.panda_lang.language.architecture.type.member.field;
 
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.expression.ExpressionUtils;
+import org.panda_lang.language.architecture.type.Signature;
 import org.panda_lang.language.architecture.type.member.AbstractMember;
 import org.panda_lang.utilities.commons.function.Lazy;
 
@@ -105,6 +106,11 @@ public final class PandaField extends AbstractMember<TypeField> implements TypeF
     @Override
     public Expression getDefaultValue() {
         return defaultValue;
+    }
+
+    @Override
+    public Signature getSignature() {
+        return getReturnType();
     }
 
     @Override

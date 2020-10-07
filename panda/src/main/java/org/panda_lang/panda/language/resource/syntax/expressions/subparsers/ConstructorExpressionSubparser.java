@@ -17,7 +17,6 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.PandaFrameworkException;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.module.ImportsUtils;
 import org.panda_lang.language.architecture.type.Adjustment;
@@ -26,7 +25,6 @@ import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.TypeDeclarationUtils;
 import org.panda_lang.language.architecture.type.TypeExecutableExpression;
 import org.panda_lang.language.architecture.type.VisibilityComparator;
-import org.panda_lang.language.architecture.type.array.ArrayType;
 import org.panda_lang.language.architecture.type.member.constructor.TypeConstructor;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionCategory;
@@ -34,7 +32,6 @@ import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserWorker;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.language.interpreter.token.TokenInfo;
@@ -42,12 +39,9 @@ import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.language.resource.syntax.separator.Separators;
-import org.panda_lang.utilities.commons.StringUtils;
 import org.panda_lang.utilities.commons.function.Option;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public final class ConstructorExpressionSubparser implements ExpressionSubparser {
 
@@ -57,17 +51,17 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
     }
 
     @Override
-    public int getMinimalRequiredLengthOfSource() {
+    public int minimalRequiredLengthOfSource() {
         return 3;
     }
 
     @Override
-    public ExpressionCategory getCategory() {
+    public ExpressionCategory category() {
         return ExpressionCategory.STANDALONE;
     }
 
     @Override
-    public String getSubparserName() {
+    public String name() {
         return "constructor";
     }
 
@@ -100,10 +94,12 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             Snippet typeSource = typeValue.get();
             source.setIndex(source.getIndex() + typeSource.size());
 
+            /*
             // parse if type is array
             if (TypeDeclarationUtils.isArray(typeSource)) {
                 return parseArray(context, typeSource);
             }
+             */
 
             if (!source.hasNext()) {
                 return null;
@@ -130,7 +126,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             return parseDefault(context, type, next);
         }
 
-        private ExpressionResult parseDefault(ExpressionContext context, Type type, TokenInfo section) {
+        private ExpressionResult parseDefault(ExpressionContext<?> context, Type type, TokenInfo section) {
             Snippet argsSource = section.toToken(Section.class).getContent();
             Expression[] arguments = ARGUMENT_PARSER.parse(context, argsSource);
             Option<Adjustment<TypeConstructor>> adjustedConstructor = type.getConstructors().getAdjustedConstructor(arguments);
@@ -138,67 +134,6 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             return adjustedConstructor
                     .map(constructorArguments -> ExpressionResult.of(new TypeExecutableExpression(null, constructorArguments)))
                     .orElseGet(() -> ExpressionResult.error(type.getSimpleName() + " does not have constructor with the required parameters: " + Arrays.toString(arguments), section));
-        }
-
-        private ExpressionResult parseArray(ExpressionContext context, Snippet typeSource) {
-            List<Section> sections = getArraySections(typeSource);
-            List<Expression> capacities = new ArrayList<>();
-
-            for (Section section : sections) {
-                Snippet content = section.getContent();
-
-                if (content.isEmpty()) {
-                    break;
-                }
-
-                ExpressionTransaction capacityTransaction = context.getParser().parse(context.toContext(), content);
-                context.commit(capacityTransaction::rollback);
-                Expression capacity = capacityTransaction.getExpression();
-
-                if (!capacity.getType().getAssociatedClass().isAssignableTo(Integer.class)) {
-                    return ExpressionResult.error("Capacity has to be Int", content);
-                }
-
-                capacities.add(capacity);
-            }
-
-            if (capacities.isEmpty()) {
-                return ExpressionResult.error("Array requires specified capacity", typeSource);
-            }
-
-            String baseClassName = typeSource.subSource(0, typeSource.size() - sections.size()).asSource();
-            String endTypeName = baseClassName + StringUtils.repeated(sections.size(), "[]");
-
-            ArrayType instanceType = (ArrayType) ImportsUtils.getTypeOrThrow(context.toContext(), endTypeName, typeSource);
-            ArrayType baseType = instanceType;
-
-            for (int declaredCapacities = 0; declaredCapacities < capacities.size() - 1; declaredCapacities++) {
-                Type componentType = baseType.getArrayType();
-
-                if (!(componentType instanceof ArrayType)) {
-                    throw new PandaFrameworkException("Should not happen");
-                }
-
-                baseType = (ArrayType) componentType;
-            }
-
-            return ExpressionResult.of(new ArrayInstanceExpression(instanceType, baseType.getArrayType(), capacities.toArray(new Expression[0])).toExpression());
-        }
-
-        private List<Section> getArraySections(Snippet type) {
-            List<Section> sections = new ArrayList<>();
-
-            for (int index = type.size() - 1; index >= 0; index--) {
-                TokenInfo representation = type.get(index);
-
-                if (representation.getType() != TokenTypes.SECTION) {
-                    break;
-                }
-
-                sections.add(representation.toToken());
-            }
-
-            return sections;
         }
 
     }

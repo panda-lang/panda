@@ -22,6 +22,10 @@ public class Reference {
         this.location = location;
     }
 
+    public Reference(Type type) {
+        this(CompletableOption.completed(type), type.getModule(), type.getName(), type.getVisibility(), type.getKind(), type.getLocation());
+    }
+
     public boolean isLoaded() {
         return type.isReady();
     }

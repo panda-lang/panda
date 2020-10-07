@@ -17,12 +17,9 @@
 package org.panda_lang.language.architecture.type.member;
 
 import org.panda_lang.language.architecture.type.Signature;
-import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.TypedUtils;
 import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
 import org.panda_lang.language.runtime.ProcessStack;
-
-import java.util.Arrays;
 
 /**
  * ExecutableProperty is equivalent to {@link java.lang.reflect.Executable} 
@@ -40,17 +37,6 @@ public interface Member extends Metadata {
      * @throws Exception if something happen
      */
     <T> T invoke(ProcessStack stack, Object instance, Object... arguments) throws Exception;
-
-    /**
-     * Get parameter types as java types
-     *
-     * @return array of java types
-     */
-    default Class<?>[] getJavaParameterTypes() {
-        return Arrays.stream(getParameterTypes())
-                .map(parameterType -> parameterType.getType().getAssociated())
-                .toArray(Class[]::new);
-    }
 
     /**
      * Get references to types of executable's parameters

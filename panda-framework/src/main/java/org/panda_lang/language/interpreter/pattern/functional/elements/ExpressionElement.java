@@ -31,9 +31,9 @@ public final class ExpressionElement extends FunctionalPatternElementBuilder<Exp
 
         super.reader((data, source) -> {
             SourceStream stream = new PandaSourceStream(source.getAvailableSource());
-            Context context = data.get(FunctionalData.CONTEXT, Context.class).get();
+            Context<?> context = data.get(FunctionalData.CONTEXT, Context.class).get();
 
-            ExpressionParser parser = context.getComponent(Components.EXPRESSION);
+            ExpressionParser parser = context.getExpressionParser();
             ExpressionTransaction expressionTransaction = parser.parse(context, stream);
 
             source.next(stream.getReadLength());

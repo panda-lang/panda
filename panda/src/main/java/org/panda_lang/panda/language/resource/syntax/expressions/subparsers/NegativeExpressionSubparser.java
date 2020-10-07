@@ -40,17 +40,17 @@ public final class NegativeExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public int getMinimalRequiredLengthOfSource() {
+    public int minimalRequiredLengthOfSource() {
         return 2;
     }
 
     @Override
-    public ExpressionSubparserType getSubparserType() {
+    public ExpressionSubparserType type() {
         return ExpressionSubparserType.INDIVIDUAL;
     }
 
     @Override
-    public String getSubparserName() {
+    public String name() {
         return "negative";
     }
 

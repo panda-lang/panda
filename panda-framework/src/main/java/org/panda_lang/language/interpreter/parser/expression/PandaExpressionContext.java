@@ -27,16 +27,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-final public class PandaExpressionContext implements ExpressionContext {
+final public class PandaExpressionContext<T> implements ExpressionContext<T> {
 
     private final ExpressionParser parser;
-    private final Context context;
+    private final Context<T> context;
     private final SynchronizedSource synchronizedSource;
     private final Stack<Expression> results = new Stack<>();
     private final Stack<ExpressionResult> errors = new Stack<>();
     private final List<Commit> commits = new ArrayList<>(1);
 
-    public PandaExpressionContext(ExpressionParser parser, Context context, Snippetable source) {
+    public PandaExpressionContext(ExpressionParser parser, Context<T> context, Snippetable source) {
         this.parser = parser;
         this.context = context;
         this.synchronizedSource = new SynchronizedSource(source.toSnippet());
@@ -88,7 +88,7 @@ final public class PandaExpressionContext implements ExpressionContext {
     }
 
     @Override
-    public Context toContext() {
+    public Context<T> toContext() {
         return context;
     }
 

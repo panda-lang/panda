@@ -39,7 +39,7 @@ public final class ArrayValueExpressionSubparser implements ExpressionSubparser 
     }
 
     @Override
-    public String getSubparserName() {
+    public String name() {
         return "array-value";
     }
 

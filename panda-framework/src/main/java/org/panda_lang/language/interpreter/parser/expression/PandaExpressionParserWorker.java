@@ -111,12 +111,12 @@ public final class PandaExpressionParserWorker {
         ExpressionSubparser subparser = worker.getSubparser();
 
         // skip subparser that does not meet assumptions
-        if (subparser.getMinimalRequiredLengthOfSource() > context.getSynchronizedSource().getAmountOfAvailableSource() + 1) {
+        if (subparser.minimalRequiredLengthOfSource() > context.getSynchronizedSource().getAmountOfAvailableSource() + 1) {
             return false;
         }
 
         // skip individual subparser if there's some content
-        if (subparser.getSubparserType() == ExpressionSubparserType.INDIVIDUAL && context.hasResults()) {
+        if (subparser.type() == ExpressionSubparserType.INDIVIDUAL && context.hasResults()) {
             return false;
         }
 
@@ -125,7 +125,7 @@ public final class PandaExpressionParserWorker {
         int cachedCommits = context.getCommits().size();
 
         ExpressionResult result = worker.next(context, token);
-        Maps.update(TIMES, subparser.getSubparserName(), () -> 0L, cachedTime -> cachedTime + (System.nanoTime() - time));
+        Maps.update(TIMES, subparser.name(), () -> 0L, cachedTime -> cachedTime + (System.nanoTime() - time));
 
         // if something went wrong
         if (result == null || result.containsError()) {
@@ -193,7 +193,7 @@ public final class PandaExpressionParserWorker {
     }
 
     public ExpressionCategory getLastCategory() {
-        return cachedWorkers.peek().getSubparser().getCategory();
+        return cachedWorkers.peek().getSubparser().category();
     }
 
     public int getLastSucceededRead() {

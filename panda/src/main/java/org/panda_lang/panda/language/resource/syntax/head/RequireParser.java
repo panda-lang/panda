@@ -16,89 +16,91 @@
 
 package org.panda_lang.panda.language.resource.syntax.head;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.Environment;
 import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.parser.pool.Targets;
-import org.panda_lang.language.interpreter.parser.stage.Phases;
-import org.panda_lang.language.interpreter.pattern.functional.elements.QualifierElement;
-import org.panda_lang.language.interpreter.pattern.functional.elements.WildcardElement;
-import org.panda_lang.language.interpreter.pattern.functional.verifiers.TokenTypeVerifier;
 import org.panda_lang.language.interpreter.source.PandaURLSource;
 import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.interpreter.token.Snippetable;
 import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.interpreter.token.TokenUtils;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.autowired.handlers.TokenHandler;
+import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.panda.manager.PackageManagerUtils;
 import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
-public final class RequireParser extends AutowiredParser<Void> {
+public final class RequireParser implements ContextParser<Object, Void> {
 
     @Override
-    public Target<? extends Parser>[] pipeline() {
+    public String name() {
+        return "require";
+    }
+
+    @Override
+    public Component<?>[] targets() {
         return ArrayUtils.of(Targets.HEAD);
     }
 
     @Override
-    protected AutowiredInitializer<Void> initialize(Context context, AutowiredInitializer<Void> initializer) {
-        return initializer
-                .handler(new TokenHandler(Keywords.REQUIRE))
-                .functional(pattern -> pattern
-                        .keyword(Keywords.REQUIRE)
-                        .variant("variant").consume(variant -> variant.content(
-                                QualifierElement.create("required").pandaModule(),
-                                WildcardElement.create("requiredFile").verify(new TokenTypeVerifier(TokenTypes.SEQUENCE))
-                        )));
-    }
+    public Option<CompletableFuture<Void>> parse(Context<Object> context) {
+        PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
-    @Autowired(order = 1, stage = Phases.TYPES_LABEL)
-    public void parse(Context context, @Ctx Imports imports, @Src("required") @Nullable Snippetable require, @Src("requiredFile") @Nullable TokenInfo requiredFile) {
-        if (require != null) {
-            parseModule(context, imports, require.toSnippet());
+        if (sourceReader.read(Keywords.REQUIRE).isEmpty()) {
+            return Option.none();
+        }
+
+        Option<Snippet> moduleQualifier = sourceReader.optionalRead(sourceReader::readPandaQualifier);
+
+        if (moduleQualifier.isDefined()) {
+            parseModule(context, moduleQualifier.get());
         }
         else {
-            parseFile(context, imports, Objects.requireNonNull(requiredFile));
+            Option<TokenInfo> fileQualifier = sourceReader.read(TokenTypes.SEQUENCE);
+
+            if (fileQualifier.isEmpty()) {
+                throw new PandaParserFailure(context, context.getSource(), "");
+            }
+
+            parseFile(context, Objects.requireNonNull(fileQualifier.get()));
         }
+
+        return Option.of(CompletableFuture.completedFuture(null));
     }
 
-    private Module parseModule(Context context, Imports imports, Snippet require) {
+    private Module parseModule(Context<?> context, Snippet require) {
         String moduleName = require.asSource();
 
-        return context.getComponent(Components.ENVIRONMENT).getModulePath().get(moduleName)
-                .peek(imports::importModule)
-                .orThrow(() -> new PandaParserFailure(context, require,
+        return context.getEnvironment().getModulePath().forModule(moduleName)
+                .peek(module -> context.getImports().importModule(module))
+                .orThrow(() -> {
+                    throw new PandaParserFailure(context, require,
                             "Unknown module " + moduleName,
-                            "Make sure that the name does not have a typo and module is added to the module path"
-                ));
+                            "Make sure that the name does not have a typo and module is added to the module path");
+                });
     }
 
-    private void parseFile(Context context, Imports imports, TokenInfo requiredFile) {
+    private void parseFile(Context<?> context, TokenInfo requiredFile) {
         if (!TokenUtils.hasName(requiredFile, "String")) {
             throw new PandaParserFailure(context, requiredFile, "Invalid token", "You should use string sequence to import file");
         }
 
-        Environment environment = context.getComponent(Components.ENVIRONMENT);
+        Environment environment = context.getEnvironment();
 
         File environmentDirectory = environment.getDirectory();
         File file = new File(environmentDirectory, requiredFile.getValue() + ".panda");
 
         if (file.exists()) {
-            context.getComponent(Components.SOURCES).addSource(PandaURLSource.fromFile(file));
+            context.getSourceSet().addSource(PandaURLSource.fromFile(file));
             return;
         }
 
@@ -115,7 +117,7 @@ public final class RequireParser extends AutowiredParser<Void> {
         }
 
         environment.getModulePath().forModule(requiredFile.getValue())
-                .peek(imports::importModule)
+                .peek(module -> context.getImports().importModule(module))
                 .onEmpty(() -> environment.getLogger().warn("Imported local package " + requiredFile.getValue() + " does not have module with the same name"));
     }
 

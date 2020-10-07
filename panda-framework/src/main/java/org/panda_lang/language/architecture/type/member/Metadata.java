@@ -16,15 +16,14 @@
 
 package org.panda_lang.language.architecture.type.member;
 
-import org.panda_lang.language.architecture.module.Module;
-import org.panda_lang.language.architecture.type.Signed;
+import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.Visibility;
 import org.panda_lang.language.interpreter.source.Location;
 
 /**
  * Element of type
  */
-public interface Metadata extends Signed {
+public interface Metadata {
 
     /**
      * Check if refers to the native context
@@ -41,20 +40,18 @@ public interface Metadata extends Signed {
     Visibility getVisibility();
 
     /**
-     * Get module of property
-     *
-     * @return the module
-     */
-    default Module getModule() {
-        return getSignature().getType().get().getModule();
-    }
-
-    /**
      * Get location of property
      *
      * @return the location
      */
     Location getLocation();
+
+    /**
+     * Get parent type
+     *
+     * @return the parent type
+     */
+    Type getType();
 
     /**
      * Get simple name of property (without extra data)

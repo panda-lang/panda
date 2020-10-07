@@ -35,7 +35,7 @@ public final class StaticExpressionSubparser implements PartialResultSubparser {
     }
 
     @Override
-    public String getSubparserName() {
+    public String name() {
         return "static";
     }
 

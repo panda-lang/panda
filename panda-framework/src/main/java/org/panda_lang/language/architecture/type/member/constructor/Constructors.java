@@ -18,7 +18,7 @@ package org.panda_lang.language.architecture.type.member.constructor;
 
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.type.Adjustment;
-import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.Signature;
 import org.panda_lang.language.architecture.type.member.Members;
 import org.panda_lang.utilities.commons.function.Option;
 
@@ -41,6 +41,6 @@ public interface Constructors extends Members<TypeConstructor> {
      * @param types types to search for
      * @return the result constructor
      */
-    Option<TypeConstructor> getConstructor(Type[] types);
+    Option<TypeConstructor> getConstructor(Signature[] types);
 
 }

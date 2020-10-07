@@ -35,7 +35,7 @@ public final class SequenceExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public String getSubparserName() {
+    public String name() {
         return "sequence";
     }
 

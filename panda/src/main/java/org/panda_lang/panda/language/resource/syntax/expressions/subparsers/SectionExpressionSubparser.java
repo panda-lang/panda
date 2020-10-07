@@ -36,7 +36,7 @@ public final class SectionExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public String getSubparserName() {
+    public String name() {
         return "section";
     }
 

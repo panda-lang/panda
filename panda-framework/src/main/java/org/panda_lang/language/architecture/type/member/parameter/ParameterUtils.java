@@ -18,8 +18,8 @@ package org.panda_lang.language.architecture.type.member.parameter;
 
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.statement.AbstractPropertyFramedScope;
+import org.panda_lang.language.architecture.type.Signature;
 import org.panda_lang.language.architecture.type.member.MemberFrameImpl;
-import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.runtime.PandaRuntimeException;
 import org.panda_lang.utilities.commons.text.ContentJoiner;
 
@@ -53,12 +53,12 @@ public final class ParameterUtils {
         }
     }
 
-    public static Type[] toTypes(Expression... expressions) {
-        Type[] types = new Type[expressions.length];
+    public static Signature[] toTypes(Expression... expressions) {
+        Signature[] types = new Signature[expressions.length];
 
         for (int index = 0; index < types.length; index++) {
             Expression expression = expressions[index];
-            types[index] = expression.getType();
+            types[index] = expression.getSignature();
         }
 
         return types;
@@ -66,7 +66,7 @@ public final class ParameterUtils {
 
     public static String toString(PropertyParameter... parameters) {
         return ContentJoiner.on(", ")
-                .join(parameters, parameter -> parameter.getType().getName() + " " + parameter.getName())
+                .join(parameters, parameter -> parameter.getSignature() + " " + parameter.getName())
                 .toString();
     }
 

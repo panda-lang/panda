@@ -16,7 +16,6 @@
 
 package org.panda_lang.language.interpreter.parser.pool;
 
-import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.utilities.commons.collection.Component;
 
 import java.util.Collection;
@@ -30,10 +29,10 @@ public interface ParserPoolService {
      * Create a new pipeline based on the given component
      *
      * @param component the component to use
-     * @param <P> type of parsers represented by pipeline
+     * @param <T> type of parsers represented by pipeline
      * @return a new pipeline
      */
-    <P extends Parser> ParserPool<P> computeIfAbsent(Component<P> component);
+    <T> ParserPool<T> computeIfAbsent(Component<T> component);
 
     /**
      * Check if path contains the given pipeline

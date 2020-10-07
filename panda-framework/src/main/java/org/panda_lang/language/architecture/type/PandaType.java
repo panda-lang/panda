@@ -48,6 +48,7 @@ import java.util.Objects;
 
 public class PandaType extends AbstractMetadata implements Type {
 
+    protected final Signature signature;
     protected final Module module;
     protected final String kind;
     protected final State state;
@@ -63,6 +64,7 @@ public class PandaType extends AbstractMetadata implements Type {
     public PandaType(PandaTypeMetadata<?, ?> metadata) {
         super(metadata.name, metadata.location, metadata.visibility, metadata.isNative);
 
+        this.signature = ValidationUtils.notNull(metadata.signature, "Signature cannot be null");
         this.module = ValidationUtils.notNull(metadata.module, "Type needs module");
         this.kind = ValidationUtils.notNull(metadata.kind, "The kind of type is not defined");
         this.state = ValidationUtils.notNull(metadata.state, "State of type is missing");
@@ -219,7 +221,12 @@ public class PandaType extends AbstractMetadata implements Type {
 
     @Override
     public Signature getSignature() {
-        return null;
+        return signature;
+    }
+
+    @Override
+    public Type getType() {
+        return this;
     }
 
     @Override

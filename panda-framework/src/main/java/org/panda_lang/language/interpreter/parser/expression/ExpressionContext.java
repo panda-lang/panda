@@ -17,7 +17,6 @@
 package org.panda_lang.language.interpreter.parser.expression;
 
 import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.Contextual;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction.Commit;
 import org.panda_lang.language.interpreter.token.Snippetable;
@@ -29,7 +28,7 @@ import java.util.Stack;
 /**
  * Context of expression parser
  */
-public interface ExpressionContext extends Contextual, Snippetable {
+public interface ExpressionContext<T> extends Contextual<T>, Snippetable {
 
     /**
      * Remove the latest expression from stack
@@ -86,14 +85,6 @@ public interface ExpressionContext extends Contextual, Snippetable {
      * @return the stack containing results
      */
     Stack<Expression> getResults();
-
-    /**
-     * Get parser context
-     *
-     * @return the context
-     */
-    @Override
-    Context toContext();
 
     /**
      * Get current expression parser

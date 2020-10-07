@@ -68,7 +68,8 @@ public final class PandaTypeLoader implements TypeLoader {
                 .filter(elements -> elements.length == 2)
                 .map(elements -> new Pair<>(modulePath.forModule(elements[0]), elements[1]))
                 .filter(pair -> pair.getKey().isDefined())
-                .flatMap(pair -> pair.getKey().get().forType(pair.getValue()));
+                .flatMap(pair -> pair.getKey().get().get(pair.getValue()))
+                .map(reference -> reference.getType().get());
     }
 
     @Override

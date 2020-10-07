@@ -60,11 +60,11 @@ public final class PandaVariableDataInitializer {
             throw new PandaParserFailure(context, name, "Variable name is already used in the scope '" + variableName + "'");
         }
 
-        return context.getComponent(Components.IMPORTS)
-                .forName(typeName.toSnippet().asSource())
+        return context.getImports()
+                .forType(typeName.toSnippet().asSource())
                 .map(type -> {
                     VisibilityComparator.requireAccess(type, context, typeName);
-                    return new PandaVariableData(type, nameSource.asSource(), mutable, nillable);
+                    return new PandaVariableData(null, nameSource.asSource(), mutable, nillable);
                 })
                 .orThrow(() -> {
                     throw new PandaParserFailure(context, typeName, "Cannot recognize variable type: " + typeName);

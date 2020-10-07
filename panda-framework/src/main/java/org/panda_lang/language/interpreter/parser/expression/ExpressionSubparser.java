@@ -31,18 +31,7 @@ public interface ExpressionSubparser extends Parser, Comparable<ExpressionSubpar
      * @return the worker instance
      * @param context the context to use by the worker
      */
-    ExpressionSubparserWorker createWorker(Context context);
-
-    @Override
-    default int compareTo(@NotNull ExpressionSubparser to) {
-        int result = Integer.compare(getSubparserType().getPriority(), to.getSubparserType().getPriority());
-
-        if (result != 0) {
-            return result;
-        }
-
-        return Double.compare(getPriority(), to.getPriority());
-    }
+    ExpressionSubparserWorker createWorker(Context<?> context);
 
     /**
      * Get minimal required length of source to use the subparser.
@@ -50,7 +39,7 @@ public interface ExpressionSubparser extends Parser, Comparable<ExpressionSubpar
      *
      * @return the minimal required length of source
      */
-    default int getMinimalRequiredLengthOfSource() {
+    default int minimalRequiredLengthOfSource() {
         return 1;
     }
 
@@ -61,7 +50,7 @@ public interface ExpressionSubparser extends Parser, Comparable<ExpressionSubpar
      *
      * @see ExpressionSubparserType
      */
-    default ExpressionSubparserType getSubparserType() {
+    default ExpressionSubparserType type() {
         return ExpressionSubparserType.MODERATE;
     }
 
@@ -72,7 +61,7 @@ public interface ExpressionSubparser extends Parser, Comparable<ExpressionSubpar
      *
      * @see org.panda_lang.language.interpreter.parser.expression.ExpressionCategory
      */
-    default ExpressionCategory getCategory() {
+    default ExpressionCategory category() {
         return ExpressionCategory.DEFAULT;
     }
 
@@ -81,15 +70,19 @@ public interface ExpressionSubparser extends Parser, Comparable<ExpressionSubpar
      *
      * @return the priority, by default 1.0
      */
-    default double getPriority() {
+    default double priority() {
         return 1.0;
     }
 
-    /**
-     * Get name of the subparser
-     *
-     * @return the name
-     */
-    String getSubparserName();
+    @Override
+    default int compareTo(@NotNull ExpressionSubparser to) {
+        int result = Integer.compare(type().getPriority(), to.type().getPriority());
+
+        if (result != 0) {
+            return result;
+        }
+
+        return Double.compare(priority(), to.priority());
+    }
 
 }

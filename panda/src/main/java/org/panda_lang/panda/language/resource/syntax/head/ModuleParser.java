@@ -40,7 +40,7 @@ public final class ModuleParser implements ContextParser<Object, ModuleStatement
     }
 
     @Override
-    public Component<?>[] targetPools() {
+    public Component<?>[] targets() {
         return ArrayUtils.of(Targets.HEAD);
     }
 

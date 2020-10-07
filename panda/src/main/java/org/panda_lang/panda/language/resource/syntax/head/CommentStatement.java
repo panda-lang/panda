@@ -20,7 +20,7 @@ import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.architecture.statement.AbstractStatement;
 
-final class CommentStatement extends AbstractStatement {
+public final class CommentStatement extends AbstractStatement {
 
     private final String comment;
 

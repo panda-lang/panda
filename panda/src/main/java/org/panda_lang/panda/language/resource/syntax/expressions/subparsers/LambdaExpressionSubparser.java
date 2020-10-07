@@ -37,7 +37,7 @@ final class LambdaExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public String getSubparserName() {
+    public String name() {
         return "lambda";
     }
 
