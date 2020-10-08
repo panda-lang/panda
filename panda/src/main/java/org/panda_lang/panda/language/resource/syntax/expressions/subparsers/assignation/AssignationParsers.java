@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation;
 
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.array.ArrayValueAssignationSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.variable.VariableAssignationSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.variable.VariableDeclarationSubparser;
 
@@ -24,8 +23,7 @@ public final class AssignationParsers {
 
     public static final AssignationSubparser<?>[] SUBPARSERS = {
             new VariableAssignationSubparser(),
-            new VariableDeclarationSubparser(),
-            new ArrayValueAssignationSubparser()
+            new VariableDeclarationSubparser()
     };
 
     private AssignationParsers() { }

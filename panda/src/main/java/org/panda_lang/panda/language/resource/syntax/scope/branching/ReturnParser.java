@@ -16,40 +16,43 @@
 
 package org.panda_lang.panda.language.resource.syntax.scope.branching;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.Parser;
+import org.panda_lang.language.interpreter.parser.ContextParser;
+import org.panda_lang.language.interpreter.parser.SourceReader;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.language.interpreter.parser.pool.Targets;
-import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.autowired.handlers.TokenHandler;
 import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Option;
 
-public final class ReturnParser extends AutowiredParser<Void> {
+import java.util.concurrent.CompletableFuture;
+
+public final class ReturnParser implements ContextParser<Object, Return> {
 
     @Override
-    public Target<? extends Parser>[] pipeline() {
+    public String name() {
+        return "return";
+    }
+
+    @Override
+    public Component<?>[] targets() {
         return ArrayUtils.of(Targets.SCOPE);
     }
 
     @Override
-    protected AutowiredInitializer<Void> initialize(Context context, AutowiredInitializer<Void> initializer) {
-        return initializer
-                .handler(new TokenHandler(Keywords.RETURN))
-                .linear("return &value:*=expression");
-    }
+    public Option<CompletableFuture<Return>> parse(Context<Object> context) {
+        SourceReader sourceReader = new SourceReader(context.getStream());
 
-    @Autowired(order = 1)
-    public void parse(@Ctx Scope scope, @Channel Location location, @Src("value") @Nullable Expression value) {
-        scope.addStatement(new Return(location, value));
+        if (sourceReader.read(Keywords.RETURN).isPresent()) {
+            return Option.none();
+        }
+
+        Option<ExpressionTransaction> returnValue = sourceReader.optionalRead(() -> context.getExpressionParser().parseSilently(context, context.getStream()));
+        Return statement = new Return(context.getSource().getLocation(), returnValue.map(ExpressionTransaction::getExpression).getOrNull());
+        context.getScope().addStatement(statement);
+
+        return Option.of(CompletableFuture.completedFuture(statement));
     }
 
 }
