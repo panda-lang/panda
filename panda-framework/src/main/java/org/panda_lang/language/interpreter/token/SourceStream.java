@@ -76,6 +76,13 @@ public interface SourceStream extends Snippetable {
     boolean hasUnreadSource();
 
     /**
+     * Get next token without moving index
+     *
+     * @return the next token
+     */
+    TokenInfo getNext();
+
+    /**
      * Get current token
      *
      * @return current token

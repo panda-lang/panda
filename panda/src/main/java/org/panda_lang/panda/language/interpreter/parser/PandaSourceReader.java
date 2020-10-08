@@ -1,7 +1,10 @@
 package org.panda_lang.panda.language.interpreter.parser;
 
+import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.SourceReader;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.language.interpreter.token.PandaSnippet;
 import org.panda_lang.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.language.interpreter.token.Snippet;
@@ -76,5 +79,29 @@ public class PandaSourceReader extends SourceReader {
         return Option.of(PandaSnippet.ofImmutable(tokens));
     }
 
+    public List<ExpressionTransaction> readExpressions(Context<?> context) {
+        ExpressionParser parser = context.getExpressionParser();
+        List<ExpressionTransaction> transactions = new ArrayList<>();
+
+        while (super.stream.hasUnreadSource()) {
+            Option<ExpressionTransaction> argument = optionalRead(() -> parser.parseSilently(context, super.stream));
+
+            if (argument.isEmpty()) {
+                break;
+            }
+
+            transactions.add(argument.get());
+
+            if (super.stream.hasUnreadSource()) {
+                if (!super.stream.getNext().equals(Separators.COMMA)) {
+                    break;
+                }
+
+                super.stream.read();
+            }
+        }
+
+        return transactions;
+    }
 
 }
