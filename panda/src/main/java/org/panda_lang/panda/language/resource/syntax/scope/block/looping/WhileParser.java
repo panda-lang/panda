@@ -17,45 +17,51 @@
 package org.panda_lang.panda.language.resource.syntax.scope.block.looping;
 
 import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.pattern.Mappings;
-import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
-import org.panda_lang.panda.language.interpreter.parser.block.BlockData;
-import org.panda_lang.panda.language.interpreter.parser.block.AutowiredBlockParser;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.autowired.handlers.TokenHandler;
+import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
+import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
 import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Option;
 
-public final class WhileParser extends AutowiredBlockParser {
+import java.util.concurrent.CompletableFuture;
+
+public final class WhileParser implements ContextParser<Object, WhileBlock> {
+
+    private final ScopeParser scopeParser = new ScopeParser();
 
     @Override
-    public Target<? extends Parser>[] pipeline() {
+    public String name() {
+        return "while";
+    }
+
+    @Override
+    public Component<?>[] targets() {
         return ArrayUtils.of(PandaPipeline.BLOCK);
     }
 
     @Override
-    protected AutowiredInitializer<BlockData> initialize(Context context, AutowiredInitializer<BlockData> initializer) {
-        return initializer
-                .handler(new TokenHandler(Keywords.WHILE))
-                .linear("while value:*=expression");
-    }
+    public Option<CompletableFuture<WhileBlock>> parse(Context<Object> context) {
+        PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
-    @Autowired(order = 1)
-    public BlockData parseWhile(Context context, @Ctx Scope parent, @Channel Location location, @Channel Mappings mappings, @Src("value") Expression expression) {
-        if (!expression.getType().getAssociatedClass().isAssignableTo(Boolean.class)) {
-            throw new PandaParserFailure(context, mappings, "Loop requires boolean as an argument");
+        if (sourceReader.read(Keywords.WHILE).isEmpty()) {
+            return Option.none();
         }
 
-        return new BlockData(new WhileBlock(parent, location, expression));
+        Expression whileCondition = context.getExpressionParser().parse(context, context.getStream()).getExpression();
+
+        if (!whileCondition.getSignature().getPrimaryType().getName().equals("panda::Bool")) {
+            throw new PandaParserFailure(context, context.getSource(), "Loop requires boolean as an argument");
+        }
+
+        WhileBlock whileBlock = new WhileBlock(context.getScope(), context.getSource().getLocation(), whileCondition);
+        scopeParser.parse(context, whileBlock, sourceReader.readBody().get());
+
+        return Option.of(CompletableFuture.completedFuture(whileBlock));
     }
 
 }

@@ -39,9 +39,9 @@ public interface Methods extends Members<TypeMethod> {
      * Get method with the given name and types
      *
      * @param name the name to search for
-     * @param parameterTypes the parameter types to search for
+     * @param parameters the parameter types to search for
      * @return the found method
      */
-    Option<TypeMethod> getMethod(String name, Signature[] parameterTypes);
+    Option<TypeMethod> getMethod(String name, Signature[] parameters);
 
 }

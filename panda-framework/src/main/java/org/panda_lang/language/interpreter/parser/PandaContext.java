@@ -16,7 +16,6 @@
 
 package org.panda_lang.language.interpreter.parser;
 
-import org.panda_lang.language.FrameworkController;
 import org.panda_lang.language.architecture.Application;
 import org.panda_lang.language.architecture.Environment;
 import org.panda_lang.language.architecture.Script;
@@ -27,6 +26,7 @@ import org.panda_lang.language.interpreter.logging.Logger;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.language.interpreter.parser.pool.ParserPoolService;
 import org.panda_lang.language.interpreter.parser.stage.StageService;
+import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.source.SourceSet;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.SourceStream;
@@ -57,7 +57,7 @@ public class PandaContext<T> implements Context<T> {
 
     @Override
     public Logger getLogger() {
-        return getFrameworkController().getLogger();
+        return getEnvironment().getLogger();
     }
 
     @Override
@@ -65,6 +65,9 @@ public class PandaContext<T> implements Context<T> {
 
     @Override
     public SourceStream getStream() { return creator.stream; }
+
+    @Override
+    public Location getLocation() { return getSource().getLocation(); }
 
     @Override
     public Snippet getSource() { return creator.source; }
@@ -101,8 +104,5 @@ public class PandaContext<T> implements Context<T> {
 
     @Override
     public Environment getEnvironment() { return creator.environment; }
-
-    @Override
-    public FrameworkController getFrameworkController() { return creator.frameworkController; }
 
 }

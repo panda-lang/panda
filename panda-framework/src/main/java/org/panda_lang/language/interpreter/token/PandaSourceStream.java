@@ -108,6 +108,11 @@ public final class PandaSourceStream implements SourceStream {
     }
 
     @Override
+    public TokenInfo getNext() {
+        return original.get(index + 1);
+    }
+
+    @Override
     public TokenInfo getCurrent() {
         return original.get(index);
     }

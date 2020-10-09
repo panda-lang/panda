@@ -1,6 +1,5 @@
 package org.panda_lang.language.interpreter.parser;
 
-import org.panda_lang.language.FrameworkController;
 import org.panda_lang.language.architecture.Application;
 import org.panda_lang.language.architecture.Environment;
 import org.panda_lang.language.architecture.Script;
@@ -16,7 +15,6 @@ import org.panda_lang.language.interpreter.token.SourceStream;
 
 public class PandaContextCreator<T> implements ContextCreator<T> {
 
-    protected final FrameworkController frameworkController;
     protected final Environment environment;
     protected final StageService stageService;
     protected final ParserPoolService parserPoolService;
@@ -33,7 +31,6 @@ public class PandaContextCreator<T> implements ContextCreator<T> {
     protected T subject;
 
     public PandaContextCreator(
-            FrameworkController frameworkController,
             Environment environment,
             StageService stageService,
             ParserPoolService parserPoolService,
@@ -42,7 +39,6 @@ public class PandaContextCreator<T> implements ContextCreator<T> {
             Application application,
             SourceSet sourceSet) {
 
-        this.frameworkController = frameworkController;
         this.environment = environment;
         this.stageService = stageService;
         this.parserPoolService = parserPoolService;
@@ -55,7 +51,6 @@ public class PandaContextCreator<T> implements ContextCreator<T> {
     @Override
     public PandaContextCreator<T> fork() {
         PandaContextCreator<T> fork = new PandaContextCreator<>(
-                frameworkController,
                 environment,
                 stageService,
                 parserPoolService,

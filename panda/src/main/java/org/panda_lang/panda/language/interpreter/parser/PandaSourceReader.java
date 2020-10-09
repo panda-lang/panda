@@ -27,6 +27,16 @@ public class PandaSourceReader extends SourceReader {
         super(stream);
     }
 
+    public Option<Snippet> readBody() {
+        return readSection(Separators.BRACE_LEFT)
+                .map(token -> token.toToken(Section.class).getContent());
+    }
+
+    public Option<Snippet> readArguments() {
+        return readSection(Separators.PARENTHESIS_LEFT)
+                .map(token -> token.toToken(Section.class).getContent());
+    }
+
     public Option<SignatureSource> readSignature() {
         return read(TokenTypes.UNKNOWN)
                 .flatMap(name -> readGenerics()

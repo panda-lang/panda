@@ -37,8 +37,8 @@ public final class PandaMethods extends AbstractMembers<TypeMethod> implements M
     }
 
     @Override
-    public Option<TypeMethod> getMethod(String name, Signature[] parameterTypes) {
-        return MATCHER.match(getPropertiesLike(name), parameterTypes, null).map(Adjustment::getExecutable);
+    public Option<TypeMethod> getMethod(String name, Signature[] parameters) {
+        return MATCHER.match(getPropertiesLike(name), parameters, null).map(Adjustment::getExecutable);
     }
 
     @Override

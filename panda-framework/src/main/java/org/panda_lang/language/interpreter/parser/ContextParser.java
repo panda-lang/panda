@@ -28,6 +28,17 @@ import java.util.concurrent.CompletableFuture;
  */
 public interface ContextParser<T, R> extends Parser {
 
+    double DEFAULT_PRIORITY = 1.0;
+
+    /**
+     * Get parser priority
+     *
+     * @return the priority
+     */
+    default double priority() {
+        return DEFAULT_PRIORITY;
+    }
+
     /**
      * Get targeted pools by this parser
      *
@@ -38,7 +49,7 @@ public interface ContextParser<T, R> extends Parser {
     /**
      * Initialize parser
      *
-     * @param context
+     * @param context the context used to initialize parser
      */
     default void initialize(Context<T> context) { }
 

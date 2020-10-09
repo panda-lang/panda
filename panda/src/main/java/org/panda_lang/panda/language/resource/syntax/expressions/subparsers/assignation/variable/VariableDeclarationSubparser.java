@@ -42,7 +42,6 @@ import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Au
 import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
 import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationPriorities;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AutowiredAssignationParser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationType;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.function.Option;
