@@ -27,7 +27,7 @@ import java.util.Iterator;
 final class ResourcesIterableTest {
 
     @Test
-    void testIterable() {
+    void next_should_move_to_the_next_element_and_return_it() {
         Collection<String> mutable = Lists.mutableOf("a");
         Collection<String> immutable = Collections.singletonList("c");
         ResourcesIterable<String> iterable = new ResourcesIterable<>(mutable, immutable);
@@ -35,9 +35,19 @@ final class ResourcesIterableTest {
         mutable.add("b");
         Iterator<String> iterator = iterable.iterator();
 
+        Assertions.assertTrue(iterator.hasNext());
         Assertions.assertEquals("a", iterator.next());
         Assertions.assertEquals("b", iterator.next());
         Assertions.assertEquals("c", iterator.next());
+        Assertions.assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    void constructor_should_throw_exception_if_empty() {
+        Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> new ResourcesIterable()
+        );
     }
 
 }

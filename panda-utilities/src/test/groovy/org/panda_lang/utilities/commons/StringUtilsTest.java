@@ -217,4 +217,27 @@ final class StringUtilsTest {
         Assertions.assertEquals(-1, StringUtils.lastIndexOfBefore("...", ".", 3));
     }
 
+    @Test
+    void join() {
+        Assertions.assertEquals("abc", StringUtils.join("a", "b", "c"));
+    }
+
+    @Test
+    void toStringNullObject() {
+        Assertions.assertEquals("null", StringUtils.toString(null));
+    }
+
+    @Test
+    void toStringObject() {
+        Object object = new Object();
+        Assertions.assertEquals(object.toString(), StringUtils.toString(object));
+    }
+
+    @Test
+    void toStringArray() {
+        Object[] objects = new Object[]{new Object(), new Object()};
+        Assertions.assertEquals(objects[0].toString() + ", " + objects[1].toString(), StringUtils.toString(objects));
+        Assertions.assertEquals("", StringUtils.toString(new Object[]{}));
+    }
+
 }
