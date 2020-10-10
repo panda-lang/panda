@@ -17,18 +17,23 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number;
 
 import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.architecture.expression.PandaExpression;
+import org.panda_lang.language.architecture.module.TypeLoader;
+import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaParserException;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.language.interpreter.parser.Parser;
+import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.utilities.commons.StringUtils;
 
-public final class NumberParser implements SourceParser<Expression> {
+public final class NumberParser implements Parser {
 
     @Override
-    public Expression parse(Context context, Snippet source) {
+    public String name() {
+        return "number";
+    }
+
+    public Expression parse(Context<?> context, Snippet source) {
         String unknownNumber = StringUtils.replace(source.asSource(), "_", StringUtils.EMPTY);
 
         char numberTypeDefinitionCharacter = unknownNumber.charAt(unknownNumber.length() - 1);
@@ -57,21 +62,21 @@ public final class NumberParser implements SourceParser<Expression> {
             numberType = numberTypeDefinition;
         }
 
-        Type type = ModuleLoaderUtils.requireType(context, numberType.getJavaType());
+        TypeLoader loader = context.getTypeLoader();
 
         switch (numberType) {
             case BYTE:
-                return new PandaExpression(type, Byte.parseByte(number, radix));
+                return new PandaExpression(loader.requireType("panda::Byte").getSignature(), Byte.parseByte(number, radix));
             case SHORT:
-                return new PandaExpression(type, Short.parseShort(number, radix));
+                return new PandaExpression(loader.requireType("panda::Short").getSignature(), Short.parseShort(number, radix));
             case INT:
-                return new PandaExpression(type, Integer.parseInt(number, radix));
+                return new PandaExpression(loader.requireType("panda::Int").getSignature(), Integer.parseInt(number, radix));
             case LONG:
-                return new PandaExpression(type, Long.parseLong(number, radix));
+                return new PandaExpression(loader.requireType("panda::Long").getSignature(), Long.parseLong(number, radix));
             case FLOAT:
-                return new PandaExpression(type, Float.parseFloat(number));
+                return new PandaExpression(loader.requireType("panda::Float").getSignature(), Float.parseFloat(number));
             case DOUBLE:
-                return new PandaExpression(type, Double.parseDouble(number));
+                return new PandaExpression(loader.requireType("panda::Double").getSignature(), Double.parseDouble(number));
             default:
                 throw new PandaParserException("Unknown number type: " + numberType);
         }
