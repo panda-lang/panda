@@ -98,6 +98,7 @@ public final class ForParser extends BlockParser<ForBlock> {
 
         ForBlock forBlock = new ForBlock(forExpressionScope, context, initialization, termination, increment);
         context.getScope().addStatement(forBlock);
+        SCOPE_PARSER.parse(delegatedContext, forBlock, sourceReader.readBody().get());
 
         return Option.of(CompletableFuture.completedFuture(forBlock));
     }

@@ -20,11 +20,11 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.dynamic.ControlledScope;
 import org.panda_lang.language.architecture.dynamic.Frame;
 import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.architecture.statement.AbstractBlock;
 import org.panda_lang.language.architecture.statement.Scope;
-import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.interpreter.source.Localizable;
 import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.language.runtime.Result;
-import org.panda_lang.language.architecture.statement.AbstractBlock;
 
 import java.util.Iterator;
 
@@ -33,8 +33,8 @@ final class ForEachBlock extends AbstractBlock implements ControlledScope {
     private final int valuePointer;
     private final Expression iterableExpression;
 
-    ForEachBlock(Scope parent, Location location, Expression iterableExpression) {
-        super(parent, location);
+    ForEachBlock(Scope parent, Localizable localizable, Expression iterableExpression) {
+        super(parent, localizable);
         this.iterableExpression = iterableExpression;
         this.valuePointer = getFramedScope().allocate();
     }
