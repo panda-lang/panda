@@ -80,7 +80,7 @@ public final class BaseCallParser implements ContextParser<TypeContext, BaseCall
         }
 
         Expression[] expressions = ARGUMENTS_PARSER.parse(context, arguments.get());
-        BaseCall baseCall = new BaseCall(context.getLocation(), expressions);
+        BaseCall baseCall = new BaseCall(context.toLocation(), expressions);
         parent.addStatement(baseCall);
 
         type.getSuperclass().get().getPrimaryType().getConstructors().getAdjustedConstructor(expressions).onEmpty(() -> {

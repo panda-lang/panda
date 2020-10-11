@@ -26,7 +26,7 @@ import org.panda_lang.language.interpreter.logging.LoggerHolder;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.language.interpreter.parser.pool.PoolService;
 import org.panda_lang.language.interpreter.parser.stage.StageService;
-import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.interpreter.source.Localizable;
 import org.panda_lang.language.interpreter.source.SourceSet;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.SourceStream;
@@ -34,7 +34,7 @@ import org.panda_lang.language.interpreter.token.SourceStream;
 /**
  * Component based set of data used during the interpretation process
  */
-public interface Context<T> extends Contextual<T>, LoggerHolder {
+public interface Context<T> extends Contextual<T>, Localizable, LoggerHolder {
 
     /**
      * Clone context to a new independent instance
@@ -46,8 +46,6 @@ public interface Context<T> extends Contextual<T>, LoggerHolder {
     T getSubject();
 
     SourceStream getStream();
-
-    Location getLocation();
 
     Snippet getSource();
 

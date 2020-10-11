@@ -16,6 +16,7 @@
 
 package org.panda_lang.language.interpreter.token;
 
+import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.ArrayList;
@@ -120,6 +121,11 @@ public final class PandaSourceStream implements SourceStream {
     @Override
     public Snippet getOriginalSource() {
         return original;
+    }
+
+    @Override
+    public Location toLocation() {
+        return getCurrent().getLocation();
     }
 
     @Override

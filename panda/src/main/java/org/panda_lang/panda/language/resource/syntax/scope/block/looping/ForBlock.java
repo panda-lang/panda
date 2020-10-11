@@ -19,11 +19,11 @@ package org.panda_lang.panda.language.resource.syntax.scope.block.looping;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.dynamic.ControlledScope;
 import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.architecture.statement.AbstractBlock;
 import org.panda_lang.language.architecture.statement.Scope;
-import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.interpreter.source.Localizable;
 import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.language.runtime.Result;
-import org.panda_lang.language.architecture.statement.AbstractBlock;
 
 final class ForBlock extends AbstractBlock implements ControlledScope {
 
@@ -31,8 +31,8 @@ final class ForBlock extends AbstractBlock implements ControlledScope {
     private final @Nullable Expression initializationStatement;
     private final @Nullable Expression postExpression;
 
-    ForBlock(Scope parent, Location location, @Nullable Expression initializationStatement, Expression conditionExpression, @Nullable Expression postExpression) {
-        super(parent, location);
+    ForBlock(Scope parent, Localizable localizable, @Nullable Expression initializationStatement, Expression conditionExpression, @Nullable Expression postExpression) {
+        super(parent, localizable);
         this.initializationStatement = initializationStatement;
         this.conditionExpression = conditionExpression;
         this.postExpression = postExpression;

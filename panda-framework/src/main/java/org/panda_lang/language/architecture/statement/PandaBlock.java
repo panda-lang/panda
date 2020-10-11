@@ -16,12 +16,12 @@
 
 package org.panda_lang.language.architecture.statement;
 
-import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.interpreter.source.Localizable;
 
 public final class PandaBlock extends AbstractBlock {
 
-    public PandaBlock(Scope parent, Location location) {
-        super(parent, location);
+    public PandaBlock(Scope parent, Localizable localizable) {
+        super(parent, localizable);
     }
 
 }

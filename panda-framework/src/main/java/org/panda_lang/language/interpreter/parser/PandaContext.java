@@ -67,7 +67,7 @@ public class PandaContext<T> implements Context<T> {
     public SourceStream getStream() { return creator.stream; }
 
     @Override
-    public Location getLocation() { return getSource().getLocation(); }
+    public Location toLocation() { return getSource().getLocation(); }
 
     @Override
     public Snippet getSource() { return creator.source; }
