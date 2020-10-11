@@ -25,16 +25,16 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PandaParserPoolServiceTest {
+class PandaPoolServiceTest {
 
     private static final Component<Parser> TEST_COMPONENT = Component.of("test", Parser.class);
     private static final Component<Parser> ANOTHER_TEST_COMPONENT = Component.of("another-test", Parser.class);
 
-    private ParserPoolService defaultPath;
+    private PoolService defaultPath;
 
     @BeforeEach
     void prepareDefaultPipelinePath() {
-        this.defaultPath = new PandaParserPoolService();
+        this.defaultPath = new PandaPoolService();
         defaultPath.computeIfAbsent(TEST_COMPONENT);
     }
 

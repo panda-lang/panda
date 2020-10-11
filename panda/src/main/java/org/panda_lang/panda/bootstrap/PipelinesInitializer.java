@@ -16,19 +16,19 @@
 
 package org.panda_lang.panda.bootstrap;
 
-import org.panda_lang.language.interpreter.parser.pool.ParserPoolService;
-import org.panda_lang.language.interpreter.parser.pool.PandaParserPoolService;
+import org.panda_lang.language.interpreter.parser.pool.PoolService;
+import org.panda_lang.language.interpreter.parser.pool.PandaPoolService;
 import org.panda_lang.utilities.commons.collection.Component;
 
 import java.util.Collection;
 
 /**
- * {@link org.panda_lang.language.interpreter.parser.pool.ParserPoolService} initializer
+ * {@link org.panda_lang.language.interpreter.parser.pool.PoolService} initializer
  */
 public final class PipelinesInitializer implements Initializer {
 
     private final PandaBootstrap bootstrap;
-    private final ParserPoolService poolService = new PandaParserPoolService();
+    private final PoolService poolService = new PandaPoolService();
 
     PipelinesInitializer(PandaBootstrap bootstrap) {
         this.bootstrap = bootstrap;

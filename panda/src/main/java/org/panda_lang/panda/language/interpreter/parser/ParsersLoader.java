@@ -17,14 +17,14 @@
 package org.panda_lang.panda.language.interpreter.parser;
 
 import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pool.ParserPoolService;
+import org.panda_lang.language.interpreter.parser.pool.PoolService;
 import org.panda_lang.utilities.commons.ObjectUtils;
 
 import java.util.Collection;
 
 public final class ParsersLoader {
 
-    public ParserPoolService loadParsers(ParserPoolService path, Collection<Parser> parsers) {
+    public PoolService loadParsers(PoolService path, Collection<Parser> parsers) {
         for (Parser parser : parsers) {
             Handler handler = (Handler) parser;
 

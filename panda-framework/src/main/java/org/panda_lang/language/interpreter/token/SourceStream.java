@@ -16,6 +16,7 @@
 
 package org.panda_lang.language.interpreter.token;
 
+import org.panda_lang.language.interpreter.source.Localizable;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.utilities.commons.function.Option;
 
@@ -24,7 +25,7 @@ import java.util.function.Predicate;
 /**
  * Represents stream of tokens
  */
-public interface SourceStream extends Snippetable {
+public interface SourceStream extends Snippetable, Localizable {
 
     /**
      * Read the next token
@@ -34,10 +35,10 @@ public interface SourceStream extends Snippetable {
     TokenInfo read();
 
     /**
-     * Conditional read
+     * Conditional read of next token
      *
-     * @param condition
-     * @return
+     * @param condition the method will read the token only if this condition returns true
+     * @return the optional result
      */
     Option<TokenInfo> read(Predicate<TokenInfo> condition);
 

@@ -17,7 +17,7 @@
 package org.panda_lang.language.resource;
 
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparsers;
-import org.panda_lang.language.interpreter.parser.pool.ParserPoolService;
+import org.panda_lang.language.interpreter.parser.pool.PoolService;
 
 /**
  * Set of resources used by the language
@@ -36,6 +36,6 @@ public interface Resources {
      *
      * @return the pipeline path
      */
-    ParserPoolService getPipelinePath();
+    PoolService getPipelinePath();
 
 }

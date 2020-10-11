@@ -23,7 +23,7 @@ import java.util.Collection;
 /**
  * Container of pipelines
  */
-public interface ParserPoolService {
+public interface PoolService {
 
     /**
      * Create a new pipeline based on the given component

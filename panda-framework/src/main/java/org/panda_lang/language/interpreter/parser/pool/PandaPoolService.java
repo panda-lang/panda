@@ -23,11 +23,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class PandaParserPoolService implements ParserPoolService {
+public final class PandaPoolService implements PoolService {
 
     private final Map<Component<?>, ParserPool<?>> pipelines = new HashMap<>(3);
 
-    public PandaParserPoolService() {
+    public PandaPoolService() {
         pipelines.put(Targets.ALL, new PandaParserPool<>(Targets.ALL.getName()));
     }
 

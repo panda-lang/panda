@@ -62,6 +62,16 @@ public interface Type extends Metadata, Signed {
     void addInitializer(Initializer<Type> staticInitializer);
 
     /**
+     * Check if the type is the given type
+     *
+     * @param name the name to check
+     * @return true if the given name is equals to the type name
+     */
+    default boolean is(String name) {
+        return getName().equals(name);
+    }
+
+    /**
      * Check if current declaration is assignable from the given declaration
      *
      * @param type to compare with

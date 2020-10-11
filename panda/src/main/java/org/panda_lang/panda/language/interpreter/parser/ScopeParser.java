@@ -19,23 +19,35 @@ package org.panda_lang.panda.language.interpreter.parser;
 import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pool.Targets;
-import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.parser.pool.PoolParser;
+import org.panda_lang.language.interpreter.parser.pool.PoolService;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.interpreter.token.PandaSourceStream;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.token.SourceStream;
 
 public final class ScopeParser implements Parser {
 
-    private static final PoolParser<?> SCOPE_PIPELINE_PARSER = new PoolParser<>(Targets.SCOPE);
+    private final PoolParser<Object> scopePool;
 
-    public Scope parse(Context context, Scope scope, Snippet body) {
-        PandaSourceStream stream = new PandaSourceStream(body);
+    public ScopeParser(PoolService poolService) {
+        this.scopePool = poolService.getPool(Targets.SCOPE).toParser();
+    }
 
-        Context delegatedContext = context.fork()
-                .withComponent(Components.STREAM, stream)
-                .withComponent(Components.SCOPE, scope);
+    @Override
+    public String name() {
+        return "scope";
+    }
 
-        SCOPE_PIPELINE_PARSER.parse(delegatedContext, stream);
+    public Scope parse(Context<Object> context, Scope scope, Snippet body) {
+        SourceStream stream = new PandaSourceStream(body);
+
+        Context<Object> delegatedContext = context.forkCreator()
+                .withStream(stream)
+                .withScope(scope)
+                .toContext();
+
+        scopePool.parse(delegatedContext, stream);
         return scope;
     }
 

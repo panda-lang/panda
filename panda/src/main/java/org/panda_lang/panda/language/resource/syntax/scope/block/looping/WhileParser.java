@@ -18,21 +18,18 @@ package org.panda_lang.panda.language.resource.syntax.scope.block.looping;
 
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
 import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
-import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
+import org.panda_lang.panda.language.resource.syntax.scope.block.BlockParser;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.collection.Component;
 import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.concurrent.CompletableFuture;
 
-public final class WhileParser implements ContextParser<Object, WhileBlock> {
-
-    private final ScopeParser scopeParser = new ScopeParser();
+public final class WhileParser extends BlockParser<WhileBlock> {
 
     @Override
     public String name() {
@@ -41,7 +38,7 @@ public final class WhileParser implements ContextParser<Object, WhileBlock> {
 
     @Override
     public Component<?>[] targets() {
-        return ArrayUtils.of(PandaPipeline.BLOCK);
+        return ArrayUtils.of(Targets.SCOPE);
     }
 
     @Override
@@ -54,12 +51,13 @@ public final class WhileParser implements ContextParser<Object, WhileBlock> {
 
         Expression whileCondition = context.getExpressionParser().parse(context, context.getStream()).getExpression();
 
-        if (!whileCondition.getSignature().getPrimaryType().getName().equals("panda::Bool")) {
+        if (!whileCondition.getSignature().getPrimaryType().is("panda::Bool")) {
             throw new PandaParserFailure(context, context.getSource(), "Loop requires boolean as an argument");
         }
 
         WhileBlock whileBlock = new WhileBlock(context.getScope(), context.getSource().getLocation(), whileCondition);
-        scopeParser.parse(context, whileBlock, sourceReader.readBody().get());
+        context.getScope().addStatement(whileBlock);
+        SCOPE_PARSER.parse(context, whileBlock, sourceReader.readBody().get());
 
         return Option.of(CompletableFuture.completedFuture(whileBlock));
     }

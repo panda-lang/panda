@@ -19,19 +19,19 @@ package org.panda_lang.panda.language.resource.syntax.scope.block.looping;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.dynamic.ControlledScope;
 import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.architecture.statement.AbstractBlock;
 import org.panda_lang.language.architecture.statement.Scope;
-import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.interpreter.source.Localizable;
 import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.language.runtime.Result;
-import org.panda_lang.language.architecture.statement.AbstractBlock;
 import org.panda_lang.utilities.commons.function.ThrowingSupplier;
 
 final class LoopBlock extends AbstractBlock implements ControlledScope {
 
     private final Expression expression;
 
-    LoopBlock(Scope parent, Location location, Expression expression) {
-        super(parent, location);
+    LoopBlock(Scope parent, Localizable localizable, Expression expression) {
+        super(parent, localizable);
         this.expression = expression;
     }
 

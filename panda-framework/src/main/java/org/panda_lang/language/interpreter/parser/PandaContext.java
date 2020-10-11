@@ -24,7 +24,7 @@ import org.panda_lang.language.architecture.module.TypeLoader;
 import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.interpreter.logging.Logger;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.language.interpreter.parser.pool.ParserPoolService;
+import org.panda_lang.language.interpreter.parser.pool.PoolService;
 import org.panda_lang.language.interpreter.parser.stage.StageService;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.source.SourceSet;
@@ -97,7 +97,7 @@ public class PandaContext<T> implements Context<T> {
     public ExpressionParser getExpressionParser() { return creator.expressionParser; }
 
     @Override
-    public ParserPoolService getPoolService() { return creator.parserPoolService; }
+    public PoolService getPoolService() { return creator.poolService; }
 
     @Override
     public StageService getStageService() { return creator.stageService; }

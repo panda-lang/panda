@@ -25,15 +25,6 @@ import java.util.Collection;
 public final class PandaPipeline {
 
     /**
-     * Text representation of {@link PandaPipeline#BLOCK}
-     */
-    public static final String BLOCK_LABEL = "block";
-    /**
-     * Class type parsers, used by {@link org.panda_lang.panda.language.interpreter.parser.block.BlockParser}
-     */
-    public static final Component<?> BLOCK = Component.of(BLOCK_LABEL, Object.class);
-
-    /**
      * Text representation of {@link PandaPipeline#ASSIGNER}
      */
     public static final String ASSIGNER_LABEL = "assignation";
@@ -48,7 +39,7 @@ public final class PandaPipeline {
      * @return the collection of components
      */
     public static Collection<Component<?>> getPipelineComponents() {
-        return Arrays.asList(BLOCK, ASSIGNER);
+        return Arrays.asList(ASSIGNER);
     }
 
 }

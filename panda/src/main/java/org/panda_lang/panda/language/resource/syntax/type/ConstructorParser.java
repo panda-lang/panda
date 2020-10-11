@@ -92,7 +92,7 @@ public final class ConstructorParser extends AutowiredParser<Void> {
         SCOPE_PARSER.parse(context, scope, body);
 
         typeScope.getType().getSuperclass()
-                .filterNot(superclass -> superclass.getName().equals("java::Object"))
+                .filterNot(superclass -> superclass.is("java::Object"))
                 .filterNot(superclass -> superclass.getConstructors().getConstructor(new Type[0]).isDefined())
                 .filterNot(superclass -> scope.getBaseCall().isDefined())
                 .peek(superclass -> {

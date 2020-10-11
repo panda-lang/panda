@@ -24,7 +24,7 @@ import org.panda_lang.language.architecture.module.TypeLoader;
 import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.interpreter.logging.LoggerHolder;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.language.interpreter.parser.pool.ParserPoolService;
+import org.panda_lang.language.interpreter.parser.pool.PoolService;
 import org.panda_lang.language.interpreter.parser.stage.StageService;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.source.SourceSet;
@@ -67,7 +67,7 @@ public interface Context<T> extends Contextual<T>, LoggerHolder {
 
     ExpressionParser getExpressionParser();
 
-    ParserPoolService getPoolService();
+    PoolService getPoolService();
 
     StageService getStageService();
 

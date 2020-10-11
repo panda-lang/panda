@@ -7,7 +7,7 @@ import org.panda_lang.language.architecture.module.Imports;
 import org.panda_lang.language.architecture.module.TypeLoader;
 import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.language.interpreter.parser.pool.ParserPoolService;
+import org.panda_lang.language.interpreter.parser.pool.PoolService;
 import org.panda_lang.language.interpreter.parser.stage.StageService;
 import org.panda_lang.language.interpreter.source.SourceSet;
 import org.panda_lang.language.interpreter.token.Snippet;
@@ -17,7 +17,7 @@ public class PandaContextCreator<T> implements ContextCreator<T> {
 
     protected final Environment environment;
     protected final StageService stageService;
-    protected final ParserPoolService parserPoolService;
+    protected final PoolService poolService;
     protected final ExpressionParser expressionParser;
     protected final TypeLoader typeLoader;
     protected final Application application;
@@ -33,7 +33,7 @@ public class PandaContextCreator<T> implements ContextCreator<T> {
     public PandaContextCreator(
             Environment environment,
             StageService stageService,
-            ParserPoolService parserPoolService,
+            PoolService poolService,
             ExpressionParser expressionParser,
             TypeLoader typeLoader,
             Application application,
@@ -41,7 +41,7 @@ public class PandaContextCreator<T> implements ContextCreator<T> {
 
         this.environment = environment;
         this.stageService = stageService;
-        this.parserPoolService = parserPoolService;
+        this.poolService = poolService;
         this.expressionParser = expressionParser;
         this.typeLoader = typeLoader;
         this.application = application;
@@ -53,7 +53,7 @@ public class PandaContextCreator<T> implements ContextCreator<T> {
         PandaContextCreator<T> fork = new PandaContextCreator<>(
                 environment,
                 stageService,
-                parserPoolService,
+                poolService,
                 expressionParser,
                 typeLoader,
                 application,
