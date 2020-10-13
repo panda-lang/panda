@@ -14,22 +14,30 @@
  * limitations under the License.
  */
 
-package org.panda_lang.language.architecture.statement;
+package org.panda_lang.panda.language.resource.syntax.scope.variable;
 
+import org.panda_lang.language.architecture.statement.PandaVariableData;
+import org.panda_lang.language.architecture.statement.Scope;
+import org.panda_lang.language.architecture.statement.VariableData;
+import org.panda_lang.language.architecture.type.Signature;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.Snippetable;
 import org.panda_lang.language.architecture.type.VisibilityComparator;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.panda.language.resource.syntax.type.SignatureParser;
+import org.panda_lang.panda.language.resource.syntax.type.SignatureSource;
 
 import java.util.Objects;
 
-public final class PandaVariableDataInitializer {
+public final class VariableDataInitializer {
 
-    private final Context context;
+    private static final SignatureParser SIGNATURE_PARSER = new SignatureParser();
+
+    private final Context<?> context;
     private final Scope scope;
 
-    public PandaVariableDataInitializer(Context context, Scope scope) {
+    public VariableDataInitializer(Context<?> context, Scope scope) {
         this.context = context;
         this.scope = scope;
     }
@@ -47,7 +55,7 @@ public final class PandaVariableDataInitializer {
         return createVariableData(type, name, mutable, nillable);
     }
 
-    public VariableData createVariableData(Snippetable typeName, Snippetable name, boolean mutable, boolean nillable) {
+    public VariableData createVariableData(SignatureSource signatureSource, Snippetable name, boolean mutable, boolean nillable) {
         Snippet nameSource = name.toSnippet();
 
         if (nameSource.size() > 1) {
@@ -60,15 +68,10 @@ public final class PandaVariableDataInitializer {
             throw new PandaParserFailure(context, name, "Variable name is already used in the scope '" + variableName + "'");
         }
 
-        return context.getImports()
-                .forType(typeName.toSnippet().asSource())
-                .map(type -> {
-                    VisibilityComparator.requireAccess(type, context, typeName);
-                    return new PandaVariableData(null, nameSource.asSource(), mutable, nillable);
-                })
-                .orThrow(() -> {
-                    throw new PandaParserFailure(context, typeName, "Cannot recognize variable type: " + typeName);
-                });
+        Signature signature = SIGNATURE_PARSER.parse(context, signatureSource);
+        VisibilityComparator.requireAccess(signature.getPrimaryType(), context, signatureSource.getName());
+
+        return new PandaVariableData(signature, nameSource.asSource(), mutable, nillable);
     }
 
 }

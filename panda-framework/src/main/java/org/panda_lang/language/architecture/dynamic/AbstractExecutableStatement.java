@@ -16,13 +16,13 @@
 
 package org.panda_lang.language.architecture.dynamic;
 
-import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.architecture.statement.AbstractStatement;
+import org.panda_lang.language.interpreter.source.Localizable;
 
 public abstract class AbstractExecutableStatement extends AbstractStatement implements Executable {
 
-    protected AbstractExecutableStatement(Location location) {
-        super(location);
+    protected AbstractExecutableStatement(Localizable localizable) {
+        super(localizable);
     }
 
 }

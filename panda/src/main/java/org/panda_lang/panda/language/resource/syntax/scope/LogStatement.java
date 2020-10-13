@@ -20,6 +20,7 @@ import org.panda_lang.language.architecture.dynamic.AbstractExecutableStatement;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.expression.ExpressionUtils;
 import org.panda_lang.language.interpreter.logging.Logger;
+import org.panda_lang.language.interpreter.source.Localizable;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.utilities.commons.text.ContentJoiner;
@@ -29,8 +30,8 @@ final class LogStatement extends AbstractExecutableStatement {
     private final Logger logger;
     private final Expression[] expressions;
 
-    LogStatement(Location location, Logger logger, Expression[] expressions) {
-        super(location);
+    LogStatement(Localizable localizable, Logger logger, Expression[] expressions) {
+        super(localizable);
         this.logger = logger;
         this.expressions = expressions;
     }

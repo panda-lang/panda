@@ -16,30 +16,34 @@
 
 package org.panda_lang.panda.language.resource.syntax.scope;
 
-import org.panda_lang.language.architecture.statement.Scope;
+import org.panda_lang.language.architecture.statement.Variable;
 import org.panda_lang.language.architecture.statement.VariableData;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.Parser;
+import org.panda_lang.language.interpreter.parser.ContextParser;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.pool.Targets;
-import org.panda_lang.language.interpreter.token.Snippetable;
-import org.panda_lang.language.architecture.statement.PandaVariableDataInitializer;
-import org.panda_lang.language.interpreter.pattern.Mappings;
+import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.autowired.handlers.TokenHandler;
+import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
+import org.panda_lang.panda.language.resource.syntax.scope.variable.VariableDataInitializer;
+import org.panda_lang.panda.language.resource.syntax.type.SignatureSource;
 import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Option;
 
-public final class LateDeclarationParser extends AutowiredParser<Void> {
+import java.util.concurrent.CompletableFuture;
+
+public final class LateDeclarationParser implements ContextParser<Object, Variable> {
 
     @Override
-    public Target<? extends Parser>[] pipeline() {
+    public String name() {
+        return "late declaration";
+    }
+
+    @Override
+    public Component<?>[] targets() {
         return ArrayUtils.of(Targets.SCOPE);
     }
 
@@ -49,22 +53,33 @@ public final class LateDeclarationParser extends AutowiredParser<Void> {
     }
 
     @Override
-    protected AutowiredInitializer<Void> initialize(Context context, AutowiredInitializer<Void> initializer) {
-        return initializer
-                .handler(new TokenHandler(Keywords.LATE))
-                .functional(pattern -> pattern
-                        .keyword(Keywords.LATE).optional()
-                        .keyword(Keywords.MUT).optional()
-                        .keyword(Keywords.NIL).optional()
-                        .type("type").optional().verifyNextType(TokenTypes.UNKNOWN)
-                        .wildcard("name").verifyType(TokenTypes.UNKNOWN));
-    }
+    public Option<CompletableFuture<Variable>> parse(Context<Object> context) {
+        PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
-    @Autowired(order = 1)
-    public void parse(Context context, @Channel Mappings mappings, @Ctx Scope scope, @Src("type") Snippetable type, @Src("name") Snippetable name) {
-        PandaVariableDataInitializer dataInitializer = new PandaVariableDataInitializer(context, scope);
-        VariableData variableData = dataInitializer.createVariableData(type, name, mappings.has(Keywords.MUT.getValue()), mappings.has(Keywords.NIL.getValue()));
-        scope.createVariable(variableData);
+        if (sourceReader.read(Keywords.LATE).isEmpty()) {
+            return Option.none();
+        }
+
+        boolean mut = sourceReader.optionalRead(() -> sourceReader.read(Keywords.MUT)).isPresent();
+        boolean nil = sourceReader.optionalRead(() -> sourceReader.read(Keywords.NIL)).isPresent();
+
+        Option<SignatureSource> variableSignature = sourceReader.readSignature();
+
+        if (variableSignature.isEmpty()) {
+            throw new PandaParserFailure(context, context.getSource(), "Missing valid variable signature");
+        }
+
+        Option<TokenInfo> name = sourceReader.read(TokenTypes.UNKNOWN);
+
+        if (name.isEmpty()) {
+            throw new PandaParserFailure(context, context.getSource(), "Missing variable name");
+        }
+
+        VariableDataInitializer dataInitializer = new VariableDataInitializer(context, context.getScope());
+        VariableData variableData = dataInitializer.createVariableData(variableSignature.get(), name.get(), mut, nil);
+        Variable variable = context.getScope().createVariable(variableData);
+
+        return Option.of(CompletableFuture.completedFuture(variable));
     }
 
 }

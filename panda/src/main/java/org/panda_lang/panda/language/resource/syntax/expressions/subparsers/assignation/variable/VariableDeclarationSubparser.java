@@ -30,7 +30,7 @@ import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.architecture.dynamic.assigner.Assigner;
-import org.panda_lang.language.architecture.statement.PandaVariableDataInitializer;
+import org.panda_lang.panda.language.resource.syntax.scope.variable.VariableDataInitializer;
 import org.panda_lang.language.architecture.type.TypeDeclarationUtils;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.token.PandaSnippet;
@@ -122,7 +122,7 @@ public final class VariableDeclarationSubparser extends AutowiredAssignationPars
         @Channel Location location
     ) {
         Elements elements = channel.get("elements", Elements.class);
-        PandaVariableDataInitializer dataInitializer = new PandaVariableDataInitializer(context, scope);
+        VariableDataInitializer dataInitializer = new VariableDataInitializer(context, scope);
         VariableData variableData = dataInitializer.createVariableData(elements.type, elements.name, elements.mutable, elements.nillable);
 
         Variable variable = scope.createVariable(variableData);

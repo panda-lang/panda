@@ -26,7 +26,7 @@ import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.architecture.statement.PandaBlock;
-import org.panda_lang.language.architecture.statement.PandaVariableDataInitializer;
+import org.panda_lang.panda.language.resource.syntax.scope.variable.VariableDataInitializer;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
 import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
@@ -65,7 +65,7 @@ public final class TryCatchParser extends AutowiredParser<Void> {
     public void parse(Context context, @Ctx Scope parent, @Channel TryCatch tryCatch, @Src("catch-what") Snippet catchWhat, @Src("catch-body") Snippet catchBody) {
         Scope catchBlock = new PandaBlock(parent, catchWhat.getLocation());
 
-        PandaVariableDataInitializer dataInitializer = new PandaVariableDataInitializer(context, catchBlock);
+        VariableDataInitializer dataInitializer = new VariableDataInitializer(context, catchBlock);
         VariableData variableData = dataInitializer.createVariableData(catchWhat, false, false);
         Variable variable = catchBlock.createVariable(variableData);
 

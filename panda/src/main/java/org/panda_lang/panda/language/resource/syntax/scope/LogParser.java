@@ -55,7 +55,7 @@ public final class LogParser implements ContextParser<Object, LogStatement> {
                 .toArray(Expression[]::new);
 
         Logger logger = context.getLogger();
-        LogStatement statement = new LogStatement(context.getSource().getLocation(), logger, expressions);
+        LogStatement statement = new LogStatement(context.getSource(), logger, expressions);
         context.getScope().addStatement(statement);
 
         return Option.of(CompletableFuture.completedFuture(statement));

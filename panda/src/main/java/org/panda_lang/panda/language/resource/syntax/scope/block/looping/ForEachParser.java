@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.resource.syntax.scope.block.looping;
 
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.statement.PandaVariable;
-import org.panda_lang.language.architecture.statement.PandaVariableDataInitializer;
+import org.panda_lang.panda.language.resource.syntax.scope.variable.VariableDataInitializer;
 import org.panda_lang.language.architecture.statement.VariableData;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaParserException;
@@ -68,7 +68,7 @@ public final class ForEachParser extends BlockParser<ForEachBlock> {
         }
 
         ForEachBlock forEach = new ForEachBlock(context.getScope(), context, iterableExpression);
-        PandaVariableDataInitializer dataInitializer = new PandaVariableDataInitializer(context, forEach);
+        VariableDataInitializer dataInitializer = new VariableDataInitializer(context, forEach);
         VariableData variableData = dataInitializer.createVariableData(elements[0], true, true);
 
         PandaVariable forVariable = new PandaVariable(forEach.getValuePointer(), variableData);
