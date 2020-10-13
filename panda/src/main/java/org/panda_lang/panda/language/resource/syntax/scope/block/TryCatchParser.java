@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.syntax.scope;
+package org.panda_lang.panda.language.resource.syntax.scope.block;
 
 import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.architecture.statement.Variable;

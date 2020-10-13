@@ -39,7 +39,7 @@ public class SourceReader {
     }
 
     public Option<TokenInfo> read(Predicate<TokenInfo> condition) {
-        return read(tokenInfo -> true).filter(condition);
+        return read().filter(condition);
     }
 
     public Option<TokenInfo> read(Token token) {

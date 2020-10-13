@@ -16,42 +16,41 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.variable;
 
-import org.jetbrains.annotations.Nullable;
+import org.panda_lang.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.expression.ExpressionUtils;
-import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.architecture.statement.Variable;
 import org.panda_lang.language.architecture.statement.VariableData;
+import org.panda_lang.language.architecture.type.TypeDeclarationUtils;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
+import org.panda_lang.language.interpreter.parser.ContextParser;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
-import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.interpreter.token.PandaSnippet;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.TokenInfo;
-import org.panda_lang.language.architecture.dynamic.assigner.Assigner;
-import org.panda_lang.panda.language.resource.syntax.scope.variable.VariableDataInitializer;
-import org.panda_lang.language.architecture.type.TypeDeclarationUtils;
-import org.panda_lang.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.language.interpreter.token.PandaSnippet;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationPriorities;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationType;
+import org.panda_lang.panda.language.resource.syntax.scope.variable.VariableDataInitializer;
 import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.collection.Component;
 import org.panda_lang.utilities.commons.function.Option;
 
+import javax.lang.model.util.Elements;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
-public final class VariableDeclarationSubparser extends AutowiredAssignationParser {
+public final class VariableDeclarationSubparser implements ContextParser<AssignationContext, Assigner<?>> {
 
     @Override
-    public Target<? extends Parser>[] pipeline() {
+    public String name() {
+        return "variable declaration";
+    }
+
+    @Override
+    public Component<?>[] targets() {
         return ArrayUtils.of(PandaPipeline.ASSIGNER);
     }
 
@@ -61,26 +60,23 @@ public final class VariableDeclarationSubparser extends AutowiredAssignationPars
     }
 
     @Override
-    protected AutowiredInitializer<@Nullable ExpressionResult> initialize(Context context, AutowiredInitializer<@Nullable ExpressionResult> initializer) {
-        return initializer;
-    }
+    public Option<CompletableFuture<Assigner<?>>> parse(Context<AssignationContext> context) {
+        Snippet source = context.getSource();
 
-    @Override
-    protected Object customHandle(Handler handler, Context context, LocalChannel channel, Snippet source) {
         if (source.size() < 2) {
-            return false;
+            return Option.none();
         }
 
         TokenInfo name = Objects.requireNonNull(source.getLast());
 
         if (name.getType() != TokenTypes.UNKNOWN) {
-            return false;
+            return Option.none();
         }
 
         Option<Snippet> typeValue = TypeDeclarationUtils.readTypeBackwards(source.subSource(0, source.size() - 1));
 
         if (!typeValue.isPresent()) {
-            return false;
+            return Option.none();
         }
 
         Snippet type = typeValue.get();
@@ -88,7 +84,7 @@ public final class VariableDeclarationSubparser extends AutowiredAssignationPars
 
         // max amount of modifiers: mut, nil
         if (modifiers.size() > 2) {
-            return false;
+            return Option.none();
         }
 
         int mutable = modifiers.indexOf(Keywords.MUT);
@@ -104,29 +100,17 @@ public final class VariableDeclarationSubparser extends AutowiredAssignationPars
         }
 
         if (modifiers.size() > 0) {
-            return false;
+            return Option.none();
         }
 
-        channel.allocated("elements", new Elements(type, name, mutable != Snippet.NOT_FOUND, nillable != Snippet.NOT_FOUND));
-        return true;
-    }
+        boolean mut = mutable != Snippet.NOT_FOUND;
+        boolean nil = nillable != Snippet.NOT_FOUND;
 
-    @Autowired(order = 1)
-    public ExpressionResult parse(
-        Context context,
-        LocalChannel channel,
-        @Ctx Scope scope,
-        @Ctx Expression expression,
-        @Ctx ExpressionContext expressionContext,
-        @Ctx AssignationType type,
-        @Channel Location location
-    ) {
-        Elements elements = channel.get("elements", Elements.class);
-        VariableDataInitializer dataInitializer = new VariableDataInitializer(context, scope);
-        VariableData variableData = dataInitializer.createVariableData(elements.type, elements.name, elements.mutable, elements.nillable);
+        VariableDataInitializer dataInitializer = new VariableDataInitializer(context, context.getScope());
+        VariableData variableData = dataInitializer.createVariableData(type, name, mut, nil);
 
-        Variable variable = scope.createVariable(variableData);
-        expressionContext.commit(() -> scope.removeVariable(variable.getName()));
+        Variable variable = context.getScope().createVariable(variableData);
+        context.getSubject().commit(() -> context.getScope().removeVariable(variable.getName()));
 
         if (!variable.getType().isAssignableFrom(expression.getType())) {
             throw new PandaParserFailure(context, context.getComponent(Components.SOURCE).getLine(location.getLine()),
@@ -140,22 +124,6 @@ public final class VariableDeclarationSubparser extends AutowiredAssignationPars
         Assigner<Variable> assigner = accessor.toAssigner(location, true, equalizedExpression);
 
         return ExpressionResult.of(assigner);
-    }
-
-    private static final class Elements {
-
-        private final TokenInfo name;
-        private final Snippet type;
-        private final boolean mutable;
-        private final boolean nillable;
-
-        Elements(Snippet type, TokenInfo name, boolean mutable, boolean nillable) {
-            this.type = type;
-            this.name = name;
-            this.mutable = mutable;
-            this.nillable = nillable;
-        }
-
     }
 
 }

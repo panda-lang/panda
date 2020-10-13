@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parser;
 
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationSubparser;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.variable.AssignationContext;
 import org.panda_lang.utilities.commons.collection.Component;
 
 import java.util.Arrays;
@@ -31,7 +31,7 @@ public final class PandaPipeline {
     /**
      * Assigner parsers, used by {@link org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationExpressionSubparser}
      */
-    public static final Component<AssignationSubparser<?>> ASSIGNER = Component.of(ASSIGNER_LABEL, AssignationSubparser.class);
+    public static final Component<AssignationContext> ASSIGNER = Component.of(ASSIGNER_LABEL, AssignationContext.class);
 
     /**
      * Get collection of all components

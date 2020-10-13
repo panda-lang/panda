@@ -16,8 +16,11 @@
 
 package org.panda_lang.panda.language.resource.syntax.scope;
 
+import org.panda_lang.language.architecture.statement.PandaVariableData;
 import org.panda_lang.language.architecture.statement.Variable;
 import org.panda_lang.language.architecture.statement.VariableData;
+import org.panda_lang.language.architecture.type.Signature;
+import org.panda_lang.language.architecture.type.VisibilityComparator;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
@@ -27,7 +30,7 @@ import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
-import org.panda_lang.panda.language.resource.syntax.scope.variable.VariableDataInitializer;
+import org.panda_lang.panda.language.resource.syntax.type.SignatureParser;
 import org.panda_lang.panda.language.resource.syntax.type.SignatureSource;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.collection.Component;
@@ -36,6 +39,8 @@ import org.panda_lang.utilities.commons.function.Option;
 import java.util.concurrent.CompletableFuture;
 
 public final class LateDeclarationParser implements ContextParser<Object, Variable> {
+
+    private static final SignatureParser SIGNATURE_PARSER = new SignatureParser();
 
     @Override
     public String name() {
@@ -75,8 +80,10 @@ public final class LateDeclarationParser implements ContextParser<Object, Variab
             throw new PandaParserFailure(context, context.getSource(), "Missing variable name");
         }
 
-        VariableDataInitializer dataInitializer = new VariableDataInitializer(context, context.getScope());
-        VariableData variableData = dataInitializer.createVariableData(variableSignature.get(), name.get(), mut, nil);
+        Signature signature = SIGNATURE_PARSER.parse(context, variableSignature.get());
+        VisibilityComparator.requireAccess(signature.getPrimaryType(), context, variableSignature.get().getName());
+
+        VariableData variableData = new PandaVariableData(signature, name.get().getValue(), mut, nil);
         Variable variable = context.getScope().createVariable(variableData);
 
         return Option.of(CompletableFuture.completedFuture(variable));

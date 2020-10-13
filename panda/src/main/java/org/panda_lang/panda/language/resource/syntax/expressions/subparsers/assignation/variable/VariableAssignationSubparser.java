@@ -16,36 +16,32 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.variable;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.architecture.statement.Scope;
-import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
-import org.panda_lang.language.interpreter.source.Location;
-import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.interpreter.token.SourceStream;
-import org.panda_lang.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.language.architecture.dynamic.accessor.AccessorExpression;
 import org.panda_lang.language.architecture.dynamic.assigner.Assigner;
-import org.panda_lang.language.architecture.dynamic.assigner.AssignerExpression;
 import org.panda_lang.language.architecture.type.member.constructor.ConstructorScope;
+import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.language.interpreter.token.PandaSourceStream;
+import org.panda_lang.language.interpreter.token.SourceStream;
 import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationPriorities;
 import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Option;
 
-public final class VariableAssignationSubparser extends AutowiredAssignationParser {
+import java.util.concurrent.CompletableFuture;
+
+public final class VariableAssignationSubparser implements ContextParser<AssignationContext, Assigner<?>> {
 
     @Override
-    public Target<? extends Parser>[] pipeline() {
+    public String name() {
+        return "variable assignation";
+    }
+
+    @Override
+    public Component<?>[] targets() {
         return ArrayUtils.of(PandaPipeline.ASSIGNER);
     }
 
@@ -55,45 +51,28 @@ public final class VariableAssignationSubparser extends AutowiredAssignationPars
     }
 
     @Override
-    protected AutowiredInitializer<@Nullable ExpressionResult> initialize(Context context, AutowiredInitializer<@Nullable ExpressionResult> initializer) {
-        return initializer;
-    }
+    public Option<CompletableFuture<Assigner<?>>> parse(Context<AssignationContext> context) {
+        SourceStream stream = new PandaSourceStream(context.getSource());
+        ExpressionTransaction transaction = context.getExpressionParser().parse(context, stream);
 
-    @Override
-    protected Object customHandle(Handler handler, Context context, LocalChannel channel, Snippet source) {
-        ExpressionParser parser = context.getComponent(Components.EXPRESSION);
-
-        try {
-            SourceStream stream = new PandaSourceStream(source);
-            ExpressionTransaction transaction = parser.parse(context, stream);
-
-            if (stream.hasUnreadSource()) {
-                transaction.rollback();
-                return false;
-            }
-
-            if (!(transaction.getExpression() instanceof AccessorExpression)) {
-                throw new PandaParserFailure(context, source, "Expression is not accessor");
-            }
-
-            channel.allocated("accessor", transaction.getExpression());
-            return true;
-        } catch (Exception e) {
-            return e;
+        if (stream.hasUnreadSource()) {
+            transaction.rollback();
+            return Option.none();
         }
-    }
 
-    @Autowired(order = 1)
-    public ExpressionResult parse(LocalChannel channel, @Ctx Scope block, @Ctx Expression expression, @Channel Location location) {
-        Accessor<?> accessor = channel.get("accessor", AccessorExpression.class).getAccessor();
-        boolean initialization = block.getFramedScope() instanceof ConstructorScope;
-        Assigner<?> assigner = accessor.toAssigner(location, initialization, expression);
+        if (!(transaction.getExpression() instanceof AccessorExpression)) {
+            throw new PandaParserFailure(context, context.getSource(), "Expression is not accessor");
+        }
+
+        AccessorExpression accessorExpression = (AccessorExpression) transaction.getExpression();
+        boolean initialization = context.getScope().getFramedScope() instanceof ConstructorScope;
+        Assigner<?> assigner = accessorExpression.getAccessor().toAssigner(context, initialization, accessorExpression);
 
         if (initialization) {
             assigner.getAccessor().getVariable().initialize();
         }
 
-        return ExpressionResult.of(new AssignerExpression(assigner));
+        return Option.of(CompletableFuture.completedFuture(assigner));
     }
 
 }

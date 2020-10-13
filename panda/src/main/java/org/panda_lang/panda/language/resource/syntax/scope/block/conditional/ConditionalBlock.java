@@ -19,23 +19,23 @@ package org.panda_lang.panda.language.resource.syntax.scope.block.conditional;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.dynamic.ControlledScope;
 import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.architecture.statement.AbstractBlock;
 import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.architecture.statement.Statement;
-import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.interpreter.parser.PandaParserException;
+import org.panda_lang.language.interpreter.source.Localizable;
 import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.language.runtime.Result;
-import org.panda_lang.language.architecture.statement.AbstractBlock;
-import org.panda_lang.language.interpreter.parser.PandaParserException;
 
 final class ConditionalBlock extends AbstractBlock implements ControlledScope {
 
     private final Expression condition;
     private Scope elseBlock;
 
-    public ConditionalBlock(Scope parent, Location location, Expression condition) {
-        super(parent, location);
+    public ConditionalBlock(Scope parent, Localizable localizable, Expression condition) {
+        super(parent, localizable);
 
-        if (!condition.getType().getAssociatedClass().isAssignableTo(Boolean.class)) {
+        if (!condition.getKnownType().is("panda::Bool")) {
             throw new PandaParserException("Condition has to return boolean");
         }
 

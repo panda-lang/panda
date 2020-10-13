@@ -20,15 +20,13 @@ import org.panda_lang.language.architecture.statement.PandaVariableData;
 import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.architecture.statement.VariableData;
 import org.panda_lang.language.architecture.type.Signature;
+import org.panda_lang.language.architecture.type.VisibilityComparator;
 import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.Snippetable;
-import org.panda_lang.language.architecture.type.VisibilityComparator;
-import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.language.resource.syntax.type.SignatureParser;
 import org.panda_lang.panda.language.resource.syntax.type.SignatureSource;
-
-import java.util.Objects;
 
 public final class VariableDataInitializer {
 
@@ -40,19 +38,6 @@ public final class VariableDataInitializer {
     public VariableDataInitializer(Context<?> context, Scope scope) {
         this.context = context;
         this.scope = scope;
-    }
-
-    public VariableData createVariableData(Snippetable declaration, boolean mutable, boolean nillable) {
-        Snippet declarationSource = declaration.toSnippet();
-
-        if (declarationSource.size() < 2) {
-            throw new PandaParserFailure(context, declarationSource, "Lack of data");
-        }
-
-        Snippet type = declarationSource.subSource(0, declarationSource.size() - 1);
-        Snippetable name = Objects.requireNonNull(declarationSource.getLast());
-
-        return createVariableData(type, name, mutable, nillable);
     }
 
     public VariableData createVariableData(SignatureSource signatureSource, Snippetable name, boolean mutable, boolean nillable) {

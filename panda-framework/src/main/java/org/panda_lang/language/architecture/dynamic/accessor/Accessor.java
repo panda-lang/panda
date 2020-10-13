@@ -22,7 +22,7 @@ import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.statement.Variable;
 import org.panda_lang.language.architecture.type.Signature;
 import org.panda_lang.language.architecture.type.Signed;
-import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.interpreter.source.Localizable;
 import org.panda_lang.language.runtime.MemoryContainer;
 import org.panda_lang.language.runtime.ProcessStack;
 
@@ -30,7 +30,7 @@ public interface Accessor<T extends Variable> extends Signed {
 
     MemoryContainer fetchMemoryContainer(ProcessStack stack, Object instance) throws Exception;
 
-    Assigner<T> toAssigner(Location location, boolean initialize, Expression value);
+    Assigner<T> toAssigner(Localizable localizable, boolean initialize, Expression value);
 
     @Nullable <R> R getValue(ProcessStack stack, Object instance) throws Exception;
 
