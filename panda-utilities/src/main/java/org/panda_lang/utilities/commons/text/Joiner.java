@@ -20,23 +20,28 @@ import org.panda_lang.utilities.commons.StringUtils;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public final class ContentJoiner {
+public final class Joiner {
 
     private final String separator;
     private final StringBuilder builder;
 
-    private ContentJoiner(String separator) {
+    private Joiner(String separator) {
         this.separator = separator;
         this.builder = new StringBuilder();
     }
 
-    public <T> ContentJoiner join(T[] elements, Function<T, ?> mapper) {
+    public <T> Joiner join(T[] elements, Function<T, ?> mapper) {
         return join(Arrays.asList(elements), mapper);
     }
 
-    public <T> ContentJoiner join(Collection<T> elements, Function<T, ?> mapper) {
+    public <T> Joiner join(T[] elements, BiFunction<Integer, T, ?> mapper) {
+        return join(Arrays.asList(elements), mapper);
+    }
+
+    public <T> Joiner join(Iterable<T> elements, Function<T, ?> mapper) {
         for (T element : elements) {
             append(mapper.apply(element));
         }
@@ -44,12 +49,22 @@ public final class ContentJoiner {
         return this;
     }
 
+    public <T> Joiner join(Iterable<T> elements, BiFunction<Integer, T, ?> mapper) {
+        int index = 0;
+
+        for (T element : elements) {
+            append(mapper.apply(index++, element));
+        }
+
+        return this;
+    }
+
     @SafeVarargs
-    public final <T> ContentJoiner join(T... elements) {
+    public final <T> Joiner join(T... elements) {
         return join(Arrays.asList(elements));
     }
 
-    public ContentJoiner join(Collection<?> elements) {
+    public Joiner join(Collection<?> elements) {
         for (Object element : elements) {
             append(element);
         }
@@ -57,18 +72,20 @@ public final class ContentJoiner {
         return this;
     }
 
-    public ContentJoiner append(Object element) {
+    public Joiner append(Object element) {
         builder.append(element).append(separator);
         return this;
     }
 
     @Override
     public String toString() {
-        return builder.length() == 0 ? StringUtils.EMPTY : builder.substring(0, builder.length() - separator.length());
+        return builder.length() == 0
+                ? StringUtils.EMPTY
+                : builder.substring(0, builder.length() - separator.length());
     }
 
-    public static ContentJoiner on(String separator) {
-        return new ContentJoiner(separator);
+    public static Joiner on(String separator) {
+        return new Joiner(separator);
     }
 
 }

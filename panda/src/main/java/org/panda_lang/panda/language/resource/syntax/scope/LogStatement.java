@@ -21,9 +21,8 @@ import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.expression.ExpressionUtils;
 import org.panda_lang.language.interpreter.logging.Logger;
 import org.panda_lang.language.interpreter.source.Localizable;
-import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.runtime.ProcessStack;
-import org.panda_lang.utilities.commons.text.ContentJoiner;
+import org.panda_lang.utilities.commons.text.Joiner;
 
 final class LogStatement extends AbstractExecutableStatement {
 
@@ -39,7 +38,7 @@ final class LogStatement extends AbstractExecutableStatement {
     @Override
     public Object execute(ProcessStack stack, Object instance) throws Exception {
         Object[] values = ExpressionUtils.evaluate(stack, instance, expressions);
-        logger.info(ContentJoiner.on(", ").join(values).toString());
+        logger.info(Joiner.on(", ").join(values).toString());
         return values;
     }
 

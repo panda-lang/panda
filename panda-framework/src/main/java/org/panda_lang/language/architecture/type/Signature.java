@@ -2,7 +2,7 @@ package org.panda_lang.language.architecture.type;
 
 import org.panda_lang.language.architecture.module.TypeLoader;
 import org.panda_lang.utilities.commons.function.Result;
-import org.panda_lang.utilities.commons.text.ContentJoiner;
+import org.panda_lang.utilities.commons.text.Joiner;
 
 import java.util.Arrays;
 
@@ -96,7 +96,7 @@ public final class Signature {
 
     @Override
     public String toString() {
-        return getType().map(Type::getSimpleName).getAny() + "<" + ContentJoiner.on(" & ").join(generics) + ">";
+        return getType().map(Type::getSimpleName).getAny() + "<" + Joiner.on(" & ").join(generics) + ">";
     }
 
     public Type getPrimaryType() {

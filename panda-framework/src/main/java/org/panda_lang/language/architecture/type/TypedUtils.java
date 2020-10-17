@@ -16,7 +16,7 @@
 
 package org.panda_lang.language.architecture.type;
 
-import org.panda_lang.utilities.commons.text.ContentJoiner;
+import org.panda_lang.utilities.commons.text.Joiner;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -43,7 +43,7 @@ public final class TypedUtils {
     }
 
     public static String toString(Collection<? extends Signed> typed) {
-        return ContentJoiner.on(", ")
+        return Joiner.on(", ")
                 .join(toTypesStream(typed)
                     .map(Signature::toString)
                     .toArray())

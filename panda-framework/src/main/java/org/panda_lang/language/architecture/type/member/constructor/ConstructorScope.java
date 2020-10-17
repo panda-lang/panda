@@ -18,6 +18,7 @@ package org.panda_lang.language.architecture.type.member.constructor;
 
 import org.panda_lang.language.architecture.type.TypeInstance;
 import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
+import org.panda_lang.language.interpreter.source.Localizable;
 import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.runtime.ProcessStack;
@@ -28,8 +29,8 @@ import java.util.List;
 
 public final class ConstructorScope extends AbstractPropertyFramedScope {
 
-    public ConstructorScope(Location location, List<PropertyParameter> parameters) {
-        super(location, parameters);
+    public ConstructorScope(Localizable localizable, List<PropertyParameter> parameters) {
+        super(localizable, parameters);
     }
 
     @Override

@@ -51,15 +51,13 @@ public interface ContextParser<T, R> extends Parser {
      *
      * @param context the context used to initialize parser
      */
-    default void initialize(Context<T> context) { }
+    default void initialize(Context<? extends T> context) { }
 
     /**
      * Parse context
      *
      * @param context set of information about source and interpretation process
      */
-    Option<CompletableFuture<R>> parse(Context<T> context);
-
-
+    Option<CompletableFuture<R>> parse(Context<? extends T> context);
 
 }

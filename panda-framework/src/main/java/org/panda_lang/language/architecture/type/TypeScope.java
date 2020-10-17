@@ -19,18 +19,20 @@ package org.panda_lang.language.architecture.type;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.PandaFrameworkException;
 import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.architecture.statement.AbstractFramedScope;
 import org.panda_lang.language.architecture.type.member.constructor.TypeConstructor;
 import org.panda_lang.language.architecture.type.member.field.TypeField;
+import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
 import org.panda_lang.language.interpreter.source.Location;
-import org.panda_lang.language.runtime.ProcessStack;
-import org.panda_lang.language.architecture.statement.AbstractFramedScope;
 import org.panda_lang.language.runtime.PandaRuntimeException;
+import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.function.Option;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.List;
 
 public final class TypeScope extends AbstractFramedScope {
 
@@ -41,7 +43,7 @@ public final class TypeScope extends AbstractFramedScope {
         this.type = type;
     }
 
-    public TypeInstance createInstance(ProcessStack stack, @Nullable Object instance, TypeConstructor constructor, Class<?>[] parameterTypes, Object[] arguments) throws Exception {
+    public TypeInstance createInstance(ProcessStack stack, @Nullable Object instance, TypeConstructor constructor, List<PropertyParameter> parameters, Object[] arguments) throws Exception {
         Object[] baseArguments = constructor.getBaseCall()
                 .flatMap(call -> Option.attempt(Exception.class, () -> call.evaluate(stack, instance)))
                 .orElseGet(() -> new Object[0]);
@@ -50,7 +52,7 @@ public final class TypeScope extends AbstractFramedScope {
         TypeInstance typeInstance;
 
         try {
-            typeInstance = getConstructor(parameterTypes).newInstance(ArrayUtils.merge(typeFrame, arguments, Object[]::new));
+            typeInstance = getConstructor(parameters).newInstance(ArrayUtils.merge(typeFrame, arguments, Object[]::new));
         } catch (InvocationTargetException targetException) {
             throw new PandaRuntimeException(targetException.getTargetException().getMessage(), targetException.getTargetException());
         }
@@ -73,7 +75,7 @@ public final class TypeScope extends AbstractFramedScope {
     }
 
     @SuppressWarnings("unchecked")
-    private Constructor<? extends TypeInstance> getConstructor(Class<?>[] parameterTypes) {
+    private Constructor<? extends TypeInstance> getConstructor(List<PropertyParameter> parameters) {
         parameterTypes = ArrayUtils.merge(TypeFrame.class, parameterTypes, Class[]::new);
 
         try {

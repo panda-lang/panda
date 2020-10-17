@@ -39,10 +39,10 @@ public final class ScopeParser implements Parser {
         return "scope";
     }
 
-    public Scope parse(Context<Object> context, Scope scope, Snippet body) {
+    public Scope parse(Context<?> context, Scope scope, Snippet body) {
         SourceStream stream = new PandaSourceStream(body);
 
-        Context<Object> delegatedContext = context.forkCreator()
+        Context<?> delegatedContext = context.forkCreator()
                 .withStream(stream)
                 .withScope(scope)
                 .toContext();

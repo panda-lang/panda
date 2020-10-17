@@ -17,7 +17,7 @@
 package org.panda_lang.utilities.commons;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.utilities.commons.text.ContentJoiner;
+import org.panda_lang.utilities.commons.text.Joiner;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -485,7 +485,7 @@ public final class StringUtils {
         }
 
         if (object.getClass().isArray()) {
-            return ContentJoiner.on(", ").join((Object[]) object).toString();
+            return Joiner.on(", ").join((Object[]) object).toString();
         }
 
         return object.toString();

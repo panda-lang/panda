@@ -17,18 +17,18 @@
 package org.panda_lang.language.architecture.statement;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.interpreter.source.Localizable;
 
 public abstract class AbstractFramedScope extends AbstractScope implements FramedScope {
 
     protected int pointers;
 
-    protected AbstractFramedScope(@Nullable Scope parent, Location location) {
-        super(null, parent, location);
+    protected AbstractFramedScope(@Nullable Scope parent, Localizable localizable) {
+        super(null, parent, localizable);
     }
 
-    protected AbstractFramedScope(Location location) {
-        this(null, location);
+    protected AbstractFramedScope(Localizable localizable) {
+        this(null, localizable);
     }
 
     @Override

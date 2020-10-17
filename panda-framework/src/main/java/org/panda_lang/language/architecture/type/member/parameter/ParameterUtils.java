@@ -21,7 +21,7 @@ import org.panda_lang.language.architecture.statement.AbstractPropertyFramedScop
 import org.panda_lang.language.architecture.type.Signature;
 import org.panda_lang.language.architecture.type.member.MemberFrameImpl;
 import org.panda_lang.language.runtime.PandaRuntimeException;
-import org.panda_lang.utilities.commons.text.ContentJoiner;
+import org.panda_lang.utilities.commons.text.Joiner;
 
 import java.util.List;
 
@@ -65,7 +65,7 @@ public final class ParameterUtils {
     }
 
     public static String toString(PropertyParameter... parameters) {
-        return ContentJoiner.on(", ")
+        return Joiner.on(", ")
                 .join(parameters, parameter -> parameter.getSignature() + " " + parameter.getName())
                 .toString();
     }

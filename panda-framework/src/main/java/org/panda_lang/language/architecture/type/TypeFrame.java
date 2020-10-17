@@ -27,18 +27,18 @@ public final class TypeFrame extends AbstractFrame<TypeScope> {
 
     protected final int id;
     protected final Process process;
-    protected final Object[] base;
+    protected final Object[] baseArguments;
 
-    public TypeFrame(Process process, TypeScope scope, Object[] base) {
+    public TypeFrame(Process process, TypeScope scope, Object[] baseArguments) {
         super(scope, scope.getType().getFields().getDeclaredProperties().size());
 
         this.id = ID.getAndIncrement();
         this.process = process;
-        this.base = base;
+        this.baseArguments = baseArguments;
     }
 
-    public Object[] getBase() {
-        return base;
+    public Object[] getBaseArguments() {
+        return baseArguments;
     }
 
     public Process getProcess() {

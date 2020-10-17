@@ -43,7 +43,7 @@ public interface Member extends Metadata {
      *
      * @return array of used by parameter types
      */
-    Signature[] getParameterTypes();
+    Signature[] getParameterSignatures();
 
     /**
      * Get parameters used by executable

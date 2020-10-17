@@ -43,7 +43,7 @@ import org.panda_lang.language.resource.syntax.separator.Separators;
 import org.panda_lang.utilities.commons.ObjectUtils;
 import org.panda_lang.utilities.commons.console.Effect;
 import org.panda_lang.utilities.commons.function.Option;
-import org.panda_lang.utilities.commons.text.ContentJoiner;
+import org.panda_lang.utilities.commons.text.Joiner;
 
 import java.util.List;
 
@@ -139,7 +139,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
 
                 if (!propertiesLike.isEmpty()) {
                     similar = "Similar methods:" + Effect.LINE_SEPARATOR;
-                    similar += ContentJoiner.on(Effect.LINE_SEPARATOR.toString()).join(propertiesLike, method -> {
+                    similar += Joiner.on(Effect.LINE_SEPARATOR.toString()).join(propertiesLike, method -> {
                         return "  • &7" + method.getName() + "&r";
                     });
                 }

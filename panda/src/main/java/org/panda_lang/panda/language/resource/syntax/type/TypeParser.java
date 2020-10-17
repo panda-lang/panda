@@ -206,7 +206,7 @@ public final class TypeParser implements ContextParser<Object, Type> {
                     .mapOpt(base -> base.getType().toOption())
                     .flatMapStream(base -> base.getMethods().getProperties().stream())
                     .filter(TypeMethod::isAbstract)
-                    .filter(method -> !type.getMethods().getMethod(method.getSimpleName(), method.getParameterTypes()).isDefined())
+                    .filter(method -> !type.getMethods().getMethod(method.getSimpleName(), method.getParameterSignatures()).isDefined())
                     .forEach(method -> {
                         throw new PandaParserFailure(context, type.getLocation(),
                                 "Missing implementation of &1" + method + "&r in &1" + type + "&r",

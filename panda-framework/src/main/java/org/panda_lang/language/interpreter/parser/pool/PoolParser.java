@@ -42,11 +42,11 @@ public final class PoolParser<T> implements Parser {
      * @param streamable the source to parse
      * @return true if succeed, otherwise false
      */
-    public boolean parse(Context<T> context, Streamable streamable) {
+    public boolean parse(Context<? extends T> context, Streamable streamable) {
         SourceStream stream = streamable.toStream();
 
         while (stream.hasUnreadSource()) {
-            Context<T> delegatedContext = context.forkCreator()
+            Context<? extends T> delegatedContext = context.forkCreator()
                     .withSource(stream.toSnippet())
                     .withStream(stream)
                     .toContext();
@@ -59,7 +59,7 @@ public final class PoolParser<T> implements Parser {
         return true;
     }
 
-    private boolean parseNext(Context<T> delegatedContext) {
+    private boolean parseNext(Context<? extends T> delegatedContext) {
         SourceStream stream = delegatedContext.getStream();
         int sourceLength = stream.getUnreadLength();
 

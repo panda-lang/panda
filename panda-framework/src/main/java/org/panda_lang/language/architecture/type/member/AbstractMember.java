@@ -21,6 +21,7 @@ import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.Visibility;
 import org.panda_lang.language.architecture.type.member.parameter.ParameterUtils;
 import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
+import org.panda_lang.language.interpreter.source.Localizable;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.runtime.ProcessStack;
 
@@ -50,7 +51,7 @@ public abstract class AbstractMember<E extends Member> extends AbstractMetadata 
     }
 
     @Override
-    public Signature[] getParameterTypes() {
+    public Signature[] getParameterSignatures() {
         return Arrays.stream(getParameters())
                 .map(PropertyParameter::getSignature)
                 .toArray(Signature[]::new);
@@ -97,8 +98,8 @@ public abstract class AbstractMember<E extends Member> extends AbstractMetadata 
             return returnThis();
         }
 
-        public T location(Location location) {
-            this.location = location;
+        public T location(Localizable localizable) {
+            this.location = localizable.toLocation();
             return returnThis();
         }
 

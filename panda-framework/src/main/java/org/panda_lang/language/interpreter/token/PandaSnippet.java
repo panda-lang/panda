@@ -17,7 +17,7 @@
 package org.panda_lang.language.interpreter.token;
 
 import org.panda_lang.utilities.commons.ObjectUtils;
-import org.panda_lang.utilities.commons.text.ContentJoiner;
+import org.panda_lang.utilities.commons.text.Joiner;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -72,7 +72,7 @@ public final class PandaSnippet implements Snippet {
 
     @Override
     public String toString() {
-        return ContentJoiner.on(" ")
+        return Joiner.on(" ")
                 .join(tokens, Object::toString)
                 .toString();
     }
