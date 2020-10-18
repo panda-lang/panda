@@ -25,7 +25,7 @@ import org.panda_lang.utilities.commons.ArrayUtils;
 
 final class OperationExpressionUtils {
 
-    static final Token[] OPERATORS = ArrayUtils.mergeArrays(
+    static final Token[] OPERATORS = ArrayUtils.merge(
             Operators.getFamily(OperatorFamilies.MATH),
             Operators.getFamily(OperatorFamilies.LOGICAL)
     );

@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.resource.syntax.type;
 
+import javassist.CannotCompileException;
 import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.architecture.type.PandaType;
 import org.panda_lang.language.architecture.type.Reference;
@@ -23,6 +24,7 @@ import org.panda_lang.language.architecture.type.Signature;
 import org.panda_lang.language.architecture.type.State;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.TypeContext;
+import org.panda_lang.language.architecture.type.TypeGenerator;
 import org.panda_lang.language.architecture.type.TypeScope;
 import org.panda_lang.language.architecture.type.Visibility;
 import org.panda_lang.language.architecture.type.member.constructor.PandaConstructor;
@@ -52,12 +54,14 @@ import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.PandaStream;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 public final class TypeParser implements ContextParser<Object, Type> {
 
+    private static final TypeGenerator TYPE_GENERATOR = new TypeGenerator();
     private static final SignatureParser SIGNATURE_PARSER = new SignatureParser();
     private PoolParser<TypeContext> typePoolParser;
 
@@ -72,12 +76,12 @@ public final class TypeParser implements ContextParser<Object, Type> {
     }
 
     @Override
-    public void initialize(Context<Object> context) {
+    public void initialize(Context<?> context) {
         this.typePoolParser = context.getPoolService().getPool(Targets.TYPE).toParser();
     }
 
     @Override
-    public Option<CompletableFuture<Type>> parse(Context<Object> context) {
+    public Option<CompletableFuture<Type>> parse(Context<?> context) {
         PandaSourceReader reader = new PandaSourceReader(context.getStream());
 
         // read optional visibility
@@ -176,7 +180,11 @@ public final class TypeParser implements ContextParser<Object, Type> {
             });
 
             stageService.delegate("generate class", Phases.INITIALIZE, Layer.NEXT_DEFAULT, initializePhase -> {
-                associatedType.complete(Object.class); // generate class
+                try {
+                    associatedType.complete(TYPE_GENERATOR.generate(type));
+                } catch (CannotCompileException exception) {
+                    throw new PandaParserFailure(context, context.getSource(), "Cannot generate associated java type" + exception);
+                }
             });
 
             stageService.delegate("initialize fields", Phases.INITIALIZE, Layer.NEXT_DEFAULT, initializePhase -> {
@@ -221,7 +229,7 @@ public final class TypeParser implements ContextParser<Object, Type> {
                     .find(constructor -> constructor.getParameters().length > 0)
                     .peek(constructorWithParameters -> {
                         throw new PandaParserFailure(context, constructorWithParameters.getLocation(),
-                                "Type " + type + " does not implement any constructor from the base type " + constructorWithParameters.getSignature(),
+                                "Type " + type + " does not implement any constructor from the base type " + constructorWithParameters.getType(),
                                 "Some of the overridden types may contain custom constructors. To properly initialize object, you have to call one of them."
                         );
                     });
@@ -229,7 +237,7 @@ public final class TypeParser implements ContextParser<Object, Type> {
             type.getConstructors().declare(PandaConstructor.builder()
                     .type(type)
                     .callback((typeConstructor, frame, instance, arguments) -> {
-                        return context.getSubject().getScope().createInstance(frame, instance, typeConstructor, new Class<?>[0], arguments);
+                        return context.getSubject().getScope().createInstance(frame, instance, typeConstructor, Collections.emptyList(), arguments);
                     })
                     .location(type.getLocation())
                     .build());

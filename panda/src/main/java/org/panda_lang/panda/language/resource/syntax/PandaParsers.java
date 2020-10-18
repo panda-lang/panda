@@ -27,7 +27,6 @@ import org.panda_lang.panda.language.resource.syntax.scope.LateDeclarationParser
 import org.panda_lang.panda.language.resource.syntax.scope.LogParser;
 import org.panda_lang.panda.language.resource.syntax.scope.StandaloneExpressionParser;
 import org.panda_lang.panda.language.resource.syntax.scope.block.TryCatchParser;
-import org.panda_lang.panda.language.resource.syntax.scope.block.conditional.ConditionalParser;
 import org.panda_lang.panda.language.resource.syntax.scope.block.conditional.ElseIfParser;
 import org.panda_lang.panda.language.resource.syntax.scope.block.conditional.ElseParser;
 import org.panda_lang.panda.language.resource.syntax.scope.block.conditional.IfParser;

@@ -8,12 +8,14 @@ import javassist.CtField;
 import javassist.CtMethod;
 import org.panda_lang.language.architecture.type.member.constructor.TypeConstructor;
 import org.panda_lang.language.architecture.type.member.method.TypeMethod;
+import org.panda_lang.language.architecture.type.member.parameter.ParameterUtils;
+import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.ClassPoolUtils;
 import org.panda_lang.utilities.commons.StringUtils;
 import org.panda_lang.utilities.commons.javassist.CtCode;
 import org.panda_lang.utilities.commons.text.Joiner;
 
-final class TypeGenerator {
+public final class TypeGenerator {
 
     private static final ClassPool CLASS_POOL = ClassPool.getDefault();
     private static final CtClass CT_TYPE_INSTANCE_CLASS = ClassPoolUtils.require(TypeInstance.class);
@@ -66,7 +68,8 @@ final class TypeGenerator {
         {
 
             for (TypeConstructor constructor : type.getConstructors().getDeclaredProperties()) {
-                CtConstructor javaConstructor = new CtConstructor(CONSTRUCTOR_PARAMETERS, javaType);
+                CtClass[] parameters = ClassPoolUtils.toCt(ParameterUtils.parametersToClasses(constructor.getParameters()));
+                CtConstructor javaConstructor = new CtConstructor(ArrayUtils.merge(CONSTRUCTOR_PARAMETERS, parameters), javaType);
                 javaType.addConstructor(javaConstructor);
 
                 String baseCall = StringUtils.EMPTY;
@@ -94,9 +97,10 @@ final class TypeGenerator {
 
         {
             for (TypeMethod method : type.getMethods().getDeclaredProperties()) {
-
+                CtClass[] parameters = ClassPoolUtils.toCt(ParameterUtils.parametersToClasses(method.getParameters()));
+                CtMethod javaMethod = new CtMethod(ClassPoolUtils.require(method.getReturnType().getPrimaryType().getAssociated().get()), method.getName(), parameters, javaType);
+                javaType.addMethod(javaMethod);
             }
-
         }
 
         // convert

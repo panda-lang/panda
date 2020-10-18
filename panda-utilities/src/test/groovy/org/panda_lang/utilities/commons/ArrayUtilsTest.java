@@ -49,8 +49,8 @@ final class ArrayUtilsTest {
                 "a", "b", "c", null
         };
 
-        assertArrayEquals(merged, ArrayUtils.mergeArrays(ARRAY, ARRAY_WITH_NULL));
-        assertArrayEquals(merged, ArrayUtils.mergeArrays(String[]::new, ARRAY, ARRAY_WITH_NULL));
+        assertArrayEquals(merged, ArrayUtils.merge(ARRAY, ARRAY_WITH_NULL));
+        assertArrayEquals(merged, ArrayUtils.merge(String[]::new, ARRAY, ARRAY_WITH_NULL));
     }
 
     @Test

@@ -23,7 +23,9 @@ import org.panda_lang.language.architecture.type.member.MemberFrameImpl;
 import org.panda_lang.language.runtime.PandaRuntimeException;
 import org.panda_lang.utilities.commons.text.Joiner;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 public final class ParameterUtils {
 
@@ -62,6 +64,22 @@ public final class ParameterUtils {
         }
 
         return types;
+    }
+
+    public static Class<?>[] parametersToClasses(List<PropertyParameter> parameters) {
+        return parametersToClasses(parameters.stream());
+    }
+
+    public static Class<?>[] parametersToClasses(PropertyParameter[] parameters) {
+        return parametersToClasses(Arrays.stream(parameters));
+    }
+
+    private static Class<?>[] parametersToClasses(Stream<PropertyParameter> parameterStream) {
+        return parameterStream
+                .map(PropertyParameter::getSignature)
+                .map(Signature::getPrimaryType)
+                .map(primary -> primary.getAssociated().get())
+                .toArray(Class<?>[]::new);
     }
 
     public static String toString(PropertyParameter... parameters) {

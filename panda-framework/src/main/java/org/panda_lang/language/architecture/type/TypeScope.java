@@ -22,6 +22,7 @@ import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.statement.AbstractFramedScope;
 import org.panda_lang.language.architecture.type.member.constructor.TypeConstructor;
 import org.panda_lang.language.architecture.type.member.field.TypeField;
+import org.panda_lang.language.architecture.type.member.parameter.ParameterUtils;
 import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.runtime.PandaRuntimeException;
@@ -76,7 +77,7 @@ public final class TypeScope extends AbstractFramedScope {
 
     @SuppressWarnings("unchecked")
     private Constructor<? extends TypeInstance> getConstructor(List<PropertyParameter> parameters) {
-        parameterTypes = ArrayUtils.merge(TypeFrame.class, parameterTypes, Class[]::new);
+        Class<?>[] parameterTypes = ArrayUtils.merge(TypeFrame.class, ParameterUtils.parametersToClasses(parameters), Class[]::new);
 
         try {
             return (Constructor<? extends TypeInstance>) type.getAssociated().get().getConstructor(parameterTypes);

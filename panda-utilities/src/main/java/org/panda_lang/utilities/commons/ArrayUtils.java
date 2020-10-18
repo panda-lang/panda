@@ -67,12 +67,12 @@ public final class ArrayUtils {
      */
     @SafeVarargs
     @SuppressWarnings("unchecked")
-    public static <T> T[] mergeArrays(T[]... arrays) {
+    public static <T> T[] merge(T[]... arrays) {
         if (isEmpty(arrays)) {
             throw new IllegalArgumentException("Merge arrays requires at least one array as argument");
         }
 
-        return mergeArrays(length -> (T[]) Array.newInstance(arrays[0].getClass().getComponentType(), length), arrays);
+        return merge(length -> (T[]) Array.newInstance(arrays[0].getClass().getComponentType(), length), arrays);
     }
 
     /**
@@ -84,7 +84,7 @@ public final class ArrayUtils {
      * @return the merged array
      */
     @SafeVarargs
-    public static <T> T[] mergeArrays(Function<Integer, T[]> arrayFunction, T[]... arrays) {
+    public static <T> T[] merge(Function<Integer, T[]> arrayFunction, T[]... arrays) {
         T[] merged = arrayFunction.apply(length(arrays));
         int index = 0;
 
