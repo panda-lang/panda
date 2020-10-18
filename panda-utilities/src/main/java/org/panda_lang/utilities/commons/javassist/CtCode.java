@@ -36,7 +36,6 @@ public final class CtCode<T extends CtBehavior> {
     }
 
     public T compile(String... lines) throws CannotCompileException {
-        // System.out.println("{ " + formatter.format(StringUtils.join(lines)) + " }");
         behavior.setBody("{ " + formatter.format(StringUtils.join(lines)) + " }");
         return behavior;
     }
