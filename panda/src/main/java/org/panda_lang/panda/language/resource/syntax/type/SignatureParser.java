@@ -6,8 +6,17 @@ import org.panda_lang.language.architecture.type.Signature;
 import org.panda_lang.language.architecture.type.Signature.Relation;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.Parser;
+import org.panda_lang.language.interpreter.token.PandaSourceStream;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.token.SourceStream;
+import org.panda_lang.language.resource.syntax.separator.Separators;
+import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.utilities.commons.function.Result;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class SignatureParser implements Parser {
 
@@ -32,6 +41,22 @@ public final class SignatureParser implements Parser {
                 .toArray(Signature[]::new);
 
         return new Signature(context.getTypeLoader(), type, generics, Relation.DIRECT);
+    }
+
+    public List<SignatureSource> readSignatures(Snippet source) {
+        Snippet[] sources = source.split(Separators.COMMA);
+        List<SignatureSource> signatures = new ArrayList<>((source.size() / 3) + 1);
+
+        for (Snippet signatureSource : sources) {
+            SourceStream signatureSourceStream = new PandaSourceStream(signatureSource);
+            PandaSourceReader signatureReader = new PandaSourceReader(signatureSourceStream);
+
+            signatures.add(signatureReader.readSignature().orThrow(() -> {
+                throw new PandaParserFailure(source, signatureSource, "Invalid signature");
+            }));
+        }
+
+        return signatures;
     }
 
 }

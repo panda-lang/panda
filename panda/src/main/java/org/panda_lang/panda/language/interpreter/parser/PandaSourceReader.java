@@ -1,12 +1,10 @@
 package org.panda_lang.panda.language.interpreter.parser;
 
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.SourceReader;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.language.interpreter.token.PandaSnippet;
-import org.panda_lang.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.SourceStream;
 import org.panda_lang.language.interpreter.token.TokenInfo;
@@ -14,6 +12,7 @@ import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.language.resource.syntax.operator.Operators;
 import org.panda_lang.language.resource.syntax.separator.Separators;
+import org.panda_lang.panda.language.resource.syntax.type.SignatureParser;
 import org.panda_lang.panda.language.resource.syntax.type.SignatureSource;
 import org.panda_lang.utilities.commons.function.Option;
 
@@ -22,6 +21,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class PandaSourceReader extends SourceReader {
+
+    private static final SignatureParser SIGNATURE_PARSER = new SignatureParser();
 
     public PandaSourceReader(SourceStream stream) {
         super(stream);
@@ -40,27 +41,13 @@ public class PandaSourceReader extends SourceReader {
     public Option<SignatureSource> readSignature() {
         return read(TokenTypes.UNKNOWN)
                 .flatMap(name -> readGenerics()
-                    .map(section -> readSignatures(section.getContent()))
+                    .map(section -> SIGNATURE_PARSER.readSignatures(section.getContent()))
                     .orElse(Collections.emptyList())
                     .map(generics -> new SignatureSource(name, generics))
                 );
     }
 
-    private List<SignatureSource> readSignatures(Snippet source) {
-        Snippet[] sources = source.split(Separators.COMMA);
-        List<SignatureSource> signatures = new ArrayList<>((source.size() / 3) + 1);
 
-        for (Snippet signatureSource : sources) {
-            SourceStream signatureSourceStream = new PandaSourceStream(signatureSource);
-            PandaSourceReader signatureReader = new PandaSourceReader(signatureSourceStream);
-
-            signatures.add(signatureReader.readSignature().orThrow(() -> {
-                throw new PandaParserFailure(source, signatureSource, "Invalid signature");
-            }));
-        }
-
-        return signatures;
-    }
 
     public Option<Section> readGenerics() {
         return readBetween(Operators.ANGLE_LEFT, Operators.ANGLE_RIGHT);

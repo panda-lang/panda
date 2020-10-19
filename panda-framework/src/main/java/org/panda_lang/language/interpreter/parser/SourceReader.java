@@ -1,5 +1,7 @@
 package org.panda_lang.language.interpreter.parser;
 
+import org.panda_lang.language.interpreter.source.Localizable;
+import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.token.PandaSnippet;
 import org.panda_lang.language.interpreter.token.SourceStream;
 import org.panda_lang.language.interpreter.token.Token;
@@ -17,7 +19,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-public class SourceReader {
+public class SourceReader implements Localizable {
 
     protected final SourceStream stream;
 
@@ -97,6 +99,11 @@ public class SourceReader {
         }
 
         return Option.of(section);
+    }
+
+    @Override
+    public Location toLocation() {
+        return stream.toLocation();
     }
 
 }

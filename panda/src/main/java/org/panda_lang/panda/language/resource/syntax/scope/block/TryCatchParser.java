@@ -16,66 +16,79 @@
 
 package org.panda_lang.panda.language.resource.syntax.scope.block;
 
+import org.panda_lang.language.architecture.statement.PandaBlock;
 import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.architecture.statement.Variable;
 import org.panda_lang.language.architecture.statement.VariableData;
-import org.panda_lang.language.architecture.type.DynamicClass;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pool.Targets;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.architecture.statement.PandaBlock;
-import org.panda_lang.panda.language.resource.syntax.scope.variable.VariableDataInitializer;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.autowired.handlers.TokenHandler;
-import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
+import org.panda_lang.panda.language.resource.syntax.scope.variable.VariableDataInitializer;
+import org.panda_lang.utilities.commons.function.Option;
 
-public final class TryCatchParser extends AutowiredParser<Void> {
+import java.util.concurrent.CompletableFuture;
 
-    private static final ScopeParser SCOPE_PARSER = new ScopeParser();
+public final class TryCatchParser extends BlockParser<TryCatch> {
 
     @Override
-    public Target<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(Targets.SCOPE);
+    public String name() {
+        return "try-catch";
     }
 
     @Override
-    protected AutowiredInitializer<Void> initialize(Context context, AutowiredInitializer<Void> initializer) {
-        return initializer
-                .handler(new TokenHandler(Keywords.TRY))
-                .linear("try try-body:{~} catch catch-what:(~) catch-body:{~}");
-    }
+    public Option<CompletableFuture<TryCatch>> parse(Context<?> context) {
+        PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
+        Location tryLocation = sourceReader.toLocation();
 
-    @Autowired(order = 1)
-    public void parse(Context context, LocalChannel channel, @Ctx Scope parent, @Channel Location location, @Src("try-body") Snippet tryBody) {
-        Scope tryBlock = SCOPE_PARSER.parse(context, new PandaBlock(parent, location), tryBody);
-        TryCatch tryCatch = channel.allocated("statement", new TryCatch(location, tryBlock, new PandaBlock(parent, location)));
-        parent.addStatement(tryCatch);
-    }
-
-    @Autowired(order = 2)
-    public void parse(Context context, @Ctx Scope parent, @Channel TryCatch tryCatch, @Src("catch-what") Snippet catchWhat, @Src("catch-body") Snippet catchBody) {
-        Scope catchBlock = new PandaBlock(parent, catchWhat.getLocation());
-
-        VariableDataInitializer dataInitializer = new VariableDataInitializer(context, catchBlock);
-        VariableData variableData = dataInitializer.createVariableData(catchWhat, false, false);
-        Variable variable = catchBlock.createVariable(variableData);
-
-        SCOPE_PARSER.parse(context, catchBlock, catchBody);
-        DynamicClass type = variableData.getType().getAssociatedClass();
-
-        if (type.isAssignableTo(Throwable.class)) {
-            //noinspection unchecked
-            tryCatch.addHandler((Class<? extends Throwable>) type.fetchStructure(), variable, catchBlock);
+        if (sourceReader.read(Keywords.TRY).isEmpty()) {
+            return Option.none();
         }
+
+        Option<Snippet> tryBody = sourceReader.readBody();
+
+        if (tryBody.isEmpty()) {
+            throw new PandaParserFailure(context, "Missing try body");
+        }
+
+        Location catchLocation = sourceReader.toLocation();
+
+        if (sourceReader.read(Keywords.CATCH).isEmpty()) {
+            throw new PandaParserFailure(context, "Missing try body");
+        }
+
+        Option<Snippet> catchWhat = sourceReader.readArguments();
+
+        if (catchWhat.isEmpty()) {
+            throw new PandaParserFailure(context, "Missing catch arguments");
+        }
+
+        Option<Snippet> catchBody = sourceReader.readBody();
+
+        if (catchBody.isEmpty()) {
+            throw new PandaParserFailure(context, "Missing catch body");
+        }
+
+        Scope parent = context.getScope();
+
+        Scope tryBlock = SCOPE_PARSER.parse(context, new PandaBlock(parent, tryLocation), tryBody.get());
+        TryCatch tryCatch = new TryCatch(tryLocation, tryBlock, new PandaBlock(parent, tryLocation));
+        context.getScope().addStatement(tryCatch);
+
+        Scope catchBlock = new PandaBlock(parent, catchLocation);
+        VariableDataInitializer dataInitializer = new VariableDataInitializer(context, catchBlock);
+        VariableData variableData = dataInitializer.createVariableData(catchWhat.get(), false, false);
+        Variable variable = catchBlock.createVariable(variableData);
+        SCOPE_PARSER.parse(context, catchBlock, catchBody.get());
+
+        if (variableData.getKnownType().isAssignableFrom(context.getTypeLoader().requireType("panda::Throwable"))) {
+            //noinspection unchecked
+            tryCatch.addHandler((Class<? extends Throwable>) variable.getKnownType().getType().getAssociated().get(), variable, catchBlock);
+        }
+
+        return Option.of(CompletableFuture.completedFuture(tryCatch));
     }
 
 }

@@ -33,6 +33,10 @@ public class PandaParserFailure extends InterpreterFailure implements Failure {
         this(contextual, contextual.toContext().getSource().getLine(location.getLine()), message, note);
     }
 
+    public PandaParserFailure(Contextual<?> contextual, String message) {
+        this(contextual, contextual.toContext().getSource(), message);
+    }
+
     public PandaParserFailure(Contextual<?> contextual, Snippetable indicated, String message) {
         this(contextual, indicated, message, null);
     }

@@ -25,8 +25,11 @@ import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.Snippetable;
+import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.panda.language.resource.syntax.type.SignatureParser;
 import org.panda_lang.panda.language.resource.syntax.type.SignatureSource;
+
+import java.util.List;
 
 public final class VariableDataInitializer {
 
@@ -40,6 +43,19 @@ public final class VariableDataInitializer {
         this.scope = scope;
     }
 
+    public VariableData createVariableData(Snippetable declaration, boolean mutable, boolean nillable) {
+        Snippet source = declaration.toSnippet();
+        TokenInfo name = source.getLast();
+
+        Snippet signatureSource = source.subSource(0, source.size() - 1);
+        List<SignatureSource> signatures = SIGNATURE_PARSER.readSignatures(signatureSource);
+
+        if (signatures.size() != 1) {
+            throw new PandaParserFailure(context, signatureSource, "Invalid signature");
+        }
+
+        return createVariableData(signatures.get(0), name, mutable, nillable);
+    }
     public VariableData createVariableData(SignatureSource signatureSource, Snippetable name, boolean mutable, boolean nillable) {
         Snippet nameSource = name.toSnippet();
 
