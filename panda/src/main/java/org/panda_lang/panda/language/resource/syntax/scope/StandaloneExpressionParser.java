@@ -17,35 +17,32 @@
 package org.panda_lang.panda.language.resource.syntax.scope;
 
 import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
+import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParserSettings;
 import org.panda_lang.language.interpreter.parser.pool.Targets;
-import org.panda_lang.language.interpreter.source.Location;
-import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.interpreter.token.SourceStream;
 import org.panda_lang.language.interpreter.token.PandaSourceStream;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
+import org.panda_lang.language.interpreter.token.SourceStream;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Option;
 
-public final class StandaloneExpressionParser extends AutowiredParser<Object> {
+import java.util.concurrent.CompletableFuture;
+
+public final class StandaloneExpressionParser implements ContextParser<Object, StandaloneExpression> {
 
     private static final ExpressionParserSettings SETTINGS = ExpressionParserSettings.create()
             .onlyStandalone()
             .build();
 
-    private ExpressionParser expressionParser;
+    @Override
+    public String name() {
+        return "standalone expression";
+    }
 
     @Override
-    public Target<? extends Parser>[] pipeline() {
+    public Component<?>[] targets() {
         return ArrayUtils.of(Targets.SCOPE);
     }
 
@@ -55,30 +52,15 @@ public final class StandaloneExpressionParser extends AutowiredParser<Object> {
     }
 
     @Override
-    protected AutowiredInitializer<Object> initialize(Context context, AutowiredInitializer<Object> initializer) {
-        this.expressionParser = context.getComponent(Components.EXPRESSION);
-        return initializer;
-    }
+    public Option<CompletableFuture<StandaloneExpression>> parse(Context<?> context) {
+        SourceStream stream = new PandaSourceStream(context.getSource());
+        Expression expression = context.getExpressionParser().parse(context, stream, SETTINGS).getExpression();
 
-    @Override
-    protected Object customHandle(Handler handler, Context context, LocalChannel channel, Snippet source) {
-        SourceStream stream = new PandaSourceStream(source);
+        StandaloneExpression statement = new StandaloneExpression(context, expression);
+        context.getScope().addStatement(statement);
+        context.getStream().readSilently(stream.getReadLength());
 
-        try {
-            channel.allocated("expression", expressionParser.parse(context, stream, SETTINGS).getExpression());
-            channel.allocated("read", stream.getReadLength());
-            channel.allocated("location", source.getLocation());
-            return true;
-        } catch (PandaParserFailure failure) {
-            return failure;
-        }
-    }
-
-    @Autowired(order = 1)
-    public void parseExpression(@Ctx SourceStream source, @Ctx Scope parent, @Ctx LocalChannel channel, @Channel Location location) {
-        StandaloneExpression statement = new StandaloneExpression(source.getCurrent().getLocation(), channel.get("expression", Expression.class));
-        parent.addStatement(statement);
-        source.readSilently(channel.get("read", int.class));
+        return Option.of(CompletableFuture.completedFuture(statement));
     }
 
 }
