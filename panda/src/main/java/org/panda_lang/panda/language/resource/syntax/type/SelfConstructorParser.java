@@ -16,63 +16,59 @@
 
 package org.panda_lang.panda.language.resource.syntax.type;
 
-import org.panda_lang.language.architecture.statement.Scope;
-import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pool.Targets;
-import org.panda_lang.language.interpreter.source.Location;
-import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.architecture.type.TypeContext;
 import org.panda_lang.language.architecture.type.member.constructor.ConstructorScope;
+import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.language.resource.syntax.TokenTypes;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
+import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.resource.syntax.literal.Literals;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
+import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ArgumentsParser;
 import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Option;
 
-public final class SelfConstructorParser extends AutowiredParser<Void> {
+import java.util.concurrent.CompletableFuture;
+
+public final class SelfConstructorParser implements ContextParser<TypeContext, SelfConstructor> {
 
     private static final ArgumentsParser ARGUMENTS_PARSER = new ArgumentsParser();
 
     @Override
-    public Target<? extends Parser>[] pipeline() {
+    public String name() {
+        return "self";
+    }
+
+    @Override
+    public Component<?>[] targets() {
         return ArrayUtils.of(Targets.SCOPE);
     }
 
     @Override
-    protected AutowiredInitializer<Void> initialize(Context context, AutowiredInitializer<Void> initializer) {
-        return initializer.linear("this args:(~)");
-    }
+    public Option<CompletableFuture<SelfConstructor>> parse(Context<? extends TypeContext> context) {
+        PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
-    @Override
-    protected Boolean customHandle(Handler handler, Context context, LocalChannel channel, Snippet source) {
-        if (source.size() < 2) {
-            return false;
+        if (sourceReader.read(Literals.THIS).isEmpty()) {
+            return Option.none();
         }
 
-        if (!source.getFirst().contentEquals(Literals.THIS)) {
-            return false;
+        Option<Snippet> arguments = sourceReader.readArguments();
+
+        if (arguments.isEmpty()) {
+            return Option.none();
         }
 
-        return source.get(1).getType() == TokenTypes.SECTION;
-    }
-
-    @Autowired(order = 1)
-    public void parse(Context context, @Ctx Scope parent, @Ctx Type type, @Channel Location location, @Src("args") Snippet args) {
-        if (!(parent instanceof ConstructorScope)) {
-            throw new PandaParserFailure(context, args, "Cannot use constructor call outside of the constructor");
+        if (!(context.getScope() instanceof ConstructorScope)) {
+            throw new PandaParserFailure(context, "Cannot use constructor call outside of the constructor");
         }
 
-        type.getConstructors().getAdjustedConstructor(ARGUMENTS_PARSER.parse(context, args))
-                .peek(constructor -> parent.addStatement(new SelfConstructor(location, constructor)))
+        return context.getSubject().getType().getConstructors().getAdjustedConstructor(ARGUMENTS_PARSER.parse(context, arguments.get()))
+                .map(constructor -> context.getScope().addStatement(new SelfConstructor(context, constructor)))
+                .map(CompletableFuture::completedFuture)
                 .onEmpty(() -> {
-                    throw new PandaParserFailure(context, args, "Type does not contain constructor with requested parameter types");
+                    throw new PandaParserFailure(context, arguments.get(), "Type does not contain constructor with requested parameter types");
                 });
     }
 
