@@ -19,21 +19,21 @@ package org.panda_lang.language.architecture.type.member.method;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.dynamic.Frame;
 import org.panda_lang.language.architecture.dynamic.Frameable;
+import org.panda_lang.language.architecture.statement.AbstractPropertyFramedScope;
+import org.panda_lang.language.architecture.type.member.MemberFrameImpl;
 import org.panda_lang.language.architecture.type.member.MemberInvoker;
 import org.panda_lang.language.architecture.type.member.parameter.ParameterUtils;
 import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
-import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.interpreter.source.Localizable;
 import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.language.runtime.Result;
-import org.panda_lang.language.architecture.statement.AbstractPropertyFramedScope;
-import org.panda_lang.language.architecture.type.member.MemberFrameImpl;
 
 import java.util.List;
 
 public final class MethodScope extends AbstractPropertyFramedScope {
 
-    public MethodScope(Location location, List<PropertyParameter> parameters) {
-        super(location, parameters);
+    public MethodScope(Localizable localizable, List<PropertyParameter> parameters) {
+        super(localizable, parameters);
     }
 
     @Override
