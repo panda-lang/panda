@@ -21,25 +21,23 @@ import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.expression.ExpressionUtils;
 import org.panda_lang.language.architecture.statement.Variable;
 import org.panda_lang.language.architecture.statement.VariableData;
-import org.panda_lang.language.architecture.type.TypeDeclarationUtils;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
-import org.panda_lang.language.interpreter.token.PandaSnippet;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
+import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
+import org.panda_lang.panda.language.interpreter.parser.PandaTargets;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationContext;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationPriorities;
 import org.panda_lang.panda.language.resource.syntax.scope.variable.VariableDataInitializer;
+import org.panda_lang.panda.language.resource.syntax.type.SignatureSource;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.collection.Component;
 import org.panda_lang.utilities.commons.function.Option;
 
-import javax.lang.model.util.Elements;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 public final class VariableDeclarationSubparser implements ContextParser<AssignationContext, Assigner<?>> {
@@ -51,7 +49,7 @@ public final class VariableDeclarationSubparser implements ContextParser<Assigna
 
     @Override
     public Component<?>[] targets() {
-        return ArrayUtils.of(PandaPipeline.ASSIGNER);
+        return ArrayUtils.of(PandaTargets.ASSIGNATION);
     }
 
     @Override
@@ -60,70 +58,47 @@ public final class VariableDeclarationSubparser implements ContextParser<Assigna
     }
 
     @Override
-    public Option<CompletableFuture<Assigner<?>>> parse(Context<AssignationContext> context) {
+    public Option<CompletableFuture<Assigner<?>>> parse(Context<? extends AssignationContext> context) {
         Snippet source = context.getSource();
 
         if (source.size() < 2) {
             return Option.none();
         }
 
-        TokenInfo name = Objects.requireNonNull(source.getLast());
+        PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
+        boolean mutable = sourceReader.optionalRead(() -> sourceReader.read(Keywords.MUT)).isDefined();
+        boolean nillable = sourceReader.optionalRead(() -> sourceReader.read(Keywords.NIL)).isDefined();
+        Option<SignatureSource> signatureSource = sourceReader.readSignature();
 
-        if (name.getType() != TokenTypes.UNKNOWN) {
-            return Option.none();
+        if (signatureSource.isEmpty()) {
+        throw new PandaParserFailure(context, "Missing variable signature");
         }
 
-        Option<Snippet> typeValue = TypeDeclarationUtils.readTypeBackwards(source.subSource(0, source.size() - 1));
+        Option<TokenInfo> name = sourceReader.read(TokenTypes.UNKNOWN);
 
-        if (!typeValue.isPresent()) {
-            return Option.none();
+        if (name.isEmpty()) {
+            throw new PandaParserFailure(context, "Missing variable name");
         }
-
-        Snippet type = typeValue.get();
-        Snippet modifiers = PandaSnippet.ofMutable(source.subSource(0, source.size() - 1 - type.size()).getTokensRepresentations());
-
-        // max amount of modifiers: mut, nil
-        if (modifiers.size() > 2) {
-            return Option.none();
-        }
-
-        int mutable = modifiers.indexOf(Keywords.MUT);
-
-        if (mutable != Snippet.NOT_FOUND) {
-            modifiers.remove(mutable);
-        }
-
-        int nillable = modifiers.indexOf(Keywords.NIL);
-
-        if (nillable != Snippet.NOT_FOUND) {
-            modifiers.remove(nillable);
-        }
-
-        if (modifiers.size() > 0) {
-            return Option.none();
-        }
-
-        boolean mut = mutable != Snippet.NOT_FOUND;
-        boolean nil = nillable != Snippet.NOT_FOUND;
 
         VariableDataInitializer dataInitializer = new VariableDataInitializer(context, context.getScope());
-        VariableData variableData = dataInitializer.createVariableData(type, name, mut, nil);
+        VariableData variableData = dataInitializer.createVariableData(signatureSource.get(), name.get(), mutable, nillable);
 
         Variable variable = context.getScope().createVariable(variableData);
-        context.getSubject().commit(() -> context.getScope().removeVariable(variable.getName()));
+        context.getSubject().getTransaction().getCommits().add(() -> context.getScope().removeVariable(variable.getName()));
+        Expression expression = context.getSubject().getTransaction().getExpression();
 
-        if (!variable.getType().isAssignableFrom(expression.getType())) {
-            throw new PandaParserFailure(context, context.getComponent(Components.SOURCE).getLine(location.getLine()),
-                    "Cannot assign " + expression.getType().getSimpleName() + " to " + variable.getType().getSimpleName(),
+        if (!variable.getSignature().isAssignableFrom(expression.getSignature())) {
+            throw new PandaParserFailure(context, signatureSource.get().getName(),
+                    "Cannot assign " + expression.getSignature() + " to " + variable.getSignature(),
                     "Change variable type or ensure the expression has compatible return type"
             );
         }
 
-        Expression equalizedExpression = ExpressionUtils.equalize(expression, variable.getType());
+        Expression equalizedExpression = ExpressionUtils.equalize(expression, variable.getSignature());
         VariableAccessor accessor = new VariableAccessor(variable.initialize());
-        Assigner<Variable> assigner = accessor.toAssigner(location, true, equalizedExpression);
+        Assigner<Variable> assigner = accessor.toAssigner(name.get(), true, equalizedExpression);
 
-        return ExpressionResult.of(assigner);
+        return Option.of(CompletableFuture.completedFuture(assigner));
     }
 
 }

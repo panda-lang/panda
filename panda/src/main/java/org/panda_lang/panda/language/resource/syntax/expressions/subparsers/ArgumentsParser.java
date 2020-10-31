@@ -37,20 +37,25 @@ public final class ArgumentsParser implements Parser {
 
     private static final Expression[] EMPTY = new Expression[0];
 
-    public Expression[] parse(Context context, Snippet snippet) {
+    @Override
+    public String name() {
+        return "arguments";
+    }
+
+    public Expression[] parse(Context<?> context, Snippet snippet) {
         return parse(context, null, snippet);
     }
 
-    public Expression[] parse(ExpressionContext expressionContext, Snippet snippet) {
+    public Expression[] parse(ExpressionContext<?> expressionContext, Snippet snippet) {
         return parse(expressionContext.toContext(), expressionContext, snippet);
     }
 
-    private Expression[] parse(Context context, @Nullable ExpressionContext expressionContext, Snippet snippet) {
+    private Expression[] parse(Context<?> context, @Nullable ExpressionContext<?> expressionContext, Snippet snippet) {
         if (snippet.isEmpty()) {
             return EMPTY;
         }
 
-        ExpressionParser expressionParser = context.getComponent(Components.EXPRESSION);
+        ExpressionParser expressionParser = context.getExpressionParser();
         List<Expression> expressions = new ArrayList<>((snippet.size() - 1) / 2);
         SourceStream source = new PandaSourceStream(snippet);
 
@@ -67,11 +72,11 @@ public final class ArgumentsParser implements Parser {
                 TokenInfo comma = source.read();
 
                 if (!Separators.COMMA.equals(comma.getToken())) {
-                    throw new PandaParserFailure(context, snippet, comma, "Illegal token", "Remove highlighted comma");
+                    throw new PandaParserFailure(snippet, comma, "Illegal token", "Remove highlighted comma");
                 }
 
                 if (!source.hasUnreadSource()) {
-                    throw new PandaParserFailure(context, source, comma, "Arguments cannot end with a comma", "Remove the comma at the end of arguments");
+                    throw new PandaParserFailure(source, comma, "Arguments cannot end with a comma", "Remove the comma at the end of arguments");
                 }
             }
         }

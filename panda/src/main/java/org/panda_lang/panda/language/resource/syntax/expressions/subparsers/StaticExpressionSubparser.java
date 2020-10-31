@@ -42,15 +42,14 @@ public final class StaticExpressionSubparser implements PartialResultSubparser {
     private static final class StaticWorker extends AbstractExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo token) {
+        public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
             if (token.getType() != TokenTypes.UNKNOWN || context.hasResults() || !context.getSynchronizedSource().hasNext()) {
                 return null;
             }
 
-            return context.toContext().getComponent(Components.IMPORTS)
-                    .forName(token.getValue())
+            return context.toContext().getImports().forType(token.getValue())
                     .filter(reference -> VisibilityComparator.requireAccess(reference, context.toContext(), token))
-                    .map(type -> ExpressionResult.of(new StaticExpression(type)))
+                    .map(type -> ExpressionResult.of(new StaticExpression(type.getSignature())))
                     .getOrNull();
         }
 

@@ -11,7 +11,9 @@ import org.panda_lang.language.interpreter.parser.pool.PoolService;
 import org.panda_lang.language.interpreter.parser.stage.StageService;
 import org.panda_lang.language.interpreter.source.SourceSet;
 import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.token.Snippetable;
 import org.panda_lang.language.interpreter.token.SourceStream;
+import org.panda_lang.language.interpreter.token.Streamable;
 
 public class PandaContextCreator<T> implements ContextCreator<T> {
 
@@ -78,14 +80,14 @@ public class PandaContextCreator<T> implements ContextCreator<T> {
     }
 
     @Override
-    public ContextCreator<T> withStream(SourceStream stream) {
-        this.stream = stream;
+    public ContextCreator<T> withStream(Streamable stream) {
+        this.stream = stream.toStream();
         return this;
     }
 
     @Override
-    public ContextCreator<T> withSource(Snippet source) {
-        this.source = source;
+    public ContextCreator<T> withSource(Snippetable source) {
+        this.source = source.toSnippet();
         return this;
     }
 

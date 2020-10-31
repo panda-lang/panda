@@ -16,12 +16,12 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.variable;
 
-import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.member.field.TypeField;
-import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.architecture.dynamic.accessor.AbstractAccessor;
 import org.panda_lang.language.architecture.dynamic.assigner.Assigner;
+import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.architecture.type.Signature;
+import org.panda_lang.language.architecture.type.member.field.TypeField;
+import org.panda_lang.language.interpreter.source.Localizable;
 
 public final class FieldAccessor extends AbstractAccessor<TypeField> {
 
@@ -30,12 +30,12 @@ public final class FieldAccessor extends AbstractAccessor<TypeField> {
     }
 
     @Override
-    public Assigner<TypeField> toAssigner(Location location, boolean initialize, Expression value) {
-        return new FieldAssigner(location, this, initialize, value);
+    public Assigner<TypeField> toAssigner(Localizable localizable, boolean initialize, Expression value) {
+        return new FieldAssigner(localizable.toLocation(), this, initialize, value);
     }
 
     @Override
-    public Type getType() {
+    public Signature getSignature() {
         return super.getVariable().getReturnType();
     }
 

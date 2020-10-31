@@ -18,7 +18,7 @@ package org.panda_lang.language.interpreter.parser.expression;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.Failure;
-import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.Contextual;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction.Commit;
 import org.panda_lang.language.interpreter.token.SourceStream;
@@ -58,7 +58,7 @@ public final class PandaExpressionParser implements ExpressionParser {
     }
 
     @Override
-    public Option<ExpressionTransaction> parseSilently(Context<?> context, Streamable streamable, ExpressionParserSettings settings) {
+    public Option<ExpressionTransaction> parseSilently(Contextual<?> context, Streamable streamable, ExpressionParserSettings settings) {
         try {
             return Option.of(parse(context, streamable, settings));
         } catch (PandaExpressionParserException e) {
@@ -67,11 +67,11 @@ public final class PandaExpressionParser implements ExpressionParser {
     }
 
     @Override
-    public ExpressionTransaction parse(Context<?> context, Streamable streamable, ExpressionParserSettings settings) {
+    public ExpressionTransaction parse(Contextual<?> context, Streamable streamable, ExpressionParserSettings settings) {
         return parse(context, streamable, settings, null);
     }
 
-    public ExpressionTransaction parse(Context<?> context, Streamable streamable, ExpressionParserSettings settings, @Nullable BiConsumer<ExpressionContext, PandaExpressionParserWorker> visitor) {
+    public ExpressionTransaction parse(Contextual<?> context, Streamable streamable, ExpressionParserSettings settings, @Nullable BiConsumer<ExpressionContext<?>, PandaExpressionParserWorker> visitor) {
         SourceStream source = streamable.toStream();
 
         if (!source.hasUnreadSource()) {

@@ -29,7 +29,6 @@ import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.language.interpreter.parser.expression.PandaExpressionParser;
-import org.panda_lang.language.resource.expression.ExpressionContextUtils;
 import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressions;
 import org.panda_lang.panda.util.BenchmarkUtils;
 

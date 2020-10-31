@@ -51,7 +51,7 @@ public final class PoolParser<T> implements Parser {
                     .withStream(stream)
                     .toContext();
 
-            if (!parseNext(delegatedContext)) {
+            if (parseNext(delegatedContext).isEmpty()) {
                 throw new PandaParserFailure(delegatedContext, delegatedContext.getSource(), "Unrecognized syntax");
             }
         }
@@ -59,7 +59,7 @@ public final class PoolParser<T> implements Parser {
         return true;
     }
 
-    private boolean parseNext(Context<? extends T> delegatedContext) {
+    public Option<? extends CompletableFuture<?>> parseNext(Context<? extends T> delegatedContext) {
         SourceStream stream = delegatedContext.getStream();
         int sourceLength = stream.getUnreadLength();
 
@@ -67,6 +67,7 @@ public final class PoolParser<T> implements Parser {
             Option<? extends CompletableFuture<?>> result = parser.parse(delegatedContext);
 
             if (result.isEmpty()) {
+                stream.read(-sourceLength);
                 continue;
             }
 
@@ -78,10 +79,10 @@ public final class PoolParser<T> implements Parser {
                 stream.read();
             }
 
-            return true;
+            return result;
         }
 
-        return false;
+        return Option.none();
     }
 
     @Override

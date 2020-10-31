@@ -31,6 +31,7 @@ import org.panda_lang.language.architecture.statement.PandaVariableData;
 import org.panda_lang.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.language.interpreter.token.PandaSourceStream;
+import org.panda_lang.panda.language.interpreter.parser.PandaContextUtils;
 import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressions;
 import org.panda_lang.utilities.commons.StringUtils;
 
@@ -39,12 +40,12 @@ import java.util.HashMap;
 class ExpressionParserTestBootstrap {
 
     private static ExpressionParser PARSER;
-    private static Context DATA;
+    private static Context<?> CONTEXT;
 
     @BeforeAll
     public static void load() {
         PARSER = new PandaExpressionParser(PandaExpressions.getExpressionSubparsers());
-        DATA = prepareData();
+        CONTEXT = prepareData();
     }
 
     @BeforeEach
@@ -52,10 +53,10 @@ class ExpressionParserTestBootstrap {
         System.out.println(StringUtils.EMPTY);
     }
 
-    protected static Context prepareData() {
-        return ExpressionContextUtils.createFakeContext(context -> new HashMap<VariableData, Object>() {{
+    protected static Context<?> prepareData() {
+        return PandaContextUtils.createStubContext(context -> new HashMap<VariableData, Object>() {{
             put(new PandaVariableData(ModuleLoaderUtils.requireType(context, String.class), "variable"), null);
-            put(new PandaVariableData(ModuleLoaderUtils.requireType(context, String.class).toArray(context.getComponent(Components.TYPE_LOADER)), "array"), null);
+            put(new PandaVariableData(ModuleLoaderUtils.requireType(context, String.class).toArray(context.getTypeLoader()), "array"), null);
             put(new PandaVariableData(ModuleLoaderUtils.requireType(context, int.class), "i", true, false), null);
         }});
     }
@@ -74,11 +75,13 @@ class ExpressionParserTestBootstrap {
         Snippet source = PandaLexerUtils.convert(ExpressionParserTestBootstrap.class.getSimpleName(), src);
         SourceStream stream = new PandaSourceStream(source);
 
-        DATA.withComponent(Components.SOURCE, source);
-        DATA.withComponent(Components.CURRENT_SOURCE, source);
-        DATA.withComponent(Components.STREAM, stream);
+        CONTEXT = CONTEXT.forkCreator()
+                .withScriptSource(source)
+                .withSource(source)
+                .withStream(stream)
+                .toContext();
 
-        Expression expression = PARSER.parse(DATA, stream).getExpression();
+        Expression expression = PARSER.parse(CONTEXT, stream).getExpression();
 
         if (stream.hasUnreadSource()) {
             throw new PandaFrameworkException("Unread source: " + stream.toSnippet());

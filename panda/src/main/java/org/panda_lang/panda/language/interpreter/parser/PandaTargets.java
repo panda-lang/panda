@@ -16,22 +16,22 @@
 
 package org.panda_lang.panda.language.interpreter.parser;
 
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.variable.AssignationContext;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationContext;
 import org.panda_lang.utilities.commons.collection.Component;
 
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
-public final class PandaPipeline {
+public final class PandaTargets {
 
     /**
-     * Text representation of {@link PandaPipeline#ASSIGNER}
+     * Text representation of {@link PandaTargets#ASSIGNATION}
      */
     public static final String ASSIGNER_LABEL = "assignation";
     /**
      * Assigner parsers, used by {@link org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationExpressionSubparser}
      */
-    public static final Component<AssignationContext> ASSIGNER = Component.of(ASSIGNER_LABEL, AssignationContext.class);
+    public static final Component<AssignationContext> ASSIGNATION = Component.of(ASSIGNER_LABEL, AssignationContext.class);
 
     /**
      * Get collection of all components
@@ -39,7 +39,7 @@ public final class PandaPipeline {
      * @return the collection of components
      */
     public static Collection<Component<?>> getPipelineComponents() {
-        return Arrays.asList(ASSIGNER);
+        return Collections.singletonList(ASSIGNATION);
     }
 
 }

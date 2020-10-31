@@ -16,12 +16,11 @@
 
 package org.panda_lang.language.interpreter.parser.expression;
 
-import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.Contextual;
 import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.token.SourceStream;
 import org.panda_lang.language.interpreter.token.Streamable;
 import org.panda_lang.language.interpreter.token.SynchronizedSource;
-
 import org.panda_lang.utilities.commons.function.Option;
 
 /**
@@ -38,7 +37,7 @@ public interface ExpressionParser extends Parser {
      * @return the parsed expression wrapped into the transaction
      * @see org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction
      */
-    ExpressionTransaction parse(Context<?> context, Streamable streamable, ExpressionParserSettings settings);
+    ExpressionTransaction parse(Contextual<?> context, Streamable streamable, ExpressionParserSettings settings);
 
     /**
      * Try to parse expression
@@ -48,16 +47,16 @@ public interface ExpressionParser extends Parser {
      * @param settings the settings to use
      * @return the parsed expression wrapped into the transaction or nothing
      */
-    Option<ExpressionTransaction> parseSilently(Context<?> context, Streamable streamable, ExpressionParserSettings settings);
+    Option<ExpressionTransaction> parseSilently(Contextual<?> context, Streamable streamable, ExpressionParserSettings settings);
 
     /**
      * Utility method to call
-     * {@link #parseSilently(org.panda_lang.language.interpreter.parser.Context, org.panda_lang.language.interpreter.token.Streamable, ExpressionParserSettings)}
+     * {@link #parseSilently(org.panda_lang.language.interpreter.parser.Contextual, org.panda_lang.language.interpreter.token.Streamable, ExpressionParserSettings)}
      * with the default settings ({@link org.panda_lang.language.interpreter.parser.expression.ExpressionParserSettings#DEFAULT})
      *
-     * @see #parseSilently(org.panda_lang.language.interpreter.parser.Context, org.panda_lang.language.interpreter.token.Streamable, ExpressionParserSettings)
+     * @see #parseSilently(org.panda_lang.language.interpreter.parser.Contextual, org.panda_lang.language.interpreter.token.Streamable, ExpressionParserSettings)
      */
-    default Option<ExpressionTransaction> parseSilently(Context<?> context, Streamable streamable) {
+    default Option<ExpressionTransaction> parseSilently(Contextual<?> context, Streamable streamable) {
         return parseSilently(context, streamable, ExpressionParserSettings.DEFAULT);
     }
 
@@ -68,7 +67,7 @@ public interface ExpressionParser extends Parser {
      * @param source the synchronized source that contain
      * @return the parsed expression wrapped into the transaction
      */
-    default ExpressionTransaction parse(Context<?> context, SynchronizedSource source) {
+    default ExpressionTransaction parse(Contextual<?> context, SynchronizedSource source) {
         SourceStream stream = source.toStream();
 
         ExpressionTransaction expression = parse(context, stream, ExpressionParserSettings.DEFAULT);
@@ -79,12 +78,12 @@ public interface ExpressionParser extends Parser {
 
     /**
      * Utility method to call
-     * {@link #parse(org.panda_lang.language.interpreter.parser.Context, org.panda_lang.language.interpreter.token.Streamable, ExpressionParserSettings)}
+     * {@link #parse(org.panda_lang.language.interpreter.parser.Contextual, org.panda_lang.language.interpreter.token.Streamable, ExpressionParserSettings)}
      * with the default settings ({@link org.panda_lang.language.interpreter.parser.expression.ExpressionParserSettings#DEFAULT})
      *
-     * @see #parse(org.panda_lang.language.interpreter.parser.Context, org.panda_lang.language.interpreter.token.Streamable, ExpressionParserSettings)
+     * @see #parse(org.panda_lang.language.interpreter.parser.Contextual, org.panda_lang.language.interpreter.token.Streamable, ExpressionParserSettings)
      */
-    default ExpressionTransaction parse(Context<?> context, Streamable streamable) {
+    default ExpressionTransaction parse(Contextual<?> context, Streamable streamable) {
         return parse(context, streamable, ExpressionParserSettings.DEFAULT);
     }
 

@@ -59,7 +59,7 @@ public final class FieldAssigner extends AbstractAssigner<TypeField> {
 
     @Override
     public String toString() {
-        return accessor.getVariable().getReturnType().getSimpleName() + "assigner@f_memory[" + accessor.getMemoryPointer() + "] << " + valueExpression;
+        return accessor.getVariable().getReturnType() + "assigner@f_memory[" + accessor.getMemoryPointer() + "] << " + valueExpression;
     }
 
 }

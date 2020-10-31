@@ -18,6 +18,7 @@ package org.panda_lang.language.interpreter.parser.expression;
 
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.Contextual;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction.Commit;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.Snippetable;
@@ -36,9 +37,9 @@ final public class PandaExpressionContext<T> implements ExpressionContext<T> {
     private final Stack<ExpressionResult> errors = new Stack<>();
     private final List<Commit> commits = new ArrayList<>(1);
 
-    public PandaExpressionContext(ExpressionParser parser, Context<T> context, Snippetable source) {
+    public PandaExpressionContext(ExpressionParser parser, Contextual<T> context, Snippetable source) {
         this.parser = parser;
-        this.context = context;
+        this.context = context.toContext();
         this.synchronizedSource = new SynchronizedSource(source.toSnippet());
     }
 

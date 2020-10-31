@@ -16,12 +16,13 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation;
 
+import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.variable.VariableAssignationSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.variable.VariableDeclarationSubparser;
 
 public final class AssignationParsers {
 
-    public static final AssignationSubparser<?>[] SUBPARSERS = {
+    public static final ContextParser<?, ?>[] SUBPARSERS = {
             new VariableAssignationSubparser(),
             new VariableDeclarationSubparser()
     };

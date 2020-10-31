@@ -4,7 +4,8 @@ import org.panda_lang.language.architecture.Script;
 import org.panda_lang.language.architecture.module.Imports;
 import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.interpreter.token.SourceStream;
+import org.panda_lang.language.interpreter.token.Snippetable;
+import org.panda_lang.language.interpreter.token.Streamable;
 
 public interface ContextCreator<T> extends Contextual<T> {
 
@@ -12,9 +13,9 @@ public interface ContextCreator<T> extends Contextual<T> {
 
     <S> ContextCreator<S> withSubject(S subject);
 
-    ContextCreator<T> withStream(SourceStream stream);
+    ContextCreator<T> withStream(Streamable stream);
 
-    ContextCreator<T> withSource(Snippet source);
+    ContextCreator<T> withSource(Snippetable source);
 
     ContextCreator<T> withScope(Scope scope);
 

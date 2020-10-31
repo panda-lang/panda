@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.bootstrap;
 
-import org.panda_lang.language.interpreter.parser.Parser;
+import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.language.interpreter.parser.expression.PandaExpressionSubparsers;
 import org.panda_lang.panda.language.interpreter.parser.ParsersLoader;
@@ -68,7 +68,7 @@ public final class ParsersInitializer implements Initializer {
      * @param parsers classes to load
      * @return the initializer instance
      */
-    public final ParsersInitializer loadParsers(Parser... parsers) {
+    public final ParsersInitializer loadParsers(ContextParser<?, ?>... parsers) {
         return loadParsers(Arrays.asList(parsers));
     }
 
@@ -78,7 +78,7 @@ public final class ParsersInitializer implements Initializer {
      * @param parsers classes to load
      * @return the initializer instance
      */
-    public ParsersInitializer loadParsers(Collection<Parser> parsers) {
+    public ParsersInitializer loadParsers(Collection<ContextParser<?, ?>> parsers) {
         if (bootstrap.resources.poolService == null) {
             throw new BootstrapException("Cannot load parsers because pipeline was not initialized");
         }

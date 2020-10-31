@@ -25,7 +25,8 @@ import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.language.interpreter.token.SourceStream;
-import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
+import org.panda_lang.panda.language.interpreter.parser.PandaTargets;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationContext;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationPriorities;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.collection.Component;
@@ -42,7 +43,7 @@ public final class VariableAssignationSubparser implements ContextParser<Assigna
 
     @Override
     public Component<?>[] targets() {
-        return ArrayUtils.of(PandaPipeline.ASSIGNER);
+        return ArrayUtils.of(PandaTargets.ASSIGNATION);
     }
 
     @Override
@@ -51,7 +52,7 @@ public final class VariableAssignationSubparser implements ContextParser<Assigna
     }
 
     @Override
-    public Option<CompletableFuture<Assigner<?>>> parse(Context<AssignationContext> context) {
+    public Option<CompletableFuture<Assigner<?>>> parse(Context<? extends AssignationContext> context) {
         SourceStream stream = new PandaSourceStream(context.getSource());
         ExpressionTransaction transaction = context.getExpressionParser().parse(context, stream);
 

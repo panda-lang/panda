@@ -30,7 +30,7 @@ import org.panda_lang.language.interpreter.token.TokenUtils;
 public final class SequenceExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public ExpressionSubparserWorker createWorker(Context context) {
+    public ExpressionSubparserWorker createWorker(Context<?> context) {
         return new SequenceWorker(context).withSubparser(this);
     }
 
@@ -43,12 +43,12 @@ public final class SequenceExpressionSubparser implements ExpressionSubparser {
 
         private final Type stringType;
 
-        private SequenceWorker(Context context) {
-            this.stringType = ModuleLoaderUtils.requireType(context, String.class);
+        private SequenceWorker(Context<?> context) {
+            this.stringType = context.getTypeLoader().requireType(context, String.class);
         }
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo token) {
+        public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
             if (TokenUtils.hasName(token, "String")) {
                 return ExpressionParserUtils.toExpressionResult(stringType, token.getValue());
             }

@@ -16,20 +16,19 @@
 
 package org.panda_lang.panda.language.interpreter.parser;
 
-import org.panda_lang.language.interpreter.parser.Parser;
+import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.pool.PoolService;
 import org.panda_lang.utilities.commons.ObjectUtils;
+import org.panda_lang.utilities.commons.collection.Component;
 
 import java.util.Collection;
 
 public final class ParsersLoader {
 
-    public PoolService loadParsers(PoolService path, Collection<Parser> parsers) {
-        for (Parser parser : parsers) {
-            Handler handler = (Handler) parser;
-
-            for (Target<? extends Parser> pipeline : handler.pipeline()) {
-                path.computeIfAbsent(pipeline).register(ObjectUtils.cast(new PandaParserRepresentation<>(parser, handler, handler.priority())));
+    public PoolService loadParsers(PoolService path, Collection<ContextParser<?, ?>> parsers) {
+        for (ContextParser<?, ?> parser : parsers) {
+            for (Component<?> pipeline : parser.targets()) {
+                path.computeIfAbsent(pipeline).register(ObjectUtils.cast(parser));
             }
         }
 

@@ -16,7 +16,7 @@
 
 package org.panda_lang.language.interpreter.parser.expression;
 
-import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.Contextual;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction.Commit;
 import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.utilities.commons.collection.Maps;
@@ -38,16 +38,16 @@ public final class PandaExpressionParserWorker {
     private int previousSubparser = NONE;
     private int lastSucceededRead = 0;
 
-    protected PandaExpressionParserWorker(Context context, List<PandaExpressionSubparserRepresentation> subparsers) {
+    protected PandaExpressionParserWorker(Contextual<?> context, List<PandaExpressionSubparserRepresentation> subparsers) {
         this.subparsers = subparsers;
         this.workers = new ExpressionSubparserWorker[subparsers.size()];
 
         for (int index = 0; index < subparsers.size(); index++) {
-            this.workers[index] = subparsers.get(index).getSubparser().createWorker(context);
+            this.workers[index] = subparsers.get(index).getSubparser().createWorker(context.toContext());
         }
     }
 
-    protected void finish(ExpressionContext context) {
+    protected void finish(ExpressionContext<?> context) {
         for (ExpressionSubparserWorker worker : workers) {
             // skip removed subparsers
             if (!(worker instanceof ExpressionSubparserPostProcessor)) {
@@ -64,7 +64,7 @@ public final class PandaExpressionParserWorker {
         }
     }
 
-    protected boolean next(ExpressionContext context, TokenInfo token) {
+    protected boolean next(ExpressionContext<?> context, TokenInfo token) {
         int cachedSubparser = previousSubparser;
 
         // try to use cached subparser
@@ -100,7 +100,7 @@ public final class PandaExpressionParserWorker {
      * @param index   the index of subparser in the array
      * @return true if the result was found using the specified subparser, otherwise false
      */
-    private boolean next(int index, ExpressionContext context, TokenInfo token) {
+    private boolean next(int index, ExpressionContext<?> context, TokenInfo token) {
         ExpressionSubparserWorker worker = workers[index];
 
         // skip removed subparsers
@@ -172,7 +172,7 @@ public final class PandaExpressionParserWorker {
         return true;
     }
 
-    private void rollback(ExpressionContext context, int cachedCommits) {
+    private void rollback(ExpressionContext<?> context, int cachedCommits) {
         List<Commit> commits = context.getCommits();
 
         if (commits.size() <= cachedCommits) {

@@ -18,14 +18,14 @@ package org.panda_lang.panda.shell.repl;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.dynamic.Frame;
-import org.panda_lang.language.architecture.type.member.PropertyFrame;
 import org.panda_lang.language.architecture.statement.StandardizedFramedScope;
 import org.panda_lang.language.architecture.type.TypeInstance;
+import org.panda_lang.language.architecture.type.member.MemberFrame;
 
 import java.util.HashMap;
 import java.util.Map;
 
-final class ReplFrame implements Frame, PropertyFrame {
+final class ReplFrame implements Frame, MemberFrame {
 
     private final ReplScope scope;
     private final Frame instance;

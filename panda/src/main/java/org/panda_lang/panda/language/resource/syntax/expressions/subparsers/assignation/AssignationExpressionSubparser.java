@@ -17,7 +17,6 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.Failure;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionCategory;
@@ -27,23 +26,25 @@ import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserType;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
+import org.panda_lang.language.interpreter.parser.pool.PoolParser;
 import org.panda_lang.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.SourceStream;
 import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.resource.syntax.operator.OperatorFamilies;
 import org.panda_lang.language.resource.syntax.operator.OperatorUtils;
-import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
+import org.panda_lang.panda.language.interpreter.parser.PandaTargets;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.AbstractExpressionSubparserWorker;
 import org.panda_lang.utilities.commons.UnsafeUtils;
 import org.panda_lang.utilities.commons.function.Option;
-import org.panda_lang.utilities.commons.function.Result;
+
+import java.util.concurrent.CompletableFuture;
 
 public final class AssignationExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public ExpressionSubparserWorker createWorker(Context context) {
-        return new AssignationExpressionSubparserWorker().withSubparser(this);
+    public ExpressionSubparserWorker createWorker(Context<?> context) {
+        return new AssignationExpressionSubparserWorker(context).withSubparser(this);
     }
 
     @Override
@@ -73,8 +74,14 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
 
     private static final class AssignationExpressionSubparserWorker extends AbstractExpressionSubparserWorker {
 
+        private final PoolParser<AssignationContext> assignationParser;
+
+        private AssignationExpressionSubparserWorker(Context<?> context) {
+            this.assignationParser = context.getPoolService().getPool(PandaTargets.ASSIGNATION).toParser();
+        }
+
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext expressionContext, TokenInfo token) {
+        public @Nullable ExpressionResult next(ExpressionContext<?> expressionContext, TokenInfo token) {
             Snippet source = expressionContext.getSynchronizedSource().getSource();
             int index = OperatorUtils.indexOf(source, OperatorFamilies.ASSIGNATION);
 
@@ -82,43 +89,17 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
                 return null;
             }
 
-            Context context = expressionContext.toContext();
             Snippet declaration = source.subSource(0, index);
 
             if (declaration.size() > 16 /* implement max declaration size in assignation subparser in the future*/) {
                 return null;
             }
 
-            PandaLocalChannel channel = new PandaLocalChannel(context.getComponent(Components.CHANNEL));
-            channel.override("location", declaration.getLocation());
-
-            Context assignationContext = context.fork()
-                    .withComponent(Components.CHANNEL, channel)
-                    .withComponent(AssignationComponents.CONTEXT, expressionContext)
-                    .withComponent(AssignationComponents.SCOPE, context.getComponent(Components.SCOPE));
-
-            Result<AssignationSubparser, Option<Failure>> handleResult = context.getComponent(Components.PIPELINE)
-                    .getPipeline(PandaPipeline.ASSIGNER)
-                    .handle(assignationContext, assignationContext.getComponent(Components.CHANNEL), declaration);
-
-            if (handleResult.isErr()) {
-                return handleResult.getError()
-                        .map(failure -> ExpressionResult.error(failure.getMessage(), failure.getIndicatedSource().getIndicated()))
-                        .orElseGet(() -> ExpressionResult.error("Unrecognized declaration", declaration));
-            }
-
             SourceStream expressionSource = new PandaSourceStream(source.subSource(index + 1, source.size()));
+            ExpressionTransaction expression;
 
             try {
-                ExpressionTransaction expression = expressionContext.getParser().parse(assignationContext, expressionSource);
-
-                AssignationSubparser<?> assignationSubparser = handleResult.get();
-                ExpressionResult result = assignationSubparser.parseAssignment(assignationContext, declaration, source.get(index), expression.getExpression());
-
-                int assignationLength = declaration.size() + 1 + expressionSource.getReadLength();
-                expressionContext.getSynchronizedSource().setIndex(assignationLength);
-
-                return result;
+                expression = expressionContext.getParser().parse(expressionContext, expressionSource);
             } catch (PandaParserFailure e) {
                 // throw e; we can't throw because as individual subparser we don't know everything
                 // TODO: Support notes/failures by expression results
@@ -126,6 +107,23 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
             } catch (Throwable e) {
                 return UnsafeUtils.throwException(e);
             }
+
+            Context<AssignationContext> assignationContext = expressionContext.toContext().forkCreator()
+                    .withSource(declaration)
+                    .withScriptSource(declaration)
+                    .withSubject(new AssignationContext(expression))
+                    .toContext();
+
+            Option<? extends CompletableFuture<?>> declarationResult = assignationParser.parseNext(assignationContext);
+
+            if (declarationResult.isEmpty()) {
+                return ExpressionResult.error("Unrecognized declaration", declaration);
+            }
+
+            int assignationLength = declaration.size() + 1 + expressionSource.getReadLength();
+            expressionContext.getSynchronizedSource().setIndex(assignationLength);
+
+            return ExpressionResult.empty();
         }
 
     }

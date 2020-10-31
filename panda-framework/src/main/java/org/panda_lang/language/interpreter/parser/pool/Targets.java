@@ -28,40 +28,24 @@ import java.util.Collection;
 public final class Targets {
 
     /**
-     * Text representation of {@link Targets#ALL}
-     */
-    public static final String ALL_LABEL = "all";
-    /**
      * All pipelines
      */
-    public static final Component<Object> ALL = Component.of(ALL_LABEL, Object.class);
+    public static final Component<Object> ALL = Component.of("all", Object.class);
 
-    /**
-     * Text representation of {@link Targets#HEAD}
-     */
-    public static final String HEAD_LABEL = "head";
     /**
      * Head pipeline
      */
-    public static final Component<Object> HEAD = Component.of(HEAD_LABEL, Object.class);
+    public static final Component<Object> HEAD = Component.of("head", Object.class);
 
-    /**
-     * Text representation of {@link Targets#TYPE}
-     */
-    public static final String TYPE_LABEL = "type";
     /**
      * Class type parsers, used by type parser
      */
-    public static final Component<TypeContext> TYPE = Component.of(TYPE_LABEL, TypeContext.class);
+    public static final Component<TypeContext> TYPE = Component.of("type", TypeContext.class);
 
-    /**
-     * Text representation of {@link Targets#SCOPE}
-     */
-    public static final String SCOPE_LABEL = "scope";
     /**
      * Scope parsers
      */
-    public static final Component<Object> SCOPE = Component.of(SCOPE_LABEL, Object.class);
+    public static final Component<Object> SCOPE = Component.of("scope", Object.class);
 
     /**
      * Get collection of all components

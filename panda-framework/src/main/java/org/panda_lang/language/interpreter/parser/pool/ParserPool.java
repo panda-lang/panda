@@ -25,7 +25,7 @@ public interface ParserPool<C> {
      *
      * @param parser specified parser representation which will be registered in the pipeline
      */
-    void register(ContextParser<C, ?> parser);
+    void register(ContextParser<C, ? extends Object> parser);
 
     /**
      * @return a collection of registered parser
