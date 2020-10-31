@@ -30,7 +30,7 @@ import org.panda_lang.utilities.commons.function.Option;
 
 final class ConditionalParser {
 
-    Option<ConditionalBlock> parse(ScopeParser scopeParser, Context<Object> context, Keyword keyword, boolean hasExpression) {
+    Option<ConditionalBlock> parse(ScopeParser scopeParser, Context<?> context, Keyword keyword, boolean hasExpression) {
         PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
         if (sourceReader.read(keyword).isEmpty()) {
@@ -48,7 +48,7 @@ final class ConditionalParser {
         return Option.of(conditionalBlock);
     }
 
-    void linkBlocks(Context<Object> context, ConditionalBlock conditionalBlock) {
+    void linkBlocks(Context<?> context, ConditionalBlock conditionalBlock) {
         Scope scope = context.getScope();
         Statement previous = Lists.get(scope.getStatements(), scope.getStatements().size() - 1);
 

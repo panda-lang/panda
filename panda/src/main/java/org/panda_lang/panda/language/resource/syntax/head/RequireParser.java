@@ -52,7 +52,7 @@ public final class RequireParser implements ContextParser<Object, Void> {
     }
 
     @Override
-    public Option<CompletableFuture<Void>> parse(Context<Object> context) {
+    public Option<CompletableFuture<Void>> parse(Context<?> context) {
         PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
         if (sourceReader.read(Keywords.REQUIRE).isEmpty()) {

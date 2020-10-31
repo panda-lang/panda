@@ -40,7 +40,7 @@ public final class CommentParser implements ContextParser<Object, CommentStateme
     }
 
     @Override
-    public Option<CompletableFuture<CommentStatement>> parse(Context<Object> context) {
+    public Option<CompletableFuture<CommentStatement>> parse(Context<?> context) {
         return new SourceReader(context.getStream())
                 .read(SequencesUtils::isComment)
                 .map(CommentStatement::new)

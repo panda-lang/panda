@@ -42,7 +42,7 @@ public final class LoopParser extends BlockParser<LoopBlock> {
     }
 
     @Override
-    public Option<CompletableFuture<LoopBlock>> parse(Context<Object> context) {
+    public Option<CompletableFuture<LoopBlock>> parse(Context<?> context) {
         PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
         if (sourceReader.read(Keywords.LOOP).isEmpty()) {

@@ -43,7 +43,7 @@ public final class LogParser implements ContextParser<Object, LogStatement> {
     }
 
     @Override
-    public Option<CompletableFuture<LogStatement>> parse(Context<Object> context) {
+    public Option<CompletableFuture<LogStatement>> parse(Context<?> context) {
         PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
         if (sourceReader.read(Keywords.LOG).isPresent()) {

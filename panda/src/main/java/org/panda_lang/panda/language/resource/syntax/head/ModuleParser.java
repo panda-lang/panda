@@ -45,7 +45,7 @@ public final class ModuleParser implements ContextParser<Object, ModuleStatement
     }
 
     @Override
-    public Option<CompletableFuture<ModuleStatement>> parse(Context<Object> context) {
+    public Option<CompletableFuture<ModuleStatement>> parse(Context<?> context) {
         PandaSourceReader reader = new PandaSourceReader(context.getStream());
         Option<TokenInfo> read = reader.read(Keywords.MODULE);
 

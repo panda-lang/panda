@@ -43,7 +43,7 @@ public final class BreakParser implements ContextParser<Object, Break> {
     }
 
     @Override
-    public Option<CompletableFuture<Break>> parse(Context<Object> context) {
+    public Option<CompletableFuture<Break>> parse(Context<?> context) {
         return new SourceReader(context.getStream()).read(Keywords.BREAK)
                 .peek(token -> {
                     if (!ScopeUtils.lookFor(context.getScope(), ControlledScope.class)) {

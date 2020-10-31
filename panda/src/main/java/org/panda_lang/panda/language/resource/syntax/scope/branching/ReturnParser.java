@@ -41,7 +41,7 @@ public final class ReturnParser implements ContextParser<Object, Return> {
     }
 
     @Override
-    public Option<CompletableFuture<Return>> parse(Context<Object> context) {
+    public Option<CompletableFuture<Return>> parse(Context<?> context) {
         SourceReader sourceReader = new SourceReader(context.getStream());
 
         if (sourceReader.read(Keywords.RETURN).isPresent()) {

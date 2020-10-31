@@ -58,7 +58,7 @@ public final class LateDeclarationParser implements ContextParser<Object, Variab
     }
 
     @Override
-    public Option<CompletableFuture<Variable>> parse(Context<Object> context) {
+    public Option<CompletableFuture<Variable>> parse(Context<?> context) {
         PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
         if (sourceReader.read(Keywords.LATE).isEmpty()) {

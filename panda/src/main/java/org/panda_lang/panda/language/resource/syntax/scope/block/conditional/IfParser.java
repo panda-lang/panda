@@ -17,7 +17,7 @@ public final class IfParser extends BlockParser<ConditionalBlock> {
     }
 
     @Override
-    public Option<CompletableFuture<ConditionalBlock>> parse(Context<Object> context) {
+    public Option<CompletableFuture<ConditionalBlock>> parse(Context<?> context) {
         return CONDITIONAL_PARSER
                 .parse(SCOPE_PARSER, context, Keywords.IF, true)
                 .map(CompletableFuture::completedFuture);

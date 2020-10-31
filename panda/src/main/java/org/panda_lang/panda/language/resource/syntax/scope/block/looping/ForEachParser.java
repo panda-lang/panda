@@ -40,7 +40,7 @@ public final class ForEachParser extends BlockParser<ForEachBlock> {
     }
 
     @Override
-    public Option<CompletableFuture<ForEachBlock>> parse(Context<Object> context) {
+    public Option<CompletableFuture<ForEachBlock>> parse(Context<?> context) {
         PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
         if (sourceReader.read(Keywords.FOREACH).isEmpty()) {

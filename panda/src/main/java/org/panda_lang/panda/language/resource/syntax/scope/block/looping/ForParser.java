@@ -41,13 +41,13 @@ public final class ForParser extends BlockParser<ForBlock> {
     }
 
     @Override
-    public void initialize(Context<Object> context) {
+    public void initialize(Context<?> context) {
         this.defaultCondition = new PandaExpression(context.getTypeLoader().requireType("panda::Bool").getSignature(), true);
         super.initialize(context);
     }
 
     @Override
-    public Option<CompletableFuture<ForBlock>> parse(Context<Object> context) {
+    public Option<CompletableFuture<ForBlock>> parse(Context<?> context) {
         PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
         if (sourceReader.read(Keywords.FOR).isEmpty()) {
@@ -71,7 +71,7 @@ public final class ForParser extends BlockParser<ForBlock> {
 
         Scope forExpressionScope = new PandaBlock(context.getScope(), context.getSource());
 
-        Context<Object> delegatedContext = context.forkCreator()
+        Context<?> delegatedContext = context.forkCreator()
                 .withScope(forExpressionScope)
                 .toContext();
 

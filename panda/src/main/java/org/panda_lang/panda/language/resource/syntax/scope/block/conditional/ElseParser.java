@@ -17,7 +17,7 @@ public final class ElseParser extends BlockParser<ConditionalBlock> {
     }
 
     @Override
-    public Option<CompletableFuture<ConditionalBlock>> parse(Context<Object> context) {
+    public Option<CompletableFuture<ConditionalBlock>> parse(Context<?> context) {
         return CONDITIONAL_PARSER.parse(SCOPE_PARSER, context, Keywords.ELSE, false)
                 .peek(conditionalBlock -> CONDITIONAL_PARSER.linkBlocks(context, conditionalBlock))
                 .map(CompletableFuture::completedFuture);

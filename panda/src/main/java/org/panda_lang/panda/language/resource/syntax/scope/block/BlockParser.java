@@ -17,7 +17,7 @@ public abstract class BlockParser<R> implements ContextParser<Object, R> {
     }
 
     @Override
-    public void initialize(Context<Object> context) {
+    public void initialize(Context<?> context) {
         if (SCOPE_PARSER == null) {
             SCOPE_PARSER = new ScopeParser(context.getPoolService());
         }

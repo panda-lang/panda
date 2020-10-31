@@ -41,7 +41,7 @@ public final class ThrowParser implements ContextParser<Object, Throw> {
     }
 
     @Override
-    public Option<CompletableFuture<Throw>> parse(Context<Object> context) {
+    public Option<CompletableFuture<Throw>> parse(Context<?> context) {
         SourceReader sourceReader = new SourceReader(context.getStream());
 
         if (sourceReader.read(Keywords.THROW).isPresent()) {

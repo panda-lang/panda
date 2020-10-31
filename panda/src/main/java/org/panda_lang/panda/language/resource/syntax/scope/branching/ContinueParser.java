@@ -43,7 +43,7 @@ public final class ContinueParser implements ContextParser<Object, Continue> {
     }
 
     @Override
-    public Option<CompletableFuture<Continue>> parse(Context<Object> context) {
+    public Option<CompletableFuture<Continue>> parse(Context<?> context) {
         return new SourceReader(context.getStream()).read(Keywords.CONTINUE)
                 .peek(token -> {
                     if (!ScopeUtils.lookFor(context.getScope(), ControlledScope.class)) {

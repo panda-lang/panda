@@ -28,7 +28,7 @@ final class ConveyanceUtils {
 
     protected static Type fetchType(Context<?> context, Snippet javaTypeSource) {
         try {
-            Class<?> importedClass = Class.forName(javaTypeSource.asSource(), true, context.getFrameworkController().getClassLoader());
+            Class<?> importedClass = Class.forName(javaTypeSource.asSource(), true, context.getEnvironment().getController().getClassLoader());
 
             Module module = context.getScript().getModule().orThrow(() -> {
                 throw new PandaParserFailure(context, javaTypeSource, "");

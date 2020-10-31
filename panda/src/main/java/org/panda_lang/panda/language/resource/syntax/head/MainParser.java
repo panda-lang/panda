@@ -36,7 +36,7 @@ import java.util.concurrent.CompletableFuture;
 
 public final class MainParser implements ContextParser<Object, MainScope> {
 
-    private static final ScopeParser SCOPE_PARSER = new ScopeParser();
+    private ScopeParser scopeParser;
 
     @Override
     public String name() {
@@ -49,7 +49,12 @@ public final class MainParser implements ContextParser<Object, MainScope> {
     }
 
     @Override
-    public Option<CompletableFuture<MainScope>> parse(Context<Object> context) {
+    public void initialize(Context<?> context) {
+        this.scopeParser = new ScopeParser(context.getPoolService());
+    }
+
+    @Override
+    public Option<CompletableFuture<MainScope>> parse(Context<?> context) {
         SourceReader sourceReader = new SourceReader(context.getStream());
 
         if (sourceReader.read(Keywords.MAIN).isEmpty()) {
@@ -67,7 +72,7 @@ public final class MainParser implements ContextParser<Object, MainScope> {
         MainScope mainScope = new MainScope(context.getSource().getLocation());
 
         context.getStageService().delegate("parse main body", Phases.CONTENT, Layer.NEXT_DEFAULT, contentPhase -> {
-            SCOPE_PARSER.parse(context.fork(), mainScope, body.get());
+            scopeParser.parse(context.fork(), mainScope, body.get());
         });
 
         return Option.of(futureScope);

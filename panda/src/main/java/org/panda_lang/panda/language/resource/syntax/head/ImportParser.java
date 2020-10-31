@@ -42,7 +42,7 @@ public final class ImportParser implements ContextParser<Object, Reference> {
     }
 
     @Override
-    public Option<CompletableFuture<Reference>> parse(Context<Object> context) {
+    public Option<CompletableFuture<Reference>> parse(Context<?> context) {
         PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
         if (sourceReader.read(Keywords.IMPORT).isEmpty()) {

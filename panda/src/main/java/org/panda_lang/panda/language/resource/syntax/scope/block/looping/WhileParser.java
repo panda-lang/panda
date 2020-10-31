@@ -42,7 +42,7 @@ public final class WhileParser extends BlockParser<WhileBlock> {
     }
 
     @Override
-    public Option<CompletableFuture<WhileBlock>> parse(Context<Object> context) {
+    public Option<CompletableFuture<WhileBlock>> parse(Context<?> context) {
         PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
         if (sourceReader.read(Keywords.WHILE).isEmpty()) {
