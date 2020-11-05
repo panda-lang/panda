@@ -35,7 +35,7 @@ import java.security.InvalidParameterException;
 public final class NegativeExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public ExpressionSubparserWorker createWorker(Context context) {
+    public ExpressionSubparserWorker createWorker(Context<?> context) {
         return new NegateWorker().withSubparser(this);
     }
 
@@ -57,7 +57,7 @@ public final class NegativeExpressionSubparser implements ExpressionSubparser {
     private static final class NegateWorker extends AbstractExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo token) {
+        public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
             if (!token.contentEquals(Operators.SUBTRACTION)) {
                 return null;
             }

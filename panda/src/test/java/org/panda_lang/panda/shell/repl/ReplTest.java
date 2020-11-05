@@ -32,7 +32,7 @@ class ReplTest {
         Panda panda = PandaUtils.defaultInstance();
         ReplConsole console = new ReplConsole(panda, System.in, true);
         ReplCreator creator = Repl.creator(console);
-        Context context = creator.getContext();
+        Context<?> context = creator.getContext();
 
         Repl repl = creator
                 .variable(new PandaVariableData(ModuleLoaderUtils.requireType(context, int.class), "i"), 5)

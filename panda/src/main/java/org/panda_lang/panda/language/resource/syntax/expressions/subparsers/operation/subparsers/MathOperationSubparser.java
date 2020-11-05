@@ -52,7 +52,7 @@ public final class MathOperationSubparser implements OperationSubparser {
     );
 
     @Override
-    public Expression parse(OperationParser parser, Context context, Operation operation) {
+    public Expression parse(OperationParser parser, Context<?> context, Operation operation) {
         RPNOperation rpn = RPNOperation.builder()
                 .withData(context)
                 .withOperation(operation)

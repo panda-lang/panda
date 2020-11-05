@@ -27,12 +27,11 @@ import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.language.resource.syntax.separator.Separators;
-import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
 
 final class LambdaExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public ExpressionSubparserWorker createWorker(Context context) {
+    public ExpressionSubparserWorker createWorker(Context<?> context) {
         return new LambdaWorker().withSubparser(this);
     }
 
@@ -43,10 +42,10 @@ final class LambdaExpressionSubparser implements ExpressionSubparser {
 
     private static final class LambdaWorker extends AbstractExpressionSubparserWorker {
 
-        private final ScopeParser SCOPE_PARSER = new ScopeParser();
+        // private final ScopeParser SCOPE_PARSER = new ScopeParser();
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo token) {
+        public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
             if (token.getType() != TokenTypes.SECTION) {
                 return null;
             }

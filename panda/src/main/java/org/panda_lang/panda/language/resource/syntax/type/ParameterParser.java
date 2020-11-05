@@ -17,15 +17,16 @@
 package org.panda_lang.panda.language.resource.syntax.type;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
+import org.panda_lang.language.architecture.module.Imports;
 import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
+import org.panda_lang.language.architecture.type.member.parameter.PropertyParameterImpl;
 import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.SnippetUtils;
 import org.panda_lang.language.interpreter.token.Token;
-import org.panda_lang.language.architecture.type.member.parameter.PropertyParameterImpl;
-import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.language.resource.syntax.separator.Separators;
 import org.panda_lang.utilities.commons.ArrayUtils;
@@ -36,7 +37,12 @@ import java.util.List;
 
 public final class ParameterParser implements Parser {
 
-    public List<PropertyParameter> parse(Context context, @Nullable Snippet snippet) {
+    @Override
+    public String name() {
+        return "parameter";
+    }
+
+    public List<PropertyParameter> parse(Context<?> context, @Nullable Snippet snippet) {
         if (SnippetUtils.isEmpty(snippet)) {
             return Collections.emptyList();
         }
@@ -48,7 +54,7 @@ public final class ParameterParser implements Parser {
             return parameters;
         }
 
-        Imports imports = context.getComponent(Components.IMPORTS);
+        Imports imports = context.getImports();
 
         for (int index = 0; index < parametersSource.length; index++) {
             Snippet source = parametersSource[index];
@@ -75,7 +81,7 @@ public final class ParameterParser implements Parser {
             });
 
             if (varargs) {
-                type = type.toArray(context.getComponent(Components.TYPE_LOADER));
+                type = type.toArray(context.getTypeLoader());
             }
 
             PropertyParameter parameter = new PropertyParameterImpl(index, type, name.getValue(), varargs, mutable, nillable);

@@ -125,7 +125,7 @@ public final class ExpressionResult {
      * @param context the expression context
      * @return the error result
      */
-    public static ExpressionResult error(String message, ExpressionContext context) {
+    public static ExpressionResult error(String message, ExpressionContext<?> context) {
         context.getSynchronizedSource().next(-1);
         return error(message, context.getSynchronizedSource().getAvailableSource());
     }

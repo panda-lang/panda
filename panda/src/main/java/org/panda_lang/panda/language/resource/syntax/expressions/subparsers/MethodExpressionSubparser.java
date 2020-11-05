@@ -50,7 +50,7 @@ import java.util.List;
 public final class MethodExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public ExpressionSubparserWorker createWorker(Context context) {
+    public ExpressionSubparserWorker createWorker(Context<?> context) {
         return new MethodWorker().withSubparser(this);
     }
 
@@ -74,7 +74,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
         private static final ArgumentsParser ARGUMENT_PARSER = new ArgumentsParser();
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo nameToken) {
+        public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo nameToken) {
             SynchronizedSource source = context.getSynchronizedSource();
 
             // name has to be declared by unknown or sequence token

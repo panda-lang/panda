@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.language.architecture.type.Signature;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
@@ -27,11 +28,13 @@ import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.architecture.expression.DynamicExpression;
 import org.panda_lang.language.architecture.type.VisibilityComparator;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
+import org.panda_lang.utilities.commons.function.Result;
 
 public final class IsExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public ExpressionSubparserWorker createWorker(Context context) {
+    public ExpressionSubparserWorker createWorker(Context<?> context) {
         return new IsWorker(context).withSubparser(this);
     }
 
@@ -49,26 +52,27 @@ public final class IsExpressionSubparser implements ExpressionSubparser {
 
         private final Type boolType;
 
-        private IsWorker(Context context) {
-            this.boolType = ModuleLoaderUtils.requireType(context, boolean.class);
+        private IsWorker(Context<?> context) {
+            this.boolType = context.getTypeLoader().requireType("panda::Bool");
         }
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo token) {
+        public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
             if (!context.hasResults() || !token.contentEquals(Keywords.IS)) {
                 return null;
             }
 
-            Produce<Type, ExpressionResult> result = SubparsersUtils.readType(context);
 
-            if (result.hasError()) {
+            Result<Signature, ExpressionResult> result = SubparsersUtils.readType(context);
+
+            if (result.isErr()) {
                 return result.getError();
             }
 
-            Type type = result.getResult();
-            VisibilityComparator.requireAccess(type, context.toContext(), token);
+            Signature signature = result.get();
+            VisibilityComparator.requireAccess(signature.getPrimaryType(), context.toContext(), token);
 
-            DynamicExpression expression = new IsExpression(boolType, context.popExpression(), type);
+            DynamicExpression expression = new IsExpression(boolType, context.popExpression(), signature);
             return ExpressionResult.of(expression.toExpression());
         }
 

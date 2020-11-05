@@ -50,7 +50,7 @@ public class ExpressionBenchmark extends ExpressionParserTestBootstrap {
     @SuppressWarnings("CanBeFinal")
     public static class Configuration {
 
-        protected Context context;
+        protected Context<?> context;
         protected ExpressionParser expressionParser;
 
         @Setup(Level.Trial)

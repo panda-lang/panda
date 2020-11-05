@@ -50,7 +50,7 @@ import java.util.function.Supplier;
 public final class Repl {
 
     private final ReplConsole console;
-    private final Context context;
+    private final Context<?> context;
     private final ExpressionParser expressionParser;
     private final Supplier<Process> processSupplier;
     private final ThrowingFunction<ProcessStack, Object, Exception> instanceSupplier;

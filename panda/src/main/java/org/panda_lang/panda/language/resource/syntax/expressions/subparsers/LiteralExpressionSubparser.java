@@ -17,23 +17,25 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.expression.ThisExpression;
+import org.panda_lang.language.architecture.type.Signature;
+import org.panda_lang.language.architecture.type.TypeContext;
 import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.PandaParserException;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionParserUtils;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserType;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.language.interpreter.token.TokenInfo;
-import org.panda_lang.language.architecture.expression.ThisExpression;
-import org.panda_lang.language.interpreter.parser.PandaParserException;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionParserUtils;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 
 public final class LiteralExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public ExpressionSubparserWorker createWorker(Context context) {
+    public ExpressionSubparserWorker createWorker(Context<?> context) {
         return new SequenceWorker(context).withSubparser(this);
     }
 
@@ -49,14 +51,14 @@ public final class LiteralExpressionSubparser implements ExpressionSubparser {
 
     private static final class SequenceWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
-        private final Type boolType;
+        private final Signature boolType;
 
         public SequenceWorker(Context<?> context) {
-            this.boolType = context.getTypeLoader().requireType("panda::Bool");
+            this.boolType = context.getTypeLoader().requireType("panda::Bool").getSignature();
         }
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo token) {
+        public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
             if (token.getType() != TokenTypes.LITERAL) {
                 return null;
             }
@@ -69,7 +71,13 @@ public final class LiteralExpressionSubparser implements ExpressionSubparser {
                 case "null":
                     return ExpressionParserUtils.toExpressionResult(null, null);
                 case "this":
-                    return ExpressionResult.of(ThisExpression.of(context.toContext()));
+                    if (context.toContext().getSubject() instanceof TypeContext) {
+                        //noinspection unchecked
+                        return ExpressionResult.of(ThisExpression.of((Context<TypeContext>) context.toContext()));
+                    }
+                    else {
+                        throw new PandaParserFailure(context, "Cannot use 'this' outside of the type object");
+                    }
                 default:
                     throw new PandaParserException("Unknown literal: " + token);
             }

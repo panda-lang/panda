@@ -6,6 +6,7 @@ import org.panda_lang.language.architecture.type.Signature;
 import org.panda_lang.language.architecture.type.Signature.Relation;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.Contextual;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.token.PandaSourceStream;
@@ -25,7 +26,8 @@ public final class SignatureParser implements Parser {
         return "signature";
     }
 
-    public Signature parse(Context<?> context, SignatureSource signatureSource) {
+    public Signature parse(Contextual<?> contextual, SignatureSource signatureSource) {
+        Context<?> context = contextual.toContext();
         Imports imports = context.getImports();
         String name = signatureSource.getName().getValue();
 

@@ -34,7 +34,7 @@ final class RPNOperationTransformer {
         this.suppliers = builder.suppliers;
     }
 
-    public RPNOperation parse(Context context, Operation operation) {
+    public RPNOperation parse(Context<?> context, Operation operation) {
         Stack<Object> values = new Stack<>();
         Stack<Operator> operators = new Stack<>();
 

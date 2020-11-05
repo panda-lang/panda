@@ -46,7 +46,7 @@ import java.util.Arrays;
 public final class ConstructorExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public ExpressionSubparserWorker createWorker(Context context) {
+    public ExpressionSubparserWorker createWorker(Context<?> context) {
         return new ConstructorWorker().withSubparser(this);
     }
 
@@ -70,7 +70,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
         private static final ArgumentsParser ARGUMENT_PARSER = new ArgumentsParser();
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo token) {
+        public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
             // require 'new' keyword
             if (!token.contentEquals(Keywords.NEW)) {
                 return null;

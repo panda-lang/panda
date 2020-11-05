@@ -54,7 +54,7 @@ public final class Operation {
         return elements;
     }
 
-    private static OperationElement asOperatorElement(ExpressionParser parser, Context context, ExpressionContext expressionContext, OperationPatternElement element) {
+    private static OperationElement asOperatorElement(ExpressionParser parser, Context<?> context, ExpressionContext expressionContext, OperationPatternElement element) {
         if (element.isOperator()) {
             return new OperationElement(element.getOperator());
         }
@@ -66,7 +66,7 @@ public final class Operation {
         return new OperationElement(transaction.getExpression());
     }
 
-    public static Operation of(ExpressionParser parser, Context context, ExpressionContext expressionContext, OperationPatternResult result) {
+    public static Operation of(ExpressionParser parser, Context<?> context, ExpressionContext expressionContext, OperationPatternResult result) {
         List<OperationElement> elements = new ArrayList<>(result.size());
 
         for (OperationPatternElement element : result.getElements()) {

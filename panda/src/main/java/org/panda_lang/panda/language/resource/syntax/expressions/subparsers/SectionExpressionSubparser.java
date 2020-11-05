@@ -31,7 +31,7 @@ import org.panda_lang.language.resource.syntax.separator.Separators;
 public final class SectionExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public ExpressionSubparserWorker createWorker(Context context) {
+    public ExpressionSubparserWorker createWorker(Context<?> context) {
         return new SectionWorker().withSubparser(this);
     }
 
@@ -43,7 +43,7 @@ public final class SectionExpressionSubparser implements ExpressionSubparser {
     private static final class SectionWorker extends AbstractExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo token) {
+        public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
             if (token.getType() != TokenTypes.SECTION) {
                 return null;
             }

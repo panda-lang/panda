@@ -33,7 +33,7 @@ import org.panda_lang.language.resource.syntax.operator.Operators;
 public final class CreaseExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public ExpressionSubparserWorker createWorker(Context context) {
+    public ExpressionSubparserWorker createWorker(Context<?> context) {
         return new CreaseWorker().withSubparser(this);
     }
 
@@ -50,7 +50,7 @@ public final class CreaseExpressionSubparser implements ExpressionSubparser {
     private static final class CreaseWorker extends AbstractExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo token) {
+        public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
             CreaseType type = null;
 
             if (token.contentEquals(Operators.INCREMENT)) {

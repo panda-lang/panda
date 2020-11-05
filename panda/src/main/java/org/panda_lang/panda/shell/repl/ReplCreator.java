@@ -43,7 +43,7 @@ import java.util.function.Supplier;
 public final class ReplCreator {
 
     protected final ReplConsole console;
-    protected final Context context;
+    protected final Context<?> context;
     protected final TypeScope typeScope;
     protected final ReplScope replScope;
     protected ReplExceptionListener exceptionListener;

@@ -43,7 +43,7 @@ public final class OperationExpressionSubparser implements ExpressionSubparser {
     private static final OperationParser OPERATION_PARSER = new OperationParser();
 
     @Override
-    public ExpressionSubparserWorker createWorker(Context context) {
+    public ExpressionSubparserWorker createWorker(Context<?> context) {
         return new OperationWorker().withSubparser(this);
     }
 
@@ -72,7 +72,7 @@ public final class OperationExpressionSubparser implements ExpressionSubparser {
         private List<Operation.OperationElement> elements;
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo token) {
+        public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
             if (!context.hasResults()) {
                 return null;
             }
@@ -107,7 +107,7 @@ public final class OperationExpressionSubparser implements ExpressionSubparser {
         }
 
         @Override
-        public @Nullable ExpressionResult finish(ExpressionContext context) {
+        public @Nullable ExpressionResult finish(ExpressionContext<?> context) {
             if (elements == null) {
                 return null;
             }

@@ -30,7 +30,7 @@ import org.panda_lang.language.resource.syntax.TokenTypes;
 public final class StaticExpressionSubparser implements PartialResultSubparser {
 
     @Override
-    public ExpressionSubparserWorker createWorker(Context context) {
+    public ExpressionSubparserWorker createWorker(Context<?> context) {
         return new StaticWorker().withSubparser(this);
     }
 

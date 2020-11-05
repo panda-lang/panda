@@ -39,7 +39,7 @@ import org.panda_lang.utilities.commons.function.Option;
 public final class VariableExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public ExpressionSubparserWorker createWorker(Context context) {
+    public ExpressionSubparserWorker createWorker(Context<?> context) {
         return new VariableWorker().withSubparser(this);
     }
 
@@ -51,7 +51,7 @@ public final class VariableExpressionSubparser implements ExpressionSubparser {
     private static final class VariableWorker extends AbstractExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo token) {
+        public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
             boolean period = TokenUtils.contentEquals(context.getSynchronizedSource().getPrevious(), Separators.PERIOD);
 
             if (token.getType() != TokenTypes.UNKNOWN) {
@@ -102,7 +102,7 @@ public final class VariableExpressionSubparser implements ExpressionSubparser {
             return null;
         }
 
-        private Option<ExpressionResult> fromInstance(ExpressionContext context, Expression instance, TokenInfo name) {
+        private Option<ExpressionResult> fromInstance(ExpressionContext<?> context, Expression instance, TokenInfo name) {
             Option<TypeField> fieldValue = instance.getType().getFields().getField(name.getValue());
 
             if (fieldValue.isDefined()) {

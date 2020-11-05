@@ -21,6 +21,6 @@ import org.panda_lang.language.interpreter.parser.Context;
 
 public interface OperationSubparser {
 
-    Expression parse(OperationParser parser, Context context, Operation operation);
+    Expression parse(OperationParser parser, Context<?> context, Operation operation);
 
 }

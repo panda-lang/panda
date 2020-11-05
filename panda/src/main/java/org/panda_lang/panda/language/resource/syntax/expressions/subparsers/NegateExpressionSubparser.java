@@ -30,7 +30,7 @@ import org.panda_lang.language.resource.syntax.operator.Operators;
 public final class NegateExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public ExpressionSubparserWorker createWorker(Context context) {
+    public ExpressionSubparserWorker createWorker(Context<?> context) {
         return new NegateWorker().withSubparser(this);
     }
 
@@ -52,7 +52,7 @@ public final class NegateExpressionSubparser implements ExpressionSubparser {
     private static final class NegateWorker extends AbstractExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo token) {
+        public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
             if (!token.contentEquals(Operators.NOT)) {
                 return null;
             }
