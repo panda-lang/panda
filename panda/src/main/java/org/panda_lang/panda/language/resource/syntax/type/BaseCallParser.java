@@ -51,7 +51,7 @@ public final class BaseCallParser implements ContextParser<TypeContext, BaseCall
     }
 
     @Override
-    public Option<CompletableFuture<BaseCall>> parse(Context<TypeContext> context) {
+    public Option<CompletableFuture<BaseCall>> parse(Context<? extends TypeContext> context) {
         PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
         if (sourceReader.read(Keywords.BASE).isEmpty()) {

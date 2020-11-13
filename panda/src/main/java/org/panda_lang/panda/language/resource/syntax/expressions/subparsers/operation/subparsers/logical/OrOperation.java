@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.logical;
 
 import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.architecture.type.Signature;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.module.TypeLoader;
 import org.panda_lang.language.runtime.ProcessStack;
@@ -40,8 +41,8 @@ public class OrOperation implements RPNOperationSupplier<Boolean> {
             }
 
             @Override
-            public Type returnType(TypeLoader typeLoader) {
-                return requiredType(typeLoader);
+            public Signature returnType(TypeLoader typeLoader) {
+                return requiredType(typeLoader).getSignature();
             }
         };
     }
@@ -53,7 +54,7 @@ public class OrOperation implements RPNOperationSupplier<Boolean> {
 
     @Override
     public Type requiredType(TypeLoader typeLoader) {
-        return typeLoader.requireType("boolean");
+        return typeLoader.requireType("panda::Bool");
     }
 
 }

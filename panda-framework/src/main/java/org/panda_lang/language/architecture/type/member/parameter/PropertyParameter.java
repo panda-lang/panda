@@ -23,11 +23,4 @@ import org.panda_lang.language.architecture.statement.Variable;
  */
 public interface PropertyParameter extends Variable {
 
-    /**
-     * Check if parameter is VarArgs
-     *
-     * @return true if parameter accepts varargs parameters
-     */
-    boolean isVarargs();
-
 }

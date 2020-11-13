@@ -28,7 +28,6 @@ import org.panda_lang.language.interpreter.parser.expression.ExpressionTransacti
 import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number.NumberType;
-import org.panda_lang.utilities.commons.ClassUtils;
 
 import java.security.InvalidParameterException;
 
@@ -66,13 +65,12 @@ public final class NegativeExpressionSubparser implements ExpressionSubparser {
             context.commit(transaction::rollback);
 
             Expression expression = transaction.getExpression();
-            Class<?> numberClass = ClassUtils.getNonPrimitiveClass(expression.getType().getAssociatedClass().fetchStructure());
 
-            if (!Number.class.isAssignableFrom(numberClass)) {
+            if (expression.getKnownType().isAssignableFrom(context.toContext().getTypeLoader().requireType("panda::Number"))) {
                 throw new InvalidParameterException("Cannot reverse non logical value");
             }
 
-            NegativeExpression negativeExpression = new NegativeExpression(expression, NumberType.of(numberClass));
+            NegativeExpression negativeExpression = new NegativeExpression(expression, NumberType.of(expression.getKnownType().getName()));
             return ExpressionResult.of(negativeExpression.toExpression());
         }
 

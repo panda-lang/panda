@@ -21,20 +21,12 @@ import org.panda_lang.language.architecture.type.Signature;
 
 public final class PropertyParameterImpl extends PandaVariable implements PropertyParameter {
 
-    private final boolean varargs;
-
-    public PropertyParameterImpl(int parameterIndex, Signature signature, String name, boolean varargs, boolean mutable, boolean nillable) {
+    public PropertyParameterImpl(int parameterIndex, Signature signature, String name, boolean mutable, boolean nillable) {
         super(parameterIndex, signature, name, mutable, nillable);
-        this.varargs = varargs;
     }
 
     public PropertyParameterImpl(int parameterIndex, Signature signature, String name) {
-        this(parameterIndex, signature, name, false, false, false);
-    }
-
-    @Override
-    public boolean isVarargs() {
-        return varargs;
+        this(parameterIndex, signature, name, false, false);
     }
 
 }

@@ -44,13 +44,13 @@ public final class SequenceExpressionSubparser implements ExpressionSubparser {
         private final Type stringType;
 
         private SequenceWorker(Context<?> context) {
-            this.stringType = context.getTypeLoader().requireType(context, String.class);
+            this.stringType = context.getTypeLoader().requireType("panda::String");
         }
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
             if (TokenUtils.hasName(token, "String")) {
-                return ExpressionParserUtils.toExpressionResult(stringType, token.getValue());
+                return ExpressionParserUtils.toExpressionResult(stringType.getSignature(), token.getValue());
             }
 
             return null;

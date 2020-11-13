@@ -58,7 +58,7 @@ public final class SignatureMatcher<T extends Member> {
         for (; (index < parameters.length) && (required < requiredTypes.length); index++) {
             PropertyParameter parameter = parameters[index];
 
-            if (!parameter.isVarargs()) {
+            //if (!parameter.isVarargs()) {
                 target[required] = index;
 
                 if (!requiredTypes[required++].isAssignableFrom(parameter.getSignature())) {
@@ -66,7 +66,7 @@ public final class SignatureMatcher<T extends Member> {
                 }
 
                 continue;
-            }
+            //}
 
             /*
             // varargs parameter has to be array

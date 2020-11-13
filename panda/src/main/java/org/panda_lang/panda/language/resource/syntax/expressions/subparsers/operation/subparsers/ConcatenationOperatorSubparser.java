@@ -53,7 +53,7 @@ public final class ConcatenationOperatorSubparser implements OperationSubparser 
             return null;
         }
 
-        Type stringType = context.getComponent(Components.TYPE_LOADER).requireType(String.class);
+        Type stringType = context.getTypeLoader().requireType("panda::String");
         return new ConcatenationExpressionCallback(stringType, values).toExpression();
     }
 

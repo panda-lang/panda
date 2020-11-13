@@ -17,23 +17,26 @@
 package org.panda_lang.panda.shell.repl;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.architecture.module.Module;
+import org.panda_lang.language.architecture.module.PandaModule;
+import org.panda_lang.language.architecture.statement.PandaVariableData;
+import org.panda_lang.language.architecture.type.PandaType;
+import org.panda_lang.language.architecture.type.Signature;
 import org.panda_lang.language.architecture.type.State;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.runtime.Process;
-import org.panda_lang.language.runtime.ProcessStack;
-import org.panda_lang.language.architecture.statement.PandaVariableData;
+import org.panda_lang.language.architecture.type.TypeContext;
+import org.panda_lang.language.architecture.type.TypeScope;
 import org.panda_lang.language.architecture.type.member.constructor.PandaConstructor;
 import org.panda_lang.language.architecture.type.member.method.PandaMethod;
-import org.panda_lang.language.architecture.type.PandaType;
-import org.panda_lang.language.architecture.type.TypeScope;
+import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.source.PandaClassSource;
 import org.panda_lang.language.interpreter.token.PandaSourceLocationUtils;
 import org.panda_lang.language.runtime.PandaProcess;
+import org.panda_lang.language.runtime.Process;
+import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.panda.language.interpreter.parser.PandaContextUtils;
 import org.panda_lang.utilities.commons.function.ThrowingFunction;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.function.Supplier;
 
@@ -52,27 +55,27 @@ public final class ReplCreator {
 
     ReplCreator(ReplConsole console) {
         this.console = console;
-        this.context = PandaContextUtils.createStubContext(console.getFrameworkController());
 
-        Module module = context.getComponent(Components.SCRIPT).getModule();
         Type type = PandaType.builder()
                 .name("ShellType")
-                .module(module)
+                .module(new PandaModule("repl"))
                 .location(new PandaClassSource(ReplCreator.class).toLocation())
                 .state(State.FINAL)
                 .build();
 
-        context.withComponent(TypeComponents.PROTOTYPE, type);
         this.typeScope = new TypeScope(PandaSourceLocationUtils.unknownLocation("repl"), type);
+        this.replScope = new ReplScope(typeScope.getSourceLocation(), Collections.emptyList());
+
+        this.context = PandaContextUtils.createStubContext(console.getFrameworkController())
+                .withSubject(new TypeContext(type, typeScope))
+                .withScope(replScope)
+                .toContext();
 
         type.getConstructors().declare(PandaConstructor.builder()
                 .type(type)
-                .callback((typeConstructor, frame, instance, arguments) -> typeScope.createInstance(frame, instance, typeConstructor, new Class<?>[0], arguments))
+                .callback((typeConstructor, frame, instance, arguments) -> typeScope.createInstance(frame, instance, typeConstructor, Arrays.asList(), arguments))
                 .location(type.getLocation())
                 .build());
-
-        this.replScope = new ReplScope(typeScope.getSourceLocation(), Collections.emptyList());
-        context.withComponent(Components.SCOPE, replScope);
     }
 
     /**
@@ -82,8 +85,8 @@ public final class ReplCreator {
      * @throws Exception if something happen
      */
     public Repl create() throws Exception {
-        this.processSupplier = () -> new PandaProcess(context.getComponent(Components.APPLICATION), replScope);
-        this.instanceSupplier = stack -> typeScope.createInstance(stack, typeScope, typeScope.getType().getConstructors().getConstructor(new Type[0]).getOrNull(), new Class<?>[0], new Object[0]);
+        this.processSupplier = () -> new PandaProcess(context.getApplication(), replScope);
+        this.instanceSupplier = stack -> typeScope.createInstance(stack, typeScope, typeScope.getType().getConstructors().getConstructor(new Signature[0]).getOrNull(), Arrays.asList(), new Object[0]);
 
         return new Repl(this);
     }

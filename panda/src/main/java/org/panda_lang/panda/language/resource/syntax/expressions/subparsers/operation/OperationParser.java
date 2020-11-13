@@ -31,20 +31,25 @@ import org.panda_lang.utilities.commons.function.Option;
 
 public final class OperationParser implements Parser {
 
-    public Expression parse(Context<?> context, ExpressionContext expressionContext, Snippet source) {
+    @Override
+    public String name() {
+        return "operation";
+    }
+
+    public Expression parse(Context<?> context, ExpressionContext<?> expressionContext, Snippet source) {
         return parse(context, expressionContext, source, OperationExpressionUtils.OPERATION_PATTERN.extract(source));
     }
 
-    public Expression parse(Context<?> context, ExpressionContext expressionContext, Snippet source, OperationPatternResult result) {
-        return parse(context, Operation.of(context.getComponent(Components.EXPRESSION), context, expressionContext, result)).orThrow(() -> {
-            throw new PandaParserFailure(expressionContext, source, "Unknown operation");
+    public Expression parse(Context<?> context, ExpressionContext<?> expressionContext, Snippet source, OperationPatternResult result) {
+        return parse(context, Operation.of(context.getExpressionParser(), context, expressionContext, result)).orThrow(() -> {
+            throw new PandaParserFailure(expressionContext.toContext(), source, "Unknown operation");
         });
     }
 
     public Option<Expression> parse(Context<?> context, Operation operation) {
         return Option.of(operation).match(
-                Case.of(OperationUtils::isNumeric, o -> new MathOperationSubparser().parse(this, context, operation)),
                 Case.of(OperationUtils::isLogical, o -> new LogicalOperatorSubparser().parse(this, context, operation)),
+                Case.of(OperationUtils::isNumeric, o -> new MathOperationSubparser().parse(this, context, operation)),
                 Case.of(OperationUtils::isConcatenation, o -> new ConcatenationOperatorSubparser().parse(this, context, operation))
         );
     }

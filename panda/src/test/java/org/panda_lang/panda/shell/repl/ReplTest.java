@@ -18,11 +18,13 @@ package org.panda_lang.panda.shell.repl;
 
 import org.junit.jupiter.api.Test;
 import org.panda_lang.language.architecture.statement.PandaVariableData;
+import org.panda_lang.language.architecture.type.Signature;
 import org.panda_lang.language.architecture.type.member.method.PandaMethod;
 import org.panda_lang.language.architecture.type.member.parameter.PropertyParameterImpl;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.source.PandaClassSource;
 import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number.PandaNumbers;
 import org.panda_lang.panda.util.PandaUtils;
 
 class ReplTest {
@@ -34,13 +36,15 @@ class ReplTest {
         ReplCreator creator = Repl.creator(console);
         Context<?> context = creator.getContext();
 
+        Signature doubleType = context.getTypeLoader().requireType(PandaNumbers.DOUBLE).getSignature();
+
         Repl repl = creator
-                .variable(new PandaVariableData(ModuleLoaderUtils.requireType(context, int.class), "i"), 5)
+                .variable(new PandaVariableData(context.getTypeLoader().requireType(PandaNumbers.INT).getSignature(), "i"), 5)
                 .define(PandaMethod.builder()
                         .name("sqrt")
-                        .parameters(new PropertyParameterImpl(0, ModuleLoaderUtils.requireType(context, Double.class), "i"))
+                        .parameters(new PropertyParameterImpl(0, doubleType, "i"))
                         .customBody((method, stack, instance, arguments) -> Math.sqrt(((Number) arguments[0]).doubleValue()))
-                        .returnType(ModuleLoaderUtils.requireType(context, Double.class))
+                        .returnType(doubleType)
                         .location(new PandaClassSource(ReplTest.class).toLocation())
                         .build())
                 .addVariableChangeListener((variable, previous, current) -> {

@@ -47,8 +47,6 @@ public class PandaSourceReader extends SourceReader {
                 );
     }
 
-
-
     public Option<Section> readGenerics() {
         return readBetween(Operators.ANGLE_LEFT, Operators.ANGLE_RIGHT);
     }

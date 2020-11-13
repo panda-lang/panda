@@ -19,11 +19,13 @@ package org.panda_lang.language.resource.expression.subparsers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.lexer.PandaLexerUtils;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.language.interpreter.parser.expression.PandaExpressionParser;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.panda.language.interpreter.parser.PandaContextUtils;
 import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressions;
+import org.panda_lang.panda.util.PandaUtils;
 import org.panda_lang.utilities.commons.TimeUtils;
 
 import java.util.HashMap;
@@ -35,13 +37,13 @@ class OperationExpressionTest {
 
     @Test
     void testMathOperation() throws Exception {
-        Expression expression = PARSER.parse(ExpressionContextUtils.createFakeContext((context -> new HashMap<>())), SOURCE).getExpression();
+        Expression expression = PARSER.parse(PandaContextUtils.createStubContext(PandaUtils.defaultInstance(), (context -> new HashMap<>())), SOURCE).getExpression();
         Assertions.assertEquals((Object) 3, expression.evaluate(null, null));
     }
 
     @Test
     void test100M() throws Exception {
-        Expression expression = PARSER.parse(ExpressionContextUtils.createFakeContext((context -> new HashMap<>())), SOURCE).getExpression();
+        Expression expression = PARSER.parse(PandaContextUtils.createStubContext(PandaUtils.defaultInstance(), (context -> new HashMap<>())), SOURCE).getExpression();
         long time = System.nanoTime();
 
         for (int times = 0; times < 100_000_000; times++) {

@@ -20,27 +20,33 @@ import org.jetbrains.annotations.Nullable;
 
 public enum NumberType {
 
-    BYTE('B', NumberPriorities.BYTE, Byte.class),
-    SHORT('S', NumberPriorities.SHORT, Short.class),
-    INT('I', NumberPriorities.INT, Integer.class),
-    LONG('L', NumberPriorities.LONG, Long.class),
-    FLOAT('F', NumberPriorities.FLOAT, Float.class),
-    DOUBLE('D', NumberPriorities.DOUBLE, Double.class);
+    BYTE('B', NumberPriorities.BYTE, PandaNumbers.BYTE, Byte.class),
+    SHORT('S', NumberPriorities.SHORT, PandaNumbers.SHORT, Short.class),
+    INT('I', NumberPriorities.INT, PandaNumbers.INT, Integer.class),
+    LONG('L', NumberPriorities.LONG, PandaNumbers.LONG, Long.class),
+    FLOAT('F', NumberPriorities.FLOAT, PandaNumbers.FLOAT, Float.class),
+    DOUBLE('D', NumberPriorities.DOUBLE, PandaNumbers.DOUBLE, Double.class);
 
     private final char letter;
     private final char lowerLetter;
     private final double priority;
+    private final String pandaType;
     private final Class<?> javaType;
 
-    NumberType(char c, double priority, Class<?> javaType) {
-        this.letter = c;
+    NumberType(char letter, double priority, String pandaType, Class<?> javaType) {
+        this.letter = letter;
+        this.lowerLetter = Character.toLowerCase(this.letter);
         this.priority = priority;
+        this.pandaType = pandaType;
         this.javaType = javaType;
-        this.lowerLetter = Character.toLowerCase(letter);
     }
 
     public char getLetter() {
         return letter;
+    }
+
+    public String getPandaType() {
+        return pandaType;
     }
 
     public Class<?> getJavaType() {
@@ -54,6 +60,16 @@ public enum NumberType {
     public static @Nullable NumberType of(Class<?> clazz) {
         for (NumberType type : values()) {
             if (type.getJavaType().equals(clazz)) {
+                return type;
+            }
+        }
+
+        return null;
+    }
+
+    public static @Nullable NumberType of(String pandaType) {
+        for (NumberType type : values()) {
+            if (type.getPandaType().equals(pandaType)) {
                 return type;
             }
         }

@@ -50,7 +50,7 @@ import java.util.function.Supplier;
 public final class Repl {
 
     private final ReplConsole console;
-    private final Context<?> context;
+    private Context<?> context;
     private final ExpressionParser expressionParser;
     private final Supplier<Process> processSupplier;
     private final ThrowingFunction<ProcessStack, Object, Exception> instanceSupplier;
@@ -63,7 +63,7 @@ public final class Repl {
     Repl(ReplCreator creator) throws Exception {
         this.console = creator.console;
         this.context = creator.context;
-        this.expressionParser = context.getComponent(Components.EXPRESSION);
+        this.expressionParser = context.getExpressionParser();
         this.processSupplier = creator.processSupplier;
         this.instanceSupplier = creator.instanceSupplier;
         this.exceptionListener = creator.exceptionListener;
@@ -80,7 +80,7 @@ public final class Repl {
         this.history = new StringBuilder();
         this.stack = new PandaProcessStack(processSupplier.get(), PandaRuntimeConstants.DEFAULT_STACK_SIZE);
 
-        this.instance = context.getComponent(Components.SCOPE).getStandardizedFramedScope().orThrow(() -> {
+        this.instance = context.getScope().getStandardizedFramedScope().orThrow(() -> {
             throw new PandaFrameworkException("Required scope has to be standardized");
         }).revive(stack, instanceSupplier.apply(stack));
 
@@ -170,8 +170,7 @@ public final class Repl {
     }
 
     private ReplResult evaluateExpression(Snippet expressionSource) {
-        context.withComponent(Components.CURRENT_SOURCE, expressionSource);
-        context.withComponent(Components.CHANNEL, new PandaLocalChannel());
+        this.context = context.forkCreator().withSource(expressionSource).toContext();
         Expression expression;
 
         try {

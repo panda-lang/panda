@@ -100,7 +100,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
             }
             // use current instance (this) if source contains only name and section
             else /* if (source.getIndex() == 2) ^ not really */ {
-                instance = ThisExpression.of(context.toContext());
+                instance = ThisExpression.ofUnknownContext(context.toContext());
                 autofilled = true;
             }
 

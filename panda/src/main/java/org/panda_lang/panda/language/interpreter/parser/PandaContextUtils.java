@@ -27,6 +27,7 @@ import org.panda_lang.language.architecture.statement.StandardizedFramedScope;
 import org.panda_lang.language.architecture.statement.StaticScope;
 import org.panda_lang.language.architecture.statement.VariableData;
 import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.ContextCreator;
 import org.panda_lang.language.interpreter.parser.PandaContextCreator;
 import org.panda_lang.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.language.interpreter.parser.expression.PandaExpressionSubparsers;
@@ -50,10 +51,11 @@ public final class PandaContextUtils {
 
     private PandaContextUtils() { }
 
-    public static Context<?> createStubContext(FrameworkController controller) {
+    public static ContextCreator<?> createStubContext(FrameworkController controller) {
         return createStubContext(controller, context -> Collections.emptyMap());
     }
-    public static Context<?> createStubContext(FrameworkController controller, Function<Context<?>, Map<VariableData, Object>> variablesSupplier) {
+
+    public static ContextCreator<?> createStubContext(FrameworkController controller, Function<Context<?>, Map<VariableData, Object>> variablesSupplier) {
         PandaEnvironment environment = new PandaEnvironment(controller, new File("./"));
         environment.initialize();
 
@@ -84,10 +86,7 @@ public final class PandaContextUtils {
         .toContext();
 
         StandardizedFramedScope scope = new StaticScope(variablesSupplier.apply(context));
-
-        return context.forkCreator()
-                .withScope(scope)
-                .toContext();
+        return context.forkCreator().withScope(scope);
     }
 
 }

@@ -33,6 +33,7 @@ import org.panda_lang.language.interpreter.parser.expression.PandaExpressionPars
 import org.panda_lang.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.panda.language.interpreter.parser.PandaContextUtils;
 import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressions;
+import org.panda_lang.panda.util.PandaUtils;
 import org.panda_lang.utilities.commons.StringUtils;
 
 import java.util.HashMap;
@@ -54,11 +55,11 @@ class ExpressionParserTestBootstrap {
     }
 
     protected static Context<?> prepareData() {
-        return PandaContextUtils.createStubContext(context -> new HashMap<VariableData, Object>() {{
-            put(new PandaVariableData(ModuleLoaderUtils.requireType(context, String.class), "variable"), null);
-            put(new PandaVariableData(ModuleLoaderUtils.requireType(context, String.class).toArray(context.getTypeLoader()), "array"), null);
-            put(new PandaVariableData(ModuleLoaderUtils.requireType(context, int.class), "i", true, false), null);
-        }});
+        return PandaContextUtils.createStubContext(PandaUtils.defaultInstance(), context -> new HashMap<VariableData, Object>() {{
+            put(new PandaVariableData(context.getTypeLoader().requireType("panda::String").getSignature(), "variable"), null);
+            put(new PandaVariableData(context.getTypeLoader().requireType("panda::String").getSignature(), "array"), null);
+            put(new PandaVariableData(context.getTypeLoader().requireType("panda::Int").getSignature(), "i", true, false), null);
+        }}).toContext();
     }
 
     protected static void parse(String source, String message) {

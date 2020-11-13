@@ -34,7 +34,6 @@ public final class Separators {
     public static final Separator SEMICOLON = add(VALUES, new Separator(";", null));
     public static final Separator COMMA = add(VALUES, new Separator(",", null));
     public static final Separator PERIOD = add(VALUES, new Separator(".", null));
-    public static final Separator VARARGS = add(VALUES, new Separator("...", null));
 
     public static final Separator PARENTHESIS_RIGHT = add(VALUES, new Separator(")", null));
     public static final Separator PARENTHESIS_LEFT = add(VALUES, new Separator("(", PARENTHESIS_RIGHT));

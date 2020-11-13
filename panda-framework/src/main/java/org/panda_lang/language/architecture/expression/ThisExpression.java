@@ -49,4 +49,13 @@ public final class ThisExpression implements DynamicExpression {
         return of(context.getSubject().getType().getSignature());
     }
 
+    @SuppressWarnings("unchecked")
+    public static Expression ofUnknownContext(Context<?> context) {
+        if (context.getSubject() instanceof TypeContext) {
+            return of((Context<TypeContext>) context);
+        }
+
+        throw new IllegalArgumentException("Context does not contain typed subject");
+    }
+
 }

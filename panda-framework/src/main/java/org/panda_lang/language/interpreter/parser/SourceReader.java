@@ -27,6 +27,10 @@ public class SourceReader implements Localizable {
         this.stream = stream;
     }
 
+    public boolean hasUnreadSource() {
+        return stream.hasUnreadSource();
+    }
+
     public <R> Option<R> optionalRead(Supplier<Option<R>> read) {
         int unreadLength = stream.getUnreadLength();
 
@@ -104,6 +108,10 @@ public class SourceReader implements Localizable {
     @Override
     public Location toLocation() {
         return stream.toLocation();
+    }
+
+    public SourceStream getStream() {
+        return stream;
     }
 
 }
