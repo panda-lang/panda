@@ -16,7 +16,7 @@
 
 package org.panda_lang.language.architecture.expression;
 
-import org.panda_lang.language.architecture.type.Signed;
+import org.panda_lang.language.architecture.type.signature.Signed;
 
 /**
  * Represents dynamic values

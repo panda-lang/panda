@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.architecture.type.Signature;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
@@ -28,7 +28,6 @@ import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.architecture.expression.DynamicExpression;
 import org.panda_lang.language.architecture.type.VisibilityComparator;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.utilities.commons.function.Result;
 
 public final class IsExpressionSubparser implements ExpressionSubparser {

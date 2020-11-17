@@ -30,6 +30,10 @@ public class Reference {
         return type.isReady();
     }
 
+    public Type fetchType() {
+        return getType().get();
+    }
+
     public CompletableOption<Type> getType() {
         return type;
     }

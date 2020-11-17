@@ -24,6 +24,9 @@ import org.panda_lang.language.architecture.type.member.Metadata;
 import org.panda_lang.language.architecture.type.member.constructor.Constructors;
 import org.panda_lang.language.architecture.type.member.field.Fields;
 import org.panda_lang.language.architecture.type.member.method.Methods;
+import org.panda_lang.language.architecture.type.signature.Signature;
+import org.panda_lang.language.architecture.type.signature.Signed;
+import org.panda_lang.language.architecture.type.signature.TypedSignature;
 import org.panda_lang.utilities.commons.function.CompletableOption;
 import org.panda_lang.utilities.commons.function.Option;
 
@@ -158,6 +161,9 @@ public interface Type extends Metadata, Signed {
      * @return the model that represents type
      */
     String getKind();
+
+    @Override
+    TypedSignature getSignature();
 
     /**
      * Get loader that loaded this type

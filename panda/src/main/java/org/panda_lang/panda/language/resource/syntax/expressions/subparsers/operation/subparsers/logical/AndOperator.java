@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ope
 
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.module.TypeLoader;
-import org.panda_lang.language.architecture.type.Signature;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNOperationAction;
 

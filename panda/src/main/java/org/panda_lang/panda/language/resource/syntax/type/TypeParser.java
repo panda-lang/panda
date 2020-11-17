@@ -20,7 +20,7 @@ import javassist.CannotCompileException;
 import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.architecture.type.PandaType;
 import org.panda_lang.language.architecture.type.Reference;
-import org.panda_lang.language.architecture.type.Signature;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.State;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.TypeContext;

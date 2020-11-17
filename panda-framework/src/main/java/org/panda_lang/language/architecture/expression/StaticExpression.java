@@ -17,7 +17,7 @@
 package org.panda_lang.language.architecture.expression;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.architecture.type.Signature;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.runtime.ProcessStack;
 
 public final class StaticExpression implements Expression {

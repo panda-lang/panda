@@ -18,7 +18,7 @@ package org.panda_lang.language.architecture.type.member.field;
 
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.expression.ExpressionUtils;
-import org.panda_lang.language.architecture.type.Signature;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.member.AbstractMember;
 import org.panda_lang.utilities.commons.function.Lazy;
 

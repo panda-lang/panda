@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.language.architecture.type;
+package org.panda_lang.language.architecture.type.signature;
+
+import org.panda_lang.language.architecture.type.Type;
 
 /**
  * Represents typed properties
@@ -22,7 +24,7 @@ package org.panda_lang.language.architecture.type;
 public interface Signed {
 
     default Type getKnownType() {
-        return getSignature().getPrimaryType();
+        return getSignature().toTyped().getReference().getType().get();
     }
 
     /**

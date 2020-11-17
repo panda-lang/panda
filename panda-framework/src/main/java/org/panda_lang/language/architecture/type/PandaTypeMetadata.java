@@ -17,6 +17,7 @@
 package org.panda_lang.language.architecture.type;
 
 import org.panda_lang.language.architecture.module.Module;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.source.PandaClassSource;
 import org.panda_lang.utilities.commons.function.CompletableOption;

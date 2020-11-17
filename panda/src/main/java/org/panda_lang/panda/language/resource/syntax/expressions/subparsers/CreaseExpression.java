@@ -20,7 +20,7 @@ import org.panda_lang.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.language.architecture.dynamic.accessor.AccessorExpression;
 import org.panda_lang.language.architecture.expression.DynamicExpression;
 import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.architecture.type.Signature;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.interpreter.parser.PandaParserException;
 import org.panda_lang.language.runtime.MemoryContainer;
 import org.panda_lang.language.runtime.ProcessStack;

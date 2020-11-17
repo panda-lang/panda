@@ -17,7 +17,7 @@
 package org.panda_lang.language.architecture.type.member.parameter;
 
 import org.panda_lang.language.architecture.statement.PandaVariable;
-import org.panda_lang.language.architecture.type.Signature;
+import org.panda_lang.language.architecture.type.signature.Signature;
 
 public final class PropertyParameterImpl extends PandaVariable implements PropertyParameter {
 

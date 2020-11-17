@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.resource.syntax.scope;
 import org.panda_lang.language.architecture.statement.PandaVariableData;
 import org.panda_lang.language.architecture.statement.Variable;
 import org.panda_lang.language.architecture.statement.VariableData;
-import org.panda_lang.language.architecture.type.Signature;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.VisibilityComparator;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;

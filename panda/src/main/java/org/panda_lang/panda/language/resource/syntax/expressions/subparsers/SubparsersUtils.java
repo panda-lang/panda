@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
-import org.panda_lang.language.architecture.type.Signature;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.language.interpreter.token.SourceStream;

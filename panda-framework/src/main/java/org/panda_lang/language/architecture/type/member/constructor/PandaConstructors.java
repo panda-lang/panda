@@ -17,9 +17,9 @@
 package org.panda_lang.language.architecture.type.member.constructor;
 
 import org.panda_lang.language.architecture.type.Adjustment;
-import org.panda_lang.language.architecture.type.Signature;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.SignatureMatcher;
+import org.panda_lang.language.architecture.type.signature.SignatureMatcher;
 import org.panda_lang.language.architecture.type.member.AbstractMembers;
 import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.language.architecture.expression.Expression;

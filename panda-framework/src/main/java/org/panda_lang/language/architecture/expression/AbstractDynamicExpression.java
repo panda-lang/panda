@@ -16,7 +16,7 @@
 
 package org.panda_lang.language.architecture.expression;
 
-import org.panda_lang.language.architecture.type.Signature;
+import org.panda_lang.language.architecture.type.signature.Signature;
 
 public abstract class AbstractDynamicExpression implements DynamicExpression {
 

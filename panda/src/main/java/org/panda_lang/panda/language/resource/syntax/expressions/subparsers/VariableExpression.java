@@ -21,7 +21,7 @@ import org.panda_lang.language.architecture.dynamic.accessor.AccessorExpression;
 import org.panda_lang.language.architecture.expression.DynamicExpression;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.statement.Variable;
-import org.panda_lang.language.architecture.type.Signature;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.variable.VariableAccessor;
 

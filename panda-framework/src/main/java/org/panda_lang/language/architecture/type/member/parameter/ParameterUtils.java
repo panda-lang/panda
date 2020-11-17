@@ -18,7 +18,7 @@ package org.panda_lang.language.architecture.type.member.parameter;
 
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.statement.AbstractPropertyFramedScope;
-import org.panda_lang.language.architecture.type.Signature;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.member.MemberFrameImpl;
 import org.panda_lang.language.runtime.PandaRuntimeException;
 import org.panda_lang.utilities.commons.text.Joiner;

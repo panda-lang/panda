@@ -16,7 +16,7 @@
 
 package org.panda_lang.language.architecture.statement;
 
-import org.panda_lang.language.architecture.type.Signature;
+import org.panda_lang.language.architecture.type.signature.Signature;
 
 public class PandaVariableData implements VariableData {
 

@@ -18,7 +18,6 @@ package org.panda_lang.language.architecture.module;
 
 import org.panda_lang.language.PandaFrameworkException;
 import org.panda_lang.language.architecture.type.Reference;
-import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.PandaStream;
 
@@ -86,17 +85,11 @@ public final class Imports {
         return true;
     }
 
-    public Option<Type> forType(String name) {
-        return Option.of(importedTypes.get(name))
-                .orElse(() -> forModuleType(name))
-                .map(Reference::getType)
-                .map(futureType -> futureType.orThrow(() -> {
-                    throw new PandaFrameworkException("Parse error, cannot get type " + name);
-                }))
-                .peek(typeLoader::load);
+    public Option<Reference> forType(String name) {
+        return Option.of(importedTypes.get(name)).orElse(() -> forModuleType(name));
     }
 
-    private Option<Reference> forModuleType(String name) {
+    public Option<Reference> forModuleType(String name) {
         List<? extends Reference> references = PandaStream.of(importedModules.entrySet())
                 .mapOpt(entry -> entry.getValue().get(name))
                 .collect(Collectors.toList());

@@ -23,8 +23,9 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
-public final class Result<V, E>  {
+public class Result<V, E>  {
 
     private final V value;
     private final E error;
@@ -121,6 +122,14 @@ public final class Result<V, E>  {
 
     public Option<V> toOption() {
         return Option.of(value);
+    }
+
+    public static <V, E> Result<V, E> when(boolean condition, Supplier<V> value, Supplier<E> err) {
+        return condition ? Result.ok(value.get()) : Result.error(err.get());
+    }
+
+    public static <V, E> Result<V, E> when(boolean condition, V value, E err) {
+        return condition ? Result.ok(value) : Result.error(err);
     }
 
     public static <V, E> Result<V, E> ok(V value) {

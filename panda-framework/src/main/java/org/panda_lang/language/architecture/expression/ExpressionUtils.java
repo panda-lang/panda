@@ -18,7 +18,7 @@ package org.panda_lang.language.architecture.expression;
 
 import org.panda_lang.language.architecture.type.Autocast;
 import org.panda_lang.language.architecture.type.AutocastDynamicExpression;
-import org.panda_lang.language.architecture.type.Signature;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.runtime.PandaProcess;
 import org.panda_lang.language.runtime.PandaProcessStack;
 import org.panda_lang.language.runtime.PandaRuntimeConstants;

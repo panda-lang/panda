@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package org.panda_lang.language.architecture.type;
+package org.panda_lang.language.architecture.type.signature;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.architecture.type.Adjustment;
 import org.panda_lang.language.architecture.type.member.Member;
 import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
 import org.panda_lang.utilities.commons.function.Option;

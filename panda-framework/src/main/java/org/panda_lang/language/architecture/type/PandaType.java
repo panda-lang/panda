@@ -33,6 +33,7 @@ import org.panda_lang.language.architecture.type.member.field.TypeField;
 import org.panda_lang.language.architecture.type.member.method.Methods;
 import org.panda_lang.language.architecture.type.member.method.PandaMethods;
 import org.panda_lang.language.architecture.type.member.method.TypeMethod;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.utilities.commons.ValidationUtils;
 import org.panda_lang.utilities.commons.function.CompletableOption;
 import org.panda_lang.utilities.commons.function.Option;

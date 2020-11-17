@@ -16,7 +16,7 @@
 
 package org.panda_lang.language.architecture.type.member;
 
-import org.panda_lang.language.architecture.type.Signature;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.utilities.commons.function.Lazy;
 import org.panda_lang.utilities.commons.function.Option;

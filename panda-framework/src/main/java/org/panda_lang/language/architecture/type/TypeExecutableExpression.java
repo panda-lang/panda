@@ -21,6 +21,7 @@ import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.expression.ExpressionUtils;
 import org.panda_lang.language.architecture.expression.ExpressionValueType;
 import org.panda_lang.language.architecture.type.member.Member;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.runtime.ProcessStack;
 
 public final class TypeExecutableExpression implements Expression {

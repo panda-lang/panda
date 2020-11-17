@@ -16,7 +16,7 @@
 
 package org.panda_lang.language.architecture.statement;
 
-import org.panda_lang.language.architecture.type.Signed;
+import org.panda_lang.language.architecture.type.signature.Signed;
 
 /**
  * Represents basic data about variable

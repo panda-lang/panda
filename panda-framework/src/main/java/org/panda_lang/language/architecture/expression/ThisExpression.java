@@ -16,7 +16,7 @@
 
 package org.panda_lang.language.architecture.expression;
 
-import org.panda_lang.language.architecture.type.Signature;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.TypeContext;
 import org.panda_lang.language.architecture.type.member.MemberFrame;
 import org.panda_lang.language.interpreter.parser.Context;

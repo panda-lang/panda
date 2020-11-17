@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.resource.syntax.type;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.architecture.type.Signature;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
 import org.panda_lang.language.architecture.type.member.parameter.PropertyParameterImpl;
 import org.panda_lang.language.interpreter.parser.Context;

@@ -17,7 +17,7 @@
 package org.panda_lang.language.interpreter.parser.expression;
 
 import org.panda_lang.language.architecture.expression.PandaExpression;
-import org.panda_lang.language.architecture.type.Signature;
+import org.panda_lang.language.architecture.type.signature.Signature;
 
 public final class ExpressionParserUtils {
 

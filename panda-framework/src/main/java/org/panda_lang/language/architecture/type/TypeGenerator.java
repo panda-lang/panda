@@ -9,6 +9,7 @@ import javassist.CtMethod;
 import org.panda_lang.language.architecture.type.member.constructor.TypeConstructor;
 import org.panda_lang.language.architecture.type.member.method.TypeMethod;
 import org.panda_lang.language.architecture.type.member.parameter.ParameterUtils;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.ClassPoolUtils;
 import org.panda_lang.utilities.commons.StringUtils;

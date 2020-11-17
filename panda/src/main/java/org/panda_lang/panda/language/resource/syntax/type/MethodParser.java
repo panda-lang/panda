@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.resource.syntax.type;
 
 import org.panda_lang.language.architecture.expression.ThisExpression;
-import org.panda_lang.language.architecture.type.Signature;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.TypeContext;
 import org.panda_lang.language.architecture.type.TypedUtils;

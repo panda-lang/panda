@@ -18,7 +18,7 @@ package org.panda_lang.language.architecture.dynamic.assigner;
 
 import org.panda_lang.language.architecture.expression.DynamicExpression;
 import org.panda_lang.language.architecture.expression.PandaExpression;
-import org.panda_lang.language.architecture.type.Signature;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.runtime.ProcessStack;
 
 public final class AssignerExpression extends PandaExpression {

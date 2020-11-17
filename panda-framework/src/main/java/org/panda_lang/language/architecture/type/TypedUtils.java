@@ -16,6 +16,8 @@
 
 package org.panda_lang.language.architecture.type;
 
+import org.panda_lang.language.architecture.type.signature.Signature;
+import org.panda_lang.language.architecture.type.signature.Signed;
 import org.panda_lang.utilities.commons.text.Joiner;
 
 import java.util.Arrays;

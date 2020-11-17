@@ -16,6 +16,8 @@
 
 package org.panda_lang.language.architecture.type;
 
+import org.panda_lang.language.architecture.type.signature.Signature;
+
 @FunctionalInterface
 public interface Autocast<T, R> {
 
