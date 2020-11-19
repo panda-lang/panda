@@ -77,7 +77,8 @@ public final class FieldParser implements ContextParser<TypeContext, TypeField> 
 
         Option<Signature> signature = sourceReader
                 .readSignature()
-                .map(source -> SIGNATURE_PARSER.parse(context, source));
+                // TODO: parent signature
+                .map(source -> SIGNATURE_PARSER.parse(null, context, source));
 
         if (signature.isEmpty()) {
             return Option.none();
@@ -112,7 +113,11 @@ public final class FieldParser implements ContextParser<TypeContext, TypeField> 
                 throw new PandaParserFailure(context, "Cannot assign type " + assignedValue.getSignature() + " to " + field.getReturnType());
             }
 
-            field.setDefaultValue(ExpressionUtils.equalize(assignedValue, field.getReturnType()));
+            Expression equalizedValue = ExpressionUtils.equalize(assignedValue, field.getReturnType()).orElseThrow(error -> {
+                throw new PandaParserFailure(context, "Incompatible signatures");
+            });
+
+            field.setDefaultValue(equalizedValue);
             field.initialize();
         }
 

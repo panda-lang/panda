@@ -37,7 +37,7 @@ final class IsExpression implements DynamicExpression {
     @Override
     @SuppressWarnings("unchecked")
     public Object evaluate(ProcessStack stack, Object instance) throws Exception {
-        return requestedSignature.getPrimaryType().getAssociated().get().isAssignableFrom(value.evaluate(stack, instance).getClass());
+        return requestedSignature.toTyped().fetchType().getAssociated().get().isAssignableFrom(value.evaluate(stack, instance).getClass());
     }
 
     @Override

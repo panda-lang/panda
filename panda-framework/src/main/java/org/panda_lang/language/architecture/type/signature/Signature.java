@@ -5,7 +5,7 @@ import org.panda_lang.utilities.commons.function.Result;
 
 public interface Signature {
 
-    Result<Signature, String> merge(Signature inheritor);
+    Result<? extends Signature, String> merge(Signature inheritor);
 
     boolean isAssignableFrom(Signature inheritor);
 

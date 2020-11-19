@@ -30,6 +30,7 @@ import org.panda_lang.language.architecture.type.Visibility;
 import org.panda_lang.language.architecture.type.member.constructor.PandaConstructor;
 import org.panda_lang.language.architecture.type.member.field.TypeField;
 import org.panda_lang.language.architecture.type.member.method.TypeMethod;
+import org.panda_lang.language.architecture.type.signature.TypedSignature;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
@@ -144,10 +145,11 @@ public final class TypeParser implements ContextParser<Object, Type> {
         module.add(reference);
 
         stageService.delegate("parse type signature", Phases.TYPES, Layer.NEXT_DEFAULT, signaturePhase -> {
-            Signature signature = SIGNATURE_PARSER.parse(context, signatureSource.get());
+            Signature signature = SIGNATURE_PARSER.parse(null, context, signatureSource.get());
 
-            List<Signature> bases = extendedSignatures.stream()
-                    .map(extendedSignature -> SIGNATURE_PARSER.parse(context, extendedSignature))
+            List<TypedSignature> bases = extendedSignatures.stream()
+                    .map(extendedSignature -> SIGNATURE_PARSER.parse(signature, context, extendedSignature))
+                    .map(Signature::toTyped)
                     .collect(Collectors.toList());
 
             CompletableOption<Class<?>> associatedType = new CompletableOption<>();
@@ -205,13 +207,13 @@ public final class TypeParser implements ContextParser<Object, Type> {
     private void verifyProperties(Context<TypeContext> context) {
         Type type = context.getSubject().getType();
 
-        for (Signature base : type.getBases()) {
-            State.requireInheritance(context, base.getType().get(), context.getSource());
+        for (TypedSignature base : type.getBases()) {
+            State.requireInheritance(context, base.fetchType(), context.getSource());
         }
 
         if (type.getState() != State.ABSTRACT) {
             PandaStream.of(type.getBases())
-                    .mapOpt(base -> base.getType().toOption())
+                    .map(TypedSignature::fetchType)
                     .flatMapStream(base -> base.getMethods().getProperties().stream())
                     .filter(TypeMethod::isAbstract)
                     .filter(method -> !type.getMethods().getMethod(method.getSimpleName(), method.getParameterSignatures()).isDefined())
@@ -225,7 +227,7 @@ public final class TypeParser implements ContextParser<Object, Type> {
 
         if (type.getConstructors().getDeclaredProperties().isEmpty()) {
             type.getSuperclass().toStream()
-                    .flatMapStream(superSignature -> superSignature.getType().get().getConstructors().getProperties().stream())
+                    .flatMapStream(superSignature -> superSignature.fetchType().getConstructors().getProperties().stream())
                     .find(constructor -> constructor.getParameters().length > 0)
                     .peek(constructorWithParameters -> {
                         throw new PandaParserFailure(context, constructorWithParameters.getLocation(),

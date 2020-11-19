@@ -57,100 +57,17 @@ abstract class AbstractSignature<V> implements Signature {
 
     @Override
     public boolean isAssignableFrom(Signature signature) {
-        if (generics.length != signature.getGenerics().length) {
-            return false;
-        }
-
-        if (Relation.DIRECT == relation && !subject.equals(signature)) {
-            return false;
-        }
-
-        if (Relation.ANY == relation && !satisfies(signature)) {
-            return false;
-        }
-
-        if (Relation.ALSO == relation && signature.satisfies(this)) {
-            return false;
-        }
-
-        for (int index = 0; index < generics.length; index++) {
-            Signature generic = generics[index];
-            Signature toGeneric = signature.getGenerics()[index];
-
-            if (generic.isAssignableFrom(toGeneric)) {
-                return false;
-            }
-        }
-
-        return true;
+        return merge(signature).isOk();
     }
 
     @Override
-    public Result<Signature, String> merge(Signature inheritor) {
+    public Result<? extends Signature, String> merge(Signature inheritor) {
         if (generics.length != inheritor.getGenerics().length) {
             return Result.error("Invalid amount of parameters in generic signature");
         }
 
-        Option<Object> mergedSubject = resolveSubject(
-
-        if (mergedSubject.isEmpty()) {
-            return Result.error("Incompatible type");
-        }
-
-        if (Relation.DIRECT == relation && !subject.equals(inheritor.getSubject())) {
-            return Result.error("Incompatible types");
-        }
-
-        if (Relation.ANY == relation && !satisfies(signature)) {
-            return false;
-        }
-
-        if (Relation.ALSO == relation && signature.satisfies(this)) {
-            return false;
-        }
-
-        for (int index = 0; index < generics.length; index++) {
-            Signature generic = generics[index];
-            Signature toGeneric = signature.getGenerics()[index];
-
-            if (generic.isAssignableFrom(toGeneric)) {
-                return false;
-            }
-        }
-
-        return null;
+        return SignatureUtils.merge(this, inheritor);
     }
-
-    private static Option<Object> resolveSubject(Signature root, Signature inheritor) {
-        Object commonSubject = null;
-
-        if (Relation.DIRECT == root.getRelation() && !root.getSubject().equals(inheritor.getSubject())) {
-            if (root.isGeneric()) {
-                GenericSignature genericRoot = root.toGeneric();
-
-                if (inheritor.isGeneric()) {
-                    GenericSignature genericInheritor = inheritor.toGeneric();
-                    return Option.when(genericRoot.isAssignableFrom(genericInheritor), genericInheritor.getSubject());
-                }
-
-                if (inheritor.isTyped()) {
-                    TypedSignature typedInheritor = inheritor.toTyped();
-                    return Option.when(typedInheritor.isReferenceAssignableTo())
-                }
-            }
-        }
-
-        if (Relation.ANY == relation && !satisfies(signature)) {
-            return false;
-        }
-
-        if (Relation.ALSO == relation && signature.satisfies(this)) {
-            return false;
-        }
-
-        return Option.of(commonSubject);
-    }
-
 
     @Override
     public boolean equals(Object to) {

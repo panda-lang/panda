@@ -83,7 +83,7 @@ public final class BaseCallParser implements ContextParser<TypeContext, BaseCall
         BaseCall baseCall = new BaseCall(context.toLocation(), expressions);
         parent.addStatement(baseCall);
 
-        type.getSuperclass().get().getPrimaryType().getConstructors().getAdjustedConstructor(expressions).onEmpty(() -> {
+        type.getSuperclass().get().fetchType().getConstructors().getAdjustedConstructor(expressions).onEmpty(() -> {
             throw new PandaParserFailure(context, context.getSource(), "Base type does not contain constructor with the given parameters");
         });
 

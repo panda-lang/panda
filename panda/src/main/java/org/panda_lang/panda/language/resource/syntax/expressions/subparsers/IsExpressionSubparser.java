@@ -61,15 +61,15 @@ public final class IsExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-
-            Result<Signature, ExpressionResult> result = SubparsersUtils.readType(context);
+            // TODO: Parent signature
+            Result<Signature, ExpressionResult> result = SubparsersUtils.readType(null, context);
 
             if (result.isErr()) {
                 return result.getError();
             }
 
             Signature signature = result.get();
-            VisibilityComparator.requireAccess(signature.getPrimaryType(), context.toContext(), token);
+            VisibilityComparator.requireAccess(signature.toTyped().fetchType(), context.toContext(), token);
 
             DynamicExpression expression = new IsExpression(boolType, context.popExpression(), signature);
             return ExpressionResult.of(expression.toExpression());

@@ -33,7 +33,7 @@ import org.panda_lang.language.architecture.type.member.field.TypeField;
 import org.panda_lang.language.architecture.type.member.method.Methods;
 import org.panda_lang.language.architecture.type.member.method.PandaMethods;
 import org.panda_lang.language.architecture.type.member.method.TypeMethod;
-import org.panda_lang.language.architecture.type.signature.Signature;
+import org.panda_lang.language.architecture.type.signature.TypedSignature;
 import org.panda_lang.utilities.commons.ValidationUtils;
 import org.panda_lang.utilities.commons.function.CompletableOption;
 import org.panda_lang.utilities.commons.function.Option;
@@ -49,12 +49,12 @@ import java.util.Objects;
 
 public class PandaType extends AbstractMetadata implements Type {
 
-    protected final Signature signature;
+    protected final TypedSignature signature;
     protected final Module module;
     protected final String kind;
     protected final State state;
     protected final CompletableOption<? extends Class<?>> associated;
-    protected final List<Signature> bases;
+    protected final List<TypedSignature> bases;
     protected final Map<Type, Autocast<?, ?>> autocasts = new HashMap<>();
     protected final Fields fields = new PandaFields(this);
     protected final Constructors constructors = new PandaConstructors(this);
@@ -65,7 +65,7 @@ public class PandaType extends AbstractMetadata implements Type {
     public PandaType(PandaTypeMetadata<?, ?> metadata) {
         super(metadata.name, metadata.location, metadata.visibility, metadata.isNative);
 
-        this.signature = ValidationUtils.notNull(metadata.signature, "Signature cannot be null");
+        this.signature = ValidationUtils.notNull(metadata.signature.toTyped(), "Signature cannot be null");
         this.module = ValidationUtils.notNull(metadata.module, "Type needs module");
         this.kind = ValidationUtils.notNull(metadata.kind, "The kind of type is not defined");
         this.state = ValidationUtils.notNull(metadata.state, "State of type is missing");
@@ -113,7 +113,7 @@ public class PandaType extends AbstractMetadata implements Type {
     }
 
     @Override
-    public void addBase(Signature baseSignature) {
+    public void addBase(TypedSignature baseSignature) {
         if (isInitialized()) {
             throw new IllegalStateException("Cannot add base type to initialized type");
         }
@@ -150,7 +150,7 @@ public class PandaType extends AbstractMetadata implements Type {
 
     private boolean hasCommonTypes(Type to) {
         return PandaStream.of(bases)
-                .map(Signature::getPrimaryType)
+                .map(TypedSignature::fetchType)
                 .find(from -> from.equals(to) || to.isAssignableFrom(from))
                 .isDefined();
     }
@@ -201,13 +201,13 @@ public class PandaType extends AbstractMetadata implements Type {
     }
 
     @Override
-    public Collection<? extends Signature> getBases() {
+    public Collection<? extends TypedSignature> getBases() {
         return bases;
     }
 
     @Override
-    public Option<? extends Signature> getSuperclass() {
-        return PandaStream.of(getBases()).find(base -> Kind.isClass(base.getType().get()));
+    public Option<? extends TypedSignature> getSuperclass() {
+        return PandaStream.of(getBases()).find(base -> Kind.isClass(base.fetchType()));
     }
 
     @Override
@@ -221,7 +221,7 @@ public class PandaType extends AbstractMetadata implements Type {
     }
 
     @Override
-    public Signature getSignature() {
+    public TypedSignature getSignature() {
         return signature;
     }
 

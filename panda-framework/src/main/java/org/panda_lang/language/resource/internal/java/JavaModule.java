@@ -105,7 +105,6 @@ public final class JavaModule implements CustomInitializer {
                 .location(reference.getLocation())
                 .build();
         futureType.complete(type);
-        typeLoader.load(type);
         module.add(reference);
 
         return type;

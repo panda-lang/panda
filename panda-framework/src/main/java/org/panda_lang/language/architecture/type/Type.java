@@ -24,7 +24,6 @@ import org.panda_lang.language.architecture.type.member.Metadata;
 import org.panda_lang.language.architecture.type.member.constructor.Constructors;
 import org.panda_lang.language.architecture.type.member.field.Fields;
 import org.panda_lang.language.architecture.type.member.method.Methods;
-import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.signature.Signed;
 import org.panda_lang.language.architecture.type.signature.TypedSignature;
 import org.panda_lang.utilities.commons.function.CompletableOption;
@@ -47,7 +46,7 @@ public interface Type extends Metadata, Signed {
      *
      * @param baseType the type to inherit from
      */
-    void addBase(Signature baseType);
+    void addBase(TypedSignature baseType);
 
     /**
      * Support automatic casting to other type
@@ -132,14 +131,14 @@ public interface Type extends Metadata, Signed {
      *
      * @return collection of supertypes
      */
-    Collection<? extends Signature> getBases();
+    Collection<? extends TypedSignature> getBases();
 
     /**
      * Get super class
      *
      * @return the superclass
      */
-    Option<? extends Signature> getSuperclass();
+    Option<? extends TypedSignature> getSuperclass();
 
     /**
      * Get Java class associated with the type

@@ -18,10 +18,12 @@ package org.panda_lang.language.architecture.type;
 
 import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.architecture.type.signature.Signature;
+import org.panda_lang.language.architecture.type.signature.TypedSignature;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.source.PandaClassSource;
 import org.panda_lang.utilities.commons.function.CompletableOption;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PandaTypeMetadata<BUILDER extends PandaTypeMetadata<BUILDER, ?>, TYPE extends PandaType> {
@@ -31,7 +33,7 @@ public class PandaTypeMetadata<BUILDER extends PandaTypeMetadata<BUILDER, ?>, TY
     protected Module module;
     protected Location location;
     protected CompletableOption<? extends Class<?>> associatedType;
-    protected List<Signature> bases;
+    protected List<TypedSignature> bases = new ArrayList<>();
     protected String kind = Kind.CLASS;
     protected State state = State.DEFAULT;
     protected Visibility visibility = Visibility.OPEN;
@@ -68,8 +70,8 @@ public class PandaTypeMetadata<BUILDER extends PandaTypeMetadata<BUILDER, ?>, TY
         return getThis();
     }
 
-    public BUILDER bases(List<Signature> bases) {
-        this.bases = bases;
+    public BUILDER bases(List<TypedSignature> bases) {
+        this.bases.addAll(bases);
         return getThis();
     }
 

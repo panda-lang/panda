@@ -109,7 +109,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            Type type = instance.getSignature().getPrimaryType();
+            Type type = instance.getSignature().toTyped().fetchType();
 
             // check if type of instance contains required method
             if (!type.getMethods().hasPropertyLike(nameToken.getValue())) {

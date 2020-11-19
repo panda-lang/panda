@@ -1,11 +1,12 @@
 package org.panda_lang.panda.language.resource.syntax.type;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.module.Imports;
-import org.panda_lang.language.architecture.type.signature.GenericSignature;
 import org.panda_lang.language.architecture.type.Reference;
+import org.panda_lang.language.architecture.type.signature.GenericSignature;
 import org.panda_lang.language.architecture.type.signature.Relation;
 import org.panda_lang.language.architecture.type.signature.Signature;
-import org.panda_lang.language.architecture.type.signature.Signature.Relation;
+import org.panda_lang.language.architecture.type.signature.TypedSignature;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.Contextual;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
@@ -27,7 +28,7 @@ public final class SignatureParser implements Parser {
         return "signature";
     }
 
-    public Signature parse(Contextual<?> contextual, SignatureSource signatureSource) {
+    public Signature parse(@Nullable Signature parent, Contextual<?> contextual, SignatureSource signatureSource) {
         Context<?> context = contextual.toContext();
         Imports imports = context.getImports();
         String name = signatureSource.getName().getValue();
@@ -37,13 +38,15 @@ public final class SignatureParser implements Parser {
                     //noinspection Convert2MethodRef
                     return Result.<Reference, GenericSignature> ok(importedType);
                 })
-                .orElseGet(() -> Result.error(GenericSignature.of(name)));
+                .orElseGet(() -> Result.error(new GenericSignature(parent, name, null, new Signature[0], Relation.DIRECT)));
 
         Signature[] generics = signatureSource.getGenerics().stream()
-                .map(genericSignature -> parse(context, genericSignature))
+                .map(genericSignature -> parse(parent, context, genericSignature))
                 .toArray(Signature[]::new);
 
-        return new Signature(context.getTypeLoader(), type, generics, Relation.DIRECT);
+        return type
+                .map(reference -> (Signature) new TypedSignature(parent, reference, generics, Relation.DIRECT))
+                .orElseGet(genericSignature -> genericSignature);
     }
 
     public List<SignatureSource> readSignatures(Snippet source) {

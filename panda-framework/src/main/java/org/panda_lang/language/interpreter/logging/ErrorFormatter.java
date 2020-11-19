@@ -28,6 +28,7 @@ import org.panda_lang.utilities.commons.StackTraceUtils;
 import org.panda_lang.utilities.commons.StringUtils;
 import org.panda_lang.utilities.commons.console.Colored;
 import org.panda_lang.utilities.commons.console.Effect;
+import org.panda_lang.utilities.commons.function.Option;
 
 public final class ErrorFormatter {
 
@@ -107,7 +108,7 @@ public final class ErrorFormatter {
             logger.error("&b- - ~ ~< Error >~ ~ - -&r");
             logger.error("");
             logger.error("Given:");
-            logger.error("  Message:&1 " + throwable.getMessage());
+            logger.error("  Message:&1 " + Option.of(throwable.getMessage()).orElseGet(throwable.toString()));
             logger.error("  In:&1 " + stackTrace[0].toString());
             logger.error("  By:&1 " + throwable.getClass());
             logger.error("");

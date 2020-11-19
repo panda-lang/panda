@@ -95,8 +95,8 @@ public final class ConstructorParser implements ContextParser<TypeContext, Const
         scopeParser.parse(context, constructorScope, sourceReader.readBody().get());
 
         typeScope.getType().getSuperclass()
-                .filterNot(superclass -> superclass.getPrimaryType().is("panda::Object"))
-                .filterNot(superclass -> superclass.getPrimaryType().getConstructors().getConstructor(new Signature[0]).isDefined())
+                .filterNot(superclass -> superclass.fetchType().is("panda::Object"))
+                .filterNot(superclass -> superclass.fetchType().getConstructors().getConstructor(new Signature[0]).isDefined())
                 .filterNot(superclass -> constructorScope.getBaseCall().isDefined())
                 .peek(superclass -> {
                     throw new PandaParserFailure(context, context.getSource(),

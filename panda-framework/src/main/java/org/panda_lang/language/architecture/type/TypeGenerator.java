@@ -9,7 +9,7 @@ import javassist.CtMethod;
 import org.panda_lang.language.architecture.type.member.constructor.TypeConstructor;
 import org.panda_lang.language.architecture.type.member.method.TypeMethod;
 import org.panda_lang.language.architecture.type.member.parameter.ParameterUtils;
-import org.panda_lang.language.architecture.type.signature.Signature;
+import org.panda_lang.language.architecture.type.signature.TypedSignature;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.ClassPoolUtils;
 import org.panda_lang.utilities.commons.StringUtils;
@@ -34,13 +34,13 @@ public final class TypeGenerator {
         // supertype
 
         if (type.getSuperclass().isDefined()) {
-            javaType.setSuperclass(ClassPoolUtils.require(type.getSuperclass().get().getPrimaryType().getAssociated().get()));
+            javaType.setSuperclass(ClassPoolUtils.require(type.getSuperclass().get().fetchType().getAssociated().get()));
         }
 
         // interfaces
 
-        for (Signature baseSignature : type.getBases()) {
-            Type base = baseSignature.getPrimaryType();
+        for (TypedSignature baseSignature : type.getBases()) {
+            Type base = baseSignature.fetchType();
 
             if (Kind.isInterface(base)) {
                 javaType.addInterface(ClassPoolUtils.require(base.getAssociated().get()));
@@ -99,7 +99,7 @@ public final class TypeGenerator {
         {
             for (TypeMethod method : type.getMethods().getDeclaredProperties()) {
                 CtClass[] parameters = ClassPoolUtils.toCt(ParameterUtils.parametersToClasses(method.getParameters()));
-                CtMethod javaMethod = new CtMethod(ClassPoolUtils.require(method.getReturnType().getPrimaryType().getAssociated().get()), method.getName(), parameters, javaType);
+                CtMethod javaMethod = new CtMethod(ClassPoolUtils.require(method.getReturnType().toTyped().fetchType().getAssociated().get()), method.getName(), parameters, javaType);
                 javaType.addMethod(javaMethod);
             }
         }

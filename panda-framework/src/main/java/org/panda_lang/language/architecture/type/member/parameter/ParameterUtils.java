@@ -18,9 +18,12 @@ package org.panda_lang.language.architecture.type.member.parameter;
 
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.statement.AbstractPropertyFramedScope;
-import org.panda_lang.language.architecture.type.signature.Signature;
+import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.member.MemberFrameImpl;
+import org.panda_lang.language.architecture.type.signature.Signature;
+import org.panda_lang.language.architecture.type.signature.TypedSignature;
 import org.panda_lang.language.runtime.PandaRuntimeException;
+import org.panda_lang.utilities.commons.function.CompletableOption;
 import org.panda_lang.utilities.commons.text.Joiner;
 
 import java.util.Arrays;
@@ -77,9 +80,11 @@ public final class ParameterUtils {
     private static Class<?>[] parametersToClasses(Stream<PropertyParameter> parameterStream) {
         return parameterStream
                 .map(PropertyParameter::getSignature)
-                .map(Signature::getPrimaryType)
-                .map(primary -> primary.getAssociated().get())
-                .toArray(Class<?>[]::new);
+                .map(Signature::toTyped)
+                .map(TypedSignature::fetchType)
+                .map(Type::getAssociated)
+                .map(CompletableOption::get)
+                .toArray(Class[]::new);
     }
 
     public static String toString(PropertyParameter... parameters) {

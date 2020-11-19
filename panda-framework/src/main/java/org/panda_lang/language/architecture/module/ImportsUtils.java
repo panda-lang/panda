@@ -17,36 +17,21 @@
 package org.panda_lang.language.architecture.module;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.language.architecture.type.Reference;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.interpreter.token.Snippetable;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.utilities.commons.function.Option;
-import org.panda_lang.utilities.commons.text.MessageFormatter;
 
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public final class ImportsUtils {
 
     private ImportsUtils() { }
 
-    public static Type getTypeOrThrow(Context<?> context, Snippetable nameSource, String message, String note) {
-        String name = nameSource.toSnippet().asSource();
-
-        return context.getImports()
-                .forType(name)
-                .orThrow((Supplier<? extends PandaParserFailure>) () -> {
-                    MessageFormatter formatter = new MessageFormatter();
-                    formatter.register("{name}", name);
-
-                    throw new PandaParserFailure(context, nameSource, formatter.format(message), formatter.format(note));
-                });
-    }
-
     public static Type getTypeOrThrow(Context<?> context, String className, @Nullable Snippet source) {
-        return getTypeOrThrow(context, imports -> imports.forType(className), "Unknown type " + className, source);
+        return getTypeOrThrow(context, imports -> imports.forType(className).map(Reference::fetchType), "Unknown type " + className, source);
     }
 
     private static Type getTypeOrThrow(Context<?> context, Function<Imports, Option<Type>> mapper, String message, Snippet source) {

@@ -48,8 +48,8 @@ public final class StaticExpressionSubparser implements PartialResultSubparser {
             }
 
             return context.toContext().getImports().forType(token.getValue())
-                    .filter(reference -> VisibilityComparator.requireAccess(reference, context.toContext(), token))
-                    .map(type -> ExpressionResult.of(new StaticExpression(type.getSignature())))
+                    .filter(reference -> VisibilityComparator.requireAccess(reference.fetchType(), context.toContext(), token))
+                    .map(reference -> ExpressionResult.of(new StaticExpression(reference.fetchType().getSignature())))
                     .getOrNull();
         }
 

@@ -54,14 +54,15 @@ public final class CastExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            Result<Signature, ExpressionResult> result = SubparsersUtils.readType(context);
+            // TODO: Parent signature
+            Result<Signature, ExpressionResult> result = SubparsersUtils.readType(null, context);
 
             if (result.isErr()) {
                 return result.getError();
             }
 
             Signature signature = result.get();
-            VisibilityComparator.requireAccess(signature.getPrimaryType(), context.toContext(), token);
+            VisibilityComparator.requireAccess(signature.toTyped().fetchType(), context.toContext(), token);
             return ExpressionResult.of(new PandaDynamicExpression(signature, context.popExpression()).toExpression());
         }
 

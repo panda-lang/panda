@@ -65,7 +65,7 @@ public class PandaExpression implements Expression {
 
     @Override
     public String toString() {
-        String s = type.name() + ":" + (returnType != null ? returnType.getType() : "any");
+        String s = type.name() + ":" + (returnType != null ? returnType : "any");
         return ExpressionValueType.CONST == type ? s + ":" + value : s;
     }
 

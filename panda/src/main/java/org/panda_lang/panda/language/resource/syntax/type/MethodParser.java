@@ -108,8 +108,9 @@ public final class MethodParser implements ContextParser<TypeContext, TypeMethod
 
         if (sourceReader.optionalRead(() -> sourceReader.read(Operators.ARROW)).isDefined()) {
             returnType = sourceReader.optionalRead(() -> sourceReader.read(Keywords.SELF))
-                    .map(self -> context.getSubject().getType().getSignature())
-                    .orElse(() -> sourceReader.readSignature().map(signatureSource -> SIGNATURE_PARSER.parse(context, signatureSource)))
+                    .map(self -> (Signature) context.getSubject().getType().getSignature())
+                    // TODO: parent signature
+                    .orElse(() -> sourceReader.readSignature().map(signatureSource -> SIGNATURE_PARSER.parse(null, context, signatureSource)))
                     .orThrow(() -> {
                         throw new PandaParserFailure(context, "Missing return signature");
                     });
@@ -174,7 +175,7 @@ public final class MethodParser implements ContextParser<TypeContext, TypeMethod
                 return;
             }
 
-            if (!method.getReturnType().getPrimaryType().is("panda::Void") && !methodScope.hasEffective(Returnable.class)) {
+            if (!method.getReturnType().toTyped().fetchType().is("panda::Void") && !methodScope.hasEffective(Returnable.class)) {
                 if (method.getReturnType().equals(type.getSignature())) {
                     methodScope.addStatement(new StandaloneExpression(context, ThisExpression.of(type.getSignature())));
                     return;

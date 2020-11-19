@@ -16,8 +16,8 @@
 
 package org.panda_lang.language.architecture.type.member;
 
-import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.signature.TypedSignature;
 import org.panda_lang.utilities.commons.function.Lazy;
 import org.panda_lang.utilities.commons.function.Option;
 
@@ -62,8 +62,8 @@ public abstract class AbstractMembers<T extends Member> implements Members<T> {
             return true;
         }
 
-        for (Signature base : type.getBases()) {
-            Option<? extends Members<T>> properties = base.getPrimaryType().getProperties(propertiesType);
+        for (TypedSignature base : type.getBases()) {
+            Option<? extends Members<T>> properties = base.fetchType().getProperties(propertiesType);
 
             if (properties.isPresent() && properties.get().hasPropertyLike(name)) {
                 return true;
@@ -74,8 +74,8 @@ public abstract class AbstractMembers<T extends Member> implements Members<T> {
     }
 
     private List<T> withBases(List<T> properties, Function<Members<? extends T>, Collection<? extends T>> mapper, Predicate<T> filter) {
-        for (Signature base : type.getBases()) {
-            base.getPrimaryType().getProperties(propertiesType).peek(baseProperties -> properties.addAll(mapper.apply(baseProperties).stream()
+        for (TypedSignature base : type.getBases()) {
+            base.fetchType().getProperties(propertiesType).peek(baseProperties -> properties.addAll(mapper.apply(baseProperties).stream()
                     .filter(filter)
                     .collect(Collectors.toList())
             ));

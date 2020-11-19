@@ -26,6 +26,7 @@ import org.panda_lang.language.runtime.PandaRuntimeException;
 import org.panda_lang.language.runtime.Process;
 import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.utilities.commons.function.Option;
+import org.panda_lang.utilities.commons.function.Result;
 
 public final class ExpressionUtils {
 
@@ -71,21 +72,33 @@ public final class ExpressionUtils {
      * Prepare expression to be in the same type as the requested type (supports autocasts)
      *
      * @param expression the expression to equalize
-     * @param target the target type
+     * @param expected the target type
      * @return expression in the given type
      */
-    public static Expression equalize(Expression expression, Signature target) {
+    public static Result<Expression, String> equalize(Expression expression, Signature expected) {
         if (expression.isNull()) {
-            return expression;
+            return Result.ok(expression);
         }
 
-        Option<? extends Autocast<?, ?>> autocast = expression.getKnownType().getAutocast(target.getPrimaryType());
+        if (expression.getSignature().isAssignableFrom(expected)) {
+            return Result.ok(expression);
+        }
+
+        if (!expression.getSignature().isTyped()) {
+            return Result.error("Cannot equalize generic expression");
+        }
+
+        if (!expected.isTyped()) {
+            return Result.error("Cannot equalize to generic signature");
+        }
+
+        Option<? extends Autocast<?, ?>> autocast = expression.getSignature().toTyped().fetchType().getAutocast(expected.toTyped().fetchType());
 
         if (autocast.isPresent()) {
-            return new AutocastDynamicExpression(expression, target, autocast.get()).toExpression();
+            return Result.ok(new AutocastDynamicExpression(expression, expected, autocast.get()).toExpression());
         }
 
-        return expression;
+        return Result.error("Cannot find associated autocast");
     }
 
 }

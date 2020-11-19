@@ -69,8 +69,9 @@ public final class VariableDataInitializer {
             throw new PandaParserFailure(context, name, "Variable name is already used in the scope '" + variableName + "'");
         }
 
-        Signature signature = SIGNATURE_PARSER.parse(context, signatureSource);
-        VisibilityComparator.requireAccess(signature.getPrimaryType(), context, signatureSource.getName());
+        // TODO: parent signature
+        Signature signature = SIGNATURE_PARSER.parse(null, context, signatureSource);
+        VisibilityComparator.requireAccess(signature.toTyped().fetchType(), context, signatureSource.getName());
 
         return new PandaVariableData(signature, nameSource.asSource(), mutable, nillable);
     }

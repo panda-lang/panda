@@ -1,10 +1,33 @@
 package org.panda_lang.language.architecture.type.signature;
 
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.Result;
 
 final class SignatureUtils {
+
+    public static Result<? extends Signature, String> merge(Signature root, Signature inheritor) {
+        if (root.isTyped()) {
+            if (inheritor.isTyped()) {
+                return typedToTyped(root.toTyped(), inheritor.toTyped());
+            }
+
+            if (inheritor.isGeneric()) {
+                return typedToGeneric(root.toTyped(), inheritor.toGeneric());
+            }
+        }
+
+        if (root.isGeneric()) {
+            if (inheritor.isTyped()) {
+                return genericToTyped(root.toGeneric(), inheritor.toTyped());
+            }
+
+            if (inheritor.isGeneric()) {
+                return genericToGeneric(root.toGeneric(), inheritor.toGeneric());
+            }
+        }
+
+        throw new UnsupportedOperationException("Unknown relation");
+    }
 
     //
     // Usages:
@@ -102,19 +125,51 @@ final class SignatureUtils {
     //   type Foo<A, B : also A>
     //
     public static Result<GenericSignature, String> genericToGeneric(GenericSignature root, GenericSignature inheritor) {
-        switch (inheritor.getRelation()) {
+        switch (root.getRelation()) {
             case DIRECT:
                 return Result.error("Cannot assign " + inheritor.getLocalIdentifier() + " to " + root.getLocalIdentifier() + " directly");
             case ANY:
-                Signature anySignature = inheritor.getAny().get();
-                break;
+                Signature inheritorAnySignature = inheritor.getAny().get();
+
+                if (inheritorAnySignature.isTyped()) {
+                    return genericToTyped(root, inheritorAnySignature.toTyped())
+                            .map(result -> Result.<GenericSignature, String> ok(inheritor))
+                            .orElseGet(Result::error);
+                }
+
+                if (inheritorAnySignature.isGeneric()) {
+                    return genericToGeneric(root, inheritorAnySignature.toGeneric());
+                }
+
+                throw new UnsupportedOperationException("Unknown relation");
             case ALSO:
-                break;
+                Signature inheritorAlsoSignature = inheritor.getAlso().get();
+
+                if (inheritorAlsoSignature.isTyped()) {
+                    return genericToTyped(root, inheritorAlsoSignature.toTyped())
+                            .map(result -> Result.<GenericSignature, String> ok(inheritor))
+                            .orElseGet(Result::error);
+                }
+
+                if (inheritorAlsoSignature.isGeneric()) {
+                    return genericToGeneric(root, inheritorAlsoSignature.toGeneric());
+                }
+
+                throw new UnsupportedOperationException("Unknown relation");
+            default:
+                throw new UnsupportedOperationException("Unknown relation");
         }
     }
 
-    public static Option<TypedSignature> genericToTyped(GenericSignature root, TypedSignature inheritor) {
-        return Option.none();
+    public static Result<TypedSignature, String> genericToTyped(GenericSignature root, TypedSignature inheritor) {
+        switch (root.getRelation()) {
+            case DIRECT:
+            case ANY:
+            case ALSO:
+                return Result.ok(inheritor);
+        }
+
+        throw new UnsupportedOperationException("Unknown relation");
     }
 
 }

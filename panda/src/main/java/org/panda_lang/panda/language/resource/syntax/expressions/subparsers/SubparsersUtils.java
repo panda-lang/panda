@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
@@ -30,13 +31,13 @@ final class SubparsersUtils {
 
     private SubparsersUtils() { }
 
-    protected static Result<Signature, ExpressionResult> readType(ExpressionContext<?> context) {
+    protected static Result<Signature, ExpressionResult> readType(@Nullable Signature parent, ExpressionContext<?> context) {
         SourceStream stream = context.toStream();
         PandaSourceReader sourceReader = new PandaSourceReader(context.toStream());
         int index = stream.getUnreadLength();
 
         return sourceReader.readSignature()
-                .map(source -> Result.<Signature, ExpressionResult> ok(SIGNATURE_PARSER.parse(context, source)))
+                .map(source -> Result.<Signature, ExpressionResult> ok(SIGNATURE_PARSER.parse(parent, context, source)))
                 .orElseGet(() -> Result.error(ExpressionResult.error("Unknown type", context.getSynchronizedSource().getSource())))
                 .peek(signature -> context.getSynchronizedSource().next(index - stream.getUnreadLength()));
     }

@@ -94,7 +94,10 @@ public final class VariableDeclarationSubparser implements ContextParser<Assigna
             );
         }
 
-        Expression equalizedExpression = ExpressionUtils.equalize(expression, variable.getSignature());
+        Expression equalizedExpression = ExpressionUtils.equalize(expression, variable.getSignature()).orElseThrow(error -> {
+            throw new PandaParserFailure(context, "Incompatible signatures");
+        });
+
         VariableAccessor accessor = new VariableAccessor(variable.initialize());
         Assigner<Variable> assigner = accessor.toAssigner(name.get(), true, equalizedExpression);
 
