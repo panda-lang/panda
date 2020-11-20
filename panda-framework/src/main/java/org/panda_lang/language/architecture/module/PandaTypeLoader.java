@@ -74,7 +74,7 @@ public final class PandaTypeLoader implements TypeLoader {
 
     @Override
     public Option<Module> forModule(String moduleName) {
-        return null;
+        return modulePath.forModule(moduleName);
     }
 
 }

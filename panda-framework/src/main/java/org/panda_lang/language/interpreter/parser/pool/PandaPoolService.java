@@ -16,8 +16,10 @@
 
 package org.panda_lang.language.interpreter.parser.pool;
 
+import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.utilities.commons.collection.Component;
 import org.panda_lang.utilities.commons.function.StreamUtils;
+import org.panda_lang.utilities.commons.iterable.ResourcesIterable;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -52,6 +54,14 @@ public final class PandaPoolService implements PoolService {
     @SuppressWarnings("unchecked")
     public <P> ParserPool<P> getPool(Component<P> component) {
         return (ParserPool<P>) pipelines.get(component);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Iterable<? extends ContextParser<?, ?>> parsers() {
+        return new ResourcesIterable<>(pipelines.values().stream()
+                .map(ParserPool::getParsers)
+                .toArray(Iterable[]::new));
     }
 
     @Override

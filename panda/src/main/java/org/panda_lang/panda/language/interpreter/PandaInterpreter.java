@@ -23,6 +23,7 @@ import org.panda_lang.language.interpreter.Interpreter;
 import org.panda_lang.language.interpreter.lexer.Lexer;
 import org.panda_lang.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.PandaContextCreator;
 import org.panda_lang.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.language.interpreter.parser.pool.PoolParser;
@@ -39,6 +40,7 @@ import org.panda_lang.language.interpreter.token.SourceStream;
 import org.panda_lang.language.resource.Resources;
 import org.panda_lang.panda.language.architecture.PandaApplication;
 import org.panda_lang.panda.language.architecture.PandaScript;
+import org.panda_lang.utilities.commons.ObjectUtils;
 import org.panda_lang.utilities.commons.TimeUtils;
 import org.panda_lang.utilities.commons.function.Result;
 
@@ -78,6 +80,10 @@ public final class PandaInterpreter implements Interpreter {
                 sources
         ).toContext();
 
+        for (ContextParser<?, ?> parser : context.getPoolService().parsers()) {
+            parser.initialize(ObjectUtils.cast(context));
+        }
+
         PoolParser<Object> headParser = context.getPoolService().getPool(Targets.HEAD).toParser();
 
         try {
@@ -90,7 +96,7 @@ public final class PandaInterpreter implements Interpreter {
 
                 Imports imports = new Imports(context.getTypeLoader());
                 imports.importModule("java");
-                imports.importModule("panda");
+                // imports.importModule("panda");
 
                 Context<Object> delegatedContext = context.forkCreator()
                         .withScript(script)
@@ -106,6 +112,7 @@ public final class PandaInterpreter implements Interpreter {
             stageManager.launch();
         }
         catch (Throwable throwable) {
+            throwable.printStackTrace();
             environment.getLogger().exception(throwable);
             return Result.error(throwable);
         }

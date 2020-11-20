@@ -51,6 +51,13 @@ public interface SourceStream extends Snippetable, Localizable {
     Snippet read(int length);
 
     /**
+     * Unread the given amount of tokens
+     *
+     * @param length the amount of tokens to unread
+     */
+    void unread(int length);
+
+    /**
      * Read the specified amount of tokens without creating snippet of read content
      *
      * @param length the amount of tokens to read

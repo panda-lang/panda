@@ -67,7 +67,7 @@ public final class PoolParser<T> implements Parser {
             Option<? extends CompletableFuture<?>> result = parser.parse(delegatedContext);
 
             if (result.isEmpty()) {
-                stream.read(-sourceLength);
+                stream.unread(sourceLength - stream.getUnreadLength());
                 continue;
             }
 

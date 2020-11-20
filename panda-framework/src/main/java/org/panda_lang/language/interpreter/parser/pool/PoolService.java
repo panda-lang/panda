@@ -16,6 +16,7 @@
 
 package org.panda_lang.language.interpreter.parser.pool;
 
+import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.utilities.commons.collection.Component;
 
 import java.util.Collection;
@@ -50,6 +51,13 @@ public interface PoolService {
      * @return the found pipeline
      */
     <T> ParserPool<T> getPool(Component<T> component);
+
+    /**
+     * Get all registered parses
+     *
+     * @return iterable collection of parsers
+     */
+    Iterable<? extends ContextParser<?, ?>> parsers();
 
     /**
      * Collect names of pipelines

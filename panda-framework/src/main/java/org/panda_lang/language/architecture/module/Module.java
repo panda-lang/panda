@@ -24,7 +24,7 @@ import java.util.Collection;
 /**
  * Identifiable container of resources
  */
-public interface Module extends Modules {
+public interface Module extends ModuleContainer {
 
     /**
      * Add reference to type to the module

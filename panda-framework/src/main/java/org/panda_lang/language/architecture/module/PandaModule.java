@@ -25,7 +25,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PandaModule extends PandaModules implements Module {
+public class PandaModule extends PandaModuleContainer implements Module {
 
     protected final String name;
     protected final Map<String, Reference> types = new HashMap<>(32);
@@ -42,7 +42,7 @@ public class PandaModule extends PandaModules implements Module {
 
     @Override
     public Reference add(Reference reference) {
-        types.put(reference.getName(), reference);
+        types.put(reference.getSimpleName(), reference);
         return reference;
     }
 

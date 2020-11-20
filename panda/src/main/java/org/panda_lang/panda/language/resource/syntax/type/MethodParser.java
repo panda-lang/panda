@@ -72,7 +72,7 @@ public final class MethodParser implements ContextParser<TypeContext, TypeMethod
     }
 
     @Override
-    public void initialize(Context<? extends TypeContext> context) {
+    public void initialize(Context<?> context) {
         this.scopeParser = new ScopeParser(context.getPoolService());
         this.voidType = context.getTypeLoader().requireType("panda::Void");
     }

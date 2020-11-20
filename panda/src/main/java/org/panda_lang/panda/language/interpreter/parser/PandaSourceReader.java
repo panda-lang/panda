@@ -53,14 +53,22 @@ public class PandaSourceReader extends SourceReader {
 
     public Option<Snippet> readPandaQualifier() {
         List<TokenInfo> tokens = new ArrayList<>();
+        boolean nextAny = false;
 
         while (super.stream.hasUnreadSource()) {
-            Option<TokenInfo> result = optionalRead(() ->
-                    read(read -> read.getType() == TokenTypes.UNKNOWN
-                        || read.contentEquals(Separators.COMMA)
-                        || read.contentEquals(Operators.SUBTRACTION)
-                        || read.contentEquals(Operators.COLON))
-                    .peek(tokens::add));
+            boolean any = nextAny;
+            nextAny = false;
+
+            Option<TokenInfo> result = optionalRead(() -> read(read -> read.getType() == TokenTypes.UNKNOWN || (any && read.getType() == TokenTypes.KEYWORD)));
+
+            if (result.isEmpty()) {
+                result = optionalRead(() -> read(read -> read.contentEquals(Operators.SUBTRACTION)
+                        || read.contentEquals(Separators.PERIOD)
+                        || read.contentEquals(Operators.COLON)));
+                nextAny = true;
+            }
+
+            result.peek(tokens::add);
 
             if (result.isEmpty()) {
                 break;

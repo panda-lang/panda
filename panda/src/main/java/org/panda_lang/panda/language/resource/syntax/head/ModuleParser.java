@@ -49,7 +49,7 @@ public final class ModuleParser implements ContextParser<Object, ModuleStatement
         PandaSourceReader reader = new PandaSourceReader(context.getStream());
         Option<TokenInfo> read = reader.read(Keywords.MODULE);
 
-        if (read.isDefined()) {
+        if (read.isEmpty()) {
             return Option.none();
         }
 

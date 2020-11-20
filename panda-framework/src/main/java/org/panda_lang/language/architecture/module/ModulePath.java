@@ -19,7 +19,7 @@ package org.panda_lang.language.architecture.module;
 /**
  * ModulePath is collection of all available modules
  */
-public interface ModulePath extends Modules {
+public interface ModulePath extends ModuleContainer {
 
     /**
      * Include initializer for the specified module

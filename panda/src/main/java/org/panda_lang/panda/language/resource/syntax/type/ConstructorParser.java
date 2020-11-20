@@ -57,7 +57,7 @@ public final class ConstructorParser implements ContextParser<TypeContext, Const
     }
 
     @Override
-    public void initialize(Context<? extends TypeContext> context) {
+    public void initialize(Context<?> context) {
         this.scopeParser = new ScopeParser(context.getPoolService());
     }
 

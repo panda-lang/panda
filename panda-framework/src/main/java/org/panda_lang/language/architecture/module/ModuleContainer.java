@@ -24,7 +24,7 @@ import java.util.Collection;
 /**
  * Modules container
  */
-public interface Modules {
+public interface ModuleContainer {
 
     /**
      * Add module

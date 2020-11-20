@@ -49,7 +49,7 @@ public final class PandaSourceStream implements SourceStream {
     @Override
     public Option<TokenInfo> read(Predicate<TokenInfo> condition) {
         return hasUnreadSource()
-                ? Option.of(read()).filter(condition).onEmpty(() -> read(-1))
+                ? Option.of(read()).filter(condition).onEmpty(() -> unread(1))
                 : Option.none();
     }
 
@@ -68,7 +68,12 @@ public final class PandaSourceStream implements SourceStream {
             throw new IndexOutOfBoundsException("source(" + (index + length) + ") >= source.length (" + original.size() + ")");
         }
 
-        index += length;
+        this.index += length;
+    }
+
+    @Override
+    public void unread(int length) {
+        this.index = Math.max(index - length, 0);
     }
 
     @Override
@@ -91,7 +96,7 @@ public final class PandaSourceStream implements SourceStream {
 
     @Override
     public void dispose(int length) {
-        index += length;
+        this.index += length;
     }
 
     @Override
@@ -100,7 +105,7 @@ public final class PandaSourceStream implements SourceStream {
     }
 
     private boolean hasUnreadSource(int length) {
-        return (index + (length - 1)) < original.size();
+        return (index + (length - 1 )) < original.size();
     }
 
     @Override

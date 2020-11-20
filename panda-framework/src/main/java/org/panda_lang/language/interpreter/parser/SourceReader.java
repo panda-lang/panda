@@ -35,7 +35,7 @@ public class SourceReader implements Localizable {
         int unreadLength = stream.getUnreadLength();
 
         return read.get()
-                .onEmpty(() -> stream.read(-(unreadLength - stream.getUnreadLength())));
+                .onEmpty(() -> stream.unread(unreadLength - stream.getUnreadLength()));
     }
 
     public Option<TokenInfo> read() {
@@ -71,7 +71,7 @@ public class SourceReader implements Localizable {
             return Option.none();
         }
 
-        stream.read(-1);
+        stream.unread(1);
         int maxLength = stream.getUnreadLength();
 
         FixedStack<Pair<TokenInfo, List<TokenInfo>>> stack = new FixedStack<>(16);
@@ -98,7 +98,7 @@ public class SourceReader implements Localizable {
         }
 
         if (section == null) {
-            stream.read(-maxLength);
+            stream.unread(maxLength);
             return Option.none();
         }
 

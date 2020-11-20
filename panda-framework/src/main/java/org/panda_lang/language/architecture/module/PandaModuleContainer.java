@@ -26,13 +26,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-abstract class PandaModules implements Modules {
+abstract class PandaModuleContainer implements ModuleContainer {
 
     protected final Map<String, Module> modules = new HashMap<>();
 
     @Override
     public Module include(Module module) {
-        modules.put(module.getName(), module);
+        modules.put(module.getSimpleName(), module);
         return module;
     }
 
@@ -58,30 +58,30 @@ abstract class PandaModules implements Modules {
 
     protected Option<Module> fetch(String moduleQualifier, boolean compute) {
         String[] names = moduleQualifier.split(":");
-        Modules modules = this;
-        Module module = null;
+        ModuleContainer currentContainer = this;
+        Module currentModule = null;
 
         for (String name : names) {
             if (StringUtils.isEmpty(name)) {
                 throw new PandaFrameworkException("Illegal name " + moduleQualifier);
             }
 
-            Module nextModule = modules.forModule(name).getOrNull();
+            Module nextModule = currentContainer.forModule(name).getOrNull();
 
             if (nextModule == null && compute) {
-                nextModule = new PandaModule(module, name);
-                modules.include(nextModule);
+                nextModule = new PandaModule(currentModule, name);
+                currentContainer.include(nextModule);
             }
 
             if (nextModule == null) {
                 return Option.none();
             }
 
-            module = nextModule;
-            modules = module;
+            currentModule = nextModule;
+            currentContainer = currentModule;
         }
 
-        return Option.of(module);
+        return Option.of(currentModule);
     }
 
     public static Option<Type> forName(Collection<? extends TypeResolver> resources, String name) {

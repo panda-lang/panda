@@ -21,7 +21,7 @@ import org.panda_lang.utilities.commons.function.Option;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class PandaModulePath extends PandaModules implements ModulePath {
+public final class PandaModulePath extends PandaModuleContainer implements ModulePath {
 
     private final Map<String, Runnable> modulesInitializers = new HashMap<>();
 

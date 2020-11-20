@@ -51,7 +51,7 @@ public interface ContextParser<T, R> extends Parser {
      *
      * @param context the context used to initialize parser
      */
-    default void initialize(Context<? extends T> context) { }
+    default void initialize(Context<?> context) { }
 
     /**
      * Parse context
