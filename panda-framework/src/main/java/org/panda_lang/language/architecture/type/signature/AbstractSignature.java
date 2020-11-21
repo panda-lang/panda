@@ -1,6 +1,8 @@
 package org.panda_lang.language.architecture.type.signature;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.token.Snippetable;
 import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.Result;
 
@@ -12,12 +14,14 @@ abstract class AbstractSignature<V> implements Signature {
     private final V subject;
     private final Signature[] generics;
     private final Relation relation;
+    private final Snippetable source;
 
-    protected AbstractSignature(@Nullable Signature parent, V subject, Signature[] generics, Relation relation) {
+    protected AbstractSignature(@Nullable Signature parent, V subject, Signature[] generics, Relation relation, Snippetable source) {
         this.parent = Option.of(parent);
         this.subject = subject;
         this.generics = generics;
         this.relation = relation;
+        this.source = source;
     }
 
     @Override
@@ -103,6 +107,11 @@ abstract class AbstractSignature<V> implements Signature {
     @Override
     public V getSubject() {
         return subject;
+    }
+
+    @Override
+    public Snippet getSource() {
+        return source.toSnippet();
     }
 
     public Relation getRelation() {

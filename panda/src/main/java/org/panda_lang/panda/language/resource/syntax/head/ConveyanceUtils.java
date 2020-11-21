@@ -18,6 +18,7 @@ package org.panda_lang.panda.language.resource.syntax.head;
 
 import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.generator.TypeGenerator;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.token.Snippet;
@@ -31,13 +32,11 @@ final class ConveyanceUtils {
             Class<?> importedClass = Class.forName(javaTypeSource.asSource(), true, context.getEnvironment().getController().getClassLoader());
 
             Module module = context.getScript().getModule().orThrow(() -> {
-                throw new PandaParserFailure(context, javaTypeSource, "");
+                throw new PandaParserFailure(context, javaTypeSource, "Undefined script module");
             });
 
-            String className = importedClass.getSimpleName();
-
-            // return context.getTypeLoader().load(module, importedClass, className);
-            return null;
+            TypeGenerator typeGenerator = new TypeGenerator(context.getEnvironment().getController());
+            return context.getTypeLoader().load(typeGenerator.generate(module, importedClass.getSimpleName(), importedClass).fetchType());
         } catch (ClassNotFoundException e) {
             throw new PandaParserFailure(context, javaTypeSource, "Class " + javaTypeSource.asSource() + " does not exist");
         }

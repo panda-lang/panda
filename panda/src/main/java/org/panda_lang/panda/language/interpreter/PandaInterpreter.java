@@ -112,8 +112,8 @@ public final class PandaInterpreter implements Interpreter {
             stageManager.launch();
         }
         catch (Throwable throwable) {
-            throwable.printStackTrace();
             environment.getLogger().exception(throwable);
+            throwable.printStackTrace();
             return Result.error(throwable);
         }
 

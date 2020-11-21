@@ -84,7 +84,7 @@ public final class MethodParser implements ContextParser<TypeContext, TypeMethod
         boolean overrides = sourceReader.optionalRead(() -> sourceReader.read(Keywords.OVERRIDE)).isDefined();
         Option<Visibility> visibility = sourceReader.readVariant(Keywords.OPEN, Keywords.SHARED, Keywords.INTERNAL).map(Visibility::of);
 
-        if (visibility.isDefined()) {
+        if (visibility.isEmpty()) {
             return Option.none();
         }
 

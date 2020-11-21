@@ -41,15 +41,15 @@ class PhasesLayerLayerControllerTest {
     public void testPipelineGeneration() {
         StringBuilder outputBuilder = new StringBuilder();
 
-        STAGE_CONTROLLER.getPhase("b").nextLayer().delegate(pipeline -> outputBuilder.append("b "));
-        STAGE_CONTROLLER.getPhase("a").nextLayer().delegate(pipeline -> outputBuilder.append("a "));
-        STAGE_CONTROLLER.getPhase("c").nextLayer().delegate(pipeline -> outputBuilder.append("c "));
+        STAGE_CONTROLLER.getPhase("b").nextLayer().delegate("b", pipeline -> outputBuilder.append("b "));
+        STAGE_CONTROLLER.getPhase("a").nextLayer().delegate("a", pipeline -> outputBuilder.append("a "));
+        STAGE_CONTROLLER.getPhase("c").nextLayer().delegate("c", pipeline -> outputBuilder.append("c "));
 
-        STAGE_CONTROLLER.getPhase("b").nextLayer().delegate(pipeline -> {
+        STAGE_CONTROLLER.getPhase("b").nextLayer().delegate("b2", pipeline -> {
             outputBuilder.append("b2 ");
 
-            pipeline.nextLayer().delegate((phase) -> {
-                STAGE_CONTROLLER.getPhase("a").nextLayer().delegate((pipeline2) -> outputBuilder.append("a2 "));
+            pipeline.nextLayer().delegate("a", phase -> {
+                STAGE_CONTROLLER.getPhase("a").nextLayer().delegate("a2", pipeline2 -> outputBuilder.append("a2 "));
                 outputBuilder.append("b3 ");
             });
         });

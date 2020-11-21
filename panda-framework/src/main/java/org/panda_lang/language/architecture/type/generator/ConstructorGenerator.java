@@ -26,16 +26,18 @@ import java.lang.reflect.Constructor;
 
 final class ConstructorGenerator {
 
+    private final TypeGenerator typeGenerator;
     private final Type type;
     private final Constructor<?> constructor;
 
-    ConstructorGenerator(Type type, Constructor<?> constructor) {
+    ConstructorGenerator(TypeGenerator typeGenerator, Type type, Constructor<?> constructor) {
+        this.typeGenerator = typeGenerator;
         this.type = type;
         this.constructor = constructor;
     }
 
     protected TypeConstructor generate(TypeLoader typeLoader) {
-        PropertyParameter[] typeParameters = TypeGeneratorUtils.toParameters(typeLoader, type.getModule(), constructor.getParameters());
+        PropertyParameter[] typeParameters = TypeGeneratorUtils.toParameters(typeGenerator, typeLoader, type.getModule(), constructor.getParameters());
 
         // TODO: Generate bytecode
         constructor.setAccessible(true);
@@ -45,7 +47,7 @@ final class ConstructorGenerator {
                 .location(type.getLocation())
                 .parameters(typeParameters)
                 .type(type)
-                .returnType(type)
+                .returnType(type.getSignature())
                 .callback((pandaConstructor, frame, instance, arguments) -> constructor.newInstance(arguments))
                 .build();
     }

@@ -24,7 +24,7 @@ import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.State;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.TypeContext;
-import org.panda_lang.language.architecture.type.TypeGenerator;
+import org.panda_lang.language.architecture.type.ClassGenerator;
 import org.panda_lang.language.architecture.type.TypeScope;
 import org.panda_lang.language.architecture.type.Visibility;
 import org.panda_lang.language.architecture.type.member.constructor.PandaConstructor;
@@ -62,7 +62,7 @@ import java.util.stream.Collectors;
 
 public final class TypeParser implements ContextParser<Object, Type> {
 
-    private static final TypeGenerator TYPE_GENERATOR = new TypeGenerator();
+    private static final ClassGenerator TYPE_GENERATOR = new ClassGenerator();
     private static final SignatureParser SIGNATURE_PARSER = new SignatureParser();
     private PoolParser<TypeContext> typePoolParser;
 
@@ -111,13 +111,12 @@ public final class TypeParser implements ContextParser<Object, Type> {
         // read optional extended types
 
         List<SignatureSource> extendedSignatures = new ArrayList<>(3);
-        Option<?> extendsOperator = reader.optionalRead(() -> reader.read(Operators.COLON)
-                .flatMap(operator -> reader.readSignature()));
+        Option<?> extendsOperator = reader.optionalRead(() -> reader.read(Operators.COLON));
 
         if (extendsOperator.isDefined()) {
             do {
                 extendedSignatures.add(reader.readSignature().get());
-            } while (reader.optionalRead(() -> reader.read(Operators.COLON)).isDefined());
+            } while (reader.optionalRead(() -> reader.read(Separators.COMMA)).isDefined());
         }
 
         // read optional body
@@ -144,11 +143,12 @@ public final class TypeParser implements ContextParser<Object, Type> {
                 context.getSource().getLocation());
         module.add(reference);
 
-        stageService.delegate("parse type signature", Phases.TYPES, Layer.NEXT_DEFAULT, signaturePhase -> {
+        stageService.delegate("parse " + reference.getName() + " type signature", Phases.TYPES, Layer.NEXT_DEFAULT, signaturePhase -> {
             Signature signature = SIGNATURE_PARSER.parse(null, context, signatureSource.get());
 
-            List<TypedSignature> bases = extendedSignatures.stream()
+            List<TypedSignature> bases = PandaStream.of(extendedSignatures)
                     .map(extendedSignature -> SIGNATURE_PARSER.parse(signature, context, extendedSignature))
+                    .throwIfNot(Signature::isTyped, unsupported -> new PandaParserFailure(context, unsupported.getSource(), "Unknown type " + unsupported.toGeneric().getLocalIdentifier()))
                     .map(Signature::toTyped)
                     .collect(Collectors.toList());
 
@@ -173,19 +173,19 @@ public final class TypeParser implements ContextParser<Object, Type> {
                     .withScope(scope)
                     .toContext();
 
-            stageService.delegate("parse body", Phases.CONTENT, Layer.NEXT_DEFAULT, bodyPhase -> {
+            stageService.delegate("parse " + type.getName() + " type body", Phases.CONTENT, Layer.NEXT_DEFAULT, bodyPhase -> {
                 typePoolParser.parse(typeContext, new PandaSourceStream(body));
             });
 
-            stageService.delegate("verify properties", Phases.VERIFY, Layer.NEXT_DEFAULT, verifyPhase -> {
+            stageService.delegate("verify " + type.getName() + "type properties", Phases.VERIFY, Layer.NEXT_DEFAULT, verifyPhase -> {
                 verifyProperties(typeContext);
             });
 
-            stageService.delegate("generate class", Phases.INITIALIZE, Layer.NEXT_DEFAULT, initializePhase -> {
+            stageService.delegate("generate type class", Phases.INITIALIZE, Layer.NEXT_DEFAULT, initializePhase -> {
                 try {
                     associatedType.complete(TYPE_GENERATOR.generate(type));
                 } catch (CannotCompileException exception) {
-                    throw new PandaParserFailure(context, context.getSource(), "Cannot generate associated java type" + exception);
+                    throw new PandaParserFailure(exception, context, context.getSource(), "Cannot generate associated java type" + exception.getReason(), "");
                 }
             });
 

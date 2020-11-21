@@ -18,7 +18,6 @@ package org.panda_lang.panda.language.resource.syntax.type;
 
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.expression.ExpressionUtils;
-import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.TypeContext;
 import org.panda_lang.language.architecture.type.Visibility;
@@ -75,10 +74,7 @@ public final class FieldParser implements ContextParser<TypeContext, TypeField> 
         boolean isMutable = sourceReader.optionalRead(() -> sourceReader.read(Keywords.MUT)).isDefined();
         boolean isNillable = sourceReader.optionalRead(() -> sourceReader.read(Keywords.NIL)).isDefined();
 
-        Option<Signature> signature = sourceReader
-                .readSignature()
-                // TODO: parent signature
-                .map(source -> SIGNATURE_PARSER.parse(null, context, source));
+        Option<SignatureSource> signature = sourceReader.readSignature();
 
         if (signature.isEmpty()) {
             return Option.none();
@@ -95,7 +91,7 @@ public final class FieldParser implements ContextParser<TypeContext, TypeField> 
         TypeField field = PandaField.builder()
                 .type(type)
                 .name(name.get())
-                .returnType(signature.get())
+                .returnType(SIGNATURE_PARSER.parse(context.getSubject().getType().getSignature(), context, signature.get()))
                 .fieldIndex(type.getFields().getDeclaredProperties().size())
                 .location(context)
                 .visibility(visibility.get())

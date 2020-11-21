@@ -27,13 +27,13 @@ final class TypeGeneratorUtils {
 
     private TypeGeneratorUtils() { }
 
-    static PropertyParameterImpl[] toParameters(TypeLoader typeLoader, Module module, Parameter[] parameters) {
+    static PropertyParameterImpl[] toParameters(TypeGenerator typeGenerator, TypeLoader typeLoader, Module module, Parameter[] parameters) {
         PropertyParameterImpl[] mappedParameters = new PropertyParameterImpl[parameters.length];
 
         for (int index = 0; index < parameters.length; index++) {
             Parameter parameter = parameters[index];
-            Type type = typeLoader.load(module, parameter.getType());
-            mappedParameters[index] = new PropertyParameterImpl(index, type, parameter.getName(), parameter.isVarArgs(), false, false);
+            Type type = typeLoader.load(typeGenerator.generate(module, parameter.getType().getSimpleName(), parameter.getType()).fetchType());
+            mappedParameters[index] = new PropertyParameterImpl(index, type.getSignature(), parameter.getName(), false, false);
         }
 
         return mappedParameters;

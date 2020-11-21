@@ -22,6 +22,7 @@ import org.panda_lang.language.architecture.module.ModulePath;
 import org.panda_lang.language.architecture.module.PandaModulePath;
 import org.panda_lang.language.architecture.module.PandaTypeLoader;
 import org.panda_lang.language.architecture.module.TypeLoader;
+import org.panda_lang.language.architecture.type.generator.TypeGenerator;
 import org.panda_lang.language.interpreter.logging.Logger;
 import org.panda_lang.panda.PandaException;
 import org.panda_lang.panda.language.interpreter.PandaInterpreter;
@@ -35,6 +36,7 @@ public final class PandaEnvironment implements Environment {
     private final FrameworkController controller;
     private final File workingDirectory;
     private final ModulePath modulePath;
+    private final TypeGenerator typeGenerator;
     private final TypeLoader typeLoader;
     private final PandaInterpreter interpreter;
     private final Lazy<Void> resources;
@@ -43,12 +45,13 @@ public final class PandaEnvironment implements Environment {
         this.controller = controller;
         this.workingDirectory = workingDirectory;
         this.modulePath = new PandaModulePath();
+        this.typeGenerator = new TypeGenerator(controller);
         this.typeLoader = new PandaTypeLoader(modulePath);
         this.interpreter = new PandaInterpreter(this);
 
         this.resources = new Lazy<>(() -> {
             ResourcesLoader resourcesLoader = new ResourcesLoader();
-            resourcesLoader.load(modulePath, typeLoader);
+            resourcesLoader.load(modulePath, typeGenerator, typeLoader);
         });
     }
 

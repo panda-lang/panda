@@ -16,6 +16,8 @@
 
 package org.panda_lang.utilities.commons.function;
 
+import org.panda_lang.utilities.commons.UnsafeUtils;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
@@ -115,6 +117,14 @@ public class PandaStream<T> {
 
     public <A, R> R collect(Collector<? super T, A, R> collector) {
         return stream.collect(collector);
+    }
+
+    public <E extends Exception> PandaStream<T> throwIfNot(Predicate<T> condition, Function<T, E> exception) {
+        return with(stream.peek(element -> {
+            if (!condition.test(element)) {
+                UnsafeUtils.throwException(exception.apply(element));
+            }
+        }));
     }
 
     public PandaStream<T> takeWhile(Predicate<T> condition) {

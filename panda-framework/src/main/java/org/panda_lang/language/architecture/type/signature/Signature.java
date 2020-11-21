@@ -1,5 +1,6 @@
 package org.panda_lang.language.architecture.type.signature;
 
+import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.Result;
 
@@ -22,6 +23,8 @@ public interface Signature {
     }
 
     Option<GenericSignature> findGeneric(String identifier);
+
+    Snippet getSource();
 
     Signature[] getGenerics();
 

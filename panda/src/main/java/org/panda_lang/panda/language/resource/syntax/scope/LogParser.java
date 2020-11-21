@@ -46,7 +46,7 @@ public final class LogParser implements ContextParser<Object, LogStatement> {
     public Option<CompletableFuture<LogStatement>> parse(Context<?> context) {
         PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
-        if (sourceReader.read(Keywords.LOG).isPresent()) {
+        if (sourceReader.read(Keywords.LOG).isEmpty()) {
             return Option.none();
         }
 

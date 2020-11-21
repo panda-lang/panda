@@ -26,6 +26,7 @@ import org.panda_lang.language.architecture.module.TypeLoader;
 import org.panda_lang.language.architecture.statement.StandardizedFramedScope;
 import org.panda_lang.language.architecture.statement.StaticScope;
 import org.panda_lang.language.architecture.statement.VariableData;
+import org.panda_lang.language.architecture.type.generator.TypeGenerator;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextCreator;
 import org.panda_lang.language.interpreter.parser.PandaContextCreator;
@@ -63,7 +64,7 @@ public final class PandaContextUtils {
         TypeLoader loader = new PandaTypeLoader(path);
 
         ResourcesLoader resourcesLoader = new ResourcesLoader();
-        resourcesLoader.load(path, loader);
+        resourcesLoader.load(path, new TypeGenerator(controller), loader);
 
         Imports imports = new Imports(loader);
         imports.importModule("java");

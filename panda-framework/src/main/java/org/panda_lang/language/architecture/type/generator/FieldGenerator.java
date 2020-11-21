@@ -48,7 +48,7 @@ final class FieldGenerator {
                 .type(type)
                 .location(type.getLocation())
                 .fieldIndex(type.getFields().size())
-                .returnType(generator.findOrGenerate(typeLoader, type.getModule(), field.getType()))
+                .returnType(generator.findOrGenerate(typeLoader, type.getModule(), field.getType()).getSignature())
                 .isStatic(Modifier.isStatic(field.getModifiers()))
                 .mutable(!Modifier.isFinal(field.getModifiers()))
                 .isNative(true)

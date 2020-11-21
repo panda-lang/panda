@@ -50,7 +50,7 @@ final class MethodGenerator {
     }
 
     protected TypeMethod generate(TypeLoader typeLoader) {
-        PropertyParameter[] mappedParameters = TypeGeneratorUtils.toParameters(typeLoader, type.getModule(), method.getParameters());
+        PropertyParameter[] mappedParameters = TypeGeneratorUtils.toParameters(generator, typeLoader, type.getModule(), method.getParameters());
         // TODO: Generate bytecode
         method.setAccessible(true);
 
@@ -113,7 +113,7 @@ final class MethodGenerator {
                 .type(type)
                 .isNative(true)
                 .isStatic(Modifier.isStatic(method.getModifiers()))
-                .returnType(generator.findOrGenerate(typeLoader, type.getModule(), method.getReturnType()))
+                .returnType(generator.findOrGenerate(typeLoader, type.getModule(), method.getReturnType()).getSignature())
                 .location(type.getLocation())
                 .customBody(methodBody)
                 .parameters(mappedParameters)

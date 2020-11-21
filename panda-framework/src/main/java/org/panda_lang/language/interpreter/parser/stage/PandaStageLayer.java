@@ -16,6 +16,8 @@
 
 package org.panda_lang.language.interpreter.parser.stage;
 
+import org.panda_lang.utilities.commons.collection.Pair;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +31,7 @@ public final class PandaStageLayer implements StageLayer {
 
     private final int id;
     private final StagePhase cycle;
-    private final Map<StageOrder, List<StageTask>> tasks = new HashMap<>();
+    private final Map<StageOrder, List<Pair<String, StageTask>>> tasks = new HashMap<>();
 
     public PandaStageLayer(StagePhase cycle) {
         this.id = ID.getAndIncrement();
@@ -38,19 +40,20 @@ public final class PandaStageLayer implements StageLayer {
 
     @Override
     public void callTasks() {
-        Map<StageOrder, List<StageTask>> unitsMap = new TreeMap<>(tasks);
+        Map<StageOrder, List<Pair<String, StageTask>>> unitsMap = new TreeMap<>(tasks);
         tasks.clear();
 
-        for (List<StageTask> units : unitsMap.values()) {
-            for (StageTask unit : units) {
-                unit.call(cycle);
+        for (List<Pair<String, StageTask>> units : unitsMap.values()) {
+            for (Pair<String, StageTask> unit : units) {
+                System.out.println(unit.getKey());
+                unit.getValue().call(cycle);
             }
         }
     }
 
     @Override
-    public StageLayer delegate(StageOrder priority, StageTask task) {
-        tasks.computeIfAbsent(priority, (key) -> new ArrayList<>(2)).add(task);
+    public StageLayer delegate(StageOrder priority, String id, StageTask task) {
+        tasks.computeIfAbsent(priority, key -> new ArrayList<>(2)).add(new Pair<>(id, task));
         return this;
     }
 

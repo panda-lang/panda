@@ -33,15 +33,15 @@ public interface StageLayer {
      * @param task the task to delegate
      * @return current phase
      */
-    StageLayer delegate(StageOrder priority, StageTask task);
+    StageLayer delegate(StageOrder priority, String id, StageTask task);
 
     /**
      * Delegate task using {@link StageOrder#DEFAULT}
      *
      * @see #delegate(StageOrder, StageTask)
      */
-    default StageLayer delegate(StageTask task) {
-        return delegate(StageOrder.DEFAULT, task);
+    default StageLayer delegate(String id, StageTask task) {
+        return delegate(StageOrder.DEFAULT, id, task);
     }
 
     /**
@@ -49,8 +49,8 @@ public interface StageLayer {
      *
      * @see #delegate(StageOrder, StageTask)
      */
-    default StageLayer delegateBefore(StageTask task) {
-        return delegate(StageOrder.BEFORE, task);
+    default StageLayer delegateBefore(String id, StageTask task) {
+        return delegate(StageOrder.BEFORE, id, task);
     }
 
     /**
@@ -58,8 +58,8 @@ public interface StageLayer {
      *
      * @see #delegate(StageOrder, StageTask)
      */
-    default StageLayer delegateAfter(StageTask task) {
-        return delegate(StageOrder.AFTER, task);
+    default StageLayer delegateAfter(String id, StageTask task) {
+        return delegate(StageOrder.AFTER, id, task);
     }
 
     /***

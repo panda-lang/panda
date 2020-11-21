@@ -16,7 +16,7 @@ import org.panda_lang.utilities.commons.StringUtils;
 import org.panda_lang.utilities.commons.javassist.CtCode;
 import org.panda_lang.utilities.commons.text.Joiner;
 
-public final class TypeGenerator {
+public final class ClassGenerator {
 
     private static final ClassPool CLASS_POOL = ClassPool.getDefault();
     private static final CtClass CT_TYPE_INSTANCE_CLASS = ClassPoolUtils.require(TypeInstance.class);
@@ -99,7 +99,7 @@ public final class TypeGenerator {
         {
             for (TypeMethod method : type.getMethods().getDeclaredProperties()) {
                 CtClass[] parameters = ClassPoolUtils.toCt(ParameterUtils.parametersToClasses(method.getParameters()));
-                CtMethod javaMethod = new CtMethod(ClassPoolUtils.require(method.getReturnType().toTyped().fetchType().getAssociated().get()), method.getName(), parameters, javaType);
+                CtMethod javaMethod = new CtMethod(ClassPoolUtils.require(method.getReturnType().toTyped().fetchType().getAssociated().get()), method.getSimpleName(), parameters, javaType);
                 javaType.addMethod(javaMethod);
             }
         }

@@ -74,7 +74,7 @@ public class PandaModule extends PandaModuleContainer implements Module {
     }
 
     @Override
-    public Option<? extends Reference> get(String typeName) {
+    public Option<Reference> get(String typeName) {
         return Option.of(types.get(typeName));
     }
 

@@ -23,7 +23,7 @@ public class Reference {
     }
 
     public Reference(Type type) {
-        this(CompletableOption.completed(type), type.getModule(), type.getName(), type.getVisibility(), type.getKind(), type.getLocation());
+        this(CompletableOption.completed(type), type.getModule(), type.getSimpleName(), type.getVisibility(), type.getKind(), type.getLocation());
     }
 
     public boolean isLoaded() {

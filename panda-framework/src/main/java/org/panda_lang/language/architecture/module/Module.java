@@ -40,7 +40,7 @@ public interface Module extends ModuleContainer {
      * @param name the name of reference
      * @return the option with reference, otherwise none
      */
-    Option<? extends Reference> get(String name);
+    Option<Reference> get(String name);
 
     /**
      * Check if the given module is submodule of the current module

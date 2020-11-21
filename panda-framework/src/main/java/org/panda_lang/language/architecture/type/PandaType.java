@@ -79,13 +79,12 @@ public class PandaType extends AbstractMetadata implements Type {
             return;
         }
 
-        this.typeLoader = typeLoader;
-
         for (Initializer<Type> initializer : initializers) {
             initializer.accept(typeLoader, this);
         }
 
         initializers.clear();
+        this.typeLoader = typeLoader;
 
         for (TypeField field : getFields().getDeclaredProperties()) {
             if (!field.hasDefaultValue() || !field.isStatic()) {
