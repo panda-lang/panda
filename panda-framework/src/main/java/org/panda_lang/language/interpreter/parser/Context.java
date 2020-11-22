@@ -27,7 +27,6 @@ import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.language.interpreter.parser.pool.PoolService;
 import org.panda_lang.language.interpreter.parser.stage.StageService;
 import org.panda_lang.language.interpreter.source.Localizable;
-import org.panda_lang.language.interpreter.source.SourceSet;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.SourceStream;
 
@@ -56,8 +55,6 @@ public interface Context<T> extends Contextual<T>, Localizable, LoggerHolder {
     Snippet getScriptSource();
 
     Script getScript();
-
-    SourceSet getSourceSet();
 
     Application getApplication();
 

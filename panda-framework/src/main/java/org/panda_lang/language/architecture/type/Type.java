@@ -26,7 +26,7 @@ import org.panda_lang.language.architecture.type.member.field.Fields;
 import org.panda_lang.language.architecture.type.member.method.Methods;
 import org.panda_lang.language.architecture.type.signature.Signed;
 import org.panda_lang.language.architecture.type.signature.TypedSignature;
-import org.panda_lang.utilities.commons.function.CompletableOption;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.Collection;
@@ -145,7 +145,7 @@ public interface Type extends Metadata, Signed {
      *
      * @return the associated class
      */
-    CompletableOption<? extends Class<?>> getAssociated();
+    Completable<? extends Class<?>> getAssociated();
 
     /**
      * Get state of type

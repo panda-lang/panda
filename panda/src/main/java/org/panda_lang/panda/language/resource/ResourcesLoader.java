@@ -41,11 +41,14 @@ public final class ResourcesLoader {
 
     private void loadClass(ModulePath modulePath, TypeGenerator typeGenerator, TypeLoader typeLoader, Object mappings) {
         InternalModuleInfo moduleInfo = mappings.getClass().getAnnotation(InternalModuleInfo.class);
-        Module module = modulePath.acquire(moduleInfo.module());
+
+        Module module = modulePath.acquire(moduleInfo.module()).orThrow(() -> {
+            throw new IllegalStateException("Cannot acquire module " + moduleInfo.module());
+        });
 
         if (mappings instanceof CustomInitializer) {
             CustomInitializer initializer = (CustomInitializer) mappings;
-            initializer.initialize(module, typeLoader);
+            initializer.initialize(module, typeGenerator, typeLoader);
         }
 
         String packageName = moduleInfo.pkg().isEmpty() ? StringUtils.EMPTY : moduleInfo.pkg() + ".";

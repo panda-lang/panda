@@ -26,9 +26,8 @@ import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
-
-import java.util.concurrent.CompletableFuture;
 
 public final class LogParser implements ContextParser<Object, LogStatement> {
 
@@ -43,7 +42,7 @@ public final class LogParser implements ContextParser<Object, LogStatement> {
     }
 
     @Override
-    public Option<CompletableFuture<LogStatement>> parse(Context<?> context) {
+    public Option<Completable<LogStatement>> parse(Context<?> context) {
         PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
         if (sourceReader.read(Keywords.LOG).isEmpty()) {
@@ -58,7 +57,7 @@ public final class LogParser implements ContextParser<Object, LogStatement> {
         LogStatement statement = new LogStatement(context.getSource(), logger, expressions);
         context.getScope().addStatement(statement);
 
-        return Option.of(CompletableFuture.completedFuture(statement));
+        return Option.ofCompleted(statement);
     }
 
 }

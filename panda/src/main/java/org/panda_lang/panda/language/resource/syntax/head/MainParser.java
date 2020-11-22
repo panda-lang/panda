@@ -30,9 +30,8 @@ import org.panda_lang.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
-
-import java.util.concurrent.CompletableFuture;
 
 public final class MainParser implements ContextParser<Object, MainScope> {
 
@@ -54,7 +53,7 @@ public final class MainParser implements ContextParser<Object, MainScope> {
     }
 
     @Override
-    public Option<CompletableFuture<MainScope>> parse(Context<?> context) {
+    public Option<Completable<MainScope>> parse(Context<?> context) {
         SourceReader sourceReader = new SourceReader(context.getStream());
 
         if (sourceReader.read(Keywords.MAIN).isEmpty()) {
@@ -68,11 +67,13 @@ public final class MainParser implements ContextParser<Object, MainScope> {
             throw new PandaParserFailure(context, context.getSource(), "Missing body for main statement");
         }
 
-        CompletableFuture<MainScope> futureScope = new CompletableFuture<>();
+        Completable<MainScope> futureScope = new Completable<>();
         MainScope mainScope = new MainScope(context.getSource().getLocation());
 
         context.getStageService().delegate("parse main body", Phases.CONTENT, Layer.NEXT_DEFAULT, contentPhase -> {
             scopeParser.parse(context.fork(), mainScope, body.get());
+            context.getScript().addStatement(mainScope);
+            futureScope.complete(mainScope);
         });
 
         return Option.of(futureScope);

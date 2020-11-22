@@ -17,7 +17,6 @@
 package org.panda_lang.panda.language.resource.syntax.type;
 
 import org.panda_lang.language.architecture.expression.ThisExpression;
-import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.TypeContext;
 import org.panda_lang.language.architecture.type.TypedUtils;
@@ -26,6 +25,7 @@ import org.panda_lang.language.architecture.type.member.method.MethodScope;
 import org.panda_lang.language.architecture.type.member.method.PandaMethod;
 import org.panda_lang.language.architecture.type.member.method.TypeMethod;
 import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
@@ -44,10 +44,10 @@ import org.panda_lang.panda.language.resource.syntax.scope.StandaloneExpression;
 import org.panda_lang.panda.language.resource.syntax.scope.branching.Returnable;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 public final class MethodParser implements ContextParser<TypeContext, TypeMethod> {
 
@@ -78,17 +78,25 @@ public final class MethodParser implements ContextParser<TypeContext, TypeMethod
     }
 
     @Override
-    public Option<CompletableFuture<TypeMethod>> parse(Context<? extends TypeContext> context) {
+    public Option<Completable<TypeMethod>> parse(Context<? extends TypeContext> context) {
         PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
-        boolean overrides = sourceReader.optionalRead(() -> sourceReader.read(Keywords.OVERRIDE)).isDefined();
-        Option<Visibility> visibility = sourceReader.readVariant(Keywords.OPEN, Keywords.SHARED, Keywords.INTERNAL).map(Visibility::of);
+        // read visibility, optional if overridden
 
-        if (visibility.isEmpty()) {
+        boolean overrides = sourceReader.optionalRead(() -> sourceReader.read(Keywords.OVERRIDE)).isDefined();
+
+        Option<Visibility> visibility = sourceReader.optionalRead(() -> sourceReader.readVariant(Keywords.OPEN, Keywords.SHARED, Keywords.INTERNAL))
+                .map(Visibility::of);
+
+        if (visibility.isEmpty() && !overrides) {
             return Option.none();
         }
 
+        // read optional static modifier
+
         boolean isStatic = sourceReader.optionalRead(() -> sourceReader.read(Keywords.STATIC)).isDefined();
+
+        // read name
 
         Option<String> name = sourceReader.optionalRead(() -> sourceReader.read(TokenTypes.UNKNOWN))
                 .orElse(() -> sourceReader.optionalRead(() -> sourceReader.read(TokenTypes.SEQUENCE)))
@@ -98,13 +106,17 @@ public final class MethodParser implements ContextParser<TypeContext, TypeMethod
             return Option.none();
         }
 
-        Option<Snippet> parametersSource = sourceReader.readArguments();
+        // read parameters
 
-        if (parametersSource.isEmpty()) {
-            return Option.none();
-        }
+        List<PropertyParameter> parameters = sourceReader.readArguments()
+                .map(parametersSource -> PARAMETER_PARSER.parse(context, parametersSource))
+                .orThrow(() -> {
+                    throw new PandaParserFailure(context, "Missing constructor parameters");
+                });
 
-        Signature returnType = voidType.getSignature();
+        // read return type
+
+        Signature returnType;
 
         if (sourceReader.optionalRead(() -> sourceReader.read(Operators.ARROW)).isDefined()) {
             returnType = sourceReader.optionalRead(() -> sourceReader.read(Keywords.SELF))
@@ -115,52 +127,28 @@ public final class MethodParser implements ContextParser<TypeContext, TypeMethod
                         throw new PandaParserFailure(context, "Missing return signature");
                     });
         }
+        else {
+            returnType = voidType.getSignature();
+        }
 
-        List<PropertyParameter> parameters = PARAMETER_PARSER.parse(context, parametersSource.get());
-        MethodScope methodScope = new MethodScope(context, parameters);
+        // read body
 
         Option<Snippet> body = sourceReader.optionalRead(sourceReader::readBody);
 
+        // create method
+
+        MethodScope methodScope = new MethodScope(context, parameters);
         Type type = context.getSubject().getType();
-        Option<TypeMethod> existingMethod = type.getMethods().getMethod(name.get(), TypedUtils.toTypes(parameters));
-        boolean isNative = existingMethod.filter(TypeMethod::isNative).isDefined();
-
-        if (overrides && existingMethod.isEmpty()) {
-            throw new PandaParserFailure(context, context.getSource(),
-                    "&1Method &b" + name + "&1 is defined as overridden, but there is no such a method in parent type",
-                    "Compare method signature with a target signature and apply required changes or remove this modifier to create independent method"
-            );
-        }
-
-        existingMethod
-                .filterNot(method -> overrides)
-                .peek(method -> {
-                    throw new PandaParserFailure(context, context.getSource(),
-                            "&rMethod &b" + name + "&r overrides &b" + existingMethod.get() + "&r but does not contain&b override&r modifier",
-                            "Add missing modifier if you want to override that method or rename current method"
-                    );
-                });
-
-        existingMethod
-                .map(TypeMethod::getReturnType)
-                .filterNot(returnType::isAssignableFrom)
-                .peek(existingReturnType -> {
-                    throw new PandaParserFailure(context, context.getSource(),
-                            "&rMethod &b" + name + "&r overrides &b" + existingMethod.get() + "&r but does not return the same type",
-                            "Change return type if you want to override that method or rename current method"
-                    );
-                });
 
         TypeMethod method = PandaMethod.builder()
                 .type(type)
                 .parameters(parameters)
                 .name(name.get())
                 .location(context)
-                .isAbstract(body == null)
-                .visibility(visibility.get())
+                .isAbstract(body.isEmpty())
+                .visibility(visibility.orElseGet(Visibility.OPEN))
                 .returnType(returnType)
                 .isStatic(isStatic)
-                .isNative(isNative)
                 .body(methodScope)
                 .build();
         type.getMethods().declare(method);
@@ -168,7 +156,6 @@ public final class MethodParser implements ContextParser<TypeContext, TypeMethod
         context.getStageService().delegate("parse method body", Phases.CONTENT, Layer.NEXT_DEFAULT, contentPhase -> {
             body.peek(source -> scopeParser.parse(context, methodScope, source));
         });
-
 
         context.getStageService().delegate("verify return statement", Phases.VERIFY, Layer.NEXT_DEFAULT, verifyPhase -> {
             if (method.isAbstract()) {
@@ -181,11 +168,41 @@ public final class MethodParser implements ContextParser<TypeContext, TypeMethod
                     return;
                 }
 
-                throw new PandaParserFailure(context, body != null ? body.get().getLastLine() : context.getSource(), "Missing return statement in method " + method.getName());
+                throw new PandaParserFailure(context, body.isDefined() ? body.get().getLastLine() : context.getSource(), "Missing return statement in method " + method.getName());
             }
         });
 
-        return Option.of(CompletableFuture.completedFuture(method));
+        context.getStageService().delegate("verify method", Phases.VERIFY, Layer.NEXT_DEFAULT, verifyPhase -> {
+            Option<TypeMethod> existingMethod = type.getMethods().getMethod(name.get(), TypedUtils.toTypes(parameters));
+
+            if (overrides && existingMethod.isEmpty()) {
+                throw new PandaParserFailure(context, context.getSource(),
+                        "&1Method &b" + name + "&1 is defined as overridden, but there is no such a method in parent type",
+                        "Compare method signature with a target signature and apply required changes or remove this modifier to create independent method"
+                );
+            }
+
+            existingMethod
+                    .filterNot(property -> overrides)
+                    .peek(property -> {
+                        throw new PandaParserFailure(context, context.getSource(),
+                                "&rMethod &b" + name + "&r overrides &b" + existingMethod.get() + "&r but does not contain&b override&r modifier",
+                                "Add missing modifier if you want to override that method or rename current method"
+                        );
+                    });
+
+            existingMethod
+                    .map(TypeMethod::getReturnType)
+                    .filterNot(returnType::isAssignableFrom)
+                    .peek(existingReturnType -> {
+                        throw new PandaParserFailure(context, context.getSource(),
+                                "&rMethod &b" + name + "&r overrides &b" + existingMethod.get() + "&r but does not return the same type",
+                                "Change return type if you want to override that method or rename current method"
+                        );
+                    });
+        });
+
+        return Option.ofCompleted(method);
     }
 
 }

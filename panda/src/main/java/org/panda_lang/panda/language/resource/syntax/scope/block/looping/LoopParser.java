@@ -25,9 +25,8 @@ import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.panda.language.resource.syntax.scope.block.BlockParser;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
-
-import java.util.concurrent.CompletableFuture;
 
 public final class LoopParser extends BlockParser<LoopBlock> {
 
@@ -42,7 +41,7 @@ public final class LoopParser extends BlockParser<LoopBlock> {
     }
 
     @Override
-    public Option<CompletableFuture<LoopBlock>> parse(Context<?> context) {
+    public Option<Completable<LoopBlock>> parse(Context<?> context) {
         PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
         if (sourceReader.read(Keywords.LOOP).isEmpty()) {
@@ -59,7 +58,7 @@ public final class LoopParser extends BlockParser<LoopBlock> {
         context.getScope().addStatement(loopBlock);
         SCOPE_PARSER.parse(context, loopBlock, sourceReader.readBody().get());
 
-        return Option.of(CompletableFuture.completedFuture(loopBlock));
+        return Option.ofCompleted(loopBlock);
     }
 
 }

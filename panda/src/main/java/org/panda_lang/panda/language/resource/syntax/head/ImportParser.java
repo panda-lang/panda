@@ -25,9 +25,8 @@ import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
-
-import java.util.concurrent.CompletableFuture;
 
 public final class ImportParser implements ContextParser<Object, Reference> {
 
@@ -42,7 +41,7 @@ public final class ImportParser implements ContextParser<Object, Reference> {
     }
 
     @Override
-    public Option<CompletableFuture<Reference>> parse(Context<?> context) {
+    public Option<Completable<Reference>> parse(Context<?> context) {
         PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
         if (sourceReader.read(Keywords.IMPORT).isEmpty()) {
@@ -58,7 +57,7 @@ public final class ImportParser implements ContextParser<Object, Reference> {
         Reference reference = new Reference(ConveyanceUtils.fetchType(context, javaQualifier.get()));
         context.getImports().importType(reference);
 
-        return Option.of(CompletableFuture.completedFuture(reference));
+        return Option.ofCompleted(reference);
     }
 
 }

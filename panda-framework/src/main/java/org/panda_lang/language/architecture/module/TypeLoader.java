@@ -17,8 +17,10 @@
 package org.panda_lang.language.architecture.module;
 
 import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.runtime.PandaRuntimeException;
+import org.panda_lang.utilities.commons.function.Option;
 
-public interface TypeLoader extends TypeResolver {
+public interface TypeLoader {
 
     /**
      * Load type by this loader
@@ -27,5 +29,36 @@ public interface TypeLoader extends TypeResolver {
      * @return loaded type
      */
     Type load(Type type);
+
+    /**
+     * Find reference using the given name
+     *
+     * @param typeName the name to search for
+     * @return the reference
+     */
+    Option<Type> forType(String typeName);
+
+    /**
+     * Find reference using associated java class
+     *
+     * @param
+     */
+    Option<Type> forJavaType(Class<?> javaClass);
+
+    /**
+     * Get type with the given name.
+     * Use this method only if you are absolutely sure that the request type exists
+     *
+     * @param name the name to search for
+     * @return the found type
+     * @throws org.panda_lang.language.runtime.PandaRuntimeException if type does not exist
+     */
+    default Type requireType(String name) throws PandaRuntimeException {
+        return forType(name).orThrow(() -> {
+            throw new PandaRuntimeException("Cannot find type " + name);
+        });
+    }
+
+    Option<Module> forModule(String moduleName);
 
 }

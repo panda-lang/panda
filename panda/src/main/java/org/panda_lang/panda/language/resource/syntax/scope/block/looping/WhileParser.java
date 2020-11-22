@@ -25,9 +25,8 @@ import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.panda.language.resource.syntax.scope.block.BlockParser;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
-
-import java.util.concurrent.CompletableFuture;
 
 public final class WhileParser extends BlockParser<WhileBlock> {
 
@@ -42,7 +41,7 @@ public final class WhileParser extends BlockParser<WhileBlock> {
     }
 
     @Override
-    public Option<CompletableFuture<WhileBlock>> parse(Context<?> context) {
+    public Option<Completable<WhileBlock>> parse(Context<?> context) {
         PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
         if (sourceReader.read(Keywords.WHILE).isEmpty()) {
@@ -59,7 +58,7 @@ public final class WhileParser extends BlockParser<WhileBlock> {
         context.getScope().addStatement(whileBlock);
         SCOPE_PARSER.parse(context, whileBlock, sourceReader.readBody().get());
 
-        return Option.of(CompletableFuture.completedFuture(whileBlock));
+        return Option.ofCompleted(whileBlock);
     }
 
 }

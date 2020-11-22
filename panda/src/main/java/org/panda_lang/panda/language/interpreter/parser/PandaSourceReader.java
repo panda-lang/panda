@@ -39,7 +39,7 @@ public class PandaSourceReader extends SourceReader {
     }
 
     public Option<SignatureSource> readSignature() {
-        return read(TokenTypes.UNKNOWN)
+        return read(token -> token.getType() == TokenTypes.UNKNOWN && !Character.isDigit(token.getValue().charAt(0)))
                 .flatMap(name -> optionalRead(this::readGenerics)
                     .map(section -> SIGNATURE_PARSER.readSignatures(section.getContent()))
                     .orElse(Collections.emptyList())

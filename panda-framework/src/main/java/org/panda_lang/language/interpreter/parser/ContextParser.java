@@ -17,9 +17,8 @@
 package org.panda_lang.language.interpreter.parser;
 
 import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
-
-import java.util.concurrent.CompletableFuture;
 
 /**
  * Represents parsers supported by pipelines
@@ -58,6 +57,6 @@ public interface ContextParser<T, R> extends Parser {
      *
      * @param context set of information about source and interpretation process
      */
-    Option<CompletableFuture<R>> parse(Context<? extends T> context);
+    Option<Completable<R>> parse(Context<? extends T> context);
 
 }

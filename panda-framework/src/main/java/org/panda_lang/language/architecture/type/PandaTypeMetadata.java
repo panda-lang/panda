@@ -21,7 +21,7 @@ import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.signature.TypedSignature;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.source.PandaClassSource;
-import org.panda_lang.utilities.commons.function.CompletableOption;
+import org.panda_lang.utilities.commons.function.Completable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,7 @@ public class PandaTypeMetadata<BUILDER extends PandaTypeMetadata<BUILDER, ?>, TY
     protected Signature signature;
     protected Module module;
     protected Location location;
-    protected CompletableOption<? extends Class<?>> associatedType;
+    protected Completable<? extends Class<?>> associatedType;
     protected List<TypedSignature> bases = new ArrayList<>();
     protected String kind = Kind.CLASS;
     protected State state = State.DEFAULT;
@@ -65,7 +65,7 @@ public class PandaTypeMetadata<BUILDER extends PandaTypeMetadata<BUILDER, ?>, TY
         return location(new PandaClassSource(javaType).toLocation());
     }
 
-    public BUILDER associatedType(CompletableOption<? extends Class<?>> associatedType) {
+    public BUILDER associatedType(Completable<? extends Class<?>> associatedType) {
         this.associatedType = associatedType;
         return getThis();
     }

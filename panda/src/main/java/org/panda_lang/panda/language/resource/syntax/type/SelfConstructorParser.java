@@ -28,9 +28,8 @@ import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ArgumentsParser;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
-
-import java.util.concurrent.CompletableFuture;
 
 public final class SelfConstructorParser implements ContextParser<TypeContext, SelfConstructor> {
 
@@ -47,7 +46,7 @@ public final class SelfConstructorParser implements ContextParser<TypeContext, S
     }
 
     @Override
-    public Option<CompletableFuture<SelfConstructor>> parse(Context<? extends TypeContext> context) {
+    public Option<Completable<SelfConstructor>> parse(Context<? extends TypeContext> context) {
         PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
         if (sourceReader.read(Literals.THIS).isEmpty()) {
@@ -66,7 +65,7 @@ public final class SelfConstructorParser implements ContextParser<TypeContext, S
 
         return context.getSubject().getType().getConstructors().getAdjustedConstructor(ARGUMENTS_PARSER.parse(context, arguments.get()))
                 .map(constructor -> context.getScope().addStatement(new SelfConstructor(context, constructor)))
-                .map(CompletableFuture::completedFuture)
+                .map(Completable::completed)
                 .onEmpty(() -> {
                     throw new PandaParserFailure(context, arguments.get(), "Type does not contain constructor with requested parameter types");
                 });

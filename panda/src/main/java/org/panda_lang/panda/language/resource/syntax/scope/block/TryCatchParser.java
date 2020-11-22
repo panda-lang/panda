@@ -27,9 +27,8 @@ import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.panda.language.resource.syntax.scope.variable.VariableDataInitializer;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
-
-import java.util.concurrent.CompletableFuture;
 
 public final class TryCatchParser extends BlockParser<TryCatch> {
 
@@ -39,7 +38,7 @@ public final class TryCatchParser extends BlockParser<TryCatch> {
     }
 
     @Override
-    public Option<CompletableFuture<TryCatch>> parse(Context<?> context) {
+    public Option<Completable<TryCatch>> parse(Context<?> context) {
         PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
         Location tryLocation = sourceReader.toLocation();
 
@@ -88,7 +87,7 @@ public final class TryCatchParser extends BlockParser<TryCatch> {
             tryCatch.addHandler((Class<? extends Throwable>) variable.getKnownType().getType().getAssociated().get(), variable, catchBlock);
         }
 
-        return Option.of(CompletableFuture.completedFuture(tryCatch));
+        return Option.ofCompleted(tryCatch);
     }
 
 }

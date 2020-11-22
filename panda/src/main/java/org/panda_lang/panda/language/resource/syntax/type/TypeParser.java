@@ -18,18 +18,18 @@ package org.panda_lang.panda.language.resource.syntax.type;
 
 import javassist.CannotCompileException;
 import org.panda_lang.language.architecture.module.Module;
+import org.panda_lang.language.architecture.type.ClassGenerator;
 import org.panda_lang.language.architecture.type.PandaType;
 import org.panda_lang.language.architecture.type.Reference;
-import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.State;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.TypeContext;
-import org.panda_lang.language.architecture.type.ClassGenerator;
 import org.panda_lang.language.architecture.type.TypeScope;
 import org.panda_lang.language.architecture.type.Visibility;
 import org.panda_lang.language.architecture.type.member.constructor.PandaConstructor;
 import org.panda_lang.language.architecture.type.member.field.TypeField;
 import org.panda_lang.language.architecture.type.member.method.TypeMethod;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.signature.TypedSignature;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;
@@ -50,14 +50,13 @@ import org.panda_lang.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.collection.Component;
-import org.panda_lang.utilities.commons.function.CompletableOption;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.PandaStream;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 public final class TypeParser implements ContextParser<Object, Type> {
@@ -82,7 +81,7 @@ public final class TypeParser implements ContextParser<Object, Type> {
     }
 
     @Override
-    public Option<CompletableFuture<Type>> parse(Context<?> context) {
+    public Option<Completable<Type>> parse(Context<?> context) {
         PandaSourceReader reader = new PandaSourceReader(context.getStream());
 
         // read optional visibility
@@ -127,7 +126,7 @@ public final class TypeParser implements ContextParser<Object, Type> {
 
         // prepare reference and delegate tasks
 
-        CompletableOption<Type> futureType = new CompletableOption<>();
+        Completable<Type> futureType = new Completable<>();
         StageService stageService = context.getStageService();
 
         Module module = context.getScript().getModule().orThrow(() -> {
@@ -152,7 +151,11 @@ public final class TypeParser implements ContextParser<Object, Type> {
                     .map(Signature::toTyped)
                     .collect(Collectors.toList());
 
-            CompletableOption<Class<?>> associatedType = new CompletableOption<>();
+            if (bases.isEmpty()) {
+                bases.add(context.getTypeLoader().requireType("panda::Object").getSignature());
+            }
+
+            Completable<Class<?>> associatedType = new Completable<>();
 
             Type type = PandaType.builder()
                     .module(module)
@@ -173,8 +176,9 @@ public final class TypeParser implements ContextParser<Object, Type> {
                     .withScope(scope)
                     .toContext();
 
-            stageService.delegate("parse " + type.getName() + " type body", Phases.CONTENT, Layer.NEXT_DEFAULT, bodyPhase -> {
+            stageService.delegate("parse " + type.getName() + " type body", Phases.DEFAULT, Layer.NEXT_DEFAULT, bodyPhase -> {
                 typePoolParser.parse(typeContext, new PandaSourceStream(body));
+                futureType.complete(type);
             });
 
             stageService.delegate("verify " + type.getName() + "type properties", Phases.VERIFY, Layer.NEXT_DEFAULT, verifyPhase -> {
@@ -196,12 +200,11 @@ public final class TypeParser implements ContextParser<Object, Type> {
                     }
 
                     field.initialize();
-                    futureType.complete(type);
                 }
             });
         });
 
-        return Option.of(futureType.toFuture());
+        return Option.of(futureType);
     }
 
     private void verifyProperties(Context<TypeContext> context) {

@@ -24,7 +24,7 @@ public interface StageLayer {
     /**
      * Call all tasks delegated to the phase
      */
-    void callTasks();
+    boolean callNextTask();
 
     /**
      * Delegate task
@@ -38,7 +38,7 @@ public interface StageLayer {
     /**
      * Delegate task using {@link StageOrder#DEFAULT}
      *
-     * @see #delegate(StageOrder, StageTask)
+     * @see #delegate(StageOrder, String, StageTask)
      */
     default StageLayer delegate(String id, StageTask task) {
         return delegate(StageOrder.DEFAULT, id, task);
@@ -47,7 +47,7 @@ public interface StageLayer {
     /**
      * Delegate task using {@link StageOrder#BEFORE}
      *
-     * @see #delegate(StageOrder, StageTask)
+     * @see #delegate(StageOrder, String, StageTask)
      */
     default StageLayer delegateBefore(String id, StageTask task) {
         return delegate(StageOrder.BEFORE, id, task);
@@ -56,7 +56,7 @@ public interface StageLayer {
     /**
      * Delegate task using {@link StageOrder#AFTER}
      *
-     * @see #delegate(StageOrder, StageTask)
+     * @see #delegate(StageOrder, String, StageTask)
      */
     default StageLayer delegateAfter(String id, StageTask task) {
         return delegate(StageOrder.AFTER, id, task);

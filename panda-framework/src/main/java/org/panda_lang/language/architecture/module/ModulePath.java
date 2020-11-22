@@ -16,6 +16,13 @@
 
 package org.panda_lang.language.architecture.module;
 
+import org.panda_lang.language.architecture.Script;
+import org.panda_lang.language.interpreter.source.SourceService;
+import org.panda_lang.utilities.commons.function.Completable;
+import org.panda_lang.utilities.commons.function.Option;
+
+import java.util.function.Function;
+
 /**
  * ModulePath is collection of all available modules
  */
@@ -25,8 +32,8 @@ public interface ModulePath extends ModuleContainer {
      * Include initializer for the specified module
      *
      * @param name name of module
-     * @param initializer module initializer
+     * @param loader module initializer
      */
-    void include(String name, Runnable initializer);
+    Completable<Option<Script>> include(String name, Function<SourceService, Completable<Script>> loader);
 
 }

@@ -32,24 +32,14 @@ public final class PandaStagePhase implements StagePhase {
 
     @Override
     public boolean execute() {
-        while (true) {
-            currentPhase.callTasks();
-
-            if (currentPhase.countTasks() > 0) {
-                continue;
-            }
-
-            if (nextPhase.countTasks() == 0) {
-                break;
-            }
-
-            currentPhase = nextPhase;
-            nextPhase = new PandaStageLayer(this);
-
-            if (stageManager.countTasks(this) > 0) {
+        while (currentPhase.callNextTask()) {
+            if (stageManager.countTasksBefore(this) > 0) {
                 return false;
             }
         }
+
+        currentPhase = nextPhase;
+        nextPhase = new PandaStageLayer(this);
 
         return true;
     }

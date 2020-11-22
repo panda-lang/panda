@@ -23,9 +23,8 @@ import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.resource.syntax.sequence.SequencesUtils;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
-
-import java.util.concurrent.CompletableFuture;
 
 public final class CommentParser implements ContextParser<Object, CommentStatement> {
 
@@ -40,11 +39,11 @@ public final class CommentParser implements ContextParser<Object, CommentStateme
     }
 
     @Override
-    public Option<CompletableFuture<CommentStatement>> parse(Context<?> context) {
+    public Option<Completable<CommentStatement>> parse(Context<?> context) {
         return new SourceReader(context.getStream())
                 .read(SequencesUtils::isComment)
                 .map(CommentStatement::new)
-                .map(CompletableFuture::completedFuture);
+                .map(Completable::completed);
     }
 
 }

@@ -30,6 +30,7 @@ public final class PandaTypeLoader implements TypeLoader {
 
     private final Collection<TypeLoader> parents;
     private final Map<String, Type> loadedTypes = new HashMap<>(1024);
+    private final Map<Class<?>, Type> associatedClasses = new HashMap<>(1024);
     private final ModulePath modulePath;
 
     public PandaTypeLoader(ModulePath modulePath, TypeLoader... parents) {
@@ -40,6 +41,7 @@ public final class PandaTypeLoader implements TypeLoader {
     @Override
     public Type load(Type type) {
         loadedTypes.put(type.getName(), type);
+        type.getAssociated().then(javaClass -> associatedClasses.put(javaClass, type));
 
         if (!type.isInitialized()) {
             type.initialize(this);
@@ -56,6 +58,11 @@ public final class PandaTypeLoader implements TypeLoader {
                 .peek(this::load);
     }
 
+    @Override
+    public Option<Type> forJavaType(Class<?> javaClass) {
+        return Option.of(associatedClasses.get(javaClass));
+    }
+
     private Option<Type> forParentType(String type) {
         return PandaStream.of(parents)
                 .mapOpt(typeResolver -> typeResolver.forType(type))
@@ -67,14 +74,18 @@ public final class PandaTypeLoader implements TypeLoader {
                 .map(name -> name.split("::"))
                 .filter(elements -> elements.length == 2)
                 .map(elements -> new Pair<>(modulePath.forModule(elements[0]), elements[1]))
-                .filter(pair -> pair.getKey().isDefined())
-                .flatMap(pair -> pair.getKey().get().get(pair.getValue()))
+                .filter(typeInModule -> typeInModule.getKey().isReady())
+                .map(typeInModule -> new Pair<>(typeInModule.getKey().get(), typeInModule.getValue()))
+                .filter(typeInModule -> typeInModule.getKey().isDefined())
+                .flatMap(typeInModule -> typeInModule.getKey().get().get(typeInModule.getValue()))
                 .map(reference -> reference.getType().get());
     }
 
     @Override
     public Option<Module> forModule(String moduleName) {
-        return modulePath.forModule(moduleName);
+        return modulePath.forModule(moduleName).orThrow(() -> {
+            throw new IllegalStateException("Unloaded module " + moduleName);
+        });
     }
 
 }

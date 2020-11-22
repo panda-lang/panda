@@ -18,7 +18,6 @@ package org.panda_lang.panda.language.resource.syntax.scope.block.looping;
 
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.statement.PandaVariable;
-import org.panda_lang.panda.language.resource.syntax.scope.variable.VariableDataInitializer;
 import org.panda_lang.language.architecture.statement.VariableData;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaParserException;
@@ -28,9 +27,9 @@ import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.panda.language.resource.syntax.scope.block.BlockParser;
+import org.panda_lang.panda.language.resource.syntax.scope.variable.VariableDataInitializer;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
-
-import java.util.concurrent.CompletableFuture;
 
 public final class ForEachParser extends BlockParser<ForEachBlock> {
 
@@ -40,7 +39,7 @@ public final class ForEachParser extends BlockParser<ForEachBlock> {
     }
 
     @Override
-    public Option<CompletableFuture<ForEachBlock>> parse(Context<?> context) {
+    public Option<Completable<ForEachBlock>> parse(Context<?> context) {
         PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
         if (sourceReader.read(Keywords.FOREACH).isEmpty()) {
@@ -77,7 +76,7 @@ public final class ForEachParser extends BlockParser<ForEachBlock> {
         context.getScope().addStatement(forEach);
         SCOPE_PARSER.parse(context, forEach, sourceReader.readBody().get());
 
-        return Option.of(CompletableFuture.completedFuture(forEach));
+        return Option.ofCompleted(forEach);
     }
 
 }

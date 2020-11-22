@@ -17,12 +17,12 @@
 package org.panda_lang.panda.manager;
 
 import org.panda_lang.language.FrameworkController;
+import org.panda_lang.language.PandaFrameworkException;
 import org.panda_lang.language.interpreter.source.PandaURLSource;
 import org.panda_lang.panda.language.architecture.PandaEnvironment;
 import org.panda_lang.utilities.commons.function.Option;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Objects;
 
 final class Run {
@@ -35,7 +35,7 @@ final class Run {
         this.document = document;
     }
 
-    protected Option<Object> run(FrameworkController controller) throws IOException {
+    protected Option<Object> run(FrameworkController controller) {
         File mainScript = new File(document.getDocument().getParentFile(), Objects.requireNonNull(document.getMainScript()));
 
         PandaEnvironment environment = new PandaEnvironment(controller, manager.getWorkingDirectory());
@@ -46,7 +46,9 @@ final class Run {
 
         for (File ownerDirectory : owners) {
             for (File moduleDirectory : Objects.requireNonNull(ownerDirectory.listFiles())) {
-                PackageManagerUtils.loadToEnvironment(environment, moduleDirectory);
+                PackageManagerUtils.loadToEnvironment(environment, moduleDirectory).onError(error -> {
+                    throw new PandaFrameworkException("Cannot load package: " + error);
+                });
             }
         }
 

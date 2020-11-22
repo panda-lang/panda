@@ -24,6 +24,8 @@ import org.panda_lang.language.architecture.module.PandaTypeLoader;
 import org.panda_lang.language.architecture.module.TypeLoader;
 import org.panda_lang.language.architecture.type.generator.TypeGenerator;
 import org.panda_lang.language.interpreter.logging.Logger;
+import org.panda_lang.language.interpreter.source.PandaSourceService;
+import org.panda_lang.language.interpreter.source.SourceService;
 import org.panda_lang.panda.PandaException;
 import org.panda_lang.panda.language.interpreter.PandaInterpreter;
 import org.panda_lang.panda.language.resource.ResourcesLoader;
@@ -35,6 +37,7 @@ public final class PandaEnvironment implements Environment {
 
     private final FrameworkController controller;
     private final File workingDirectory;
+    private final SourceService sources;
     private final ModulePath modulePath;
     private final TypeGenerator typeGenerator;
     private final TypeLoader typeLoader;
@@ -44,7 +47,8 @@ public final class PandaEnvironment implements Environment {
     public PandaEnvironment(FrameworkController controller, File workingDirectory) {
         this.controller = controller;
         this.workingDirectory = workingDirectory;
-        this.modulePath = new PandaModulePath();
+        this.sources = new PandaSourceService();
+        this.modulePath = new PandaModulePath(sources);
         this.typeGenerator = new TypeGenerator(controller);
         this.typeLoader = new PandaTypeLoader(modulePath);
         this.interpreter = new PandaInterpreter(this);
@@ -81,6 +85,11 @@ public final class PandaEnvironment implements Environment {
     @Override
     public TypeLoader getTypeLoader() {
         return typeLoader;
+    }
+
+    @Override
+    public SourceService getSources() {
+        return sources;
     }
 
     @Override

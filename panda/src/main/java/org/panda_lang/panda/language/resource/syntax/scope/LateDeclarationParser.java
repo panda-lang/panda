@@ -19,8 +19,8 @@ package org.panda_lang.panda.language.resource.syntax.scope;
 import org.panda_lang.language.architecture.statement.PandaVariableData;
 import org.panda_lang.language.architecture.statement.Variable;
 import org.panda_lang.language.architecture.statement.VariableData;
-import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.VisibilityComparator;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
@@ -34,9 +34,8 @@ import org.panda_lang.panda.language.resource.syntax.type.SignatureParser;
 import org.panda_lang.panda.language.resource.syntax.type.SignatureSource;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
-
-import java.util.concurrent.CompletableFuture;
 
 public final class LateDeclarationParser implements ContextParser<Object, Variable> {
 
@@ -58,7 +57,7 @@ public final class LateDeclarationParser implements ContextParser<Object, Variab
     }
 
     @Override
-    public Option<CompletableFuture<Variable>> parse(Context<?> context) {
+    public Option<Completable<Variable>> parse(Context<?> context) {
         PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
         if (sourceReader.read(Keywords.LATE).isEmpty()) {
@@ -87,7 +86,7 @@ public final class LateDeclarationParser implements ContextParser<Object, Variab
         VariableData variableData = new PandaVariableData(signature, name.get().getValue(), mut, nil);
         Variable variable = context.getScope().createVariable(variableData);
 
-        return Option.of(CompletableFuture.completedFuture(variable));
+        return Option.ofCompleted(variable);
     }
 
 }

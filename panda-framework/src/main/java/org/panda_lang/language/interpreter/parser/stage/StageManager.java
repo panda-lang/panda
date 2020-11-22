@@ -34,14 +34,14 @@ public interface StageManager {
      * @param to the cycle to which it count
      * @return the amount of tasks
      */
-    int countTasks(StagePhase to);
+    int countTasksBefore(StagePhase to);
 
     /**
      * Get amount of all tasks
      *
      * @return the amount of tasks
      */
-    int countTasks();
+    int countTasksBefore();
 
     /**
      * @return current cycle

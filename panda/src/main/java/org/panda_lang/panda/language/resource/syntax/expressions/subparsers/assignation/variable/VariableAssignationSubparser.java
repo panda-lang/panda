@@ -30,9 +30,8 @@ import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assi
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationPriorities;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
-
-import java.util.concurrent.CompletableFuture;
 
 public final class VariableAssignationSubparser implements ContextParser<AssignationContext, Assigner<?>> {
 
@@ -52,7 +51,7 @@ public final class VariableAssignationSubparser implements ContextParser<Assigna
     }
 
     @Override
-    public Option<CompletableFuture<Assigner<?>>> parse(Context<? extends AssignationContext> context) {
+    public Option<Completable<Assigner<?>>> parse(Context<? extends AssignationContext> context) {
         SourceStream stream = new PandaSourceStream(context.getSource());
         ExpressionTransaction transaction = context.getExpressionParser().parse(context, stream);
 
@@ -73,7 +72,7 @@ public final class VariableAssignationSubparser implements ContextParser<Assigna
             assigner.getAccessor().getVariable().initialize();
         }
 
-        return Option.of(CompletableFuture.completedFuture(assigner));
+        return Option.ofCompleted(assigner);
     }
 
 }

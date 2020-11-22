@@ -31,8 +31,8 @@ class PhasesLayerLayerControllerTest {
     @BeforeAll
     public static void createPipelines() {
         STAGE_CONTROLLER.initialize(Arrays.asList(
-                new Phase("b", 2.0),
                 new Phase("a", 1.0),
+                new Phase("b", 2.0),
                 new Phase("c", 3.0))
         );
     }

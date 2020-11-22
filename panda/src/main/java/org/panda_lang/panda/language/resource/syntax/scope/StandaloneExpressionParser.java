@@ -26,9 +26,8 @@ import org.panda_lang.language.interpreter.token.SourceStream;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
-
-import java.util.concurrent.CompletableFuture;
 
 public final class StandaloneExpressionParser implements ContextParser<Object, StandaloneExpression> {
 
@@ -52,7 +51,7 @@ public final class StandaloneExpressionParser implements ContextParser<Object, S
     }
 
     @Override
-    public Option<CompletableFuture<StandaloneExpression>> parse(Context<?> context) {
+    public Option<Completable<StandaloneExpression>> parse(Context<?> context) {
         SourceStream stream = new PandaSourceStream(context.getSource());
         Expression expression = context.getExpressionParser().parse(context, stream, SETTINGS).getExpression();
 
@@ -60,7 +59,7 @@ public final class StandaloneExpressionParser implements ContextParser<Object, S
         context.getScope().addStatement(statement);
         context.getStream().readSilently(stream.getReadLength());
 
-        return Option.of(CompletableFuture.completedFuture(statement));
+        return Option.ofCompleted(statement);
     }
 
 }

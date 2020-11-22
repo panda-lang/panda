@@ -36,9 +36,8 @@ import org.panda_lang.language.resource.syntax.operator.OperatorUtils;
 import org.panda_lang.panda.language.interpreter.parser.PandaTargets;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.AbstractExpressionSubparserWorker;
 import org.panda_lang.utilities.commons.UnsafeUtils;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
-
-import java.util.concurrent.CompletableFuture;
 
 public final class AssignationExpressionSubparser implements ExpressionSubparser {
 
@@ -114,7 +113,7 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
                     .withSubject(new AssignationContext(expression))
                     .toContext();
 
-            Option<? extends CompletableFuture<?>> declarationResult = assignationParser.parseNext(assignationContext);
+            Option<? extends Completable<?>> declarationResult = assignationParser.parseNext(assignationContext);
 
             if (declarationResult.isEmpty()) {
                 return ExpressionResult.error("Unrecognized declaration", declaration);

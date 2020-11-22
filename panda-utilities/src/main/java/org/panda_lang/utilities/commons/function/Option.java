@@ -188,6 +188,10 @@ public class Option<T> implements Iterable<T>, Serializable {
         return value != null? new Option<>(value) : none();
     }
 
+    public static <T> Option<Completable<T>> ofCompleted(T value) {
+        return Option.of(Completable.completed(value));
+    }
+
     @SuppressWarnings({ "OptionalUsedAsFieldOrParameterType" })
     public static <T> Option<T> ofOptional(Optional<T> optional) {
         return of(optional.orElse(null));

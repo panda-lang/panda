@@ -24,9 +24,8 @@ import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
-
-import java.util.concurrent.CompletableFuture;
 
 public final class ReturnParser implements ContextParser<Object, Return> {
 
@@ -41,7 +40,7 @@ public final class ReturnParser implements ContextParser<Object, Return> {
     }
 
     @Override
-    public Option<CompletableFuture<Return>> parse(Context<?> context) {
+    public Option<Completable<Return>> parse(Context<?> context) {
         SourceReader sourceReader = new SourceReader(context.getStream());
 
         if (sourceReader.read(Keywords.RETURN).isPresent()) {
@@ -52,7 +51,7 @@ public final class ReturnParser implements ContextParser<Object, Return> {
         Return statement = new Return(context.getSource().getLocation(), returnValue.map(ExpressionTransaction::getExpression).getOrNull());
         context.getScope().addStatement(statement);
 
-        return Option.of(CompletableFuture.completedFuture(statement));
+        return Option.ofCompleted(statement);
     }
 
 }

@@ -152,13 +152,13 @@ main {
     log 10 + Int.parseInt('5') + list.size()
 
     // map array to iterable in foreach
-    foreach (String var : new String[10]) { }
+    foreach (String var : new Array<String>(10)) { }
 
     // make sure that we can use primitive arrays
-    PrimitiveChar[] primitiveArray = (')#onlypanda').toCharArray()
-    Arrays.sort(primitiveArray)
-    log primitiveArray[0]
-    log new String(primitiveArray)
+    // PrimitiveChar[] primitiveArray = (')#onlypanda').toCharArray()
+    // Arrays.sort(primitiveArray)
+    //log primitiveArray[0]
+    // log new String(primitiveArray)
 
     // Use class from imported internal module
     LocalModuleClass.hello()
@@ -191,7 +191,7 @@ shared interface IEcho {
 }
 
 // simple class that extends class Test and implements interface IEcho
-shared class Foo : Test, IEcho {
+shared type Foo : Test, IEcho {
 
     constructor () {
         base('We need to call base constructor if we extend another type with custom constructor')
@@ -213,7 +213,7 @@ shared class Foo : Test, IEcho {
 }
 
 // simple entity to test equality implemented as native method
-internal class Entity {
+internal type Entity {
 
     internal String name
 
@@ -229,7 +229,7 @@ internal class Entity {
 }
 
 // random Test class
-internal class Test {
+internal type Test {
 
     // open static field INDEX with assigned value
     open static Int INDEX = 1
@@ -249,7 +249,7 @@ internal class Test {
     }
 
     // static field that creates instance of the current class
-    open static Test TEST = new Test('Static initialization of class instance')
+    // open static Test TEST = { new Test('Static initialization of class instance') }
 
     shared echo (Object message3) {
         log message3
@@ -277,43 +277,43 @@ internal class Test {
 }
 
 // array test
-internal class TestArray {
+internal type TestArray {
 
     // shared array
-    shared String[] array
+    shared Array<String> array
 
     // create TestArray and define array size
     constructor (Int size) {
-        this.array = new String[size]
+        this.array = new Array<String>(size)
     }
 
     // modify some values in array
     shared modify (Test test) {
-        this.getArray()[Test.INDEX] = "Hello Array"
-        array[6] = String.valueOf(this)
+        // this.getArray()[Test.INDEX] = "Hello Array"
+        // array[6] = String.valueOf(this)
 
-        log "Value at array[test.index]: " + this.getArray()[test.INDEX]
+        // log "Value at array[test.index]: " + this.getArray()[test.INDEX]
         varargs(array)
     }
 
-    shared varargs (nil mut String... varargs) {
-        log varargs.asString()
+    shared varargs (String varargs) {
+        log varargs
     }
 
     // get array
-    internal getArray() -> String[] {
+    internal getArray() -> Array<String> {
         return array
     }
 
 }
 
-internal class CustomThread : Thread {
+internal type CustomThread : Thread {
 
     constructor () {
         base('CustomThread')
     }
 
-    override run () {
+    override run () -> PrimitiveVoid {
         log 'Called in ' + Thread.currentThread().getName()
     }
 

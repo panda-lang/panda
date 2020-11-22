@@ -27,6 +27,8 @@ import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.pool.Targets;
+import org.panda_lang.language.interpreter.parser.stage.Layer;
+import org.panda_lang.language.interpreter.parser.stage.Phases;
 import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
@@ -35,9 +37,8 @@ import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
-
-import java.util.concurrent.CompletableFuture;
 
 public final class FieldParser implements ContextParser<TypeContext, TypeField> {
 
@@ -59,7 +60,7 @@ public final class FieldParser implements ContextParser<TypeContext, TypeField> 
     }
 
     @Override
-    public Option<CompletableFuture<TypeField>> parse(Context<? extends TypeContext> context) {
+    public Option<Completable<TypeField>> parse(Context<? extends TypeContext> context) {
         PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
         Option<Visibility> visibility = sourceReader
@@ -105,19 +106,23 @@ public final class FieldParser implements ContextParser<TypeContext, TypeField> 
         if (sourceReader.optionalRead(() -> sourceReader.read(Operators.ASSIGNMENT)).isDefined()) {
             Expression assignedValue = context.getExpressionParser().parse(context, context.getStream()).getExpression();
 
-            if (!field.getReturnType().isAssignableFrom(assignedValue.getSignature())) {
-                throw new PandaParserFailure(context, "Cannot assign type " + assignedValue.getSignature() + " to " + field.getReturnType());
-            }
-
-            Expression equalizedValue = ExpressionUtils.equalize(assignedValue, field.getReturnType()).orElseThrow(error -> {
-                throw new PandaParserFailure(context, "Incompatible signatures");
+            context.getStageService().delegate("verify field values", Phases.VERIFY, Layer.NEXT_DEFAULT, verifyPhase -> {
+                if (!field.getReturnType().isAssignableFrom(assignedValue.getSignature())) {
+                    throw new PandaParserFailure(context, "Cannot assign type " + assignedValue.getSignature() + " to " + field.getReturnType());
+                }
             });
 
-            field.setDefaultValue(equalizedValue);
-            field.initialize();
+            context.getStageService().delegate("initialize field", Phases.INITIALIZE, Layer.NEXT_DEFAULT, initializePhase -> {
+                Expression equalizedValue = ExpressionUtils.equalize(assignedValue, field.getReturnType()).orElseThrow(error -> {
+                    throw new PandaParserFailure(context, "Incompatible signatures");
+                });
+
+                field.setDefaultValue(equalizedValue);
+                field.initialize();
+            });
         }
 
-        return Option.of(CompletableFuture.completedFuture(field));
+        return Option.ofCompleted(field);
     }
 
 }

@@ -16,6 +16,7 @@
 
 package org.panda_lang.language.architecture.module;
 
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.StreamUtils;
 
@@ -38,7 +39,7 @@ public interface ModuleContainer {
      *
      * @return a module with the given name
      */
-    Module acquire(String moduleQualifier);
+    Completable<Module> acquire(String moduleQualifier);
 
     /**
      * Get module with the given name
@@ -46,7 +47,7 @@ public interface ModuleContainer {
      * @param moduleQualifier the name of module
      * @return the module
      */
-    Option<Module> forModule(String moduleQualifier);
+    Completable<Option<Module>> forModule(String moduleQualifier);
 
     /**
      * Count used types

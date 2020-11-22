@@ -26,9 +26,8 @@ import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
-
-import java.util.concurrent.CompletableFuture;
 
 public final class ContinueParser implements ContextParser<Object, Continue> {
 
@@ -43,7 +42,7 @@ public final class ContinueParser implements ContextParser<Object, Continue> {
     }
 
     @Override
-    public Option<CompletableFuture<Continue>> parse(Context<?> context) {
+    public Option<Completable<Continue>> parse(Context<?> context) {
         return new SourceReader(context.getStream()).read(Keywords.CONTINUE)
                 .peek(token -> {
                     if (!ScopeUtils.lookFor(context.getScope(), ControlledScope.class)) {
@@ -52,7 +51,7 @@ public final class ContinueParser implements ContextParser<Object, Continue> {
                 })
                 .map(token -> new Continue(token.getLocation()))
                 .peek(statement -> context.getScope().addStatement(statement))
-                .map(CompletableFuture::completedFuture);
+                .map(Completable::completed);
     }
 
 }

@@ -41,7 +41,7 @@ public final class PandaStageManager implements StageManager {
 
     @Override
     public void launch() {
-        while (countTasks(null) > 0) {
+        while (countTasksBefore(null) > 0) {
             executeOnce();
         }
     }
@@ -53,13 +53,17 @@ public final class PandaStageManager implements StageManager {
             if (!cycle.execute()) {
                 break;
             }
+
+            if (countTasksBefore(cycle) > 0) {
+                break;
+            }
         }
 
         currentCycle = null;
     }
 
     @Override
-    public int countTasks(@Nullable StagePhase to) {
+    public int countTasksBefore(@Nullable StagePhase to) {
         int count = 0;
 
         for (StagePhase cycle : cycles.values()) {
@@ -74,8 +78,8 @@ public final class PandaStageManager implements StageManager {
     }
 
     @Override
-    public int countTasks() {
-        return countTasks(null);
+    public int countTasksBefore() {
+        return countTasksBefore(null);
     }
 
     @Override

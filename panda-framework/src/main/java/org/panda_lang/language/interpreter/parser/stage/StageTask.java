@@ -19,6 +19,7 @@ package org.panda_lang.language.interpreter.parser.stage;
 /**
  * Task that can be delegated to the generation
  */
+@FunctionalInterface
 public interface StageTask {
 
     /**

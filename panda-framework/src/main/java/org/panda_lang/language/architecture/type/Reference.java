@@ -2,18 +2,18 @@ package org.panda_lang.language.architecture.type;
 
 import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.interpreter.source.Location;
-import org.panda_lang.utilities.commons.function.CompletableOption;
+import org.panda_lang.utilities.commons.function.Completable;
 
 public class Reference {
 
-    private final CompletableOption<Type> type;
+    private final Completable<Type> type;
     private final String name;
     private final Module module;
     private final Visibility visibility;
     private final String kind;
     private final Location location;
 
-    public Reference(CompletableOption<Type> type, Module module, String name, Visibility visibility, String kind, Location location) {
+    public Reference(Completable<Type> type, Module module, String name, Visibility visibility, String kind, Location location) {
         this.type = type;
         this.name = name;
         this.module = module;
@@ -23,7 +23,7 @@ public class Reference {
     }
 
     public Reference(Type type) {
-        this(CompletableOption.completed(type), type.getModule(), type.getSimpleName(), type.getVisibility(), type.getKind(), type.getLocation());
+        this(Completable.completed(type), type.getModule(), type.getSimpleName(), type.getVisibility(), type.getKind(), type.getLocation());
     }
 
     public boolean isLoaded() {
@@ -34,7 +34,7 @@ public class Reference {
         return getType().get();
     }
 
-    public CompletableOption<Type> getType() {
+    public Completable<Type> getType() {
         return type;
     }
 
@@ -60,6 +60,11 @@ public class Reference {
 
     public Location getLocation() {
         return location;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
     }
 
 }

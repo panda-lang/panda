@@ -23,7 +23,7 @@ import org.panda_lang.language.architecture.type.member.MemberFrameImpl;
 import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.signature.TypedSignature;
 import org.panda_lang.language.runtime.PandaRuntimeException;
-import org.panda_lang.utilities.commons.function.CompletableOption;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.text.Joiner;
 
 import java.util.Arrays;
@@ -83,7 +83,7 @@ public final class ParameterUtils {
                 .map(Signature::toTyped)
                 .map(TypedSignature::fetchType)
                 .map(Type::getAssociated)
-                .map(CompletableOption::get)
+                .map(Completable::get)
                 .toArray(Class[]::new);
     }
 

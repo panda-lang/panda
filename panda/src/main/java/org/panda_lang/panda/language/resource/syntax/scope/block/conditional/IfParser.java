@@ -3,9 +3,8 @@ package org.panda_lang.panda.language.resource.syntax.scope.block.conditional;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.resource.syntax.scope.block.BlockParser;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
-
-import java.util.concurrent.CompletableFuture;
 
 public final class IfParser extends BlockParser<ConditionalBlock> {
 
@@ -17,10 +16,10 @@ public final class IfParser extends BlockParser<ConditionalBlock> {
     }
 
     @Override
-    public Option<CompletableFuture<ConditionalBlock>> parse(Context<?> context) {
+    public Option<Completable<ConditionalBlock>> parse(Context<?> context) {
         return CONDITIONAL_PARSER
                 .parse(SCOPE_PARSER, context, Keywords.IF, true)
-                .map(CompletableFuture::completedFuture);
+                .map(Completable::completed);
     }
 
 }

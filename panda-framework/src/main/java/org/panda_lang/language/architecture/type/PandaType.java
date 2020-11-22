@@ -35,7 +35,7 @@ import org.panda_lang.language.architecture.type.member.method.PandaMethods;
 import org.panda_lang.language.architecture.type.member.method.TypeMethod;
 import org.panda_lang.language.architecture.type.signature.TypedSignature;
 import org.panda_lang.utilities.commons.ValidationUtils;
-import org.panda_lang.utilities.commons.function.CompletableOption;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.PandaStream;
 
@@ -53,7 +53,7 @@ public class PandaType extends AbstractMetadata implements Type {
     protected final Module module;
     protected final String kind;
     protected final State state;
-    protected final CompletableOption<? extends Class<?>> associated;
+    protected final Completable<? extends Class<?>> associated;
     protected final List<TypedSignature> bases;
     protected final Map<Type, Autocast<?, ?>> autocasts = new HashMap<>();
     protected final Fields fields = new PandaFields(this);
@@ -142,7 +142,7 @@ public class PandaType extends AbstractMetadata implements Type {
 
     @Override
     public boolean isAssignableFrom(Type to) {
-        return getSignature().isAssignableFrom(to.getSignature())
+        return this.equals(to)
                 || hasCommonTypes(to)
                 || to.getAutocast(this).isPresent();
     }
@@ -230,7 +230,7 @@ public class PandaType extends AbstractMetadata implements Type {
     }
 
     @Override
-    public CompletableOption<? extends Class<?>> getAssociated() {
+    public Completable<? extends Class<?>> getAssociated() {
         return associated;
     }
 

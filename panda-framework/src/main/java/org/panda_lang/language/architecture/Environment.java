@@ -21,6 +21,7 @@ import org.panda_lang.language.architecture.module.ModulePath;
 import org.panda_lang.language.architecture.module.TypeLoader;
 import org.panda_lang.language.interpreter.Interpreter;
 import org.panda_lang.language.interpreter.logging.LoggerHolder;
+import org.panda_lang.language.interpreter.source.SourceService;
 
 import java.io.File;
 
@@ -49,6 +50,13 @@ public interface Environment extends LoggerHolder {
      * @return the type loader
      */
     TypeLoader getTypeLoader();
+
+    /**
+     * Get sources used by this environment
+     *
+     * @return the associated set of sources
+     */
+    SourceService getSources();
 
     /**
      * Get working directory

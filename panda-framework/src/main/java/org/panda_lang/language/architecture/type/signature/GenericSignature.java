@@ -4,6 +4,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.interpreter.token.Snippetable;
 import org.panda_lang.utilities.commons.collection.Pair;
 import org.panda_lang.utilities.commons.function.Option;
+import org.panda_lang.utilities.commons.text.Joiner;
 
 public final class GenericSignature extends AbstractSignature<Pair<String, Signature>> {
 
@@ -37,6 +38,11 @@ public final class GenericSignature extends AbstractSignature<Pair<String, Signa
     public Option<Signature> getAlso() {
         Signature signature = getSubject().getValue();
         return Option.when(Relation.ALSO == signature.getRelation(), signature);
+    }
+
+    @Override
+    public String toString() {
+        return getRelation() + " : abstract " + getLocalIdentifier() + "<" + Joiner.on(", ").join(getGenerics()) + ">";
     }
 
 }

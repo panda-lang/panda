@@ -23,13 +23,13 @@ import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.token.SourceStream;
 import org.panda_lang.language.interpreter.token.Streamable;
 import org.panda_lang.language.resource.syntax.separator.Separators;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
-
-import java.util.concurrent.CompletableFuture;
 
 public final class PoolParser<T> implements Parser {
 
     private final ParserPool<T> pool;
+    private boolean interrupted;
 
     public PoolParser(ParserPool<T> pool) {
         this.pool = pool;
@@ -40,12 +40,13 @@ public final class PoolParser<T> implements Parser {
      *
      * @param context the context to use
      * @param streamable the source to parse
-     * @return true if succeed, otherwise false
+     * @return true if succeed, false if interrupted
      */
     public boolean parse(Context<? extends T> context, Streamable streamable) {
         SourceStream stream = streamable.toStream();
+        this.interrupted = false;
 
-        while (stream.hasUnreadSource()) {
+        while (stream.hasUnreadSource() && !isInterrupted()) {
             Context<? extends T> delegatedContext = context.forkCreator()
                     .withSource(stream.toSnippet())
                     .withStream(stream)
@@ -56,15 +57,15 @@ public final class PoolParser<T> implements Parser {
             }
         }
 
-        return true;
+        return !isInterrupted();
     }
 
-    public Option<? extends CompletableFuture<?>> parseNext(Context<? extends T> delegatedContext) {
+    public Option<? extends Completable<?>> parseNext(Context<? extends T> delegatedContext) {
         SourceStream stream = delegatedContext.getStream();
         int sourceLength = stream.getUnreadLength();
 
         for (ContextParser<T, ?> parser : pool.getParsers()) {
-            Option<? extends CompletableFuture<?>> result = parser.parse(delegatedContext);
+            Option<? extends Completable<?>> result = parser.parse(delegatedContext);
 
             if (result.isEmpty()) {
                 stream.unread(sourceLength - stream.getUnreadLength());
@@ -83,6 +84,14 @@ public final class PoolParser<T> implements Parser {
         }
 
         return Option.none();
+    }
+
+    public void interrupt() {
+        this.interrupted = true;
+    }
+
+    public boolean isInterrupted() {
+        return interrupted;
     }
 
     @Override

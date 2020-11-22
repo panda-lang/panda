@@ -36,7 +36,7 @@ import org.panda_lang.language.interpreter.parser.pool.PandaPoolService;
 import org.panda_lang.language.interpreter.parser.stage.PandaStageManager;
 import org.panda_lang.language.interpreter.parser.stage.Phases;
 import org.panda_lang.language.interpreter.parser.stage.StageService;
-import org.panda_lang.language.interpreter.source.PandaSourceSet;
+import org.panda_lang.language.interpreter.source.PandaSourceService;
 import org.panda_lang.panda.language.architecture.PandaApplication;
 import org.panda_lang.panda.language.architecture.PandaEnvironment;
 import org.panda_lang.panda.language.architecture.PandaScript;
@@ -60,7 +60,7 @@ public final class PandaContextUtils {
         PandaEnvironment environment = new PandaEnvironment(controller, new File("./"));
         environment.initialize();
 
-        ModulePath path = new PandaModulePath();
+        ModulePath path = new PandaModulePath(new PandaSourceService());
         TypeLoader loader = new PandaTypeLoader(path);
 
         ResourcesLoader resourcesLoader = new ResourcesLoader();
@@ -79,8 +79,7 @@ public final class PandaContextUtils {
                 new PandaPoolService(),
                 new PandaExpressionParser(new PandaExpressionSubparsers(PandaExpressions.getSubparsers())),
                 loader,
-                new PandaApplication(environment),
-                new PandaSourceSet()
+                new PandaApplication(environment)
         )
         .withImports(imports)
         .withScript(script)

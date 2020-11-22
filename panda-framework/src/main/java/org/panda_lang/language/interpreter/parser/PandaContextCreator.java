@@ -9,7 +9,6 @@ import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.language.interpreter.parser.pool.PoolService;
 import org.panda_lang.language.interpreter.parser.stage.StageService;
-import org.panda_lang.language.interpreter.source.SourceSet;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.Snippetable;
 import org.panda_lang.language.interpreter.token.SourceStream;
@@ -23,7 +22,6 @@ public class PandaContextCreator<T> implements ContextCreator<T> {
     protected final ExpressionParser expressionParser;
     protected final TypeLoader typeLoader;
     protected final Application application;
-    protected final SourceSet sourceSet;
     protected Script script;
     protected Snippet scriptSource;
     protected Imports imports;
@@ -38,8 +36,7 @@ public class PandaContextCreator<T> implements ContextCreator<T> {
             PoolService poolService,
             ExpressionParser expressionParser,
             TypeLoader typeLoader,
-            Application application,
-            SourceSet sourceSet) {
+            Application application) {
 
         this.environment = environment;
         this.stageService = stageService;
@@ -47,7 +44,6 @@ public class PandaContextCreator<T> implements ContextCreator<T> {
         this.expressionParser = expressionParser;
         this.typeLoader = typeLoader;
         this.application = application;
-        this.sourceSet = sourceSet;
     }
 
     @Override
@@ -58,8 +54,7 @@ public class PandaContextCreator<T> implements ContextCreator<T> {
                 poolService,
                 expressionParser,
                 typeLoader,
-                application,
-                sourceSet);
+                application);
 
         fork.script = script;
         fork.scriptSource = scriptSource;

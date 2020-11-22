@@ -16,23 +16,37 @@
 
 package org.panda_lang.language.interpreter.source;
 
+import org.panda_lang.language.architecture.Script;
 import org.panda_lang.language.interpreter.Interpreter;
+import org.panda_lang.utilities.commons.collection.Pair;
+import org.panda_lang.utilities.commons.function.Completable;
+
 
 /**
  * Set of {@link Source} used by {@link Interpreter}
  */
-public interface SourceSet extends Iterable<Source> {
+public interface SourceService {
+
+    enum Priority {
+        REQUIRED,
+        STANDARD
+    }
 
     /**
      * Add a new source to set
      *
      * @param source the source to add
      */
-    void addSource(Source source);
+    Completable<Script> addSource(Priority priority, Source source);
+
+    Pair<Source, Completable<Script>> retrieveRequired();
+
+    boolean hasRequired();
 
     /**
      * @return true if set is empty
      */
-    boolean isEmpty();
+    boolean hasStandard();
 
+    Pair<Source, Completable<Script>> retrieveStandard();
 }

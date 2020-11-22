@@ -17,19 +17,18 @@
 package org.panda_lang.panda.language.resource.syntax.scope.block.looping;
 
 import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.architecture.statement.Scope;
-import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.architecture.expression.PandaExpression;
 import org.panda_lang.language.architecture.statement.PandaBlock;
+import org.panda_lang.language.architecture.statement.Scope;
+import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.panda.language.resource.syntax.scope.block.BlockParser;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
-
-import java.util.concurrent.CompletableFuture;
 
 public final class ForParser extends BlockParser<ForBlock> {
 
@@ -47,7 +46,7 @@ public final class ForParser extends BlockParser<ForBlock> {
     }
 
     @Override
-    public Option<CompletableFuture<ForBlock>> parse(Context<?> context) {
+    public Option<Completable<ForBlock>> parse(Context<?> context) {
         PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
         if (sourceReader.read(Keywords.FOR).isEmpty()) {
@@ -100,7 +99,7 @@ public final class ForParser extends BlockParser<ForBlock> {
         context.getScope().addStatement(forBlock);
         SCOPE_PARSER.parse(delegatedContext, forBlock, sourceReader.readBody().get());
 
-        return Option.of(CompletableFuture.completedFuture(forBlock));
+        return Option.ofCompleted(forBlock);
     }
 
 }

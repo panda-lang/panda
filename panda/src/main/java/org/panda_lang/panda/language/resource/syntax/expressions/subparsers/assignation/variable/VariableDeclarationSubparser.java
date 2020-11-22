@@ -36,9 +36,8 @@ import org.panda_lang.panda.language.resource.syntax.scope.variable.VariableData
 import org.panda_lang.panda.language.resource.syntax.type.SignatureSource;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
-
-import java.util.concurrent.CompletableFuture;
 
 public final class VariableDeclarationSubparser implements ContextParser<AssignationContext, Assigner<?>> {
 
@@ -58,7 +57,7 @@ public final class VariableDeclarationSubparser implements ContextParser<Assigna
     }
 
     @Override
-    public Option<CompletableFuture<Assigner<?>>> parse(Context<? extends AssignationContext> context) {
+    public Option<Completable<Assigner<?>>> parse(Context<? extends AssignationContext> context) {
         Snippet source = context.getSource();
 
         if (source.size() < 2) {
@@ -71,7 +70,11 @@ public final class VariableDeclarationSubparser implements ContextParser<Assigna
         Option<SignatureSource> signatureSource = sourceReader.readSignature();
 
         if (signatureSource.isEmpty()) {
-        throw new PandaParserFailure(context, "Missing variable signature");
+            if (mutable || nillable) {
+                throw new PandaParserFailure(context, "Missing variable signature");
+            }
+
+            return Option.none();
         }
 
         Option<TokenInfo> name = sourceReader.read(TokenTypes.UNKNOWN);
@@ -101,7 +104,7 @@ public final class VariableDeclarationSubparser implements ContextParser<Assigna
         VariableAccessor accessor = new VariableAccessor(variable.initialize());
         Assigner<Variable> assigner = accessor.toAssigner(name.get(), true, equalizedExpression);
 
-        return Option.of(CompletableFuture.completedFuture(assigner));
+        return Option.ofCompleted(assigner);
     }
 
 }

@@ -16,13 +16,7 @@
 
 package org.panda_lang.language.interpreter.parser.stage;
 
-import org.panda_lang.utilities.commons.collection.Pair;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.PriorityQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class PandaStageLayer implements StageLayer {
@@ -31,7 +25,7 @@ public final class PandaStageLayer implements StageLayer {
 
     private final int id;
     private final StagePhase cycle;
-    private final Map<StageOrder, List<Pair<String, StageTask>>> tasks = new HashMap<>();
+    private final PriorityQueue<IdentifiedOrderedTask> tasks = new PriorityQueue<>();
 
     public PandaStageLayer(StagePhase cycle) {
         this.id = ID.getAndIncrement();
@@ -39,21 +33,21 @@ public final class PandaStageLayer implements StageLayer {
     }
 
     @Override
-    public void callTasks() {
-        Map<StageOrder, List<Pair<String, StageTask>>> unitsMap = new TreeMap<>(tasks);
-        tasks.clear();
-
-        for (List<Pair<String, StageTask>> units : unitsMap.values()) {
-            for (Pair<String, StageTask> unit : units) {
-                System.out.println(unit.getKey());
-                unit.getValue().call(cycle);
-            }
+    public boolean callNextTask() {
+        if (tasks.isEmpty()) {
+            return false;
         }
+
+        IdentifiedOrderedTask task = tasks.poll();
+        // System.out.println(task.getId());
+        task.getTask().call(cycle);
+
+        return true;
     }
 
     @Override
     public StageLayer delegate(StageOrder priority, String id, StageTask task) {
-        tasks.computeIfAbsent(priority, key -> new ArrayList<>(2)).add(new Pair<>(id, task));
+        tasks.add(new IdentifiedOrderedTask(id, priority, task));
         return this;
     }
 

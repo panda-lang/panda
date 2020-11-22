@@ -75,7 +75,7 @@ public final class Imports {
      * @return if type with the given name is already imported, the method will return false, otherwise true
      */
     public boolean importType(String name, Reference reference) {
-        reference.getType().then(typeLoader::load);
+        reference.getType().thenApply(typeLoader::load);
 
         if (importedTypes.containsKey(name)) {
             return false;

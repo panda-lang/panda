@@ -17,22 +17,22 @@
 package org.panda_lang.language.architecture.type.generator;
 
 import org.panda_lang.language.FrameworkController;
+import org.panda_lang.language.architecture.module.Module;
+import org.panda_lang.language.architecture.module.TypeLoader;
+import org.panda_lang.language.architecture.type.Kind;
+import org.panda_lang.language.architecture.type.PandaType;
 import org.panda_lang.language.architecture.type.Reference;
+import org.panda_lang.language.architecture.type.State;
+import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.Visibility;
 import org.panda_lang.language.architecture.type.signature.Relation;
 import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.signature.TypedSignature;
-import org.panda_lang.language.interpreter.token.PandaSnippet;
-import org.panda_lang.utilities.commons.function.CompletableOption;
-import org.panda_lang.utilities.commons.function.Option;
-import org.panda_lang.language.architecture.module.Module;
-import org.panda_lang.language.architecture.module.TypeLoader;
-import org.panda_lang.language.architecture.type.State;
-import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.Kind;
-import org.panda_lang.language.architecture.type.Visibility;
-import org.panda_lang.language.architecture.type.PandaType;
 import org.panda_lang.language.interpreter.source.PandaClassSource;
+import org.panda_lang.language.interpreter.token.PandaSnippet;
 import org.panda_lang.utilities.commons.ReflectionUtils;
+import org.panda_lang.utilities.commons.function.Completable;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -57,13 +57,13 @@ public final class TypeGenerator {
                 .map(Reference::new)
                 .orElse(() -> module.get(name))
                 .orElseGet(() -> {
-                    CompletableOption<Type> completableType = new CompletableOption<>();
+                    Completable<Type> completableType = new Completable<>();
                     Reference reference = new Reference(completableType, module, name, Visibility.OPEN, Kind.of(javaType), new PandaClassSource(javaType).toLocation());
 
                     Type type = PandaType.builder()
                             .name(name)
                             .module(module)
-                            .associatedType(CompletableOption.completed(javaType))
+                            .associatedType(Completable.completed(javaType))
                             .isNative(true)
                             .signature(new TypedSignature(null, reference, new Signature[0], Relation.DIRECT, PandaSnippet.empty()))
                             .location(reference.getLocation())
@@ -109,6 +109,8 @@ public final class TypeGenerator {
                     });
 
                     initializedTypes.put(identifier, type);
+                    completableType.complete(type);
+
                     return new Reference(type);
                 });
     }
@@ -118,7 +120,7 @@ public final class TypeGenerator {
             javaType = ClassUtils.getNonPrimitiveClass(javaType);
         }*/
 
-        Option<Type> typeValue = typeLoader.forType(javaType.getSimpleName());
+        Option<Type> typeValue = typeLoader.forJavaType(javaType);
 
         if (typeValue.isDefined()) {
             return typeValue.get();

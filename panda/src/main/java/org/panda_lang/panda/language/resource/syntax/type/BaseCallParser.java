@@ -32,9 +32,8 @@ import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ArgumentsParser;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
-
-import java.util.concurrent.CompletableFuture;
 
 public final class BaseCallParser implements ContextParser<TypeContext, BaseCall> {
 
@@ -51,7 +50,7 @@ public final class BaseCallParser implements ContextParser<TypeContext, BaseCall
     }
 
     @Override
-    public Option<CompletableFuture<BaseCall>> parse(Context<? extends TypeContext> context) {
+    public Option<Completable<BaseCall>> parse(Context<? extends TypeContext> context) {
         PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
         if (sourceReader.read(Keywords.BASE).isEmpty()) {
@@ -87,7 +86,7 @@ public final class BaseCallParser implements ContextParser<TypeContext, BaseCall
             throw new PandaParserFailure(context, context.getSource(), "Base type does not contain constructor with the given parameters");
         });
 
-        return Option.of(CompletableFuture.completedFuture(baseCall));
+        return Option.ofCompleted(baseCall);
     }
 
 }

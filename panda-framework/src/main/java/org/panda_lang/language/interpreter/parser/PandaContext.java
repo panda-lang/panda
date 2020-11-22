@@ -27,7 +27,6 @@ import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.language.interpreter.parser.pool.PoolService;
 import org.panda_lang.language.interpreter.parser.stage.StageService;
 import org.panda_lang.language.interpreter.source.Location;
-import org.panda_lang.language.interpreter.source.SourceSet;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.SourceStream;
 
@@ -83,9 +82,6 @@ public class PandaContext<T> implements Context<T> {
 
     @Override
     public Script getScript() { return creator.script; }
-
-    @Override
-    public SourceSet getSourceSet() { return creator.sourceSet; }
 
     @Override
     public Application getApplication() { return creator.application; }
