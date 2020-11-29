@@ -43,7 +43,7 @@ public final class ReturnParser implements ContextParser<Object, Return> {
     public Option<Completable<Return>> parse(Context<?> context) {
         SourceReader sourceReader = new SourceReader(context.getStream());
 
-        if (sourceReader.read(Keywords.RETURN).isPresent()) {
+        if (sourceReader.read(Keywords.RETURN).isEmpty()) {
             return Option.none();
         }
 

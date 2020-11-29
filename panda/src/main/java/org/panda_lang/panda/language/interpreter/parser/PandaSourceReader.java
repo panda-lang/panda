@@ -96,7 +96,7 @@ public class PandaSourceReader extends SourceReader {
             transactions.add(argument.get());
 
             if (super.stream.hasUnreadSource()) {
-                if (!super.stream.getNext().equals(Separators.COMMA)) {
+                if (!super.stream.getCurrent().equals(Separators.COMMA)) {
                     break;
                 }
 

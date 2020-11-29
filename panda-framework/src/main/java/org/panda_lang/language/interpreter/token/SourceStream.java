@@ -69,6 +69,10 @@ public interface SourceStream extends Snippetable, Localizable {
      */
     void dispose(int length);
 
+    default void dispose(SourceStream stream) {
+        dispose(stream.getReadLength());
+    }
+
     /**
      * Read the rest of the current line
      *

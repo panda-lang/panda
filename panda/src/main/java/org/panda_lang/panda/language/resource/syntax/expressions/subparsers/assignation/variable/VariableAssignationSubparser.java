@@ -72,6 +72,7 @@ public final class VariableAssignationSubparser implements ContextParser<Assigna
             assigner.getAccessor().getVariable().initialize();
         }
 
+        context.getStream().dispose(stream);
         return Option.ofCompleted(assigner);
     }
 

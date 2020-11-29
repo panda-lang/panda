@@ -54,7 +54,7 @@ main {
     log 'Hello Panda', flag, varFoo, s, test, i, math
 
     // verify logic
-    if !flag {
+    if not flag {
         throw new RuntimeException('Nope If')
     }
     else if flag {

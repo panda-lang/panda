@@ -66,7 +66,7 @@ public final class NegativeExpressionSubparser implements ExpressionSubparser {
 
             Expression expression = transaction.getExpression();
 
-            if (expression.getKnownType().isAssignableFrom(context.toContext().getTypeLoader().requireType("panda::Number"))) {
+            if (!expression.getKnownType().isAssignableFrom(context.toContext().getTypeLoader().requireType("panda::Number"))) {
                 throw new InvalidParameterException("Cannot reverse non logical value");
             }
 

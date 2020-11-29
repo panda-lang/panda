@@ -25,6 +25,7 @@ import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.language.interpreter.token.TokenInfo;
+import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.language.resource.syntax.operator.Operators;
 
 public final class NegateExpressionSubparser implements ExpressionSubparser {
@@ -53,7 +54,7 @@ public final class NegateExpressionSubparser implements ExpressionSubparser {
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
-            if (!token.contentEquals(Operators.NOT)) {
+            if (!token.contentEquals(Keywords.NOT) && !token.contentEquals(Operators.NOT)) {
                 return null;
             }
 

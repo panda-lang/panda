@@ -43,7 +43,7 @@ public final class ThrowParser implements ContextParser<Object, Throw> {
     public Option<Completable<Throw>> parse(Context<?> context) {
         SourceReader sourceReader = new SourceReader(context.getStream());
 
-        if (sourceReader.read(Keywords.THROW).isPresent()) {
+        if (sourceReader.read(Keywords.THROW).isEmpty()) {
             return Option.none();
         }
 

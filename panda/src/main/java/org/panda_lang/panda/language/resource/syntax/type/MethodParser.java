@@ -108,11 +108,12 @@ public final class MethodParser implements ContextParser<TypeContext, TypeMethod
 
         // read parameters
 
-        List<PropertyParameter> parameters = sourceReader.readArguments()
-                .map(parametersSource -> PARAMETER_PARSER.parse(context, parametersSource))
-                .orThrow(() -> {
-                    throw new PandaParserFailure(context, "Missing constructor parameters");
-                });
+        Option<List<PropertyParameter>> parameters = sourceReader.readArguments()
+                .map(parametersSource -> PARAMETER_PARSER.parse(context, parametersSource));
+
+        if (parameters.isEmpty()) {
+            return Option.none();
+        }
 
         // read return type
 
@@ -137,12 +138,12 @@ public final class MethodParser implements ContextParser<TypeContext, TypeMethod
 
         // create method
 
-        MethodScope methodScope = new MethodScope(context, parameters);
+        MethodScope methodScope = new MethodScope(context, parameters.get());
         Type type = context.getSubject().getType();
 
         TypeMethod method = PandaMethod.builder()
                 .type(type)
-                .parameters(parameters)
+                .parameters(parameters.get())
                 .name(name.get())
                 .location(context)
                 .isAbstract(body.isEmpty())
@@ -173,7 +174,7 @@ public final class MethodParser implements ContextParser<TypeContext, TypeMethod
         });
 
         context.getStageService().delegate("verify method", Phases.VERIFY, Layer.NEXT_DEFAULT, verifyPhase -> {
-            Option<TypeMethod> existingMethod = type.getMethods().getMethod(name.get(), TypedUtils.toTypes(parameters));
+            Option<TypeMethod> existingMethod = type.getMethods().getMethod(name.get(), TypedUtils.toTypes(parameters.get()));
 
             if (overrides && existingMethod.isEmpty()) {
                 throw new PandaParserFailure(context, context.getSource(),
