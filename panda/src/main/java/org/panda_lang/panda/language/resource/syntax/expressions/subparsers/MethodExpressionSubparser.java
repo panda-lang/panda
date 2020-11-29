@@ -91,15 +91,17 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
             }
 
             // fetch method instance
-            Expression instance;
+            Expression instance = null;
             boolean autofilled = false;
 
             // fetch instance from stack if token before name was period
-            if (context.hasResults() && TokenUtils.contentEquals(source.getPrevious(1), Separators.PERIOD)) {
+            boolean hasPeriod = TokenUtils.contentEquals(source.getPrevious(1), Separators.PERIOD);
+
+            if (context.hasResults() && hasPeriod) {
                 instance = context.peekExpression();
             }
             // use current instance (this) if source contains only name and section
-            else /* if (source.getIndex() == 2) ^ not really */ {
+            else if (!hasPeriod) /* if (source.getIndex() == 2) ^ not really */ {
                 instance = ThisExpression.ofUnknownContext(context.toContext());
                 autofilled = true;
             }

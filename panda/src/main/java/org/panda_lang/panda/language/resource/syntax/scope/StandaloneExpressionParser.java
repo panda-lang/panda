@@ -22,7 +22,6 @@ import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParserSettings;
 import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.interpreter.token.PandaSourceStream;
-import org.panda_lang.language.interpreter.token.SourceStream;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.collection.Component;
@@ -52,12 +51,15 @@ public final class StandaloneExpressionParser implements ContextParser<Object, S
 
     @Override
     public Option<Completable<StandaloneExpression>> parse(Context<?> context) {
-        SourceStream stream = new PandaSourceStream(context.getSource());
-        Expression expression = context.getExpressionParser().parse(context, stream, SETTINGS).getExpression();
+        Context<?> delegatedContext = context.forkCreator()
+                .withStream(new PandaSourceStream(context.getSource()))
+                .toContext();
 
-        StandaloneExpression statement = new StandaloneExpression(context, expression);
+        Expression expression = delegatedContext.getExpressionParser().parse(delegatedContext, delegatedContext.getStream(), SETTINGS).getExpression();
+        context.getStream().dispose(delegatedContext.getStream().getReadLength());
+
+        StandaloneExpression statement = new StandaloneExpression(delegatedContext, expression);
         context.getScope().addStatement(statement);
-        context.getStream().readSilently(stream.getReadLength());
 
         return Option.ofCompleted(statement);
     }

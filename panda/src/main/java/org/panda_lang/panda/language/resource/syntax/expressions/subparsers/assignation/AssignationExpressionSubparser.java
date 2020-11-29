@@ -80,8 +80,8 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
         }
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext<?> expressionContext, TokenInfo token) {
-            Snippet source = expressionContext.getSynchronizedSource().getSource();
+        public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
+            Snippet source = context.getSynchronizedSource().getSource();
             int index = OperatorUtils.indexOf(source, OperatorFamilies.ASSIGNATION);
 
             if (index == -1) {
@@ -95,10 +95,31 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
             }
 
             SourceStream expressionSource = new PandaSourceStream(source.subSource(index + 1, source.size()));
-            ExpressionTransaction expression;
 
             try {
-                expression = expressionContext.getParser().parse(expressionContext, expressionSource);
+                Context<?> expressionContext = context.toContext().forkCreator()
+                        .withSource(expressionSource)
+                        .withStream(expressionSource)
+                        .toContext();
+
+                ExpressionTransaction expression = expressionContext.getExpressionParser().parse(expressionContext, expressionSource);
+
+                Context<AssignationContext> assignationContext = context.toContext().forkCreator()
+                        .withSource(declaration)
+                        .withStream(new PandaSourceStream(declaration))
+                        .withSubject(new AssignationContext(expression))
+                        .toContext();
+
+                Option<? extends Completable<?>> declarationResult = assignationParser.parseNext(assignationContext);
+
+                if (declarationResult.isEmpty()) {
+                    return ExpressionResult.error("Unrecognized declaration", declaration);
+                }
+
+                int assignationLength = declaration.size() + 1 + expressionSource.getReadLength();
+                context.getSynchronizedSource().setIndex(assignationLength);
+
+                return ExpressionResult.of(expression.getExpression());
             } catch (PandaParserFailure e) {
                 // throw e; we can't throw because as individual subparser we don't know everything
                 // TODO: Support notes/failures by expression results
@@ -106,23 +127,6 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
             } catch (Throwable e) {
                 return UnsafeUtils.throwException(e);
             }
-
-            Context<AssignationContext> assignationContext = expressionContext.toContext().forkCreator()
-                    .withSource(declaration)
-                    .withScriptSource(declaration)
-                    .withSubject(new AssignationContext(expression))
-                    .toContext();
-
-            Option<? extends Completable<?>> declarationResult = assignationParser.parseNext(assignationContext);
-
-            if (declarationResult.isEmpty()) {
-                return ExpressionResult.error("Unrecognized declaration", declaration);
-            }
-
-            int assignationLength = declaration.size() + 1 + expressionSource.getReadLength();
-            expressionContext.getSynchronizedSource().setIndex(assignationLength);
-
-            return ExpressionResult.empty();
         }
 
     }

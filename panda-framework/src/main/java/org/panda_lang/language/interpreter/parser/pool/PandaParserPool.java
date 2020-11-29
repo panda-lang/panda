@@ -20,6 +20,7 @@ import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.utilities.commons.iterable.ResourcesIterable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public final class PandaParserPool<C> implements ParserPool<C> {
@@ -41,6 +42,7 @@ public final class PandaParserPool<C> implements ParserPool<C> {
     @Override
     public void register(ContextParser<C, ?> parser) {
         parsers.add(parser);
+        Collections.sort(parsers);
     }
 
     @Override

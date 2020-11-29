@@ -80,7 +80,9 @@ public final class VariableDeclarationSubparser implements ContextParser<Assigna
         Option<TokenInfo> name = sourceReader.read(TokenTypes.UNKNOWN);
 
         if (name.isEmpty()) {
-            throw new PandaParserFailure(context, "Missing variable name");
+            // Skip variable names read as signatures
+            // throw new PandaParserFailure(context, "Missing variable name");
+            return Option.none();
         }
 
         VariableDataInitializer dataInitializer = new VariableDataInitializer(context, context.getScope());
