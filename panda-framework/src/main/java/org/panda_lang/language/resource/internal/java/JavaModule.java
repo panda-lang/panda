@@ -19,45 +19,59 @@ package org.panda_lang.language.resource.internal.java;
 import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.architecture.module.TypeLoader;
 import org.panda_lang.language.architecture.type.Autocast;
+import org.panda_lang.language.architecture.type.Kind;
+import org.panda_lang.language.architecture.type.PandaType;
 import org.panda_lang.language.architecture.type.Reference;
 import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.Visibility;
 import org.panda_lang.language.architecture.type.generator.TypeGenerator;
+import org.panda_lang.language.architecture.type.signature.Relation;
+import org.panda_lang.language.architecture.type.signature.Signature;
+import org.panda_lang.language.architecture.type.signature.TypedSignature;
+import org.panda_lang.language.interpreter.source.PandaClassSource;
+import org.panda_lang.language.interpreter.token.PandaSnippet;
 import org.panda_lang.language.resource.internal.InternalModuleInfo;
 import org.panda_lang.language.resource.internal.InternalModuleInfo.CustomInitializer;
 import org.panda_lang.utilities.commons.ClassUtils;
+import org.panda_lang.utilities.commons.function.Completable;
 
 @InternalModuleInfo(module = "panda", pkg = "java.lang", classes = {
-        "String",
-        "Number",
         "Iterable"
 })
 public final class JavaModule implements CustomInitializer {
 
     @Override
     public void initialize(Module module, TypeGenerator typeGenerator, TypeLoader typeLoader) {
-        Type primitiveVoidType = of(typeGenerator, module, void.class);
-        Type voidType = of(typeGenerator, module, Void.class);
+        Type primitiveVoid = primitive(module, "Void", void.class);
+        Type voidType = associated(typeGenerator, primitiveVoid);
+        typeLoader.load(primitiveVoid, voidType);
 
-        primitive(typeGenerator, module, "Int", int.class);
-        primitive(typeGenerator, module, "Bool", boolean.class);
-        primitive(typeGenerator, module, "Char", char.class);
-        primitive(typeGenerator, module, "Byte", byte.class);
-        primitive(typeGenerator, module, "Short", short.class);
-        primitive(typeGenerator, module, "Long", long.class);
-        primitive(typeGenerator, module, "Float", float.class);
-        primitive(typeGenerator, module, "Double", double.class);
+        Type primitiveInt = primitive(module, "Int", int.class);
+        Type primitiveBool = primitive(module, "Bool", boolean.class);
+        Type primitiveChar = primitive(module, "Char", char.class);
+        Type primitiveByte = primitive(module, "Byte", byte.class);
+        Type primitiveShort = primitive(module, "Short", short.class);
+        Type primitiveLong = primitive(module, "Long", long.class);
+        Type primitiveFloat = primitive(module, "Float", float.class);
+        Type primitiveDouble = primitive(module, "Double", double.class);
 
-        Type intType = generate(typeGenerator, module, int.class, "Int");
-        Type boolType = generate(typeGenerator, module, boolean.class, "Bool");
-        Type charType = generate(typeGenerator, module, char.class, "Char");
-        Type byteType = generate(typeGenerator, module, byte.class, "Byte");
-        Type shortType = generate(typeGenerator, module, short.class, "Short");
-        Type longType = generate(typeGenerator, module, long.class, "Long");
-        Type floatType = generate(typeGenerator, module, float.class, "Float");
-        Type doubleType = generate(typeGenerator, module, double.class, "Double");
+        Type objectType = generate(typeGenerator, module, Object.class);
+        typeLoader.load(objectType);
 
-        Type objectType = of(typeGenerator, module, Object.class);
-        Type stringType = of(typeGenerator, module, String.class);
+        Type stringType = generate(typeGenerator, module, String.class);
+        typeLoader.load(stringType);
+
+        Type numberType = generate(typeGenerator, module, Number.class);
+        typeLoader.load(numberType);
+
+        Type boolType = associated(typeGenerator, primitiveBool);
+        Type charType = associated(typeGenerator, primitiveChar);
+        Type byteType = associated(typeGenerator, primitiveByte);
+        Type shortType = associated(typeGenerator, primitiveShort);
+        Type intType = associated(typeGenerator, primitiveInt);
+        Type longType = associated(typeGenerator, primitiveLong);
+        Type floatType = associated(typeGenerator, primitiveFloat);
+        Type doubleType = associated(typeGenerator, primitiveDouble);
 
         intType.addAutocast(longType, (Autocast<Number, Long>) (originalType, object, resultType) -> object.longValue());
         intType.addAutocast(doubleType, (Autocast<Number, Double>) (originalType, object, resultType) -> object.doubleValue());
@@ -68,43 +82,55 @@ public final class JavaModule implements CustomInitializer {
         byteType.addAutocast(intType, (Autocast<Number, Integer>) (originalType, object, resultType) -> object.intValue());
         shortType.addAutocast(intType, (Autocast<Number, Integer>) (originalType, object, resultType) -> object.intValue());
 
-        typeLoader.load(primitiveVoidType);
-        typeLoader.load(voidType);
-
-        typeLoader.load(objectType);
-        typeLoader.load(stringType);
-
-        typeLoader.load(intType);
-        typeLoader.load(boolType);
-        typeLoader.load(charType);
-        typeLoader.load(byteType);
-        typeLoader.load(shortType);
-        typeLoader.load(longType);
-        typeLoader.load(floatType);
-        typeLoader.load(doubleType);
-        typeLoader.load(doubleType);
+        typeLoader.load(
+                primitiveBool, boolType,
+                primitiveByte, byteType,
+                primitiveShort, shortType,
+                primitiveChar, charType,
+                primitiveInt, intType,
+                primitiveLong, longType,
+                primitiveFloat, floatType,
+                primitiveDouble, doubleType
+        );
     }
 
-    private Reference primitive(TypeGenerator typeGenerator, Module module, String name, Class<?> primitiveClass) {
-        Reference reference = typeGenerator.generate(module, name, ClassUtils.getNonPrimitiveClass(primitiveClass));
+    private Type primitive(Module module, String name, Class<?> primitiveClass) {
+        Completable<Type> futureType = new Completable<>();
+
+        Reference reference = new Reference(
+                futureType,
+                module,
+                "Primitive" + name,
+                Visibility.OPEN,
+                Kind.CLASS,
+                new PandaClassSource(primitiveClass).toLocation());
+
+        Type type = PandaType.builder()
+                .name(reference.getSimpleName())
+                .module(module)
+                .signature(new TypedSignature(null, reference, new Signature[0], Relation.DIRECT, PandaSnippet.empty()))
+                .associatedType(Completable.completed(primitiveClass))
+                .kind(reference.getKind())
+                .location(reference.getLocation())
+                .build();
+
+        futureType.complete(type);
         module.add(reference);
 
-        return reference;
+        return type;
     }
 
-    private Type generate(TypeGenerator typeGenerator, Module module, Class<?> primitiveClass, String name) {
-        Reference reference = typeGenerator.generate(module, "Primitive" + name, primitiveClass);
-        module.add(reference);
+    private Type associated(TypeGenerator typeGenerator, Type primitive) {
+        Type type = generate(typeGenerator, primitive.getModule(), primitive.getSimpleName().replace("Primitive", ""), ClassUtils.getNonPrimitiveClass(primitive.getAssociated().get()));
 
-        return reference.fetchType();
-        // return typeLoader.load(module, ClassUtils.getNonPrimitiveClass(primitiveClass), name);
+        type.addAutocast(primitive, (originalType, object, resultType) -> object);
+        primitive.addAutocast(type, (originalType, object, resultType) -> object);
+
+        return type;
     }
 
-    public static Type of(TypeGenerator typeGenerator, Module module, Class<?> type) {
-        Reference reference = typeGenerator.generate(module, type.getSimpleName(), type);
-        module.add(reference);
-
-        return reference.fetchType();
+    public static Type generate(TypeGenerator typeGenerator, Module module, Class<?> type) {
+        return generate(typeGenerator, module, type.getSimpleName(), type);
     }
 
     public static Type generate(TypeGenerator typeGenerator, Module module, String name, Class<?> javaType) {
