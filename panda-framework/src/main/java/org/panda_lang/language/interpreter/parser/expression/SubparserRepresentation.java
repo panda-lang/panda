@@ -18,17 +18,17 @@ package org.panda_lang.language.interpreter.parser.expression;
 
 import org.jetbrains.annotations.NotNull;
 
-public final class PandaExpressionSubparserRepresentation implements Comparable<PandaExpressionSubparserRepresentation> {
+public final class SubparserRepresentation implements Comparable<SubparserRepresentation> {
 
     private final ExpressionSubparser subparser;
     private int usages;
 
-    public PandaExpressionSubparserRepresentation(ExpressionSubparser subparser) {
+    public SubparserRepresentation(ExpressionSubparser subparser) {
         this.subparser = subparser;
     }
 
     @Override
-    public int compareTo(@NotNull PandaExpressionSubparserRepresentation to) {
+    public int compareTo(@NotNull SubparserRepresentation to) {
         int byPriority = subparser.compareTo(to.getSubparser());
         return byPriority == 0 ? subparser.name().compareTo(to.subparser.name()) : byPriority;
     }

@@ -30,6 +30,7 @@ import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.signature.TypedSignature;
 import org.panda_lang.language.interpreter.source.PandaClassSource;
 import org.panda_lang.language.interpreter.token.PandaSnippet;
+import org.panda_lang.utilities.commons.ClassUtils;
 import org.panda_lang.utilities.commons.ReflectionUtils;
 import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
@@ -116,9 +117,9 @@ public final class TypeGenerator {
     }
 
     protected Type findOrGenerate(TypeLoader typeLoader, Module module, Class<?> javaType) {
-        /*if (javaType.isPrimitive()) {
+        if (javaType.isPrimitive()) {
             javaType = ClassUtils.getNonPrimitiveClass(javaType);
-        }*/
+        }
 
         Option<Type> typeValue = typeLoader.forJavaType(javaType);
 

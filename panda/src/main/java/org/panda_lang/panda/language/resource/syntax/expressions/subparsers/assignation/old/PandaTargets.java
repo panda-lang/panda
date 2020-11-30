@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parser;
 
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationContext;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.old.AssignationContext;
 import org.panda_lang.utilities.commons.collection.Component;
 
 import java.util.Collection;
@@ -29,7 +29,7 @@ public final class PandaTargets {
      */
     public static final String ASSIGNER_LABEL = "assignation";
     /**
-     * Assigner parsers, used by {@link org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationExpressionSubparser}
+     * Assigner parsers, used by {@link org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.old.AssignationExpressionSubparser}
      */
     public static final Component<AssignationContext> ASSIGNATION = Component.of(ASSIGNER_LABEL, AssignationContext.class);
 

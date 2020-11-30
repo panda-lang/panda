@@ -38,7 +38,7 @@ final class OperationUtils {
         return verify(operation, null, element -> {
             if (element.isExpression()) {
                 Type expressionType = element.getExpression().getKnownType();
-                return expressionType.isAssignableFrom(expressionType.getTypeLoader().get().requireType("panda::Number"));
+                return expressionType.getTypeLoader().get().requireType("panda::Number").isAssignableFrom(expressionType);
             }
 
             Operator operator = ObjectUtils.cast(Operator.class, element.getOperatorRepresentation().getToken());

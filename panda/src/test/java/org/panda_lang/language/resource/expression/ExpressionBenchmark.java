@@ -55,7 +55,7 @@ public class ExpressionBenchmark extends ExpressionParserTestBootstrap {
 
         @Setup(Level.Trial)
         public void setup() {
-            this.expressionParser = new PandaExpressionParser(PandaExpressions.getExpressionSubparsers());
+            this.expressionParser = new PandaExpressionParser(PandaExpressions.createExpressionSubparsers());
             this.context = prepareData();
         }
 

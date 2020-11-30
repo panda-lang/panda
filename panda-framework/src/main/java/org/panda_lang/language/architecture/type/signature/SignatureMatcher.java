@@ -62,7 +62,7 @@ public final class SignatureMatcher<T extends Member> {
             //if (!parameter.isVarargs()) {
                 target[required] = index;
 
-                if (!requiredTypes[required++].isAssignableFrom(parameter.getSignature())) {
+                if (!parameter.getSignature().isAssignableFrom(requiredTypes[required++])) {
                     return null;
                 }
 

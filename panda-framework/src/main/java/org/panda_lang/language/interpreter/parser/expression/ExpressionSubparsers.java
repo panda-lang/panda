@@ -21,21 +21,30 @@ import java.util.Collection;
 /**
  * Collection of {@link org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser}
  */
-public interface ExpressionSubparsers {
+public class ExpressionSubparsers {
+
+    private final Collection<ExpressionSubparser> subparsers;
+
+
+    public ExpressionSubparsers(Collection<ExpressionSubparser> subparsers) {
+        this.subparsers = subparsers;
+    }
 
     /**
      * Get collection of subparsers
      *
      * @return the collection of subparsers
      */
-    Collection<? extends ExpressionSubparser> getSubparsers();
+    public Collection<? extends ExpressionSubparser> getSubparsers() {
+        return subparsers;
+    }
 
     /**
      * Create default {@link org.panda_lang.language.interpreter.parser.expression.ExpressionParser} using the current subparsers
      *
      * @return a new instance of expression parser
      */
-    default ExpressionParser toParser() {
+    public ExpressionParser toParser() {
         return new PandaExpressionParser(this);
     }
 

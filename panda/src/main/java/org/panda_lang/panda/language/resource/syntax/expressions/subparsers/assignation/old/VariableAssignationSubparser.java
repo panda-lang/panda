@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.variable;
+package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.old;
 
 import org.panda_lang.language.architecture.dynamic.accessor.AccessorExpression;
 import org.panda_lang.language.architecture.dynamic.assigner.Assigner;
@@ -26,8 +26,6 @@ import org.panda_lang.language.interpreter.parser.expression.ExpressionTransacti
 import org.panda_lang.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.language.interpreter.token.SourceStream;
 import org.panda_lang.panda.language.interpreter.parser.PandaTargets;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationContext;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationPriorities;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.collection.Component;
 import org.panda_lang.utilities.commons.function.Completable;

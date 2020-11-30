@@ -1,4 +1,4 @@
-package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation;
+package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.old;
 
 import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
 

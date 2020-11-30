@@ -136,6 +136,14 @@ public final class SynchronizedSource implements Iterable<TokenInfo>, Iterator<T
         return source.subSource(cachedIndex, index);
     }
 
+    public Snippet getCurrentlyAvailableSource() {
+        if (index == 0) {
+            return source;
+        }
+
+        return source.subSource(index - 1, source.size());
+    }
+
     /**
      * Get available source to read as snippet
      *

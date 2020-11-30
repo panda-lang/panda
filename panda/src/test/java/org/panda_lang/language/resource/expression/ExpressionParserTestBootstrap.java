@@ -45,7 +45,7 @@ class ExpressionParserTestBootstrap {
 
     @BeforeAll
     public static void load() {
-        PARSER = new PandaExpressionParser(PandaExpressions.getExpressionSubparsers());
+        PARSER = new PandaExpressionParser(PandaExpressions.createExpressionSubparsers());
         CONTEXT = prepareData();
     }
 

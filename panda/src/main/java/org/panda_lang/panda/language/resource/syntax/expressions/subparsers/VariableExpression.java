@@ -23,7 +23,7 @@ import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.statement.Variable;
 import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.runtime.ProcessStack;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.variable.VariableAccessor;
+import org.panda_lang.language.architecture.statement.VariableAccessor;
 
 final class VariableExpression implements DynamicExpression {
 

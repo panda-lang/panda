@@ -73,10 +73,6 @@ public final class OperationExpressionSubparser implements ExpressionSubparser {
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
-            if (!context.hasResults()) {
-                return null;
-            }
-
             if (token.getType() != TokenTypes.OPERATOR) {/*
                 if (elements != null) {
                     elements.add(new Operation.OperationElement(context.popExpression()));
@@ -99,9 +95,9 @@ public final class OperationExpressionSubparser implements ExpressionSubparser {
             elements.add(new OperationElement(context.popExpression()));
             elements.add(new OperationElement(token));
 
-            //ExpressionTransaction transaction = context.getParser().parse(context.getContext(), context.getSynchronizedSource());
-            //context.commit(transaction::rollback);
-            //elements.add(new OperationElement(transaction.getExpression()));
+            // ExpressionTransaction transaction = context.getParser().parse(context.toContext(), context.getSynchronizedSource());
+            // context.commit(transaction::rollback);
+            // elements.add(new OperationElement(transaction.getExpression()));
 
             return ExpressionResult.empty();
         }

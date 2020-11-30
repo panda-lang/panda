@@ -40,7 +40,7 @@ public final class SystemLogger implements Logger {
 
     @Override
     public void error(String message) {
-        log(Channel.ERROR, "# " + message);
+        log(Channel.ERROR, "# " + message.replace("\n", "\n# "));
     }
 
     @Override

@@ -60,12 +60,12 @@ abstract class AbstractSignature<V> implements Signature {
     }
 
     @Override
-    public boolean isAssignableFrom(Signature signature) {
-        if (signature == null) {
+    public boolean isAssignableFrom(Signature from) {
+        if (from == null) {
             return true; // TODO: Remove nulls
         }
         
-        return merge(signature).isOk();
+        return from.merge(this).isOk();
     }
 
     @Override

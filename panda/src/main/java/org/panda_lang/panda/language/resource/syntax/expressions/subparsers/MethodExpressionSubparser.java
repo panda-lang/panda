@@ -140,14 +140,14 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
                 String similar = "";
 
                 if (!propertiesLike.isEmpty()) {
-                    similar = "Similar methods:" + Effect.LINE_SEPARATOR;
+                    similar = "Similar methods:&r" + Effect.LINE_SEPARATOR;
                     similar += Joiner.on(Effect.LINE_SEPARATOR.toString()).join(propertiesLike, method -> {
                         return "  • &7" + method.getName() + "&r";
                     });
                 }
 
                 throw new PandaParserFailure(context.toContext(), argumentsSource,
-                        "Class " + type.getSimpleName() + " does not have method &1" + methodName + "&r with parameters &1" + types + "&r",
+                        "Class &r" + type.getSimpleName() + "&1 does not have method &r" + methodName + "&1 with parameters &r" + types,
                         "Change arguments or add a new method with the provided types of parameters. " + similar
                 );
             }

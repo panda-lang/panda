@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.variable;
+package org.panda_lang.language.architecture.type.member.field;
 
 import org.panda_lang.language.architecture.dynamic.Frameable;
 import org.panda_lang.language.architecture.expression.Expression;

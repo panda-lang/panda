@@ -18,7 +18,7 @@ package org.panda_lang.panda.bootstrap;
 
 import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser;
-import org.panda_lang.language.interpreter.parser.expression.PandaExpressionSubparsers;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparsers;
 import org.panda_lang.panda.language.interpreter.parser.ParsersLoader;
 import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressions;
 
@@ -55,10 +55,10 @@ public final class ParsersInitializer implements Initializer {
      * Load default expressions defined by Panda standard
      *
      * @return the initializer instance
-     * @see org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressions#SUBPARSERS
+     * @see org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressions#createSubparsers()
      */
     public ParsersInitializer loadDefaultExpressionSubparsers() {
-        this.expressionSubparsers.addAll(PandaExpressions.getSubparsers());
+        this.expressionSubparsers.addAll(PandaExpressions.createSubparsers());
         return this;
     }
 
@@ -89,7 +89,7 @@ public final class ParsersInitializer implements Initializer {
 
     @Override
     public PandaBootstrap collect() {
-        bootstrap.resources.expressionSubparsers = new PandaExpressionSubparsers(expressionSubparsers);
+        bootstrap.resources.expressionSubparsers = new ExpressionSubparsers(expressionSubparsers);
         return bootstrap;
     }
 

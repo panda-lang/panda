@@ -21,7 +21,6 @@ import org.panda_lang.language.interpreter.logging.SystemLogger;
 import org.panda_lang.language.resource.syntax.PandaSyntax;
 import org.panda_lang.panda.bootstrap.PandaBootstrap;
 import org.panda_lang.panda.language.resource.syntax.PandaParsers;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationParsers;
 
 /**
  * Simplify creation of Panda instance
@@ -50,7 +49,7 @@ public final class PandaFactory {
                 // load parsers and expressions subparsers
                 .initializeParsers()
                     .loadParsers(PandaParsers.PARSERS)
-                    .loadParsers(AssignationParsers.SUBPARSERS)
+                    // .loadParsers(AssignationParsers.SUBPARSERS)
                     .loadDefaultExpressionSubparsers()
                     .collect()
 

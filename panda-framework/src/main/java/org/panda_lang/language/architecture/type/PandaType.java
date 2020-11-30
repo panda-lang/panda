@@ -141,17 +141,11 @@ public class PandaType extends AbstractMetadata implements Type {
     }
 
     @Override
-    public boolean isAssignableFrom(Type to) {
-        return this.equals(to)
-                || hasCommonTypes(to)
-                || to.getAutocast(this).isPresent();
-    }
-
-    private boolean hasCommonTypes(Type to) {
-        return PandaStream.of(bases)
-                .map(TypedSignature::fetchType)
-                .find(from -> from.equals(to) || to.isAssignableFrom(from))
-                .isDefined();
+    public boolean isAssignableFrom(Type from) {
+        return this.equals(from)
+                || from.getBases().stream().anyMatch(base -> isAssignableFrom(base.fetchType()))
+                || from.getAutocasts().stream().anyMatch(this::isAssignableFrom)
+                || from.getAutocast(this).isPresent();
     }
 
     @Override
@@ -182,6 +176,11 @@ public class PandaType extends AbstractMetadata implements Type {
         return PandaStream.of(autocasts.entrySet())
                 .find(autocastEntry -> to.isAssignableFrom(autocastEntry.getKey()))
                 .map(Entry::getValue);
+    }
+
+    @Override
+    public Collection<? extends Type> getAutocasts() {
+        return autocasts.keySet();
     }
 
     @Override

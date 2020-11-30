@@ -127,6 +127,13 @@ public interface Type extends Metadata, Signed {
     Option<? extends Autocast<?, ?>> getAutocast(Type to);
 
     /**
+     * Get all of the supported autocasts
+     *
+     * @return collection of autocasts
+     */
+    Collection<? extends Type> getAutocasts();
+
+    /**
      * Get supertypes of type
      *
      * @return collection of supertypes

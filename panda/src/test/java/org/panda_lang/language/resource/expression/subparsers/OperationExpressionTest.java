@@ -32,7 +32,7 @@ import java.util.HashMap;
 
 class OperationExpressionTest {
 
-    private static final ExpressionParser PARSER = new PandaExpressionParser(PandaExpressions.getExpressionSubparsers());
+    private static final ExpressionParser PARSER = new PandaExpressionParser(PandaExpressions.createExpressionSubparsers());
     private static final Snippet SOURCE = PandaLexerUtils.convert(OperationExpressionTest.class.getSimpleName(), "1 + 2");
 
     @Test

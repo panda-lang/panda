@@ -19,7 +19,7 @@ package org.panda_lang.language.interpreter.pattern.functional.elements;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
-import org.panda_lang.language.interpreter.parser.expression.PandaExpressionParserException;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionParserException;
 import org.panda_lang.language.interpreter.pattern.functional.FunctionalPatternElementBuilder;
 import org.panda_lang.language.interpreter.pattern.functional.FunctionalData;
 import org.panda_lang.language.resource.syntax.separator.Separators;
@@ -40,7 +40,7 @@ public final class ArgumentsElement extends FunctionalPatternElementBuilder<Expr
             while (source.hasNext()) {
                 try {
                     transactions.add(parser.parse(context, source));
-                } catch (PandaExpressionParserException e) {
+                } catch (ExpressionParserException e) {
                     break;
                 }
 

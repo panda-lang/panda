@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation;
+package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.old;
 
 public final class AssignationPriorities {
 

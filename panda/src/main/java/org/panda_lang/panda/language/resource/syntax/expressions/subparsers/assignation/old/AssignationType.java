@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation;
+package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.old;
 
 import org.panda_lang.language.resource.syntax.operator.Operator;
 import org.panda_lang.language.resource.syntax.operator.Operators;

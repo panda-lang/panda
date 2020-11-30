@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.variable;
+package org.panda_lang.language.architecture.statement;
 
-import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.architecture.statement.Variable;
-import org.panda_lang.language.interpreter.source.Location;
-import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.language.architecture.dynamic.assigner.AbstractAssigner;
+import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.runtime.PandaRuntimeException;
+import org.panda_lang.language.runtime.ProcessStack;
 
 public final class VariableAssigner extends AbstractAssigner<Variable> {
 

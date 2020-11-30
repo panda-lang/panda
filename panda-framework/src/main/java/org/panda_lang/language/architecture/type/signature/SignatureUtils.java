@@ -46,10 +46,11 @@ final class SignatureUtils {
 
         switch (root.getRelation()) {
             case DIRECT:
-            case ANY:
-                return Result.when(rootType.isAssignableFrom(inheritorType), inheritor, rootType + " is not assignable from " + inheritorType);
-            case ALSO:
                 return Result.when(inheritorType.isAssignableFrom(rootType), inheritor, inheritorType + " is not assignable from " + rootType);
+            case ANY:
+                // return Result.when(rootType.isAssignableFrom(inheritorType), inheritor, rootType + " is not assignable from " + inheritorType);
+            case ALSO:
+                // return Result.when(inheritorType.isAssignableFrom(rootType), inheritor, inheritorType + " is not assignable from " + rootType);
             default:
                 throw new UnsupportedOperationException("Unknown relation");
         }

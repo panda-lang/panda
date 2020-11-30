@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.variable;
+package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.old;
 
 import org.panda_lang.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.expression.ExpressionUtils;
 import org.panda_lang.language.architecture.statement.Variable;
+import org.panda_lang.language.architecture.statement.VariableAccessor;
 import org.panda_lang.language.architecture.statement.VariableData;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;
@@ -30,8 +31,6 @@ import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.panda.language.interpreter.parser.PandaTargets;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationContext;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationPriorities;
 import org.panda_lang.panda.language.resource.syntax.scope.variable.VariableDataInitializer;
 import org.panda_lang.panda.language.resource.syntax.type.SignatureSource;
 import org.panda_lang.utilities.commons.ArrayUtils;

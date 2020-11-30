@@ -31,7 +31,6 @@ import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextCreator;
 import org.panda_lang.language.interpreter.parser.PandaContextCreator;
 import org.panda_lang.language.interpreter.parser.expression.PandaExpressionParser;
-import org.panda_lang.language.interpreter.parser.expression.PandaExpressionSubparsers;
 import org.panda_lang.language.interpreter.parser.pool.PandaPoolService;
 import org.panda_lang.language.interpreter.parser.stage.PandaStageManager;
 import org.panda_lang.language.interpreter.parser.stage.Phases;
@@ -77,7 +76,7 @@ public final class PandaContextUtils {
                 environment,
                 new StageService(new PandaStageManager().initialize(Phases.getValues())),
                 new PandaPoolService(),
-                new PandaExpressionParser(new PandaExpressionSubparsers(PandaExpressions.getSubparsers())),
+                new PandaExpressionParser(PandaExpressions.createExpressionSubparsers()),
                 loader,
                 new PandaApplication(environment)
         )

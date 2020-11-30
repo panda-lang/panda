@@ -16,19 +16,12 @@
 
 package org.panda_lang.language.interpreter.parser.expression;
 
-import java.util.Collection;
+import org.panda_lang.language.interpreter.parser.PandaParserException;
 
-public final class PandaExpressionSubparsers implements ExpressionSubparsers {
+public final class ExpressionParserException extends PandaParserException {
 
-    private final Collection<ExpressionSubparser> subparsers;
-
-    public PandaExpressionSubparsers(Collection<ExpressionSubparser> subparsers) {
-        this.subparsers = subparsers;
-    }
-
-    @Override
-    public Collection<? extends ExpressionSubparser> getSubparsers() {
-        return subparsers;
+    public ExpressionParserException(String message) {
+        super(message);
     }
 
 }

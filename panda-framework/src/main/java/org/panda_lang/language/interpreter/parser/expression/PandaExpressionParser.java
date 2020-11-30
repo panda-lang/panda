@@ -38,12 +38,12 @@ public final class PandaExpressionParser implements ExpressionParser {
     public static long time;
     public static int amount;
 
-    private final List<PandaExpressionSubparserRepresentation> subparsers;
+    private final List<SubparserRepresentation> subparsers;
     private int call;
 
     public PandaExpressionParser(ExpressionSubparsers subparsers) {
         this.subparsers = subparsers.getSubparsers().stream()
-                .map(PandaExpressionSubparserRepresentation::new)
+                .map(SubparserRepresentation::new)
                 .collect(Collectors.toList());
 
         updateWorkers();
@@ -62,7 +62,7 @@ public final class PandaExpressionParser implements ExpressionParser {
     public Option<ExpressionTransaction> parseSilently(Contextual<?> context, Streamable streamable, ExpressionParserSettings settings) {
         try {
             return Option.of(parse(context, streamable, settings));
-        } catch (PandaExpressionParserException e) {
+        } catch (ExpressionParserException e) {
             return Option.none();
         }
     }
@@ -72,11 +72,11 @@ public final class PandaExpressionParser implements ExpressionParser {
         return parse(context, streamable, settings, null);
     }
 
-    public ExpressionTransaction parse(Contextual<?> context, Streamable streamable, ExpressionParserSettings settings, @Nullable BiConsumer<ExpressionContext<?>, PandaExpressionParserWorker> visitor) {
+    public ExpressionTransaction parse(Contextual<?> context, Streamable streamable, ExpressionParserSettings settings, @Nullable BiConsumer<ExpressionContext<?>, ExpressionParserWorker> visitor) {
         SourceStream source = streamable.toStream();
 
         if (!source.hasUnreadSource()) {
-            throw new PandaExpressionParserException("Expression expected");
+            throw new ExpressionParserException("Expression expected");
         }
 
         Context<?> delegatedContext = context.toContext().forkCreator()
@@ -86,7 +86,7 @@ public final class PandaExpressionParser implements ExpressionParser {
 
         long uptime = System.nanoTime();
         PandaExpressionContext<?> expressionContext = new PandaExpressionContext<>(this, delegatedContext, source);
-        PandaExpressionParserWorker worker = new PandaExpressionParserWorker(delegatedContext, subparsers);
+        ExpressionParserWorker worker = new ExpressionParserWorker(delegatedContext, subparsers);
 
         try {
             for (TokenInfo representation : expressionContext.getSynchronizedSource()) {

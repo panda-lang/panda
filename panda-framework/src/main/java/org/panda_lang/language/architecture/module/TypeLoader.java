@@ -30,6 +30,12 @@ public interface TypeLoader {
      */
     Type load(Type type);
 
+    default void load(Type... types) {
+        for (Type type : types) {
+            load(type);
+        }
+    }
+
     /**
      * Find reference using the given name
      *

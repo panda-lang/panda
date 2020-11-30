@@ -26,19 +26,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-public final class PandaExpressionParserWorker {
+public final class ExpressionParserWorker {
 
     public static final Map<String, Long> TIMES = new HashMap<>();
     private static final int NONE = -1;
 
-    private final List<PandaExpressionSubparserRepresentation> subparsers;
+    private final List<SubparserRepresentation> subparsers;
     private final ExpressionSubparserWorker[] workers;
     private final Stack<ExpressionSubparserWorker> cachedWorkers = new Stack<>();
     private ExpressionResult error = null;
     private int previousSubparser = NONE;
     private int lastSucceededRead = 0;
 
-    protected PandaExpressionParserWorker(Contextual<?> context, List<PandaExpressionSubparserRepresentation> subparsers) {
+    protected ExpressionParserWorker(Contextual<?> context, List<SubparserRepresentation> subparsers) {
         this.subparsers = subparsers;
         this.workers = new ExpressionSubparserWorker[subparsers.size()];
 
@@ -164,7 +164,7 @@ public final class PandaExpressionParserWorker {
         // cleanup cache, move the index
         this.lastSucceededRead = context.getSynchronizedSource().getIndex();
 
-        if (!(subparser instanceof PartialResultSubparser)) {
+        if (error != null && !(subparser instanceof PartialResultSubparser)) {
             context.getErrors().push(error);
             this.error = null;
         }

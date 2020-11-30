@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.language.interpreter.parser.expression;
+package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.old;
 
-import org.panda_lang.language.interpreter.parser.PandaParserException;
+import org.panda_lang.language.interpreter.parser.ContextParser;
 
-public final class PandaExpressionParserException extends PandaParserException {
+public final class AssignationParsers {
 
-    public PandaExpressionParserException(String message) {
-        super(message);
-    }
+    public static final ContextParser<?, ?>[] SUBPARSERS = {
+            new VariableAssignationSubparser(),
+            new VariableDeclarationSubparser()
+    };
+
+    private AssignationParsers() { }
 
 }
