@@ -94,12 +94,7 @@ main {
         break // or just stop
     }
 
-    // create TestArray instance and
-    TestArray testArray = new TestArray(7);
-    testArray.modify(test)
-
-    // print array and some logical expressions
-    log "Content of " + "array " + testArray.array.asString()
+    // logical expressions
     log "OR v AND: " + (false || false) + ", " + false || true, true && false, true && true
     log "Compare: " + 1 > 2, 1 > 2, 1 < 2, 2 < 1
     log "Random",  (false || false) + ", " + false || true, true && false, true && true, (false || false) + ", " + false || true, true && false, true && true
@@ -114,6 +109,7 @@ main {
     log creaseValue
 
     // create instance of class imported from another file
+    // should use generated default constructor
     Required required = new Required()
     required.hello()
 
@@ -272,37 +268,6 @@ internal type Test {
 
     override toString () -> String {
         return 'Custom toString() in Test type #' + Int.toHexString(System.identityHashCode(this))
-    }
-
-}
-
-// array test
-internal type TestArray {
-
-    // shared array
-    shared Array<String> array
-
-    // create TestArray and define array size
-    constructor (Int size) {
-        this.array = new Array<String>(size)
-    }
-
-    // modify some values in array
-    shared modify (Test test) {
-        // this.getArray()[Test.INDEX] = "Hello Array"
-        // array[6] = String.valueOf(this)
-
-        // log "Value at array[test.index]: " + this.getArray()[test.INDEX]
-        varargs(array)
-    }
-
-    shared varargs (String varargs) {
-        log varargs
-    }
-
-    // get array
-    internal getArray() -> Array<String> {
-        return array
     }
 
 }

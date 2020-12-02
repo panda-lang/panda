@@ -23,15 +23,13 @@ import org.panda_lang.panda.language.resource.internal.java.JavaUtilsModule;
 
 public final class PandaModules {
 
-    private static final Object[] MODULES = {
-            new JavaModule(),
-            new JavaExtensionModule(),
-            new JavaUtilsModule(),
-            new JavaCollectionsModule()
-    };
-
     public static Object[] getMappings() {
-        return MODULES;
+        return new Object[] {
+                new JavaModule(),
+                new JavaExtensionModule(),
+                new JavaUtilsModule(),
+                new JavaCollectionsModule()
+        };
     }
 
 }

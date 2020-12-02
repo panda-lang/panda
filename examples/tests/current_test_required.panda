@@ -6,6 +6,8 @@ export org.panda_lang.utilities.commons.StringUtils
 // shared class to test visibility access
 shared type Required {
 
+    // should generate default empty constructor
+
     shared hello() {
         log "Required print"
 

@@ -44,7 +44,7 @@ import java.util.Map;
 
 public final class TypeGenerator {
 
-    protected final Map<String, Type> initializedTypes = new HashMap<>();
+    protected final Map<Class<?>, Type> initializedTypes = new HashMap<>();
     protected final FrameworkController frameworkController;
 
     public TypeGenerator(FrameworkController frameworkController) {
@@ -52,9 +52,7 @@ public final class TypeGenerator {
     }
 
     public Reference generate(Module module, String name, Class<?> javaType) {
-        String identifier = getId(module, name);
-
-        return Option.of(initializedTypes.get(identifier))
+        return Option.of(initializedTypes.get(javaType))
                 .map(Reference::new)
                 .orElse(() -> module.get(name))
                 .orElseGet(() -> {
@@ -85,6 +83,11 @@ public final class TypeGenerator {
                             type.addBase(typeLoader.load(findOrGenerate(typeLoader, module, javaInterface)).getSignature());
                         }
 
+                        if (!javaType.equals(Object.class) && type.getBases().isEmpty()) {
+                            // type.addAutocast(typeLoader.requireType("panda::Object"), (originalType, object, resultType) -> object);
+                            type.addBase(typeLoader.requireType("panda::Object").getSignature());
+                        }
+
                         if (!Modifier.isPublic(javaType.getModifiers())) {
                             return;
                         }
@@ -100,7 +103,7 @@ public final class TypeGenerator {
 
                         for (Constructor<?> constructor : ReflectionUtils.getByModifier(javaType.getDeclaredConstructors(), Modifier.PUBLIC)) {
                             ConstructorGenerator generator = new ConstructorGenerator(this, initializedType, constructor);
-                            initializedType.getConstructors().declare(name, () -> generator.generate(typeLoader));
+                            initializedType.getConstructors().declare(constructor.toString(), () -> generator.generate(typeLoader));
                         }
 
                         for (Method method : ReflectionUtils.getByModifier(javaType.getDeclaredMethods(), Modifier.PUBLIC)) {
@@ -109,7 +112,7 @@ public final class TypeGenerator {
                         }
                     });
 
-                    initializedTypes.put(identifier, type);
+                    initializedTypes.put(javaType, type);
                     completableType.complete(type);
 
                     return new Reference(type);
@@ -127,21 +130,13 @@ public final class TypeGenerator {
             return typeValue.get();
         }
 
-        Type type = initializedTypes.get(getId(module, javaType.getSimpleName()));
+        Type type = initializedTypes.get(javaType);
 
         if (type != null) {
             return type;
         }
 
         return generate(module, javaType.getSimpleName(), javaType).fetchType();
-    }
-
-    protected void disposeCache() {
-        initializedTypes.clear();
-    }
-
-    private String getId(Module module, String name) {
-        return module.getName() + "::" + name;
     }
 
 }

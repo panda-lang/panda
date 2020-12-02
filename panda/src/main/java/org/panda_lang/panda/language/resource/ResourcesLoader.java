@@ -57,6 +57,7 @@ public final class ResourcesLoader {
             ClassUtils.forName(packageName + name)
                     .map(type -> typeGenerator.generate(module, name, type))
                     .peek(module::add)
+                    .peek(reference -> typeLoader.load(reference.fetchType()))
                     .orThrow(() -> {
                         throw new PandaFrameworkException("Cannot find class " + name + " in " + packageName);
                     });

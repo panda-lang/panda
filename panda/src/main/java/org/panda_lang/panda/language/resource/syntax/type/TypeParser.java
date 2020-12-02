@@ -179,10 +179,48 @@ public final class TypeParser implements ContextParser<Object, Type> {
             stageService.delegate("parse " + type.getName() + " type body", Phases.DEFAULT, Layer.NEXT_DEFAULT, bodyPhase -> {
                 typePoolParser.parse(typeContext, new PandaSourceStream(body));
                 futureType.complete(type);
+
+                stageService.delegate("check default constructor", Phases.DEFAULT, Layer.NEXT_DEFAULT, nextPhase -> {
+                    if (type.getConstructors().getDeclaredProperties().isEmpty()) {
+                        type.getSuperclass().toStream()
+                                .flatMapStream(superSignature -> superSignature.fetchType().getConstructors().getProperties().stream())
+                                .find(constructor -> constructor.getParameters().length > 0)
+                                .peek(constructorWithParameters -> {
+                                    throw new PandaParserFailure(context, constructorWithParameters.getLocation(),
+                                            "Type " + type + " does not implement any constructor from the base type " + constructorWithParameters.getType(),
+                                            "Some of the overridden types may contain custom constructors. To properly initialize object, you have to call one of them."
+                                    );
+                                });
+
+                        type.getConstructors().declare(PandaConstructor.builder()
+                                .type(type)
+                                .callback((typeConstructor, frame, instance, arguments) -> {
+                                    return scope.createInstance(frame, instance, typeConstructor, Collections.emptyList(), arguments);
+                                })
+                                .location(type.getLocation())
+                                .build());
+                    }
+                });
             });
 
             stageService.delegate("verify " + type.getName() + "type properties", Phases.VERIFY, Layer.NEXT_DEFAULT, verifyPhase -> {
-                verifyProperties(typeContext);
+                for (TypedSignature base : type.getBases()) {
+                    State.requireInheritance(context, base.fetchType(), context.getSource());
+                }
+
+                if (type.getState() != State.ABSTRACT) {
+                    PandaStream.of(type.getBases())
+                            .map(TypedSignature::fetchType)
+                            .flatMapStream(base -> base.getMethods().getProperties().stream())
+                            .filter(TypeMethod::isAbstract)
+                            .filter(method -> !type.getMethods().getMethod(method.getSimpleName(), method.getParameterSignatures()).isDefined())
+                            .forEach(method -> {
+                                throw new PandaParserFailure(context, type.getLocation(),
+                                        "Missing implementation of &1" + method + "&r in &1" + type + "&r",
+                                        "You have to override all non-default methods declared by " + type + " abstract type"
+                                );
+                            });
+                }
             });
 
             stageService.delegate("generate type class", Phases.INITIALIZE, Layer.NEXT_DEFAULT, initializePhase -> {
@@ -205,48 +243,6 @@ public final class TypeParser implements ContextParser<Object, Type> {
         });
 
         return Option.of(futureType);
-    }
-
-    private void verifyProperties(Context<TypeContext> context) {
-        Type type = context.getSubject().getType();
-
-        for (TypedSignature base : type.getBases()) {
-            State.requireInheritance(context, base.fetchType(), context.getSource());
-        }
-
-        if (type.getState() != State.ABSTRACT) {
-            PandaStream.of(type.getBases())
-                    .map(TypedSignature::fetchType)
-                    .flatMapStream(base -> base.getMethods().getProperties().stream())
-                    .filter(TypeMethod::isAbstract)
-                    .filter(method -> !type.getMethods().getMethod(method.getSimpleName(), method.getParameterSignatures()).isDefined())
-                    .forEach(method -> {
-                        throw new PandaParserFailure(context, type.getLocation(),
-                                "Missing implementation of &1" + method + "&r in &1" + type + "&r",
-                                "You have to override all non-default methods declared by " + type + " abstract type"
-                        );
-                    });
-        }
-
-        if (type.getConstructors().getDeclaredProperties().isEmpty()) {
-            type.getSuperclass().toStream()
-                    .flatMapStream(superSignature -> superSignature.fetchType().getConstructors().getProperties().stream())
-                    .find(constructor -> constructor.getParameters().length > 0)
-                    .peek(constructorWithParameters -> {
-                        throw new PandaParserFailure(context, constructorWithParameters.getLocation(),
-                                "Type " + type + " does not implement any constructor from the base type " + constructorWithParameters.getType(),
-                                "Some of the overridden types may contain custom constructors. To properly initialize object, you have to call one of them."
-                        );
-                    });
-
-            type.getConstructors().declare(PandaConstructor.builder()
-                    .type(type)
-                    .callback((typeConstructor, frame, instance, arguments) -> {
-                        return context.getSubject().getScope().createInstance(frame, instance, typeConstructor, Collections.emptyList(), arguments);
-                    })
-                    .location(type.getLocation())
-                    .build());
-        }
     }
     
 }

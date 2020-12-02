@@ -49,8 +49,8 @@ public final class PandaEnvironment implements Environment {
         this.workingDirectory = workingDirectory;
         this.sources = new PandaSourceService();
         this.modulePath = new PandaModulePath(sources);
-        this.typeGenerator = new TypeGenerator(controller);
         this.typeLoader = new PandaTypeLoader(modulePath);
+        this.typeGenerator = new TypeGenerator(controller);
         this.interpreter = new PandaInterpreter(this);
 
         this.resources = new Lazy<>(() -> {
@@ -80,6 +80,11 @@ public final class PandaEnvironment implements Environment {
     @Override
     public ModulePath getModulePath() {
         return modulePath;
+    }
+
+    @Override
+    public TypeGenerator getTypeGenerator() {
+        return typeGenerator;
     }
 
     @Override

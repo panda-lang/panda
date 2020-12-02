@@ -80,7 +80,7 @@ public final class ExpressionUtils {
             return Result.ok(expression);
         }
 
-        if (expression.getSignature().isAssignableFrom(expected)) {
+        if (expected.isAssignableFrom(expression.getSignature())) {
             return Result.ok(expression);
         }
 

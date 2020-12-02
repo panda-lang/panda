@@ -22,6 +22,7 @@ import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.architecture.statement.Statement;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.resource.syntax.keyword.Keyword;
 import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
@@ -30,20 +31,28 @@ import org.panda_lang.utilities.commons.function.Option;
 
 final class ConditionalParser {
 
-    Option<ConditionalBlock> parse(ScopeParser scopeParser, Context<?> context, Keyword keyword, boolean hasExpression) {
+    Option<ConditionalBlock> parse(ScopeParser scopeParser, Context<?> context, boolean hasExpression, Keyword... keywords) {
         PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
-        if (sourceReader.read(keyword).isEmpty()) {
-            return Option.none();
+        for (Keyword keyword : keywords) {
+            if (sourceReader.read(keyword).isEmpty()) {
+                return Option.none();
+            }
         }
 
         Expression condition = hasExpression
                 ? context.getExpressionParser().parse(context, context.getStream()).getExpression()
                 : new PandaExpression(context.getTypeLoader().requireType("panda::Bool").getSignature(), true);
 
+        Option<Snippet> body = sourceReader.readBody();
+
+        if (body.isEmpty()) {
+            throw new PandaParserFailure(context, "Missing condition body");
+        }
+
         ConditionalBlock conditionalBlock = new ConditionalBlock(context.getScope(), context, condition);
         context.getScope().addStatement(conditionalBlock);
-        scopeParser.parse(context, conditionalBlock, sourceReader.readBody().get());
+        scopeParser.parse(context, conditionalBlock, body.get());
 
         return Option.of(conditionalBlock);
     }

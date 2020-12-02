@@ -46,8 +46,6 @@ public final class Keywords {
 
     public static final Keyword ELSE = add(VALUES, new Keyword("else"));
 
-    public static final Keyword ELSE_IF = add(VALUES, new Keyword("else if"));
-
     public static final Keyword EXPORT = add(VALUES, new Keyword("export"));
 
     public static final Keyword FOREACH = add(VALUES, new Keyword("foreach"));

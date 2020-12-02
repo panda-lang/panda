@@ -30,6 +30,7 @@ import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * Extensible owner of properties
@@ -124,14 +125,14 @@ public interface Type extends Metadata, Signed {
      * @param to the type to search for
      * @return the autocast
      */
-    Option<? extends Autocast<?, ?>> getAutocast(Type to);
+    Option<Autocast<?, ?>> getAutocast(Type to);
 
     /**
      * Get all of the supported autocasts
      *
      * @return collection of autocasts
      */
-    Collection<? extends Type> getAutocasts();
+    Map<? extends Type, ? extends Autocast<?, ?>> getAutocasts();
 
     /**
      * Get supertypes of type

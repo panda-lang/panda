@@ -52,44 +52,15 @@ public final class SignatureMatcher<T extends Member> {
         }
 
         // map arguments into parameters
-        int[] target = new int[requiredTypes.length];
-        int index = 0, required = 0, varArgs = 0;
+        int index = 0, required = 0;
 
         // loop as long parameters and types are available
         for (; (index < parameters.length) && (required < requiredTypes.length); index++) {
             PropertyParameter parameter = parameters[index];
 
-            //if (!parameter.isVarargs()) {
-                target[required] = index;
-
-                if (!parameter.getSignature().isAssignableFrom(requiredTypes[required++])) {
-                    return null;
-                }
-
-                continue;
-            //}
-
-            /*
-            // varargs parameter has to be array
-            Type type = ((ArrayType) parameter.getType()).getArrayType();
-            varArgs++;
-
-            // read vararg
-            while (required < requiredTypes.length) {
-                Signature nextType = requiredTypes[required];
-
-                if (!type.isAssignableFrom(nextType)) {
-                    // array was directly passed to the varargs
-                    if (nextType.isAssignableFrom(parameter.getType())) {
-                        target[required++] = index;
-                    }
-
-                    break;
-                }
-
-                target[required++] = index;
+            if (!parameter.getSignature().isAssignableFrom(requiredTypes[required++])) {
+                return null;
             }
-             */
         }
 
         // return if does not match
@@ -103,54 +74,6 @@ public final class SignatureMatcher<T extends Member> {
         }
 
         return new Adjustment<>(executable, arguments);
-
-        /*
-        // return result without varargs mappings
-        if (varArgs == 0) {
-            return new Adjustment<>(executable, arguments);
-        }
-
-        @SuppressWarnings("unchecked")
-        List<Expression>[] mapped = new List[parameters.length];
-
-        // group arguments
-        for (int targetIndex = 0; targetIndex < target.length; ) {
-            int targetParameter = target[targetIndex];
-            List<Expression> section = mapped[targetParameter];
-
-            if (section == null) {
-                section = (mapped[targetParameter] = new ArrayList<>(arguments.length - parameters.length - varArgs + 1));
-            }
-
-            section.add(arguments[targetIndex]);
-            targetIndex++;
-        }
-
-        Expression[] fixedArguments = new Expression[mapped.length];
-
-        // map arguments
-        for (int argumentIndex = 0; argumentIndex < mapped.length; argumentIndex++) {
-            List<Expression> expressions = mapped[argumentIndex];
-
-            if (expressions.size() == 1) {
-                fixedArguments[argumentIndex] = expressions.get(0);
-                continue;
-            }
-
-            Expression[] expressionsArray = expressions.toArray(new Expression[0]);
-
-            // generate varargs array expression
-            fixedArguments[argumentIndex] = new AbstractDynamicExpression(((ArrayType) parameters[argumentIndex].getType()).getArrayType()) {
-                @Override
-                @SuppressWarnings("unchecked")
-                public Object evaluate(ProcessStack stack, Object instance) throws Exception {
-                    return ExpressionUtils.evaluate(stack, instance, expressionsArray);
-                }
-            }.toExpression();
-        }
-
-        return new Adjustment<>(executable, fixedArguments);
-        */
     }
 
 }

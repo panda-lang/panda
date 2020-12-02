@@ -44,7 +44,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Objects;
 
 public class PandaType extends AbstractMetadata implements Type {
@@ -118,6 +117,7 @@ public class PandaType extends AbstractMetadata implements Type {
         }
 
         bases.add(baseSignature);
+        autocasts.put(baseSignature.fetchType(), (originalType, object, resultType) -> object);
     }
 
     @Override
@@ -142,10 +142,7 @@ public class PandaType extends AbstractMetadata implements Type {
 
     @Override
     public boolean isAssignableFrom(Type from) {
-        return this.equals(from)
-                || from.getBases().stream().anyMatch(base -> isAssignableFrom(base.fetchType()))
-                || from.getAutocasts().stream().anyMatch(this::isAssignableFrom)
-                || from.getAutocast(this).isPresent();
+        return this.equals(from) || from.getAutocast(this).isDefined();
     }
 
     @Override
@@ -173,14 +170,26 @@ public class PandaType extends AbstractMetadata implements Type {
 
     @Override
     public Option<Autocast<?, ?>> getAutocast(Type to) {
-        return PandaStream.of(autocasts.entrySet())
-                .find(autocastEntry -> to.isAssignableFrom(autocastEntry.getKey()))
-                .map(Entry::getValue);
+        Autocast<?, ?> autocast = autocasts.get(to);
+
+        if (autocast != null) {
+            return Option.of(autocast);
+        }
+
+        for (TypedSignature base : bases) {
+            Option<Autocast<?, ?>> baseAutocast = base.fetchType().getAutocast(to);
+
+            if (baseAutocast != null) {
+                return baseAutocast;
+            }
+        }
+
+        return Option.none();
     }
 
     @Override
-    public Collection<? extends Type> getAutocasts() {
-        return autocasts.keySet();
+    public Map<? extends Type, ? extends Autocast<?, ?>> getAutocasts() {
+        return autocasts;
     }
 
     @Override
@@ -205,7 +214,8 @@ public class PandaType extends AbstractMetadata implements Type {
 
     @Override
     public Option<? extends TypedSignature> getSuperclass() {
-        return PandaStream.of(getBases()).find(base -> Kind.isClass(base.fetchType()));
+        return PandaStream.of(getBases())
+                .find(base -> Kind.isClass(base.fetchType()));
     }
 
     @Override
