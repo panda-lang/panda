@@ -148,7 +148,7 @@ main {
     log 10 + Int.parseInt('5') + list.size()
 
     // map array to iterable in foreach
-    foreach (String var : new Array<String>(10)) { }
+    // foreach (String var : new Array<String>(10)) { }
 
     // make sure that we can use primitive arrays
     // PrimitiveChar[] primitiveArray = (')#onlypanda').toCharArray()
