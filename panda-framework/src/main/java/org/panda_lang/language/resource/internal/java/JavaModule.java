@@ -42,18 +42,18 @@ public final class JavaModule implements CustomInitializer {
 
     @Override
     public void initialize(Module module, TypeGenerator typeGenerator, TypeLoader typeLoader) {
-        Type primitiveVoid = primitive(module, "Void", void.class);
+        Type primitiveVoid = primitive(typeGenerator, module, "Void", void.class);
         Type voidType = associated(typeGenerator, primitiveVoid);
         typeLoader.load(primitiveVoid, voidType);
 
-        Type primitiveInt = primitive(module, "Int", int.class);
-        Type primitiveBool = primitive(module, "Bool", boolean.class);
-        Type primitiveChar = primitive(module, "Char", char.class);
-        Type primitiveByte = primitive(module, "Byte", byte.class);
-        Type primitiveShort = primitive(module, "Short", short.class);
-        Type primitiveLong = primitive(module, "Long", long.class);
-        Type primitiveFloat = primitive(module, "Float", float.class);
-        Type primitiveDouble = primitive(module, "Double", double.class);
+        Type primitiveInt = primitive(typeGenerator, module, "Int", int.class);
+        Type primitiveBool = primitive(typeGenerator, module, "Bool", boolean.class);
+        Type primitiveChar = primitive(typeGenerator, module, "Char", char.class);
+        Type primitiveByte = primitive(typeGenerator, module, "Byte", byte.class);
+        Type primitiveShort = primitive(typeGenerator, module, "Short", short.class);
+        Type primitiveLong = primitive(typeGenerator, module, "Long", long.class);
+        Type primitiveFloat = primitive(typeGenerator, module, "Float", float.class);
+        Type primitiveDouble = primitive(typeGenerator, module, "Double", double.class);
 
         Type objectType = generate(typeGenerator, module, Object.class);
         typeLoader.load(objectType);
@@ -94,7 +94,7 @@ public final class JavaModule implements CustomInitializer {
         );
     }
 
-    private Type primitive(Module module, String name, Class<?> primitiveClass) {
+    private Type primitive(TypeGenerator typeGenerator, Module module, String name, Class<?> primitiveClass) {
         Completable<Type> futureType = new Completable<>();
 
         Reference reference = new Reference(
@@ -114,7 +114,7 @@ public final class JavaModule implements CustomInitializer {
                 .location(reference.getLocation())
                 .build();
 
-        futureType.complete(type);
+        futureType.complete(typeGenerator.allocate(primitiveClass, type));
         module.add(reference);
 
         return type;

@@ -51,6 +51,11 @@ public final class TypeGenerator {
         this.frameworkController = frameworkController;
     }
 
+    public Type allocate(Class<?> javaType, Type type) {
+        initializedTypes.put(javaType, type);
+        return type;
+    }
+
     public Reference generate(Module module, String name, Class<?> javaType) {
         return Option.of(initializedTypes.get(javaType))
                 .map(Reference::new)
@@ -112,10 +117,8 @@ public final class TypeGenerator {
                         }
                     });
 
-                    initializedTypes.put(javaType, type);
-                    completableType.complete(type);
-
-                    return new Reference(type);
+                    completableType.complete(allocate(javaType, type));
+                    return type.getReference();
                 });
     }
 
