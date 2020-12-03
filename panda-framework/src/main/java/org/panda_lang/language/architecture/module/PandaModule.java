@@ -29,15 +29,41 @@ public class PandaModule extends PandaModuleContainer implements Module {
 
     protected final String name;
     protected final Map<String, Reference> types = new HashMap<>(32);
-    protected final @Nullable Module parent;
+    protected final Option<Module> parent;
 
     public PandaModule(@Nullable Module parent, String name) {
         this.name = name;
-        this.parent = parent;
+        this.parent = Option.of(parent);
     }
 
     public PandaModule(String name) {
         this(null, name);
+    }
+
+    @Override
+    public boolean equals(Object to) {
+        if (this == to) {
+            return true;
+        }
+
+        if (to == null || getClass() != to.getClass()) {
+            return false;
+        }
+
+        PandaModule that = (PandaModule) to;
+
+        if (!name.equals(that.name)) {
+            return false;
+        }
+
+        return parent.equals(that.parent);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + parent.hashCode();
+        return result;
     }
 
     @Override
@@ -85,7 +111,7 @@ public class PandaModule extends PandaModuleContainer implements Module {
 
     @Override
     public Option<Module> getParent() {
-        return Option.of(parent);
+        return parent;
     }
 
     @Override
@@ -95,7 +121,11 @@ public class PandaModule extends PandaModuleContainer implements Module {
 
     @Override
     public String getName() {
-        return (parent != null ? parent.toString() + ":" : "") + name;
+        return parent
+                .map(Module::getName)
+                .map(name -> name + ":")
+                .orElseGet("")
+                + getSimpleName();
     }
 
     @Override

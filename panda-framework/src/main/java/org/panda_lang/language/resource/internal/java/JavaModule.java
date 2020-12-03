@@ -73,14 +73,14 @@ public final class JavaModule implements CustomInitializer {
         Type floatType = associated(typeGenerator, primitiveFloat);
         Type doubleType = associated(typeGenerator, primitiveDouble);
 
-        intType.addAutocast(longType, (Autocast<Number, Long>) (originalType, object, resultType) -> object.longValue());
-        intType.addAutocast(doubleType, (Autocast<Number, Double>) (originalType, object, resultType) -> object.doubleValue());
-        intType.addAutocast(floatType, (Autocast<Number, Float>) (originalType, object, resultType) -> object.floatValue());
-        floatType.addAutocast(doubleType, (Autocast<Number, Double>) (originalType, object, resultType) -> object.doubleValue());
+        intType.addAutocast(longType.getReference(), (Autocast<Number, Long>) (originalType, object, resultType) -> object.longValue());
+        intType.addAutocast(doubleType.getReference(), (Autocast<Number, Double>) (originalType, object, resultType) -> object.doubleValue());
+        intType.addAutocast(floatType.getReference(), (Autocast<Number, Float>) (originalType, object, resultType) -> object.floatValue());
+        floatType.addAutocast(doubleType.getReference(), (Autocast<Number, Double>) (originalType, object, resultType) -> object.doubleValue());
 
-        charType.addAutocast(intType, (Autocast<Character, Integer>) (originalType, object, resultType) -> Character.getNumericValue(object));
-        byteType.addAutocast(intType, (Autocast<Number, Integer>) (originalType, object, resultType) -> object.intValue());
-        shortType.addAutocast(intType, (Autocast<Number, Integer>) (originalType, object, resultType) -> object.intValue());
+        charType.addAutocast(intType.getReference(), (Autocast<Character, Integer>) (originalType, object, resultType) -> Character.getNumericValue(object));
+        byteType.addAutocast(intType.getReference(), (Autocast<Number, Integer>) (originalType, object, resultType) -> object.intValue());
+        shortType.addAutocast(intType.getReference(), (Autocast<Number, Integer>) (originalType, object, resultType) -> object.intValue());
 
         typeLoader.load(
                 primitiveBool, boolType,
@@ -123,8 +123,8 @@ public final class JavaModule implements CustomInitializer {
     private Type associated(TypeGenerator typeGenerator, Type primitive) {
         Type type = generate(typeGenerator, primitive.getModule(), primitive.getSimpleName().replace("Primitive", ""), ClassUtils.getNonPrimitiveClass(primitive.getAssociated().get()));
 
-        type.addAutocast(primitive, (originalType, object, resultType) -> object);
-        primitive.addAutocast(type, (originalType, object, resultType) -> object);
+        type.addAutocast(primitive.getReference(), (originalType, object, resultType) -> object);
+        primitive.addAutocast(type.getReference(), (originalType, object, resultType) -> object);
 
         return type;
     }

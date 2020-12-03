@@ -54,11 +54,11 @@ class PhasesLayerLayerControllerTest {
             });
         });
 
-        STAGE_CONTROLLER.launch();
+        STAGE_CONTROLLER.launch(() -> {});
         Assertions.assertEquals("a b b2 b3 a2 c", outputBuilder.toString().trim());
 
         outputBuilder.setLength(0);
-        STAGE_CONTROLLER.launch();
+        STAGE_CONTROLLER.launch(() -> {});
         Assertions.assertEquals("", outputBuilder.toString());
     }
 

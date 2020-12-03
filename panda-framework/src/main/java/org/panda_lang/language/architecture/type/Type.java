@@ -55,7 +55,7 @@ public interface Type extends Metadata, Signed {
      * @param to the type to cast to
      * @param autocast the autocast
      */
-    void addAutocast(Type to, Autocast<?, ?> autocast);
+    void addAutocast(Reference to, Autocast<?, ?> autocast);
 
     /**
      * Add static initializer
@@ -125,14 +125,14 @@ public interface Type extends Metadata, Signed {
      * @param to the type to search for
      * @return the autocast
      */
-    Option<Autocast<?, ?>> getAutocast(Type to);
+    Option<Autocast<?, ?>> getAutocast(Reference to);
 
     /**
      * Get all of the supported autocasts
      *
      * @return collection of autocasts
      */
-    Map<? extends Type, ? extends Autocast<?, ?>> getAutocasts();
+    Map<? extends Reference, ? extends Autocast<?, ?>> getAutocasts();
 
     /**
      * Get supertypes of type
@@ -171,6 +171,8 @@ public interface Type extends Metadata, Signed {
 
     @Override
     TypedSignature getSignature();
+
+    Reference getReference();
 
     /**
      * Get loader that loaded this type

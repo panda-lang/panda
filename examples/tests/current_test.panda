@@ -7,6 +7,7 @@ require java:collections
 require 'current_test_required'
 // import 'test-local-module' internal module
 require 'test-local-module'
+require test-local-module
 
 // import java class
 import org.panda_lang.panda.PandaConstants
@@ -160,8 +161,9 @@ main {
     LocalModuleClass.hello()
 
     // Autocast
-    Long value = new Int(10)
-    log value.getClass()
+    Int intValue = 10
+    Long longValue = intValue
+    log longValue.getClass()
 
     // Verify implementation of native equals
     Entity a = new Entity("same")

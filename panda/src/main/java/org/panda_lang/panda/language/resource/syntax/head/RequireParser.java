@@ -99,7 +99,10 @@ public final class RequireParser implements ContextParser<Object, Boolean> {
         File file = new File(environmentDirectory, requiredFile.getValue() + ".panda");
 
         if (file.exists()) {
-            context.getEnvironment().getSources().addSource(Priority.REQUIRED, PandaURLSource.fromFile(file));
+            context.getEnvironment().getSources().addSource(Priority.REQUIRED, PandaURLSource.fromFile(file)).then(script -> {
+                script.getModule().then(module -> context.getImports().importModule(module));
+            });
+
             return;
         }
 

@@ -26,7 +26,7 @@ public interface StageManager {
     /**
      * Launch cycles
      */
-    void launch();
+    void launch(Runnable mainAction);
 
     /**
      * Get amount of tasks before the specified cycle.

@@ -40,17 +40,22 @@ public final class PandaStageManager implements StageManager {
     }
 
     @Override
-    public void launch() {
+    public void launch(Runnable mainAction) {
+        mainAction.run();
+
         while (countTasksBefore(null) > 0) {
-            executeOnce();
+            executeOnce(mainAction);
         }
     }
 
-    private void executeOnce() {
+    private void executeOnce(Runnable mainAction) {
         for (StagePhase cycle : cycles.values()) {
             currentCycle = cycle;
 
-            if (!cycle.execute()) {
+            boolean full = cycle.execute();
+            mainAction.run();
+
+            if (!full) {
                 break;
             }
 

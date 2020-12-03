@@ -93,22 +93,23 @@ public final class PandaInterpreter implements Interpreter {
         Stack<Runnable> interrupted = new Stack<>();
 
         try {
-            while (sources.hasRequired() || sources.hasStandard() || !interrupted.isEmpty()) {
-                while (sources.hasRequired()) {
-                    parse(lexer, application, context, headPool, interrupted, sources.retrieveRequired());
+            stageManager.launch(() -> {
+                while (sources.hasRequired() || sources.hasStandard() || !interrupted.isEmpty()) {
+                    while (sources.hasRequired()) {
+                        parse(lexer, application, context, headPool, interrupted, sources.retrieveRequired());
+                    }
+
+                    if (!interrupted.isEmpty()) {
+                        interrupted.pop().run();
+                        continue;
+                    }
+
+                    if (sources.hasStandard()) {
+                        parse(lexer, application, context, headPool, interrupted, sources.retrieveStandard());
+                    }
                 }
 
-                if (!interrupted.isEmpty()) {
-                    interrupted.pop().run();
-                    continue;
-                }
-
-                if (sources.hasStandard()) {
-                    parse(lexer, application, context, headPool, interrupted, sources.retrieveStandard());
-                }
-            }
-
-            stageManager.launch();
+            });
         }
         catch (Throwable throwable) {
             environment.getLogger().exception(throwable);

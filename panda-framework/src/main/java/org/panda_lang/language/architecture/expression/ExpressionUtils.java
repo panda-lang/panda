@@ -92,7 +92,7 @@ public final class ExpressionUtils {
             return Result.error("Cannot equalize to generic signature");
         }
 
-        Option<? extends Autocast<?, ?>> autocast = expression.getSignature().toTyped().fetchType().getAutocast(expected.toTyped().fetchType());
+        Option<? extends Autocast<?, ?>> autocast = expression.getSignature().toTyped().fetchType().getAutocast(expected.toTyped().getReference());
 
         if (autocast.isPresent()) {
             return Result.ok(new AutocastDynamicExpression(expression, expected, autocast.get()).toExpression());

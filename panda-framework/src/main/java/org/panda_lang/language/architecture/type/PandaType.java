@@ -48,13 +48,14 @@ import java.util.Objects;
 
 public class PandaType extends AbstractMetadata implements Type {
 
+    protected final Reference reference;
     protected final TypedSignature signature;
     protected final Module module;
     protected final String kind;
     protected final State state;
     protected final Completable<? extends Class<?>> associated;
-    protected final List<TypedSignature> bases;
-    protected final Map<Type, Autocast<?, ?>> autocasts = new HashMap<>();
+    protected final List<TypedSignature> bases = new ArrayList<>();
+    protected final Map<Reference, Autocast<?, ?>> autocasts = new HashMap<>();
     protected final Fields fields = new PandaFields(this);
     protected final Constructors constructors = new PandaConstructors(this);
     protected final Methods methods = new PandaMethods(this);
@@ -69,7 +70,9 @@ public class PandaType extends AbstractMetadata implements Type {
         this.kind = ValidationUtils.notNull(metadata.kind, "The kind of type is not defined");
         this.state = ValidationUtils.notNull(metadata.state, "State of type is missing");
         this.associated = ValidationUtils.notNull(metadata.associatedType, "Associated type is missing");
-        this.bases = ValidationUtils.notNull(metadata.bases, "Bases are not defined");
+
+        ValidationUtils.notNull(metadata.bases, "Bases are not defined").forEach(this::addBase);
+        this.reference = new Reference(this);
     }
 
     @Override
@@ -102,7 +105,7 @@ public class PandaType extends AbstractMetadata implements Type {
     }
 
     @Override
-    public void addAutocast(Type to, Autocast<?, ?> autocast) {
+    public void addAutocast(Reference to, Autocast<?, ?> autocast) {
         if (isInitialized()) {
             throw new IllegalStateException("Cannot add autocast to initialized type");
         }
@@ -117,7 +120,7 @@ public class PandaType extends AbstractMetadata implements Type {
         }
 
         bases.add(baseSignature);
-        autocasts.put(baseSignature.fetchType(), (originalType, object, resultType) -> object);
+        autocasts.put(baseSignature.getReference(), (originalType, object, resultType) -> object);
     }
 
     @Override
@@ -142,7 +145,7 @@ public class PandaType extends AbstractMetadata implements Type {
 
     @Override
     public boolean isAssignableFrom(Type from) {
-        return this.equals(from) || from.getAutocast(this).isDefined();
+        return this.equals(from) || from.getAutocast(this.getReference()).isDefined();
     }
 
     @Override
@@ -169,7 +172,7 @@ public class PandaType extends AbstractMetadata implements Type {
     }
 
     @Override
-    public Option<Autocast<?, ?>> getAutocast(Type to) {
+    public Option<Autocast<?, ?>> getAutocast(Reference to) {
         Autocast<?, ?> autocast = autocasts.get(to);
 
         if (autocast != null) {
@@ -188,7 +191,7 @@ public class PandaType extends AbstractMetadata implements Type {
     }
 
     @Override
-    public Map<? extends Type, ? extends Autocast<?, ?>> getAutocasts() {
+    public Map<? extends Reference, ? extends Autocast<?, ?>> getAutocasts() {
         return autocasts;
     }
 
@@ -251,6 +254,11 @@ public class PandaType extends AbstractMetadata implements Type {
     @Override
     public Module getModule() {
         return module;
+    }
+
+    @Override
+    public Reference getReference() {
+        return reference;
     }
 
     @Override

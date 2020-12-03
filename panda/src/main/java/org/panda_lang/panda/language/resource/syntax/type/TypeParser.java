@@ -145,16 +145,6 @@ public final class TypeParser implements ContextParser<Object, Type> {
         stageService.delegate("parse " + reference.getName() + " type signature", Phases.TYPES, Layer.NEXT_DEFAULT, signaturePhase -> {
             Signature signature = SIGNATURE_PARSER.parse(null, context, signatureSource.get());
 
-            List<TypedSignature> bases = PandaStream.of(extendedSignatures)
-                    .map(extendedSignature -> SIGNATURE_PARSER.parse(signature, context, extendedSignature))
-                    .throwIfNot(Signature::isTyped, unsupported -> new PandaParserFailure(context, unsupported.getSource(), "Unknown type " + unsupported.toGeneric().getLocalIdentifier()))
-                    .map(Signature::toTyped)
-                    .collect(Collectors.toList());
-
-            if (bases.isEmpty()) {
-                bases.add(context.getTypeLoader().requireType("panda::Object").getSignature());
-            }
-
             Completable<Class<?>> associatedType = new Completable<>();
 
             Type type = PandaType.builder()
@@ -162,7 +152,6 @@ public final class TypeParser implements ContextParser<Object, Type> {
                     .name(reference.getName())
                     .signature(signature)
                     .associatedType(associatedType)
-                    .bases(bases)
                     .kind(kind.get().getValue())
                     .state(State.of(kind.get().getValue()))
                     .location(context.getSource().getLocation())
@@ -175,6 +164,20 @@ public final class TypeParser implements ContextParser<Object, Type> {
                     .withSubject(new TypeContext(type, scope))
                     .withScope(scope)
                     .toContext();
+
+            stageService.delegate("parse bases", Phases.TYPES, Layer.NEXT_DEFAULT, basePhase -> {
+                List<TypedSignature> bases = PandaStream.of(extendedSignatures)
+                        .map(extendedSignature -> SIGNATURE_PARSER.parse(signature, context, extendedSignature))
+                        .throwIfNot(Signature::isTyped, unsupported -> new PandaParserFailure(context, unsupported.getSource(), "Unknown type " + unsupported.toGeneric().getLocalIdentifier()))
+                        .map(Signature::toTyped)
+                        .collect(Collectors.toList());
+
+                if (bases.isEmpty()) {
+                    bases.add(context.getTypeLoader().requireType("panda::Object").getSignature());
+                }
+
+                bases.forEach(base -> type.addBase(base.toTyped()));
+            });
 
             stageService.delegate("parse " + type.getName() + " type body", Phases.DEFAULT, Layer.NEXT_DEFAULT, bodyPhase -> {
                 typePoolParser.parse(typeContext, new PandaSourceStream(body));

@@ -26,6 +26,32 @@ public class Reference {
         this(Completable.completed(type), type.getModule(), type.getSimpleName(), type.getVisibility(), type.getKind(), type.getLocation());
     }
 
+    @Override
+    public boolean equals(Object to) {
+        if (this == to) {
+            return true;
+        }
+
+        if (to == null || getClass() != to.getClass()) {
+            return false;
+        }
+
+        Reference reference = (Reference) to;
+
+        if (!name.equals(reference.name)) {
+            return false;
+        }
+
+        return module.equals(reference.module);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + module.hashCode();
+        return result;
+    }
+
     public boolean isLoaded() {
         return type.isReady();
     }
