@@ -123,7 +123,7 @@ public class PandaModule extends PandaModuleContainer implements Module {
     public String getName() {
         return parent
                 .map(Module::getName)
-                .map(name -> name + ":")
+                .map(parentName -> parentName + ":")
                 .orElseGet("")
                 + getSimpleName();
     }

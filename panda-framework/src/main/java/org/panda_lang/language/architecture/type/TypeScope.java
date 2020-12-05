@@ -53,7 +53,8 @@ public final class TypeScope extends AbstractFramedScope {
         TypeInstance typeInstance;
 
         try {
-            typeInstance = getConstructor(parameters).newInstance(ArrayUtils.merge(typeFrame, arguments, Object[]::new));
+            Constructor<? extends TypeInstance> nativeConstructor = getConstructor(parameters);
+            typeInstance = nativeConstructor.newInstance(ArrayUtils.merge(typeFrame, arguments, Object[]::new));
         } catch (InvocationTargetException targetException) {
             throw new PandaRuntimeException(targetException.getTargetException().getMessage(), targetException.getTargetException());
         }

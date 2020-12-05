@@ -46,6 +46,7 @@ import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.collection.Component;
 import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
+import org.panda_lang.utilities.commons.function.PandaStream;
 
 import java.util.List;
 
@@ -163,7 +164,7 @@ public final class MethodParser implements ContextParser<TypeContext, TypeMethod
                 return;
             }
 
-            if (!method.getReturnType().toTyped().fetchType().is("panda::Void") && !methodScope.hasEffective(Returnable.class)) {
+            if (!context.getTypeLoader().requireType("panda::Void").isAssignableFrom(method.getReturnType().toTyped().fetchType()) && !methodScope.hasEffective(Returnable.class)) {
                 if (method.getReturnType().equals(type.getSignature())) {
                     methodScope.addStatement(new StandaloneExpression(context, ThisExpression.of(type.getSignature())));
                     return;
@@ -174,7 +175,9 @@ public final class MethodParser implements ContextParser<TypeContext, TypeMethod
         });
 
         context.getStageService().delegate("verify method", Phases.VERIFY, Layer.NEXT_DEFAULT, verifyPhase -> {
-            Option<TypeMethod> existingMethod = type.getMethods().getMethod(name.get(), TypedUtils.toTypes(parameters.get()));
+            Option<TypeMethod> existingMethod = PandaStream.of(type.getBases())
+                    .flatMap(base -> base.fetchType().getMethods().getMethod(name.get(), TypedUtils.toTypes(parameters.get())))
+                    .any();
 
             if (overrides && existingMethod.isEmpty()) {
                 throw new PandaParserFailure(context, context.getSource(),
@@ -187,17 +190,17 @@ public final class MethodParser implements ContextParser<TypeContext, TypeMethod
                     .filterNot(property -> overrides)
                     .peek(property -> {
                         throw new PandaParserFailure(context, context.getSource(),
-                                "&rMethod &b" + name + "&r overrides &b" + existingMethod.get() + "&r but does not contain&b override&r modifier",
+                                "&rMethod &b" + name.get() + "&r overrides &b" + existingMethod.get() + "&r but does not contain&b override&r modifier",
                                 "Add missing modifier if you want to override that method or rename current method"
                         );
                     });
 
             existingMethod
                     .map(TypeMethod::getReturnType)
-                    .filterNot(returnType::isAssignableFrom)
+                    .filterNot(parentReturnType -> parentReturnType.isAssignableFrom(returnType))
                     .peek(existingReturnType -> {
                         throw new PandaParserFailure(context, context.getSource(),
-                                "&rMethod &b" + name + "&r overrides &b" + existingMethod.get() + "&r but does not return the same type",
+                                "&rMethod &b" + method + "&r overrides &b" + existingMethod.get() + "&r but does not return the same type",
                                 "Change return type if you want to override that method or rename current method"
                         );
                     });

@@ -42,7 +42,7 @@ public final class Operators {
 
     public static final Operator DIVISION = add(VALUES, new Operator(OperatorFamilies.MATH, "/"));
 
-    public static final Operator MODULE = add(VALUES, new Operator(OperatorFamilies.MATH, "%"));
+    public static final Operator MODULO = add(VALUES, new Operator(OperatorFamilies.MATH, "%"));
 
     /*
         Logic

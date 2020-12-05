@@ -17,7 +17,7 @@ public final class ElseIfParser extends BlockParser<ConditionalBlock> {
 
     @Override
     public Option<Completable<ConditionalBlock>> parse(Context<?> context) {
-        return CONDITIONAL_PARSER.parse(SCOPE_PARSER, context, true, Keywords.ELSE, Keywords.IF)
+        return CONDITIONAL_PARSER.parse(SCOPE_PARSER, context, true, false, Keywords.ELSE, Keywords.IF)
                 .peek(conditionalBlock -> CONDITIONAL_PARSER.linkBlocks(context, conditionalBlock))
                 .map(Completable::completed);
     }

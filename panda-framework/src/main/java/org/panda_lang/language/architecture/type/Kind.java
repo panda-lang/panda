@@ -18,7 +18,7 @@ package org.panda_lang.language.architecture.type;
 
 public final class Kind {
 
-    public static final String CLASS = "class";
+    public static final String TYPE = "type";
 
     public static final String INTERFACE = "interface";
 
@@ -31,7 +31,7 @@ public final class Kind {
     private Kind() { }
 
     public static boolean isClass(Type type) {
-        return CLASS.equals(type.getKind());
+        return TYPE.equals(type.getKind());
     }
 
     public static boolean isInterface(Type type) {
@@ -46,7 +46,7 @@ public final class Kind {
             return ENUM;
         }
 
-        return CLASS;
+        return TYPE;
     }
 
 }

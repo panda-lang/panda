@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.resource.syntax.type;
 
 import javassist.CannotCompileException;
+import javassist.NotFoundException;
 import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.architecture.type.ClassGenerator;
 import org.panda_lang.language.architecture.type.PandaType;
@@ -38,6 +39,7 @@ import org.panda_lang.language.interpreter.parser.pool.PoolParser;
 import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.interpreter.parser.stage.Layer;
 import org.panda_lang.language.interpreter.parser.stage.Phases;
+import org.panda_lang.language.interpreter.parser.stage.RetryException;
 import org.panda_lang.language.interpreter.parser.stage.StageService;
 import org.panda_lang.language.interpreter.token.PandaSnippet;
 import org.panda_lang.language.interpreter.token.PandaSourceStream;
@@ -149,7 +151,7 @@ public final class TypeParser implements ContextParser<Object, Type> {
 
             Type type = PandaType.builder()
                     .module(module)
-                    .name(reference.getName())
+                    .name(reference.getSimpleName())
                     .signature(signature)
                     .associatedType(associatedType)
                     .kind(kind.get().getValue())
@@ -158,6 +160,7 @@ public final class TypeParser implements ContextParser<Object, Type> {
                     .visibility(visibility)
                     .build();
 
+            TYPE_GENERATOR.allocate(type);
             TypeScope scope = new TypeScope(reference.getLocation(), type);
 
             Context<TypeContext> typeContext = context.forkCreator()
@@ -183,27 +186,27 @@ public final class TypeParser implements ContextParser<Object, Type> {
                 typePoolParser.parse(typeContext, new PandaSourceStream(body));
                 futureType.complete(type);
 
-                stageService.delegate("check default constructor", Phases.DEFAULT, Layer.NEXT_DEFAULT, nextPhase -> {
-                    if (type.getConstructors().getDeclaredProperties().isEmpty()) {
-                        type.getSuperclass().toStream()
-                                .flatMapStream(superSignature -> superSignature.fetchType().getConstructors().getProperties().stream())
-                                .find(constructor -> constructor.getParameters().length > 0)
-                                .peek(constructorWithParameters -> {
-                                    throw new PandaParserFailure(context, constructorWithParameters.getLocation(),
-                                            "Type " + type + " does not implement any constructor from the base type " + constructorWithParameters.getType(),
-                                            "Some of the overridden types may contain custom constructors. To properly initialize object, you have to call one of them."
-                                    );
-                                });
+                if (type.getConstructors().getDeclaredProperties().isEmpty()) {
+                    type.getSuperclass().toStream()
+                            .flatMapStream(superSignature -> superSignature.fetchType().getConstructors().getProperties().stream())
+                            .find(constructor -> constructor.getParameters().length > 0)
+                            .peek(constructorWithParameters -> {
+                                throw new PandaParserFailure(context, constructorWithParameters.getLocation(),
+                                        "Type " + type + " does not implement any constructor from the base type " + constructorWithParameters.getType(),
+                                        "Some of the overridden types may contain custom constructors. To properly initialize object, you have to call one of them."
+                                );
+                            });
 
-                        type.getConstructors().declare(PandaConstructor.builder()
-                                .type(type)
-                                .callback((typeConstructor, frame, instance, arguments) -> {
-                                    return scope.createInstance(frame, instance, typeConstructor, Collections.emptyList(), arguments);
-                                })
-                                .location(type.getLocation())
-                                .build());
-                    }
-                });
+                    type.getConstructors().declare(PandaConstructor.builder()
+                            .type(type)
+                            .callback((typeConstructor, frame, instance, arguments) -> {
+                                return scope.createInstance(frame, instance, typeConstructor, Collections.emptyList(), arguments);
+                            })
+                            .location(type.getLocation())
+                            .build());
+                }
+
+
             });
 
             stageService.delegate("verify " + type.getName() + "type properties", Phases.VERIFY, Layer.NEXT_DEFAULT, verifyPhase -> {
@@ -227,10 +230,19 @@ public final class TypeParser implements ContextParser<Object, Type> {
             });
 
             stageService.delegate("generate type class", Phases.INITIALIZE, Layer.NEXT_DEFAULT, initializePhase -> {
+                Option<? extends TypedSignature> superclass = type.getSuperclass();
+
+                if (superclass.isDefined() && !superclass.get().fetchType().getAssociated().isReady()) {
+                    throw new RetryException();
+                }
+
                 try {
-                    associatedType.complete(TYPE_GENERATOR.generate(type));
+                    TYPE_GENERATOR.generate(type);
+                    associatedType.complete(TYPE_GENERATOR.complete(type));
                 } catch (CannotCompileException exception) {
                     throw new PandaParserFailure(exception, context, context.getSource(), "Cannot generate associated java type" + exception.getReason(), "");
+                } catch (NotFoundException exception) {
+                    throw new PandaParserFailure(exception, context, context.getSource(), "Cannot generate associated java type", "");
                 }
             });
 

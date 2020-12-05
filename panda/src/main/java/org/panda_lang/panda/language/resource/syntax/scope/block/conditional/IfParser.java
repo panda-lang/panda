@@ -18,7 +18,7 @@ public final class IfParser extends BlockParser<ConditionalBlock> {
     @Override
     public Option<Completable<ConditionalBlock>> parse(Context<?> context) {
         return CONDITIONAL_PARSER
-                .parse(SCOPE_PARSER, context, true, Keywords.IF)
+                .parse(SCOPE_PARSER, context, true, true, Keywords.IF)
                 .map(Completable::completed);
     }
 

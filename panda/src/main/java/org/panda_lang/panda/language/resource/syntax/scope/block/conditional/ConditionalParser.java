@@ -31,7 +31,7 @@ import org.panda_lang.utilities.commons.function.Option;
 
 final class ConditionalParser {
 
-    Option<ConditionalBlock> parse(ScopeParser scopeParser, Context<?> context, boolean hasExpression, Keyword... keywords) {
+    Option<ConditionalBlock> parse(ScopeParser scopeParser, Context<?> context, boolean hasExpression, boolean listed, Keyword... keywords) {
         PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
         for (Keyword keyword : keywords) {
@@ -51,9 +51,12 @@ final class ConditionalParser {
         }
 
         ConditionalBlock conditionalBlock = new ConditionalBlock(context.getScope(), context, condition);
-        context.getScope().addStatement(conditionalBlock);
-        scopeParser.parse(context, conditionalBlock, body.get());
 
+        if (listed) {
+            context.getScope().addStatement(conditionalBlock);
+        }
+
+        scopeParser.parse(context, conditionalBlock, body.get());
         return Option.of(conditionalBlock);
     }
 

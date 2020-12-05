@@ -51,7 +51,7 @@ final class ConditionalBlock extends AbstractBlock implements ControlledScope {
         }
 
         if (elseBlock != null) {
-            return stack.callStatement(instance, (Statement) elseBlock);
+            return stack.callStatement(instance, elseBlock);
         }
 
         return null;

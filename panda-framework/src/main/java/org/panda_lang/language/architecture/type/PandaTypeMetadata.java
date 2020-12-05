@@ -34,7 +34,7 @@ public class PandaTypeMetadata<BUILDER extends PandaTypeMetadata<BUILDER, ?>, TY
     protected Location location;
     protected Completable<? extends Class<?>> associatedType;
     protected List<TypedSignature> bases = new ArrayList<>();
-    protected String kind = Kind.CLASS;
+    protected String kind = Kind.TYPE;
     protected State state = State.DEFAULT;
     protected Visibility visibility = Visibility.OPEN;
     protected boolean isNative;

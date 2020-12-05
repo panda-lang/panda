@@ -217,8 +217,7 @@ public class PandaType extends AbstractMetadata implements Type {
 
     @Override
     public Option<? extends TypedSignature> getSuperclass() {
-        return PandaStream.of(getBases())
-                .find(base -> Kind.isClass(base.fetchType()));
+        return PandaStream.of(getBases()).find(base -> Kind.TYPE.equals(base.getReference().getKind()));
     }
 
     @Override

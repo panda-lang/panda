@@ -40,14 +40,19 @@ public final class PandaStageLayer implements StageLayer {
 
         IdentifiedOrderedTask task = tasks.poll();
         // System.out.println(task.getId());
-        task.getTask().call(cycle);
+
+        try {
+            task.getTask().call(cycle);
+        } catch (RetryException retryException) {
+            tasks.offer(task);
+        }
 
         return true;
     }
 
     @Override
     public StageLayer delegate(StageOrder priority, String id, StageTask task) {
-        tasks.add(new IdentifiedOrderedTask(id, priority, task));
+        tasks.offer(new IdentifiedOrderedTask(id, priority, task));
         return this;
     }
 

@@ -102,7 +102,7 @@ public final class JavaModule implements CustomInitializer {
                 module,
                 "Primitive" + name,
                 Visibility.OPEN,
-                Kind.CLASS,
+                Kind.TYPE,
                 new PandaClassSource(primitiveClass).toLocation());
 
         Type type = PandaType.builder()

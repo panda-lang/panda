@@ -23,9 +23,6 @@ public interface TypeInstance extends Frameable {
 
     TypeFrame __panda__get_frame();
 
-    @Override
-    default Frame __panda__to_frame() {
-        return __panda__get_frame();
-    }
+    Frame __panda__to_frame();
 
 }
