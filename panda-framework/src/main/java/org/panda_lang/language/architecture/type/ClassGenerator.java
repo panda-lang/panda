@@ -25,8 +25,11 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public final class ClassGenerator {
+
+    private static final AtomicInteger ID = new AtomicInteger(0);
 
     private static final ClassPool CLASS_POOL = ClassPool.getDefault();
     private static final CtClass CT_TYPE_INSTANCE_CLASS = ClassPoolUtils.require(TypeInstance.class);
@@ -38,7 +41,7 @@ public final class ClassGenerator {
     private final Map<Type, CtClass> generatedClasses = new HashMap<>();
 
     public CtClass allocate(Type type) {
-        String javaName = type.getName().replace("::", "$").replace(":", "_");
+        String javaName = type.getName().replace("::", "$").replace(":", "_") + "_" + ID.incrementAndGet();
 
         CtClass javaType = Kind.isInterface(type)
                 ? CLASS_POOL.makeInterface(javaName)

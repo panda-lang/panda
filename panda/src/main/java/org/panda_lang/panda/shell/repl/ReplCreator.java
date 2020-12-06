@@ -19,21 +19,30 @@ package org.panda_lang.panda.shell.repl;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.module.PandaModule;
 import org.panda_lang.language.architecture.statement.PandaVariableData;
+import org.panda_lang.language.architecture.type.ClassGenerator;
+import org.panda_lang.language.architecture.type.Kind;
 import org.panda_lang.language.architecture.type.PandaType;
-import org.panda_lang.language.architecture.type.signature.Signature;
+import org.panda_lang.language.architecture.type.Reference;
 import org.panda_lang.language.architecture.type.State;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.TypeContext;
 import org.panda_lang.language.architecture.type.TypeScope;
+import org.panda_lang.language.architecture.type.Visibility;
 import org.panda_lang.language.architecture.type.member.constructor.PandaConstructor;
 import org.panda_lang.language.architecture.type.member.method.PandaMethod;
+import org.panda_lang.language.architecture.type.signature.Relation;
+import org.panda_lang.language.architecture.type.signature.Signature;
+import org.panda_lang.language.architecture.type.signature.TypedSignature;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.source.PandaClassSource;
-import org.panda_lang.language.interpreter.token.PandaSourceLocationUtils;
+import org.panda_lang.language.interpreter.token.PandaLocation;
+import org.panda_lang.language.interpreter.token.PandaSnippet;
 import org.panda_lang.language.runtime.PandaProcess;
 import org.panda_lang.language.runtime.Process;
 import org.panda_lang.language.runtime.ProcessStack;
+import org.panda_lang.panda.PandaException;
 import org.panda_lang.panda.language.interpreter.parser.PandaContextUtils;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.ThrowingFunction;
 
 import java.util.Arrays;
@@ -56,26 +65,43 @@ public final class ReplCreator {
     ReplCreator(ReplConsole console) {
         this.console = console;
 
+        Completable<Type> futureType = new Completable<>();
+        Reference reference = new Reference(futureType, new PandaModule("repl"), "ShellType", Visibility.OPEN, Kind.TYPE, new PandaClassSource(ReplCreator.class).toLocation());
+        Completable<Class<?>> associatedClass = new Completable<>();
+
         Type type = PandaType.builder()
                 .name("ShellType")
-                .module(new PandaModule("repl"))
-                .location(new PandaClassSource(ReplCreator.class).toLocation())
+                .signature(new TypedSignature(null, reference, new Signature[0], Relation.DIRECT, PandaSnippet.empty()))
+                .module(reference.getModule())
+                .location(reference.getLocation())
                 .state(State.FINAL)
+                .associatedType(associatedClass)
                 .build();
 
-        this.typeScope = new TypeScope(PandaSourceLocationUtils.unknownLocation("repl"), type);
-        this.replScope = new ReplScope(typeScope.getSourceLocation(), Collections.emptyList());
+        ClassGenerator classGenerator = new ClassGenerator();
+        classGenerator.allocate(type);
 
-        this.context = PandaContextUtils.createStubContext(console.getFrameworkController())
-                .withSubject(new TypeContext(type, typeScope))
-                .withScope(replScope)
-                .toContext();
+        this.typeScope = new TypeScope(PandaLocation.unknownLocation("repl"), type);
 
         type.getConstructors().declare(PandaConstructor.builder()
                 .type(type)
                 .callback((typeConstructor, frame, instance, arguments) -> typeScope.createInstance(frame, instance, typeConstructor, Arrays.asList(), arguments))
                 .location(type.getLocation())
                 .build());
+
+        try {
+            classGenerator.generate(type);
+            associatedClass.complete(classGenerator.complete(type));
+        } catch (Exception exception) {
+            throw new PandaException("Cannot generate shell type", exception);
+        }
+
+        this.replScope = new ReplScope(typeScope.getSourceLocation(), Collections.emptyList());
+
+        this.context = PandaContextUtils.createStubContext(console.getFrameworkController())
+                .withSubject(new TypeContext(type, typeScope))
+                .withScope(replScope)
+                .toContext();
     }
 
     /**

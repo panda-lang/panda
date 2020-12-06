@@ -17,6 +17,7 @@
 package org.panda_lang.language.architecture.statement;
 
 import org.panda_lang.language.architecture.dynamic.Frame;
+import org.panda_lang.language.interpreter.source.Localizable;
 import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.language.architecture.dynamic.AbstractFrame;
 
@@ -26,8 +27,8 @@ public final class StaticScope extends AbstractFramedScope implements Standardiz
 
     private final Map<VariableData, Object> variables;
 
-    public StaticScope(Map<VariableData, Object> variables) {
-        super(null);
+    public StaticScope(Localizable localizable, Map<VariableData, Object> variables) {
+        super(localizable);
         this.variables = variables;
         variables.forEach((data, value) -> createVariable(data));
     }

@@ -69,6 +69,11 @@ final class ConditionalParser {
         }
 
         ConditionalBlock previousConditionalBlock = (ConditionalBlock) previous;
+
+        while (previousConditionalBlock.getElseBlock() != null) {
+            previousConditionalBlock = previousConditionalBlock.getElseBlock();
+        }
+
         previousConditionalBlock.setElseBlock(conditionalBlock);
     }
 

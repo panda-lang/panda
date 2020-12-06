@@ -46,6 +46,11 @@ final class Run {
 
         for (File ownerDirectory : owners) {
             for (File moduleDirectory : Objects.requireNonNull(ownerDirectory.listFiles())) {
+                if (!new File(moduleDirectory, PackageManagerConstants.PACKAGE_INFO).exists()) {
+                    manager.getLogger().debug("Module located in " + moduleDirectory + " does not contain package info");
+                    continue;
+                }
+
                 PackageManagerUtils.loadToEnvironment(environment, moduleDirectory).onError(error -> {
                     throw new PandaFrameworkException("Cannot load package: " + error);
                 });

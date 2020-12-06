@@ -30,7 +30,7 @@ import org.panda_lang.language.runtime.Result;
 final class ConditionalBlock extends AbstractBlock implements ControlledScope {
 
     private final Expression condition;
-    private Scope elseBlock;
+    private ConditionalBlock elseBlock;
 
     public ConditionalBlock(Scope parent, Localizable localizable, Expression condition) {
         super(parent, localizable);
@@ -65,8 +65,16 @@ final class ConditionalBlock extends AbstractBlock implements ControlledScope {
         return current && otherwise;
     }
 
-    public void setElseBlock(Scope elseBlock) {
+    public void setElseBlock(ConditionalBlock elseBlock) {
+        if (this.elseBlock != null) {
+            throw new PandaParserException("Else block already set");
+        }
+
         this.elseBlock = elseBlock;
+    }
+
+    public ConditionalBlock getElseBlock() {
+        return elseBlock;
     }
 
 }

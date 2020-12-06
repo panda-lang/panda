@@ -36,6 +36,7 @@ import org.panda_lang.language.interpreter.parser.stage.PandaStageManager;
 import org.panda_lang.language.interpreter.parser.stage.Phases;
 import org.panda_lang.language.interpreter.parser.stage.StageService;
 import org.panda_lang.language.interpreter.source.PandaSourceService;
+import org.panda_lang.language.interpreter.token.PandaLocation;
 import org.panda_lang.panda.language.architecture.PandaApplication;
 import org.panda_lang.panda.language.architecture.PandaEnvironment;
 import org.panda_lang.panda.language.architecture.PandaScript;
@@ -84,7 +85,7 @@ public final class PandaContextUtils {
         .withScript(script)
         .toContext();
 
-        StandardizedFramedScope scope = new StaticScope(variablesSupplier.apply(context));
+        StandardizedFramedScope scope = new StaticScope(PandaLocation.unknownLocation("stub-context"), variablesSupplier.apply(context));
         return context.forkCreator().withScope(scope);
     }
 
