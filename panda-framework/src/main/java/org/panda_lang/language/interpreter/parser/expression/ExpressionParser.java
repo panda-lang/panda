@@ -16,6 +16,7 @@
 
 package org.panda_lang.language.interpreter.parser.expression;
 
+import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.interpreter.parser.Contextual;
 import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.token.SourceStream;
@@ -35,9 +36,9 @@ public interface ExpressionParser extends Parser {
      * @param streamable the source with expression
      * @param settings the settings to use
      * @return the parsed expression wrapped into the transaction
-     * @see org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction
+     * @see org.panda_lang.language.architecture.expression.Expression
      */
-    ExpressionTransaction parse(Contextual<?> context, Streamable streamable, ExpressionParserSettings settings);
+    Expression parse(Contextual<?> context, Streamable streamable, ExpressionParserSettings settings);
 
     /**
      * Try to parse expression
@@ -47,7 +48,7 @@ public interface ExpressionParser extends Parser {
      * @param settings the settings to use
      * @return the parsed expression wrapped into the transaction or nothing
      */
-    Option<ExpressionTransaction> parseSilently(Contextual<?> context, Streamable streamable, ExpressionParserSettings settings);
+    Option<Expression> parseSilently(Contextual<?> context, Streamable streamable, ExpressionParserSettings settings);
 
     /**
      * Utility method to call
@@ -56,7 +57,7 @@ public interface ExpressionParser extends Parser {
      *
      * @see #parseSilently(org.panda_lang.language.interpreter.parser.Contextual, org.panda_lang.language.interpreter.token.Streamable, ExpressionParserSettings)
      */
-    default Option<ExpressionTransaction> parseSilently(Contextual<?> context, Streamable streamable) {
+    default Option<Expression> parseSilently(Contextual<?> context, Streamable streamable) {
         return parseSilently(context, streamable, ExpressionParserSettings.DEFAULT);
     }
 
@@ -67,10 +68,10 @@ public interface ExpressionParser extends Parser {
      * @param source the synchronized source that contain
      * @return the parsed expression wrapped into the transaction
      */
-    default ExpressionTransaction parse(Contextual<?> context, SynchronizedSource source) {
+    default Expression parse(Contextual<?> context, SynchronizedSource source) {
         SourceStream stream = source.toStream();
 
-        ExpressionTransaction expression = parse(context, stream, ExpressionParserSettings.DEFAULT);
+        Expression expression = parse(context, stream, ExpressionParserSettings.DEFAULT);
         source.setIndex(source.getIndex() + stream.getReadLength());
 
         return expression;
@@ -83,7 +84,7 @@ public interface ExpressionParser extends Parser {
      *
      * @see #parse(org.panda_lang.language.interpreter.parser.Contextual, org.panda_lang.language.interpreter.token.Streamable, ExpressionParserSettings)
      */
-    default ExpressionTransaction parse(Contextual<?> context, Streamable streamable) {
+    default Expression parse(Contextual<?> context, Streamable streamable) {
         return parse(context, streamable, ExpressionParserSettings.DEFAULT);
     }
 

@@ -16,7 +16,6 @@
 
 package org.panda_lang.language.interpreter.pattern.functional;
 
-import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.Snippetable;
 import org.panda_lang.language.interpreter.token.Token;

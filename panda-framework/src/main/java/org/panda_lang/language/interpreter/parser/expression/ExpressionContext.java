@@ -18,11 +18,9 @@ package org.panda_lang.language.interpreter.parser.expression;
 
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.interpreter.parser.Contextual;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction.Commit;
 import org.panda_lang.language.interpreter.token.Snippetable;
 import org.panda_lang.language.interpreter.token.SynchronizedSource;
 
-import java.util.List;
 import java.util.Stack;
 
 /**
@@ -45,13 +43,6 @@ public interface ExpressionContext<T> extends Contextual<T>, Snippetable {
     Expression peekExpression();
 
     /**
-     * Register commit in the transaction
-     *
-     * @param commit the commit to save
-     */
-    void commit(Commit commit);
-
-    /**
      * Check if context contains any expressions on stack
      *
      * @return true if stack contains some expressions
@@ -64,13 +55,6 @@ public interface ExpressionContext<T> extends Contextual<T>, Snippetable {
      * @return the synchronized source
      */
     SynchronizedSource getSynchronizedSource();
-
-    /**
-     * Get commits
-     *
-     * @return list of commits
-     */
-    List<Commit> getCommits();
 
     /**
      * Get errors

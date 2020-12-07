@@ -19,13 +19,10 @@ package org.panda_lang.language.interpreter.parser.expression;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.Contextual;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction.Commit;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.Snippetable;
 import org.panda_lang.language.interpreter.token.SynchronizedSource;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
 
 final public class PandaExpressionContext<T> implements ExpressionContext<T> {
@@ -35,7 +32,6 @@ final public class PandaExpressionContext<T> implements ExpressionContext<T> {
     private final SynchronizedSource synchronizedSource;
     private final Stack<Expression> results = new Stack<>();
     private final Stack<ExpressionResult> errors = new Stack<>();
-    private final List<Commit> commits = new ArrayList<>(1);
 
     public PandaExpressionContext(ExpressionParser parser, Contextual<T> context, Snippetable source) {
         this.parser = parser;
@@ -54,11 +50,6 @@ final public class PandaExpressionContext<T> implements ExpressionContext<T> {
     }
 
     @Override
-    public void commit(Commit commit) {
-        commits.add(commit);
-    }
-
-    @Override
     public boolean hasResults() {
         return !this.getResults().isEmpty();
     }
@@ -66,11 +57,6 @@ final public class PandaExpressionContext<T> implements ExpressionContext<T> {
     @Override
     public SynchronizedSource getSynchronizedSource() {
         return synchronizedSource;
-    }
-
-    @Override
-    public List<Commit> getCommits() {
-        return commits;
     }
 
     @Override

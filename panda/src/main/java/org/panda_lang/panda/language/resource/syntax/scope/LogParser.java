@@ -20,7 +20,6 @@ import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.interpreter.logging.Logger;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;

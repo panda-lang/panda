@@ -19,7 +19,6 @@ package org.panda_lang.panda.language.resource.syntax.scope.branching;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.SourceReader;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.utilities.commons.ArrayUtils;

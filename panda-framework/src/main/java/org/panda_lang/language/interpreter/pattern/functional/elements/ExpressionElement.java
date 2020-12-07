@@ -16,15 +16,15 @@
 
 package org.panda_lang.language.interpreter.pattern.functional.elements;
 
+import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
-import org.panda_lang.language.interpreter.token.SourceStream;
-import org.panda_lang.language.interpreter.pattern.functional.FunctionalPatternElementBuilder;
 import org.panda_lang.language.interpreter.pattern.functional.FunctionalData;
+import org.panda_lang.language.interpreter.pattern.functional.FunctionalPatternElementBuilder;
 import org.panda_lang.language.interpreter.token.PandaSourceStream;
+import org.panda_lang.language.interpreter.token.SourceStream;
 
-public final class ExpressionElement extends FunctionalPatternElementBuilder<ExpressionTransaction, ExpressionElement> {
+public final class ExpressionElement extends FunctionalPatternElementBuilder<Expression, ExpressionElement> {
 
     private ExpressionElement(String id) {
         super(id);
@@ -34,10 +34,10 @@ public final class ExpressionElement extends FunctionalPatternElementBuilder<Exp
             Context<?> context = data.get(FunctionalData.CONTEXT, Context.class).get();
 
             ExpressionParser parser = context.getExpressionParser();
-            ExpressionTransaction expressionTransaction = parser.parse(context, stream);
+            Expression expression = parser.parse(context, stream);
 
             source.next(stream.getReadLength());
-            return expressionTransaction;
+            return expression;
         });
     }
 

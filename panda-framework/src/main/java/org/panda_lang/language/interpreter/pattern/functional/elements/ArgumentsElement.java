@@ -16,9 +16,9 @@
 
 package org.panda_lang.language.interpreter.pattern.functional.elements;
 
+import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParserException;
 import org.panda_lang.language.interpreter.pattern.functional.FunctionalPatternElementBuilder;
 import org.panda_lang.language.interpreter.pattern.functional.FunctionalData;
@@ -27,7 +27,7 @@ import org.panda_lang.language.resource.syntax.separator.Separators;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public final class ArgumentsElement extends FunctionalPatternElementBuilder<ExpressionTransaction[], ArgumentsElement> {
+public final class ArgumentsElement extends FunctionalPatternElementBuilder<Expression[], ArgumentsElement> {
 
     protected ArgumentsElement(String id) {
         super(id);
@@ -35,7 +35,7 @@ public final class ArgumentsElement extends FunctionalPatternElementBuilder<Expr
         super.reader(((data, source) -> {
             Context<?> context = data.get(FunctionalData.CONTEXT, Context.class).get();
             ExpressionParser parser = context.getExpressionParser();
-            Collection<ExpressionTransaction> transactions = new ArrayList<>();
+            Collection<Expression> transactions = new ArrayList<>();
 
             while (source.hasNext()) {
                 try {
@@ -53,7 +53,7 @@ public final class ArgumentsElement extends FunctionalPatternElementBuilder<Expr
                 }
             }
 
-            return transactions.toArray(new ExpressionTransaction[0]);
+            return transactions.toArray(new Expression[0]);
         }));
     }
 

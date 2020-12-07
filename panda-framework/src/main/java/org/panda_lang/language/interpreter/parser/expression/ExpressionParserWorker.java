@@ -17,7 +17,6 @@
 package org.panda_lang.language.interpreter.parser.expression;
 
 import org.panda_lang.language.interpreter.parser.Contextual;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction.Commit;
 import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.utilities.commons.collection.Maps;
 
@@ -122,7 +121,6 @@ public final class ExpressionParserWorker {
 
         long time = System.nanoTime();
         int cachedIndex = context.getSynchronizedSource().getIndex();
-        int cachedCommits = context.getCommits().size();
 
         ExpressionResult result = worker.next(context, token);
         Maps.update(TIMES, subparser.name(), () -> 0L, cachedTime -> cachedTime + (System.nanoTime() - time));
@@ -130,7 +128,6 @@ public final class ExpressionParserWorker {
         // if something went wrong
         if (result == null || result.containsError()) {
             context.getSynchronizedSource().setIndex(cachedIndex);
-            rollback(context, cachedCommits);
 
             // do not override previous error
             if (result != null && error == null) {
@@ -155,7 +152,6 @@ public final class ExpressionParserWorker {
         // only one expr on stack
         if (context.hasResults()) {
             context.getSynchronizedSource().setIndex(cachedIndex);
-            rollback(context, cachedCommits);
             return false;
         }
 
@@ -170,18 +166,6 @@ public final class ExpressionParserWorker {
         }
 
         return true;
-    }
-
-    private void rollback(ExpressionContext<?> context, int cachedCommits) {
-        List<Commit> commits = context.getCommits();
-
-        if (commits.size() <= cachedCommits) {
-            return;
-        }
-
-        List<Commit> latestCommits = commits.subList(cachedCommits, commits.size());
-        latestCommits.forEach(Commit::rollback);
-        commits.removeAll(latestCommits);
     }
 
     public boolean hasError() {
