@@ -48,7 +48,7 @@ public final class LoopParser extends BlockParser<LoopBlock> {
             return Option.none();
         }
 
-        Expression loopExpression = context.getExpressionParser().parse(context, context.getStream()).getExpression();
+        Expression loopExpression = context.getExpressionParser().parse(context, context.getStream());
 
         if (!loopExpression.getKnownType().is("panda::Int")) {
             throw new PandaParserException("Loop requires number as an argument");

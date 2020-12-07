@@ -37,13 +37,13 @@ class OperationExpressionTest {
 
     @Test
     void testMathOperation() throws Exception {
-        Expression expression = PARSER.parse(PandaContextUtils.createStubContext(PandaUtils.defaultInstance(), (context -> new HashMap<>())), SOURCE).getExpression();
+        Expression expression = PARSER.parse(PandaContextUtils.createStubContext(PandaUtils.defaultInstance(), (context -> new HashMap<>())), SOURCE);
         Assertions.assertEquals((Object) 3, expression.evaluate(null, null));
     }
 
     @Test
     void test100M() throws Exception {
-        Expression expression = PARSER.parse(PandaContextUtils.createStubContext(PandaUtils.defaultInstance(), (context -> new HashMap<>())), SOURCE).getExpression();
+        Expression expression = PARSER.parse(PandaContextUtils.createStubContext(PandaUtils.defaultInstance(), (context -> new HashMap<>())), SOURCE);
         long time = System.nanoTime();
 
         for (int times = 0; times < 100_000_000; times++) {

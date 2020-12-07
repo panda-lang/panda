@@ -18,12 +18,11 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ope
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.interpreter.pattern.PatternResult;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class OperationPatternResult implements PatternResult {
+public final class OperationPatternResult {
 
     private final Snippet source;
     private final List<OperationPatternElement> elements;
@@ -46,7 +45,6 @@ public final class OperationPatternResult implements PatternResult {
         return elements.size();
     }
 
-    @Override
     public boolean isMatched() {
         return matched;
     }
@@ -63,7 +61,6 @@ public final class OperationPatternResult implements PatternResult {
         return elements;
     }
 
-    @Override
     public Snippet toSnippet() {
         return source;
     }

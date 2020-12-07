@@ -41,7 +41,7 @@ final class ConditionalParser {
         }
 
         Expression condition = hasExpression
-                ? context.getExpressionParser().parse(context, context.getStream()).getExpression()
+                ? context.getExpressionParser().parse(context, context.getStream())
                 : new PandaExpression(context.getTypeLoader().requireType("panda::Bool").getSignature(), true);
 
         Option<Snippet> body = sourceReader.readBody();

@@ -174,7 +174,7 @@ public final class Repl {
         Expression expression;
 
         try {
-            expression = expressionParser.parse(context, expressionSource).getExpression();
+            expression = expressionParser.parse(context, expressionSource);
         } catch (Exception e) {
             exceptionListener.onException(e, false);
             return ReplResult.NONE;

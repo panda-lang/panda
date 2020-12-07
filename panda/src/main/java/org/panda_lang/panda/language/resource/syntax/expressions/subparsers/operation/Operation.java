@@ -59,10 +59,9 @@ public final class Operation {
         }
 
         Snippet source = element.getExpression();
-        ExpressionTransaction transaction = parser.parse(context, source);
-        expressionContext.commit(transaction::rollback);
+        Expression expression = parser.parse(context, source);
 
-        return new OperationElement(transaction.getExpression());
+        return new OperationElement(expression);
     }
 
     public static Operation of(ExpressionParser parser, Context<?> context, ExpressionContext expressionContext, OperationPatternResult result) {

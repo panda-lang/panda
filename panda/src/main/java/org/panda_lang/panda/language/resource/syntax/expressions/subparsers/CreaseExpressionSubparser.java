@@ -64,16 +64,10 @@ public final class CreaseExpressionSubparser implements ExpressionSubparser {
             }
 
             boolean post = context.hasResults();
-            Expression expression;
 
-            if (post) {
-                expression = context.popExpression();
-            }
-            else {
-                ExpressionTransaction transaction = context.getParser().parse(context.toContext(), context.getSynchronizedSource());
-                context.commit(transaction::rollback);
-                expression = transaction.getExpression();
-            }
+            Expression expression = post
+                    ? context.popExpression()
+                    :context.getParser().parse(context.toContext(), context.getSynchronizedSource());
 
             if (!(expression instanceof AccessorExpression)) {
                 return ExpressionResult.error("Expression is not associated with any variable", token);

@@ -78,21 +78,21 @@ public final class ForParser extends BlockParser<ForBlock> {
         Expression initialization = null;
 
         if (!initializationSource.isEmpty()) {
-            initialization = context.getExpressionParser().parse(delegatedContext, initializationSource).getExpression();
+            initialization = context.getExpressionParser().parse(delegatedContext, initializationSource);
         }
 
         Snippet terminationSource = forEachElements[1];
         Expression termination = defaultCondition;
 
         if (!terminationSource.isEmpty()) {
-            termination = context.getExpressionParser().parse(delegatedContext, terminationSource).getExpression();
+            termination = context.getExpressionParser().parse(delegatedContext, terminationSource);
         }
 
         Snippet incrementSource = forEachElements[2];
         Expression increment = null;
 
         if (!incrementSource.isEmpty()) {
-            increment = context.getExpressionParser().parse(delegatedContext, incrementSource).getExpression();
+            increment = context.getExpressionParser().parse(delegatedContext, incrementSource);
         }
 
         ForBlock forBlock = new ForBlock(forExpressionScope, context, initialization, termination, increment);

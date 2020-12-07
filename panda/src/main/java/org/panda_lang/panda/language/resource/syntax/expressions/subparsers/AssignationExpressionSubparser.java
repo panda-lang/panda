@@ -61,7 +61,7 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
             Accessor<?> accessor = accessorExpression.getAccessor();
 
             SourceStream valueSource = context.getSynchronizedSource().getAvailableSource().toStream();
-            Expression value = context.getParser().parse(context, valueSource).getExpression();
+            Expression value = context.getParser().parse(context, valueSource);
             context.getSynchronizedSource().next(valueSource.getReadLength());
 
             if (!accessor.getSignature().isAssignableFrom(value.getSignature())) {

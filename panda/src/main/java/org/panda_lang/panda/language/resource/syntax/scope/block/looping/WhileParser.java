@@ -48,7 +48,7 @@ public final class WhileParser extends BlockParser<WhileBlock> {
             return Option.none();
         }
 
-        Expression whileCondition = context.getExpressionParser().parse(context, context.getStream()).getExpression();
+        Expression whileCondition = context.getExpressionParser().parse(context, context.getStream());
 
         if (!whileCondition.getKnownType().is("panda::Bool")) {
             throw new PandaParserFailure(context, context.getSource(), "Loop requires boolean as an argument");

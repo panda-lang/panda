@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
@@ -57,10 +58,8 @@ public final class SectionExpressionSubparser implements ExpressionSubparser {
                 return ExpressionResult.error("Expression expected", token);
             }
 
-            ExpressionTransaction expressionTransaction = context.getParser().parse(context.toContext(), section.getContent());
-            context.commit(expressionTransaction::rollback);
-
-            return ExpressionResult.of(expressionTransaction.getExpression());
+            Expression expression = context.getParser().parse(context.toContext(), section.getContent());
+            return ExpressionResult.of(expression);
         }
 
     }

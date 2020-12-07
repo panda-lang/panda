@@ -60,7 +60,7 @@ public final class ForEachParser extends BlockParser<ForEachBlock> {
             );
         }
 
-        Expression iterableExpression = context.getExpressionParser().parse(context, elements[1]).getExpression();
+        Expression iterableExpression = context.getExpressionParser().parse(context, elements[1]);
 
         if (!context.getTypeLoader().requireType("panda::Iterable").isAssignableFrom(iterableExpression.getKnownType())) {
             throw new PandaParserException("ForEach requires Iterable value");

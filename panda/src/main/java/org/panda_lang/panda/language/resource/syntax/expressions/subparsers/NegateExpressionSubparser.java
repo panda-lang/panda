@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
@@ -57,10 +58,8 @@ public final class NegateExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            ExpressionTransaction transaction = context.getParser().parse(context.toContext(), context.getSynchronizedSource());
-            context.commit(transaction::rollback);
-
-            return ExpressionResult.of(new NegateLogicalExpression(transaction.getExpression()).toExpression());
+            Expression expression = context.getParser().parse(context.toContext(), context.getSynchronizedSource());
+            return ExpressionResult.of(new NegateLogicalExpression(expression).toExpression());
         }
 
     }

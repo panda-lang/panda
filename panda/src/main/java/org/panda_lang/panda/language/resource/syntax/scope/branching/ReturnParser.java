@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.resource.syntax.scope.branching;
 
+import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.SourceReader;
@@ -46,8 +47,8 @@ public final class ReturnParser implements ContextParser<Object, Return> {
             return Option.none();
         }
 
-        Option<ExpressionTransaction> returnValue = sourceReader.optionalRead(() -> context.getExpressionParser().parseSilently(context, context.getStream()));
-        Return statement = new Return(context.getSource().getLocation(), returnValue.map(ExpressionTransaction::getExpression).getOrNull());
+        Option<Expression> returnValue = sourceReader.optionalRead(() -> context.getExpressionParser().parseSilently(context, context.getStream()));
+        Return statement = new Return(context.getSource().getLocation(), returnValue.getOrNull());
         context.getScope().addStatement(statement);
 
         return Option.ofCompleted(statement);

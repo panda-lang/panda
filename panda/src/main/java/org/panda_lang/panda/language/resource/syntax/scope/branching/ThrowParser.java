@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.resource.syntax.scope.branching;
 
+import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.SourceReader;
@@ -46,8 +47,8 @@ public final class ThrowParser implements ContextParser<Object, Throw> {
             return Option.none();
         }
 
-        ExpressionTransaction throwValue = context.getExpressionParser().parse(context, context.getStream());
-        Throw statement = new Throw(context.getSource().getLocation(), throwValue.getExpression());
+        Expression throwValue = context.getExpressionParser().parse(context, context.getStream());
+        Throw statement = new Throw(context.getSource().getLocation(), throwValue);
         context.getScope().addStatement(statement);
 
         return Option.ofCompleted(statement);

@@ -104,7 +104,7 @@ public final class FieldParser implements ContextParser<TypeContext, TypeField> 
         type.getFields().declare(field);
 
         if (sourceReader.optionalRead(() -> sourceReader.read(Operators.ASSIGNMENT)).isDefined()) {
-            Expression assignedValue = context.getExpressionParser().parse(context, context.getStream()).getExpression();
+            Expression assignedValue = context.getExpressionParser().parse(context, context.getStream());
 
             context.getStageService().delegate("verify field values", Phases.VERIFY, Layer.NEXT_DEFAULT, verifyPhase -> {
                 if (!field.getReturnType().isAssignableFrom(assignedValue.getSignature())) {

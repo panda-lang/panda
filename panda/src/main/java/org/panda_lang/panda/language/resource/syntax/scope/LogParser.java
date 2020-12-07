@@ -17,7 +17,6 @@
 package org.panda_lang.panda.language.resource.syntax.scope;
 
 import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.interpreter.logging.Logger;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.pool.Targets;
@@ -48,12 +47,8 @@ public final class LogParser implements ContextParser<Object, LogStatement> {
             return Option.none();
         }
 
-        Expression[] expressions = sourceReader.readExpressions(context).stream()
-                .map(ExpressionTransaction::getExpression)
-                .toArray(Expression[]::new);
-
-        Logger logger = context.getLogger();
-        LogStatement statement = new LogStatement(context.getSource(), logger, expressions);
+        Expression[] expressions = sourceReader.readExpressions(context).toArray(new Expression[0]);
+        LogStatement statement = new LogStatement(context.getSource(), context.getLogger(), expressions);
         context.getScope().addStatement(statement);
 
         return Option.ofCompleted(statement);

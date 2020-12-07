@@ -82,7 +82,7 @@ class ExpressionParserTestBootstrap {
                 .withStream(stream)
                 .toContext();
 
-        Expression expression = PARSER.parse(CONTEXT, stream).getExpression();
+        Expression expression = PARSER.parse(CONTEXT, stream);
 
         if (stream.hasUnreadSource()) {
             throw new PandaFrameworkException("Unread source: " + stream.toSnippet());

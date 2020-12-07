@@ -55,7 +55,7 @@ public final class StandaloneExpressionParser implements ContextParser<Object, S
                 .withStream(new PandaSourceStream(context.getSource()))
                 .toContext();
 
-        Expression expression = delegatedContext.getExpressionParser().parse(delegatedContext, delegatedContext.getStream(), SETTINGS).getExpression();
+        Expression expression = delegatedContext.getExpressionParser().parse(delegatedContext, delegatedContext.getStream(), SETTINGS);
         context.getStream().dispose(delegatedContext.getStream().getReadLength());
 
         StandaloneExpression statement = new StandaloneExpression(delegatedContext, expression);
