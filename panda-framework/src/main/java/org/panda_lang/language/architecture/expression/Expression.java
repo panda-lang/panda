@@ -16,12 +16,14 @@
 
 package org.panda_lang.language.architecture.expression;
 
+import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.Typed;
 import org.panda_lang.language.architecture.type.signature.Signed;
 
 /**
  * Represents dynamic values
  */
-public interface Expression extends Signed, ExpressionEvaluator, Expressible {
+public interface Expression extends Typed, Signed, Expressible, ExpressionEvaluator {
 
     /**
      * Get expression type
@@ -39,10 +41,14 @@ public interface Expression extends Signed, ExpressionEvaluator, Expressible {
         return getSignature() == null;
     }
 
-
     @Override
     default Expression toExpression() {
         return this;
+    }
+
+    @Override
+    default Type toType() {
+        return getKnownType();
     }
 
 }

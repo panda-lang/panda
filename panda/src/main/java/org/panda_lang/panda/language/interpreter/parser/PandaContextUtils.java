@@ -42,6 +42,7 @@ import org.panda_lang.panda.language.architecture.PandaEnvironment;
 import org.panda_lang.panda.language.architecture.PandaScript;
 import org.panda_lang.panda.language.resource.ResourcesLoader;
 import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressions;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.io.File;
 import java.util.Collections;
@@ -74,6 +75,7 @@ public final class PandaContextUtils {
         script.getModule().complete(new PandaModule("stub-module"));
 
         Context<?> context = new PandaContextCreator<>(
+                Option.none(),
                 environment,
                 new StageService(new PandaStageManager().initialize(Phases.getValues())),
                 new PandaPoolService(),

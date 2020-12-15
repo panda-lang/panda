@@ -24,12 +24,14 @@ import org.panda_lang.language.interpreter.source.Localizable;
 import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.utilities.commons.text.Joiner;
 
+import java.util.List;
+
 final class LogStatement extends AbstractExecutableStatement {
 
     private final Logger logger;
-    private final Expression[] expressions;
+    private final List<Expression> expressions;
 
-    LogStatement(Localizable localizable, Logger logger, Expression[] expressions) {
+    LogStatement(Localizable localizable, Logger logger, List<Expression> expressions) {
         super(localizable);
         this.logger = logger;
         this.expressions = expressions;

@@ -28,6 +28,8 @@ import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.Result;
 
+import java.util.List;
+
 public final class ExpressionUtils {
 
     private static final Process PROCESS = new PandaProcess(null, null);
@@ -58,11 +60,11 @@ public final class ExpressionUtils {
      * @return array of values
      * @throws Exception if something happen
      */
-    public static Object[] evaluate(ProcessStack stack, Object instance, Expression... expressions) throws Exception {
-        Object[] values = new Object[expressions.length];
+    public static Object[] evaluate(ProcessStack stack, Object instance, List<? extends Expression> expressions) throws Exception {
+        Object[] values = new Object[expressions.size()];
 
         for (int index = 0; index < values.length; index++) {
-            values[index] = expressions[index].evaluate(stack, instance);
+            values[index] = expressions.get(index).evaluate(stack, instance);
         }
 
         return values;

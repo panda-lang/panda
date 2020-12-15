@@ -28,20 +28,19 @@ import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.resource.syntax.separator.Separators;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public final class ArgumentsParser implements Parser {
-
-    private static final Expression[] EMPTY = new Expression[0];
 
     @Override
     public String name() {
         return "arguments";
     }
 
-    public Expression[] parse(Contextual<?> context, Snippet snippet) {
+    public List<Expression> parse(Contextual<?> context, Snippet snippet) {
         if (snippet.isEmpty()) {
-            return EMPTY;
+            return Collections.emptyList();
         }
 
         ExpressionParser expressionParser = context.toContext().getExpressionParser();
@@ -65,7 +64,7 @@ public final class ArgumentsParser implements Parser {
             }
         }
 
-        return expressions.toArray(EMPTY);
+        return expressions;
     }
 
 }

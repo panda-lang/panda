@@ -18,11 +18,11 @@ package org.panda_lang.language.architecture.type.generator;
 
 import org.panda_lang.language.FrameworkController;
 import org.panda_lang.language.architecture.module.TypeLoader;
-import org.panda_lang.language.architecture.type.member.method.PandaMethod;
-import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.member.MemberInvoker;
+import org.panda_lang.language.architecture.type.member.method.PandaMethod;
 import org.panda_lang.language.architecture.type.member.method.TypeMethod;
+import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
 import org.panda_lang.language.runtime.PandaRuntimeException;
 
 import java.lang.reflect.Array;
@@ -30,6 +30,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.security.InvalidParameterException;
+import java.util.List;
 
 final class MethodGenerator {
 
@@ -50,7 +51,6 @@ final class MethodGenerator {
     }
 
     protected TypeMethod generate(TypeLoader typeLoader) {
-        PropertyParameter[] mappedParameters = TypeGeneratorUtils.toParameters(generator, typeLoader, type.getModule(), method.getParameters());
         // TODO: Generate bytecode
         method.setAccessible(true);
 
@@ -107,6 +107,8 @@ final class MethodGenerator {
                 throw e;
             }
         };
+
+        List<? extends PropertyParameter> mappedParameters = TypeGeneratorUtils.toParameters(generator, typeLoader, type.getModule(), method.getParameters());
 
         return PandaMethod.builder()
                 .name(method.getName())

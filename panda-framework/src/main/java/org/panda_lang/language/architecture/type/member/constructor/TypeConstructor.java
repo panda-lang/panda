@@ -16,13 +16,13 @@
 
 package org.panda_lang.language.architecture.type.member.constructor;
 
-import org.panda_lang.language.architecture.type.member.Member;
+import org.panda_lang.language.architecture.type.member.ParametrizedMember;
 import org.panda_lang.utilities.commons.function.Option;
 
 /**
  * Represents constructor property
  */
-public interface TypeConstructor extends Member {
+public interface TypeConstructor extends ParametrizedMember {
 
     /**
      * Get base call expressions.

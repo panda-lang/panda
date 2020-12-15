@@ -16,34 +16,29 @@
 
 package org.panda_lang.language.architecture.type.member.method;
 
-import org.panda_lang.language.architecture.type.Adjustment;
-import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.State;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.signature.SignatureMatcher;
+import org.panda_lang.language.architecture.type.Typed;
 import org.panda_lang.language.architecture.type.member.AbstractMembers;
-import org.panda_lang.language.architecture.type.member.parameter.ParameterUtils;
 import org.panda_lang.utilities.commons.function.Option;
-import org.panda_lang.language.architecture.expression.Expression;
 
 import java.util.List;
 
 public final class PandaMethods extends AbstractMembers<TypeMethod> implements Methods {
-
-    private static final SignatureMatcher<TypeMethod> MATCHER = new SignatureMatcher<>();
 
     public PandaMethods(Type type) {
         super(TypeMethod.class, type);
     }
 
     @Override
-    public Option<TypeMethod> getMethod(String name, Signature[] parameters) {
-        return MATCHER.match(getPropertiesLike(name), parameters, null).map(Adjustment::getExecutable);
-    }
+    public Option<TypeMethod> getMethod(String name, List<? extends Typed> types) {
+        for (TypeMethod typeMethod : getPropertiesLike(name)) {
+            if (typeMethod.isInvokableBy(types)) {
+                return Option.of(typeMethod);
+            }
+        }
 
-    @Override
-    public Option<Adjustment<TypeMethod>> getAdjustedArguments(String name, Expression[] arguments) {
-        return MATCHER.match(getPropertiesLike(name), ParameterUtils.toTypes(arguments), arguments);
+        return Option.none();
     }
 
     @Override

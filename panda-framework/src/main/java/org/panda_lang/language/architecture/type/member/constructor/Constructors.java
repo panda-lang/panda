@@ -16,11 +16,11 @@
 
 package org.panda_lang.language.architecture.type.member.constructor;
 
-import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.architecture.type.Adjustment;
-import org.panda_lang.language.architecture.type.signature.Signature;
+import org.panda_lang.language.architecture.type.Typed;
 import org.panda_lang.language.architecture.type.member.Members;
 import org.panda_lang.utilities.commons.function.Option;
+
+import java.util.List;
 
 /**
  * Container for constructors
@@ -28,19 +28,11 @@ import org.panda_lang.utilities.commons.function.Option;
 public interface Constructors extends Members<TypeConstructor> {
 
     /**
-     * Adjust property to the given arguments (with varargs support)
-     *
-     * @param arguments arguments to match and adjust
-     * @return the adjusted executable
-     */
-    Option<Adjustment<TypeConstructor>> getAdjustedConstructor(Expression[] arguments);
-
-    /**
      * Get constructor that fits to the given types
      *
      * @param types types to search for
      * @return the result constructor
      */
-    Option<TypeConstructor> getConstructor(Signature[] types);
+    Option<TypeConstructor> getConstructor(List<? extends Typed> types);
 
 }

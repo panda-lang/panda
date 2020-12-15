@@ -16,11 +16,11 @@
 
 package org.panda_lang.language.architecture.type.member.method;
 
-import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.architecture.type.Adjustment;
-import org.panda_lang.language.architecture.type.signature.Signature;
+import org.panda_lang.language.architecture.type.Typed;
 import org.panda_lang.language.architecture.type.member.Members;
 import org.panda_lang.utilities.commons.function.Option;
+
+import java.util.List;
 
 /**
  * Container for methods
@@ -28,20 +28,12 @@ import org.panda_lang.utilities.commons.function.Option;
 public interface Methods extends Members<TypeMethod> {
 
     /**
-     * Adjust property to the given arguments
-     *
-     * @param arguments arguments to match and adjust
-     * @return the adjusted executable
-     */
-    Option<Adjustment<TypeMethod>> getAdjustedArguments(String name, Expression[] arguments);
-
-    /**
      * Get method with the given name and types
      *
      * @param name the name to search for
-     * @param parameters the parameter types to search for
+     * @param types the parameter types to search for
      * @return the found method
      */
-    Option<TypeMethod> getMethod(String name, Signature[] parameters);
+    Option<TypeMethod> getMethod(String name, List<? extends Typed> types);
 
 }

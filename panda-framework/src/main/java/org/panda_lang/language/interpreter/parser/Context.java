@@ -29,6 +29,7 @@ import org.panda_lang.language.interpreter.parser.stage.StageService;
 import org.panda_lang.language.interpreter.source.Localizable;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.SourceStream;
+import org.panda_lang.utilities.commons.function.Option;
 
 /**
  * Component based set of data used during the interpretation process
@@ -67,5 +68,7 @@ public interface Context<T> extends Contextual<T>, Localizable, LoggerHolder {
     StageService getStageService();
 
     Environment getEnvironment();
+
+    Option<Context<?>> getParentContext();
 
 }

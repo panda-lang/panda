@@ -27,6 +27,8 @@ import org.panda_lang.utilities.commons.collection.Component;
 import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
 
+import java.util.List;
+
 public final class LogParser implements ContextParser<Object, LogStatement> {
 
     @Override
@@ -47,7 +49,7 @@ public final class LogParser implements ContextParser<Object, LogStatement> {
             return Option.none();
         }
 
-        Expression[] expressions = sourceReader.readExpressions(context).toArray(new Expression[0]);
+        List<Expression> expressions = sourceReader.readExpressions(context);
         LogStatement statement = new LogStatement(context.getSource(), context.getLogger(), expressions);
         context.getScope().addStatement(statement);
 

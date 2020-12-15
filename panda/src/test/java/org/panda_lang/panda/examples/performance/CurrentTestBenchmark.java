@@ -44,6 +44,8 @@ import java.util.concurrent.TimeUnit;
  * Java 14
  * CurrentTestBenchmark.currentTest  thrpt    2  0,033          ops/ms
  *
+ * 0.2.0-alpha and Java 15
+ * CurrentTestBenchmark.currentTest  thrpt    2  0,035          ops/ms
  */
 @Fork(value = 1)
 @Warmup(iterations = 1)

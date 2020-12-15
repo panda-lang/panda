@@ -20,15 +20,17 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.expression.ExpressionEvaluator;
 import org.panda_lang.language.architecture.expression.ExpressionUtils;
+import org.panda_lang.language.architecture.statement.AbstractStatement;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.runtime.ProcessStack;
-import org.panda_lang.language.architecture.statement.AbstractStatement;
+
+import java.util.List;
 
 public final class BaseCall extends AbstractStatement implements ExpressionEvaluator {
 
-    private final Expression[] arguments;
+    private final List<Expression> arguments;
 
-    public BaseCall(Location location, Expression[] arguments) {
+    public BaseCall(Location location, List<Expression> arguments) {
         super(location);
         this.arguments = arguments;
     }
@@ -38,7 +40,7 @@ public final class BaseCall extends AbstractStatement implements ExpressionEvalu
         return ExpressionUtils.evaluate(stack, instance, arguments);
     }
 
-    public Expression[] getArguments() {
+    public List<Expression> getArguments() {
         return arguments;
     }
 

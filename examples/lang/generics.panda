@@ -1,0 +1,9 @@
+module lang
+
+require java:collections
+
+type Foo<V> { }
+
+main {
+    Foo<String> genericType = new Foo<String>()
+}

@@ -16,13 +16,14 @@
 
 package org.panda_lang.panda.language.resource.syntax.type;
 
+import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.TypeContext;
 import org.panda_lang.language.architecture.type.member.constructor.ConstructorScope;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.pool.Targets;
-import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.resource.syntax.literal.Literals;
 import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ArgumentsParser;
@@ -30,6 +31,8 @@ import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.collection.Component;
 import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
+
+import java.util.List;
 
 public final class SelfConstructorParser implements ContextParser<TypeContext, SelfConstructor> {
 
@@ -53,7 +56,8 @@ public final class SelfConstructorParser implements ContextParser<TypeContext, S
             return Option.none();
         }
 
-        Option<Snippet> arguments = sourceReader.readArguments();
+        Option<List<Expression>> arguments = sourceReader.readArguments()
+                .map(source -> ARGUMENTS_PARSER.parse(context, source));
 
         if (arguments.isEmpty()) {
             return Option.none();
@@ -63,11 +67,13 @@ public final class SelfConstructorParser implements ContextParser<TypeContext, S
             throw new PandaParserFailure(context, "Cannot use constructor call outside of the constructor");
         }
 
-        return context.getSubject().getType().getConstructors().getAdjustedConstructor(ARGUMENTS_PARSER.parse(context, arguments.get()))
-                .map(constructor -> context.getScope().addStatement(new SelfConstructor(context, constructor)))
+        Type type = context.getSubject().getType();
+
+        return type.getConstructors().getConstructor(arguments.get())
+                .map(constructor -> context.getScope().addStatement(new SelfConstructor(context, constructor, arguments.get())))
                 .map(Completable::completed)
                 .onEmpty(() -> {
-                    throw new PandaParserFailure(context, arguments.get(), "Type does not contain constructor with requested parameter types");
+                    throw new PandaParserFailure(context, sourceReader, "Type does not contain constructor with requested parameter types");
                 });
     }
 

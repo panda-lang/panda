@@ -14,23 +14,26 @@
  * limitations under the License.
  */
 
-package org.panda_lang.language.architecture.type;
+package org.panda_lang.language.architecture.type.signature;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.architecture.type.member.Member;
+import org.panda_lang.language.architecture.type.member.ParametrizedMember;
+
+import java.util.List;
 
 /**
  * Container for arguments adjusted to the property signature
  *
  * @param <T> generic type of property
  */
-public class Adjustment<T extends Member> {
+public class AdjustedMember<T extends ParametrizedMember> implements Signed {
 
+    private final Signature signature;
     private final T executable;
-    private final Expression[] arguments;
+    private final List<Expression> arguments;
 
-    public Adjustment(T executable, @Nullable Expression[] arguments) {
+    public AdjustedMember(Signature signature, T executable, List<Expression> arguments) {
+        this.signature = signature;
         this.executable = executable;
         this.arguments = arguments;
     }
@@ -40,9 +43,8 @@ public class Adjustment<T extends Member> {
      *
      * @return the array of arguments
      */
-    public Expression[] getArguments() {
+    public List<Expression> getArguments() {
         return arguments;
-
     }
 
     /**
@@ -52,6 +54,11 @@ public class Adjustment<T extends Member> {
      */
     public T getExecutable() {
         return executable;
+    }
+
+    @Override
+    public Signature getSignature() {
+        return signature;
     }
 
 }

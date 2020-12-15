@@ -20,12 +20,11 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.expression.StaticExpression;
 import org.panda_lang.language.architecture.expression.ThisExpression;
-import org.panda_lang.language.architecture.type.Adjustment;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.TypeExecutableExpression;
 import org.panda_lang.language.architecture.type.TypedUtils;
 import org.panda_lang.language.architecture.type.VisibilityComparator;
 import org.panda_lang.language.architecture.type.member.method.TypeMethod;
+import org.panda_lang.language.architecture.type.signature.AdjustedExpression;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionCategory;
@@ -130,10 +129,10 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
         }
 
         private Expression parseMethod(ExpressionContext<?> context, Type type, Expression instance, TokenInfo methodName, Snippet argumentsSource) {
-            Expression[] arguments = ARGUMENT_PARSER.parse(context, argumentsSource);
-            Option<Adjustment<TypeMethod>> adjustedArguments = type.getMethods().getAdjustedArguments(methodName.getValue(), arguments);
+            List<Expression> arguments = ARGUMENT_PARSER.parse(context, argumentsSource);
+            Option<TypeMethod> matchedMethod = type.getMethods().getMethod(methodName.getValue(), arguments);
 
-            if (!adjustedArguments.isDefined()) {
+            if (!matchedMethod.isDefined()) {
                 String types = TypedUtils.toString(arguments);
 
                 List<? extends TypeMethod> propertiesLike = type.getMethods().getPropertiesLike(methodName.getValue());
@@ -152,7 +151,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
                 );
             }
 
-            TypeMethod method = adjustedArguments.get().getExecutable();
+            TypeMethod method = matchedMethod.get();
 
             if (!method.isStatic() && instance instanceof StaticExpression) {
                 throw new PandaParserFailure(context.toContext(), methodName,
@@ -167,7 +166,7 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
                 throw new PandaParserFailure(context.toContext(), methodName, issue.get(), VisibilityComparator.NOTE_MESSAGE);
             }
 
-            return new TypeExecutableExpression(instance, adjustedArguments.get());
+            return new AdjustedExpression(instance, matchedMethod.get(), arguments);
         }
 
     }

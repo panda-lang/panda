@@ -20,24 +20,26 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.dynamic.AbstractExecutableStatement;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.expression.ExpressionUtils;
-import org.panda_lang.language.architecture.type.Adjustment;
 import org.panda_lang.language.architecture.type.member.constructor.TypeConstructor;
+import org.panda_lang.language.architecture.type.signature.AdjustedMember;
 import org.panda_lang.language.interpreter.source.Localizable;
 import org.panda_lang.language.runtime.ProcessStack;
+
+import java.util.List;
 
 public final class SelfConstructor extends AbstractExecutableStatement {
 
     private final TypeConstructor constructor;
-    private final Expression[] arguments;
+    private final List<Expression> arguments;
 
-    public SelfConstructor(Localizable localizable, TypeConstructor constructor, Expression[] arguments) {
+    public SelfConstructor(Localizable localizable, TypeConstructor constructor, List<Expression> arguments) {
         super(localizable);
         this.constructor = constructor;
         this.arguments = arguments;
     }
 
-    public SelfConstructor(Localizable localizable, Adjustment<TypeConstructor> adjustment) {
-        this(localizable, adjustment.getExecutable(), adjustment.getArguments());
+    public SelfConstructor(Localizable localizable, AdjustedMember<TypeConstructor> adjustedMember) {
+        this(localizable, adjustedMember.getExecutable(), adjustedMember.getArguments());
     }
 
     @Override

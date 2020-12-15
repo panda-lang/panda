@@ -13,9 +13,11 @@ import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.Snippetable;
 import org.panda_lang.language.interpreter.token.SourceStream;
 import org.panda_lang.language.interpreter.token.Streamable;
+import org.panda_lang.utilities.commons.function.Option;
 
 public class PandaContextCreator<T> implements ContextCreator<T> {
 
+    protected final Option<Context<?>> parentContext;
     protected final Environment environment;
     protected final StageService stageService;
     protected final PoolService poolService;
@@ -31,6 +33,7 @@ public class PandaContextCreator<T> implements ContextCreator<T> {
     protected T subject;
 
     public PandaContextCreator(
+            Option<Context<?>> parentContext,
             Environment environment,
             StageService stageService,
             PoolService poolService,
@@ -38,6 +41,7 @@ public class PandaContextCreator<T> implements ContextCreator<T> {
             TypeLoader typeLoader,
             Application application) {
 
+        this.parentContext = parentContext;
         this.environment = environment;
         this.stageService = stageService;
         this.poolService = poolService;
@@ -47,8 +51,9 @@ public class PandaContextCreator<T> implements ContextCreator<T> {
     }
 
     @Override
-    public PandaContextCreator<T> fork() {
+    public PandaContextCreator<T> fork(Context<T> context) {
         PandaContextCreator<T> fork = new PandaContextCreator<>(
+                Option.of(context),
                 environment,
                 stageService,
                 poolService,

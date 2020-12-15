@@ -16,50 +16,26 @@
 
 package org.panda_lang.language.architecture.type.member;
 
-import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.Visibility;
-import org.panda_lang.language.architecture.type.member.parameter.ParameterUtils;
 import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.interpreter.source.Localizable;
 import org.panda_lang.language.interpreter.source.Location;
-import org.panda_lang.language.runtime.ProcessStack;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class AbstractMember<E extends Member> extends AbstractMetadata implements Member {
 
     private final Type type;
-    private final PropertyParameter[] parameters;
     private final Signature returnType;
-    private final MemberInvoker<E, Object> callback;
 
     protected AbstractMember(PandaParametrizedExecutableBuilder<E, ?> builder) {
         super(builder.name, builder.location, builder.visibility, builder.isNative);
 
         this.type = builder.type;
         this.returnType = builder.returnType;
-        this.parameters = builder.parameters;
-        this.callback = builder.callback;
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public Object invoke(ProcessStack stack, Object instance, Object... arguments) throws Exception {
-        return callback.invoke((E) this, stack, instance, arguments);
-    }
-
-    @Override
-    public Signature[] getParameterSignatures() {
-        return Arrays.stream(getParameters())
-                .map(PropertyParameter::getSignature)
-                .toArray(Signature[]::new);
-    }
-
-    @Override
-    public PropertyParameter[] getParameters() {
-        return parameters;
     }
 
     @Override
@@ -85,7 +61,7 @@ public abstract class AbstractMember<E extends Member> extends AbstractMetadata 
         protected Location location;
         protected MemberInvoker<E, Object> callback;
         protected Visibility visibility = Visibility.OPEN;
-        protected PropertyParameter[] parameters = ParameterUtils.PARAMETERLESS;
+        protected List<? extends PropertyParameter> parameters = Collections.emptyList();
         protected boolean isNative;
 
         public T type(Type type) {
@@ -103,13 +79,8 @@ public abstract class AbstractMember<E extends Member> extends AbstractMetadata 
             return returnThis();
         }
 
-        public T parameters(PropertyParameter... parameters) {
-            this.parameters = parameters;
-            return returnThis();
-        }
-
         public T parameters(List<? extends PropertyParameter> parameters) {
-            this.parameters = parameters.toArray(new PropertyParameter[0]);
+            this.parameters = parameters;
             return returnThis();
         }
 

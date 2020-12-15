@@ -189,7 +189,7 @@ public final class TypeParser implements ContextParser<Object, Type> {
                 if (type.getConstructors().getDeclaredProperties().isEmpty()) {
                     type.getSuperclass().toStream()
                             .flatMapStream(superSignature -> superSignature.fetchType().getConstructors().getProperties().stream())
-                            .find(constructor -> constructor.getParameters().length > 0)
+                            .find(constructor -> constructor.getParameters().size() > 0)
                             .peek(constructorWithParameters -> {
                                 throw new PandaParserFailure(context, constructorWithParameters.getLocation(),
                                         "Type " + type + " does not implement any constructor from the base type " + constructorWithParameters.getType(),

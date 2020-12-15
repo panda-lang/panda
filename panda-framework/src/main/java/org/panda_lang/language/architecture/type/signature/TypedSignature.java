@@ -26,13 +26,18 @@ public final class TypedSignature extends AbstractSignature<Reference> {
         return getReference().fetchType();
     }
 
+    @Override
+    public Type toType() {
+        return fetchType();
+    }
+
     public Reference getReference() {
         return getSubject();
     }
 
     @Override
     public String toString() {
-        return getRelation() + " : " + getSubject() + "<" + Joiner.on(", ").join(getGenerics()) + ">";
+        return getSubject() + "<" + Joiner.on(", ").join(getGenerics(), generic -> generic.getRelation() + " " + generic) + ">";
     }
 
 }

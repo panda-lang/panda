@@ -9,7 +9,7 @@ import org.panda_lang.language.interpreter.token.Streamable;
 
 public interface ContextCreator<T> extends Contextual<T> {
 
-    ContextCreator<T> fork();
+    ContextCreator<T> fork(Context<T> context);
 
     <S> ContextCreator<S> withSubject(S subject);
 

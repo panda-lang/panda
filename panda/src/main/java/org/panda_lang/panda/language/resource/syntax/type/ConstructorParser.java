@@ -24,7 +24,6 @@ import org.panda_lang.language.architecture.type.member.constructor.ConstructorS
 import org.panda_lang.language.architecture.type.member.constructor.PandaConstructor;
 import org.panda_lang.language.architecture.type.member.constructor.TypeConstructor;
 import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
-import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
@@ -40,6 +39,7 @@ import org.panda_lang.utilities.commons.collection.Component;
 import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
 
+import java.util.Collections;
 import java.util.List;
 
 public final class ConstructorParser implements ContextParser<TypeContext, ConstructorScope> {
@@ -109,7 +109,7 @@ public final class ConstructorParser implements ContextParser<TypeContext, Const
         context.getStageService().delegate("verify base call", Phases.VERIFY, Layer.NEXT_DEFAULT, verifyPhase -> {
             typeScope.getType().getSuperclass()
                     .filterNot(superclass -> superclass.fetchType().is("panda::Object"))
-                    .filterNot(superclass -> superclass.fetchType().getConstructors().getConstructor(new Signature[0]).isDefined())
+                    .filterNot(superclass -> superclass.fetchType().getConstructors().getConstructor(Collections.emptyList()).isDefined())
                     .filterNot(superclass -> constructorScope.getBaseCall().isDefined())
                     .peek(superclass -> {
                         throw new PandaParserFailure(context, context.getSource(),

@@ -46,6 +46,7 @@ import org.panda_lang.utilities.commons.ObjectUtils;
 import org.panda_lang.utilities.commons.TimeUtils;
 import org.panda_lang.utilities.commons.collection.Pair;
 import org.panda_lang.utilities.commons.function.Completable;
+import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.Result;
 
 import java.util.Stack;
@@ -74,6 +75,7 @@ public final class PandaInterpreter implements Interpreter {
                 .build();
 
         Context<Object> context = new PandaContextCreator<>(
+                Option.none(),
                 environment,
                 stageService,
                 resources.getPipelinePath(),

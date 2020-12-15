@@ -112,7 +112,12 @@ public final class ReplCreator {
      */
     public Repl create() throws Exception {
         this.processSupplier = () -> new PandaProcess(context.getApplication(), replScope);
-        this.instanceSupplier = stack -> typeScope.createInstance(stack, typeScope, typeScope.getType().getConstructors().getConstructor(new Signature[0]).getOrNull(), Arrays.asList(), new Object[0]);
+
+        Type type = typeScope.getType();
+
+        this.instanceSupplier = stack -> {
+            return typeScope.createInstance(stack, typeScope, type.getConstructors().getConstructor(Collections.emptyList()).getOrNull(), Collections.emptyList(), new Object[0]);
+        };
 
         return new Repl(this);
     }

@@ -17,40 +17,12 @@
 package org.panda_lang.language.architecture.type.member;
 
 import org.panda_lang.language.architecture.type.signature.Signature;
-import org.panda_lang.language.architecture.type.TypedUtils;
-import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
-import org.panda_lang.language.runtime.ProcessStack;
 
 /**
  * ExecutableProperty is equivalent to {@link java.lang.reflect.Executable} 
  */
 public interface Member extends Metadata {
 
-    /**
-     * Invoke the executable
-     *
-     * @param stack the current process stack
-     * @param instance the current instance
-     * @param arguments arguments to use
-     * @param <T> type of expected result
-     * @return the result of executable
-     * @throws Exception if something happen
-     */
-    <T> T invoke(ProcessStack stack, Object instance, Object... arguments) throws Exception;
-
-    /**
-     * Get references to types of executable's parameters
-     *
-     * @return array of used by parameter types
-     */
-    Signature[] getParameterSignatures();
-
-    /**
-     * Get parameters used by executable
-     *
-     * @return array of used parameters
-     */
-    PropertyParameter[] getParameters();
 
     /**
      * Get return type of executable
@@ -58,10 +30,5 @@ public interface Member extends Metadata {
      * @return the return type of property
      */
     Signature getReturnType();
-
-    @Override
-    default String getName() {
-        return getSimpleName() + " (" + TypedUtils.toString(getParameters()) + ")";
-    }
 
 }

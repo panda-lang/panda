@@ -18,14 +18,11 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.architecture.module.ImportsUtils;
-import org.panda_lang.language.architecture.type.Adjustment;
 import org.panda_lang.language.architecture.type.State;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.TypeDeclarationUtils;
-import org.panda_lang.language.architecture.type.TypeExecutableExpression;
 import org.panda_lang.language.architecture.type.VisibilityComparator;
-import org.panda_lang.language.architecture.type.member.constructor.TypeConstructor;
+import org.panda_lang.language.architecture.type.signature.AdjustedExpression;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
@@ -33,15 +30,18 @@ import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.token.SourceStream;
 import org.panda_lang.language.interpreter.token.SynchronizedSource;
 import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.language.resource.syntax.separator.Separators;
+import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
+import org.panda_lang.panda.language.resource.syntax.type.SignatureParser;
 import org.panda_lang.utilities.commons.function.Option;
 
-import java.util.Arrays;
+import java.util.List;
 
 public final class ConstructorExpressionSubparser implements ExpressionSubparser {
 
@@ -67,6 +67,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
 
     private static final class ConstructorWorker extends AbstractExpressionSubparserWorker {
 
+        private static final SignatureParser SIGNATURE_PARSER = new SignatureParser();
         private static final ArgumentsParser ARGUMENT_PARSER = new ArgumentsParser();
 
         @Override
@@ -83,23 +84,24 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
                 return null;
             }
 
+            SourceStream typeStream = source.getAvailableSource().toStream();
+            PandaSourceReader sourceReader = new PandaSourceReader(typeStream);
+
             // read type
-            Option<Snippet> typeValue = TypeDeclarationUtils.readType(source.getAvailableSource());
 
-            if (typeValue.isEmpty()) {
-                return null;
+            Option<Signature> signatureValue = sourceReader.readSignature()
+                    .map(signatureSource -> SIGNATURE_PARSER.parse(null, context, signatureSource));
+
+            if (signatureValue.isEmpty()) {
+                return ExpressionResult.error("Missing type signature", source);
             }
 
-            // fetch type type and update source index
-            Snippet typeSource = typeValue.get();
-            source.setIndex(source.getIndex() + typeSource.size());
+            source.next(typeStream.getReadLength());
+            Signature signature = signatureValue.get();
 
-            /*
-            // parse if type is array
-            if (TypeDeclarationUtils.isArray(typeSource)) {
-                return parseArray(context, typeSource);
+            if (signature.isGeneric()) {
+                throw new UnsupportedOperationException("Cannot create instance of generic type"); // TODO: In fact, you should be able to this in the future
             }
-             */
 
             if (!source.hasNext()) {
                 return null;
@@ -119,21 +121,16 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             }
 
             // parse constructor call
-            Type type = ImportsUtils.getTypeOrThrow(context.toContext(), typeSource.asSource(), typeSource);
-            VisibilityComparator.requireAccess(type, context.toContext(), typeSource);
-            State.requireInstantiation(context.toContext(), type, typeSource);
+            Type type = signature.toTyped().fetchType();
+            VisibilityComparator.requireAccess(type, context.toContext(), typeStream);
+            State.requireInstantiation(context.toContext(), type, typeStream);
 
-            return parseDefault(context, type, next);
-        }
+            Snippet argsSource = next.toToken(Section.class).getContent();
+            List<Expression> arguments = ARGUMENT_PARSER.parse(context, argsSource);
 
-        private ExpressionResult parseDefault(ExpressionContext<?> context, Type type, TokenInfo section) {
-            Snippet argsSource = section.toToken(Section.class).getContent();
-            Expression[] arguments = ARGUMENT_PARSER.parse(context, argsSource);
-            Option<Adjustment<TypeConstructor>> adjustedConstructor = type.getConstructors().getAdjustedConstructor(arguments);
-
-            return adjustedConstructor
-                    .map(constructorArguments -> ExpressionResult.of(new TypeExecutableExpression(null, constructorArguments)))
-                    .orElseGet(() -> ExpressionResult.error(type.getSimpleName() + " does not have constructor with the required parameters: " + Arrays.toString(arguments), section));
+            return type.getConstructors().getConstructor(arguments)
+                    .map(constructor -> ExpressionResult.of(new AdjustedExpression(null, constructor, arguments)))
+                    .orElseGet(() -> ExpressionResult.error(type.getSimpleName() + " does not have constructor with the required parameters: " + arguments, next));
         }
 
     }

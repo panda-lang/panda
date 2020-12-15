@@ -35,6 +35,8 @@ import org.panda_lang.utilities.commons.collection.Component;
 import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
 
+import java.util.List;
+
 public final class BaseCallParser implements ContextParser<TypeContext, BaseCall> {
 
     private static final ArgumentsParser ARGUMENTS_PARSER = new ArgumentsParser();
@@ -78,11 +80,11 @@ public final class BaseCallParser implements ContextParser<TypeContext, BaseCall
             throw new PandaParserFailure(context, context.getSource(), "Missing base arguments");
         }
 
-        Expression[] expressions = ARGUMENTS_PARSER.parse(context, arguments.get());
+        List<Expression> expressions = ARGUMENTS_PARSER.parse(context, arguments.get());
         BaseCall baseCall = new BaseCall(context.toLocation(), expressions);
         parent.addStatement(baseCall);
 
-        type.getSuperclass().get().fetchType().getConstructors().getAdjustedConstructor(expressions).onEmpty(() -> {
+        type.getSuperclass().get().fetchType().getConstructors().getConstructor(expressions).onEmpty(() -> {
             throw new PandaParserFailure(context, context.getSource(), "Base type does not contain constructor with the given parameters");
         });
 

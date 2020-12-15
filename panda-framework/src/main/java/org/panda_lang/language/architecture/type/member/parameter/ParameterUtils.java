@@ -69,7 +69,7 @@ public final class ParameterUtils {
         return types;
     }
 
-    public static Class<?>[] parametersToClasses(List<PropertyParameter> parameters) {
+    public static Class<?>[] parametersToClasses(List<? extends PropertyParameter> parameters) {
         return parametersToClasses(parameters.stream());
     }
 
@@ -77,7 +77,7 @@ public final class ParameterUtils {
         return parametersToClasses(Arrays.stream(parameters));
     }
 
-    private static Class<?>[] parametersToClasses(Stream<PropertyParameter> parameterStream) {
+    private static Class<?>[] parametersToClasses(Stream<? extends PropertyParameter> parameterStream) {
         return parameterStream
                 .map(PropertyParameter::getSignature)
                 .map(Signature::toTyped)
@@ -87,7 +87,7 @@ public final class ParameterUtils {
                 .toArray(Class[]::new);
     }
 
-    public static String toString(PropertyParameter... parameters) {
+    public static String toString(List<? extends PropertyParameter> parameters) {
         return Joiner.on(", ")
                 .join(parameters, parameter -> parameter.getSignature() + " " + parameter.getName())
                 .toString();

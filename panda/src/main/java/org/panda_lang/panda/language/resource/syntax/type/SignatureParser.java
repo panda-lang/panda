@@ -38,7 +38,7 @@ public final class SignatureParser implements Parser {
                     //noinspection Convert2MethodRef
                     return Result.<Reference, GenericSignature> ok(importedType);
                 })
-                .orElseGet(() -> Result.error(new GenericSignature(parent, name, null, new Signature[0], Relation.DIRECT, signatureSource.getName())));
+                .orElseGet(() -> Result.error(new GenericSignature(context.getTypeLoader(), parent, name, null, new Signature[0], Relation.DIRECT, signatureSource.getName())));
 
         Signature[] generics = signatureSource.getGenerics().stream()
                 .map(genericSignature -> parse(parent, context, genericSignature))

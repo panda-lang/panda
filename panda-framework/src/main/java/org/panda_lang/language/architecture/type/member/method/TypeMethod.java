@@ -16,12 +16,12 @@
 
 package org.panda_lang.language.architecture.type.member.method;
 
-import org.panda_lang.language.architecture.type.member.Member;
+import org.panda_lang.language.architecture.type.member.ParametrizedMember;
 
 /**
  * Represents method property
  */
-public interface TypeMethod extends Member {
+public interface TypeMethod extends ParametrizedMember {
 
     /**
      * Check if method is abstract

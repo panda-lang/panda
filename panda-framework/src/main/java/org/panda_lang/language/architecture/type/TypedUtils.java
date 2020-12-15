@@ -22,6 +22,8 @@ import org.panda_lang.utilities.commons.text.Joiner;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class TypedUtils {
@@ -32,12 +34,8 @@ public final class TypedUtils {
         return typed.stream().map(Signed::getSignature);
     }
 
-    public static Signature[] toTypes(Signed... signed) {
-        return toTypes(Arrays.asList(signed));
-    }
-
-    public static Signature[] toTypes(Collection<? extends Signed> typed) {
-        return toTypesStream(typed).toArray(Signature[]::new);
+    public static List<Signature> toTypes(Collection<? extends Signed> typed) {
+        return toTypesStream(typed).collect(Collectors.toList());
     }
 
     public static String toString(Signed... signed) {

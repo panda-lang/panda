@@ -3,7 +3,10 @@ package org.panda_lang.language.interpreter.parser;
 import org.panda_lang.language.interpreter.source.Localizable;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.token.PandaSnippet;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.token.Snippetable;
 import org.panda_lang.language.interpreter.token.SourceStream;
+import org.panda_lang.language.interpreter.token.Streamable;
 import org.panda_lang.language.interpreter.token.Token;
 import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.interpreter.token.TokenType;
@@ -19,7 +22,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-public class SourceReader implements Localizable {
+public class SourceReader implements Localizable, Snippetable, Streamable {
 
     protected final SourceStream stream;
 
@@ -106,8 +109,20 @@ public class SourceReader implements Localizable {
     }
 
     @Override
+    public Snippet toSnippet() {
+        return stream.toSnippet();
+    }
+
+    @Override
     public Location toLocation() {
-        return stream.toLocation();
+        return stream.hasUnreadSource()
+                ? stream.toLocation()
+                : stream.getOriginalSource().toLocation();
+    }
+
+    @Override
+    public SourceStream toStream() {
+        return stream;
     }
 
     public SourceStream getStream() {

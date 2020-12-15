@@ -1,6 +1,8 @@
 package org.panda_lang.language.architecture.type.signature;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.language.architecture.module.TypeLoader;
+import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.interpreter.token.Snippetable;
 import org.panda_lang.utilities.commons.collection.Pair;
 import org.panda_lang.utilities.commons.function.Option;
@@ -8,8 +10,11 @@ import org.panda_lang.utilities.commons.text.Joiner;
 
 public final class GenericSignature extends AbstractSignature<Pair<String, Signature>> {
 
-    public GenericSignature(@Nullable Signature parent, String identifier, Signature signature, Signature[] generics, Relation relation, Snippetable source) {
+    private final TypeLoader typeLoader;
+
+    public GenericSignature(TypeLoader typeLoader, @Nullable Signature parent, String identifier, Signature signature, Signature[] generics, Relation relation, Snippetable source) {
         super(parent, new Pair<>(identifier, signature), generics, relation, source);
+        this.typeLoader = typeLoader;
     }
 
     @Override
@@ -38,6 +43,13 @@ public final class GenericSignature extends AbstractSignature<Pair<String, Signa
     public Option<Signature> getAlso() {
         Signature signature = getSubject().getValue();
         return Option.when(Relation.ALSO == signature.getRelation(), signature);
+    }
+
+    @Override
+    public Type toType() {
+        return getAny().map(Signature::toType)
+                .orElse(() -> getAlso().map(Signature::toType))
+                .orElseGet(() -> typeLoader.requireType("panda::Object"));
     }
 
     @Override

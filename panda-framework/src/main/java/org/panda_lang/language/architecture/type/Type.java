@@ -35,7 +35,7 @@ import java.util.Map;
 /**
  * Extensible owner of properties
  */
-public interface Type extends Metadata, Signed {
+public interface Type extends Metadata, Typed, Signed {
 
     /**
      * Execute all registered initializers
@@ -187,5 +187,10 @@ public interface Type extends Metadata, Signed {
      * @return the associated module
      */
     Module getModule();
+
+    @Override
+    default Type toType() {
+        return this;
+    }
 
 }

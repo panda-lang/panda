@@ -29,6 +29,7 @@ import org.panda_lang.language.interpreter.parser.stage.StageService;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.SourceStream;
+import org.panda_lang.utilities.commons.function.Option;
 
 // @formatter:off
 public class PandaContext<T> implements Context<T> {
@@ -41,12 +42,12 @@ public class PandaContext<T> implements Context<T> {
 
     @Override
     public PandaContext<T> fork() {
-        return new PandaContext<T>(creator.fork());
+        return new PandaContext<>(creator.fork(this));
     }
 
     @Override
     public ContextCreator<T> forkCreator() {
-        return creator.fork();
+        return creator.fork(this);
     }
 
     @Override
@@ -100,5 +101,8 @@ public class PandaContext<T> implements Context<T> {
 
     @Override
     public Environment getEnvironment() { return creator.environment; }
+
+    @Override
+    public Option<Context<?>> getParentContext() { return creator.parentContext; }
 
 }

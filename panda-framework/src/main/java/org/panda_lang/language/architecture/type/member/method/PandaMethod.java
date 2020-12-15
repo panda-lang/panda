@@ -16,13 +16,13 @@
 
 package org.panda_lang.language.architecture.type.member.method;
 
+import org.panda_lang.language.architecture.type.member.AbstractParametrizedMember;
 import org.panda_lang.language.architecture.type.member.MemberInvoker;
-import org.panda_lang.language.architecture.type.member.AbstractMember;
 import org.panda_lang.language.architecture.type.member.parameter.ParameterUtils;
 import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.utilities.commons.ObjectUtils;
 
-public final class PandaMethod extends AbstractMember<TypeMethod> implements TypeMethod {
+public final class PandaMethod extends AbstractParametrizedMember<TypeMethod> implements TypeMethod {
 
     private final MemberInvoker<TypeMethod, Object> methodBody;
     private final boolean isAbstract;
@@ -31,6 +31,7 @@ public final class PandaMethod extends AbstractMember<TypeMethod> implements Typ
 
     protected PandaMethod(PandaMethodBuilder builder) {
         super(builder);
+
         this.methodBody = builder.body;
         this.isAbstract = builder.isAbstract;
         this.isNative = builder.isNative;
@@ -38,7 +39,6 @@ public final class PandaMethod extends AbstractMember<TypeMethod> implements Typ
     }
 
     @Override
-    @SuppressWarnings({ "unchecked" })
     public Object invoke(ProcessStack stack, Object instance, Object... parameters) throws Exception {
         return methodBody.invoke(this, stack, instance, parameters);
     }

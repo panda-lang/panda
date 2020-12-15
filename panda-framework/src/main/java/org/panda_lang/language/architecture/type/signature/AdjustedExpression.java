@@ -14,28 +14,25 @@
  * limitations under the License.
  */
 
-package org.panda_lang.language.architecture.type;
+package org.panda_lang.language.architecture.type.signature;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.expression.ExpressionUtils;
 import org.panda_lang.language.architecture.expression.ExpressionValueType;
-import org.panda_lang.language.architecture.type.member.Member;
-import org.panda_lang.language.architecture.type.signature.Signature;
+import org.panda_lang.language.architecture.type.member.ParametrizedMember;
 import org.panda_lang.language.runtime.ProcessStack;
 
-public final class TypeExecutableExpression implements Expression {
+import java.util.List;
 
-    private final Member executable;
+public final class AdjustedExpression implements Expression {
+
+    private final ParametrizedMember member;
     private final Expression instanceExpression;
-    private final Expression[] arguments;
+    private final List<? extends Expression> arguments;
 
-    public TypeExecutableExpression(@Nullable Expression instance, Adjustment<?> adjustment) {
-        this(instance, adjustment.getExecutable(), adjustment.getArguments());
-    }
-
-    public TypeExecutableExpression(@Nullable Expression instance, Member executable, Expression[] arguments) {
-        this.executable = executable;
+    public AdjustedExpression(@Nullable Expression instance, ParametrizedMember member, List<? extends Expression> arguments) {
+        this.member = member;
         this.instanceExpression = instance;
         this.arguments = arguments;
     }
@@ -49,12 +46,12 @@ public final class TypeExecutableExpression implements Expression {
             instance = instanceExpression.evaluate(stack, instance);
         }
 
-        return executable.invoke(stack, instance, values);
+        return member.invoke(stack, instance, values);
     }
 
     @Override
     public Signature getSignature() {
-        return executable.getReturnType();
+        return member.getReturnType();
     }
 
     @Override
@@ -64,7 +61,7 @@ public final class TypeExecutableExpression implements Expression {
 
     @Override
     public String toString() {
-        return executable + " -> " + getSignature();
+        return member + " -> " + getSignature();
     }
 
 }

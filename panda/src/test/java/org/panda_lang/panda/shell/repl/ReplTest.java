@@ -27,6 +27,8 @@ import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number.PandaNumbers;
 import org.panda_lang.panda.util.PandaUtils;
 
+import java.util.Arrays;
+
 class ReplTest {
 
     @Test
@@ -42,7 +44,7 @@ class ReplTest {
                 .variable(new PandaVariableData(context.getTypeLoader().requireType(PandaNumbers.INT).getSignature(), "i"), 5)
                 .define(PandaMethod.builder()
                         .name("sqrt")
-                        .parameters(new PropertyParameterImpl(0, doubleType, "i"))
+                        .parameters(Arrays.asList(new PropertyParameterImpl(0, doubleType, "i")))
                         .customBody((method, stack, instance, arguments) -> Math.sqrt(((Number) arguments[0]).doubleValue()))
                         .returnType(doubleType)
                         .location(new PandaClassSource(ReplTest.class).toLocation())

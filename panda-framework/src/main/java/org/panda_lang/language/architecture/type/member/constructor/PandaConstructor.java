@@ -16,15 +16,15 @@
 
 package org.panda_lang.language.architecture.type.member.constructor;
 
-import org.panda_lang.language.architecture.type.member.AbstractMember;
-import org.panda_lang.language.architecture.type.member.parameter.ParameterUtils;
-import org.panda_lang.utilities.commons.function.Option;
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.language.architecture.type.member.AbstractParametrizedMember;
+import org.panda_lang.language.architecture.type.member.parameter.ParameterUtils;
 import org.panda_lang.utilities.commons.function.Lazy;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.function.Supplier;
 
-public final class PandaConstructor extends AbstractMember<TypeConstructor> implements TypeConstructor {
+public final class PandaConstructor extends AbstractParametrizedMember<TypeConstructor> implements TypeConstructor {
 
     private final @Nullable Lazy<Option<BaseCall>> baseCallArgumentsSupplier;
 

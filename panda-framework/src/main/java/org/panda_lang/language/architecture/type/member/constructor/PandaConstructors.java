@@ -16,31 +16,28 @@
 
 package org.panda_lang.language.architecture.type.member.constructor;
 
-import org.panda_lang.language.architecture.type.Adjustment;
-import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.signature.SignatureMatcher;
+import org.panda_lang.language.architecture.type.Typed;
 import org.panda_lang.language.architecture.type.member.AbstractMembers;
 import org.panda_lang.utilities.commons.function.Option;
-import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.architecture.type.TypedUtils;
+
+import java.util.List;
 
 public final class PandaConstructors extends AbstractMembers<TypeConstructor> implements Constructors {
-
-    private static final SignatureMatcher<TypeConstructor> MATCHER = new SignatureMatcher<>();
 
     public PandaConstructors(Type type) {
         super(TypeConstructor.class, type);
     }
 
     @Override
-    public Option<TypeConstructor> getConstructor(Signature[] types) {
-        return MATCHER.match(getDeclaredProperties(), types, null).map(Adjustment::getExecutable);
-    }
+    public Option<TypeConstructor> getConstructor(List<? extends Typed> types) {
+        for (TypeConstructor typeMethod : getDeclaredProperties()) {
+            if (typeMethod.isInvokableBy(types)) {
+                return Option.of(typeMethod);
+            }
+        }
 
-    @Override
-    public Option<Adjustment<TypeConstructor>> getAdjustedConstructor(Expression[] arguments) {
-        return MATCHER.match(getDeclaredProperties(), TypedUtils.toTypes(arguments), arguments);
+        return Option.none();
     }
 
 }
