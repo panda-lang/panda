@@ -134,7 +134,7 @@ public final class ClassGenerator {
                 String generatedName = method.getSimpleName().replaceAll("[^A-Za-z0-9]", "");
 
                 CtClass[] parameters = ClassPoolUtils.toCt(ParameterUtils.parametersToClasses(method.getParameters()));
-                CtMethod javaMethod = new CtMethod(getCtClass(method.getReturnType().toTyped().fetchType()), generatedName, parameters, javaType);
+                CtMethod javaMethod = new CtMethod(getCtClass(method.getReturnType().getKnownType()), generatedName, parameters, javaType);
                 javaType.addMethod(javaMethod);
 
                 if (!method.isAbstract()) {

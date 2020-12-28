@@ -1,6 +1,7 @@
 package org.panda_lang.language.architecture.type.signature;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.Snippetable;
 import org.panda_lang.utilities.commons.function.Option;
@@ -60,21 +61,26 @@ abstract class AbstractSignature<V> implements Signature {
     }
 
     @Override
-    public boolean isAssignableFrom(Signature from) {
+    public Result<? extends Signature, String> apply(Signed context) {
+        return null;
+    }
+
+    @Override
+    public boolean isAssignableFrom(Signed from) {
         if (from == null) {
             return true; // TODO: Remove nulls
         }
         
-        return from.merge(this).isOk();
+        return from.getSignature().merge(this).isOk();
     }
 
     @Override
-    public Result<? extends Signature, String> merge(Signature inheritor) {
-        if (generics.length != inheritor.getGenerics().length) {
+    public Result<? extends Signature, String> merge(Signed inheritor) {
+        if (generics.length != inheritor.getSignature().getGenerics().length) {
             return Result.error("Invalid amount of parameters in generic signature");
         }
 
-        return SignatureUtils.merge(this, inheritor);
+        return SignatureUtils.merge(this, inheritor.getSignature());
     }
 
     @Override
@@ -106,6 +112,11 @@ abstract class AbstractSignature<V> implements Signature {
         result = 31 * result + Arrays.hashCode(generics);
         result = 31 * result + relation.hashCode();
         return result;
+    }
+
+    @Override
+    public Type getKnownType() {
+        return toType();
     }
 
     @Override

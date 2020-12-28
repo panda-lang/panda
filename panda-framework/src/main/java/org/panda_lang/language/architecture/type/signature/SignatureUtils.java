@@ -128,7 +128,9 @@ final class SignatureUtils {
     public static Result<GenericSignature, String> genericToGeneric(GenericSignature root, GenericSignature inheritor) {
         switch (root.getRelation()) {
             case DIRECT:
-                return Result.error("Cannot assign " + inheritor.getLocalIdentifier() + " to " + root.getLocalIdentifier() + " directly");
+                return inheritor.getLocalIdentifier().equals(root.getLocalIdentifier())
+                        ? Result.ok(inheritor)
+                        : Result.error("Cannot assign " + inheritor.getLocalIdentifier() + " to " + root.getLocalIdentifier() + " directly");
             case ANY:
                 Signature inheritorAnySignature = inheritor.getAny().get();
 

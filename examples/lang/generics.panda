@@ -2,8 +2,20 @@ module lang
 
 require java:collections
 
-type Foo<V> { }
+type Foo<V> {
+
+    internal V value
+
+    constructor (V value) {
+        this.value = value
+    }
+
+    shared getValue () -> V {
+        return value
+    }
+}
 
 main {
-    Foo<String> genericType = new Foo<String>()
+    Foo<String> genericType = new Foo<String>('test')
+    Int invalidValue = genericType.getValue()
 }

@@ -24,7 +24,7 @@ import org.panda_lang.language.architecture.type.Type;
 public interface Signed {
 
     default Type getKnownType() {
-        return getSignature().toTyped().getReference().getType().get();
+        return getSignature().getKnownType();
     }
 
     /**

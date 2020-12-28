@@ -7,9 +7,11 @@ import org.panda_lang.utilities.commons.function.Result;
 
 public interface Signature extends Signed, Typed {
 
-    boolean isAssignableFrom(Signature inheritor);
+    Result<? extends Signature, String> apply(Signed context);
 
-    Result<? extends Signature, String> merge(Signature inheritor);
+    boolean isAssignableFrom(Signed inheritor);
+
+    Result<? extends Signature, String> merge(Signed inheritor);
 
     default Option<GenericSignature> findGeneric(GenericSignature identifier) {
         return findGeneric(identifier.getLocalIdentifier());

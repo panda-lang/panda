@@ -21,7 +21,6 @@ import org.panda_lang.language.architecture.statement.AbstractPropertyFramedScop
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.member.MemberFrameImpl;
 import org.panda_lang.language.architecture.type.signature.Signature;
-import org.panda_lang.language.architecture.type.signature.TypedSignature;
 import org.panda_lang.language.runtime.PandaRuntimeException;
 import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.text.Joiner;
@@ -80,8 +79,7 @@ public final class ParameterUtils {
     private static Class<?>[] parametersToClasses(Stream<? extends PropertyParameter> parameterStream) {
         return parameterStream
                 .map(PropertyParameter::getSignature)
-                .map(Signature::toTyped)
-                .map(TypedSignature::fetchType)
+                .map(Signature::getKnownType)
                 .map(Type::getAssociated)
                 .map(Completable::get)
                 .toArray(Class[]::new);

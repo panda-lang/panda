@@ -37,12 +37,12 @@ public final class GenericSignature extends AbstractSignature<Pair<String, Signa
 
     public Option<Signature> getAny() {
         Signature signature = getSubject().getValue();
-        return Option.when(Relation.ANY == signature.getRelation(), signature);
+        return Option.when(signature != null && Relation.ANY == signature.getRelation(), signature);
     }
 
     public Option<Signature> getAlso() {
         Signature signature = getSubject().getValue();
-        return Option.when(Relation.ALSO == signature.getRelation(), signature);
+        return Option.when(signature != null && Relation.ALSO == signature.getRelation(), signature);
     }
 
     @Override

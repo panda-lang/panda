@@ -164,7 +164,7 @@ public final class MethodParser implements ContextParser<TypeContext, TypeMethod
                 return;
             }
 
-            if (!context.getTypeLoader().requireType("panda::Void").isAssignableFrom(method.getReturnType().toTyped().fetchType()) && !methodScope.hasEffective(Returnable.class)) {
+            if (!context.getTypeLoader().requireType("panda::Void").isAssignableFrom(method.getReturnType().getKnownType()) && !methodScope.hasEffective(Returnable.class)) {
                 if (method.getReturnType().equals(type.getSignature())) {
                     methodScope.addStatement(new StandaloneExpression(context, ThisExpression.of(type.getSignature())));
                     return;
