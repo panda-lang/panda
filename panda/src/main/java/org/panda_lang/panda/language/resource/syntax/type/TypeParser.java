@@ -145,7 +145,7 @@ public final class TypeParser implements ContextParser<Object, Type> {
         module.add(reference);
 
         stageService.delegate("parse " + reference.getName() + " type signature", Phases.TYPES, Layer.NEXT_DEFAULT, signaturePhase -> {
-            Signature signature = SIGNATURE_PARSER.parse(null, context, signatureSource.get());
+            Signature signature = SIGNATURE_PARSER.parse(context, signatureSource.get(), true, null);
 
             Completable<Class<?>> associatedType = new Completable<>();
 
@@ -159,6 +159,7 @@ public final class TypeParser implements ContextParser<Object, Type> {
                     .location(context.getSource().getLocation())
                     .visibility(visibility)
                     .build();
+            futureType.complete(type);
 
             TYPE_GENERATOR.allocate(type);
             TypeScope scope = new TypeScope(reference.getLocation(), type);
@@ -170,7 +171,7 @@ public final class TypeParser implements ContextParser<Object, Type> {
 
             stageService.delegate("parse bases", Phases.TYPES, Layer.NEXT_DEFAULT, basePhase -> {
                 List<TypedSignature> bases = PandaStream.of(extendedSignatures)
-                        .map(extendedSignature -> SIGNATURE_PARSER.parse(signature, context, extendedSignature))
+                        .map(extendedSignature -> SIGNATURE_PARSER.parse(context, extendedSignature, false, signature))
                         .throwIfNot(Signature::isTyped, unsupported -> new PandaParserFailure(context, unsupported.getSource(), "Unknown type " + unsupported.toGeneric().getLocalIdentifier()))
                         .map(Signature::toTyped)
                         .collect(Collectors.toList());
@@ -184,7 +185,6 @@ public final class TypeParser implements ContextParser<Object, Type> {
 
             stageService.delegate("parse " + type.getName() + " type body", Phases.DEFAULT, Layer.NEXT_DEFAULT, bodyPhase -> {
                 typePoolParser.parse(typeContext, new PandaSourceStream(body));
-                futureType.complete(type);
 
                 if (type.getConstructors().getDeclaredProperties().isEmpty()) {
                     type.getSuperclass().toStream()

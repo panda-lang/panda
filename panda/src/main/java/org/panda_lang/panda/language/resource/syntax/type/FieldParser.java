@@ -92,7 +92,7 @@ public final class FieldParser implements ContextParser<TypeContext, TypeField> 
         TypeField field = PandaField.builder()
                 .type(type)
                 .name(name.get())
-                .returnType(SIGNATURE_PARSER.parse(context.getSubject().getType().getSignature(), context, signature.get()))
+                .returnType(SIGNATURE_PARSER.parse(context, signature.get(), false, context.getSubject().getType().getSignature()))
                 .fieldIndex(type.getFields().getDeclaredProperties().size())
                 .location(context)
                 .visibility(visibility.get())

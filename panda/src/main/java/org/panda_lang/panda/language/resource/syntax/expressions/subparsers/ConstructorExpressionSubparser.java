@@ -90,7 +90,7 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
             // read type
 
             Option<Signature> signatureValue = sourceReader.readSignature()
-                    .map(signatureSource -> SIGNATURE_PARSER.parse(null, context, signatureSource));
+                    .map(signatureSource -> SIGNATURE_PARSER.parse(context, signatureSource, false, null));
 
             if (signatureValue.isEmpty()) {
                 return ExpressionResult.error("Missing type signature", source);

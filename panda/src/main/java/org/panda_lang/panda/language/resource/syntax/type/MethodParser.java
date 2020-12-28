@@ -118,13 +118,14 @@ public final class MethodParser implements ContextParser<TypeContext, TypeMethod
 
         // read return type
 
+        Type type = context.getSubject().getType();
         Signature returnType;
 
         if (sourceReader.optionalRead(() -> sourceReader.read(Operators.ARROW)).isDefined()) {
             returnType = sourceReader.optionalRead(() -> sourceReader.read(Keywords.SELF))
                     .map(self -> (Signature) context.getSubject().getType().getSignature())
                     // TODO: parent signature
-                    .orElse(() -> sourceReader.readSignature().map(signatureSource -> SIGNATURE_PARSER.parse(null, context, signatureSource)))
+                    .orElse(() -> sourceReader.readSignature().map(signatureSource -> SIGNATURE_PARSER.parse(context, signatureSource, false, type.getSignature())))
                     .orThrow(() -> {
                         throw new PandaParserFailure(context, "Missing return signature");
                     });
@@ -140,7 +141,6 @@ public final class MethodParser implements ContextParser<TypeContext, TypeMethod
         // create method
 
         MethodScope methodScope = new MethodScope(context, parameters.get());
-        Type type = context.getSubject().getType();
 
         TypeMethod method = PandaMethod.builder()
                 .type(type)

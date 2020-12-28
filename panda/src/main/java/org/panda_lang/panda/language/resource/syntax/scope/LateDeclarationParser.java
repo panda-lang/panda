@@ -80,7 +80,7 @@ public final class LateDeclarationParser implements ContextParser<Object, Variab
         }
 
         // TODO: Parent signature
-        Signature signature = SIGNATURE_PARSER.parse(null, context, variableSignature.get());
+        Signature signature = SIGNATURE_PARSER.parse(context, variableSignature.get(), false, null);
         VisibilityComparator.requireAccess(signature.toTyped().fetchType(), context, variableSignature.get().getName());
 
         VariableData variableData = new PandaVariableData(signature, name.get().getValue(), mut, nil);

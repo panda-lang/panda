@@ -81,13 +81,13 @@ final class SignatureUtils {
                 Signature anySignature = inheritor.getAny().get();
 
                 if (anySignature.isTyped()) {
-                    Type anyType = anySignature.toTyped().getReference().fetchType();
-                    return Result.when(anyType.isAssignableFrom(root.fetchType()), inheritor, anySignature + " is not assignable from " + root.fetchType());
+                    Type anyType = anySignature.getKnownType();
+                    return Result.when(anyType.isAssignableFrom(root.getKnownType()), inheritor, anySignature + " is not assignable from " + root.fetchType());
                 }
 
                 if (anySignature.isGeneric()) {
                     return inheritor.findGeneric(anySignature.toGeneric())
-                            .map(genericExtends -> typedToGeneric(root, genericExtends))
+                            .map(genericExtends -> typedToGeneric(root, genericExtends.getKey()))
                             .orElseGet(Result.error("Cannot find generic " + anySignature.toGeneric()));
                 }
 
@@ -97,7 +97,7 @@ final class SignatureUtils {
 
                 if (alsoSignature.isTyped()) {
                     Type rootType = root.fetchType();
-                    Type alsoType = alsoSignature.toTyped().getReference().fetchType();
+                    Type alsoType = alsoSignature.getKnownType();
 
                     return Result.when(rootType.isAssignableFrom(alsoType), inheritor, rootType + " is not assignable from " + alsoType);
                 }

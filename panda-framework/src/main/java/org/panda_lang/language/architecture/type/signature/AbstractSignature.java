@@ -4,6 +4,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.Snippetable;
+import org.panda_lang.utilities.commons.collection.Pair;
 import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.Result;
 
@@ -46,23 +47,48 @@ abstract class AbstractSignature<V> implements Signature {
     }
 
     @Override
-    public Option<GenericSignature> findGeneric(String identifier) {
-        for (Signature signature : generics) {
-            if (signature.isGeneric()) {
-                GenericSignature genericSignature = signature.toGeneric();
+    public Option<Pair<GenericSignature, Signature>> findGeneric(String identifier) {
+        Option<Signature> currentSignature = Option.of(this);
 
-                if (identifier.equals(genericSignature.getLocalIdentifier())) {
-                    return Option.of(genericSignature);
+        do {
+            Signature signature = currentSignature.get();
+
+            for (int index = 0; index < generics.length; index++) {
+                Signature parameter = signature.getGenerics()[index];
+
+                if (parameter.isGeneric()) {
+                    GenericSignature genericSignature = parameter.toGeneric();
+
+                    if (identifier.equals(genericSignature.getLocalIdentifier())) {
+                        return Option.of(new Pair<>(genericSignature, getGenerics()[index]));
+                    }
                 }
+            }
+
+            currentSignature = signature.getParent();
+        } while (currentSignature.isPresent());
+
+        return Option.none();
+    }
+
+    protected Signature[] applyGenerics(Signed context) {
+        Signature contextSignature = context.getSignature();
+        Signature[] appliedGenerics = new Signature[generics.length];
+
+        for (int index = 0; index < appliedGenerics.length; index++) {
+            Signature currentGeneric = generics[index];
+
+            if (currentGeneric.isTyped()) {
+                appliedGenerics[index] = currentGeneric;
+            }
+            else if (currentGeneric.isGeneric()) {
+                appliedGenerics[index] = contextSignature.findGeneric(currentGeneric.toGeneric())
+                        .map(Pair::getValue)
+                        .orElseGet(currentGeneric);
             }
         }
 
-        return parent.flatMap(parentSignature -> parentSignature.findGeneric(identifier));
-    }
-
-    @Override
-    public Result<? extends Signature, String> apply(Signed context) {
-        return null;
+        return appliedGenerics;
     }
 
     @Override

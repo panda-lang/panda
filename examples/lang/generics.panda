@@ -4,18 +4,26 @@ require java:collections
 
 type Foo<V> {
 
-    internal V value
+    internal mut V value
 
     constructor (V value) {
+        this.value = value
+    }
+
+    shared setValue (V value) {
         this.value = value
     }
 
     shared getValue () -> V {
         return value
     }
+
 }
 
 main {
     Foo<String> genericType = new Foo<String>('test')
-    Int invalidValue = genericType.getValue()
+    String value = genericType.getValue()
+    // Int invalidValue = genericType.getValue() /* Should not compile */
+    genericType.setValue(value)
+    genericType.setValue(10) /* Should not compile */
 }

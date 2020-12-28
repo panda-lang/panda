@@ -58,7 +58,7 @@ public final class ParameterParser implements Parser {
 
             Signature signature = sourceReader.readSignature()
                     // TODO: parent signature
-                    .map(signatureSource -> SIGNATURE_PARSER.parse(null, context, signatureSource))
+                    .map(signatureSource -> SIGNATURE_PARSER.parse(context, signatureSource, false, null))
                     .orThrow(() -> new PandaParserFailure(context, snippet, "Missing parameter signature"));
 
             String name = sourceReader.read(TokenTypes.UNKNOWN)

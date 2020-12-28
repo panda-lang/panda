@@ -13,6 +13,11 @@ public final class TypedSignature extends AbstractSignature<Reference> {
     }
 
     @Override
+    public Signature apply(Signed context) {
+        return new TypedSignature(getParent().getOrNull(), getSubject(), applyGenerics(context), getRelation(), getSource());
+    }
+
+    @Override
     public boolean isTyped() {
         return true;
     }

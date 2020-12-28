@@ -30,11 +30,19 @@ public final class AdjustedExpression implements Expression {
     private final ParametrizedMember member;
     private final Expression instanceExpression;
     private final List<? extends Expression> arguments;
+    private final Signature returnType;
 
     public AdjustedExpression(@Nullable Expression instance, ParametrizedMember member, List<? extends Expression> arguments) {
         this.member = member;
         this.instanceExpression = instance;
         this.arguments = arguments;
+
+        if (instanceExpression == null) {
+            this.returnType = member.getReturnType();
+        }
+        else {
+            this.returnType = member.getReturnType().apply(instanceExpression);
+        }
     }
 
     @Override
@@ -51,7 +59,7 @@ public final class AdjustedExpression implements Expression {
 
     @Override
     public Signature getSignature() {
-        return member.getReturnType();
+        return returnType;
     }
 
     @Override

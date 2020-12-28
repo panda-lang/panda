@@ -18,6 +18,17 @@ public final class GenericSignature extends AbstractSignature<Pair<String, Signa
     }
 
     @Override
+    public Signature apply(Signed context) {
+        Option<Pair<GenericSignature, Signature>> result = context.getSignature().findGeneric(this);
+
+        if (result.isPresent()) {
+            return result.get().getValue();
+        }
+
+        return new GenericSignature(typeLoader, getParent().getOrNull(), getLocalIdentifier(), getSubject().getValue(), applyGenerics(context), getRelation(), getSource());
+    }
+
+    @Override
     public boolean isGeneric() {
         return true;
     }

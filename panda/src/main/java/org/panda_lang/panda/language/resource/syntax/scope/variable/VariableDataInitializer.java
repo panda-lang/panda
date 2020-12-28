@@ -70,7 +70,7 @@ public final class VariableDataInitializer {
         }
 
         // TODO: parent signature
-        Signature signature = SIGNATURE_PARSER.parse(null, context, signatureSource);
+        Signature signature = SIGNATURE_PARSER.parse(context, signatureSource, false, null);
         VisibilityComparator.requireAccess(signature.toTyped().fetchType(), context, signatureSource.getName());
 
         return new PandaVariableData(signature, nameSource.asSource(), mutable, nillable);
