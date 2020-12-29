@@ -24,6 +24,7 @@ import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.TypedUtils;
 import org.panda_lang.language.architecture.type.VisibilityComparator;
 import org.panda_lang.language.architecture.type.member.method.TypeMethod;
+import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
 import org.panda_lang.language.architecture.type.signature.AdjustedExpression;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
@@ -152,6 +153,15 @@ public final class MethodExpressionSubparser implements ExpressionSubparser {
             }
 
             TypeMethod method = matchedMethod.get();
+
+            for (int index = 0; index < arguments.size(); index++) {
+                PropertyParameter parameter = method.getParameters().get(index);
+                Expression argument = arguments.get(index);
+
+                if (!parameter.getSignature().apply(instance).isAssignableFrom(argument)) {
+                    throw new PandaParserFailure(context.toContext(), methodName, "Parameter " + parameter + " does not accept " + argument.getSignature() + " type");
+                }
+            }
 
             if (!method.isStatic() && instance instanceof StaticExpression) {
                 throw new PandaParserFailure(context.toContext(), methodName,

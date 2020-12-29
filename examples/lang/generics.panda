@@ -22,8 +22,12 @@ type Foo<V> {
 
 main {
     Foo<String> genericType = new Foo<String>('test')
+
+    /* Generic return type */
     String value = genericType.getValue()
     // Int invalidValue = genericType.getValue() /* Should not compile */
+
+    /* Generic parameter */
     genericType.setValue(value)
-    genericType.setValue(10) /* Should not compile */
+    // genericType.setValue(10) /* Should not compile */
 }

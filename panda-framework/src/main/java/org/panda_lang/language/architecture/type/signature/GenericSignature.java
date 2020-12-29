@@ -39,7 +39,15 @@ public final class GenericSignature extends AbstractSignature<Pair<String, Signa
     }
 
     public boolean isWildcard() {
-        return getLocalIdentifier().equals("*") || getSubject().getValue().getRelation().isWildcard();
+        return getLocalIdentifier().equals("*");
+    }
+
+    public boolean hasWildcardDescription() {
+        return getSubject().getValue() != null;
+    }
+
+    public Option<Signature> getWildcardDescription() {
+        return Option.of(getSubject().getValue());
     }
 
     public String getLocalIdentifier() {
