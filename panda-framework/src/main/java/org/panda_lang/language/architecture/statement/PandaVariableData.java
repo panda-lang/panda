@@ -16,17 +16,17 @@
 
 package org.panda_lang.language.architecture.statement;
 
-import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.signature.Signature;
 
 public class PandaVariableData implements VariableData {
 
     private final String name;
-    private final Type type;
+    private final Signature signature;
     private final boolean mutable;
     private final boolean nillable;
 
-    public PandaVariableData(Type type, String name, boolean mutable, boolean nillable) {
-        if (type == null) {
+    public PandaVariableData(Signature signature, String name, boolean mutable, boolean nillable) {
+        if (signature == null) {
             throw new IllegalArgumentException("Variable type cannot be null");
         }
 
@@ -35,13 +35,13 @@ public class PandaVariableData implements VariableData {
         }
 
         this.name = name;
-        this.type = type;
+        this.signature = signature;
         this.mutable = mutable;
         this.nillable = nillable;
     }
 
-    public PandaVariableData(Type type, String name) {
-        this(type, name, true, true);
+    public PandaVariableData(Signature signature, String name) {
+        this(signature, name, true, true);
     }
 
     @Override
@@ -55,8 +55,8 @@ public class PandaVariableData implements VariableData {
     }
 
     @Override
-    public Type getType() {
-        return type;
+    public Signature getSignature() {
+        return signature;
     }
 
     @Override

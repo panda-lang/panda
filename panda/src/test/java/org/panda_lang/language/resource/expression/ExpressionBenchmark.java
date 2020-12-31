@@ -50,12 +50,12 @@ public class ExpressionBenchmark extends ExpressionParserTestBootstrap {
     @SuppressWarnings("CanBeFinal")
     public static class Configuration {
 
-        protected Context context;
+        protected Context<?> context;
         protected ExpressionParser expressionParser;
 
         @Setup(Level.Trial)
         public void setup() {
-            this.expressionParser = new PandaExpressionParser(PandaExpressions.getExpressionSubparsers());
+            this.expressionParser = new PandaExpressionParser(PandaExpressions.createExpressionSubparsers());
             this.context = prepareData();
         }
 

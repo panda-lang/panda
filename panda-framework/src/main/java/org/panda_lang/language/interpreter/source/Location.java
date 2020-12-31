@@ -19,7 +19,7 @@ package org.panda_lang.language.interpreter.source;
 /**
  * Represents the location of element in a source
  */
-public interface Location {
+public interface Location extends Localizable {
 
     /**
      * Represents unknown location
@@ -56,4 +56,9 @@ public interface Location {
      */
     Source getSource();
 
+    @Override
+    default Location toLocation() {
+        return this;
+    }
+    
 }

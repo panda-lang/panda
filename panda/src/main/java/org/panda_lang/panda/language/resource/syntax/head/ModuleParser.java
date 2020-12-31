@@ -16,55 +16,67 @@
 
 package org.panda_lang.panda.language.resource.syntax.head;
 
-import org.panda_lang.language.architecture.Environment;
-import org.panda_lang.language.architecture.module.Imports;
+import org.panda_lang.language.architecture.Script;
 import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.language.interpreter.source.Location;
-import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.PandaParserException;
-import org.panda_lang.language.interpreter.parser.stage.Stages;
-import org.panda_lang.language.interpreter.pattern.functional.elements.QualifierElement;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.language.interpreter.parser.pool.PoolParser;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
+import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.language.architecture.PandaScript;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.autowired.handlers.TokenHandler;
+import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
+import org.panda_lang.utilities.commons.function.Option;
 
-public final class ModuleParser extends AutowiredParser<Void> {
+public final class ModuleParser implements ContextParser<PoolParser<?>, ModuleStatement> {
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(Pipelines.HEAD);
+    public String name() {
+        return "module";
     }
 
     @Override
-    protected AutowiredInitializer<Void> initialize(Context context, AutowiredInitializer<Void> initializer) {
-        return initializer
-                .handler(new TokenHandler(Keywords.MODULE))
-                .functional(builder -> builder.token(Keywords.MODULE).qualifier("module").consume(QualifierElement::pandaModule));
+    public Component<?>[] targets() {
+        return ArrayUtils.of(Targets.HEAD);
     }
 
-    @Autowired(order = 1, stage = Stages.TYPES_LABEL)
-    public void parse(@Ctx Environment environment, @Ctx Imports imports, @Ctx PandaScript script, @Channel Location location, @Src("module") Snippet source) {
-        if (script.select(ModuleStatement.class).size() > 0) {
+    @Override
+    public Option<Completable<ModuleStatement>> parse(Context<? extends PoolParser<?>> context) {
+        PandaSourceReader reader = new PandaSourceReader(context.getStream());
+        Option<TokenInfo> read = reader.read(Keywords.MODULE);
+
+        if (read.isEmpty()) {
+            return Option.none();
+        }
+
+        if (context.getScript().select(ModuleStatement.class).size() > 0) {
             throw new PandaParserException("Script contains more than one declaration of the group");
         }
 
-        Module module = environment.getModulePath().allocate(source.asSource());
-        imports.importModule(module);
+        Completable<ModuleStatement> futureStatement = new Completable<>();
 
-        ModuleStatement moduleStatement = new ModuleStatement(location, module);
-        script.addStatement(moduleStatement);
-        script.setModule(module);
+        reader.readPandaQualifier()
+                .peek(source -> {
+                    Module module = context.getEnvironment().getModulePath().acquire(source.asSource()).orThrow(() -> {
+                        throw new PandaParserFailure(context, source, "Cannot access module");
+                    });
+
+                    ModuleStatement moduleStatement = new ModuleStatement(read.get().getLocation(), module);
+                    context.getImports().importModule(module);
+
+                    Script script = context.getScript();
+                    script.addStatement(moduleStatement);
+                    script.getModule().complete(module);
+                })
+                .orThrow(() -> {
+                    throw new PandaParserFailure(context, read.get(), "Cannot read module name");
+                });
+
+        return Option.of(futureStatement);
     }
 
 }

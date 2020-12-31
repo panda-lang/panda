@@ -21,7 +21,6 @@ import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.pattern.OperationPatternElement;
@@ -54,19 +53,18 @@ public final class Operation {
         return elements;
     }
 
-    private static OperationElement asOperatorElement(ExpressionParser parser, Context context, ExpressionContext expressionContext, OperationPatternElement element) {
+    private static OperationElement asOperatorElement(ExpressionParser parser, Context<?> context, ExpressionContext expressionContext, OperationPatternElement element) {
         if (element.isOperator()) {
             return new OperationElement(element.getOperator());
         }
 
         Snippet source = element.getExpression();
-        ExpressionTransaction transaction = parser.parse(context, source);
-        expressionContext.commit(transaction::rollback);
+        Expression expression = parser.parse(context, source);
 
-        return new OperationElement(transaction.getExpression());
+        return new OperationElement(expression);
     }
 
-    public static Operation of(ExpressionParser parser, Context context, ExpressionContext expressionContext, OperationPatternResult result) {
+    public static Operation of(ExpressionParser parser, Context<?> context, ExpressionContext expressionContext, OperationPatternResult result) {
         List<OperationElement> elements = new ArrayList<>(result.size());
 
         for (OperationPatternElement element : result.getElements()) {

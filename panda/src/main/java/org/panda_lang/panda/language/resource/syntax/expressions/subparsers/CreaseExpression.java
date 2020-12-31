@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
-import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.runtime.MemoryContainer;
-import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.language.architecture.dynamic.accessor.AccessorExpression;
 import org.panda_lang.language.architecture.expression.DynamicExpression;
+import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.interpreter.parser.PandaParserException;
+import org.panda_lang.language.runtime.MemoryContainer;
+import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number.NumberPriorities;
 
 final class CreaseExpression extends NumberPriorities implements DynamicExpression {
@@ -37,7 +37,7 @@ final class CreaseExpression extends NumberPriorities implements DynamicExpressi
         this.accessor = accessor;
         this.grow = grow;
         this.post = post;
-        this.priority = getPriority(accessor.getType());
+        this.priority = getPriority(accessor.getKnownType());
     }
 
     @Override
@@ -78,8 +78,8 @@ final class CreaseExpression extends NumberPriorities implements DynamicExpressi
     }
 
     @Override
-    public Type getReturnType() {
-        return accessor.getVariable().getType();
+    public Signature getReturnType() {
+        return accessor.getVariable().getSignature();
     }
 
     @Override

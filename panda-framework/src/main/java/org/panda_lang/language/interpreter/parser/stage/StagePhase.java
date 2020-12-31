@@ -16,58 +16,42 @@
 
 package org.panda_lang.language.interpreter.parser.stage;
 
-import org.panda_lang.language.interpreter.parser.Context;
-
 /**
- * Represents a group of tasks delegated to the same phase (layer) in the cycle
+ * Cycle represents following continuously pair of phases identified by the specific {@link Phase}
  */
 public interface StagePhase {
 
     /**
-     * Call all tasks delegated to the phase
+     * Launch cycle
+     *
+     * @return true if all tasks was called
      */
-    void callTasks();
+    boolean execute();
 
     /**
-     * Delegate task
+     * Get next phase
      *
-     * @param priority the priority of task (the lowest is called first)
-     * @param task the task to delegate
-     * @param delegated the data to associate with task
-     * @return current phase
+     * @return the next phase
      */
-    StagePhase delegate(StageOrder priority, StageTask<?> task, Context delegated);
+    StageLayer nextLayer();
 
     /**
-     * Delegate task using {@link StageOrder#DEFAULT}
+     * Get current phase
      *
-     * @see #delegate(StageOrder, StageTask, org.panda_lang.language.interpreter.parser.Context)
+     * @return the current phase
      */
-    default StagePhase delegate(StageTask<?> task, Context delegated) {
-        return delegate(StageOrder.DEFAULT, task, delegated);
-    }
+    StageLayer currentLayer();
 
     /**
-     * Delegate task using {@link StageOrder#BEFORE}
-     *
-     * @see #delegate(StageOrder, StageTask, org.panda_lang.language.interpreter.parser.Context)
-     */
-    default StagePhase delegateBefore(StageTask<?> task, Context delegated) {
-        return delegate(StageOrder.BEFORE, task, delegated);
-    }
-
-    /**
-     * Delegate task using {@link StageOrder#AFTER}
-     *
-     * @see #delegate(StageOrder, StageTask, org.panda_lang.language.interpreter.parser.Context)
-     */
-    default StagePhase delegateAfter(StageTask<?> task, Context delegated) {
-        return delegate(StageOrder.AFTER, task, delegated);
-    }
-
-    /***
-     * @return the amount of delegated tasks
+     * @return amount of tasks
      */
     int countTasks();
+
+    /**
+     * Get name of cycle
+     *
+     * @return the name
+     */
+    String name();
 
 }

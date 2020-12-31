@@ -17,23 +17,26 @@
 package org.panda_lang.language.architecture.type.generator;
 
 import org.panda_lang.language.architecture.module.Module;
-import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.module.TypeLoader;
-import org.panda_lang.language.architecture.type.PandaPropertyParameter;
+import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
+import org.panda_lang.language.architecture.type.member.parameter.PropertyParameterImpl;
 
 import java.lang.reflect.Parameter;
+import java.util.ArrayList;
+import java.util.List;
 
 final class TypeGeneratorUtils {
 
     private TypeGeneratorUtils() { }
 
-    static PandaPropertyParameter[] toParameters(TypeLoader typeLoader, Module module, Parameter[] parameters) {
-        PandaPropertyParameter[] mappedParameters = new PandaPropertyParameter[parameters.length];
+    static List<? extends PropertyParameter> toParameters(TypeGenerator typeGenerator, TypeLoader typeLoader, Module module, Parameter[] parameters) {
+        List<PropertyParameterImpl> mappedParameters = new ArrayList<>(parameters.length);
 
         for (int index = 0; index < parameters.length; index++) {
             Parameter parameter = parameters[index];
-            Type type = typeLoader.load(module, parameter.getType());
-            mappedParameters[index] = new PandaPropertyParameter(index, type, parameter.getName(), parameter.isVarArgs(), false, false);
+            Type type = typeLoader.load(typeGenerator.generate(module, parameter.getType().getSimpleName(), parameter.getType()).fetchType());
+            mappedParameters.add(new PropertyParameterImpl(index, type.getSignature(), parameter.getName(), false, false));
         }
 
         return mappedParameters;

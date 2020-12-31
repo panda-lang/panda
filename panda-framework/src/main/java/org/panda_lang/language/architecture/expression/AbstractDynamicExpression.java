@@ -16,18 +16,18 @@
 
 package org.panda_lang.language.architecture.expression;
 
-import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.signature.Signature;
 
 public abstract class AbstractDynamicExpression implements DynamicExpression {
 
-    private final Type returnType;
+    private final Signature returnType;
 
-    public AbstractDynamicExpression(Type returnType) {
+    public AbstractDynamicExpression(Signature returnType) {
         this.returnType = returnType;
     }
 
     @Override
-    public Type getReturnType() {
+    public Signature getReturnType() {
         return returnType;
     }
 

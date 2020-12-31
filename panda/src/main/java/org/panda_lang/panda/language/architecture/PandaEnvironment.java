@@ -22,7 +22,10 @@ import org.panda_lang.language.architecture.module.ModulePath;
 import org.panda_lang.language.architecture.module.PandaModulePath;
 import org.panda_lang.language.architecture.module.PandaTypeLoader;
 import org.panda_lang.language.architecture.module.TypeLoader;
+import org.panda_lang.language.architecture.type.generator.TypeGenerator;
 import org.panda_lang.language.interpreter.logging.Logger;
+import org.panda_lang.language.interpreter.source.PandaSourceService;
+import org.panda_lang.language.interpreter.source.SourceService;
 import org.panda_lang.panda.PandaException;
 import org.panda_lang.panda.language.interpreter.PandaInterpreter;
 import org.panda_lang.panda.language.resource.ResourcesLoader;
@@ -34,7 +37,9 @@ public final class PandaEnvironment implements Environment {
 
     private final FrameworkController controller;
     private final File workingDirectory;
+    private final SourceService sources;
     private final ModulePath modulePath;
+    private final TypeGenerator typeGenerator;
     private final TypeLoader typeLoader;
     private final PandaInterpreter interpreter;
     private final Lazy<Void> resources;
@@ -42,12 +47,15 @@ public final class PandaEnvironment implements Environment {
     public PandaEnvironment(FrameworkController controller, File workingDirectory) {
         this.controller = controller;
         this.workingDirectory = workingDirectory;
-        this.modulePath = new PandaModulePath();
-        this.typeLoader = new PandaTypeLoader(controller);
+        this.sources = new PandaSourceService();
+        this.modulePath = new PandaModulePath(sources);
+        this.typeLoader = new PandaTypeLoader(modulePath);
+        this.typeGenerator = new TypeGenerator(controller);
         this.interpreter = new PandaInterpreter(this);
+
         this.resources = new Lazy<>(() -> {
             ResourcesLoader resourcesLoader = new ResourcesLoader();
-            resourcesLoader.load(modulePath, typeLoader);
+            resourcesLoader.load(modulePath, typeGenerator, typeLoader);
         });
     }
 
@@ -75,8 +83,18 @@ public final class PandaEnvironment implements Environment {
     }
 
     @Override
+    public TypeGenerator getTypeGenerator() {
+        return typeGenerator;
+    }
+
+    @Override
     public TypeLoader getTypeLoader() {
         return typeLoader;
+    }
+
+    @Override
+    public SourceService getSources() {
+        return sources;
     }
 
     @Override

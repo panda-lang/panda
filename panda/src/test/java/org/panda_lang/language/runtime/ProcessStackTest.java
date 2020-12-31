@@ -24,6 +24,7 @@ import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.architecture.statement.AbstractScope;
 import org.panda_lang.language.architecture.statement.AbstractStatement;
+import org.panda_lang.language.interpreter.token.PandaLocation;
 import org.panda_lang.panda.language.resource.syntax.head.MainScope;
 
 class ProcessStackTest {
@@ -32,7 +33,7 @@ class ProcessStackTest {
 
     @BeforeEach
     void prepare() {
-        this.main = new MainScope(null);
+        this.main = new MainScope(PandaLocation.unknownLocation("process-stack-test"));
 
         Scope block = new ScopeStub(main);
         main.addStatement(block);
@@ -42,7 +43,7 @@ class ProcessStackTest {
             Scope subBlock = new ScopeStub(block);
 
             for (int j = 0; j < 32; j++) {
-                subBlock.addStatement(new ExecutableStub(null));
+                subBlock.addStatement(new ExecutableStub(subBlock.getSourceLocation()));
             }
 
             block.addStatement(subBlock);
@@ -73,7 +74,7 @@ class ProcessStackTest {
     private static final class ScopeStub extends AbstractScope implements Scope {
 
         protected ScopeStub(Scope parent) {
-            super(parent, null);
+            super(parent, parent.getSourceLocation());
         }
 
     }

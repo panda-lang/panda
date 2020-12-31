@@ -29,9 +29,10 @@ import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.language.interpreter.parser.expression.PandaExpressionParser;
-import org.panda_lang.language.resource.expression.ExpressionContextUtils;
+import org.panda_lang.panda.language.interpreter.parser.PandaContextUtils;
 import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressions;
 import org.panda_lang.panda.util.BenchmarkUtils;
+import org.panda_lang.panda.util.PandaUtils;
 
 import java.util.HashMap;
 
@@ -51,9 +52,9 @@ public class OperationExpressionBenchmark {
 
     @Setup
     public void setup() {
-        ExpressionParser parser = new PandaExpressionParser(PandaExpressions.getExpressionSubparsers());
+        ExpressionParser parser = new PandaExpressionParser(PandaExpressions.createExpressionSubparsers());
         Snippet source = PandaLexerUtils.convert(OperationExpressionBenchmark.class.getSimpleName(), "1 + 2");
-        this.expression = parser.parse(ExpressionContextUtils.createFakeContext((context -> new HashMap<>())), source).getExpression();
+        this.expression = parser.parse(PandaContextUtils.createStubContext(PandaUtils.defaultInstance(), (context -> new HashMap<>())), source);
     }
 
     @Benchmark

@@ -17,39 +17,41 @@
 package org.panda_lang.panda.language.resource.syntax.scope.branching;
 
 import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.interpreter.parser.ContextParser;
+import org.panda_lang.language.interpreter.parser.SourceReader;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.autowired.handlers.TokenHandler;
 import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
+import org.panda_lang.utilities.commons.function.Option;
 
-public final class ThrowParser extends AutowiredParser<Void> {
+public final class ThrowParser implements ContextParser<Object, Throw> {
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(Pipelines.SCOPE);
+    public String name() {
+        return "throw";
     }
 
     @Override
-    protected AutowiredInitializer<Void> initialize(Context context, AutowiredInitializer<Void> initializer) {
-        return initializer
-                .handler(new TokenHandler(Keywords.THROW))
-                .linear("throw &value:*=expression");
+    public Component<?>[] targets() {
+        return ArrayUtils.of(Targets.SCOPE);
     }
 
-    @Autowired(order = 1)
-    public void parse(@Ctx Scope block, @Channel Location location, @Src("value") Expression expression) {
-        block.addStatement(new Throw(location, expression));
+    @Override
+    public Option<Completable<Throw>> parse(Context<?> context) {
+        SourceReader sourceReader = new SourceReader(context.getStream());
+
+        if (sourceReader.read(Keywords.THROW).isEmpty()) {
+            return Option.none();
+        }
+
+        Expression throwValue = context.getExpressionParser().parse(context, context.getStream());
+        Throw statement = new Throw(context.getSource().getLocation(), throwValue);
+        context.getScope().addStatement(statement);
+
+        return Option.ofCompleted(statement);
     }
 
 }

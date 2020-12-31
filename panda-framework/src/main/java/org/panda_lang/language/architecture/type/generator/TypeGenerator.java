@@ -17,16 +17,23 @@
 package org.panda_lang.language.architecture.type.generator;
 
 import org.panda_lang.language.FrameworkController;
-import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.architecture.module.TypeLoader;
+import org.panda_lang.language.architecture.type.Kind;
+import org.panda_lang.language.architecture.type.PandaType;
+import org.panda_lang.language.architecture.type.Reference;
 import org.panda_lang.language.architecture.type.State;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.TypeModels;
 import org.panda_lang.language.architecture.type.Visibility;
-import org.panda_lang.language.architecture.type.PandaType;
+import org.panda_lang.language.architecture.type.signature.Relation;
+import org.panda_lang.language.architecture.type.signature.Signature;
+import org.panda_lang.language.architecture.type.signature.TypedSignature;
 import org.panda_lang.language.interpreter.source.PandaClassSource;
+import org.panda_lang.language.interpreter.token.PandaSnippet;
+import org.panda_lang.utilities.commons.ClassUtils;
 import org.panda_lang.utilities.commons.ReflectionUtils;
+import org.panda_lang.utilities.commons.function.Completable;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -35,28 +42,36 @@ import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
-final class TypeGenerator {
+public final class TypeGenerator {
 
-    protected final Map<String, Type> initializedTypes = new HashMap<>();
+    protected final Map<Class<?>, Type> initializedTypes = new HashMap<>();
     protected final FrameworkController frameworkController;
 
-    TypeGenerator(FrameworkController frameworkController) {
+    public TypeGenerator(FrameworkController frameworkController) {
         this.frameworkController = frameworkController;
     }
 
-    protected Type generate(Module module, String name, Class<?> javaType) {
-        String identifier = getId(module, name);
+    public Type allocate(Class<?> javaType, Type type) {
+        initializedTypes.put(javaType, type);
+        return type;
+    }
 
-        return Option.of(initializedTypes.get(identifier))
-                .orElse(() -> module.forClass(javaType))
+    public Reference generate(Module module, String name, Class<?> javaType) {
+        return Option.of(initializedTypes.get(javaType))
+                .map(Reference::new)
+                .orElse(() -> module.get(name))
                 .orElseGet(() -> {
+                    Completable<Type> completableType = new Completable<>();
+                    Reference reference = new Reference(completableType, module, name, Visibility.OPEN, Kind.of(javaType), new PandaClassSource(javaType).toLocation());
+
                     Type type = PandaType.builder()
                             .name(name)
                             .module(module)
-                            .javaType(javaType)
+                            .associatedType(Completable.completed(javaType))
                             .isNative(true)
-                            .location(new PandaClassSource(javaType).toLocation())
-                            .model(TypeModels.of(javaType))
+                            .signature(new TypedSignature(null, reference, new Signature[0], Relation.DIRECT, PandaSnippet.empty()))
+                            .location(reference.getLocation())
+                            .kind(reference.getKind())
                             .state(State.of(javaType))
                             .visibility(Visibility.OPEN)
                             .build();
@@ -66,11 +81,16 @@ final class TypeGenerator {
 
                         // Object.class does not have supertype
                         if (baseClass != null) {
-                            type.addBase(typeLoader.load(findOrGenerate(typeLoader, module, baseClass)));
+                            type.addBase(typeLoader.load(findOrGenerate(typeLoader, module, baseClass)).getSignature());
                         }
 
                         for (Class<?> javaInterface : javaType.getInterfaces()) {
-                            type.addBase(typeLoader.load(findOrGenerate(typeLoader, module, javaInterface)));
+                            type.addBase(typeLoader.load(findOrGenerate(typeLoader, module, javaInterface)).getSignature());
+                        }
+
+                        if (!javaType.equals(Object.class) && type.getBases().isEmpty()) {
+                            // type.addAutocast(typeLoader.requireType("panda::Object"), (originalType, object, resultType) -> object);
+                            type.addBase(typeLoader.requireType("panda::Object").getSignature());
                         }
 
                         if (!Modifier.isPublic(javaType.getModifiers())) {
@@ -87,8 +107,8 @@ final class TypeGenerator {
                         }
 
                         for (Constructor<?> constructor : ReflectionUtils.getByModifier(javaType.getDeclaredConstructors(), Modifier.PUBLIC)) {
-                            ConstructorGenerator generator = new ConstructorGenerator(initializedType, constructor);
-                            initializedType.getConstructors().declare(name, () -> generator.generate(typeLoader));
+                            ConstructorGenerator generator = new ConstructorGenerator(this, initializedType, constructor);
+                            initializedType.getConstructors().declare(constructor.toString(), () -> generator.generate(typeLoader));
                         }
 
                         for (Method method : ReflectionUtils.getByModifier(javaType.getDeclaredMethods(), Modifier.PUBLIC)) {
@@ -97,37 +117,29 @@ final class TypeGenerator {
                         }
                     });
 
-                    initializedTypes.put(identifier, type);
-                    return type;
+                    completableType.complete(allocate(javaType, type));
+                    return type.getReference();
                 });
     }
 
     protected Type findOrGenerate(TypeLoader typeLoader, Module module, Class<?> javaType) {
-        /*if (javaType.isPrimitive()) {
+        if (javaType.isPrimitive()) {
             javaType = ClassUtils.getNonPrimitiveClass(javaType);
-        }*/
+        }
 
-        Option<Type> typeValue = typeLoader.forClass(javaType);
+        Option<Type> typeValue = typeLoader.forJavaType(javaType);
 
         if (typeValue.isDefined()) {
             return typeValue.get();
         }
 
-        Type type = initializedTypes.get(getId(module, javaType.getSimpleName()));
+        Type type = initializedTypes.get(javaType);
 
         if (type != null) {
             return type;
         }
 
-        return generate(module, javaType.getSimpleName(), javaType);
-    }
-
-    protected void disposeCache() {
-        initializedTypes.clear();
-    }
-
-    private String getId(Module module, String name) {
-        return module.getName() + "::" + name;
+        return generate(module, javaType.getSimpleName(), javaType).fetchType();
     }
 
 }

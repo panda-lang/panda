@@ -16,10 +16,11 @@
 
 package org.panda_lang.language.architecture.type;
 
+import org.panda_lang.language.architecture.type.signature.Signature;
 
 @FunctionalInterface
 public interface Autocast<T, R> {
 
-    R cast(Type originalType, T object, Type resultType);
+    R cast(Signature originalType, T object, Signature resultType);
 
 }

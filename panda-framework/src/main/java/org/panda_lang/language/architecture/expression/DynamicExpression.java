@@ -16,11 +16,11 @@
 
 package org.panda_lang.language.architecture.expression;
 
-import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.signature.Signature;
 
 public interface DynamicExpression extends ExpressionEvaluator, Expressible {
 
-    Type getReturnType();
+    Signature getReturnType();
 
     @Override
     default Expression toExpression() {

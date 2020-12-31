@@ -16,11 +16,11 @@
 
 package org.panda_lang.language.architecture.statement;
 
-import org.panda_lang.utilities.commons.function.Option;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.dynamic.Executable;
-import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.interpreter.source.Localizable;
 import org.panda_lang.utilities.commons.collection.Lists;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,14 +33,14 @@ public abstract class AbstractScope extends AbstractStatement implements Scope {
     protected final List<Variable> variables = new ArrayList<>();
     protected final List<Statement> statements = new ArrayList<>();
 
-    protected AbstractScope(FramedScope framedScope, @Nullable Scope parentScope, Location location) {
-        super(location);
+    protected AbstractScope(FramedScope framedScope, @Nullable Scope parentScope, Localizable localizable) {
+        super(localizable);
         this.framedScope = framedScope;
         this.parentScope = parentScope;
     }
 
-    protected AbstractScope(Scope parentScope, Location location) {
-        this(parentScope.getFramedScope(), parentScope, location);
+    protected AbstractScope(Scope parentScope, Localizable localizable) {
+        this(parentScope.getFramedScope(), parentScope, localizable);
     }
 
     @Override

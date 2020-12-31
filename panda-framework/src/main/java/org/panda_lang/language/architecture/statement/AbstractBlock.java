@@ -17,13 +17,13 @@
 package org.panda_lang.language.architecture.statement;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.interpreter.source.Localizable;
 import org.panda_lang.language.runtime.ProcessStack;
 
 public abstract class AbstractBlock extends AbstractScope implements Block {
 
-    protected AbstractBlock(Scope parent, Location location) {
-        super(parent, location);
+    protected AbstractBlock(Scope parent, Localizable localizable) {
+        super(parent, localizable);
     }
 
     @Override

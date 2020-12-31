@@ -17,22 +17,23 @@
 package org.panda_lang.language.architecture.module;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.Reference;
 import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
-public class PandaModule extends PandaModules implements Module {
+public class PandaModule extends PandaModuleContainer implements Module {
 
     protected final String name;
-    protected final TypesMap types;
-    protected @Nullable final Module parent;
+    protected final Map<String, Reference> types = new HashMap<>(32);
+    protected final Option<Module> parent;
 
-    public PandaModule(Module parent, String name) {
+    public PandaModule(@Nullable Module parent, String name) {
         this.name = name;
-        this.parent = parent;
-        this.types = new PandaTypesMap();
+        this.parent = Option.of(parent);
     }
 
     public PandaModule(String name) {
@@ -40,14 +41,40 @@ public class PandaModule extends PandaModules implements Module {
     }
 
     @Override
-    public Type add(Type type) {
-        types.put(type);
-        return type;
+    public boolean equals(Object to) {
+        if (this == to) {
+            return true;
+        }
+
+        if (to == null || getClass() != to.getClass()) {
+            return false;
+        }
+
+        PandaModule that = (PandaModule) to;
+
+        if (!name.equals(that.name)) {
+            return false;
+        }
+
+        return parent.equals(that.parent);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + parent.hashCode();
+        return result;
+    }
+
+    @Override
+    public Reference add(Reference reference) {
+        types.put(reference.getSimpleName(), reference);
+        return reference;
     }
 
     @Override
     public long countUsedTypes() {
-        return types.countUsedTypes();
+        return types.size();
     }
 
     @Override
@@ -56,8 +83,8 @@ public class PandaModule extends PandaModules implements Module {
     }
 
     @Override
-    public boolean isSubmodule(Module module) {
-        Option<Module> parentModule = module.getParent();
+    public boolean hasSubmodule(Module module) {
+        Option<? extends Module> parentModule = module.getParent();
 
         while (parentModule.isDefined()) {
             Module parent = parentModule.get();
@@ -73,44 +100,37 @@ public class PandaModule extends PandaModules implements Module {
     }
 
     @Override
-    public Option<Type> forClass(Class<?> associatedClass) {
-        return types.forClass(associatedClass);
+    public Option<Reference> get(String typeName) {
+        return Option.of(types.get(typeName));
     }
 
     @Override
-    public Option<Type> forName(CharSequence typeName) {
-        return types.forName(typeName);
-    }
-
-    @Override
-    public Collection<Type> getAllTypes() {
-        Collection<Type> entries = new ArrayList<>(types.values());
-
-        for (Module submodule : getModules()) {
-            entries.addAll(submodule.getAllTypes());
-        }
-
-        return entries;
-    }
-
-    @Override
-    public Collection<Type> getTypes() {
+    public Collection<? extends Reference> getReferences() {
         return new ArrayList<>(types.values());
     }
 
     @Override
     public Option<Module> getParent() {
-        return Option.of(parent);
+        return parent;
     }
 
     @Override
-    public String getName() {
+    public String getSimpleName() {
         return name;
     }
 
     @Override
+    public String getName() {
+        return parent
+                .map(Module::getName)
+                .map(parentName -> parentName + ":")
+                .orElseGet("")
+                + getSimpleName();
+    }
+
+    @Override
     public String toString() {
-        return (parent != null ? parent.toString() + ":" : "") + name;
+        return getName();
     }
 
 }

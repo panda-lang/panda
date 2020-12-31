@@ -33,31 +33,19 @@ public class NumberPriorities {
     protected static final int DOUBLE = 60;
 
     protected static final Map<String, Integer> HIERARCHY = Maps.of(
-            "Byte", BYTE,
-            "byte", BYTE,
-
-            "Short", SHORT,
-            "short", SHORT,
-
-            "Integer", INT,
-            "Int", INT,
-            "int", INT,
-
-            "Long", LONG,
-            "long", LONG,
-
-            "Float", FLOAT,
-            "float", FLOAT,
-
-            "Double", DOUBLE,
-            "double", DOUBLE
+            "panda::Byte", BYTE,
+            "panda::Short", SHORT,
+            "panda::Int", INT,
+            "panda::Long", LONG,
+            "panda::Float", FLOAT,
+            "panda::Double", DOUBLE
     );
 
     public int getPriority(Type type) {
-        @Nullable Integer priority = HIERARCHY.get(type.getSimpleName());
+        @Nullable Integer priority = HIERARCHY.get(type.getName());
 
         if (priority == null) {
-            priority = HIERARCHY.get(type.getSimpleName().replace("Primitive", "")); // TODO: prefix hotfix
+            priority = HIERARCHY.get(type.getName().replace("Primitive", "")); // TODO: prefix hotfix
         }
 
         if (priority == null) {

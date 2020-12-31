@@ -17,45 +17,48 @@
 package org.panda_lang.panda.language.resource.syntax.scope.block.looping;
 
 import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.parser.PandaParserException;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
-import org.panda_lang.panda.language.interpreter.parser.block.BlockData;
-import org.panda_lang.panda.language.interpreter.parser.block.AutowiredBlockParser;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.autowired.handlers.TokenHandler;
+import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
+import org.panda_lang.panda.language.resource.syntax.scope.block.BlockParser;
 import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
+import org.panda_lang.utilities.commons.function.Option;
 
-public final class LoopParser extends AutowiredBlockParser {
+public final class LoopParser extends BlockParser<LoopBlock> {
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(PandaPipeline.BLOCK);
+    public String name() {
+        return "loop";
     }
 
     @Override
-    protected AutowiredInitializer<BlockData> initialize(Context context, AutowiredInitializer<BlockData> initializer) {
-        return initializer
-                .handler(new TokenHandler(Keywords.LOOP))
-                .linear("loop value:*=expression");
+    public Component<?>[] targets() {
+        return ArrayUtils.of(Targets.SCOPE);
     }
 
-    @Autowired(order = 1)
-    public BlockData parseContent(Context context, @Ctx Scope parent, @Channel Location location, @Src("value") Expression expression) {
-        if (!expression.getType().getAssociatedClass().isAssignableTo(Integer.class)) {
+    @Override
+    public Option<Completable<LoopBlock>> parse(Context<?> context) {
+        PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
+
+        if (sourceReader.read(Keywords.LOOP).isEmpty()) {
+            return Option.none();
+        }
+
+        Expression loopExpression = context.getExpressionParser().parse(context, context.getStream());
+
+        if (!loopExpression.getKnownType().is("panda::Int")) {
             throw new PandaParserException("Loop requires number as an argument");
         }
 
-        return new BlockData(new LoopBlock(parent, location, expression));
+        LoopBlock loopBlock = new LoopBlock(context.getScope(), context.getSource(), loopExpression);
+        context.getScope().addStatement(loopBlock);
+        SCOPE_PARSER.parse(context, loopBlock, sourceReader.readBody().get());
+
+        return Option.ofCompleted(loopBlock);
     }
 
 }

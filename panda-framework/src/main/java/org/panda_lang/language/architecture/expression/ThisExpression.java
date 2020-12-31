@@ -16,37 +16,46 @@
 
 package org.panda_lang.language.architecture.expression;
 
-import org.panda_lang.language.architecture.type.PropertyFrame;
-import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.signature.Signature;
+import org.panda_lang.language.architecture.type.TypeContext;
+import org.panda_lang.language.architecture.type.member.MemberFrame;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.runtime.ProcessStack;
-import org.panda_lang.language.architecture.type.TypeComponents;
 import org.panda_lang.utilities.commons.ObjectUtils;
 
 public final class ThisExpression implements DynamicExpression {
 
-    private final Type type;
+    private final Signature signature;
 
-    private ThisExpression(Type type) {
-        this.type = type;
+    private ThisExpression(Signature signature) {
+        this.signature = signature;
     }
 
     @Override
     public <T> T evaluate(ProcessStack stack, Object instance) {
-        return ObjectUtils.cast(instance instanceof PropertyFrame ? ((PropertyFrame) instance).getInstance() : instance);
+        return ObjectUtils.cast(instance instanceof MemberFrame ? ((MemberFrame) instance).getInstance() : instance);
     }
 
     @Override
-    public Type getReturnType() {
-        return type;
+    public Signature getReturnType() {
+        return signature;
     }
 
-    public static Expression of(Type type) {
-        return new PandaExpression(new ThisExpression(type));
+    public static Expression of(Signature signature) {
+        return new PandaExpression(new ThisExpression(signature));
     }
 
-    public static Expression of(Context context) {
-        return of(context.getComponent(TypeComponents.PROTOTYPE));
+    public static Expression of(Context<TypeContext> context) {
+        return of(context.getSubject().getType().getSignature());
+    }
+
+    @SuppressWarnings("unchecked")
+    public static Expression ofUnknownContext(Context<?> context) {
+        if (context.getSubject() instanceof TypeContext) {
+            return of((Context<TypeContext>) context);
+        }
+
+        throw new IllegalArgumentException("Context does not contain typed subject");
     }
 
 }

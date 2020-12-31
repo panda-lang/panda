@@ -22,10 +22,8 @@ import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.statement.Statement;
 import org.panda_lang.language.architecture.statement.Variable;
 import org.panda_lang.language.interpreter.lexer.PandaLexerUtils;
-import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.language.interpreter.parser.pipeline.PandaLocalChannel;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.source.PandaSource;
 import org.panda_lang.language.interpreter.token.PandaLocation;
@@ -52,7 +50,7 @@ import java.util.function.Supplier;
 public final class Repl {
 
     private final ReplConsole console;
-    private final Context context;
+    private Context<?> context;
     private final ExpressionParser expressionParser;
     private final Supplier<Process> processSupplier;
     private final ThrowingFunction<ProcessStack, Object, Exception> instanceSupplier;
@@ -65,7 +63,7 @@ public final class Repl {
     Repl(ReplCreator creator) throws Exception {
         this.console = creator.console;
         this.context = creator.context;
-        this.expressionParser = context.getComponent(Components.EXPRESSION);
+        this.expressionParser = context.getExpressionParser();
         this.processSupplier = creator.processSupplier;
         this.instanceSupplier = creator.instanceSupplier;
         this.exceptionListener = creator.exceptionListener;
@@ -82,7 +80,7 @@ public final class Repl {
         this.history = new StringBuilder();
         this.stack = new PandaProcessStack(processSupplier.get(), PandaRuntimeConstants.DEFAULT_STACK_SIZE);
 
-        this.instance = context.getComponent(Components.SCOPE).getStandardizedFramedScope().orThrow(() -> {
+        this.instance = context.getScope().getStandardizedFramedScope().orThrow(() -> {
             throw new PandaFrameworkException("Required scope has to be standardized");
         }).revive(stack, instanceSupplier.apply(stack));
 
@@ -172,12 +170,11 @@ public final class Repl {
     }
 
     private ReplResult evaluateExpression(Snippet expressionSource) {
-        context.withComponent(Components.CURRENT_SOURCE, expressionSource);
-        context.withComponent(Components.CHANNEL, new PandaLocalChannel());
+        this.context = context.forkCreator().withSource(expressionSource).toContext();
         Expression expression;
 
         try {
-            expression = expressionParser.parse(context, expressionSource).getExpression();
+            expression = expressionParser.parse(context, expressionSource);
         } catch (Exception e) {
             exceptionListener.onException(e, false);
             return ReplResult.NONE;

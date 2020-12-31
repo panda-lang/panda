@@ -18,32 +18,38 @@ package org.panda_lang.panda.language.interpreter;
 
 import org.panda_lang.language.architecture.Application;
 import org.panda_lang.language.architecture.Environment;
+import org.panda_lang.language.architecture.Script;
 import org.panda_lang.language.architecture.module.Imports;
-import org.panda_lang.language.architecture.module.PandaImports;
 import org.panda_lang.language.interpreter.Interpreter;
 import org.panda_lang.language.interpreter.lexer.Lexer;
 import org.panda_lang.language.interpreter.lexer.PandaLexer;
-import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.PandaContext;
+import org.panda_lang.language.interpreter.parser.ContextParser;
+import org.panda_lang.language.interpreter.parser.PandaContextCreator;
 import org.panda_lang.language.interpreter.parser.expression.PandaExpressionParser;
-import org.panda_lang.language.interpreter.parser.pipeline.PandaLocalChannel;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineParser;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.language.interpreter.parser.stage.PandaStageController;
-import org.panda_lang.language.interpreter.parser.stage.Stages;
-import org.panda_lang.language.interpreter.source.PandaSourceSet;
+import org.panda_lang.language.interpreter.parser.pool.ParserPool;
+import org.panda_lang.language.interpreter.parser.pool.PoolParser;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
+import org.panda_lang.language.interpreter.parser.stage.PandaStageManager;
+import org.panda_lang.language.interpreter.parser.stage.Phases;
+import org.panda_lang.language.interpreter.parser.stage.StageService;
 import org.panda_lang.language.interpreter.source.Source;
-import org.panda_lang.language.interpreter.source.SourceSet;
+import org.panda_lang.language.interpreter.source.SourceService;
+import org.panda_lang.language.interpreter.source.SourceService.Priority;
 import org.panda_lang.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.SourceStream;
 import org.panda_lang.language.resource.Resources;
 import org.panda_lang.panda.language.architecture.PandaApplication;
 import org.panda_lang.panda.language.architecture.PandaScript;
-import org.panda_lang.panda.language.interpreter.parser.PandaComponents;
+import org.panda_lang.utilities.commons.ObjectUtils;
 import org.panda_lang.utilities.commons.TimeUtils;
+import org.panda_lang.utilities.commons.collection.Pair;
+import org.panda_lang.utilities.commons.function.Completable;
+import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.Result;
+
+import java.util.Stack;
 
 public final class PandaInterpreter implements Interpreter {
 
@@ -60,56 +66,56 @@ public final class PandaInterpreter implements Interpreter {
         Resources resources = environment.getController().getResources();
         PandaApplication application = new PandaApplication(environment);
 
-        PandaStageController stageController = new PandaStageController();
-        stageController.initialize(Stages.getValues());
-
-        SourceSet sources = new PandaSourceSet();
-        sources.addSource(source);
+        PandaStageManager stageManager = new PandaStageManager();
+        stageManager.initialize(Phases.getValues());
+        StageService stageService = new StageService(stageManager);
 
         Lexer lexer = PandaLexer.of(environment.getController().getLanguage().getSyntax())
                 .enableSections()
                 .build();
 
-        Context context = new PandaContext()
-                .withComponent(Components.CONTROLLER, environment.getController())
-                .withComponent(Components.APPLICATION, application)
-                .withComponent(Components.ENVIRONMENT, environment)
-                .withComponent(Components.GENERATION, stageController)
-                .withComponent(Components.TYPE_LOADER, environment.getTypeLoader())
-                .withComponent(Components.PIPELINE, resources.getPipelinePath())
-                .withComponent(Components.EXPRESSION, resources.getExpressionSubparsers().toParser())
-                .withComponent(Components.SOURCES, sources);
+        Context<Object> context = new PandaContextCreator<>(
+                Option.none(),
+                environment,
+                stageService,
+                resources.getPipelinePath(),
+                resources.getExpressionSubparsers().toParser(),
+                environment.getTypeLoader(),
+                application
+        ).toContext();
 
-        PipelineParser<?> headParser = new PipelineParser<>(Pipelines.HEAD);
+        for (ContextParser<?, ?> parser : context.getPoolService().parsers()) {
+            parser.initialize(ObjectUtils.cast(context));
+        }
+
+        SourceService sources = environment.getSources();
+        sources.addSource(Priority.STANDARD, source);
+
+        ParserPool<Object> headPool = context.getPoolService().getPool(Targets.HEAD);
+        Stack<Runnable> interrupted = new Stack<>();
 
         try {
-            for (Source current : sources) {
-                PandaScript script = new PandaScript(current.getId());
-                application.addScript(script);
+            stageManager.launch(() -> {
+                while (sources.hasRequired() || sources.hasStandard() || !interrupted.isEmpty()) {
+                    while (sources.hasRequired()) {
+                        parse(lexer, application, context, headPool, interrupted, sources.retrieveRequired());
+                    }
 
-                Snippet snippet = lexer.convert(current);
-                SourceStream stream = new PandaSourceStream(snippet);
+                    if (!interrupted.isEmpty()) {
+                        interrupted.pop().run();
+                        continue;
+                    }
 
-                Imports imports = new PandaImports(environment.getModulePath(), environment.getTypeLoader());
-                imports.importModule("java");
-                imports.importModule("panda");
+                    if (sources.hasStandard()) {
+                        parse(lexer, application, context, headPool, interrupted, sources.retrieveStandard());
+                    }
+                }
 
-                Context delegatedContext = context.fork()
-                        .withComponent(PandaComponents.PANDA_SCRIPT, script)
-                        .withComponent(Components.SCRIPT, script)
-                        .withComponent(Components.IMPORTS, imports)
-                        .withComponent(Components.SOURCE, snippet)
-                        .withComponent(Components.STREAM, stream)
-                        .withComponent(Components.CURRENT_SOURCE, snippet)
-                        .withComponent(Components.CHANNEL, new PandaLocalChannel());
-
-                headParser.parse(delegatedContext, stream);
-            }
-
-            stageController.launch();
+            });
         }
         catch (Throwable throwable) {
             environment.getLogger().exception(throwable);
+            throwable.printStackTrace();
             return Result.error(throwable);
         }
 
@@ -120,13 +126,48 @@ public final class PandaInterpreter implements Interpreter {
         environment.getLogger().debug("• Amount of used types: " + environment.getModulePath().countUsedTypes());
         // environment.getLogger().debG, "• Amount of cached references: " + TypeGeneratorManager.getInstance().getCacheSize());
         environment.getLogger().debug("• Expression Parser Time: " + TimeUtils.toMilliseconds(PandaExpressionParser.time) + " (" + PandaExpressionParser.amount + ")");
-        environment.getLogger().debug("• Pipeline Handle Time: " + TimeUtils.toMilliseconds(environment.getController().getResources().getPipelinePath().getTotalHandleTime()));
+        // environment.getLogger().debug("• Pipeline Handle Time: " + TimeUtils.toMilliseconds(environment.getController().getResources().getPipelinePath().getTotalHandleTime()));
         environment.getLogger().debug("");
 
         PandaExpressionParser.time = 0;
         PandaExpressionParser.amount = 0;
 
         return Result.ok(application);
+    }
+
+    private boolean parse(Lexer lexer, PandaApplication application, Context<Object> context, ParserPool<Object> headPool, Stack<Runnable> interrupted, Pair<Source, Completable<Script>> sourceEntry) {
+        Source current = sourceEntry.getKey();
+
+        PandaScript script = new PandaScript(current.getId());
+        application.addScript(script);
+
+        Snippet tokenizedSource = lexer.convert(current);
+        SourceStream stream = new PandaSourceStream(tokenizedSource);
+
+        Imports imports = new Imports(context.getTypeLoader());
+        imports.importModule("java");
+        imports.importModule("panda");
+
+        Context<PoolParser<Object>> delegatedContext = context.forkCreator()
+                .withSubject(headPool.toParser())
+                .withScript(script)
+                .withImports(imports)
+                .withScriptSource(tokenizedSource)
+                .withStream(stream)
+                .withSource(tokenizedSource)
+                .toContext();
+
+        return parse(sourceEntry.getValue(), script, interrupted, delegatedContext, stream);
+    }
+
+    private boolean parse(Completable<Script> result, Script script, Stack<Runnable> interrupted, Context<PoolParser<Object>> context, SourceStream stream) {
+        if (context.getSubject().parse(context, stream)) {
+            result.complete(script);
+            return true;
+        }
+
+        interrupted.push(() -> parse(result, script, interrupted, context, stream));
+        return false;
     }
 
     @Override

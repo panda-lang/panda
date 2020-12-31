@@ -17,12 +17,15 @@
 package org.panda_lang.language.interpreter.token;
 
 import org.panda_lang.utilities.commons.ObjectUtils;
-import org.panda_lang.utilities.commons.text.ContentJoiner;
+import org.panda_lang.utilities.commons.text.Joiner;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public final class PandaSnippet implements Snippet {
+
+    private static final Snippet EMPTY = new PandaSnippet(Collections.emptyList(), false);
 
     private final List<TokenInfo> tokens;
     private final boolean mutable;
@@ -69,7 +72,7 @@ public final class PandaSnippet implements Snippet {
 
     @Override
     public String toString() {
-        return ContentJoiner.on(" ")
+        return Joiner.on(" ")
                 .join(tokens, Object::toString)
                 .toString();
     }
@@ -84,16 +87,20 @@ public final class PandaSnippet implements Snippet {
         return tokens;
     }
 
-    public static PandaSnippet createMutable() {
+    public static Snippet createMutable() {
         return new PandaSnippet(new ArrayList<>(), true);
     }
 
-    public static PandaSnippet ofImmutable(List<? extends TokenInfo> representations) {
+    public static Snippet ofImmutable(List<? extends TokenInfo> representations) {
         return new PandaSnippet(representations, false);
     }
 
-    public static PandaSnippet ofMutable(List<? extends TokenInfo> representations) {
+    public static Snippet ofMutable(List<? extends TokenInfo> representations) {
         return new PandaSnippet(representations, true);
+    }
+
+    public static Snippet empty() {
+        return EMPTY;
     }
 
 }

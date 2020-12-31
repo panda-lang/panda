@@ -16,31 +16,33 @@
 
 package org.panda_lang.language.architecture.module;
 
-import org.panda_lang.language.FrameworkController;
-import org.panda_lang.language.architecture.type.generator.TypeGeneratorManager;
-import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.array.ArrayClassTypeFetcher;
-import org.panda_lang.language.architecture.type.array.PandaArray;
+import org.panda_lang.utilities.commons.collection.Pair;
+import org.panda_lang.utilities.commons.function.Option;
+import org.panda_lang.utilities.commons.function.PandaStream;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public final class PandaTypeLoader implements TypeLoader {
 
     private final Collection<TypeLoader> parents;
-    private final TypesMap loadedTypes = new PandaTypesMap();
-    private final Collection<Module> loadedModules = new ArrayList<>();
-    private final TypeGeneratorManager generator;
+    private final Map<String, Type> loadedTypes = new HashMap<>(1024);
+    private final Map<Class<?>, Type> associatedClasses = new HashMap<>(1024);
+    private final ModulePath modulePath;
 
-    public PandaTypeLoader(FrameworkController controller, TypeLoader... parents) {
+    public PandaTypeLoader(ModulePath modulePath, TypeLoader... parents) {
         this.parents = Arrays.asList(parents);
-        this.generator = new TypeGeneratorManager(controller);
+        this.modulePath = modulePath;
     }
 
     @Override
     public Type load(Type type) {
+        loadedTypes.put(type.getName(), type);
+        type.getAssociated().then(javaClass -> associatedClasses.put(javaClass, type));
+
         if (!type.isInitialized()) {
             type.initialize(this);
         }
@@ -49,37 +51,41 @@ public final class PandaTypeLoader implements TypeLoader {
     }
 
     @Override
-    public Type load(Module module, Class<?> type, String alias) {
-        return forClass(type).orElseGet(() -> generator.generate(module, alias, type));
-    }
-
-    @Override
-    public void load(Module module) {
-        loadedModules.add(module);
-    }
-
-    @Override
-    public Option<Type> forClass(Class<?> associatedClass) {
-        if (associatedClass.isArray()) {
-            ArrayClassTypeFetcher.fetch(this, associatedClass);
-        }
-
-        return loadedTypes.forClass(associatedClass)
-                .orElse(() -> ModuleResourceUtils.forClass(loadedModules, associatedClass))
-                .orElse(() -> ModuleResourceUtils.forClass(parents, associatedClass))
+    public Option<Type> forType(String type) {
+        return Option.of(loadedTypes.get(type))
+                .orElse(() -> forParentType(type))
+                .orElse(() -> forPathType(type))
                 .peek(this::load);
     }
 
     @Override
-    public Option<Type> forName(CharSequence typeName) {
-        if (typeName.toString().endsWith(PandaArray.IDENTIFIER)) {
-            return ArrayClassTypeFetcher.fetch(this, typeName.toString());
-        }
+    public Option<Type> forJavaType(Class<?> javaClass) {
+        return Option.of(associatedClasses.get(javaClass));
+    }
 
-        return loadedTypes.forName(typeName)
-                .orElse(() -> ModuleResourceUtils.forName(loadedModules, typeName))
-                .orElse(() -> ModuleResourceUtils.forName(parents, typeName))
-                .peek(this::load);
+    private Option<Type> forParentType(String type) {
+        return PandaStream.of(parents)
+                .mapOpt(typeResolver -> typeResolver.forType(type))
+                .any();
+    }
+
+    private Option<Type> forPathType(String type) {
+        return Option.of(type)
+                .map(name -> name.split("::"))
+                .filter(elements -> elements.length == 2)
+                .map(elements -> new Pair<>(modulePath.forModule(elements[0]), elements[1]))
+                .filter(typeInModule -> typeInModule.getKey().isReady())
+                .map(typeInModule -> new Pair<>(typeInModule.getKey().get(), typeInModule.getValue()))
+                .filter(typeInModule -> typeInModule.getKey().isDefined())
+                .flatMap(typeInModule -> typeInModule.getKey().get().get(typeInModule.getValue()))
+                .map(reference -> reference.getType().get());
+    }
+
+    @Override
+    public Option<Module> forModule(String moduleName) {
+        return modulePath.forModule(moduleName).orThrow(() -> {
+            throw new IllegalStateException("Unloaded module " + moduleName);
+        });
     }
 
 }

@@ -18,11 +18,10 @@ package org.panda_lang.panda.language.resource.syntax.expressions;
 
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparsers;
-import org.panda_lang.language.interpreter.parser.expression.PandaExpressionSubparsers;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ArrayValueExpressionSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.CastExpressionSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ConstructorExpressionSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.CreaseExpressionSubparser;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.DeclarationExpressionSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.IsExpressionSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.LiteralExpressionSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.MethodExpressionSubparser;
@@ -34,41 +33,37 @@ import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.Sect
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.SequenceExpressionSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.StaticExpressionSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.VariableExpressionSubparser;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.assignation.AssignationExpressionSubparser;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.AssignationExpressionSubparser;
 
 import java.util.Arrays;
 import java.util.Collection;
 
 public final class PandaExpressions {
 
-    /**
-     * Array of default expression subparsers
-     */
-    public static final ExpressionSubparser[] SUBPARSERS = {
-            new AssignationExpressionSubparser(),
-            new ArrayValueExpressionSubparser(),
-            new CastExpressionSubparser(),
-            new ConstructorExpressionSubparser(),
-            new CreaseExpressionSubparser(),
-            new IsExpressionSubparser(),
-            new LiteralExpressionSubparser(),
-            new MethodExpressionSubparser(),
-            new NegateExpressionSubparser(),
-            new NegativeExpressionSubparser(),
-            new NumberExpressionSubparser(),
-            new OperationExpressionSubparser(),
-            new SectionExpressionSubparser(),
-            new SequenceExpressionSubparser(),
-            new StaticExpressionSubparser(),
-            new VariableExpressionSubparser()
-    };
-
-    public static Collection<ExpressionSubparser> getSubparsers() {
-        return Arrays.asList(SUBPARSERS);
+    public static Collection<ExpressionSubparser> createSubparsers() {
+        return Arrays.asList(
+                // new AssignationExpressionSubparser(),
+                 new AssignationExpressionSubparser(),
+                new CastExpressionSubparser(),
+                new ConstructorExpressionSubparser(),
+                new CreaseExpressionSubparser(),
+                 new DeclarationExpressionSubparser(),
+                new IsExpressionSubparser(),
+                new LiteralExpressionSubparser(),
+                new MethodExpressionSubparser(),
+                new NegateExpressionSubparser(),
+                new NegativeExpressionSubparser(),
+                new NumberExpressionSubparser(),
+                new OperationExpressionSubparser(),
+                new SectionExpressionSubparser(),
+                new SequenceExpressionSubparser(),
+                new StaticExpressionSubparser(),
+                new VariableExpressionSubparser()
+        );
     }
 
-    public static ExpressionSubparsers getExpressionSubparsers() {
-        return new PandaExpressionSubparsers(getSubparsers());
+    public static ExpressionSubparsers createExpressionSubparsers() {
+        return new ExpressionSubparsers(createSubparsers());
     }
 
 }

@@ -16,26 +16,20 @@
 
 package org.panda_lang.panda.language.resource.internal;
 
-import org.panda_lang.language.resource.internal.InternalModuleInfo;
 import org.panda_lang.language.resource.internal.java.JavaModule;
-import org.panda_lang.language.resource.internal.panda.PandaModule;
 import org.panda_lang.panda.language.resource.internal.java.JavaCollectionsModule;
 import org.panda_lang.panda.language.resource.internal.java.JavaExtensionModule;
 import org.panda_lang.panda.language.resource.internal.java.JavaUtilsModule;
 
 public final class PandaModules {
 
-    @SuppressWarnings("unchecked")
-    private static final Class<? extends InternalModuleInfo>[] MODULES = new Class[] {
-            JavaModule.class,
-            JavaExtensionModule.class,
-            JavaUtilsModule.class,
-            JavaCollectionsModule.class,
-            PandaModule.class
-    };
-
-    public static Class<? extends InternalModuleInfo>[] getClasses() {
-        return MODULES;
+    public static Object[] getMappings() {
+        return new Object[] {
+                new JavaModule(),
+                new JavaExtensionModule(),
+                new JavaUtilsModule(),
+                new JavaCollectionsModule()
+        };
     }
 
 }

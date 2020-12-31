@@ -16,8 +16,8 @@
 
 package org.panda_lang.language.architecture.statement;
 
-import org.panda_lang.language.architecture.type.PropertyParameter;
-import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
+import org.panda_lang.language.interpreter.source.Localizable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +26,8 @@ public abstract class AbstractPropertyFramedScope extends AbstractFramedScope im
 
     protected final List<PropertyParameter> parameters;
 
-    public AbstractPropertyFramedScope(Location location, List<PropertyParameter> parameters) {
-        super(location);
+    public AbstractPropertyFramedScope(Localizable localizable, List<PropertyParameter> parameters) {
+        super(localizable);
         this.parameters = parameters;
         this.addParameters(parameters);
     }

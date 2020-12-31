@@ -77,7 +77,7 @@ final class FunctionalInterfaceImplementerGenerator {
         constructor.setBody(constructorBody.append("}").toString());
         ctClass.addConstructor(constructor);
 
-        CtMethod method = new CtMethod(ClassPoolUtils.get(functionalMethod.getReturnType()), functionalMethod.getName(), ClassPoolUtils.toCtClasses(functionalMethod.getParameterTypes()), ctClass);
+        CtMethod method = new CtMethod(ClassPoolUtils.get(functionalMethod.getReturnType()), functionalMethod.getName(), ClassPoolUtils.toCt(functionalMethod.getParameterTypes()), ctClass);
         method.setBody("{ " + body + " }");
         ctClass.addMethod(method);
 

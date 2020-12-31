@@ -28,7 +28,7 @@ public abstract class MathOperation extends NumericOperation<Number> {
 
     @Override
     public RPNOperationAction<Number> of(TypeLoader typeLoader, Expression a, Expression b) {
-        Type returnType = returnType(typeLoader, a.getType(), b.getType());
+        Type returnType = returnType(typeLoader, a.getKnownType(), b.getKnownType());
         return of(returnType, super.getPriority(returnType), a, b);
     }
 
@@ -39,7 +39,7 @@ public abstract class MathOperation extends NumericOperation<Number> {
 
     @Override
     public Type requiredType(TypeLoader typeLoader) {
-        return typeLoader.requireType(Number.class);
+        return typeLoader.requireType("panda::Number");
     }
 
 }

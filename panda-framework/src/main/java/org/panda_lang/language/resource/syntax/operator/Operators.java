@@ -42,7 +42,7 @@ public final class Operators {
 
     public static final Operator DIVISION = add(VALUES, new Operator(OperatorFamilies.MATH, "/"));
 
-    public static final Operator MODULE = add(VALUES, new Operator(OperatorFamilies.MATH, "%"));
+    public static final Operator MODULO = add(VALUES, new Operator(OperatorFamilies.MATH, "%"));
 
     /*
         Logic
@@ -64,13 +64,17 @@ public final class Operators {
         Logical
      */
 
-    public static final Operator EQUAL_TO = add(VALUES, new Operator(OperatorFamilies.LOGICAL, "=="));
+    public static final Operator LESS_THAN = add(VALUES, new Operator(OperatorFamilies.LOGICAL, "<"));
 
-    public static final Operator NOT_EQUAL_TO = add(VALUES, new Operator(OperatorFamilies.LOGICAL, "!="));
+    public static final Operator ANGLE_LEFT = LESS_THAN;
 
     public static final Operator GREATER_THAN = add(VALUES, new Operator(OperatorFamilies.LOGICAL, ">"));
 
-    public static final Operator LESS_THAN = add(VALUES, new Operator(OperatorFamilies.LOGICAL, "<"));
+    public static final Operator ANGLE_RIGHT = GREATER_THAN;
+
+    public static final Operator EQUAL_TO = add(VALUES, new Operator(OperatorFamilies.LOGICAL, "=="));
+
+    public static final Operator NOT_EQUAL_TO = add(VALUES, new Operator(OperatorFamilies.LOGICAL, "!="));
 
     public static final Operator GREATER_THAN_OR_EQUAL_TO = add(VALUES, new Operator(OperatorFamilies.LOGICAL, ">="));
 

@@ -17,26 +17,26 @@
 package org.panda_lang.language.architecture.dynamic.accessor;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.Typed;
 import org.panda_lang.language.architecture.statement.Variable;
-import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.architecture.type.signature.Signature;
+import org.panda_lang.language.architecture.type.signature.Signed;
+import org.panda_lang.language.interpreter.source.Localizable;
 import org.panda_lang.language.runtime.MemoryContainer;
 import org.panda_lang.language.runtime.ProcessStack;
-import org.panda_lang.language.architecture.dynamic.assigner.Assigner;
 
-public interface Accessor<T extends Variable> extends Typed {
+public interface Accessor<T extends Variable> extends Signed {
 
     MemoryContainer fetchMemoryContainer(ProcessStack stack, Object instance) throws Exception;
 
-    Assigner<T> toAssigner(Location location, boolean initialize, Expression value);
+    Assigner<T> toAssigner(Localizable localizable, boolean initialize, Expression value);
 
     @Nullable <R> R getValue(ProcessStack stack, Object instance) throws Exception;
 
     @Override
-    default Type getType() {
-        return getVariable().getType();
+    default Signature getSignature() {
+        return getVariable().getSignature();
     }
 
     int getMemoryPointer();

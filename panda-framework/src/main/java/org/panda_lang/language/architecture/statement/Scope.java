@@ -31,7 +31,7 @@ public interface Scope extends Statement {
      * @param statement the statement to add
      * @return the statement
      */
-    Statement addStatement(Statement statement);
+    <S extends Statement> S addStatement(S statement);
 
     /**
      * Check if scope has effective (statement that is always reachable) statement of the given type

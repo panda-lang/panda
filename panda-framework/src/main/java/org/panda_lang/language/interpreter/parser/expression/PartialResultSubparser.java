@@ -19,6 +19,4 @@ package org.panda_lang.language.interpreter.parser.expression;
 /**
  * Result from this subparser does not overrides errors
  */
-public interface PartialResultSubparser extends ExpressionSubparser {
-
-}
+public interface PartialResultSubparser extends ExpressionSubparser { }

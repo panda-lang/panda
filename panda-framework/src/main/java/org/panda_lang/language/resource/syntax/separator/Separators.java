@@ -34,7 +34,6 @@ public final class Separators {
     public static final Separator SEMICOLON = add(VALUES, new Separator(";", null));
     public static final Separator COMMA = add(VALUES, new Separator(",", null));
     public static final Separator PERIOD = add(VALUES, new Separator(".", null));
-    public static final Separator VARARGS = add(VALUES, new Separator("...", null));
 
     public static final Separator PARENTHESIS_RIGHT = add(VALUES, new Separator(")", null));
     public static final Separator PARENTHESIS_LEFT = add(VALUES, new Separator("(", PARENTHESIS_RIGHT));
@@ -44,6 +43,9 @@ public final class Separators {
 
     public static final Separator SQUARE_BRACKET_RIGHT = add(VALUES, new Separator("]", null));
     public static final Separator SQUARE_BRACKET_LEFT = add(VALUES, new Separator("[", SQUARE_BRACKET_RIGHT));
+
+    // public static final Separator ANGLE_BRACKET_RIGHT = add(VALUES, new Separator(">", null));
+    // public static final Separator ANGLE_BRACKET_LEFT = add(VALUES, new Separator("<", ANGLE_BRACKET_RIGHT));
 
     private Separators() { }
 
@@ -68,7 +70,7 @@ public final class Separators {
     }
 
     public static Separator[] getOpeningSeparators() {
-        return new Separator[] { BRACE_LEFT, SQUARE_BRACKET_LEFT, PARENTHESIS_LEFT };
+        return new Separator[] { BRACE_LEFT, SQUARE_BRACKET_LEFT, PARENTHESIS_LEFT, /* ANGLE_BRACKET_LEFT */ };
     }
 
     public static Separator[] values() {

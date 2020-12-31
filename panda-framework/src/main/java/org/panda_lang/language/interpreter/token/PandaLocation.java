@@ -16,8 +16,9 @@
 
 package org.panda_lang.language.interpreter.token;
 
-import org.panda_lang.language.interpreter.source.Source;
 import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.interpreter.source.PandaSource;
+import org.panda_lang.language.interpreter.source.Source;
 
 public final class PandaLocation implements Location {
 
@@ -53,6 +54,10 @@ public final class PandaLocation implements Location {
     @Override
     public String toString() {
         return source.getId() + " [" + (line + 1) + ":" + position + "]";
+    }
+
+    public static Location unknownLocation(String id) {
+        return new PandaLocation(new PandaSource(id, "", true), 0, 0);
     }
 
 }

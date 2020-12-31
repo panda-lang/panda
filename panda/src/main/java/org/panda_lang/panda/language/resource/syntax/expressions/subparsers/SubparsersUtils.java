@@ -16,35 +16,27 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
-import org.panda_lang.utilities.commons.function.Option;
-import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.interpreter.parser.Components;
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
-import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.architecture.type.utils.TypeDeclarationUtils;
-import org.panda_lang.utilities.commons.function.Produce;
+import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
+import org.panda_lang.panda.language.resource.syntax.type.SignatureParser;
+import org.panda_lang.utilities.commons.function.Result;
 
 final class SubparsersUtils {
 
+    private static final SignatureParser SIGNATURE_PARSER = new SignatureParser();
+
     private SubparsersUtils() { }
 
-    protected static Produce<Type, ExpressionResult> readType(ExpressionContext context) {
-        Option<Snippet> typeSource = TypeDeclarationUtils.readType(context.getSynchronizedSource().getAvailableSource());
+    protected static Result<Signature, ExpressionResult> readType(@Nullable Signature parent, ExpressionContext<?> context) {
+        PandaSourceReader sourceReader = new PandaSourceReader(context.getSynchronizedSource().getAvailableSource().toStream());
 
-        if (!typeSource.isDefined()) {
-            return new Produce<>(() -> ExpressionResult.error("Cannot read type", context.getSynchronizedSource().getAvailableSource()));
-        }
-
-        return context.toContext().getComponent(Components.IMPORTS)
-                .forName(typeSource.get().asSource())
-                .map(type -> {
-                    context.getSynchronizedSource().next(typeSource.get().size());
-                    return new Produce<Type, ExpressionResult>(type);
-                })
-                .orElseGet(() -> {
-                    return new Produce<>(() -> ExpressionResult.error("Unknown type", context.getSynchronizedSource().getAvailableSource()));
-                });
+        return sourceReader.readSignature()
+                .map(source -> Result.<Signature, ExpressionResult> ok(SIGNATURE_PARSER.parse(context, source, false, parent)))
+                .orElseGet(() -> Result.error(ExpressionResult.error("Unknown type", context.getSynchronizedSource().getSource())))
+                .peek(signature -> context.getSynchronizedSource().next(sourceReader.getStream().getReadLength()));
     }
 
 }

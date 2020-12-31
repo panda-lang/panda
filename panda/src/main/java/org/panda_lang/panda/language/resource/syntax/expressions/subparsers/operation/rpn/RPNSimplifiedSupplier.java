@@ -17,11 +17,12 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn;
 
 import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.module.TypeLoader;
+import org.panda_lang.language.architecture.type.signature.Signature;
+import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.runtime.ProcessStack;
 
-public abstract class RPNSimplifiedSupplier<A, B, T> implements RPNOperationSupplier {
+public abstract class RPNSimplifiedSupplier<A, B, T> implements RPNOperationSupplier<T> {
 
     public abstract T get(ProcessStack stack, Object instance, A a, B b);
 
@@ -36,8 +37,8 @@ public abstract class RPNSimplifiedSupplier<A, B, T> implements RPNOperationSupp
             }
 
             @Override
-            public Type returnType(TypeLoader loader) {
-                return RPNSimplifiedSupplier.this.returnType(loader);
+            public Signature returnType(TypeLoader loader) {
+                return RPNSimplifiedSupplier.this.returnType(loader).getSignature();
             }
         };
     }

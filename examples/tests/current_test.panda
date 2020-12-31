@@ -7,6 +7,7 @@ require java:collections
 require 'current_test_required'
 // import 'test-local-module' internal module
 require 'test-local-module'
+require test-local-module
 
 // import java class
 import org.panda_lang.panda.PandaConstants
@@ -54,7 +55,7 @@ main {
     log 'Hello Panda', flag, varFoo, s, test, i, math
 
     // verify logic
-    if !flag {
+    if not flag {
         throw new RuntimeException('Nope If')
     }
     else if flag {
@@ -94,12 +95,7 @@ main {
         break // or just stop
     }
 
-    // create TestArray instance and
-    TestArray testArray = new TestArray(7);
-    testArray.modify(test)
-
-    // print array and some logical expressions
-    log "Content of " + "array " + testArray.array.asString()
+    // logical expressions
     log "OR v AND: " + (false || false) + ", " + false || true, true && false, true && true
     log "Compare: " + 1 > 2, 1 > 2, 1 < 2, 2 < 1
     log "Random",  (false || false) + ", " + false || true, true && false, true && true, (false || false) + ", " + false || true, true && false, true && true
@@ -114,6 +110,7 @@ main {
     log creaseValue
 
     // create instance of class imported from another file
+    // should use generated default constructor
     Required required = new Required()
     required.hello()
 
@@ -152,20 +149,21 @@ main {
     log 10 + Int.parseInt('5') + list.size()
 
     // map array to iterable in foreach
-    foreach (String var : new String[10]) { }
+    // foreach (String var : new Array<String>(10)) { }
 
     // make sure that we can use primitive arrays
-    PrimitiveChar[] primitiveArray = (')#onlypanda').toCharArray()
-    Arrays.sort(primitiveArray)
-    log primitiveArray[0]
-    log new String(primitiveArray)
+    // PrimitiveChar[] primitiveArray = (')#onlypanda').toCharArray()
+    // Arrays.sort(primitiveArray)
+    //log primitiveArray[0]
+    // log new String(primitiveArray)
 
     // Use class from imported internal module
     LocalModuleClass.hello()
 
     // Autocast
-    Long value = new Int(10)
-    log value.getClass()
+    Int intValue = 10
+    Long longValue = intValue
+    log longValue.getClass()
 
     // Verify implementation of native equals
     Entity a = new Entity("same")
@@ -191,7 +189,7 @@ shared interface IEcho {
 }
 
 // simple class that extends class Test and implements interface IEcho
-shared class Foo : Test, IEcho {
+shared type Foo : Test, IEcho {
 
     constructor () {
         base('We need to call base constructor if we extend another type with custom constructor')
@@ -213,7 +211,7 @@ shared class Foo : Test, IEcho {
 }
 
 // simple entity to test equality implemented as native method
-internal class Entity {
+internal type Entity {
 
     internal String name
 
@@ -229,7 +227,7 @@ internal class Entity {
 }
 
 // random Test class
-internal class Test {
+internal type Test {
 
     // open static field INDEX with assigned value
     open static Int INDEX = 1
@@ -249,7 +247,7 @@ internal class Test {
     }
 
     // static field that creates instance of the current class
-    open static Test TEST = new Test('Static initialization of class instance')
+    // open static Test TEST = { new Test('Static initialization of class instance') }
 
     shared echo (Object message3) {
         log message3
@@ -276,44 +274,13 @@ internal class Test {
 
 }
 
-// array test
-internal class TestArray {
-
-    // shared array
-    shared String[] array
-
-    // create TestArray and define array size
-    constructor (Int size) {
-        this.array = new String[size]
-    }
-
-    // modify some values in array
-    shared modify (Test test) {
-        this.getArray()[Test.INDEX] = "Hello Array"
-        array[6] = String.valueOf(this)
-
-        log "Value at array[test.index]: " + this.getArray()[test.INDEX]
-        varargs(array)
-    }
-
-    shared varargs (nil mut String... varargs) {
-        log varargs.asString()
-    }
-
-    // get array
-    internal getArray() -> String[] {
-        return array
-    }
-
-}
-
-internal class CustomThread : Thread {
+internal type CustomThread : Thread {
 
     constructor () {
         base('CustomThread')
     }
 
-    override run () {
+    override run () -> PrimitiveVoid {
         log 'Called in ' + Thread.currentThread().getName()
     }
 

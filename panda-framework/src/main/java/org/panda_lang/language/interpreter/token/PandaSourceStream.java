@@ -16,9 +16,13 @@
 
 package org.panda_lang.language.interpreter.token;
 
+import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.utilities.commons.function.Option;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.function.Predicate;
 
 public final class PandaSourceStream implements SourceStream {
 
@@ -43,6 +47,13 @@ public final class PandaSourceStream implements SourceStream {
     }
 
     @Override
+    public Option<TokenInfo> read(Predicate<TokenInfo> condition) {
+        return hasUnreadSource()
+                ? Option.of(read()).filter(condition).onEmpty(() -> unread(1))
+                : Option.none();
+    }
+
+    @Override
     public Snippet read(int length) {
         if (!hasUnreadSource(length)) {
             throw new IndexOutOfBoundsException("source(" + (index + length) + ") >= source.length (" + original.size() + ")");
@@ -57,7 +68,12 @@ public final class PandaSourceStream implements SourceStream {
             throw new IndexOutOfBoundsException("source(" + (index + length) + ") >= source.length (" + original.size() + ")");
         }
 
-        index += length;
+        this.index += length;
+    }
+
+    @Override
+    public void unread(int length) {
+        this.index = Math.max(index - length, 0);
     }
 
     @Override
@@ -80,7 +96,7 @@ public final class PandaSourceStream implements SourceStream {
 
     @Override
     public void dispose(int length) {
-        index += length;
+        this.index += length;
     }
 
     @Override
@@ -89,12 +105,17 @@ public final class PandaSourceStream implements SourceStream {
     }
 
     private boolean hasUnreadSource(int length) {
-        return (index + (length - 1)) < original.size();
+        return (index + (length - 1 )) < original.size();
     }
 
     @Override
     public int getUnreadLength() {
         return original.size() - index;
+    }
+
+    @Override
+    public TokenInfo getNext() {
+        return original.get(index + 1);
     }
 
     @Override
@@ -105,6 +126,11 @@ public final class PandaSourceStream implements SourceStream {
     @Override
     public Snippet getOriginalSource() {
         return original;
+    }
+
+    @Override
+    public Location toLocation() {
+        return getCurrent().getLocation();
     }
 
     @Override

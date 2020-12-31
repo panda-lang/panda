@@ -17,80 +17,66 @@
 package org.panda_lang.panda.language.resource.syntax.scope.block.looping;
 
 import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.architecture.expression.ExpressionEvaluator;
-import org.panda_lang.language.architecture.module.TypeLoader;
-import org.panda_lang.language.architecture.statement.Scope;
+import org.panda_lang.language.architecture.statement.PandaVariable;
 import org.panda_lang.language.architecture.statement.VariableData;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.runtime.ProcessStack;
-import org.panda_lang.language.architecture.expression.PandaDynamicExpression;
-import org.panda_lang.language.architecture.statement.PandaVariable;
-import org.panda_lang.language.architecture.statement.PandaVariableDataInitializer;
 import org.panda_lang.language.interpreter.parser.PandaParserException;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.language.resource.syntax.operator.Operators;
-import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
-import org.panda_lang.panda.language.interpreter.parser.block.BlockData;
-import org.panda_lang.panda.language.interpreter.parser.block.AutowiredBlockParser;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.autowired.handlers.TokenHandler;
-import org.panda_lang.utilities.commons.ArrayUtils;
-import org.panda_lang.utilities.commons.iterable.ArrayIterable;
+import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
+import org.panda_lang.panda.language.resource.syntax.scope.block.BlockParser;
+import org.panda_lang.panda.language.resource.syntax.scope.variable.VariableDataInitializer;
+import org.panda_lang.utilities.commons.function.Completable;
+import org.panda_lang.utilities.commons.function.Option;
 
-public final class ForEachParser extends AutowiredBlockParser {
+public final class ForEachParser extends BlockParser<ForEachBlock> {
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(PandaPipeline.BLOCK);
+    public String name() {
+        return "foreach";
     }
 
     @Override
-    protected AutowiredInitializer<BlockData> initialize(Context context, AutowiredInitializer<BlockData> initializer) {
-        return initializer
-                .handler(new TokenHandler(Keywords.FOREACH))
-                .linear("foreach content:(~)");
-    }
+    public Option<Completable<ForEachBlock>> parse(Context<?> context) {
+        PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
-    @Autowired(order = 1)
-    public BlockData parseBlock(Context context, @Ctx Scope parent, @Ctx TypeLoader loader, @Ctx ExpressionParser parser, @Src("content") Snippet content) {
-        Snippet[] elements = content.split(Operators.COLON);
+        if (sourceReader.read(Keywords.FOREACH).isEmpty()) {
+            return Option.none();
+        }
+
+        Option<Snippet> forEachArguments = sourceReader.readArguments();
+
+        if (forEachArguments.isEmpty()) {
+            throw new PandaParserFailure(context, context.getSource(), "Missing expression in for-each loop");
+        }
+
+        Snippet[] elements = forEachArguments.get().split(Operators.COLON);
 
         if (elements.length != 2) {
-            throw new PandaParserFailure(context, content, "Invalid amount of statements in for each loop declaration", "The statement should look like: foreach (<value> : <source>)");
+            throw new PandaParserFailure(context, forEachArguments.get(),
+                    "Invalid amount of statements in for each loop declaration", "The statement should look like: foreach (<value> : <source>)"
+            );
         }
 
-        Expression iterableExpression = parser.parse(context, elements[1]).getExpression();
+        Expression iterableExpression = context.getExpressionParser().parse(context, elements[1]);
 
-        if (iterableExpression.getType().isArray()) {
-            Expression arrayExpression = iterableExpression;
-
-            iterableExpression = new PandaDynamicExpression(loader.requireType(Iterable.class), new ExpressionEvaluator() {
-                @Override
-                @SuppressWarnings("unchecked")
-                public Object evaluate(ProcessStack stack, Object instance) throws Exception {
-                    return new ArrayIterable<>(arrayExpression.evaluate(stack, instance));
-                }
-            }).toExpression();
-        }
-
-        ForEachBlock forEach = new ForEachBlock(parent, content.getLocation(), iterableExpression);
-        PandaVariableDataInitializer dataInitializer = new PandaVariableDataInitializer(context, forEach);
-        VariableData variableData = dataInitializer.createVariableData(elements[0], true, true);
-        forEach.addVariable(new PandaVariable(forEach.getValuePointer(), variableData));
-
-        if (!forEach.getIterableExpression().getType().getAssociatedClass().isAssignableTo(Iterable.class)) {
+        if (!context.getTypeLoader().requireType("panda::Iterable").isAssignableFrom(iterableExpression.getKnownType())) {
             throw new PandaParserException("ForEach requires Iterable value");
         }
 
-        return new BlockData(forEach);
+        ForEachBlock forEach = new ForEachBlock(context.getScope(), context, iterableExpression);
+        VariableDataInitializer dataInitializer = new VariableDataInitializer(context, forEach);
+        VariableData variableData = dataInitializer.createVariableData(elements[0], true, true);
+
+        PandaVariable forVariable = new PandaVariable(forEach.getValuePointer(), variableData);
+        forEach.addVariable(forVariable);
+
+        context.getScope().addStatement(forEach);
+        SCOPE_PARSER.parse(context, forEach, sourceReader.readBody().get());
+
+        return Option.ofCompleted(forEach);
     }
 
 }

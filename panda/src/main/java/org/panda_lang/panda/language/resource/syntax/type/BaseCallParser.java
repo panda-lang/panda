@@ -19,62 +19,79 @@ package org.panda_lang.panda.language.resource.syntax.type;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.TypeContext;
+import org.panda_lang.language.architecture.type.member.constructor.BaseCall;
+import org.panda_lang.language.architecture.type.member.constructor.ConstructorScope;
+import org.panda_lang.language.architecture.type.member.constructor.TypeConstructor;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.language.interpreter.source.Location;
-import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.architecture.type.BaseCall;
-import org.panda_lang.language.architecture.type.ConstructorScope;
+import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
+import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.autowired.handlers.TokenHandler;
+import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ArgumentsParser;
 import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
+import org.panda_lang.utilities.commons.function.Option;
 
-public final class BaseCallParser extends AutowiredParser<Void> {
+import java.util.List;
+
+public final class BaseCallParser implements ContextParser<TypeContext, BaseCall> {
 
     private static final ArgumentsParser ARGUMENTS_PARSER = new ArgumentsParser();
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(Pipelines.SCOPE);
+    public String name() {
+        return "base";
     }
 
     @Override
-    protected AutowiredInitializer<Void> initialize(Context context, AutowiredInitializer<Void> initializer) {
-        return initializer
-                .handler(new TokenHandler(Keywords.BASE))
-                .linear("base args:(~)");
+    public Component<?>[] targets() {
+        return ArrayUtils.of(Targets.SCOPE);
     }
 
-    @Autowired(order = 1)
-    public void parse(Context context, @Ctx Scope parent, @Ctx Type type, @Channel Location location, @Channel Snippet src, @Src("args") Snippet args) {
+    @Override
+    public Option<Completable<BaseCall>> parse(Context<? extends TypeContext> context) {
+        PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
+
+        if (sourceReader.read(Keywords.BASE).isEmpty()) {
+            return Option.none();
+        }
+
+        Type type = context.getSubject().getType();
+        Scope parent = context.getScope();
+
         if (!(parent instanceof ConstructorScope)) {
-            throw new PandaParserFailure(context, src, src, "Cannot use base constructor outside of the constructor");
+            throw new PandaParserFailure(context, context.getSource(), "Cannot use base constructor outside of the constructor");
         }
 
         if (!parent.getStatements().isEmpty()) {
-            throw new PandaParserFailure(context, src, src, "Base constructor has to be the first statement in the scope");
+            throw new PandaParserFailure(context, context.getSource(), "Base constructor has to be the first statement in the scope");
         }
 
         if (type.getSuperclass().isEmpty()) {
-            throw new PandaParserFailure(context, src, src, "Cannot use base call without superclass");
+            throw new PandaParserFailure(context, context.getSource(), "Cannot use base call without superclass");
         }
 
-        Expression[] expressions = ARGUMENTS_PARSER.parse(context, args);
+        Option<Snippet> arguments = sourceReader.readArguments();
 
-        type.getSuperclass().get().getConstructors().getAdjustedConstructor(expressions)
-                .peek(constructor -> parent.addStatement(new BaseCall(location, expressions)))
-                .onEmpty(() -> {
-                    throw new PandaParserFailure(context, src, src, "Base type does not contain constructor with the given parameters");
-                });
+        if (arguments.isEmpty()) {
+            throw new PandaParserFailure(context, context.getSource(), "Missing base arguments");
+        }
+
+        List<Expression> expressions = ARGUMENTS_PARSER.parse(context, arguments.get());
+        Option<TypeConstructor> constructor = type.getSuperclass().get().fetchType().getConstructors().getConstructor(expressions);
+
+        constructor.onEmpty(() -> {
+            throw new PandaParserFailure(context, context.getSource(), "Base type does not contain constructor with the given parameters");
+        });
+
+        BaseCall baseCall = new BaseCall(context.toLocation(), constructor.get(), expressions);
+        parent.addStatement(baseCall);
+
+        return Option.ofCompleted(baseCall);
     }
+
 }

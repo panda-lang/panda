@@ -38,7 +38,7 @@ public interface ExpressionSubparserWorker {
      * @param token the token to handle
      * @return the result of worker
      */
-    @Nullable ExpressionResult next(ExpressionContext context, TokenInfo token);
+    @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token);
 
     /**
      * Get parent subparser

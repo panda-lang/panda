@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.language.architecture.expression.DynamicExpression;
@@ -25,23 +26,23 @@ final class IsExpression implements DynamicExpression {
 
     private final Type returnType;
     private final Expression value;
-    private final Type requestedTypeType;
+    private final Signature requestedSignature;
 
-    IsExpression(Type returnType, Expression value, Type requestedTypeType) {
+    IsExpression(Type returnType, Expression value, Signature requestedSignature) {
         this.returnType = returnType;
         this.value = value;
-        this.requestedTypeType = requestedTypeType;
+        this.requestedSignature = requestedSignature;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public Object evaluate(ProcessStack stack, Object instance) throws Exception {
-        return requestedTypeType.getAssociatedClass().isAssignableFrom(value.evaluate(stack, instance).getClass());
+        return requestedSignature.toTyped().fetchType().getAssociated().get().isAssignableFrom(value.evaluate(stack, instance).getClass());
     }
 
     @Override
-    public Type getReturnType() {
-        return returnType;
+    public Signature getReturnType() {
+        return returnType.getSignature();
     }
 
 }

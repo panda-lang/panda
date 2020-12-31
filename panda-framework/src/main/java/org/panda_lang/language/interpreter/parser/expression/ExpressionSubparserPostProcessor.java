@@ -29,6 +29,6 @@ public interface ExpressionSubparserPostProcessor {
      * @param context the context to process
      * @return the post processing result
      */
-    @Nullable ExpressionResult finish(ExpressionContext context);
+    @Nullable ExpressionResult finish(ExpressionContext<?> context);
 
 }

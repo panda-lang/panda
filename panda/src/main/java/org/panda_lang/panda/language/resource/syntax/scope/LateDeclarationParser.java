@@ -16,32 +16,39 @@
 
 package org.panda_lang.panda.language.resource.syntax.scope;
 
-import org.panda_lang.language.architecture.statement.Scope;
+import org.panda_lang.language.architecture.statement.PandaVariableData;
+import org.panda_lang.language.architecture.statement.Variable;
 import org.panda_lang.language.architecture.statement.VariableData;
+import org.panda_lang.language.architecture.type.VisibilityComparator;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.language.interpreter.token.Snippetable;
-import org.panda_lang.language.architecture.statement.PandaVariableDataInitializer;
-import org.panda_lang.language.interpreter.pattern.Mappings;
+import org.panda_lang.language.interpreter.parser.ContextParser;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
+import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.autowired.handlers.TokenHandler;
+import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
+import org.panda_lang.panda.language.resource.syntax.type.SignatureParser;
+import org.panda_lang.panda.language.resource.syntax.type.SignatureSource;
 import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
+import org.panda_lang.utilities.commons.function.Option;
 
-public final class LateDeclarationParser extends AutowiredParser<Void> {
+public final class LateDeclarationParser implements ContextParser<Object, Variable> {
+
+    private static final SignatureParser SIGNATURE_PARSER = new SignatureParser();
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(Pipelines.SCOPE);
+    public String name() {
+        return "late declaration";
+    }
+
+    @Override
+    public Component<?>[] targets() {
+        return ArrayUtils.of(Targets.SCOPE);
     }
 
     @Override
@@ -50,22 +57,36 @@ public final class LateDeclarationParser extends AutowiredParser<Void> {
     }
 
     @Override
-    protected AutowiredInitializer<Void> initialize(Context context, AutowiredInitializer<Void> initializer) {
-        return initializer
-                .handler(new TokenHandler(Keywords.LATE))
-                .functional(pattern -> pattern
-                        .keyword(Keywords.LATE).optional()
-                        .keyword(Keywords.MUT).optional()
-                        .keyword(Keywords.NIL).optional()
-                        .type("type").optional().verifyNextType(TokenTypes.UNKNOWN)
-                        .wildcard("name").verifyType(TokenTypes.UNKNOWN));
-    }
+    public Option<Completable<Variable>> parse(Context<?> context) {
+        PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
-    @Autowired(order = 1)
-    public void parse(Context context, @Channel Mappings mappings, @Ctx Scope scope, @Src("type") Snippetable type, @Src("name") Snippetable name) {
-        PandaVariableDataInitializer dataInitializer = new PandaVariableDataInitializer(context, scope);
-        VariableData variableData = dataInitializer.createVariableData(type, name, mappings.has(Keywords.MUT.getValue()), mappings.has(Keywords.NIL.getValue()));
-        scope.createVariable(variableData);
+        if (sourceReader.read(Keywords.LATE).isEmpty()) {
+            return Option.none();
+        }
+
+        boolean mut = sourceReader.optionalRead(() -> sourceReader.read(Keywords.MUT)).isPresent();
+        boolean nil = sourceReader.optionalRead(() -> sourceReader.read(Keywords.NIL)).isPresent();
+
+        Option<SignatureSource> variableSignature = sourceReader.readSignature();
+
+        if (variableSignature.isEmpty()) {
+            throw new PandaParserFailure(context, context.getSource(), "Missing valid variable signature");
+        }
+
+        Option<TokenInfo> name = sourceReader.read(TokenTypes.UNKNOWN);
+
+        if (name.isEmpty()) {
+            throw new PandaParserFailure(context, context.getSource(), "Missing variable name");
+        }
+
+        // TODO: Parent signature
+        Signature signature = SIGNATURE_PARSER.parse(context, variableSignature.get(), false, null);
+        VisibilityComparator.requireAccess(signature.toTyped().fetchType(), context, variableSignature.get().getName());
+
+        VariableData variableData = new PandaVariableData(signature, name.get().getValue(), mut, nil);
+        Variable variable = context.getScope().createVariable(variableData);
+
+        return Option.ofCompleted(variable);
     }
 
 }

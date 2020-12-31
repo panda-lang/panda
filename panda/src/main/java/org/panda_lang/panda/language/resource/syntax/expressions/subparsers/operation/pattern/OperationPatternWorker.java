@@ -30,7 +30,7 @@ final class OperationPatternWorker {
     private final OperationPatternResult result;
 
     private final Stack<Separator> separators = new Stack<>();
-    private PandaSnippet expression = PandaSnippet.createMutable();
+    private Snippet expression = PandaSnippet.createMutable();
 
     OperationPatternWorker(OperationPattern extractor, Snippet source) {
         this.extractor = extractor;

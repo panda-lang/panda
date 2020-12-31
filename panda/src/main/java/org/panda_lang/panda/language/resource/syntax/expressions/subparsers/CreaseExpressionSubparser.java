@@ -24,7 +24,6 @@ import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserWorker;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.architecture.dynamic.accessor.AccessorExpression;
 import org.panda_lang.language.resource.syntax.operator.CreaseType;
@@ -33,24 +32,24 @@ import org.panda_lang.language.resource.syntax.operator.Operators;
 public final class CreaseExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public ExpressionSubparserWorker createWorker(Context context) {
+    public ExpressionSubparserWorker createWorker(Context<?> context) {
         return new CreaseWorker().withSubparser(this);
     }
 
     @Override
-    public ExpressionCategory getCategory() {
+    public ExpressionCategory category() {
         return ExpressionCategory.STANDALONE;
     }
 
     @Override
-    public String getSubparserName() {
+    public String name() {
         return "crease";
     }
 
     private static final class CreaseWorker extends AbstractExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo token) {
+        public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
             CreaseType type = null;
 
             if (token.contentEquals(Operators.INCREMENT)) {
@@ -65,16 +64,10 @@ public final class CreaseExpressionSubparser implements ExpressionSubparser {
             }
 
             boolean post = context.hasResults();
-            Expression expression;
 
-            if (post) {
-                expression = context.popExpression();
-            }
-            else {
-                ExpressionTransaction transaction = context.getParser().parse(context.toContext(), context.getSynchronizedSource());
-                context.commit(transaction::rollback);
-                expression = transaction.getExpression();
-            }
+            Expression expression = post
+                    ? context.popExpression()
+                    :context.getParser().parse(context.toContext(), context.getSynchronizedSource());
 
             if (!(expression instanceof AccessorExpression)) {
                 return ExpressionResult.error("Expression is not associated with any variable", token);

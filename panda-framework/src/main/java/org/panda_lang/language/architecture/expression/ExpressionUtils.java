@@ -17,16 +17,18 @@
 package org.panda_lang.language.architecture.expression;
 
 import org.panda_lang.language.architecture.type.Autocast;
-import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.runtime.Process;
-import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.language.architecture.type.AutocastDynamicExpression;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.runtime.PandaProcess;
 import org.panda_lang.language.runtime.PandaProcessStack;
 import org.panda_lang.language.runtime.PandaRuntimeConstants;
 import org.panda_lang.language.runtime.PandaRuntimeException;
-
+import org.panda_lang.language.runtime.Process;
+import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.utilities.commons.function.Option;
+import org.panda_lang.utilities.commons.function.Result;
+
+import java.util.List;
 
 public final class ExpressionUtils {
 
@@ -58,11 +60,11 @@ public final class ExpressionUtils {
      * @return array of values
      * @throws Exception if something happen
      */
-    public static Object[] evaluate(ProcessStack stack, Object instance, Expression... expressions) throws Exception {
-        Object[] values = new Object[expressions.length];
+    public static Object[] evaluate(ProcessStack stack, Object instance, List<? extends Expression> expressions) throws Exception {
+        Object[] values = new Object[expressions.size()];
 
         for (int index = 0; index < values.length; index++) {
-            values[index] = expressions[index].evaluate(stack, instance);
+            values[index] = expressions.get(index).evaluate(stack, instance);
         }
 
         return values;
@@ -72,21 +74,33 @@ public final class ExpressionUtils {
      * Prepare expression to be in the same type as the requested type (supports autocasts)
      *
      * @param expression the expression to equalize
-     * @param target the target type
+     * @param expected the target type
      * @return expression in the given type
      */
-    public static Expression equalize(Expression expression, Type target) {
+    public static Result<Expression, String> equalize(Expression expression, Signature expected) {
         if (expression.isNull()) {
-            return expression;
+            return Result.ok(expression);
         }
 
-        Option<Autocast<?, ?>> autocast = expression.getType().getAutocast(target);
+        if (expected.isAssignableFrom(expression.getSignature())) {
+            return Result.ok(expression);
+        }
+
+        if (!expression.getSignature().isTyped()) {
+            return Result.error("Cannot equalize generic expression");
+        }
+
+        if (!expected.isTyped()) {
+            return Result.error("Cannot equalize to generic signature");
+        }
+
+        Option<? extends Autocast<?, ?>> autocast = expression.getSignature().toTyped().fetchType().getAutocast(expected.toTyped().getReference());
 
         if (autocast.isPresent()) {
-            return new AutocastDynamicExpression(expression, target, autocast.get()).toExpression();
+            return Result.ok(new AutocastDynamicExpression(expression, expected, autocast.get()).toExpression());
         }
 
-        return expression;
+        return Result.error("Cannot find associated autocast");
     }
 
 }

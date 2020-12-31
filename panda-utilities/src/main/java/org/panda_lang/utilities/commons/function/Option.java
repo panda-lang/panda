@@ -36,9 +36,9 @@ public class Option<T> implements Iterable<T>, Serializable {
 
     private static final Option<?> NONE = new Option<>(null);
 
-    private final @Nullable T value;
+    protected @Nullable T value;
 
-    private Option(@Nullable T value) {
+    protected Option(@Nullable T value) {
         this.value = value;
     }
 
@@ -168,6 +168,14 @@ public class Option<T> implements Iterable<T>, Serializable {
         return isDefined() ? Stream.of(value) : Stream.empty();
     }
 
+    public <E> Result<T, E> toResult(E orElse) {
+        return isDefined() ? Result.ok(get()) : Result.error(orElse);
+    }
+
+    public <E> Result<T, E> toResult(Supplier<E> orElse) {
+        return isDefined() ? Result.ok(get()) : Result.error(orElse.get());
+    }
+
     public Optional<T> toOptional() {
         return Optional.ofNullable(value);
     }
@@ -180,13 +188,21 @@ public class Option<T> implements Iterable<T>, Serializable {
         return value != null? new Option<>(value) : none();
     }
 
+    public static <T> Option<Completable<T>> ofCompleted(T value) {
+        return Option.of(Completable.completed(value));
+    }
+
     @SuppressWarnings({ "OptionalUsedAsFieldOrParameterType" })
     public static <T> Option<T> ofOptional(Optional<T> optional) {
         return of(optional.orElse(null));
     }
 
-    public static <T> Option<T> when(boolean flag, @Nullable T value) {
-        return flag ? of(value) : Option.none();
+    public static <T> Option<T> when(boolean condition, @Nullable T value) {
+        return condition ? of(value) : Option.none();
+    }
+
+    public static <T> Option<T> when(boolean condition, Supplier<@Nullable T> valueSupplier) {
+        return condition ? of(valueSupplier.get()) : Option.none();
     }
 
     public static <T, E extends Exception> Option<T> attempt(Class<E> exceptionType, ThrowingSupplier<T, E> supplier) {

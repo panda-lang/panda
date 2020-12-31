@@ -17,12 +17,15 @@
 package org.panda_lang.utilities.commons.function;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.utilities.commons.ObjectUtils;
 
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
-public final class Result<V, E>  {
+public class Result<V, E>  {
 
     private final V value;
     private final E error;
@@ -30,6 +33,19 @@ public final class Result<V, E>  {
     private Result(@Nullable V value, @Nullable E error) {
         this.value = value;
         this.error = error;
+    }
+
+    @Override
+    @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
+    public boolean equals(Object to) {
+        return ObjectUtils.equals(this, to, (that, toResult) -> Objects.equals(value, toResult.value) && Objects.equals(error, toResult.error));
+    }
+
+    @Override
+    public int hashCode() {
+        int result = value != null ? value.hashCode() : 0;
+        result = 31 * result + (error != null ? error.hashCode() : 0);
+        return result;
     }
 
     public boolean isOk() {
@@ -56,8 +72,16 @@ public final class Result<V, E>  {
         return error;
     }
 
+    public Object getAny() {
+        return isOk() ? value : error;
+    }
+
     public <R> Result<R, E> map(Function<V, R> function) {
         return isOk() ? Result.ok(function.apply(value)) : Result.error(error);
+    }
+
+    public <R> Result<V, R> mapErr(Function<E, R> function) {
+        return isOk() ? Result.ok(value) : Result.error(function.apply(error));
     }
 
     public <R> Result<R, E> flatMap(Function<V, Result<R, E>> function) {
@@ -94,6 +118,18 @@ public final class Result<V, E>  {
         }
 
         return this;
+    }
+
+    public Option<V> toOption() {
+        return Option.of(value);
+    }
+
+    public static <V, E> Result<V, E> when(boolean condition, Supplier<V> value, Supplier<E> err) {
+        return condition ? Result.ok(value.get()) : Result.error(err.get());
+    }
+
+    public static <V, E> Result<V, E> when(boolean condition, V value, E err) {
+        return condition ? Result.ok(value) : Result.error(err);
     }
 
     public static <V, E> Result<V, E> ok(V value) {

@@ -18,6 +18,7 @@ package org.panda_lang.language.architecture;
 
 import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.architecture.statement.Statement;
+import org.panda_lang.utilities.commons.function.Completable;
 
 import java.util.List;
 
@@ -45,7 +46,7 @@ public interface Script {
      *
      * @return the module
      */
-    Module getModule();
+    Completable<Module> getModule();
 
     /**
      * Get script name

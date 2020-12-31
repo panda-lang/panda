@@ -16,8 +16,9 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation;
 
-import org.panda_lang.language.interpreter.token.Token;
+import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.interpreter.parser.PandaParserException;
+import org.panda_lang.language.interpreter.token.Token;
 import org.panda_lang.language.resource.syntax.operator.Operator;
 import org.panda_lang.language.resource.syntax.operator.OperatorFamilies;
 import org.panda_lang.language.resource.syntax.operator.OperatorUtils;
@@ -28,30 +29,16 @@ import java.util.function.Predicate;
 
 final class OperationUtils {
 
-    static boolean isConcatenation(Operation operation) {
-        boolean operator = false;
-        boolean string = false;
-
-        for (Operation.OperationElement element : operation.getElements()) {
-            if (!operator && element.isOperator()) {
-                operator = Operators.ADDITION.equals(element.getOperator());
-            }
-            else if (!string && element.isExpression()) {
-                string = element.getExpression().getType().getAssociatedClass().isAssignableTo(String.class);
-            }
-
-            if (operator && string) {
-                break;
-            }
-        }
-
-        return operator && string;
+    private enum OperationType {
+        EXPRESSION,
+        OPERATOR
     }
 
     static boolean isNumeric(Operation operation) {
         return verify(operation, null, element -> {
             if (element.isExpression()) {
-                return element.getExpression().getType().getAssociatedClass().isAssignableTo(Number.class);
+                Type expressionType = element.getExpression().getKnownType();
+                return expressionType.getTypeLoader().get().requireType("panda::Number").isAssignableFrom(expressionType);
             }
 
             Operator operator = ObjectUtils.cast(Operator.class, element.getOperatorRepresentation().getToken());
@@ -64,21 +51,41 @@ final class OperationUtils {
         });
     }
 
+    static boolean isConcatenation(Operation operation) {
+        boolean operator = false;
+        boolean string = false;
+
+        for (Operation.OperationElement element : operation.getElements()) {
+            if (!operator && element.isOperator()) {
+                operator = Operators.ADDITION.equals(element.getOperator());
+            }
+            else if (!string && element.isExpression()) {
+                string = element.getExpression().getKnownType().is("panda::String");
+            }
+
+            if (operator && string) {
+                break;
+            }
+        }
+
+        return operator && string;
+    }
+
     static boolean isLogical(Operation operation) {
-        return verify(operation, Type.OPERATOR, element -> OperatorUtils.isMemberOf(element.getOperator(), OperatorFamilies.LOGICAL));
+        return verify(operation, OperationType.OPERATOR, element -> OperatorUtils.isMemberOf(element.getOperator(), OperatorFamilies.LOGICAL));
     }
 
     static boolean verifyOperator(Operation operation, Token token) {
-        return verify(operation, Type.OPERATOR, element -> element.getOperatorRepresentation().contentEquals(token));
+        return verify(operation, OperationType.OPERATOR, element -> element.getOperatorRepresentation().contentEquals(token));
     }
 
-    static boolean verify(Operation operation, Type type, Predicate<Operation.OperationElement> filter) {
+    static boolean verify(Operation operation, OperationType type, Predicate<Operation.OperationElement> filter) {
         for (Operation.OperationElement element : operation.getElements()) {
-            if (type == Type.EXPRESSION && element.isOperator()) {
+            if (type == OperationType.EXPRESSION && element.isOperator()) {
                 continue;
             }
 
-            if (type == Type.OPERATOR && element.isExpression()) {
+            if (type == OperationType.OPERATOR && element.isExpression()) {
                 continue;
             }
 
@@ -88,13 +95,6 @@ final class OperationUtils {
         }
 
         return true;
-    }
-
-    private enum Type {
-
-        EXPRESSION,
-        OPERATOR
-
     }
 
 }

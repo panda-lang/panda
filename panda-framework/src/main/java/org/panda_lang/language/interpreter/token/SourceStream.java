@@ -16,12 +16,16 @@
 
 package org.panda_lang.language.interpreter.token;
 
+import org.panda_lang.language.interpreter.source.Localizable;
 import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.utilities.commons.function.Option;
+
+import java.util.function.Predicate;
 
 /**
  * Represents stream of tokens
  */
-public interface SourceStream extends Snippetable {
+public interface SourceStream extends Snippetable, Localizable {
 
     /**
      * Read the next token
@@ -31,12 +35,27 @@ public interface SourceStream extends Snippetable {
     TokenInfo read();
 
     /**
+     * Conditional read of next token
+     *
+     * @param condition the method will read the token only if this condition returns true
+     * @return the optional result
+     */
+    Option<TokenInfo> read(Predicate<TokenInfo> condition);
+
+    /**
      * Read the specified amount of tokens
      *
      * @param length amount of tokens to read
      * @return the amount of tokens to read
      */
     Snippet read(int length);
+
+    /**
+     * Unread the given amount of tokens
+     *
+     * @param length the amount of tokens to unread
+     */
+    void unread(int length);
 
     /**
      * Read the specified amount of tokens without creating snippet of read content
@@ -49,6 +68,10 @@ public interface SourceStream extends Snippetable {
      * Read the specified amount of tokens and dispose result (it won't create snippet)
      */
     void dispose(int length);
+
+    default void dispose(SourceStream stream) {
+        dispose(stream.getReadLength());
+    }
 
     /**
      * Read the rest of the current line
@@ -63,6 +86,13 @@ public interface SourceStream extends Snippetable {
      * @return true if source contains available for read content
      */
     boolean hasUnreadSource();
+
+    /**
+     * Get next token without moving index
+     *
+     * @return the next token
+     */
+    TokenInfo getNext();
 
     /**
      * Get current token
@@ -101,9 +131,7 @@ public interface SourceStream extends Snippetable {
      *
      * @return the amount of unread tokens
      */
-    default int getUnreadLength() {
-        return toSnippet().size();
-    }
+    int getUnreadLength();
 
     /**
      * Get current source as snippet

@@ -28,6 +28,7 @@ import org.panda_lang.utilities.commons.StackTraceUtils;
 import org.panda_lang.utilities.commons.StringUtils;
 import org.panda_lang.utilities.commons.console.Colored;
 import org.panda_lang.utilities.commons.console.Effect;
+import org.panda_lang.utilities.commons.function.Option;
 
 public final class ErrorFormatter {
 
@@ -63,17 +64,17 @@ public final class ErrorFormatter {
             String source = getCurrentLine(indicatedSource.getSource(), indicatedSource.getIndicated()).toString();
             String element = getCurrentLine(indicatedSource.getIndicated(), indicatedSource.getIndicated()).toString();
 
-            int elementIndex = source.indexOf(element);
+            int elementIndex = source.indexOf(" " + element + " ");
+            elementIndex += elementIndex < 0 ? 0 : 1;
             int endIndex = elementIndex + element.length();
 
             String content = elementIndex < 0 ? source : source.substring(0, elementIndex)
                     + Colored.on(source.substring(elementIndex, endIndex)).effect(Effect.RED)
                     + source.substring(endIndex);
 
-
             logger.error("Source:");
             logger.error("  " + content);
-            logger.error("  " + StringUtils.buildSpace(source.indexOf(element)) + Colored.on("^").effect(Effect.BOLD));
+            logger.error("  " + StringUtils.buildSpace(elementIndex) + Colored.on("^").effect(Effect.BOLD));
             logger.error("Location:");
             logger.error("  Panda: &b" + location.getSource().getId() + "&r at line &1" + location.getDisplayLine() + "&r:&1" + location.getIndex());
             logger.error("");
@@ -97,7 +98,7 @@ public final class ErrorFormatter {
             logger.error("");
             logger.error("Stack:");
 
-            for (int index = 0; index < 3 && index < stackTrace.length; index++) {
+            for (int index = 0; index < 5 && index < stackTrace.length; index++) {
                 StackTraceElement stackTraceElement = stackTrace[index];
                 logger.error("  at " + stackTraceElement.toString());
             }
@@ -107,7 +108,7 @@ public final class ErrorFormatter {
             logger.error("&b- - ~ ~< Error >~ ~ - -&r");
             logger.error("");
             logger.error("Given:");
-            logger.error("  Message:&1 " + throwable.getMessage());
+            logger.error("  Message:&1 " + Option.of(throwable.getMessage()).orElseGet(throwable.toString()));
             logger.error("  In:&1 " + stackTrace[0].toString());
             logger.error("  By:&1 " + throwable.getClass());
             logger.error("");

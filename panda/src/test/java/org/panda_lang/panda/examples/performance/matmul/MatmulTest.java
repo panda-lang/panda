@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.examples.performance.matmul;
 
-import org.junit.jupiter.api.Test;
 import org.panda_lang.language.architecture.Application;
 import org.panda_lang.panda.util.PandaUtils;
 import org.panda_lang.utilities.commons.function.Option;
@@ -25,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MatmulTest {
 
-    @Test
+    // @Test TODO: Arrays not implemented
     void testMatmul() {
         for (int iteration = 0; iteration < 1; iteration++) {
             Option<Object> result = PandaUtils.load("../examples/tests/performance", "../examples/tests/performance/matmul.panda")

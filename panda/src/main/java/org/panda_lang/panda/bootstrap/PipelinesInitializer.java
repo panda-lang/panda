@@ -16,19 +16,19 @@
 
 package org.panda_lang.panda.bootstrap;
 
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelinePath;
-import org.panda_lang.language.interpreter.parser.pipeline.PandaPipelinePath;
+import org.panda_lang.language.interpreter.parser.pool.PoolService;
+import org.panda_lang.language.interpreter.parser.pool.PandaPoolService;
+import org.panda_lang.utilities.commons.collection.Component;
 
 import java.util.Collection;
 
 /**
- * {@link org.panda_lang.language.interpreter.parser.pipeline.PipelinePath} initializer
+ * {@link org.panda_lang.language.interpreter.parser.pool.PoolService} initializer
  */
 public final class PipelinesInitializer implements Initializer {
 
     private final PandaBootstrap bootstrap;
-    private final PipelinePath path = new PandaPipelinePath();
+    private final PoolService poolService = new PandaPoolService();
 
     PipelinesInitializer(PandaBootstrap bootstrap) {
         this.bootstrap = bootstrap;
@@ -41,15 +41,15 @@ public final class PipelinesInitializer implements Initializer {
      * @return the initializer
      */
     @SafeVarargs
-    public final PipelinesInitializer usePipelines(Collection<PipelineComponent<?>>... componentsCollections) {
-        for (Collection<PipelineComponent<?>> components : componentsCollections) {
-            for (PipelineComponent<?> component : components) {
-                path.computeIfAbsent(component);
+    public final PipelinesInitializer usePipelines(Collection<Component<?>>... componentsCollections) {
+        for (Collection<Component<?>> components : componentsCollections) {
+            for (Component<?> component : components) {
+                poolService.computeIfAbsent(component);
             }
         }
 
         bootstrap.logger.debug("--- Loading pipelines");
-        bootstrap.logger.debug("Pipelines: (" + path.names().size() + ") " + path.names());
+        bootstrap.logger.debug("Pipelines: (" + poolService.names().size() + ") " + poolService.names());
         bootstrap.logger.debug("");
 
         return this;
@@ -57,7 +57,7 @@ public final class PipelinesInitializer implements Initializer {
 
     @Override
     public PandaBootstrap collect() {
-        bootstrap.resources.withPipelinePath(path);
+        bootstrap.resources.withPipelinePath(poolService);
         return bootstrap;
     }
 

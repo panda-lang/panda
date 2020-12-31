@@ -16,42 +16,42 @@
 
 package org.panda_lang.panda.language.resource.syntax.type;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.expression.ExpressionUtils;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.TypeField;
+import org.panda_lang.language.architecture.type.TypeContext;
 import org.panda_lang.language.architecture.type.Visibility;
+import org.panda_lang.language.architecture.type.member.field.PandaField;
+import org.panda_lang.language.architecture.type.member.field.TypeField;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.LocalChannel;
-import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.language.interpreter.source.Location;
-import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.interpreter.token.TokenInfo;
-import org.panda_lang.language.architecture.module.PandaImportsUtils;
-import org.panda_lang.language.architecture.type.PandaField;
-import org.panda_lang.language.architecture.type.TypeComponents;
+import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.language.interpreter.parser.stage.Stages;
-import org.panda_lang.language.interpreter.pattern.Mappings;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
+import org.panda_lang.language.interpreter.parser.stage.Layer;
+import org.panda_lang.language.interpreter.parser.stage.Phases;
+import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
+import org.panda_lang.language.resource.syntax.operator.Operators;
+import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
+import org.panda_lang.utilities.commons.function.Option;
 
-public final class FieldParser extends AutowiredParser<Void> {
+public final class FieldParser implements ContextParser<TypeContext, TypeField> {
+
+    private static final SignatureParser SIGNATURE_PARSER = new SignatureParser();
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(Pipelines.TYPE);
+    public String name() {
+        return "field";
+    }
+
+    @Override
+    public Component<?>[] targets() {
+        return ArrayUtils.of(Targets.TYPE);
     }
 
     @Override
@@ -60,57 +60,69 @@ public final class FieldParser extends AutowiredParser<Void> {
     }
 
     @Override
-    protected AutowiredInitializer<Void> initialize(Context context, AutowiredInitializer<Void> initializer) {
-        return initializer.functional(builder -> builder
-                .variant("visibility").consume(variant -> variant.content(Keywords.OPEN, Keywords.SHARED, Keywords.INTERNAL))
-                .keyword(Keywords.STATIC).optional()
-                .keyword(Keywords.MUT).optional()
-                .keyword(Keywords.NIL).optional()
-                .type("type").verifyNextType(TokenTypes.UNKNOWN)
-                .wildcard("name").verifyType(TokenTypes.UNKNOWN)
-                .subPattern("assign", sub -> sub
-                        .unit("operator", "=")
-                        .expression("assignation").map(ExpressionTransaction::getExpression)
-                ).optional());
-    }
+    public Option<Completable<TypeField>> parse(Context<? extends TypeContext> context) {
+        PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
-    @Autowired(order = 1, stage = Stages.TYPES_LABEL)
-    public void parse(Context context, LocalChannel channel, @Channel Mappings mappings, @Channel Location location, @Src("type") Snippet typeName, @Src("name") TokenInfo name) {
-        Type returnType = PandaImportsUtils.getTypeOrThrow(context, typeName.asSource(), typeName);
-        Visibility visibility = Visibility.valueOf(mappings.get("visibility").get().toString().toUpperCase());
+        Option<Visibility> visibility = sourceReader
+                .readVariant(Keywords.OPEN, Keywords.SHARED, Keywords.INTERNAL)
+                .map(Visibility::of);
 
-        Type type = context.getComponent(TypeComponents.PROTOTYPE);
-        int fieldIndex = type.getFields().getDeclaredProperties().size();
+        if (visibility.isEmpty()) {
+            return Option.none();
+        }
+
+        boolean isStatic = sourceReader.optionalRead(() -> sourceReader.read(Keywords.STATIC)).isDefined();
+        boolean isMutable = sourceReader.optionalRead(() -> sourceReader.read(Keywords.MUT)).isDefined();
+        boolean isNillable = sourceReader.optionalRead(() -> sourceReader.read(Keywords.NIL)).isDefined();
+
+        Option<SignatureSource> signature = sourceReader.readSignature();
+
+        if (signature.isEmpty()) {
+            return Option.none();
+        }
+
+        Option<String> name = sourceReader.read(TokenTypes.UNKNOWN).map(TokenInfo::getValue);
+
+        if (name.isEmpty()) {
+            return Option.none();
+        }
+
+        Type type = context.getSubject().getType();
 
         TypeField field = PandaField.builder()
-                .name(name.getValue())
                 .type(type)
-                .returnType(returnType)
-                .fieldIndex(fieldIndex)
-                .location(location)
-                .visibility(visibility)
-                .isStatic(mappings.has(Keywords.STATIC))
-                .mutable(mappings.has(Keywords.MUT))
-                .nillable(mappings.has(Keywords.NIL))
+                .name(name.get())
+                .returnType(SIGNATURE_PARSER.parse(context, signature.get(), false, context.getSubject().getType().getSignature()))
+                .fieldIndex(type.getFields().getDeclaredProperties().size())
+                .location(context)
+                .visibility(visibility.get())
+                .isStatic(isStatic)
+                .mutable(isMutable)
+                .nillable(isNillable)
                 .build();
 
         type.getFields().declare(field);
-        channel.allocated("field", field);
-    }
 
-    @Autowired(order = 2, stage = Stages.CONTENT_LABEL)
-    public void parseAssignation(Context context, @Channel Snippet source, @Channel TypeField field, @Src("assignation") @Nullable Expression assignationValue) {
-        if (assignationValue == null) {
-            //throw new PandaParserFailure("Cannot parse expression '" + assignationValue + "'", context, name);
-            return;
+        if (sourceReader.optionalRead(() -> sourceReader.read(Operators.ASSIGNMENT)).isDefined()) {
+            Expression assignedValue = context.getExpressionParser().parse(context, context.getStream());
+
+            context.getStageService().delegate("verify field values", Phases.VERIFY, Layer.NEXT_DEFAULT, verifyPhase -> {
+                if (!field.getReturnType().isAssignableFrom(assignedValue.getSignature())) {
+                    throw new PandaParserFailure(context, "Cannot assign type " + assignedValue.getSignature() + " to " + field.getReturnType());
+                }
+            });
+
+            context.getStageService().delegate("initialize field", Phases.INITIALIZE, Layer.NEXT_DEFAULT, initializePhase -> {
+                Expression equalizedValue = ExpressionUtils.equalize(assignedValue, field.getReturnType()).orElseThrow(error -> {
+                    throw new PandaParserFailure(context, "Incompatible signatures");
+                });
+
+                field.setDefaultValue(equalizedValue);
+                field.initialize();
+            });
         }
 
-        if (!field.getReturnType().isAssignableFrom(assignationValue.getType())) {
-            throw new PandaParserFailure(context, source, "Cannot assign type " + assignationValue.getType().getName() + " to " + field.getReturnType().getName());
-        }
-
-        field.setDefaultValue(ExpressionUtils.equalize(assignationValue, field.getReturnType()));
-        field.initialize();
+        return Option.ofCompleted(field);
     }
 
 }

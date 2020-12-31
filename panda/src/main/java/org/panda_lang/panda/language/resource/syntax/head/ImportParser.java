@@ -16,39 +16,48 @@
 
 package org.panda_lang.panda.language.resource.syntax.head;
 
-import org.panda_lang.language.architecture.module.Imports;
+import org.panda_lang.language.architecture.type.Reference;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.language.interpreter.parser.ContextParser;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.interpreter.pattern.functional.elements.QualifierElement;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.autowired.handlers.TokenHandler;
+import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
+import org.panda_lang.utilities.commons.function.Option;
 
-public final class ImportParser extends AutowiredParser<Void> {
+public final class ImportParser implements ContextParser<Object, Reference> {
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(Pipelines.HEAD);
+    public String name() {
+        return "import";
     }
 
     @Override
-    protected AutowiredInitializer<Void> initialize(Context context, AutowiredInitializer<Void> initializer) {
-        return initializer
-                .handler(new TokenHandler(Keywords.IMPORT))
-                .functional(pattern -> pattern.keyword(Keywords.IMPORT).qualifier("class").consume(QualifierElement::javaClass));
+    public Component<?>[] targets() {
+        return ArrayUtils.of(Targets.HEAD);
     }
 
-    @Autowired(order = 1)
-    public void parseImport(Context context, @Ctx Imports imports, @Src("class") Snippet className) {
-        imports.importType(className.toString(), ConveyanceUtils.fetchType(context, className));
+    @Override
+    public Option<Completable<Reference>> parse(Context<?> context) {
+        PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
+
+        if (sourceReader.read(Keywords.IMPORT).isEmpty()) {
+            return Option.none();
+        }
+
+        Option<Snippet> javaQualifier = sourceReader.readPandaQualifier();
+
+        if (javaQualifier.isEmpty()) {
+            return Option.none();
+        }
+
+        Reference reference = new Reference(ConveyanceUtils.fetchType(context, javaQualifier.get()));
+        context.getImports().importType(reference);
+
+        return Option.ofCompleted(reference);
     }
 
 }

@@ -27,18 +27,31 @@ public final class TypeFrame extends AbstractFrame<TypeScope> {
 
     protected final int id;
     protected final Process process;
-    protected final Object[] base;
 
-    public TypeFrame(Process process, TypeScope scope, Object[] base) {
-        super(scope, scope.getType().getFields().getDeclaredProperties().size());
+    protected TypeInstance typeInstance;
+    protected Object[] baseArguments;
+
+    public TypeFrame(Process process, TypeScope scope) {
+        super(scope, scope.getReference().fetchType().getFields().getProperties().size());
 
         this.id = ID.getAndIncrement();
         this.process = process;
-        this.base = base;
     }
 
-    public Object[] getBase() {
-        return base;
+    public void setTypeInstance(TypeInstance typeInstance) {
+        this.typeInstance = typeInstance;
+    }
+
+    public TypeInstance getTypeInstance() {
+        return typeInstance;
+    }
+
+    public void setBaseArguments(Object[] baseArguments) {
+        this.baseArguments = baseArguments;
+    }
+
+    public Object[] getBaseArguments() {
+        return baseArguments;
     }
 
     public Process getProcess() {
@@ -51,7 +64,7 @@ public final class TypeFrame extends AbstractFrame<TypeScope> {
 
     @Override
     public String toString() {
-        return framedScope.getType().getSimpleName() + "#" + String.format("%06X", id & 0xFFFFF);
+        return framedScope.getReference().getSimpleName() + "#" + String.format("%06X", id & 0xFFFFF);
     }
 
 }

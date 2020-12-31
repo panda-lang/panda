@@ -1,0 +1,43 @@
+module lang
+
+main {
+    /* Parametrized instance */
+    Foo<String> parametrizedType = new Foo<String>('test')
+
+    /* Parametrized return type */
+    String parametrizedValue = parametrizedType.getValue()
+    // Int invalidValue = genericType.getValue() /* Should not compile */
+
+    /* Parametrized arguments */
+    parametrizedType.setValue(parametrizedValue)
+    // genericType.setValue(10) /* Should not compile */
+
+    /* Parametrized reassignation */
+    Foo<String> sameParametrizedType = parametrizedType
+    Foo<Object> lowerParametrizedType = sameParametrizedType
+    Bar<String> lowerBaseType = sameParametrizedType
+    Bar<Object> lowerBaseAndParametrizedType = sameParametrizedType
+    // Foo<Foo> invalidSignature = parametrizedType /* Should not compile */
+}
+
+type Foo<V> : Bar<V> {
+    constructor (V barValue) {
+        base(barValue)
+    }
+}
+
+type Bar<V> {
+    internal mut V value
+
+    constructor (V value) {
+        this.value = value
+    }
+
+    shared setValue (V value) {
+        this.value = value
+    }
+
+    shared getValue () -> V {
+        return value
+    }
+}

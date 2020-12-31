@@ -17,16 +17,25 @@
 package org.panda_lang.language.architecture.type;
 
 import org.panda_lang.language.architecture.module.Module;
+import org.panda_lang.language.architecture.type.signature.Signature;
+import org.panda_lang.language.architecture.type.signature.TypedSignature;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.interpreter.source.PandaClassSource;
+import org.panda_lang.utilities.commons.function.Completable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PandaTypeMetadata<BUILDER extends PandaTypeMetadata<BUILDER, ?>, TYPE extends PandaType> {
 
     protected String name;
+    protected Signature signature;
     protected Module module;
     protected Location location;
-    protected Class<?> javaType;
-    protected String model = TypeModels.CLASS;
+    protected TypeScope typeScope;
+    protected Completable<? extends Class<?>> associatedType;
+    protected List<TypedSignature> bases = new ArrayList<>();
+    protected String kind = Kind.TYPE;
     protected State state = State.DEFAULT;
     protected Visibility visibility = Visibility.OPEN;
     protected boolean isNative;
@@ -38,8 +47,18 @@ public class PandaTypeMetadata<BUILDER extends PandaTypeMetadata<BUILDER, ?>, TY
         return getThis();
     }
 
+    public BUILDER signature(Signature signature) {
+        this.signature = signature;
+        return getThis();
+    }
+
     public BUILDER module(Module module) {
         this.module = module;
+        return getThis();
+    }
+
+    public BUILDER typeScope(TypeScope typeScope) {
+        this.typeScope = typeScope;
         return getThis();
     }
 
@@ -52,18 +71,18 @@ public class PandaTypeMetadata<BUILDER extends PandaTypeMetadata<BUILDER, ?>, TY
         return location(new PandaClassSource(javaType).toLocation());
     }
 
-    public BUILDER javaType(Class<?> javaType) {
-        this.javaType = javaType;
-
-        if (name == null) {
-            this.name = javaType.getSimpleName();
-        }
-
+    public BUILDER associatedType(Completable<? extends Class<?>> associatedType) {
+        this.associatedType = associatedType;
         return getThis();
     }
 
-    public BUILDER model(String model) {
-        this.model = model;
+    public BUILDER bases(List<TypedSignature> bases) {
+        this.bases.addAll(bases);
+        return getThis();
+    }
+
+    public BUILDER kind(String kind) {
+        this.kind = kind;
         return getThis();
     }
 

@@ -19,12 +19,12 @@ package org.panda_lang.language.architecture.type.generator;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.expression.ExpressionUtils;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.TypeField;
+import org.panda_lang.language.architecture.type.member.field.TypeField;
 import org.panda_lang.language.architecture.module.TypeLoader;
 import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.language.architecture.expression.AbstractDynamicExpression;
 import org.panda_lang.language.architecture.expression.PandaExpression;
-import org.panda_lang.language.architecture.type.PandaField;
+import org.panda_lang.language.architecture.type.member.field.PandaField;
 import org.panda_lang.language.runtime.PandaRuntimeException;
 
 import java.lang.reflect.Field;
@@ -48,7 +48,7 @@ final class FieldGenerator {
                 .type(type)
                 .location(type.getLocation())
                 .fieldIndex(type.getFields().size())
-                .returnType(generator.findOrGenerate(typeLoader, type.getModule(), field.getType()))
+                .returnType(generator.findOrGenerate(typeLoader, type.getModule(), field.getType()).getSignature())
                 .isStatic(Modifier.isStatic(field.getModifiers()))
                 .mutable(!Modifier.isFinal(field.getModifiers()))
                 .isNative(true)

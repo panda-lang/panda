@@ -17,8 +17,6 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn;
 
 import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.module.TypeLoader;
 import org.panda_lang.language.runtime.ProcessStack;
 
 public abstract class RPNSimplifiedAction<A, B, R> implements RPNOperationAction<R> {
@@ -36,11 +34,6 @@ public abstract class RPNSimplifiedAction<A, B, R> implements RPNOperationAction
     @Override
     public R get(ProcessStack stack, Object instance) throws Exception {
         return get(stack, instance, a.evaluate(stack, instance), b.evaluate(stack, instance));
-    }
-
-    @Override
-    public Type returnType(TypeLoader typeLoader) {
-        return null;
     }
 
 }

@@ -17,45 +17,41 @@
 package org.panda_lang.panda.language.resource.syntax.scope.branching;
 
 import org.panda_lang.language.architecture.dynamic.ControlledScope;
-import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.architecture.statement.ScopeUtils;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.language.interpreter.source.Location;
-import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.language.interpreter.parser.SourceReader;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.autowired.handlers.TokenHandler;
 import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
+import org.panda_lang.utilities.commons.function.Option;
 
-public final class ContinueParser extends AutowiredParser<Void> {
+public final class ContinueParser implements ContextParser<Object, Continue> {
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(Pipelines.SCOPE);
+    public String name() {
+        return "continue";
     }
 
     @Override
-    protected AutowiredInitializer<Void> initialize(Context context, AutowiredInitializer<Void> initializer) {
-        return initializer
-                .handler(new TokenHandler(Keywords.CONTINUE))
-                .linear("continue");
+    public Component<?>[] targets() {
+        return ArrayUtils.of(Targets.SCOPE);
     }
 
-    @Autowired(order = 1)
-    public void parseContinue(Context context, @Ctx Scope scope, @Channel Location location, @Channel Snippet source) {
-        if (!ScopeUtils.lookFor(scope, ControlledScope.class)) {
-            throw new PandaParserFailure(context, source, "Continue cannot be used outside of the looping block");
-        }
-
-        scope.addStatement(new Continue(location));
+    @Override
+    public Option<Completable<Continue>> parse(Context<?> context) {
+        return new SourceReader(context.getStream()).read(Keywords.CONTINUE)
+                .peek(token -> {
+                    if (!ScopeUtils.lookFor(context.getScope(), ControlledScope.class)) {
+                        throw new PandaParserFailure(context, token, "Continue cannot be used outside of the looping block");
+                    }
+                })
+                .map(token -> new Continue(token.getLocation()))
+                .peek(statement -> context.getScope().addStatement(statement))
+                .map(Completable::completed);
     }
 
 }

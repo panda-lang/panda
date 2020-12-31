@@ -17,8 +17,8 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.logical;
 
 import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.module.TypeLoader;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNOperationAction;
 
@@ -39,8 +39,8 @@ public final class AndOperator extends OrOperation {
             }
 
             @Override
-            public Type returnType(TypeLoader loader) {
-                return AndOperator.super.requiredType(loader);
+            public Signature returnType(TypeLoader loader) {
+                return AndOperator.super.requiredType(loader).getSignature();
             }
         };
     }

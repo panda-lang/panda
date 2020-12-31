@@ -17,52 +17,53 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.expression.PandaDynamicExpression;
+import org.panda_lang.language.architecture.type.signature.Signature;
+import org.panda_lang.language.architecture.type.VisibilityComparator;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.language.interpreter.token.TokenInfo;
-import org.panda_lang.language.architecture.expression.PandaDynamicExpression;
-import org.panda_lang.language.architecture.type.utils.VisibilityComparator;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.utilities.commons.function.Produce;
+import org.panda_lang.utilities.commons.function.Result;
 
 public final class CastExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public ExpressionSubparserWorker createWorker(Context context) {
+    public ExpressionSubparserWorker createWorker(Context<?> context) {
         return new CastWorker().withSubparser(this);
     }
 
     @Override
-    public int getMinimalRequiredLengthOfSource() {
+    public int minimalRequiredLengthOfSource() {
         return 2;
     }
 
     @Override
-    public String getSubparserName() {
+    public String name() {
         return "cast";
     }
 
     private static final class CastWorker extends AbstractExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo token) {
+        public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
             if (!token.contentEquals(Keywords.AS) || !context.hasResults()) {
                 return null;
             }
 
-            Produce<Type, ExpressionResult> result = SubparsersUtils.readType(context);
+            // TODO: Parent signature
+            Result<Signature, ExpressionResult> result = SubparsersUtils.readType(null, context);
 
-            if (result.hasError()) {
+            if (result.isErr()) {
                 return result.getError();
             }
 
-            Type type = result.getResult();
-            VisibilityComparator.requireAccess(type, context.toContext(), token);
-            return ExpressionResult.of(new PandaDynamicExpression(type, context.popExpression()).toExpression());
+            Signature signature = result.get();
+            VisibilityComparator.requireAccess(signature.toTyped().fetchType(), context.toContext(), token);
+            return ExpressionResult.of(new PandaDynamicExpression(signature, context.popExpression()).toExpression());
         }
 
     }

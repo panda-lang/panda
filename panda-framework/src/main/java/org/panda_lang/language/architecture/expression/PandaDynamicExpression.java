@@ -16,15 +16,15 @@
 
 package org.panda_lang.language.architecture.expression;
 
-import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.runtime.ProcessStack;
 
 public final class PandaDynamicExpression extends AbstractDynamicExpression {
 
     private final ExpressionEvaluator evaluator;
 
-    public PandaDynamicExpression(Type type, ExpressionEvaluator evaluator) {
-        super(type);
+    public PandaDynamicExpression(Signature signature, ExpressionEvaluator evaluator) {
+        super(signature);
         this.evaluator = evaluator;
     }
 

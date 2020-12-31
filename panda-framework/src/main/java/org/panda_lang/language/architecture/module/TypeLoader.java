@@ -17,8 +17,10 @@
 package org.panda_lang.language.architecture.module;
 
 import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.runtime.PandaRuntimeException;
+import org.panda_lang.utilities.commons.function.Option;
 
-public interface TypeLoader extends ModuleResource {
+public interface TypeLoader {
 
     /**
      * Load type by this loader
@@ -28,32 +30,41 @@ public interface TypeLoader extends ModuleResource {
      */
     Type load(Type type);
 
-    /**
-     * Load java class as panda type
-     *
-     * @param module the associated with type module
-     * @param type the class to load
-     * @return loaded type
-     */
-    default Type load(Module module, Class<?> type) {
-        return load(module, type, type.getSimpleName());
+    default void load(Type... types) {
+        for (Type type : types) {
+            load(type);
+        }
     }
 
     /**
-     * Load java class as panda type
+     * Find reference using the given name
      *
-     * @param module the associated with type module
-     * @param type the class to load
-     * @param alias the alias name for class type
-     * @return loaded type
+     * @param typeName the name to search for
+     * @return the reference
      */
-    Type load(Module module, Class<?> type, String alias);
+    Option<Type> forType(String typeName);
 
     /**
-     * Load all types that belongs to the given module
+     * Find reference using associated java class
      *
-     * @param module the module to load
+     * @param
      */
-    void load(Module module);
+    Option<Type> forJavaType(Class<?> javaClass);
+
+    /**
+     * Get type with the given name.
+     * Use this method only if you are absolutely sure that the request type exists
+     *
+     * @param name the name to search for
+     * @return the found type
+     * @throws org.panda_lang.language.runtime.PandaRuntimeException if type does not exist
+     */
+    default Type requireType(String name) throws PandaRuntimeException {
+        return forType(name).orThrow(() -> {
+            throw new PandaRuntimeException("Cannot find type " + name);
+        });
+    }
+
+    Option<Module> forModule(String moduleName);
 
 }

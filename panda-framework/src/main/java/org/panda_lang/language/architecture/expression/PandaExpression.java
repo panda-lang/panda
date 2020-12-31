@@ -16,7 +16,7 @@
 
 package org.panda_lang.language.architecture.expression;
 
-import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.runtime.ProcessStack;
 
 import java.security.InvalidParameterException;
@@ -24,11 +24,11 @@ import java.security.InvalidParameterException;
 public class PandaExpression implements Expression {
 
     private final ExpressionValueType type;
-    private final Type returnType;
+    private final Signature returnType;
     private final ExpressionEvaluator evaluator;
     private final Object value;
 
-    public PandaExpression(Type returnType, Object value) {
+    public PandaExpression(Signature returnType, Object value) {
         this(ExpressionValueType.CONST, returnType, null, value);
     }
 
@@ -36,7 +36,7 @@ public class PandaExpression implements Expression {
         this(ExpressionValueType.DYNAMIC, expression.getReturnType(), expression, null);
     }
 
-    protected PandaExpression(ExpressionValueType type, Type returnType, ExpressionEvaluator evaluator, Object value) {
+    protected PandaExpression(ExpressionValueType type, Signature returnType, ExpressionEvaluator evaluator, Object value) {
         if (type == null) {
             throw new InvalidParameterException("ExpressionType cannot be null");
         }
@@ -54,7 +54,7 @@ public class PandaExpression implements Expression {
     }
 
     @Override
-    public Type getType() {
+    public Signature getSignature() {
         return returnType;
     }
 
@@ -65,7 +65,7 @@ public class PandaExpression implements Expression {
 
     @Override
     public String toString() {
-        String s = type.name() + ":" + (returnType != null ? returnType.getSimpleName() : "any");
+        String s = type.name() + ":" + (returnType != null ? returnType : "any");
         return ExpressionValueType.CONST == type ? s + ":" + value : s;
     }
 

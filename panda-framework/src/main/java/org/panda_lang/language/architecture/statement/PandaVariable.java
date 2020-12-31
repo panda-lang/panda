@@ -16,15 +16,15 @@
 
 package org.panda_lang.language.architecture.statement;
 
-import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.signature.Signature;
 
 public class PandaVariable extends PandaVariableData implements Variable {
 
     protected final int pointer;
     protected boolean initialized;
 
-    public PandaVariable(int pointer, Type type, String name, boolean mutable, boolean nillable) {
-        super(type, name, mutable, nillable);
+    public PandaVariable(int pointer, Signature signature, String name, boolean mutable, boolean nillable) {
+        super(signature, name, mutable, nillable);
 
         if (pointer < 0) {
             throw new IllegalArgumentException("Invalid variable id");
@@ -34,7 +34,7 @@ public class PandaVariable extends PandaVariableData implements Variable {
     }
 
     public PandaVariable(int pointer, VariableData data) {
-        this(pointer, data.getType(), data.getName(), data.isMutable(), data.isNillable());
+        this(pointer, data.getSignature(), data.getName(), data.isMutable(), data.isNillable());
     }
 
     @Override
@@ -55,7 +55,7 @@ public class PandaVariable extends PandaVariableData implements Variable {
 
     @Override
     public String toString() {
-        return "'" + getName() + "': '" + getType().getSimpleName() + "'";
+        return "'" + getName() + "': '" + getSignature() + "'";
     }
 
 }

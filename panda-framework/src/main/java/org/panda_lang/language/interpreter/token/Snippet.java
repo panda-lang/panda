@@ -17,6 +17,7 @@
 package org.panda_lang.language.interpreter.token;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.language.interpreter.source.Localizable;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.auxiliary.Section;
@@ -30,7 +31,7 @@ import java.util.List;
  * Snippet (AST - Abstract Syntax Tree) is one of the most basic structures used by the Panda Framework.
  * It is a tree representation of the abstract syntactic structure of source code.
  */
-public interface Snippet extends Iterable<TokenInfo>, Snippetable {
+public interface Snippet extends Iterable<TokenInfo>, Localizable, Snippetable {
 
     /**
      * Constant for not found result
@@ -370,6 +371,11 @@ public interface Snippet extends Iterable<TokenInfo>, Snippetable {
      * @return true if mutable
      */
     boolean isMutable();
+
+    @Override
+    default Location toLocation() {
+        return getLocation();
+    }
 
     @Override
     default Snippet toSnippet() {

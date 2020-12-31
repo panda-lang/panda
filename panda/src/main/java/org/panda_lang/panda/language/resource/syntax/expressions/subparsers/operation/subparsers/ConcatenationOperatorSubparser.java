@@ -19,7 +19,6 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ope
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.Operation;
@@ -32,7 +31,7 @@ import java.util.List;
 public final class ConcatenationOperatorSubparser implements OperationSubparser {
 
     @Override
-    public @Nullable Expression parse(OperationParser parser, Context context, Operation operation) {
+    public @Nullable Expression parse(OperationParser parser, Context<?> context, Operation operation) {
         List<Expression> values = new ArrayList<>((operation.getElements().size() - 1) / 2);
         int lastIndex = 0;
 
@@ -54,11 +53,11 @@ public final class ConcatenationOperatorSubparser implements OperationSubparser 
             return null;
         }
 
-        Type stringType = context.getComponent(Components.TYPE_LOADER).requireType(String.class);
+        Type stringType = context.getTypeLoader().requireType("panda::String");
         return new ConcatenationExpressionCallback(stringType, values).toExpression();
     }
 
-    private boolean parseSubOperation(OperationParser parser, Context context, List<Expression> values, Operation operation, int start, int end) {
+    private boolean parseSubOperation(OperationParser parser, Context<?> context, List<Expression> values, Operation operation, int start, int end) {
         if ((end - start) == 1) {
             values.add(operation.getElements().get(start).getExpression());
             return true;

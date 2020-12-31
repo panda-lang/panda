@@ -28,18 +28,18 @@ public abstract class ComparisonOperator extends NumericOperation<Boolean> {
 
     @Override
     public RPNOperationAction<Boolean> of(TypeLoader typeLoader, Expression a, Expression b) {
-        Type comparedType = estimateType(a.getType(), b.getType());
+        Type comparedType = estimateType(a.getKnownType(), b.getKnownType());
         return of(super.getPriority(comparedType), a, b);
     }
 
     @Override
     public Type returnType(TypeLoader typeLoader, Type a, Type b) {
-        return typeLoader.requireType(boolean.class);
+        return typeLoader.requireType("panda::Bool");
     }
 
     @Override
     public Type requiredType(TypeLoader typeLoader) {
-        return typeLoader.requireType(Number.class);
+        return typeLoader.requireType("panda::Number");
     }
 
 }

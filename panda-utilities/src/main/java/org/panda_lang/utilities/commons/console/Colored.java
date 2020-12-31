@@ -18,7 +18,7 @@ package org.panda_lang.utilities.commons.console;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.utilities.commons.StringUtils;
-import org.panda_lang.utilities.commons.text.ContentJoiner;
+import org.panda_lang.utilities.commons.text.Joiner;
 
 import java.util.Objects;
 
@@ -38,7 +38,7 @@ public final class Colored {
 
     @Override
     public String toString() {
-        return ContentJoiner.on(StringUtils.EMPTY)
+        return Joiner.on(StringUtils.EMPTY)
                 .join(text.split(System.lineSeparator()), line -> effect + line + Effect.RESET)
                 .toString();
     }

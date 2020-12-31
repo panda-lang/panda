@@ -36,12 +36,12 @@ public final class NumberExpressionSubparser implements ExpressionSubparser {
     private static final NumberParser PARSER = new NumberParser();
 
     @Override
-    public ExpressionSubparserWorker createWorker(Context context) {
+    public ExpressionSubparserWorker createWorker(Context<?> context) {
         return new NumberWorker().withSubparser(this);
     }
 
     @Override
-    public String getSubparserName() {
+    public String name() {
         return "number";
     }
 
@@ -51,7 +51,7 @@ public final class NumberExpressionSubparser implements ExpressionSubparser {
         private TokenInfo period;
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo token) {
+        public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
             if (Separators.PERIOD.equals(token)) {
                 this.period = token;
                 return ExpressionResult.empty();

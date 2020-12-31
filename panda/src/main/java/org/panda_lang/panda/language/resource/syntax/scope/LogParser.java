@@ -17,50 +17,43 @@
 package org.panda_lang.panda.language.resource.syntax.scope;
 
 import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.architecture.statement.Scope;
-import org.panda_lang.language.interpreter.logging.Logger;
-import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.language.interpreter.parser.ContextParser;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.autowired.handlers.TokenHandler;
+import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
+import org.panda_lang.utilities.commons.function.Option;
 
-import java.util.Arrays;
+import java.util.List;
 
-public final class LogParser extends AutowiredParser<Void> {
+public final class LogParser implements ContextParser<Object, LogStatement> {
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(Pipelines.SCOPE);
+    public String name() {
+        return "log";
     }
 
     @Override
-    protected AutowiredInitializer<Void> initialize(Context context, AutowiredInitializer<Void> initializer) {
-        return initializer
-                .handler(new TokenHandler(Keywords.LOG))
-                .functional(pattern -> pattern.keyword(Keywords.LOG).arguments("arguments"));
+    public Component<?>[] targets() {
+        return ArrayUtils.of(Targets.SCOPE);
     }
 
-    @Autowired(order = 1)
-    public void parse(Context context, @Ctx ExpressionParser parser, @Ctx Scope scope, @Channel Location location, @Src("arguments") ExpressionTransaction[] transactions) {
-        Expression[] expressions = Arrays.stream(transactions)
-                .map(ExpressionTransaction::getExpression)
-                .toArray(Expression[]::new);
+    @Override
+    public Option<Completable<LogStatement>> parse(Context<?> context) {
+        PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
-        Logger logger = context.getComponent(Components.ENVIRONMENT).getLogger();
-        scope.addStatement(new LogStatement(location, logger, expressions));
+        if (sourceReader.read(Keywords.LOG).isEmpty()) {
+            return Option.none();
+        }
+
+        List<Expression> expressions = sourceReader.readExpressions(context);
+        LogStatement statement = new LogStatement(context.getSource(), context.getLogger(), expressions);
+        context.getScope().addStatement(statement);
+
+        return Option.ofCompleted(statement);
     }
 
 }

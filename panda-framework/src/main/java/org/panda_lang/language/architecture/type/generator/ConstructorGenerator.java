@@ -16,26 +16,29 @@
 
 package org.panda_lang.language.architecture.type.generator;
 
-import org.panda_lang.language.architecture.type.PropertyParameter;
-import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.TypeConstructor;
 import org.panda_lang.language.architecture.module.TypeLoader;
-import org.panda_lang.language.architecture.type.PandaConstructor;
+import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.member.constructor.PandaConstructor;
+import org.panda_lang.language.architecture.type.member.constructor.TypeConstructor;
+import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
 
 import java.lang.reflect.Constructor;
+import java.util.List;
 
 final class ConstructorGenerator {
 
+    private final TypeGenerator typeGenerator;
     private final Type type;
     private final Constructor<?> constructor;
 
-    ConstructorGenerator(Type type, Constructor<?> constructor) {
+    ConstructorGenerator(TypeGenerator typeGenerator, Type type, Constructor<?> constructor) {
+        this.typeGenerator = typeGenerator;
         this.type = type;
         this.constructor = constructor;
     }
 
     protected TypeConstructor generate(TypeLoader typeLoader) {
-        PropertyParameter[] typeParameters = TypeGeneratorUtils.toParameters(typeLoader, type.getModule(), constructor.getParameters());
+        List<? extends PropertyParameter> typeParameters = TypeGeneratorUtils.toParameters(typeGenerator, typeLoader, type.getModule(), constructor.getParameters());
 
         // TODO: Generate bytecode
         constructor.setAccessible(true);
@@ -45,8 +48,8 @@ final class ConstructorGenerator {
                 .location(type.getLocation())
                 .parameters(typeParameters)
                 .type(type)
-                .returnType(type)
-                .callback((pandaConstructor, frame, instance, arguments) -> constructor.newInstance(arguments))
+                .returnType(type.getSignature())
+                .invoker((pandaConstructor, frame, instance, arguments) -> constructor.newInstance(arguments))
                 .build();
     }
 

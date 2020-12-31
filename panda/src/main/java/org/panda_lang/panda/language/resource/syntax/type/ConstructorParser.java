@@ -16,93 +16,107 @@
 
 package org.panda_lang.panda.language.resource.syntax.type;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.architecture.type.PropertyParameter;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.TypeConstructor;
-import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.LocalChannel;
-import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.language.interpreter.source.Location;
-import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.architecture.type.ConstructorScope;
-import org.panda_lang.language.architecture.type.ConstructorScope.ConstructorFrame;
-import org.panda_lang.language.architecture.type.PandaConstructor;
-import org.panda_lang.language.architecture.type.TypeInstance;
+import org.panda_lang.language.architecture.type.TypeContext;
 import org.panda_lang.language.architecture.type.TypeScope;
+import org.panda_lang.language.architecture.type.member.constructor.ConstructorScope;
+import org.panda_lang.language.architecture.type.member.constructor.PandaConstructor;
+import org.panda_lang.language.architecture.type.member.constructor.TypeConstructor;
+import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
+import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
+import org.panda_lang.language.interpreter.parser.stage.Layer;
 import org.panda_lang.language.interpreter.parser.stage.Phases;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.autowired.handlers.TokenHandler;
+import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
+import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
 import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
+import org.panda_lang.utilities.commons.function.Option;
 
+import java.util.Collections;
 import java.util.List;
 
-public final class ConstructorParser extends AutowiredParser<Void> {
+public final class ConstructorParser implements ContextParser<TypeContext, ConstructorScope> {
 
     private static final ParameterParser PARAMETER_PARSER = new ParameterParser();
-    private static final ScopeParser SCOPE_PARSER = new ScopeParser();
+
+    private ScopeParser scopeParser;
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(Pipelines.TYPE);
+    public String name() {
+        return "constructor";
     }
 
     @Override
-    protected AutowiredInitializer<Void> initialize(Context context, AutowiredInitializer<Void> initializer) {
-        return initializer
-                .handler(new TokenHandler(Keywords.CONSTRUCTOR))
-                .linear("constructor parameters:(~) body:{~}");
+    public Component<?>[] targets() {
+        return ArrayUtils.of(Targets.TYPE);
     }
 
-    @Autowired(order = 1)
-    public void parse(Context context, LocalChannel channel, @Channel Location location, @Ctx TypeScope typeScope, @Src("parameters") @Nullable Snippet parametersSource) {
-        List<PropertyParameter> parameters = PARAMETER_PARSER.parse(context, parametersSource);
-        ConstructorScope constructorScope = channel.allocated("scope", new ConstructorScope(location, parameters));
+    @Override
+    public void initialize(Context<?> context) {
+        this.scopeParser = new ScopeParser(context.getPoolService());
+    }
 
-        Class<?>[] parameterTypes = parameters.stream()
-                .map(PropertyParameter::getType)
-                .map(parameterType -> parameterType.getAssociatedClass().fetchStructure())
-                .toArray(Class[]::new);
+    @Override
+    public Option<Completable<ConstructorScope>> parse(Context<? extends TypeContext> context) {
+        PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
-        TypeConstructor constructor = channel.allocated("constructor", PandaConstructor.builder()
-                .type(typeScope.getType())
-                .location(location)
+        if (sourceReader.read(Keywords.CONSTRUCTOR).isEmpty()) {
+            return Option.none();
+        }
+
+        Option<Snippet> parametersSource = sourceReader.readArguments();
+
+        if (parametersSource.isEmpty()) {
+            throw new PandaParserFailure(context, context.getSource(), "Missing constructor parameters");
+        }
+
+        Option<Snippet> body = sourceReader.readBody();
+
+        if (body.isEmpty()) {
+            throw new PandaParserFailure(context, context.getSource(), "Missing constructor body");
+        }
+
+        List<PropertyParameter> parameters = PARAMETER_PARSER.parse(context, parametersSource.get());
+        ConstructorScope constructorScope = new ConstructorScope(sourceReader.toLocation(), parameters);
+        TypeScope typeScope = context.getSubject().getScope();
+        Type type = typeScope.getReference().fetchType();
+
+        TypeConstructor constructor = PandaConstructor.builder()
+                .type(type)
+                .returnType(type.getSignature())
+                .location(context.getSource())
                 .parameters(parameters)
                 .baseCall(constructorScope::getBaseCall)
-                .callback((typeConstructor, stack, instance, arguments) -> {
-                    TypeInstance typeInstance = typeScope.createInstance(stack, instance, typeConstructor, parameterTypes, arguments);
-                    ConstructorFrame constructorInstance = constructorScope.revive(stack, typeInstance);
-                    return constructorInstance.initialize(stack, typeInstance, arguments);
-                })
-                .build());
+                .scope(constructorScope)
+                .invoker(constructorScope)
+                .build();
 
-        typeScope.getType().getConstructors().declare(constructor);
-    }
+        type.getConstructors().declare(constructor);
 
-    @Autowired(order = 2, phase = Phases.NEXT_DEFAULT)
-    public void parse(Context context, @Ctx TypeScope typeScope, @Channel ConstructorScope scope, @Channel TypeConstructor constructor, @Channel Snippet src, @Src("body") @Nullable Snippet body) {
-        SCOPE_PARSER.parse(context, scope, body);
+        context.getStageService().delegate("parse constructor body", Phases.CONTENT, Layer.NEXT_DEFAULT, bodyPhase -> {
+            scopeParser.parse(context, constructorScope, body.get());
+        });
 
-        typeScope.getType().getSuperclass()
-                .filterNot(superclass -> superclass.getName().equals("java::Object"))
-                .filterNot(superclass -> superclass.getConstructors().getConstructor(new Type[0]).isDefined())
-                .filterNot(superclass -> scope.getBaseCall().isDefined())
-                .peek(superclass -> {
-                    throw new PandaParserFailure(context, src, src,
-                            "&1Missing call to the base constructor in " + constructor + "&r",
-                            "Using the &1base&r statement call one of the base constructors"
-                    );
-                });
+        context.getStageService().delegate("verify base call", Phases.VERIFY, Layer.NEXT_DEFAULT, verifyPhase -> {
+            type.getSuperclass()
+                    .filterNot(superclass -> superclass.fetchType().is("panda::Object"))
+                    .filterNot(superclass -> superclass.fetchType().getConstructors().getConstructor(Collections.emptyList()).isDefined())
+                    .filterNot(superclass -> constructorScope.getBaseCall().isDefined())
+                    .peek(superclass -> {
+                        throw new PandaParserFailure(context, context.getSource(),
+                                "&1Missing call to the base constructor in " + constructor + "&r",
+                                "Using the &1base&r statement call one of the base constructors"
+                        );
+                    });
+        });
+
+        return Option.ofCompleted(constructorScope);
     }
 
 }

@@ -24,7 +24,7 @@ import java.util.Map;
 
 public final class RPNOperationBuilder {
 
-    private Context context;
+    private Context<?> context;
     private Operation operation;
     protected Map<Operator, Integer> priorities;
     protected Map<Operator, RPNOperationSupplier<?>> suppliers;
@@ -34,7 +34,7 @@ public final class RPNOperationBuilder {
         return this;
     }
 
-    public RPNOperationBuilder withData(Context context) {
+    public RPNOperationBuilder withData(Context<?> context) {
         this.context = context;
         return this;
     }

@@ -16,59 +16,55 @@
 
 package org.panda_lang.panda.language.resource.syntax.type;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.expression.ThisExpression;
-import org.panda_lang.language.architecture.module.PandaImportsUtils;
-import org.panda_lang.language.architecture.type.MethodScope;
-import org.panda_lang.language.architecture.type.PandaMethod;
-import org.panda_lang.language.architecture.type.PropertyParameter;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.TypeMethod;
+import org.panda_lang.language.architecture.type.TypeContext;
+import org.panda_lang.language.architecture.type.TypedUtils;
 import org.panda_lang.language.architecture.type.Visibility;
-import org.panda_lang.language.architecture.type.utils.TypedUtils;
-import org.panda_lang.language.interpreter.parser.Components;
+import org.panda_lang.language.architecture.type.member.method.MethodScope;
+import org.panda_lang.language.architecture.type.member.method.PandaMethod;
+import org.panda_lang.language.architecture.type.member.method.TypeMethod;
+import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.LocalChannel;
+import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
+import org.panda_lang.language.interpreter.parser.stage.Layer;
 import org.panda_lang.language.interpreter.parser.stage.Phases;
-import org.panda_lang.language.interpreter.parser.stage.Stages;
-import org.panda_lang.language.interpreter.pattern.Mappings;
-import org.panda_lang.language.interpreter.pattern.functional.elements.TypeElement;
-import org.panda_lang.language.interpreter.pattern.functional.elements.UnitElement;
 import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.interpreter.token.SnippetUtils;
-import org.panda_lang.language.interpreter.token.Snippetable;
 import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.language.resource.syntax.operator.Operators;
-import org.panda_lang.language.resource.syntax.separator.Separators;
+import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredParser;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
 import org.panda_lang.panda.language.resource.syntax.PandaPriorities;
 import org.panda_lang.panda.language.resource.syntax.scope.StandaloneExpression;
 import org.panda_lang.panda.language.resource.syntax.scope.branching.Returnable;
 import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
+import org.panda_lang.utilities.commons.function.PandaStream;
 
 import java.util.List;
 
-public final class MethodParser extends AutowiredParser<Void> {
+public final class MethodParser implements ContextParser<TypeContext, TypeMethod> {
 
     private static final ParameterParser PARAMETER_PARSER = new ParameterParser();
-    private static final ScopeParser SCOPE_PARSER = new ScopeParser();
+    private static final SignatureParser SIGNATURE_PARSER = new SignatureParser();
+    private ScopeParser scopeParser;
+    private Type voidType;
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(Pipelines.TYPE);
+    public String name() {
+        return "method";
+    }
+
+    @Override
+    public Component<?>[] targets() {
+        return ArrayUtils.of(Targets.TYPE);
     }
 
     @Override
@@ -77,135 +73,140 @@ public final class MethodParser extends AutowiredParser<Void> {
     }
 
     @Override
-    protected AutowiredInitializer<Void> initialize(Context context, AutowiredInitializer<Void> initializer) {
-        return initializer.functional(pattern -> pattern
-                .keyword(Keywords.OVERRIDE).optional()
-                .variant("visibility").optional().consume(variant -> variant.content("open", "shared", "internal").map(value -> Visibility.valueOf(value.toString().toUpperCase())))
-                .keyword(Keywords.STATIC).optional()
-                .wildcard("name").verifyType(TokenTypes.UNKNOWN, TokenTypes.SEQUENCE)
-                .section("parameters", Separators.PARENTHESIS_LEFT)
-                .subPattern("return-type", sub -> sub
-                        .unit("arrow", Operators.ARROW.getValue())
-                        .variant("type-variant").consume(variant -> variant.content(
-                                UnitElement.create("type").content(Keywords.SELF.getValue()),
-                                TypeElement.create("type")
-                        ))
-                ).optional()
-                .section("body", Separators.BRACE_LEFT).optional());
+    public void initialize(Context<?> context) {
+        this.scopeParser = new ScopeParser(context.getPoolService());
+        this.voidType = context.getTypeLoader().requireType("panda::Void");
     }
 
-    @Autowired(order = 1, stage = Stages.TYPES_LABEL)
-    public void parseReturnType(Context context, LocalChannel channel, @Ctx Type type, @Src("type") @Nullable Snippetable returnTypeNameSource) {
-        Snippet returnTypeName = returnTypeNameSource != null ? returnTypeNameSource.toSnippet() : null;
+    @Override
+    public Option<Completable<TypeMethod>> parse(Context<? extends TypeContext> context) {
+        PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
 
-        if (returnTypeName != null && returnTypeName.size() == 1 && Keywords.SELF.equals(returnTypeName.getFirst())) {
-            channel.allocated("type", type);
-            return;
+        // read visibility, optional if overridden
+
+        boolean overrides = sourceReader.optionalRead(() -> sourceReader.read(Keywords.OVERRIDE)).isDefined();
+
+        Option<Visibility> visibility = sourceReader.optionalRead(() -> sourceReader.readVariant(Keywords.OPEN, Keywords.SHARED, Keywords.INTERNAL))
+                .map(Visibility::of);
+
+        if (visibility.isEmpty() && !overrides) {
+            return Option.none();
         }
 
-        Option.of(returnTypeName)
-                .map(value -> PandaImportsUtils.getTypeOrThrow(context, value,
-                        "Unknown type {name}",
-                        "Make sure that the name does not have a typo and module which should contain that class is imported"
-                ))
-                .orElse(() -> context.getComponent(Components.IMPORTS).forName("void"))
-                .peek(returnType -> channel.allocated("type", returnType));
-    }
+        // read optional static modifier
 
-    @Autowired(order = 2, stage = Stages.TYPES_LABEL)
-    public void parseParameters(Context context, LocalChannel channel, @Src("name") TokenInfo name, @Src("parameters") Snippet parametersSource) {
-        List<PropertyParameter> parameters = PARAMETER_PARSER.parse(context, parametersSource);
-        MethodScope methodScope = new MethodScope(name.getLocation(), parameters);
-        channel.allocated("scope", methodScope);
-    }
+        boolean isStatic = sourceReader.optionalRead(() -> sourceReader.read(Keywords.STATIC)).isDefined();
 
-    @Autowired(order = 3, stage = Stages.TYPES_LABEL)
-    public void verifyData(
-        Context context,
-        LocalChannel channel,
-        @Ctx Type type,
-        @Channel Mappings mappings,
-        @Channel Type returnType,
-        @Channel MethodScope scope,
-        @Src("name") TokenInfo name
-    ) {
-        Option<TypeMethod> existingMethod = type.getMethods().getMethod(name.getValue(), TypedUtils.toTypes(scope.getParameters()));
+        // read name
 
-        if (mappings.has(Keywords.OVERRIDE) && existingMethod.isEmpty()) {
-            throw new PandaParserFailure(context, name,
-                    "&1Method &b" + name + "&1 is defined as overridden, but there is no such a method in parent type",
-                    "Compare method signature with a target signature and apply required changes or remove this modifier to create independent method"
-            );
+        Option<String> name = sourceReader.optionalRead(() -> sourceReader.read(TokenTypes.UNKNOWN))
+                .orElse(() -> sourceReader.optionalRead(() -> sourceReader.read(TokenTypes.SEQUENCE)))
+                .map(TokenInfo::getValue);
+
+        if (name.isEmpty()) {
+            return Option.none();
         }
 
-        existingMethod
-                .filter(TypeMethod::isNative)
-                .peek(method -> channel.allocated("native", true));
+        // read parameters
 
-        existingMethod
-                .filterNot(method -> mappings.has(Keywords.OVERRIDE))
-                .peek(method -> {
-                    throw new PandaParserFailure(context, name,
-                            "&rMethod &b" + name + "&r overrides &b" + existingMethod.get() + "&r but does not contain&b override&r modifier",
-                            "Add missing modifier if you want to override that method or rename current method"
-                    );
-                });
+        Option<List<PropertyParameter>> parameters = sourceReader.readArguments()
+                .map(parametersSource -> PARAMETER_PARSER.parse(context, parametersSource));
 
-        existingMethod
-                .map(TypeMethod::getReturnType)
-                .filterNot(returnType::isAssignableFrom)
-                .peek(existingReturnType -> {
-                    throw new PandaParserFailure(context, name,
-                            "&rMethod &b" + name + "&r overrides &b" + existingMethod.get() + "&r but does not return the same type",
-                            "Change return type if you want to override that method or rename current method"
-                    );
-                });
+        if (parameters.isEmpty()) {
+            return Option.none();
+        }
 
-        mappings.get("visibility")
-                .orElse(() -> existingMethod.map(TypeMethod::getVisibility))
-                .peek(visibility -> channel.allocated("visibility", visibility))
-                .orThrow(() -> {
-                    throw new PandaParserFailure(context, name, "Missing visibility");
-                });
-    }
+        // read return type
 
-    @Autowired(order = 4, stage = Stages.TYPES_LABEL)
-    public void declareMethod(LocalChannel channel, @Ctx Type type, @Channel Mappings mappings, @Src("name") TokenInfo name, @Channel Type returnType, @Channel MethodScope scope, @Src("body") Snippet body) {
+        Type type = context.getSubject().getType();
+        Signature returnType;
+
+        if (sourceReader.optionalRead(() -> sourceReader.read(Operators.ARROW)).isDefined()) {
+            returnType = sourceReader.optionalRead(() -> sourceReader.read(Keywords.SELF))
+                    .map(self -> (Signature) context.getSubject().getType().getSignature())
+                    // TODO: parent signature
+                    .orElse(() -> sourceReader.readSignature().map(signatureSource -> SIGNATURE_PARSER.parse(context, signatureSource, false, type.getSignature())))
+                    .orThrow(() -> {
+                        throw new PandaParserFailure(context, "Missing return signature");
+                    });
+        }
+        else {
+            returnType = voidType.getSignature();
+        }
+
+        // read body
+
+        Option<Snippet> body = sourceReader.optionalRead(sourceReader::readBody);
+
+        // create method
+
+        MethodScope methodScope = new MethodScope(context, parameters.get());
+
         TypeMethod method = PandaMethod.builder()
                 .type(type)
-                .parameters(scope.getParameters())
-                .name(name.getValue())
-                .location(scope.getSourceLocation())
-                .isAbstract(body == null)
-                .visibility(channel.get("visibility"))
+                .parameters(parameters.get())
+                .name(name.get())
+                .location(context)
+                .isAbstract(body.isEmpty())
+                .visibility(visibility.orElseGet(Visibility.OPEN))
                 .returnType(returnType)
-                .isStatic(mappings.has("static"))
-                .isNative(channel.contains("native"))
-                .body(scope)
+                .isStatic(isStatic)
+                .body(methodScope)
                 .build();
-
         type.getMethods().declare(method);
-        channel.allocated("method", method);
-    }
 
-    @Autowired(order = 5, phase = Phases.NEXT_DEFAULT)
-    public void parse(Context context, @Ctx Type type, @Channel Mappings mappings, @Channel MethodScope methodScope, @Channel TypeMethod method, @Nullable @Src("body") Snippet body) {
-        if (!SnippetUtils.isEmpty(body)) {
-            SCOPE_PARSER.parse(context, methodScope, body);
-        }
+        context.getStageService().delegate("parse method body", Phases.CONTENT, Layer.NEXT_DEFAULT, contentPhase -> {
+            body.peek(source -> scopeParser.parse(context, methodScope, source));
+        });
 
-        if (method.isAbstract()) {
-            return;
-        }
-
-        if (!method.getReturnType().getAssociatedClass().isAssignableTo(void.class) && !methodScope.hasEffective(Returnable.class)) {
-            if (method.getReturnType().equals(type)) {
-                methodScope.addStatement(new StandaloneExpression(mappings.toSnippet().getLocation(), ThisExpression.of(type)));
+        context.getStageService().delegate("verify return statement", Phases.VERIFY, Layer.NEXT_DEFAULT, verifyPhase -> {
+            if (method.isAbstract()) {
                 return;
             }
 
-            throw new PandaParserFailure(context, body != null ? body.getLastLine() : mappings, "Missing return statement in method " + method.getName());
-        }
+            if (!context.getTypeLoader().requireType("panda::Void").isAssignableFrom(method.getReturnType().getKnownType()) && !methodScope.hasEffective(Returnable.class)) {
+                if (method.getReturnType().equals(type.getSignature())) {
+                    methodScope.addStatement(new StandaloneExpression(context, ThisExpression.of(type.getSignature())));
+                    return;
+                }
+
+                throw new PandaParserFailure(context, body.isDefined() ? body.get().getLastLine() : context.getSource(), "Missing return statement in method " + method.getName());
+            }
+        });
+
+        context.getStageService().delegate("verify method", Phases.VERIFY, Layer.NEXT_DEFAULT, verifyPhase -> {
+            Option<TypeMethod> existingMethod = PandaStream.of(type.getBases())
+                    .flatMap(base -> base.fetchType().getMethods().getMethod(name.get(), TypedUtils.toTypes(parameters.get())))
+                    .any();
+
+            if (overrides && existingMethod.isEmpty()) {
+                throw new PandaParserFailure(context, context.getSource(),
+                        "&1Method &b" + name + "&1 is defined as overridden, but there is no such a method in parent type",
+                        "Compare method signature with a target signature and apply required changes or remove this modifier to create independent method"
+                );
+            }
+
+            existingMethod
+                    .filterNot(property -> overrides)
+                    .peek(property -> {
+                        throw new PandaParserFailure(context, context.getSource(),
+                                "&rMethod &b" + name.get() + "&r overrides &b" + existingMethod.get() + "&r but does not contain&b override&r modifier",
+                                "Add missing modifier if you want to override that method or rename current method"
+                        );
+                    });
+
+            existingMethod
+                    .map(TypeMethod::getReturnType)
+                    .filterNot(parentReturnType -> parentReturnType.isAssignableFrom(returnType))
+                    .peek(existingReturnType -> {
+                        throw new PandaParserFailure(context, context.getSource(),
+                                "&rMethod &b" + method + "&r overrides &b" + existingMethod.get() + "&r but does not return the same type",
+                                "Change return type if you want to override that method or rename current method"
+                        );
+                    });
+        });
+
+        return Option.ofCompleted(method);
     }
 
 }

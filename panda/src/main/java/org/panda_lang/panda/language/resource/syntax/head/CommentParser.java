@@ -16,33 +16,34 @@
 
 package org.panda_lang.panda.language.resource.syntax.head;
 
-import org.panda_lang.language.interpreter.parser.Components;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;
-import org.panda_lang.language.interpreter.parser.LocalChannel;
-import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.pipeline.Handler;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.parser.pipeline.Pipelines;
-import org.panda_lang.language.interpreter.token.Snippet;
+import org.panda_lang.language.interpreter.parser.SourceReader;
+import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.resource.syntax.sequence.SequencesUtils;
 import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.utilities.commons.function.Completable;
+import org.panda_lang.utilities.commons.function.Option;
 
-public final class CommentParser implements ContextParser<CommentStatement>, Handler {
+public final class CommentParser implements ContextParser<Object, CommentStatement> {
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(Pipelines.ALL);
+    public String name() {
+        return "comment";
     }
 
     @Override
-    public Boolean handle(Context context, LocalChannel channel, Snippet source) {
-        return SequencesUtils.isComment(source.getFirst().getToken());
+    public Component<?>[] targets() {
+        return ArrayUtils.of(Targets.ALL);
     }
 
     @Override
-    public CommentStatement parse(Context context) {
-        return new CommentStatement(context.getComponent(Components.STREAM).read());
+    public Option<Completable<CommentStatement>> parse(Context<?> context) {
+        return new SourceReader(context.getStream())
+                .read(SequencesUtils::isComment)
+                .map(CommentStatement::new)
+                .map(Completable::completed);
     }
 
 }

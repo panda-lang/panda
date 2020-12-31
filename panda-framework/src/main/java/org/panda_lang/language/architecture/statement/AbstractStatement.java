@@ -16,14 +16,15 @@
 
 package org.panda_lang.language.architecture.statement;
 
+import org.panda_lang.language.interpreter.source.Localizable;
 import org.panda_lang.language.interpreter.source.Location;
 
 public abstract class AbstractStatement implements Statement {
 
     protected final Location location;
 
-    protected AbstractStatement(Location location) {
-        this.location = location;
+    protected AbstractStatement(Localizable localizable) {
+        this.location = localizable.toLocation();
     }
 
     @Override

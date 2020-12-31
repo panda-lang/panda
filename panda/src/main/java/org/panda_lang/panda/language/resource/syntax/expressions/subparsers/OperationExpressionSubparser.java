@@ -43,27 +43,27 @@ public final class OperationExpressionSubparser implements ExpressionSubparser {
     private static final OperationParser OPERATION_PARSER = new OperationParser();
 
     @Override
-    public ExpressionSubparserWorker createWorker(Context context) {
+    public ExpressionSubparserWorker createWorker(Context<?> context) {
         return new OperationWorker().withSubparser(this);
     }
 
     @Override
-    public int getMinimalRequiredLengthOfSource() {
+    public int minimalRequiredLengthOfSource() {
         return 2;
     }
 
     @Override
-    public ExpressionSubparserType getSubparserType() {
+    public ExpressionSubparserType type() {
         return ExpressionSubparserType.MUTUAL;
     }
 
     @Override
-    public ExpressionCategory getCategory() {
+    public ExpressionCategory category() {
         return ExpressionCategory.STANDALONE;
     }
 
     @Override
-    public String getSubparserName() {
+    public String name() {
         return "operation";
     }
 
@@ -72,11 +72,7 @@ public final class OperationExpressionSubparser implements ExpressionSubparser {
         private List<Operation.OperationElement> elements;
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo token) {
-            if (!context.hasResults()) {
-                return null;
-            }
-
+        public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
             if (token.getType() != TokenTypes.OPERATOR) {/*
                 if (elements != null) {
                     elements.add(new Operation.OperationElement(context.popExpression()));
@@ -99,15 +95,15 @@ public final class OperationExpressionSubparser implements ExpressionSubparser {
             elements.add(new OperationElement(context.popExpression()));
             elements.add(new OperationElement(token));
 
-            //ExpressionTransaction transaction = context.getParser().parse(context.getContext(), context.getSynchronizedSource());
-            //context.commit(transaction::rollback);
-            //elements.add(new OperationElement(transaction.getExpression()));
+            // ExpressionTransaction transaction = context.getParser().parse(context.toContext(), context.getSynchronizedSource());
+            // context.commit(transaction::rollback);
+            // elements.add(new OperationElement(transaction.getExpression()));
 
             return ExpressionResult.empty();
         }
 
         @Override
-        public @Nullable ExpressionResult finish(ExpressionContext context) {
+        public @Nullable ExpressionResult finish(ExpressionContext<?> context) {
             if (elements == null) {
                 return null;
             }

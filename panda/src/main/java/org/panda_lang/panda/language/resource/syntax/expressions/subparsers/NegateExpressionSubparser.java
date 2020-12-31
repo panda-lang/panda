@@ -17,50 +17,49 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserType;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserWorker;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.language.interpreter.token.TokenInfo;
+import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.language.resource.syntax.operator.Operators;
 
 public final class NegateExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public ExpressionSubparserWorker createWorker(Context context) {
+    public ExpressionSubparserWorker createWorker(Context<?> context) {
         return new NegateWorker().withSubparser(this);
     }
 
     @Override
-    public int getMinimalRequiredLengthOfSource() {
+    public int minimalRequiredLengthOfSource() {
         return 2;
     }
 
     @Override
-    public ExpressionSubparserType getSubparserType() {
+    public ExpressionSubparserType type() {
         return ExpressionSubparserType.INDIVIDUAL;
     }
 
     @Override
-    public String getSubparserName() {
+    public String name() {
         return "negate";
     }
 
     private static final class NegateWorker extends AbstractExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo token) {
-            if (!token.contentEquals(Operators.NOT)) {
+        public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
+            if (!token.contentEquals(Keywords.NOT) && !token.contentEquals(Operators.NOT)) {
                 return null;
             }
 
-            ExpressionTransaction transaction = context.getParser().parse(context.toContext(), context.getSynchronizedSource());
-            context.commit(transaction::rollback);
-
-            return ExpressionResult.of(new NegateLogicalExpression(transaction.getExpression()).toExpression());
+            Expression expression = context.getParser().parse(context.toContext(), context.getSynchronizedSource());
+            return ExpressionResult.of(new NegateLogicalExpression(expression).toExpression());
         }
 
     }

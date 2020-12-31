@@ -17,12 +17,12 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserWorker;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
 import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.auxiliary.Section;
@@ -31,19 +31,19 @@ import org.panda_lang.language.resource.syntax.separator.Separators;
 public final class SectionExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public ExpressionSubparserWorker createWorker(Context context) {
+    public ExpressionSubparserWorker createWorker(Context<?> context) {
         return new SectionWorker().withSubparser(this);
     }
 
     @Override
-    public String getSubparserName() {
+    public String name() {
         return "section";
     }
 
     private static final class SectionWorker extends AbstractExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo token) {
+        public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
             if (token.getType() != TokenTypes.SECTION) {
                 return null;
             }
@@ -58,10 +58,8 @@ public final class SectionExpressionSubparser implements ExpressionSubparser {
                 return ExpressionResult.error("Expression expected", token);
             }
 
-            ExpressionTransaction expressionTransaction = context.getParser().parse(context.toContext(), section.getContent());
-            context.commit(expressionTransaction::rollback);
-
-            return ExpressionResult.of(expressionTransaction.getExpression());
+            Expression expression = context.getParser().parse(context.toContext(), section.getContent());
+            return ExpressionResult.of(expression);
         }
 
     }

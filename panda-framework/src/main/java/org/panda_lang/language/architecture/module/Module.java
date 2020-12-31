@@ -16,7 +16,7 @@
 
 package org.panda_lang.language.architecture.module;
 
-import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.Reference;
 import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.Collection;
@@ -24,15 +24,23 @@ import java.util.Collection;
 /**
  * Identifiable container of resources
  */
-public interface Module extends Modules, ModuleResource {
+public interface Module extends ModuleContainer {
 
     /**
      * Add reference to type to the module
      *
-     * @param type the reference to add
+     * @param reference the reference to add
      * @return the added reference
      */
-    Type add(Type type);
+    Reference add(Reference reference);
+
+    /**
+     * Get reference if exists
+     *
+     * @param name the name of reference
+     * @return the option with reference, otherwise none
+     */
+    Option<Reference> get(String name);
 
     /**
      * Check if the given module is submodule of the current module
@@ -40,17 +48,7 @@ public interface Module extends Modules, ModuleResource {
      * @param module the module to check
      * @return true if module is submodule, otherwise false
      */
-    boolean isSubmodule(Module module);
-
-    /**
-     * Check if the module contains type associated with the specified class
-     *
-     * @param clazz the class to check
-     * @return true if module contains type associated with the provided class
-     */
-    default boolean hasType(Class<?> clazz) {
-        return forClass(clazz).isDefined();
-    }
+    boolean hasSubmodule(Module module);
 
     /**
      * Check if the module contains a reference to type with the given name
@@ -58,31 +56,30 @@ public interface Module extends Modules, ModuleResource {
      * @param name the name to search for
      * @return true if module contains such a reference
      */
-    default boolean hasType(CharSequence name) {
-        return forName(name).isDefined();
+    default boolean hasType(String name) {
+        return get(name).isDefined();
     }
-
-    /**
-     * Get all types (also from submodules)
-     * Iterable is used instead of collection because of the performance reasons.
-     *
-     * @return the iterable that contains all types
-     */
-    Collection<Type> getAllTypes();
 
     /**
      * Get types that belongs to the module
      *
      * @return collection of types
      */
-    Collection<Type> getTypes();
+    Collection<? extends Reference> getReferences();
 
     /**
      * Get parent module
      *
      * @return the parent module
      */
-    Option<Module> getParent();
+    Option<? extends Module> getParent();
+
+    /**
+     * Get non prefixed name of module
+     *
+     * @return the simple name of module
+     */
+    String getSimpleName();
 
     /**
      * Get name of module

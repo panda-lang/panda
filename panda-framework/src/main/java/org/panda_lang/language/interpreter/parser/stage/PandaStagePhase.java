@@ -16,62 +16,57 @@
 
 package org.panda_lang.language.interpreter.parser.stage;
 
-import org.panda_lang.language.interpreter.parser.Context;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.concurrent.atomic.AtomicInteger;
-
 public final class PandaStagePhase implements StagePhase {
 
-    private static final AtomicInteger ID = new AtomicInteger();
+    private final String name;
+    private final StageManager stageManager;
+    private StageLayer currentPhase;
+    private StageLayer nextPhase;
 
-    private final int id;
-    private final Stage cycle;
-    private final Map<StageOrder, List<DelegatedTask>> tasks = new HashMap<>();
-    private DelegatedTask currentUnit;
-
-    public PandaStagePhase(Stage cycle) {
-        this.id = ID.getAndIncrement();
-        this.cycle = cycle;
+    public PandaStagePhase(StageManager controller, String name) {
+        this.name = name;
+        this.stageManager = controller;
+        this.currentPhase = new PandaStageLayer(this);
+        this.nextPhase = new PandaStageLayer(this);
     }
 
     @Override
-    public void callTasks() {
-        Map<StageOrder, List<DelegatedTask>> unitsMap = new TreeMap<>(tasks);
-        tasks.clear();
-
-        for (List<DelegatedTask> units : unitsMap.values()) {
-            for (DelegatedTask unit : units) {
-                currentUnit = unit;
-                unit.getTask().call(cycle, unit.getDelegated());
+    public boolean execute() {
+        while (currentPhase.callNextTask()) {
+            if (stageManager.countTasksBefore(this) > 0) {
+                return false;
             }
         }
 
-        currentUnit = null;
-    }
+        currentPhase = nextPhase;
+        nextPhase = new PandaStageLayer(this);
 
-    @Override
-    public StagePhase delegate(StageOrder priority, StageTask<?> task, Context delegated) {
-        tasks.computeIfAbsent(priority, (key) -> new ArrayList<>(2)).add(new DelegatedTask(task, delegated));
-        return this;
+        return true;
     }
 
     @Override
     public int countTasks() {
-        return tasks.size();
+        return currentPhase.countTasks() + nextPhase.countTasks();
     }
 
-    public DelegatedTask getCurrentUnit() {
-        return currentUnit;
+    @Override
+    public StageLayer currentLayer() {
+        return currentPhase;
+    }
+
+    @Override
+    public StageLayer nextLayer() {
+        return nextPhase;
+    }
+
+    @Override
+    public String name() {
+        return name;
     }
 
     @Override
     public String toString() {
-        return "GenerationPhase " + id + ": " + countTasks() + " tasks";
+        return "GenerationCycle#" + name + " { currentPhase: " + currentPhase + ", nextPhase: " + nextPhase + " }";
     }
 
 }

@@ -17,8 +17,13 @@
 package org.panda_lang.panda.manager;
 
 import org.panda_lang.language.architecture.Environment;
-import org.panda_lang.language.interpreter.source.Source;
+import org.panda_lang.language.architecture.Script;
 import org.panda_lang.language.interpreter.source.PandaURLSource;
+import org.panda_lang.language.interpreter.source.Source;
+import org.panda_lang.language.interpreter.source.SourceService.Priority;
+import org.panda_lang.utilities.commons.function.Completable;
+import org.panda_lang.utilities.commons.function.Option;
+import org.panda_lang.utilities.commons.function.Result;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,22 +37,27 @@ public final class PackageManagerUtils {
      * Load module
      *
      * @param moduleDirectory the module directory to load
-     * @throws IOException when module directory or module file does not exist
      */
-    public static void loadToEnvironment(Environment environment, File moduleDirectory) throws IOException {
+    public static Result<Completable<Option<Script>>, String> loadToEnvironment(Environment environment, File moduleDirectory) {
         File packageInfoFile = new File(moduleDirectory, PackageManagerConstants.PACKAGE_INFO);
 
         if (!packageInfoFile.exists()) {
-            environment.getLogger().debug("Skipping non-panda dependency directory " + moduleDirectory);
-            return;
+            // environment.getLogger().debug("Skipping non-panda dependency directory " + moduleDirectory);
+            return Result.error("Missing Panda project file (panda.cdn)");
         }
 
-        PackageDocument packageInfo = new PackageDocumentFile(packageInfoFile).getContent();
+        PackageDocument packageInfo;
 
-        environment.getModulePath().include(moduleDirectory.getName(), () -> {
+        try {
+            packageInfo = new PackageDocumentFile(packageInfoFile).getContent();
+        } catch (IOException ioException) {
+            return Result.error(ioException.getMessage());
+        }
+
+        return Result.ok(environment.getModulePath().include(moduleDirectory.getName(), sources -> {
             Source source = PandaURLSource.fromFile(new File(moduleDirectory, Objects.requireNonNull(packageInfo.getMainScript())));
-            environment.getInterpreter().interpret(source);
-        });
+            return sources.addSource(Priority.REQUIRED, source);
+        }));
     }
 
 }

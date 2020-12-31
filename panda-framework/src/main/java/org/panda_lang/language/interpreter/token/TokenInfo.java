@@ -16,6 +16,7 @@
 
 package org.panda_lang.language.interpreter.token;
 
+import org.panda_lang.language.interpreter.source.Localizable;
 import org.panda_lang.language.interpreter.source.Location;
 
 import org.panda_lang.utilities.commons.function.Option;
@@ -25,7 +26,7 @@ import java.util.Collections;
 /**
  * Wrapper for {@link org.panda_lang.language.interpreter.token.Token} that contains details about location of token in source
  */
-public interface TokenInfo extends Token, Snippetable {
+public interface TokenInfo extends Token, Snippetable, Localizable {
 
     /**
      * Compare wrapped token with another token, utility method
@@ -77,6 +78,11 @@ public interface TokenInfo extends Token, Snippetable {
     @Override
     default Snippet toSnippet() {
         return PandaSnippet.ofImmutable(Collections.singletonList(this));
+    }
+
+    @Override
+    default Location toLocation() {
+        return getLocation();
     }
 
     @Override

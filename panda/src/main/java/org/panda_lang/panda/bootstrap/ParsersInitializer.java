@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.bootstrap;
 
-import org.panda_lang.language.interpreter.parser.Parser;
+import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser;
-import org.panda_lang.language.interpreter.parser.expression.PandaExpressionSubparsers;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparsers;
 import org.panda_lang.panda.language.interpreter.parser.ParsersLoader;
 import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressions;
 
@@ -55,10 +55,10 @@ public final class ParsersInitializer implements Initializer {
      * Load default expressions defined by Panda standard
      *
      * @return the initializer instance
-     * @see org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressions#SUBPARSERS
+     * @see org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressions#createSubparsers()
      */
     public ParsersInitializer loadDefaultExpressionSubparsers() {
-        this.expressionSubparsers.addAll(PandaExpressions.getSubparsers());
+        this.expressionSubparsers.addAll(PandaExpressions.createSubparsers());
         return this;
     }
 
@@ -68,7 +68,7 @@ public final class ParsersInitializer implements Initializer {
      * @param parsers classes to load
      * @return the initializer instance
      */
-    public final ParsersInitializer loadParsers(Parser... parsers) {
+    public final ParsersInitializer loadParsers(ContextParser<?, ?>... parsers) {
         return loadParsers(Arrays.asList(parsers));
     }
 
@@ -78,18 +78,18 @@ public final class ParsersInitializer implements Initializer {
      * @param parsers classes to load
      * @return the initializer instance
      */
-    public ParsersInitializer loadParsers(Collection<Parser> parsers) {
-        if (bootstrap.resources.pipelinePath == null) {
+    public ParsersInitializer loadParsers(Collection<ContextParser<?, ?>> parsers) {
+        if (bootstrap.resources.poolService == null) {
             throw new BootstrapException("Cannot load parsers because pipeline was not initialized");
         }
 
-        registrationLoader.loadParsers(bootstrap.resources.pipelinePath, parsers);
+        registrationLoader.loadParsers(bootstrap.resources.poolService, parsers);
         return this;
     }
 
     @Override
     public PandaBootstrap collect() {
-        bootstrap.resources.expressionSubparsers = new PandaExpressionSubparsers(expressionSubparsers);
+        bootstrap.resources.expressionSubparsers = new ExpressionSubparsers(expressionSubparsers);
         return bootstrap;
     }
 

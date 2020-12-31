@@ -16,68 +16,55 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.interpreter.parser.Components;
-import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.Contextual;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction;
+import org.panda_lang.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.SourceStream;
 import org.panda_lang.language.interpreter.token.TokenInfo;
-import org.panda_lang.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.language.interpreter.token.PandaSourceStream;
 import org.panda_lang.language.resource.syntax.separator.Separators;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public final class ArgumentsParser implements Parser {
 
-    private static final Expression[] EMPTY = new Expression[0];
-
-    public Expression[] parse(Context context, Snippet snippet) {
-        return parse(context, null, snippet);
+    @Override
+    public String name() {
+        return "arguments";
     }
 
-    public Expression[] parse(ExpressionContext expressionContext, Snippet snippet) {
-        return parse(expressionContext.toContext(), expressionContext, snippet);
-    }
-
-    private Expression[] parse(Context context, @Nullable ExpressionContext expressionContext, Snippet snippet) {
+    public List<Expression> parse(Contextual<?> context, Snippet snippet) {
         if (snippet.isEmpty()) {
-            return EMPTY;
+            return Collections.emptyList();
         }
 
-        ExpressionParser expressionParser = context.getComponent(Components.EXPRESSION);
+        ExpressionParser expressionParser = context.toContext().getExpressionParser();
         List<Expression> expressions = new ArrayList<>((snippet.size() - 1) / 2);
         SourceStream source = new PandaSourceStream(snippet);
 
         while (source.hasUnreadSource()) {
-            ExpressionTransaction transaction = expressionParser.parse(context, source);
-
-            if (expressionContext != null) {
-                expressionContext.commit(transaction::rollback);
-            }
-
-            expressions.add(transaction.getExpression());
+            Expression expression = expressionParser.parse(context, source);
+            expressions.add(expression);
 
             if (source.hasUnreadSource()) {
                 TokenInfo comma = source.read();
 
                 if (!Separators.COMMA.equals(comma.getToken())) {
-                    throw new PandaParserFailure(context, snippet, comma, "Illegal token", "Remove highlighted comma");
+                    throw new PandaParserFailure(snippet, comma, "Illegal token", "Remove highlighted comma");
                 }
 
                 if (!source.hasUnreadSource()) {
-                    throw new PandaParserFailure(context, source, comma, "Arguments cannot end with a comma", "Remove the comma at the end of arguments");
+                    throw new PandaParserFailure(source, comma, "Arguments cannot end with a comma", "Remove the comma at the end of arguments");
                 }
             }
         }
 
-        return expressions.toArray(EMPTY);
+        return expressions;
     }
 
 }

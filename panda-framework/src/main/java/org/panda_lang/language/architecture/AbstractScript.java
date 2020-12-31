@@ -18,6 +18,7 @@ package org.panda_lang.language.architecture;
 
 import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.architecture.statement.Statement;
+import org.panda_lang.utilities.commons.function.Completable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public abstract class AbstractScript implements Script {
 
     private final String scriptName;
     private final List<Statement> statements = new ArrayList<>();
-    protected Module associatedModule;
+    private final Completable<Module> associatedModule = new Completable<>();
 
     public AbstractScript(String scriptName) {
         this.scriptName = scriptName;
@@ -54,12 +55,8 @@ public abstract class AbstractScript implements Script {
         this.statements.add(statement);
     }
 
-    public void setModule(Module module) {
-        this.associatedModule = module;
-    }
-
     @Override
-    public Module getModule() {
+    public Completable<Module> getModule() {
         return associatedModule;
     }
 

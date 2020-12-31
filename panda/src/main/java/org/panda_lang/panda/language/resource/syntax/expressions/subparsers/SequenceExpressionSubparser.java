@@ -17,7 +17,6 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
@@ -31,12 +30,12 @@ import org.panda_lang.language.interpreter.token.TokenUtils;
 public final class SequenceExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public ExpressionSubparserWorker createWorker(Context context) {
+    public ExpressionSubparserWorker createWorker(Context<?> context) {
         return new SequenceWorker(context).withSubparser(this);
     }
 
     @Override
-    public String getSubparserName() {
+    public String name() {
         return "sequence";
     }
 
@@ -44,14 +43,14 @@ public final class SequenceExpressionSubparser implements ExpressionSubparser {
 
         private final Type stringType;
 
-        private SequenceWorker(Context context) {
-            this.stringType = ModuleLoaderUtils.requireType(context, String.class);
+        private SequenceWorker(Context<?> context) {
+            this.stringType = context.getTypeLoader().requireType("panda::String");
         }
 
         @Override
-        public @Nullable ExpressionResult next(ExpressionContext context, TokenInfo token) {
+        public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
             if (TokenUtils.hasName(token, "String")) {
-                return ExpressionParserUtils.toExpressionResult(stringType, token.getValue());
+                return ExpressionParserUtils.toExpressionResult(stringType.getSignature(), token.getValue());
             }
 
             return null;

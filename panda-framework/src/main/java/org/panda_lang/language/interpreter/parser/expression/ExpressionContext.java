@@ -17,19 +17,16 @@
 package org.panda_lang.language.interpreter.parser.expression;
 
 import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.Contextual;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionTransaction.Commit;
 import org.panda_lang.language.interpreter.token.Snippetable;
 import org.panda_lang.language.interpreter.token.SynchronizedSource;
 
-import java.util.List;
 import java.util.Stack;
 
 /**
  * Context of expression parser
  */
-public interface ExpressionContext extends Contextual, Snippetable {
+public interface ExpressionContext<T> extends Contextual<T>, Snippetable {
 
     /**
      * Remove the latest expression from stack
@@ -46,13 +43,6 @@ public interface ExpressionContext extends Contextual, Snippetable {
     Expression peekExpression();
 
     /**
-     * Register commit in the transaction
-     *
-     * @param commit the commit to save
-     */
-    void commit(Commit commit);
-
-    /**
      * Check if context contains any expressions on stack
      *
      * @return true if stack contains some expressions
@@ -67,13 +57,6 @@ public interface ExpressionContext extends Contextual, Snippetable {
     SynchronizedSource getSynchronizedSource();
 
     /**
-     * Get commits
-     *
-     * @return list of commits
-     */
-    List<Commit> getCommits();
-
-    /**
      * Get errors
      *
      * @return the stack containing latest errors
@@ -86,14 +69,6 @@ public interface ExpressionContext extends Contextual, Snippetable {
      * @return the stack containing results
      */
     Stack<Expression> getResults();
-
-    /**
-     * Get parser context
-     *
-     * @return the context
-     */
-    @Override
-    Context toContext();
 
     /**
      * Get current expression parser

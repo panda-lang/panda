@@ -16,17 +16,17 @@
 
 package org.panda_lang.panda.language.resource.syntax.scope;
 
-import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.interpreter.source.Location;
-import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.language.architecture.dynamic.AbstractExecutableStatement;
+import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.interpreter.source.Localizable;
+import org.panda_lang.language.runtime.ProcessStack;
 
 public class StandaloneExpression extends AbstractExecutableStatement {
 
     private final Expression expression;
 
-    public StandaloneExpression(Location location, Expression expression) {
-        super(location);
+    public StandaloneExpression(Localizable localizable, Expression expression) {
+        super(localizable);
         this.expression = expression;
     }
 

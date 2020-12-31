@@ -16,26 +16,34 @@
 
 package org.panda_lang.language.interpreter.parser.stage;
 
-public enum Phases {
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-    IMMEDIATELY(0),
+import static org.panda_lang.utilities.commons.collection.Lists.add;
 
-    CURRENT_BEFORE(1),
-    CURRENT_DEFAULT(2),
-    CURRENT_AFTER(3),
+public final class Phases {
 
-    NEXT_BEFORE(4),
-    NEXT_DEFAULT(5),
-    NEXT_AFTER(6);
+    private static final Collection<Phase> VALUES = new ArrayList<>();
 
-    private final int priority;
+    public static final Phase SYNTAX = add(VALUES, new Phase("SYNTAX", 1.0));
 
-    Phases(int priority) {
-        this.priority = priority;
-    }
+    public static final Phase PREPROCESSOR = add(VALUES, new Phase("PREPROCESSOR", 2.0));
 
-    public int getPriority() {
-        return priority;
+    public static final Phase TYPES = add(VALUES, new Phase("TYPES", 2.0));
+
+    public static final Phase DEFAULT = add(VALUES, new Phase("DEFAULT", 3.0));
+
+    public static final Phase CONTENT = add(VALUES, new Phase("CONTENT", 4.0));
+
+    public static final Phase VERIFY = add(VALUES, new Phase("VERIFY", 5.0));
+
+    public static final Phase INITIALIZE = add(VALUES, new Phase("INITIALIZE", 6.0));
+
+    private Phases() { }
+
+    public static List<? extends Phase> getValues() {
+        return new ArrayList<>(VALUES);
     }
 
 }

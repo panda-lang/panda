@@ -17,85 +17,89 @@
 package org.panda_lang.panda.language.resource.syntax.scope.block.looping;
 
 import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.architecture.module.ModuleLoaderUtils;
-import org.panda_lang.language.architecture.statement.Scope;
-import org.panda_lang.language.interpreter.parser.Components;
-import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.Parser;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.language.interpreter.parser.pipeline.PipelineComponent;
-import org.panda_lang.language.interpreter.source.Location;
-import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.architecture.expression.PandaExpression;
 import org.panda_lang.language.architecture.statement.PandaBlock;
+import org.panda_lang.language.architecture.statement.Scope;
+import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.language.resource.syntax.separator.Separators;
-import org.panda_lang.panda.language.interpreter.parser.PandaPipeline;
-import org.panda_lang.panda.language.interpreter.parser.block.BlockData;
-import org.panda_lang.panda.language.interpreter.parser.block.AutowiredBlockParser;
-import org.panda_lang.panda.language.interpreter.parser.autowired.AutowiredInitializer;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Autowired;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Channel;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Ctx;
-import org.panda_lang.panda.language.interpreter.parser.autowired.annotations.Src;
-import org.panda_lang.panda.language.interpreter.parser.autowired.handlers.TokenHandler;
-import org.panda_lang.utilities.commons.ArrayUtils;
+import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
+import org.panda_lang.panda.language.resource.syntax.scope.block.BlockParser;
+import org.panda_lang.utilities.commons.function.Completable;
+import org.panda_lang.utilities.commons.function.Option;
 
-public final class ForParser extends AutowiredBlockParser {
+public final class ForParser extends BlockParser<ForBlock> {
 
     private Expression defaultCondition;
 
     @Override
-    public PipelineComponent<? extends Parser>[] pipeline() {
-        return ArrayUtils.of(PandaPipeline.BLOCK);
+    public String name() {
+        return "for";
     }
 
     @Override
-    protected AutowiredInitializer<BlockData> initialize(Context context, AutowiredInitializer<BlockData> initializer) {
-        this.defaultCondition = new PandaExpression(ModuleLoaderUtils.requireType(context, boolean.class), true);
-
-        return initializer
-                .handler(new TokenHandler(Keywords.FOR))
-                .linear("for content:(~)");
+    public void initialize(Context<?> context) {
+        this.defaultCondition = new PandaExpression(context.getTypeLoader().requireType("panda::Bool").getSignature(), true);
+        super.initialize(context);
     }
 
-    @Autowired(order = 1)
-    public BlockData parseBlock(Context context, @Ctx Scope parent, @Channel Location location, @Src("content") Snippet content, @Ctx ExpressionParser expressionParser) {
-        Snippet[] forEachElements = content.split(Separators.SEMICOLON);
+    @Override
+    public Option<Completable<ForBlock>> parse(Context<?> context) {
+        PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
+
+        if (sourceReader.read(Keywords.FOR).isEmpty()) {
+            return Option.none();
+        }
+
+        Option<Snippet> forArguments = sourceReader.readArguments();
+
+        if (forArguments.isEmpty()) {
+            throw new PandaParserFailure(context, context.getSource(), "Missing expression in for loop");
+        }
+
+        Snippet[] forEachElements = forArguments.get().split(Separators.SEMICOLON);
 
         if (forEachElements.length != 3) {
-            throw new PandaParserFailure(context, content,
+            throw new PandaParserFailure(context, forArguments.get(),
                     "Invalid amount of statements in for loop declaration",
                     "The statement should look like: for (<initialization>; <termination>; <increment>)"
             );
         }
 
-        Scope forBlock = new PandaBlock(parent, location);
-        Context delegatedContext = context.fork().withComponent(Components.SCOPE, forBlock);
+        Scope forExpressionScope = new PandaBlock(context.getScope(), context.getSource());
+
+        Context<?> delegatedContext = context.forkCreator()
+                .withScope(forExpressionScope)
+                .toContext();
 
         Snippet initializationSource = forEachElements[0];
         Expression initialization = null;
 
         if (!initializationSource.isEmpty()) {
-            initialization = expressionParser.parse(delegatedContext, initializationSource).getExpression();
+            initialization = context.getExpressionParser().parse(delegatedContext, initializationSource);
         }
 
         Snippet terminationSource = forEachElements[1];
         Expression termination = defaultCondition;
 
         if (!terminationSource.isEmpty()) {
-            termination = expressionParser.parse(delegatedContext, terminationSource).getExpression();
+            termination = context.getExpressionParser().parse(delegatedContext, terminationSource);
         }
 
         Snippet incrementSource = forEachElements[2];
         Expression increment = null;
 
         if (!incrementSource.isEmpty()) {
-            increment = expressionParser.parse(delegatedContext, incrementSource).getExpression();
+            increment = context.getExpressionParser().parse(delegatedContext, incrementSource);
         }
 
-        return new BlockData(new ForBlock(forBlock, content.getLocation(), initialization, termination, increment));
+        ForBlock forBlock = new ForBlock(forExpressionScope, context, initialization, termination, increment);
+        context.getScope().addStatement(forBlock);
+        SCOPE_PARSER.parse(delegatedContext, forBlock, sourceReader.readBody().get());
+
+        return Option.ofCompleted(forBlock);
     }
 
 }

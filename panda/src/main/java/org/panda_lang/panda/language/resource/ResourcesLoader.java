@@ -20,43 +20,47 @@ import org.panda_lang.language.PandaFrameworkException;
 import org.panda_lang.language.architecture.module.Module;
 import org.panda_lang.language.architecture.module.ModulePath;
 import org.panda_lang.language.architecture.module.TypeLoader;
-import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.generator.TypeGenerator;
 import org.panda_lang.language.resource.internal.InternalModuleInfo;
 import org.panda_lang.language.resource.internal.InternalModuleInfo.CustomInitializer;
 import org.panda_lang.panda.language.resource.internal.PandaModules;
+import org.panda_lang.utilities.commons.ClassUtils;
 import org.panda_lang.utilities.commons.StringUtils;
 
 public final class ResourcesLoader {
 
-    public void load(ModulePath modulePath, TypeLoader typeLoader) {
-        load(modulePath, typeLoader, PandaModules.getClasses());
+    public void load(ModulePath modulePath, TypeGenerator typeGenerator, TypeLoader typeLoader) {
+        load(modulePath, typeGenerator, typeLoader, PandaModules.getMappings());
     }
 
-    public void load(ModulePath modulePath, TypeLoader typeLoader, Class<?>[] classes) {
-        for (Class<?> annotatedClass : classes) {
-            try {
-                loadClass(modulePath, typeLoader, annotatedClass);
-            } catch (Exception e) {
-                throw new PandaFrameworkException("Cannot load internal module", e);
-            }
+    public void load(ModulePath modulePath, TypeGenerator typeGenerator, TypeLoader typeLoader, Object[] mappings) {
+        for (Object object : mappings) {
+            loadClass(modulePath, typeGenerator, typeLoader, object);
         }
     }
 
-    private void loadClass(ModulePath modulePath, TypeLoader typeLoader, Class<?> annotatedClass) throws Exception {
-        InternalModuleInfo moduleInfo = annotatedClass.getAnnotation(InternalModuleInfo.class);
-        Module module = modulePath.allocate(moduleInfo.module());
+    private void loadClass(ModulePath modulePath, TypeGenerator typeGenerator, TypeLoader typeLoader, Object mappings) {
+        InternalModuleInfo moduleInfo = mappings.getClass().getAnnotation(InternalModuleInfo.class);
 
-        if (CustomInitializer.class.isAssignableFrom(annotatedClass)) {
-            CustomInitializer initializer = (CustomInitializer) annotatedClass.newInstance();
-            initializer.initialize(module, typeLoader);
+        Module module = modulePath.acquire(moduleInfo.module()).orThrow(() -> {
+            throw new IllegalStateException("Cannot acquire module " + moduleInfo.module());
+        });
+
+        if (mappings instanceof CustomInitializer) {
+            CustomInitializer initializer = (CustomInitializer) mappings;
+            initializer.initialize(module, typeGenerator, typeLoader);
         }
 
         String packageName = moduleInfo.pkg().isEmpty() ? StringUtils.EMPTY : moduleInfo.pkg() + ".";
 
         for (String name : moduleInfo.classes()) {
-            Class<?> type = Class.forName(packageName + name);
-            Type mappedType = typeLoader.load(module, type);
-            module.add(mappedType);
+            ClassUtils.forName(packageName + name)
+                    .map(type -> typeGenerator.generate(module, name, type))
+                    .peek(module::add)
+                    .peek(reference -> typeLoader.load(reference.fetchType()))
+                    .orThrow(() -> {
+                        throw new PandaFrameworkException("Cannot find class " + name + " in " + packageName);
+                    });
         }
     }
 
