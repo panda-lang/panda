@@ -6,7 +6,6 @@ import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.Snippetable;
 import org.panda_lang.utilities.commons.collection.Pair;
 import org.panda_lang.utilities.commons.function.Option;
-import org.panda_lang.utilities.commons.function.Result;
 
 import java.util.Arrays;
 
@@ -97,16 +96,7 @@ abstract class AbstractSignature<V> implements Signature {
             return true; // TODO: Remove nulls
         }
         
-        return from.getSignature().merge(this).isOk();
-    }
-
-    @Override
-    public Result<? extends Signature, String> merge(Signed inheritor) {
-        if (generics.length != inheritor.getSignature().getGenerics().length) {
-            return Result.error("Invalid amount of parameters in generic signature");
-        }
-
-        return SignatureUtils.merge(this, inheritor.getSignature());
+        return SignatureUtils.merge(from.getSignature(), this).isOk();
     }
 
     @Override

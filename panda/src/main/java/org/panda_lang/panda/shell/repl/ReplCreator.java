@@ -76,6 +76,7 @@ public final class ReplCreator {
                 .state(State.FINAL)
                 .associatedType(associatedClass)
                 .build();
+        futureType.complete(type);
 
         ClassGenerator classGenerator = new ClassGenerator();
         classGenerator.allocate(type);

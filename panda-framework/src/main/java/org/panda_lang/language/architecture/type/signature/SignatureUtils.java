@@ -6,6 +6,10 @@ import org.panda_lang.utilities.commons.function.Result;
 final class SignatureUtils {
 
     public static Result<? extends Signature, String> merge(Signature root, Signature inheritor) {
+        if (root.getSignature().getGenerics().length != inheritor.getSignature().getGenerics().length) {
+            return Result.error("Invalid amount of parameters in generic signature");
+        }
+
         if (root.isTyped()) {
             if (inheritor.isTyped()) {
                 return typedToTyped(root.toTyped(), inheritor.toTyped());

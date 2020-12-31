@@ -18,12 +18,12 @@ package org.panda_lang.panda.shell.repl;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.dynamic.Frame;
-import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
+import org.panda_lang.language.architecture.statement.AbstractPropertyFramedScope;
 import org.panda_lang.language.architecture.statement.Variable;
+import org.panda_lang.language.architecture.type.TypeFrame;
+import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.runtime.ProcessStack;
-import org.panda_lang.language.architecture.statement.AbstractPropertyFramedScope;
-import org.panda_lang.language.architecture.type.TypeInstance;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -43,7 +43,7 @@ final class ReplScope extends AbstractPropertyFramedScope {
 
     @Override
     public Frame revive(ProcessStack stack, Object instance) {
-        ReplFrame frame = new ReplFrame(this, (TypeInstance) instance);
+        ReplFrame frame = new ReplFrame(this, (TypeFrame) instance);
 
         for (Entry<Integer, Object> entry : defaultValues.entrySet()) {
             frame.set(entry.getKey(), entry.getValue());
