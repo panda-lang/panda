@@ -5,7 +5,27 @@ import org.panda_lang.utilities.commons.function.Result;
 
 final class SignatureUtils {
 
-    public static Result<? extends Signature, String> merge(Signature root, Signature inheritor) {
+    public static Result<? extends Signature, String> isAssignable(Signature root, Signature inheritor) {
+        Result<? extends Signature, String> baseResult = isBaseAssignable(root, inheritor);
+
+        if (baseResult.isErr()) {
+            return baseResult;
+        }
+
+        for (int index = 0; index < root.getGenerics().length; index++) {
+            Signature rootParameter = root.getGenerics()[index];
+            Signature inheritorParameter = inheritor.getGenerics()[index];
+            Result<? extends Signature, String> parameterResult = isAssignable(rootParameter, inheritorParameter);
+
+            if (parameterResult.isErr()) {
+                return parameterResult;
+            }
+        }
+
+        return baseResult;
+    }
+
+    private static Result<? extends Signature, String> isBaseAssignable(Signature root, Signature inheritor) {
         if (root.getSignature().getGenerics().length != inheritor.getSignature().getGenerics().length) {
             return Result.error("Invalid amount of parameters in generic signature");
         }

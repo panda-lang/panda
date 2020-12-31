@@ -3,7 +3,6 @@ module lang
 main {
     /* Parametrized instance */
     Foo<String> parametrizedType = new Foo<String>('test')
-    Foo<Foo> invalidSignature = parametrizedType
 
     /* Parametrized return type */
     String parametrizedValue = parametrizedType.getValue()
@@ -18,6 +17,7 @@ main {
     Foo<Object> lowerParametrizedType = sameParametrizedType
     Bar<String> lowerBaseType = sameParametrizedType
     Bar<Object> lowerBaseAndParametrizedType = sameParametrizedType
+    // Foo<Foo> invalidSignature = parametrizedType /* Should not compile */
 }
 
 type Foo<V> : Bar<V> {

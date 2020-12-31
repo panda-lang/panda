@@ -96,7 +96,7 @@ abstract class AbstractSignature<V> implements Signature {
             return true; // TODO: Remove nulls
         }
         
-        return SignatureUtils.merge(from.getSignature(), this).isOk();
+        return SignatureUtils.isAssignable(from.getSignature(), this).isOk();
     }
 
     @Override
