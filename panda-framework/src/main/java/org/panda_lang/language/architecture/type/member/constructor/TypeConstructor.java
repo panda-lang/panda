@@ -32,4 +32,6 @@ public interface TypeConstructor extends ParametrizedMember {
      */
     Option<BaseCall> getBaseCall();
 
+    Option<ConstructorScope> getConstructorScope();
+
 }

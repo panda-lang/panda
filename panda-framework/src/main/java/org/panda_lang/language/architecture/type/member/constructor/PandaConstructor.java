@@ -26,16 +26,23 @@ import java.util.function.Supplier;
 
 public final class PandaConstructor extends AbstractParametrizedMember<TypeConstructor> implements TypeConstructor {
 
+    private final @Nullable ConstructorScope constructorScope;
     private final @Nullable Lazy<Option<BaseCall>> baseCallArgumentsSupplier;
 
     private PandaConstructor(PandaConstructorBuilder builder) {
         super(builder);
-        this.baseCallArgumentsSupplier = builder.baseCallArgumentsSupplier;
+        this.constructorScope = builder.constructorScope;
+        this.baseCallArgumentsSupplier = builder.baseCallSupplier;
     }
 
     @Override
     public Option<BaseCall> getBaseCall() {
         return Option.of(baseCallArgumentsSupplier).flatMap(Supplier::get);
+    }
+
+    @Override
+    public Option<ConstructorScope> getConstructorScope() {
+        return Option.of(constructorScope);
     }
 
     @Override
@@ -49,12 +56,18 @@ public final class PandaConstructor extends AbstractParametrizedMember<TypeConst
 
     public static final class PandaConstructorBuilder extends PandaParametrizedExecutableBuilder<TypeConstructor, PandaConstructorBuilder> {
 
-        private Lazy<Option<BaseCall>> baseCallArgumentsSupplier;
+        private ConstructorScope constructorScope;
+        private Lazy<Option<BaseCall>> baseCallSupplier;
 
         private PandaConstructorBuilder() { }
 
-        public PandaConstructorBuilder baseCall(Supplier<Option<BaseCall>> baseCallArgumentsSupplier) {
-            this.baseCallArgumentsSupplier = new Lazy<>(baseCallArgumentsSupplier);
+        public PandaConstructorBuilder scope(ConstructorScope scope) {
+            this.constructorScope = scope;
+            return this;
+        }
+
+        public PandaConstructorBuilder baseCall(Supplier<Option<BaseCall>> baseCallSupplier) {
+            this.baseCallSupplier = new Lazy<>(baseCallSupplier);
             return this;
         }
 

@@ -19,7 +19,6 @@ package org.panda_lang.panda.language.resource.syntax.type;
 import javassist.CannotCompileException;
 import javassist.NotFoundException;
 import org.panda_lang.language.architecture.module.Module;
-import org.panda_lang.language.architecture.type.ClassGenerator;
 import org.panda_lang.language.architecture.type.PandaType;
 import org.panda_lang.language.architecture.type.Reference;
 import org.panda_lang.language.architecture.type.State;
@@ -27,6 +26,7 @@ import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.TypeContext;
 import org.panda_lang.language.architecture.type.TypeScope;
 import org.panda_lang.language.architecture.type.Visibility;
+import org.panda_lang.language.architecture.type.generator.ClassGenerator;
 import org.panda_lang.language.architecture.type.member.constructor.PandaConstructor;
 import org.panda_lang.language.architecture.type.member.field.TypeField;
 import org.panda_lang.language.architecture.type.member.method.TypeMethod;
@@ -57,7 +57,6 @@ import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.PandaStream;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -148,12 +147,14 @@ public final class TypeParser implements ContextParser<Object, Type> {
             Signature signature = SIGNATURE_PARSER.parse(context, signatureSource.get(), true, null);
 
             Completable<Class<?>> associatedType = new Completable<>();
+            TypeScope scope = new TypeScope(reference.getLocation(), reference);
 
             Type type = PandaType.builder()
                     .module(module)
                     .name(reference.getSimpleName())
                     .signature(signature)
                     .associatedType(associatedType)
+                    .typeScope(scope)
                     .kind(kind.get().getValue())
                     .state(State.of(kind.get().getValue()))
                     .location(context.getSource().getLocation())
@@ -162,7 +163,6 @@ public final class TypeParser implements ContextParser<Object, Type> {
             futureType.complete(type);
 
             TYPE_GENERATOR.allocate(type);
-            TypeScope scope = new TypeScope(reference.getLocation(), type);
 
             Context<TypeContext> typeContext = context.forkCreator()
                     .withSubject(new TypeContext(type, scope))
@@ -199,14 +199,11 @@ public final class TypeParser implements ContextParser<Object, Type> {
 
                     type.getConstructors().declare(PandaConstructor.builder()
                             .type(type)
-                            .callback((typeConstructor, frame, instance, arguments) -> {
-                                return scope.createInstance(frame, instance, typeConstructor, Collections.emptyList(), arguments);
-                            })
+                            .invoker((constructor, frame, instance, args) -> scope.revive(frame, instance, constructor, args))
                             .location(type.getLocation())
+                            .returnType(type.getSignature())
                             .build());
                 }
-
-
             });
 
             stageService.delegate("verify " + type.getName() + "type properties", Phases.VERIFY, Layer.NEXT_DEFAULT, verifyPhase -> {

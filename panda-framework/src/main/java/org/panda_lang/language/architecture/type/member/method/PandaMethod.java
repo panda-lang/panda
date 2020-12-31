@@ -24,7 +24,7 @@ import org.panda_lang.utilities.commons.ObjectUtils;
 
 public final class PandaMethod extends AbstractParametrizedMember<TypeMethod> implements TypeMethod {
 
-    private final MemberInvoker<TypeMethod, Object> methodBody;
+    private final MemberInvoker<TypeMethod, Object, Object> methodBody;
     private final boolean isAbstract;
     private final boolean isStatic;
     private final boolean isNative;
@@ -39,8 +39,8 @@ public final class PandaMethod extends AbstractParametrizedMember<TypeMethod> im
     }
 
     @Override
-    public Object invoke(ProcessStack stack, Object instance, Object... parameters) throws Exception {
-        return methodBody.invoke(this, stack, instance, parameters);
+    public Object invoke(ProcessStack stack, Object instance, Object... arguments) throws Exception {
+        return methodBody.invoke(this, stack, instance, arguments);
     }
 
     @Override
@@ -69,7 +69,7 @@ public final class PandaMethod extends AbstractParametrizedMember<TypeMethod> im
 
     public static final class PandaMethodBuilder extends PandaParametrizedExecutableBuilder<TypeMethod, PandaMethodBuilder> {
 
-        protected MemberInvoker<TypeMethod, Object> body;
+        protected MemberInvoker<TypeMethod, Object, Object> body;
         protected boolean isAbstract;
         protected boolean isStatic;
         protected boolean isNative;
@@ -77,11 +77,11 @@ public final class PandaMethod extends AbstractParametrizedMember<TypeMethod> im
         private PandaMethodBuilder() { }
 
         public PandaMethodBuilder body(MethodScope scope) {
-            return customBody(ObjectUtils.cast(scope.toCallback()));
+            return customBody(scope);
         }
 
-        public PandaMethodBuilder customBody(MemberInvoker<TypeMethod, Object> callback) {
-            this.body = callback;
+        public PandaMethodBuilder customBody(MemberInvoker<TypeMethod, ?, ?> invoker) {
+            this.body = ObjectUtils.cast(invoker);
             return this;
         }
 

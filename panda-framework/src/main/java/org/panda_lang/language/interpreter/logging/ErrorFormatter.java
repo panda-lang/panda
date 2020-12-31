@@ -98,7 +98,7 @@ public final class ErrorFormatter {
             logger.error("");
             logger.error("Stack:");
 
-            for (int index = 0; index < 3 && index < stackTrace.length; index++) {
+            for (int index = 0; index < 5 && index < stackTrace.length; index++) {
                 StackTraceElement stackTraceElement = stackTrace[index];
                 logger.error("  at " + stackTraceElement.toString());
             }

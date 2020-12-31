@@ -5,7 +5,9 @@ import org.panda_lang.language.architecture.statement.Scope;
 import org.panda_lang.language.architecture.statement.Variable;
 import org.panda_lang.language.architecture.statement.VariableAccessor;
 import org.panda_lang.language.architecture.statement.VariableData;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.interpreter.parser.Context;
+import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser;
@@ -17,6 +19,7 @@ import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.panda.language.resource.syntax.scope.variable.VariableDataInitializer;
+import org.panda_lang.panda.language.resource.syntax.type.SignatureParser;
 import org.panda_lang.panda.language.resource.syntax.type.SignatureSource;
 import org.panda_lang.utilities.commons.function.Option;
 
@@ -43,6 +46,8 @@ public final class DeclarationExpressionSubparser implements ExpressionSubparser
     }
 
     private static final class Worker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
+
+        private static final SignatureParser SIGNATURE_PARSER = new SignatureParser();
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext<?> expressionContext, TokenInfo token) {
@@ -73,12 +78,20 @@ public final class DeclarationExpressionSubparser implements ExpressionSubparser
                 return null;
             }
 
+            Signature signature;
+
+            try {
+                signature = SIGNATURE_PARSER.parse(expressionContext, signatureSource.get(), false, null);
+            } catch (PandaParserFailure failure) {
+                return ExpressionResult.error(failure.getMessage(), failure.getIndicatedSource().getSource());
+            }
+
             expressionContext.getSynchronizedSource().next(stream.getReadLength() - 1);
             Context<?> context = expressionContext.toContext();
             Scope scope = context.getScope();
 
             VariableDataInitializer dataInitializer = new VariableDataInitializer(context, scope);
-            VariableData variableData = dataInitializer.createVariableData(signatureSource.get(), name.get(), mutable, nillable);
+            VariableData variableData = dataInitializer.createVariableData(signature, name.get(), mutable, nillable);
 
             Variable variable = scope.createVariable(variableData);
             return ExpressionResult.of(new VariableExpression(new VariableAccessor(variable)));

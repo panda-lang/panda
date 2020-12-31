@@ -16,10 +16,10 @@
 
 package org.panda_lang.language.architecture.type.signature;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.expression.ExpressionUtils;
 import org.panda_lang.language.architecture.expression.ExpressionValueType;
+import org.panda_lang.language.architecture.type.member.MemberInvoker;
 import org.panda_lang.language.architecture.type.member.ParametrizedMember;
 import org.panda_lang.language.runtime.ProcessStack;
 
@@ -28,21 +28,25 @@ import java.util.List;
 public final class AdjustedExpression implements Expression {
 
     private final ParametrizedMember member;
-    private final Expression instanceExpression;
+    private final MemberInvoker<ParametrizedMember, Object, Object> instanceInvoker;
     private final List<? extends Expression> arguments;
     private final Signature returnType;
 
-    public AdjustedExpression(@Nullable Expression instance, ParametrizedMember member, List<? extends Expression> arguments) {
+    public AdjustedExpression(MemberInvoker<ParametrizedMember, Object, Object> instanceInvoker, Signature instanceSignature, ParametrizedMember member, List<? extends Expression> arguments) {
         this.member = member;
-        this.instanceExpression = instance;
+        this.instanceInvoker = instanceInvoker;
         this.arguments = arguments;
 
-        if (instanceExpression == null) {
+        if (instanceSignature == null) {
             this.returnType = member.getReturnType();
         }
         else {
-            this.returnType = member.getReturnType().apply(instanceExpression);
+            this.returnType = member.getReturnType().apply(instanceSignature);
         }
+    }
+
+    public AdjustedExpression(Expression instance, ParametrizedMember member, List<? extends Expression> arguments) {
+        this((property, stack, currentInstance, args) -> instance.evaluate(stack, currentInstance), instance.getSignature(), member, arguments);
     }
 
     @Override
@@ -50,8 +54,8 @@ public final class AdjustedExpression implements Expression {
     public Object evaluate(ProcessStack stack, Object instance) throws Exception {
         Object[] values = ExpressionUtils.evaluate(stack, instance, arguments);
 
-        if (instanceExpression != null) {
-            instance = instanceExpression.evaluate(stack, instance);
+        if (instanceInvoker != null) {
+            instance = instanceInvoker.invoke(member, stack, instance, values);
         }
 
         return member.invoke(stack, instance, values);

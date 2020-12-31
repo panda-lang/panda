@@ -22,6 +22,7 @@ import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.TypeContext;
 import org.panda_lang.language.architecture.type.member.constructor.BaseCall;
 import org.panda_lang.language.architecture.type.member.constructor.ConstructorScope;
+import org.panda_lang.language.architecture.type.member.constructor.TypeConstructor;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
@@ -81,12 +82,14 @@ public final class BaseCallParser implements ContextParser<TypeContext, BaseCall
         }
 
         List<Expression> expressions = ARGUMENTS_PARSER.parse(context, arguments.get());
-        BaseCall baseCall = new BaseCall(context.toLocation(), expressions);
-        parent.addStatement(baseCall);
+        Option<TypeConstructor> constructor = type.getSuperclass().get().fetchType().getConstructors().getConstructor(expressions);
 
-        type.getSuperclass().get().fetchType().getConstructors().getConstructor(expressions).onEmpty(() -> {
+        constructor.onEmpty(() -> {
             throw new PandaParserFailure(context, context.getSource(), "Base type does not contain constructor with the given parameters");
         });
+
+        BaseCall baseCall = new BaseCall(context.toLocation(), constructor.get(), expressions);
+        parent.addStatement(baseCall);
 
         return Option.ofCompleted(baseCall);
     }

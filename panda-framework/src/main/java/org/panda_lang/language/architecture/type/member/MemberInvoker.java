@@ -19,8 +19,8 @@ package org.panda_lang.language.architecture.type.member;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.runtime.ProcessStack;
 
-public interface MemberInvoker<E extends Member, T> {
+public interface MemberInvoker<E extends Member, T, R> {
 
-    Object invoke(E property, ProcessStack stack, @Nullable T instance, Object[] arguments) throws Exception;
+    R invoke(E property, ProcessStack stack, @Nullable T instance, Object[] arguments) throws Exception;
 
 }

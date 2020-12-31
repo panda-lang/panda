@@ -22,6 +22,7 @@ import org.panda_lang.language.architecture.type.member.parameter.PropertyParame
 import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.interpreter.source.Localizable;
 import org.panda_lang.language.interpreter.source.Location;
+import org.panda_lang.utilities.commons.ObjectUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -59,7 +60,7 @@ public abstract class AbstractMember<E extends Member> extends AbstractMetadata 
         protected Type type;
         protected Signature returnType;
         protected Location location;
-        protected MemberInvoker<E, Object> callback;
+        protected MemberInvoker<E, Object, Object> invoker;
         protected Visibility visibility = Visibility.OPEN;
         protected List<? extends PropertyParameter> parameters = Collections.emptyList();
         protected boolean isNative;
@@ -99,8 +100,8 @@ public abstract class AbstractMember<E extends Member> extends AbstractMetadata 
             return returnThis();
         }
 
-        public T callback(MemberInvoker<E, Object> callback) {
-            this.callback = callback;
+        public T invoker(MemberInvoker<E, ?, ?> invoker) {
+            this.invoker = ObjectUtils.cast(invoker);
             return returnThis();
         }
 

@@ -17,82 +17,30 @@
 package org.panda_lang.language.architecture.type;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.PandaFrameworkException;
-import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.statement.AbstractFramedScope;
 import org.panda_lang.language.architecture.type.member.constructor.TypeConstructor;
-import org.panda_lang.language.architecture.type.member.field.TypeField;
-import org.panda_lang.language.architecture.type.member.parameter.ParameterUtils;
-import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
 import org.panda_lang.language.interpreter.source.Location;
-import org.panda_lang.language.runtime.PandaRuntimeException;
 import org.panda_lang.language.runtime.ProcessStack;
-import org.panda_lang.utilities.commons.ArrayUtils;
-import org.panda_lang.utilities.commons.function.Option;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.List;
 
 public final class TypeScope extends AbstractFramedScope {
 
-    private final Type type;
+    private final Reference reference;
 
-    public TypeScope(Location location, Type type) {
+    public TypeScope(Location location, Reference reference) {
         super(location);
-        this.type = type;
+        this.reference = reference;
     }
 
-    public TypeInstance createInstance(ProcessStack stack, @Nullable Object instance, TypeConstructor constructor, List<PropertyParameter> parameters, Object[] arguments) throws Exception {
-        Object[] baseArguments = constructor.getBaseCall()
-                .flatMap(call -> Option.attempt(Exception.class, () -> call.evaluate(stack, instance)))
-                .orElseGet(() -> new Object[0]);
-
-        TypeFrame typeFrame = new TypeFrame(stack.getProcess(), this, baseArguments);
-        TypeInstance typeInstance;
-
-        try {
-            Constructor<? extends TypeInstance> nativeConstructor = getConstructor(parameters);
-            typeInstance = nativeConstructor.newInstance(ArrayUtils.merge(typeFrame, arguments, Object[]::new));
-        } catch (InvocationTargetException targetException) {
-            throw new PandaRuntimeException(targetException.getTargetException().getMessage(), targetException.getTargetException());
-        }
-
-        for (TypeField field : type.getFields().getDeclaredProperties()) {
-            if (!field.hasDefaultValue()) {
-                continue;
-            }
-
-            if (field.isStatic()) {
-                field.fetchStaticValue(); // just init
-                continue;
-            }
-
-            Expression expression = field.getDefaultValue();
-            typeInstance.__panda__get_frame().set(field.getPointer(), expression.evaluate(stack, typeInstance));
-        }
-
-        return typeInstance;
-    }
-
-    @SuppressWarnings("unchecked")
-    private Constructor<? extends TypeInstance> getConstructor(List<PropertyParameter> parameters) {
-        Class<?>[] parameterTypes = ArrayUtils.merge(TypeFrame.class, ParameterUtils.parametersToClasses(parameters), Class[]::new);
-
-        try {
-            return (Constructor<? extends TypeInstance>) type.getAssociated().get().getConstructor(parameterTypes);
-        } catch (NoSuchMethodException e) {
-            throw new PandaFrameworkException("Associated class does not implement " + Arrays.toString(parameterTypes) + " constructor");
-        }
+    public TypeFrame revive(ProcessStack stack, @Nullable Object instance, TypeConstructor constructor, Object[] arguments) throws Exception {
+        return new TypeFrame(stack.getProcess(), this);
     }
 
     public Location getLocation() {
         return location;
     }
 
-    public Type getType() {
-        return type;
+    public Reference getReference() {
+        return reference;
     }
 
 }

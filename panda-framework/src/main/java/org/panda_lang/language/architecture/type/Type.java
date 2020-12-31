@@ -155,6 +155,8 @@ public interface Type extends Metadata, Typed, Signed {
      */
     Completable<? extends Class<?>> getAssociated();
 
+    Option<TypeScope> getTypeScope();
+
     /**
      * Get state of type
      *

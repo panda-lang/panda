@@ -16,10 +16,9 @@
 
 package org.panda_lang.panda.language.resource.syntax.type;
 
+import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.TypeContext;
-import org.panda_lang.language.architecture.type.TypeInstance;
 import org.panda_lang.language.architecture.type.TypeScope;
-import org.panda_lang.language.architecture.type.member.constructor.ConstructorFrame;
 import org.panda_lang.language.architecture.type.member.constructor.ConstructorScope;
 import org.panda_lang.language.architecture.type.member.constructor.PandaConstructor;
 import org.panda_lang.language.architecture.type.member.constructor.TypeConstructor;
@@ -86,28 +85,26 @@ public final class ConstructorParser implements ContextParser<TypeContext, Const
         List<PropertyParameter> parameters = PARAMETER_PARSER.parse(context, parametersSource.get());
         ConstructorScope constructorScope = new ConstructorScope(sourceReader.toLocation(), parameters);
         TypeScope typeScope = context.getSubject().getScope();
+        Type type = typeScope.getReference().fetchType();
 
         TypeConstructor constructor = PandaConstructor.builder()
-                .type(typeScope.getType())
-                .returnType(typeScope.getType().getSignature())
+                .type(type)
+                .returnType(type.getSignature())
                 .location(context.getSource())
                 .parameters(parameters)
                 .baseCall(constructorScope::getBaseCall)
-                .callback((typeConstructor, stack, instance, arguments) -> {
-                    TypeInstance typeInstance = typeScope.createInstance(stack, instance, typeConstructor, parameters, arguments);
-                    ConstructorFrame constructorInstance = constructorScope.revive(stack, typeInstance);
-                    return constructorInstance.initialize(stack, typeInstance, arguments);
-                })
+                .scope(constructorScope)
+                .invoker(constructorScope)
                 .build();
 
-        typeScope.getType().getConstructors().declare(constructor);
+        type.getConstructors().declare(constructor);
 
         context.getStageService().delegate("parse constructor body", Phases.CONTENT, Layer.NEXT_DEFAULT, bodyPhase -> {
             scopeParser.parse(context, constructorScope, body.get());
         });
 
         context.getStageService().delegate("verify base call", Phases.VERIFY, Layer.NEXT_DEFAULT, verifyPhase -> {
-            typeScope.getType().getSuperclass()
+            type.getSuperclass()
                     .filterNot(superclass -> superclass.fetchType().is("panda::Object"))
                     .filterNot(superclass -> superclass.fetchType().getConstructors().getConstructor(Collections.emptyList()).isDefined())
                     .filterNot(superclass -> constructorScope.getBaseCall().isDefined())

@@ -12,19 +12,19 @@ import java.util.stream.Collectors;
 public abstract class AbstractParametrizedMember<E extends Member> extends AbstractMember<E> implements ParametrizedMember {
 
     private final List<? extends PropertyParameter> parameters;
-    private final MemberInvoker<E, Object> callback;
+    private final MemberInvoker<E, Object, Object> invoker;
 
     protected AbstractParametrizedMember(PandaParametrizedExecutableBuilder<E, ?> builder) {
         super(builder);
 
         this.parameters = builder.parameters;
-        this.callback = builder.callback;
+        this.invoker = builder.invoker;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public Object invoke(ProcessStack stack, Object instance, Object... arguments) throws Exception {
-        return callback.invoke((E) this, stack, instance, arguments);
+        return invoker.invoke((E) this, stack, instance, arguments);
     }
 
     @Override

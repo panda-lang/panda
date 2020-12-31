@@ -19,7 +19,6 @@ package org.panda_lang.panda.shell.repl;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.module.PandaModule;
 import org.panda_lang.language.architecture.statement.PandaVariableData;
-import org.panda_lang.language.architecture.type.ClassGenerator;
 import org.panda_lang.language.architecture.type.Kind;
 import org.panda_lang.language.architecture.type.PandaType;
 import org.panda_lang.language.architecture.type.Reference;
@@ -28,6 +27,7 @@ import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.TypeContext;
 import org.panda_lang.language.architecture.type.TypeScope;
 import org.panda_lang.language.architecture.type.Visibility;
+import org.panda_lang.language.architecture.type.generator.ClassGenerator;
 import org.panda_lang.language.architecture.type.member.constructor.PandaConstructor;
 import org.panda_lang.language.architecture.type.member.method.PandaMethod;
 import org.panda_lang.language.architecture.type.signature.Relation;
@@ -45,7 +45,6 @@ import org.panda_lang.panda.language.interpreter.parser.PandaContextUtils;
 import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.ThrowingFunction;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.function.Supplier;
 
@@ -81,12 +80,13 @@ public final class ReplCreator {
         ClassGenerator classGenerator = new ClassGenerator();
         classGenerator.allocate(type);
 
-        this.typeScope = new TypeScope(PandaLocation.unknownLocation("repl"), type);
+        this.typeScope = new TypeScope(PandaLocation.unknownLocation("repl"), reference);
 
         type.getConstructors().declare(PandaConstructor.builder()
                 .type(type)
-                .callback((typeConstructor, frame, instance, arguments) -> typeScope.createInstance(frame, instance, typeConstructor, Arrays.asList(), arguments))
+                .invoker((typeConstructor, frame, instance, arguments) -> typeScope.revive(frame, instance, typeConstructor, arguments))
                 .location(type.getLocation())
+                .returnType(type.getSignature())
                 .build());
 
         try {
@@ -113,10 +113,10 @@ public final class ReplCreator {
     public Repl create() throws Exception {
         this.processSupplier = () -> new PandaProcess(context.getApplication(), replScope);
 
-        Type type = typeScope.getType();
+        Type type = typeScope.getReference().fetchType();
 
         this.instanceSupplier = stack -> {
-            return typeScope.createInstance(stack, typeScope, type.getConstructors().getConstructor(Collections.emptyList()).getOrNull(), Collections.emptyList(), new Object[0]);
+            return typeScope.revive(stack, typeScope, type.getConstructors().getConstructor(Collections.emptyList()).getOrNull(), new Object[0]);
         };
 
         return new Repl(this);
@@ -129,7 +129,7 @@ public final class ReplCreator {
      * @return the REPL creator instance
      */
     public ReplCreator define(PandaMethod method) {
-        typeScope.getType().getMethods().declare(method);
+        typeScope.getReference().fetchType().getMethods().declare(method);
         return this;
     }
 

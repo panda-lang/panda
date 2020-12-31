@@ -56,7 +56,13 @@ public final class VariableDataInitializer {
 
         return createVariableData(signatures.get(0), name, mutable, nillable);
     }
+
     public VariableData createVariableData(SignatureSource signatureSource, Snippetable name, boolean mutable, boolean nillable) {
+        Signature signature = SIGNATURE_PARSER.parse(context, signatureSource, false, null);
+        return createVariableData(signature, name, mutable, nillable);
+    }
+
+    public VariableData createVariableData(Signature signature, Snippetable name, boolean mutable, boolean nillable) {
         Snippet nameSource = name.toSnippet();
 
         if (nameSource.size() > 1) {
@@ -70,8 +76,7 @@ public final class VariableDataInitializer {
         }
 
         // TODO: parent signature
-        Signature signature = SIGNATURE_PARSER.parse(context, signatureSource, false, null);
-        VisibilityComparator.requireAccess(signature.toTyped().fetchType(), context, signatureSource.getName());
+        VisibilityComparator.requireAccess(signature.toTyped().fetchType(), context, nameSource);
 
         return new PandaVariableData(signature, nameSource.asSource(), mutable, nillable);
     }

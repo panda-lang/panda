@@ -53,7 +53,7 @@ final class FieldExpression implements DynamicExpression {
 
         Object value = accessor.getValue(stack, instance);
 
-        if (value == null) {
+        if (value == null && !field.isNillable()) {
             throw new PandaRuntimeException("Field " + field + " has not been initialized");
         }
 

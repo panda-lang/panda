@@ -53,6 +53,7 @@ public class PandaType extends AbstractMetadata implements Type {
     protected final Module module;
     protected final String kind;
     protected final State state;
+    protected final Option<TypeScope> typeScope;
     protected final Completable<? extends Class<?>> associated;
     protected final List<TypedSignature> bases = new ArrayList<>();
     protected final Map<Reference, Autocast<?, ?>> autocasts = new HashMap<>();
@@ -70,8 +71,9 @@ public class PandaType extends AbstractMetadata implements Type {
         this.kind = ValidationUtils.notNull(metadata.kind, "The kind of type is not defined");
         this.state = ValidationUtils.notNull(metadata.state, "State of type is missing");
         this.associated = ValidationUtils.notNull(metadata.associatedType, "Associated type is missing");
-
+        this.typeScope = Option.of(metadata.typeScope);
         ValidationUtils.notNull(metadata.bases, "Bases are not defined").forEach(this::addBase);
+
         this.reference = new Reference(this);
     }
 
@@ -243,6 +245,11 @@ public class PandaType extends AbstractMetadata implements Type {
     @Override
     public Completable<? extends Class<?>> getAssociated() {
         return associated;
+    }
+
+    @Override
+    public Option<TypeScope> getTypeScope() {
+        return typeScope;
     }
 
     @Override

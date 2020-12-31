@@ -54,7 +54,7 @@ final class MethodGenerator {
         // TODO: Generate bytecode
         method.setAccessible(true);
 
-        MemberInvoker<TypeMethod, Object> methodBody = (typeMethod, stack, instance, arguments) -> {
+        MemberInvoker<TypeMethod, Object, Object> methodBody = (typeMethod, stack, instance, arguments) -> {
             int amountOfArgs = arguments.length;
             int parameterCount = method.getParameterCount();
             Object varargs = null;

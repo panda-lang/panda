@@ -32,6 +32,7 @@ public class PandaTypeMetadata<BUILDER extends PandaTypeMetadata<BUILDER, ?>, TY
     protected Signature signature;
     protected Module module;
     protected Location location;
+    protected TypeScope typeScope;
     protected Completable<? extends Class<?>> associatedType;
     protected List<TypedSignature> bases = new ArrayList<>();
     protected String kind = Kind.TYPE;
@@ -53,6 +54,11 @@ public class PandaTypeMetadata<BUILDER extends PandaTypeMetadata<BUILDER, ?>, TY
 
     public BUILDER module(Module module) {
         this.module = module;
+        return getThis();
+    }
+
+    public BUILDER typeScope(TypeScope typeScope) {
+        this.typeScope = typeScope;
         return getThis();
     }
 

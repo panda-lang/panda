@@ -30,7 +30,7 @@ import org.panda_lang.language.runtime.Result;
 
 import java.util.List;
 
-public final class MethodScope extends AbstractPropertyFramedScope {
+public final class MethodScope extends AbstractPropertyFramedScope implements MemberInvoker<TypeMethod, Frameable, Object> {
 
     public MethodScope(Localizable localizable, List<PropertyParameter> parameters) {
         super(localizable, parameters);
@@ -41,37 +41,23 @@ public final class MethodScope extends AbstractPropertyFramedScope {
         return new MethodFrame(this, (Frame) instance);
     }
 
-    public PandaMethodCallback toCallback() {
-        return new PandaMethodCallback(this);
+    @Override
+    public @Nullable Object invoke(TypeMethod method, ProcessStack stack, @Nullable Frameable instance, Object[] arguments) throws Exception {
+        MethodFrame scopeInstance = revive(stack, instance != null ? instance.__panda__to_frame() : null);
+        ParameterUtils.assignValues(scopeInstance, arguments);
+        Result<?> result = stack.callFrame(scopeInstance, scopeInstance);
+
+        if (result == null) {
+            return null;
+        }
+
+        return result.getResult();
     }
 
     public static final class MethodFrame extends MemberFrameImpl<MethodScope> {
 
         public MethodFrame(MethodScope method, Frame instance) {
             super(method, instance);
-        }
-
-    }
-
-    public static final class PandaMethodCallback implements MemberInvoker<TypeMethod, Frameable> {
-
-        private final MethodScope scope;
-
-        public PandaMethodCallback(MethodScope scope) {
-            this.scope = scope;
-        }
-
-        @Override
-        public @Nullable Object invoke(TypeMethod method, ProcessStack stack, @Nullable Frameable instance, Object[] arguments) throws Exception {
-            MethodFrame scopeInstance = scope.revive(stack, instance != null ? instance.__panda__to_frame() : null);
-            ParameterUtils.assignValues(scopeInstance, arguments);
-            Result<?> result = stack.callFrame(scopeInstance, scopeInstance);
-
-            if (result == null) {
-                return null;
-            }
-
-            return result.getResult();
         }
 
     }

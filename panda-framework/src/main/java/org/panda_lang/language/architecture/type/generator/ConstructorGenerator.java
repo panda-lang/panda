@@ -49,7 +49,7 @@ final class ConstructorGenerator {
                 .parameters(typeParameters)
                 .type(type)
                 .returnType(type.getSignature())
-                .callback((pandaConstructor, frame, instance, arguments) -> constructor.newInstance(arguments))
+                .invoker((pandaConstructor, frame, instance, arguments) -> constructor.newInstance(arguments))
                 .build();
     }
 

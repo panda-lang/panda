@@ -1,4 +1,4 @@
-package org.panda_lang.language.architecture.type;
+package org.panda_lang.language.architecture.type.generator;
 
 import javassist.CannotCompileException;
 import javassist.ClassPool;
@@ -9,6 +9,11 @@ import javassist.CtMethod;
 import javassist.Modifier;
 import javassist.NotFoundException;
 import org.panda_lang.language.architecture.dynamic.Frame;
+import org.panda_lang.language.architecture.type.Kind;
+import org.panda_lang.language.architecture.type.State;
+import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.type.TypeFrame;
+import org.panda_lang.language.architecture.type.TypeInstance;
 import org.panda_lang.language.architecture.type.member.constructor.TypeConstructor;
 import org.panda_lang.language.architecture.type.member.method.TypeMethod;
 import org.panda_lang.language.architecture.type.member.parameter.ParameterUtils;
@@ -53,11 +58,15 @@ public final class ClassGenerator {
 
     public void generate(Type type) throws CannotCompileException, NotFoundException {
         CtClass javaType = generatedClasses.get(type);
+
         // supertype
 
         if (!javaType.isInterface() && type.getSuperclass().isDefined()) {
             javaType.setSuperclass(getCtClass(type.getSuperclass().get().fetchType()));
         }
+
+        boolean hasGeneratedSuperclass = ArrayUtils.contains(javaType.getSuperclass().getInterfaces(), CT_TYPE_INSTANCE_CLASS);
+        boolean generateFields = !hasGeneratedSuperclass && !javaType.isInterface();
 
         // interfaces
 
@@ -71,7 +80,7 @@ public final class ClassGenerator {
 
         // fields
 
-        if (!javaType.isInterface()) {
+        if (generateFields) {
             CtField frameField = new CtField(CT_TYPE_FRAME_CLASS, "__panda__frame", javaType);
             javaType.addField(frameField);
         }
@@ -81,7 +90,7 @@ public final class ClassGenerator {
         {
             javaType.addInterface(CT_TYPE_INSTANCE_CLASS);
 
-            if (!javaType.isInterface()) {
+            if (generateFields) {
                 CtMethod getter = new CtMethod(CT_TYPE_FRAME_CLASS, "__panda__get_frame", new CtClass[0], javaType);
                 getter.setBody("{ return $0.__panda__frame; }");
                 javaType.addMethod(getter);

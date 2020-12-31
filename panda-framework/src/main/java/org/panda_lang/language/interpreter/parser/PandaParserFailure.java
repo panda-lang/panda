@@ -30,7 +30,7 @@ public class PandaParserFailure extends InterpreterFailure implements Failure {
     }
 
     public PandaParserFailure(Contextual<?> contextual, Location location, String message, @Nullable String note) {
-        this(contextual, contextual.toContext().getSource().getLine(location.getLine()), message, note);
+        this(contextual, contextual.toContext().getScriptSource().getLine(location.getLine()), message, note);
     }
 
     public PandaParserFailure(Contextual<?> contextual, String message) {

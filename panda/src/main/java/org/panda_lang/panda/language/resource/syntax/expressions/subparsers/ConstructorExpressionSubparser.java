@@ -21,6 +21,9 @@ import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.type.State;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.VisibilityComparator;
+import org.panda_lang.language.architecture.type.member.MemberInvoker;
+import org.panda_lang.language.architecture.type.member.ParametrizedMember;
+import org.panda_lang.language.architecture.type.member.constructor.TypeConstructor;
 import org.panda_lang.language.architecture.type.signature.AdjustedExpression;
 import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.interpreter.parser.Context;
@@ -37,6 +40,8 @@ import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.language.resource.syntax.separator.Separators;
+import org.panda_lang.language.runtime.PandaRuntimeException;
+import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.panda.language.interpreter.parser.PandaSourceReader;
 import org.panda_lang.panda.language.resource.syntax.type.SignatureParser;
 import org.panda_lang.utilities.commons.function.Option;
@@ -127,10 +132,25 @@ public final class ConstructorExpressionSubparser implements ExpressionSubparser
 
             Snippet argsSource = next.toToken(Section.class).getContent();
             List<Expression> arguments = ARGUMENT_PARSER.parse(context, argsSource);
+            Option<TypeConstructor> typeConstructor = type.getConstructors().getConstructor(arguments);
 
-            return type.getConstructors().getConstructor(arguments)
-                    .map(constructor -> ExpressionResult.of(new AdjustedExpression(null, constructor, arguments)))
-                    .orElseGet(() -> ExpressionResult.error(type.getSimpleName() + " does not have constructor with the required parameters: " + arguments, next));
+            if (typeConstructor.isEmpty()) {
+                return ExpressionResult.error(type.getSimpleName() + " does not have constructor with the required parameters: " + arguments, next);
+            }
+
+            //noinspection Convert2Lambda
+            return ExpressionResult.of(new AdjustedExpression(new MemberInvoker<ParametrizedMember, Object, Object>() {
+                @Override
+                public Object invoke(ParametrizedMember property, ProcessStack stack, @Nullable Object instance, Object[] args) {
+                    return type.getTypeScope().map(scope -> {
+                        try {
+                            return scope.revive(stack, instance, typeConstructor.get(), args);
+                        } catch (Exception exception) {
+                            throw new PandaRuntimeException("Cannot create scope instance", exception);
+                        }
+                    }).getOrNull();
+                }
+            }, signature, typeConstructor.get(), arguments));
         }
 
     }

@@ -1,9 +1,30 @@
 module lang
 
-require java:collections
+main {
+    /* Parametrized instance */
+    Foo<String> parametrizedType = new Foo<String>('test')
 
-type Foo<V> {
+    /* Parametrized return type */
+    String parametrizedValue = parametrizedType.getValue()
+    // Int invalidValue = genericType.getValue() /* Should not compile */
 
+    /* Parametrized arguments */
+    parametrizedType.setValue(parametrizedValue)
+    // genericType.setValue(10) /* Should not compile */
+
+    /* Parametrized reassignation */
+    Foo<String> sameParametrizedType = parametrizedType
+    Foo<Object> lowerParametrizedType = sameParametrizedType
+    Bar<String> lowerBaseType = sameParametrizedType
+}
+
+type Foo<V> : Bar<V> {
+    constructor (V barValue) {
+        base(barValue)
+    }
+}
+
+type Bar<V> {
     internal mut V value
 
     constructor (V value) {
@@ -17,17 +38,4 @@ type Foo<V> {
     shared getValue () -> V {
         return value
     }
-
-}
-
-main {
-    Foo<String> genericType = new Foo<String>('test')
-
-    /* Generic return type */
-    String value = genericType.getValue()
-    // Int invalidValue = genericType.getValue() /* Should not compile */
-
-    /* Generic parameter */
-    genericType.setValue(value)
-    // genericType.setValue(10) /* Should not compile */
 }

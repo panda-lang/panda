@@ -17,22 +17,41 @@
 package org.panda_lang.language.architecture.type.member.constructor;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.language.architecture.dynamic.AbstractExecutableStatement;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.expression.ExpressionEvaluator;
 import org.panda_lang.language.architecture.expression.ExpressionUtils;
-import org.panda_lang.language.architecture.statement.AbstractStatement;
+import org.panda_lang.language.architecture.type.TypeInstance;
+import org.panda_lang.language.architecture.type.member.constructor.ConstructorScope.ConstructorFrame;
 import org.panda_lang.language.interpreter.source.Location;
 import org.panda_lang.language.runtime.ProcessStack;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.List;
 
-public final class BaseCall extends AbstractStatement implements ExpressionEvaluator {
+public final class BaseCall extends AbstractExecutableStatement implements ExpressionEvaluator {
 
+    private final TypeConstructor baseConstructor;
     private final List<Expression> arguments;
 
-    public BaseCall(Location location, List<Expression> arguments) {
+    public BaseCall(Location location, TypeConstructor baseConstructor, List<Expression> arguments) {
         super(location);
+        this.baseConstructor = baseConstructor;
         this.arguments = arguments;
+    }
+
+    @Override
+    public @Nullable Object execute(ProcessStack stack, Object instance) throws Exception {
+        Option<ConstructorScope> constructorScope = baseConstructor.getConstructorScope();
+
+        if (constructorScope.isEmpty()) {
+            return instance;
+        }
+
+        ConstructorFrame constructorFrame = (ConstructorFrame) instance;
+        TypeInstance typeInstance = constructorFrame.getTypeFrame().getTypeInstance();
+
+        return constructorScope.get().invoke(baseConstructor, stack, typeInstance, typeInstance.__panda__get_frame().getBaseArguments());
     }
 
     @Override
@@ -42,6 +61,10 @@ public final class BaseCall extends AbstractStatement implements ExpressionEvalu
 
     public List<Expression> getArguments() {
         return arguments;
+    }
+
+    public TypeConstructor getBaseConstructor() {
+        return baseConstructor;
     }
 
 }
