@@ -30,6 +30,11 @@ public interface TypeLoader {
      */
     Type load(Type type);
 
+    /**
+     * Load an array of types using {@link org.panda_lang.language.architecture.module.TypeLoader#load(org.panda_lang.language.architecture.type.Type)} method
+     *
+     * @param types array of types to load
+     */
     default void load(Type... types) {
         for (Type type : types) {
             load(type);
@@ -47,7 +52,7 @@ public interface TypeLoader {
     /**
      * Find reference using associated java class
      *
-     * @param
+     * @param javaClass java type to search for
      */
     Option<Type> forJavaType(Class<?> javaClass);
 

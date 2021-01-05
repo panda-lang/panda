@@ -74,4 +74,8 @@ public final class PandaSourceService implements SourceService {
         return Objects.requireNonNull(retrieve(standard.poll()));
     }
 
+    public Map<String, Pair<Source, Completable<Script>>> getLoaded() {
+        return loaded;
+    }
+
 }

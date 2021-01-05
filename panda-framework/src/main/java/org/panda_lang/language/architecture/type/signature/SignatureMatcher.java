@@ -47,7 +47,7 @@ public final class SignatureMatcher<T extends ParametrizedMember> {
     private Result<AdjustedMember<T>, String> match(@Nullable Signature parent, T executable, Signature[] requiredTypes, @Nullable List<Expression> arguments) {
         List<? extends PropertyParameter> parameters = executable.getParameters();
         //Result<? extends Signature, String> resultSignature = parent.merge(executable.getReturnType());
-        Result<? extends Signature, String> resultSignature = null;
+        Result<? extends Signature, String> resultSignature = Result.error("Not implemented");
 
         if (resultSignature.isErr()) {
             return Result.error(resultSignature.getError());
