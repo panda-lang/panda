@@ -1,0 +1,58 @@
+module lang
+
+main {
+    Object firstObject = new Object()
+    Object secondObject = new Object()
+
+    Int positiveInt = 7
+    Int negativeInt = -7
+
+    Double positiveDouble = 7.0
+    Double negativeDouble = -7.0
+
+    // Equals & Not Equals
+
+    log firstObject == firstObject
+    log firstObject != secondObject
+
+    log positiveInt == positiveInt
+    log positiveInt != negativeInt
+
+    log positiveDouble == positiveDouble
+    log positiveDouble != negativeDouble
+
+    log positiveInt == positiveDouble
+    log negativeInt == negativeDouble
+
+    // And
+
+    log true && true
+    log !(true && false)
+
+    // Or
+
+    log true || true
+    log true || false
+    log !(false || false)
+
+    // Greater than
+
+    log positiveInt > negativeDouble
+    log !(negativeDouble > positiveInt)
+
+    // Greater than & Equals
+
+    log positiveInt >= positiveDouble
+    log positiveInt >= negativeDouble
+    log !(negativeDouble >= positiveInt)
+
+    // Less than
+
+    log negativeDouble < positiveInt
+
+    // Less than & Equals
+
+    log negativeDouble <= positiveInt
+    log negativeDouble <= negativeInt
+    log !(positiveDouble <= negativeInt)
+}

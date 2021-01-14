@@ -25,14 +25,14 @@ import java.util.Map;
 
 public class NumberPriorities {
 
-    protected static final int BYTE = 10;
-    protected static final int SHORT = 20;
-    protected static final int INT = 30;
-    protected static final int LONG = 40;
-    protected static final int FLOAT = 50;
-    protected static final int DOUBLE = 60;
+    public static final int BYTE = 10;
+    public static final int SHORT = 20;
+    public static final int INT = 30;
+    public static final int LONG = 40;
+    public static final int FLOAT = 50;
+    public static final int DOUBLE = 60;
 
-    protected static final Map<String, Integer> HIERARCHY = Maps.of(
+    private static final Map<String, Integer> HIERARCHY = Maps.of(
             "panda::Byte", BYTE,
             "panda::Short", SHORT,
             "panda::Int", INT,
@@ -41,7 +41,19 @@ public class NumberPriorities {
             "panda::Double", DOUBLE
     );
 
-    public int getPriority(Type type) {
+    public static int getHigherPriority(Type a, Type b) {
+        return Math.max(getPriority(a), getPriority(b));
+    }
+
+    public static Type estimateType(Type a, Type b) {
+        if (a == b) {
+            return a;
+        }
+
+        return getPriority(a) < getPriority(b) ? b : a;
+    }
+
+    public static int getPriority(Type type) {
         @Nullable Integer priority = HIERARCHY.get(type.getName());
 
         if (priority == null) {

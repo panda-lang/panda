@@ -16,13 +16,29 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.logical;
 
+import org.panda_lang.language.architecture.expression.Expression;
+import org.panda_lang.language.architecture.module.TypeLoader;
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.runtime.ProcessStack;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNOperationAction;
 
 public final class NotEqualsToOperation extends EqualsToOperation {
 
     @Override
-    public Boolean get(ProcessStack stack, Object instance, Object a, Object b) {
-        return !super.get(stack, instance, a, b);
+    public RPNOperationAction<Boolean> of(TypeLoader moduleLoader, Expression a, Expression b) {
+        RPNOperationAction<Boolean> equalsOperation = super.of(moduleLoader, a, b);
+
+        return new RPNOperationAction<Boolean>() {
+            @Override
+            public Boolean get(ProcessStack stack, Object instance) throws Exception {
+                return !equalsOperation.get(stack, instance);
+            }
+
+            @Override
+            public Signature returnType(TypeLoader typeLoader) {
+                return equalsOperation.returnType(typeLoader);
+            }
+        };
     }
 
 }

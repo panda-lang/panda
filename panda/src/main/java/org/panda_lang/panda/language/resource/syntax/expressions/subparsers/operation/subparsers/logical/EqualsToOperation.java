@@ -16,18 +16,63 @@
 
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.logical;
 
-import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.module.TypeLoader;
+import org.panda_lang.language.architecture.type.Type;
+import org.panda_lang.language.interpreter.parser.PandaParserException;
 import org.panda_lang.language.runtime.ProcessStack;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNOperationAction;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNSimplifiedSupplier;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.number.NumericOperation;
 
 import java.util.Objects;
+import java.util.function.BiFunction;
+
+import static org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number.NumberPriorities.*;
 
 public class EqualsToOperation extends RPNSimplifiedSupplier<Object, Object, Boolean> {
 
     @Override
+    public RPNOperationAction<Boolean> of(TypeLoader moduleLoader, Expression a, Expression b) {
+        Type numberType = moduleLoader.requireType("panda::Number");
+
+        if (numberType.isAssignableFrom(a.getKnownType()) && numberType.isAssignableFrom(b.getKnownType())) {
+            int priority = NumericOperation.getHigherPriority(a.getKnownType(), b.getKnownType());
+            BiFunction<Number, Number, Boolean> numericEquals = toFunction(priority);
+
+            return new ComparisonOperatorAction(a, b) {
+                @Override
+                public Boolean get(ProcessStack stack, Object instance, Number a, Number b) {
+                    return numericEquals.apply(a, b);
+                }
+            };
+        }
+
+        return super.of(moduleLoader, a, b);
+    }
+
+    @Override
     public Boolean get(ProcessStack stack, Object instance, Object a, Object b) {
         return Objects.equals(a, b);
+    }
+
+    private BiFunction<Number, Number, Boolean> toFunction(int priority) {
+        switch (priority) {
+            case BYTE:
+                return (a, b) -> a.byteValue() == b.byteValue();
+            case SHORT:
+                return (a, b) -> a.shortValue() == b.shortValue();
+            case INT:
+                return (a, b) -> a.intValue() == b.intValue();
+            case LONG:
+                return (a, b) -> a.longValue() == b.longValue();
+            case FLOAT:
+                return (a, b) -> a.floatValue() == b.floatValue();
+            case DOUBLE:
+                return (a, b) -> a.doubleValue() == b.doubleValue();
+            default:
+                throw new PandaParserException("Unknown type " + priority);
+        }
     }
 
     @Override
