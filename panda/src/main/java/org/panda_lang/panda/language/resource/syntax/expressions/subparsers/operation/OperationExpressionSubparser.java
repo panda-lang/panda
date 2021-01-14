@@ -18,7 +18,6 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ope
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser;
@@ -55,11 +54,6 @@ public final class OperationExpressionSubparser implements ExpressionSubparser {
     @Override
     public ExpressionSubparserType type() {
         return ExpressionSubparserType.MUTUAL;
-    }
-
-    @Override
-    public ExpressionCategory category() {
-        return ExpressionCategory.STANDALONE;
     }
 
     @Override
