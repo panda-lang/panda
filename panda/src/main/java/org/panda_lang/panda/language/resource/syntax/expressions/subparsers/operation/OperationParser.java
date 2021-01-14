@@ -23,6 +23,7 @@ import org.panda_lang.language.interpreter.parser.Parser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.pattern.OperationPatternResult;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.BitwiseOperatorSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.ConcatenationOperatorSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.LogicalOperatorSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.MathOperationSubparser;
@@ -50,6 +51,7 @@ public final class OperationParser implements Parser {
         return Option.of(operation).match(
                 Case.of(OperationUtils::isLogical, o -> new LogicalOperatorSubparser().parse(this, context, operation)),
                 Case.of(OperationUtils::isNumeric, o -> new MathOperationSubparser().parse(this, context, operation)),
+                Case.of(OperationUtils::isBitwise, o -> new BitwiseOperatorSubparser().parse(this, context, operation)),
                 Case.of(OperationUtils::isConcatenation, o -> new ConcatenationOperatorSubparser().parse(this, context, operation))
         );
     }

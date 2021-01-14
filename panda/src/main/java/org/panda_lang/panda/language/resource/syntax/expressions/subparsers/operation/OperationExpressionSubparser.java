@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
+package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.interpreter.parser.Context;
@@ -31,9 +31,9 @@ import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.operator.Operator;
 import org.panda_lang.language.resource.syntax.operator.OperatorFamilies;
 import org.panda_lang.language.resource.syntax.operator.OperatorUtils;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.Operation;
+import org.panda_lang.language.resource.syntax.operator.Operators;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.Operation.OperationElement;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.OperationParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +84,8 @@ public final class OperationExpressionSubparser implements ExpressionSubparser {
 
             Operator operator = token.toToken();
 
-            if (OperatorUtils.isMemberOf(operator, OperatorFamilies.ASSIGNATION)) {
+            // TODO: This parser requires rewrite anyway
+            if (OperatorUtils.isMemberOf(operator, OperatorFamilies.ASSIGNATION) || operator == Operators.BITWISE_NOT) {
                 return null;
             }
 

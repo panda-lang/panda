@@ -29,6 +29,11 @@ public final class OperatorFamilies {
     public static final String MATH = "math";
 
     /**
+     * Family used by bitwise operators
+     */
+    public static final String BITWISE = "bitwise";
+
+    /**
      * Family used by logical operators
      */
     public static final String LOGICAL = "logical";

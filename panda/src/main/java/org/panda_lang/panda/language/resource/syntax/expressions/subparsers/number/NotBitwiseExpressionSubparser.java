@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
+package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.expression.Expression;
@@ -26,11 +26,11 @@ import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.resource.syntax.operator.Operators;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number.NumberType;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.AbstractExpressionSubparserWorker;
 
 import java.security.InvalidParameterException;
 
-public final class NegativeExpressionSubparser implements ExpressionSubparser {
+public final class NotBitwiseExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker(Context<?> context) {
@@ -49,14 +49,14 @@ public final class NegativeExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public String name() {
-        return "negative";
+        return "not-bitwise";
     }
 
     private static final class NegateWorker extends AbstractExpressionSubparserWorker {
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
-            if (!token.contentEquals(Operators.SUBTRACTION)) {
+            if (!token.contentEquals(Operators.BITWISE_NOT)) {
                 return null;
             }
 
@@ -66,7 +66,7 @@ public final class NegativeExpressionSubparser implements ExpressionSubparser {
                 throw new InvalidParameterException("Cannot reverse non logical value");
             }
 
-            NegativeExpression negativeExpression = new NegativeExpression(expression, NumberType.of(expression.getKnownType().getName()));
+            NotBitwiseExpression negativeExpression = new NotBitwiseExpression(expression, NumberType.of(expression.getKnownType().getName()));
             return ExpressionResult.of(negativeExpression.toExpression());
         }
 

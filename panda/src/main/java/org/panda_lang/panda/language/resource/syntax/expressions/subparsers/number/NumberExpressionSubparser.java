@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
+package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.expression.Expression;
@@ -23,13 +23,12 @@ import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserWorker;
+import org.panda_lang.language.interpreter.token.PandaSnippet;
 import org.panda_lang.language.interpreter.token.Snippet;
 import org.panda_lang.language.interpreter.token.TokenInfo;
-import org.panda_lang.language.interpreter.token.PandaSnippet;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.separator.Separators;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number.NumberParser;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number.NumberUtils;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.AbstractExpressionSubparserWorker;
 
 public final class NumberExpressionSubparser implements ExpressionSubparser {
 

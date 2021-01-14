@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.syntax.expressions.subparsers;
+package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number;
 
 import org.panda_lang.language.architecture.expression.DynamicExpression;
 import org.panda_lang.language.architecture.expression.Expression;
@@ -23,34 +23,39 @@ import org.panda_lang.language.runtime.PandaRuntimeException;
 import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number.NumberType;
 
+import java.util.function.Function;
+
 final class NegativeExpression implements DynamicExpression {
 
     private final Expression logicalExpression;
-    private final NumberType numberType;
+    private final Function<Number, Number> negativeFunction;
 
     public NegativeExpression(Expression logicalExpression, NumberType numberType) {
         this.logicalExpression = logicalExpression;
-        this.numberType = numberType;
+        this.negativeFunction = toFunction(numberType);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public Number evaluate(ProcessStack stack, Object instance) throws Exception {
         Number value = logicalExpression.evaluate(stack, instance);
+        return negativeFunction.apply(value);
+    }
 
+    private Function<Number, Number> toFunction(NumberType numberType) {
         switch (numberType) {
             case BYTE:
-                return -value.byteValue();
+                return value -> -value.byteValue();
             case SHORT:
-                return -value.shortValue();
+                return value -> -value.shortValue();
             case INT:
-                return -value.intValue();
+                return value -> -value.intValue();
             case LONG:
-                return -value.longValue();
+                return value -> -value.longValue();
             case FLOAT:
-                return -value.floatValue();
+                return value -> -value.floatValue();
             case DOUBLE:
-                return -value.doubleValue();
+                return value -> -value.doubleValue();
             default:
                 throw new PandaRuntimeException("Unsupported number type " + numberType);
         }

@@ -22,6 +22,7 @@ import org.panda_lang.language.interpreter.parser.PandaParserException;
 import org.panda_lang.language.runtime.PandaRuntimeException;
 import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNOperationAction;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.number.NumericOperator;
 
 import java.util.function.BiFunction;
 
@@ -31,7 +32,7 @@ public final class DivisionOperation extends MathOperation {
     public RPNOperationAction<Number> of(Type returnType, int priority, Expression a, Expression b) {
         BiFunction<Number, Number, Number> operation = toFunction(priority);
 
-        return new MathOperationAction(returnType, a, b) {
+        return new NumericOperator(returnType, a, b) {
             @Override
             public Number get(ProcessStack stack, Object instance, Number a, Number b) {
                 try {

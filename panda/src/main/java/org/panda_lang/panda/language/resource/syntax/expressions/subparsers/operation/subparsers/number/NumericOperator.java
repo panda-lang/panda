@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.math;
+package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.number;
 
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.type.signature.Signature;
@@ -22,11 +22,11 @@ import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.module.TypeLoader;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNSimplifiedAction;
 
-public abstract class MathOperationAction extends RPNSimplifiedAction<Number, Number, Number> {
+public abstract class NumericOperator extends RPNSimplifiedAction<Number, Number, Number> {
 
     private final Type type;
 
-    protected MathOperationAction(Type type, Expression a, Expression b) {
+    public NumericOperator(Type type, Expression a, Expression b) {
         super(a, b);
         this.type = type;
     }

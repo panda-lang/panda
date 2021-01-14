@@ -26,9 +26,10 @@ import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.IsEx
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.LiteralExpressionSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.MethodExpressionSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.NegateExpressionSubparser;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.NegativeExpressionSubparser;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.NumberExpressionSubparser;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.OperationExpressionSubparser;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number.NegativeExpressionSubparser;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number.NotBitwiseExpressionSubparser;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number.NumberExpressionSubparser;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.OperationExpressionSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.SectionExpressionSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.SequenceExpressionSubparser;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.StaticExpressionSubparser;
@@ -42,17 +43,17 @@ public final class PandaExpressions {
 
     public static Collection<ExpressionSubparser> createSubparsers() {
         return Arrays.asList(
-                // new AssignationExpressionSubparser(),
-                 new AssignationExpressionSubparser(),
+                new AssignationExpressionSubparser(),
                 new CastExpressionSubparser(),
                 new ConstructorExpressionSubparser(),
                 new CreaseExpressionSubparser(),
-                 new DeclarationExpressionSubparser(),
+                new DeclarationExpressionSubparser(),
                 new IsExpressionSubparser(),
                 new LiteralExpressionSubparser(),
                 new MethodExpressionSubparser(),
                 new NegateExpressionSubparser(),
                 new NegativeExpressionSubparser(),
+                new NotBitwiseExpressionSubparser(),
                 new NumberExpressionSubparser(),
                 new OperationExpressionSubparser(),
                 new SectionExpressionSubparser(),

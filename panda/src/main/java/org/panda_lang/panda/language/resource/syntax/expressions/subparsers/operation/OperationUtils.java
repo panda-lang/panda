@@ -75,6 +75,10 @@ final class OperationUtils {
         return verify(operation, OperationType.OPERATOR, element -> OperatorUtils.isMemberOf(element.getOperator(), OperatorFamilies.LOGICAL));
     }
 
+    static boolean isBitwise(Operation operation) {
+        return verify(operation, OperationType.OPERATOR, element -> OperatorUtils.isMemberOf(element.getOperator(), OperatorFamilies.BITWISE));
+    }
+
     static boolean verifyOperator(Operation operation, Token token) {
         return verify(operation, OperationType.OPERATOR, element -> element.getOperatorRepresentation().contentEquals(token));
     }

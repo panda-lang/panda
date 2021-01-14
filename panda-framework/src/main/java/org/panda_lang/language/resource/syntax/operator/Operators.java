@@ -45,20 +45,20 @@ public final class Operators {
     public static final Operator MODULO = add(VALUES, new Operator(OperatorFamilies.MATH, "%"));
 
     /*
-        Logic
+        Bitwise
      */
 
-    public static final Operator BITWISE_NOT = add(VALUES, new Operator(OperatorFamilies.MATH, "~"));
+    public static final Operator BITWISE_NOT = add(VALUES, new Operator(OperatorFamilies.BITWISE, "~"));
 
-    public static final Operator BITWISE_AND = add(VALUES, new Operator(OperatorFamilies.MATH, "&"));
+    public static final Operator BITWISE_AND = add(VALUES, new Operator(OperatorFamilies.BITWISE, "&"));
 
-    public static final Operator BITWISE_OR = add(VALUES, new Operator(OperatorFamilies.MATH, "|"));
+    public static final Operator BITWISE_OR = add(VALUES, new Operator(OperatorFamilies.BITWISE, "|"));
 
-    public static final Operator BITWISE_XOR = add(VALUES, new Operator(OperatorFamilies.MATH, "^"));
+    public static final Operator BITWISE_XOR = add(VALUES, new Operator(OperatorFamilies.BITWISE, "^"));
 
-    public static final Operator BITWISE_LEFT_SHIFT = add(VALUES, new Operator(OperatorFamilies.MATH, "<<"));
+    public static final Operator BITWISE_LEFT_SHIFT = add(VALUES, new Operator(OperatorFamilies.BITWISE, "<<"));
 
-    public static final Operator BITWISE_RIGHT_SHIFT = add(VALUES, new Operator(OperatorFamilies.MATH, ">>"));
+    public static final Operator BITWISE_RIGHT_SHIFT = add(VALUES, new Operator(OperatorFamilies.BITWISE, ">>"));
 
     /*
         Logical
