@@ -19,12 +19,12 @@ package org.panda_lang.utilities.commons.javassist;
 import javassist.CannotCompileException;
 import javassist.CtBehavior;
 import org.panda_lang.utilities.commons.StringUtils;
-import org.panda_lang.utilities.commons.text.MessageFormatter;
+import org.panda_lang.utilities.commons.text.Formatter;
 
 public final class CtCode<T extends CtBehavior> {
 
     private final T behavior;
-    private final MessageFormatter formatter = new MessageFormatter();
+    private final Formatter formatter = new Formatter();
 
     private CtCode(T behavior) {
         this.behavior = behavior;

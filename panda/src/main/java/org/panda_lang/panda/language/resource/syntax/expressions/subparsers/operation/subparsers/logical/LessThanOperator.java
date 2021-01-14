@@ -17,36 +17,43 @@
 package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.logical;
 
 import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number.NumberPriorities;
+import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNOperationAction;
+
+import java.util.function.BiFunction;
 
 public final class LessThanOperator extends ComparisonOperator {
 
     @Override
-    public RPNOperationAction<Boolean> of(int compared, Expression a, Expression b) {
+    public RPNOperationAction<Boolean> of(int typePriority, Expression a, Expression b) {
+        BiFunction<Number, Number, Boolean> comparison = toFunction(typePriority);
+
         return new ComparisonOperatorAction(a, b) {
             @Override
             public Boolean get(ProcessStack stack, Object instance, Number a, Number b) {
-                switch (compared) {
-                    case NumberPriorities.INT:
-                        return a.intValue() < b.intValue();
-                    case NumberPriorities.LONG:
-                        return a.longValue() < b.longValue();
-                    case NumberPriorities.DOUBLE:
-                        return a.doubleValue() < b.doubleValue();
-                    case NumberPriorities.FLOAT:
-                        return a.floatValue() < b.floatValue();
-                    case NumberPriorities.BYTE:
-                        return a.byteValue() < b.byteValue();
-                    case NumberPriorities.SHORT:
-                        return a.shortValue() < b.shortValue();
-                    default:
-                        throw new PandaParserException("Unknown type " + compared);
-                }
+                return comparison.apply(a, b);
             }
         };
+    }
+
+    private BiFunction<Number, Number, Boolean> toFunction(int priority) {
+        switch (priority) {
+            case BYTE:
+                return (a, b) -> a.byteValue() < b.byteValue();
+            case SHORT:
+                return (a, b) -> a.shortValue() < b.shortValue();
+            case INT:
+                return (a, b) -> a.intValue() < b.intValue();
+            case LONG:
+                return (a, b) -> a.longValue() < b.longValue();
+            case FLOAT:
+                return (a, b) -> a.floatValue() < b.floatValue();
+            case DOUBLE:
+                return (a, b) -> a.doubleValue() < b.doubleValue();
+            default:
+                throw new PandaParserException("Unknown type " + priority);
+        }
     }
 
 }

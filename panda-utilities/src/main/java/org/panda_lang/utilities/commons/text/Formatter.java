@@ -17,49 +17,70 @@
 package org.panda_lang.utilities.commons.text;
 
 import org.panda_lang.utilities.commons.StringUtils;
+import org.panda_lang.utilities.commons.UnsafeUtils;
+import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
-public final class MessageFormatter {
+public final class Formatter {
 
     private final Map<String, Supplier<?>> placeholders;
+    private final Function<String, Option<Exception>> verifier;
 
-    public MessageFormatter(Map<String, Supplier<?>> placeholders) {
+    public Formatter(Map<String, Supplier<?>> placeholders, Function<String, Option<Exception>> verifier) {
         this.placeholders = placeholders;
+        this.verifier = verifier;
     }
 
-    public MessageFormatter() {
-        this(new LinkedHashMap<>());
+    public Formatter(Function<String, Option<Exception>> verifier) {
+        this(new LinkedHashMap<>(), verifier);
+    }
+
+    public Formatter() {
+        this(new LinkedHashMap<>(), message -> Option.none());
     }
 
     public String format(String message) {
         for (Map.Entry<String, Supplier<?>> placeholderEntry : placeholders.entrySet()) {
             String key = placeholderEntry.getKey();
-            Object value = placeholderEntry.getValue().get();
 
             if (!message.contains(key)) {
                 continue;
             }
 
-            message = StringUtils.replace(message, key, value != null ? value.toString() : "<value not specified>");
+            Object value = placeholderEntry.getValue().get();
+
+            if (value == null) {
+                throw new NullPointerException("Placeholder " + key + " returns null value");
+            }
+
+            message = StringUtils.replace(message, key, Objects.toString(value));
+        }
+
+        Option<Exception> verificationResult = verifier.apply(message);
+
+        if (verificationResult.isPresent()) {
+            return UnsafeUtils.throwException(verificationResult.get());
         }
 
         return message;
     }
 
-    public MessageFormatter register(String placeholder, Object value) {
+    public Formatter register(String placeholder, Object value) {
         return register(placeholder, value::toString);
     }
 
-    public MessageFormatter register(String placeholder, Supplier<?> value) {
+    public Formatter register(String placeholder, Supplier<?> value) {
         this.placeholders.put(placeholder, value);
         return this;
     }
 
-    public MessageFormatter fork() {
-        return new MessageFormatter(new LinkedHashMap<>(this.placeholders));
+    public Formatter fork() {
+        return new Formatter(new LinkedHashMap<>(this.placeholders), verifier);
     }
 
     @SuppressWarnings("unchecked")

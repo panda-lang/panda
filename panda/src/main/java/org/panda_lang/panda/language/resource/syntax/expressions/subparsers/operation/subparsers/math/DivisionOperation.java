@@ -18,34 +18,24 @@ package org.panda_lang.panda.language.resource.syntax.expressions.subparsers.ope
 
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.runtime.ProcessStack;
+import org.panda_lang.language.interpreter.parser.PandaParserException;
 import org.panda_lang.language.runtime.PandaRuntimeException;
+import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNOperationAction;
+
+import java.util.function.BiFunction;
 
 public final class DivisionOperation extends MathOperation {
 
     @Override
     public RPNOperationAction<Number> of(Type returnType, int priority, Expression a, Expression b) {
+        BiFunction<Number, Number, Number> operation = toFunction(priority);
+
         return new MathOperationAction(returnType, a, b) {
             @Override
             public Number get(ProcessStack stack, Object instance, Number a, Number b) {
                 try {
-                    switch (priority) {
-                        case INT:
-                            return a.intValue() / b.intValue();
-                        case DOUBLE:
-                            return a.doubleValue() / b.doubleValue();
-                        case LONG:
-                            return a.longValue() / b.longValue();
-                        case FLOAT:
-                            return a.floatValue() / b.floatValue();
-                        case BYTE:
-                            return a.byteValue() / b.byteValue();
-                        case SHORT:
-                            return a.shortValue() / b.shortValue();
-                        default:
-                            throw new PandaRuntimeException("Unknown type " + priority);
-                    }
+                    return operation.apply(a, b);
                 } catch (ArithmeticException exception) {
                     throw new PandaRuntimeException("Illegal arithmetic operation: " + exception.getMessage(), exception);
                 }
@@ -53,5 +43,23 @@ public final class DivisionOperation extends MathOperation {
         };
     }
 
+    private BiFunction<Number, Number, Number> toFunction(int priority) {
+        switch (priority) {
+            case BYTE:
+                return (a, b) -> a.byteValue() / b.byteValue();
+            case SHORT:
+                return (a, b) -> a.shortValue() / b.shortValue();
+            case INT:
+                return (a, b) -> a.intValue() / b.intValue();
+            case LONG:
+                return (a, b) -> a.longValue() / b.longValue();
+            case FLOAT:
+                return (a, b) -> a.floatValue() / b.floatValue();
+            case DOUBLE:
+                return (a, b) -> a.doubleValue() / b.doubleValue();
+            default:
+                throw new PandaParserException("Unknown type " + priority);
+        }
+    }
 
 }

@@ -26,18 +26,20 @@ import org.panda_lang.language.runtime.MemoryContainer;
 import org.panda_lang.language.runtime.ProcessStack;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number.NumberPriorities;
 
+import java.util.function.Function;
+
 final class CreaseExpression extends NumberPriorities implements DynamicExpression {
 
     private final Accessor<?> accessor;
     private final boolean grow;
     private final boolean post;
-    private final int priority;
+    private final Function<Object, Object> function;
 
     public CreaseExpression(Accessor<?> accessor, boolean grow, boolean post) {
         this.accessor = accessor;
         this.grow = grow;
         this.post = post;
-        this.priority = getPriority(accessor.getKnownType());
+        this.function = toFunction(getPriority(accessor.getKnownType()));
     }
 
     @Override
@@ -46,34 +48,40 @@ final class CreaseExpression extends NumberPriorities implements DynamicExpressi
         MemoryContainer memory = accessor.fetchMemoryContainer(stack, instance);
         Object before = memory.get(accessor.getMemoryPointer());
 
-        Object after = of(before);
+        Object after = function.apply(before);
         memory.set(accessor.getMemoryPointer(), after);
 
         return post ? before : after;
     }
 
-    private Object of(Object value) {
+    private Function<Object, Object> toFunction(int priority) {
         switch (priority) {
             case INT:
-                int intValue = (int) value;
-                return grow ? ++intValue : --intValue;
+                return grow
+                        ? value -> (int) value + 1
+                        : value -> (int) value - 1;
             case LONG:
-                long longValue = (long) value;
-                return grow ? ++longValue : --longValue;
+                return grow
+                        ? value -> (long) value + 1L
+                        : value -> (long) value - 1L;
             case DOUBLE:
-                double doubleValue = (double) value;
-                return grow ? ++doubleValue : --doubleValue;
+                return grow
+                        ? value -> (double) value + 1.0D
+                        : value -> (double) value - 1.0D;
             case FLOAT:
-                float floatValue = (float) value;
-                return grow ? ++floatValue : --floatValue;
+                return grow
+                        ? value -> (float) value + 1.0F
+                        : value -> (float) value - 1.0F;
             case BYTE:
-                byte byteValue = (byte) value;
-                return grow ? ++byteValue : --byteValue;
+                return grow
+                        ? value -> (byte) value + 1
+                        : value -> (byte) value - 1;
             case SHORT:
-                short shortValue = (short) value;
-                return grow ? ++shortValue : --shortValue;
+                return grow
+                        ? value -> (short) value + 1
+                        : value -> (short) value - 1;
             default:
-                throw new PandaParserException("Unknown number type: " + value);
+                throw new PandaParserException("Unknown number type: " + priority);
         }
     }
 

@@ -24,7 +24,7 @@ import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.oper
 
 public abstract class ComparisonOperator extends NumericOperation<Boolean> {
 
-    public abstract RPNOperationAction<Boolean> of(int compared, Expression a, Expression b);
+    public abstract RPNOperationAction<Boolean> of(int typePriority, Expression a, Expression b);
 
     @Override
     public RPNOperationAction<Boolean> of(TypeLoader typeLoader, Expression a, Expression b) {

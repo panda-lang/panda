@@ -35,18 +35,18 @@ public final class ConcatenationOperatorSubparser implements OperationSubparser 
         List<Expression> values = new ArrayList<>((operation.getElements().size() - 1) / 2);
         int lastIndex = 0;
 
-        for (int i = 0; i < operation.getElements().size(); i++) {
-            Operation.OperationElement element = operation.getElements().get(i);
+        for (int index = 0; index < operation.getElements().size(); index++) {
+            Operation.OperationElement element = operation.getElements().get(index);
 
             if (element.isExpression() || !Operators.ADDITION.equals(element.getOperator())) {
                 continue;
             }
 
-            if (!parseSubOperation(parser, context, values, operation, lastIndex, i)) {
+            if (!parseSubOperation(parser, context, values, operation, lastIndex, index)) {
                 return null;
             }
 
-            lastIndex = i + 1;
+            lastIndex = index + 1;
         }
 
         if (!parseSubOperation(parser, context, values, operation, lastIndex, operation.getElements().size())) {
