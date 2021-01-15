@@ -48,7 +48,7 @@ public final class Operators {
         Bitwise
      */
 
-    public static final Operator BITWISE_NOT = add(VALUES, new Operator(OperatorFamilies.BITWISE, "~"));
+    public static final Operator BITWISE_NOT = add(VALUES, new Operator(OperatorFamilies.BITWISE, "~", false));
 
     public static final Operator BITWISE_AND = add(VALUES, new Operator(OperatorFamilies.BITWISE, "&"));
 
@@ -84,31 +84,31 @@ public final class Operators {
 
     public static final Operator OR = add(VALUES, new Operator(OperatorFamilies.LOGICAL, "||"));
 
-    public static final Operator NOT = add(VALUES, new Operator(OperatorFamilies.LOGICAL, "!"));
+    public static final Operator NOT = add(VALUES, new Operator(OperatorFamilies.LOGICAL, "!", false));
 
     /*
         Crease
      */
 
-    public static final Operator INCREMENT = add(VALUES, new Operator(OperatorFamilies.CREASE, "++"));
+    public static final Operator INCREMENT = add(VALUES, new Operator(OperatorFamilies.CREASE, "++", false));
 
-    public static final Operator DECREMENT = add(VALUES, new Operator(OperatorFamilies.CREASE, "--"));
+    public static final Operator DECREMENT = add(VALUES, new Operator(OperatorFamilies.CREASE, "--", false));
 
     /*
         Assignation
      */
 
-    public static final Operator ASSIGNMENT = add(VALUES, new Operator(OperatorFamilies.ASSIGNATION, "="));
+    public static final Operator ASSIGNMENT = add(VALUES, new Operator(OperatorFamilies.ASSIGNATION, "=", false));
 
-    public static final Operator ADDITION_ASSIGNMENT = add(VALUES, new Operator(OperatorFamilies.ASSIGNATION, "+="));
+    public static final Operator ADDITION_ASSIGNMENT = add(VALUES, new Operator(OperatorFamilies.ASSIGNATION, "+=", false));
 
-    public static final Operator SUBTRACTION_ASSIGNMENT = add(VALUES, new Operator(OperatorFamilies.ASSIGNATION, "-="));
+    public static final Operator SUBTRACTION_ASSIGNMENT = add(VALUES, new Operator(OperatorFamilies.ASSIGNATION, "-=", false));
 
-    public static final Operator MULTIPLICATION_ASSIGNMENT = add(VALUES, new Operator(OperatorFamilies.ASSIGNATION, "*="));
+    public static final Operator MULTIPLICATION_ASSIGNMENT = add(VALUES, new Operator(OperatorFamilies.ASSIGNATION, "*=", false));
 
-    public static final Operator DIVISION_ASSIGNMENT = add(VALUES, new Operator(OperatorFamilies.ASSIGNATION, "/="));
+    public static final Operator DIVISION_ASSIGNMENT = add(VALUES, new Operator(OperatorFamilies.ASSIGNATION, "/=", false));
 
-    public static final Operator REMAINDER_ASSIGNMENT = add(VALUES, new Operator(OperatorFamilies.ASSIGNATION, "%="));
+    public static final Operator REMAINDER_ASSIGNMENT = add(VALUES, new Operator(OperatorFamilies.ASSIGNATION, "%=", false));
 
     /*
         Undefined

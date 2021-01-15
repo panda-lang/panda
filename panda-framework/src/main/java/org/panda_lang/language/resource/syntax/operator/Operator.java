@@ -26,10 +26,20 @@ public final class Operator extends EqualableToken {
 
     private final String family;
     private final String operator;
+    private final boolean conjunction;
 
-    public Operator(@Nullable String family, String operator) {
+    public Operator(@Nullable String family, String operator, boolean conjunction) {
         this.family = family;
         this.operator = operator;
+        this.conjunction = conjunction;
+    }
+
+    public Operator(@Nullable String family, String operator) {
+        this(family, operator, true);
+    }
+
+    public boolean isConjunction() {
+        return conjunction;
     }
 
     public boolean hasFamily() {

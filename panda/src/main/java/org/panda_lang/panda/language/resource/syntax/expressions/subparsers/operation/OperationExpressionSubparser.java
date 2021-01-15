@@ -28,9 +28,6 @@ import org.panda_lang.language.interpreter.token.Snippetable;
 import org.panda_lang.language.interpreter.token.TokenInfo;
 import org.panda_lang.language.resource.syntax.TokenTypes;
 import org.panda_lang.language.resource.syntax.operator.Operator;
-import org.panda_lang.language.resource.syntax.operator.OperatorFamilies;
-import org.panda_lang.language.resource.syntax.operator.OperatorUtils;
-import org.panda_lang.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.Operation.OperationElement;
 
@@ -78,8 +75,7 @@ public final class OperationExpressionSubparser implements ExpressionSubparser {
 
             Operator operator = token.toToken();
 
-            // TODO: This parser requires rewrite anyway
-            if (OperatorUtils.isMemberOf(operator, OperatorFamilies.ASSIGNATION) || operator == Operators.BITWISE_NOT) {
+            if (!operator.isConjunction()) {
                 return null;
             }
 
@@ -89,10 +85,6 @@ public final class OperationExpressionSubparser implements ExpressionSubparser {
 
             elements.add(new OperationElement(context.popExpression()));
             elements.add(new OperationElement(token));
-
-            // ExpressionTransaction transaction = context.getParser().parse(context.toContext(), context.getSynchronizedSource());
-            // context.commit(transaction::rollback);
-            // elements.add(new OperationElement(transaction.getExpression()));
 
             return ExpressionResult.empty();
         }
