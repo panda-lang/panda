@@ -73,12 +73,12 @@ public final class NumberExpressionSubparser implements ExpressionSubparser {
 
             try {
                 expression = PARSER.parse(context.toContext(), content);
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException numberFormatException) {
                 return null;
             }
 
             // remove previous result from stack
-            if (period != null) {
+            if (period != null && context.hasResults()) {
                 context.popExpression();
                 dispose();
             }

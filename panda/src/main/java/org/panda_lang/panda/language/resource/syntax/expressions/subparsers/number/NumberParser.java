@@ -36,6 +36,10 @@ public final class NumberParser implements Parser {
     public Expression parse(Context<?> context, Snippet source) {
         String unknownNumber = StringUtils.replace(source.asSource(), "_", StringUtils.EMPTY);
 
+        if (unknownNumber.startsWith(".")) {
+            unknownNumber = "0" + unknownNumber;
+        }
+
         char numberTypeDefinitionCharacter = unknownNumber.charAt(unknownNumber.length() - 1);
         NumberType numberTypeDefinition = NumberType.of(numberTypeDefinitionCharacter);
 
