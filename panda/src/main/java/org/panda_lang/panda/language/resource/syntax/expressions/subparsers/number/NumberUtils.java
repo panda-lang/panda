@@ -53,7 +53,7 @@ public final class NumberUtils {
                 continue;
             }
 
-            if (CharacterUtils.belongsTo(c, ALLOWED_CHARACTERS, NUMBER_EXTENSIONS)) {
+            if (CharacterUtils.belongsToAny(c, ALLOWED_CHARACTERS, NUMBER_EXTENSIONS)) {
                 continue;
             }
 

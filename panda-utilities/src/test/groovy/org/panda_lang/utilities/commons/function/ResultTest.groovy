@@ -14,19 +14,21 @@
  * limitations under the License.
  */
 
-package org.panda_lang.utilities.commons.function;
+package org.panda_lang.utilities.commons.function
 
+import groovy.transform.CompileStatic;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ResultTest {
+@CompileStatic
+final class ResultTest {
 
     @Test
     void 'should map value' () {
-        assertEquals(7, Result.ok("7").map(Integer::parseInt).get())
+        assertEquals(7, Result.ok("7").map(value -> Integer.parseInt(value)).get())
     }
 
     @Test

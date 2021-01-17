@@ -94,7 +94,7 @@ public final class CharacterUtils {
      * @param characters array of character arrays
      * @return true if character is in the specified arrays
      */
-    public static boolean belongsTo(char character, char[]... characters) {
+    public static boolean belongsToAny(char character, char[]... characters) {
         for (char[] chars : characters) {
             if (belongsTo(character, chars)) {
                 return true;

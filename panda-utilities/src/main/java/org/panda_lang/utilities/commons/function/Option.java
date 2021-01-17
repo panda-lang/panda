@@ -21,8 +21,10 @@ import org.panda_lang.utilities.commons.ObjectUtils;
 import org.panda_lang.utilities.commons.iterable.SingletonIterator;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
@@ -79,6 +81,10 @@ public class Option<T> implements Iterable<T>, Serializable {
 
     @SafeVarargs
     public final <R> Option<R> match(Case<T, R>... cases) {
+        return match(Arrays.asList(cases));
+    }
+
+    public final <R> Option<R> match(List<? extends Case<T, R>> cases) {
         if (isEmpty()) {
             return Option.none();
         }
