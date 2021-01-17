@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionContext;
+import org.panda_lang.language.interpreter.parser.expression.ExpressionParserSettings;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionSubparserType;
@@ -54,13 +55,17 @@ public final class NegativeExpressionSubparser implements ExpressionSubparser {
 
     private static final class NegateWorker extends AbstractExpressionSubparserWorker {
 
+        private static final ExpressionParserSettings SETTINGS = ExpressionParserSettings.create()
+                .mutualDisabled()
+                .build();
+
         @Override
         public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
             if (!token.contentEquals(Operators.SUBTRACTION)) {
                 return null;
             }
 
-            Expression expression = context.getParser().parse(context.toContext(), context.getSynchronizedSource());
+            Expression expression = context.getParser().parse(context.toContext(), context.getSynchronizedSource(), SETTINGS);
 
             if (!context.toContext().getTypeLoader().requireType("panda::Number").isAssignableFrom(expression.getKnownType())) {
                 throw new InvalidParameterException("Cannot reverse non logical value");

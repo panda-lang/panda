@@ -1,7 +1,7 @@
 module lang
 
 main {
-    log (-8) ==     (~7)
+    log  -8 ==       ~7
     log   1  ==  (5 & 3)
     log   7  ==  (5 | 3)
     log   6  ==  (5 ^ 3)

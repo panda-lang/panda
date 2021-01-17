@@ -19,24 +19,8 @@ package org.panda_lang.language.interpreter.parser.expression;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionParserSettings.ExpressionParserSettingsBuilder;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionParserSettings.SelectedMode;
-
-import java.util.Collections;
 
 class ExpressionParserSettingsTest {
-
-    @Test
-    void includeSelected() {
-        Assertions.assertNull(init().build().getSelectedMode());
-        Assertions.assertEquals(SelectedMode.EXCLUDE, init().excludeSelected().build().getSelectedMode());
-        Assertions.assertEquals(SelectedMode.INCLUDE, init().includeSelected().build().getSelectedMode());
-    }
-
-    @Test
-    void withSelectedSubparsers() {
-        Assertions.assertEquals(Collections.singletonList("a"), init().withSelectedSubparsers("a").build().getSelectedSubparsers());
-        Assertions.assertNotEquals(Collections.singletonList("a"), init().withSelectedSubparsers(Collections.emptyList()).build().getSelectedSubparsers());
-    }
 
     @Test
     void isStandaloneOnly() {

@@ -69,9 +69,21 @@ public interface ExpressionParser extends Parser {
      * @return the parsed expression wrapped into the transaction
      */
     default Expression parse(Contextual<?> context, SynchronizedSource source) {
+        return parse(context, source, ExpressionParserSettings.DEFAULT);
+    }
+
+    /**
+     * Utility method to parse expression from the synchronized source using custom settings
+     *
+     * @param context the current context
+     * @param source the synchronized source that contain
+     * @param settings the settings to use
+     * @return the parsed expression wrapped into the transaction
+     */
+    default Expression parse(Contextual<?> context, SynchronizedSource source, ExpressionParserSettings settings) {
         SourceStream stream = source.toStream();
 
-        Expression expression = parse(context, stream, ExpressionParserSettings.DEFAULT);
+        Expression expression = parse(context, stream, settings);
         source.setIndex(source.getIndex() + stream.getReadLength());
 
         return expression;

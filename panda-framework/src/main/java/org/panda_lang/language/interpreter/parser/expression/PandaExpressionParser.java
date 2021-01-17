@@ -86,7 +86,7 @@ public final class PandaExpressionParser implements ExpressionParser {
 
         long uptime = System.nanoTime();
         PandaExpressionContext<?> expressionContext = new PandaExpressionContext<>(this, delegatedContext, source);
-        ExpressionParserWorker worker = new ExpressionParserWorker(delegatedContext, subparsers);
+        ExpressionParserWorker worker = new ExpressionParserWorker(settings, delegatedContext, subparsers);
 
         try {
             for (TokenInfo representation : expressionContext.getSynchronizedSource()) {

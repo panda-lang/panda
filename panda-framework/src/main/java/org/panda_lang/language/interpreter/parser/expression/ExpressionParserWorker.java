@@ -30,6 +30,7 @@ public final class ExpressionParserWorker {
     public static final Map<String, Long> TIMES = new HashMap<>();
     private static final int NONE = -1;
 
+    private final ExpressionParserSettings settings;
     private final List<SubparserRepresentation> subparsers;
     private final ExpressionSubparserWorker[] workers;
     private final Stack<ExpressionSubparserWorker> cachedWorkers = new Stack<>();
@@ -37,7 +38,8 @@ public final class ExpressionParserWorker {
     private int previousSubparser = NONE;
     private int lastSucceededRead = 0;
 
-    protected ExpressionParserWorker(Contextual<?> context, List<SubparserRepresentation> subparsers) {
+    protected ExpressionParserWorker(ExpressionParserSettings settings, Contextual<?> context, List<SubparserRepresentation> subparsers) {
+        this.settings = settings;
         this.subparsers = subparsers;
         this.workers = new ExpressionSubparserWorker[subparsers.size()];
 
@@ -108,6 +110,10 @@ public final class ExpressionParserWorker {
         }
 
         ExpressionSubparser subparser = worker.getSubparser();
+
+        if (settings.isMutualDisabled() && subparser.type() == ExpressionSubparserType.MUTUAL) {
+            return false;
+        }
 
         // skip subparser that does not meet assumptions
         if (subparser.minimalRequiredLengthOfSource() > context.getSynchronizedSource().getAmountOfAvailableSource() + 1) {

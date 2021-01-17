@@ -27,6 +27,7 @@ main {
     // And
 
     log true && true
+    log !false && true
     log !(true && false)
 
     // Or
