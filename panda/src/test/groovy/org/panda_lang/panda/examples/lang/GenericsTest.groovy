@@ -8,7 +8,7 @@ class GenericsTest extends LangTestSpecification {
 
     @Test
     void 'should compile and execute generic based source' () {
-        launch('generics.panda')
+        launch 'generics.panda'
     }
 
 }

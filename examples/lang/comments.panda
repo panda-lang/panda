@@ -1,0 +1,15 @@
+module lang
+
+main {
+    // single line comment
+
+    /*
+    Multiline
+    Comment
+    */
+
+    /**
+     * Documentation comment
+     * It's used to generate documentation of your program in a standardized way
+     */
+}

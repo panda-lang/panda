@@ -4,11 +4,11 @@ import groovy.transform.CompileStatic
 import org.junit.jupiter.api.Test
 
 @CompileStatic
-class LogicalTest extends LangTestSpecification {
+class BasicTypesTest extends LangTestSpecification {
 
     @Test
-    void 'should compile and execute logical expressions' () {
-        launch 'logical.panda'
+    void 'should compile and execute basic types' () {
+        launch 'basic_types.panda'
     }
 
 }

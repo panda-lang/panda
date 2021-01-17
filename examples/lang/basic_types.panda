@@ -1,0 +1,23 @@
+module lang
+
+main {
+    // Numbers
+    log 123
+    log 123L
+    log -123
+
+    // Floating-point numbers
+    log 1.0
+    log .1F
+    log 0.1D
+    log -0.1337
+
+    // Texts
+    log 'Michael Scott said "I love inside jokes. I hope to be a part of one someday."'
+    log "That's what she said"
+    log `"Two things are infinite: the universe and human stupidity; and I'm not sure about the universe."`
+
+    // Logic
+    log true
+    log false
+}

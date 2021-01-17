@@ -140,7 +140,7 @@ public final class ClassGenerator {
             Map<String, TypeMethod> methods = new HashMap<>();
 
             for (TypeMethod method : type.getMethods().getDeclaredProperties()) {
-                String generatedName = method.getSimpleName().replaceAll("[^A-Za-z0-9]", "");
+                String generatedName = "_" + method.getSimpleName().replaceAll("[^A-Za-z0-9]", "");
 
                 CtClass[] parameters = ClassPoolUtils.toCt(ParameterUtils.parametersToClasses(method.getParameters()));
                 CtMethod javaMethod = new CtMethod(getCtClass(method.getReturnType().getKnownType()), generatedName, parameters, javaType);

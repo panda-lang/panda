@@ -8,7 +8,7 @@ class MathTest extends LangTestSpecification {
 
     @Test
     void 'should compile and execute math expressions' () {
-        launch('math.panda')
+        launch 'math.panda'
     }
 
 }

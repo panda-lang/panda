@@ -8,7 +8,7 @@ class BitwiseTest extends LangTestSpecification {
 
     @Test
     void 'should compile and execute bitwise expressions' () {
-        launch('bitwise.panda')
+        launch 'bitwise.panda'
     }
 
 }
