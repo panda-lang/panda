@@ -27,6 +27,7 @@ import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.oper
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.rpn.RPNOperationSupplier;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.math.AdditionOperation;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.math.DivisionOperation;
+import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.math.ModuloOperation;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.math.MultiplicationOperation;
 import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.subparsers.math.SubtractionOperation;
 import org.panda_lang.utilities.commons.collection.Maps;
@@ -40,7 +41,8 @@ public final class MathOperationSubparser implements OperationSubparser {
             Operators.SUBTRACTION, 1,
 
             Operators.MULTIPLICATION, 2,
-            Operators.DIVISION, 2
+            Operators.DIVISION, 2,
+            Operators.MODULO, 2
     );
 
     private static final Map<Operator, RPNOperationSupplier<?>> ACTIONS = Maps.of(
@@ -48,7 +50,8 @@ public final class MathOperationSubparser implements OperationSubparser {
             Operators.SUBTRACTION, new SubtractionOperation(),
 
             Operators.MULTIPLICATION, new MultiplicationOperation(),
-            Operators.DIVISION, new DivisionOperation()
+            Operators.DIVISION, new DivisionOperation(),
+            Operators.MODULO, new ModuloOperation()
     );
 
     @Override

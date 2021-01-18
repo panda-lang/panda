@@ -6,9 +6,10 @@ main {
     log 5 == (8 - 3)
     log 6 == (2 * 3)
     log 4 == (8 / 2)
+    log 3 == (8 % 5)
 
     /* Order of operations */
-    log 11 == (19 - (1 + 5 * 3) / 2)
+    log 11 == (19 - (3 % 2 + 5 * 3) / 2)
 
     /* Floating point operations */
     log 1.01 == (1 + .01)
