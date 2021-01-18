@@ -30,9 +30,7 @@ type Branching {
         mut Int value = 0
 
         while true {
-            ++value
-
-            if value != 5 {
+            if ++value != 5 {
                 continue
             }
 
