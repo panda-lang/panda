@@ -6,6 +6,7 @@ import org.panda_lang.language.architecture.dynamic.accessor.AccessorExpression;
 import org.panda_lang.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.expression.ExpressionUtils;
+import org.panda_lang.language.architecture.statement.Variable;
 import org.panda_lang.language.interpreter.parser.Context;
 import org.panda_lang.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.language.interpreter.parser.expression.ExpressionCategory;
@@ -59,12 +60,16 @@ public final class AssignationExpressionSubparser implements ExpressionSubparser
 
             AccessorExpression accessorExpression = (AccessorExpression) context.getResults().pop();
             Accessor<?> accessor = accessorExpression.getAccessor();
+            Variable variable = accessor.getVariable();
 
             SourceStream valueSource = context.getSynchronizedSource().getAvailableSource().toStream();
             Expression value = context.getParser().parse(context, valueSource);
             context.getSynchronizedSource().next(valueSource.getReadLength());
 
-            if (!accessor.getSignature().isAssignableFrom(value.getSignature())) {
+            if (variable.awaitsSignature()) {
+                variable.interfereSignature(value.getSignature());
+            }
+            else if (!accessor.getSignature().isAssignableFrom(value.getSignature())) {
                 throw new PandaParserFailure(context.toContext(), token,
                         "Cannot assign " + value.getSignature() + " to " + accessor.getSignature(),
                         "Change variable type or ensure the expression has compatible return type"

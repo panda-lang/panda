@@ -20,6 +20,7 @@ import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.expression.ExpressionUtils;
 import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.member.AbstractMember;
+import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Lazy;
 
 import java.util.function.Supplier;
@@ -65,6 +66,21 @@ public final class PandaField extends AbstractMember<TypeField> implements TypeF
     @Override
     public void setStaticValue(Supplier<?> staticValue) {
         this.staticValue = new Lazy<>(staticValue);
+    }
+
+    @Override
+    public boolean interfereSignature(Signature signature) {
+        return false;
+    }
+
+    @Override
+    public Completable<Signature> getSignatureReference() {
+        return Completable.completed(getSignature());
+    }
+
+    @Override
+    public boolean awaitsSignature() {
+        return false;
     }
 
     @Override

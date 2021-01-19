@@ -1,0 +1,8 @@
+module lang
+
+main {
+    let rawValue = '#onlypanda x '
+    let methodValue = 0xCAFEBABE.toString()
+
+    log rawValue + methodValue
+}

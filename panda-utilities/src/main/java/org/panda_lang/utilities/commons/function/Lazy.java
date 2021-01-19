@@ -22,9 +22,16 @@ import java.util.function.Supplier;
 
 public class Lazy<T> implements Supplier<T> {
 
-    private final Supplier<T> supplier;
+    private static final Supplier<?> EMPTY_SUPPLIER = () -> null;
+
+    private Supplier<T> supplier;
     private boolean initialized;
     private @Nullable T value;
+
+    public Lazy(T value) {
+        this.initialized = true;
+        this.value = value;
+    }
 
     public Lazy(Supplier<T> supplier) {
         this.supplier = supplier;

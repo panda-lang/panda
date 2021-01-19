@@ -68,7 +68,7 @@ public final class ForEachParser extends BlockParser<ForEachBlock> {
 
         ForEachBlock forEach = new ForEachBlock(context.getScope(), context, iterableExpression);
         VariableDataInitializer dataInitializer = new VariableDataInitializer(context, forEach);
-        VariableData variableData = dataInitializer.createVariableData(elements[0], true, true);
+        VariableData variableData = dataInitializer.createVariableDataByDeclaration(elements[0], true, true);
 
         PandaVariable forVariable = new PandaVariable(forEach.getValuePointer(), variableData);
         forEach.addVariable(forVariable);

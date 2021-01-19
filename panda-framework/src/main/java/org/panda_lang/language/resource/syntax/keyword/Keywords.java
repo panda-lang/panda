@@ -66,6 +66,8 @@ public final class Keywords {
 
     public static final Keyword LAZY = add(VALUES, new Keyword("lazy"));
 
+    public static final Keyword LET = add(VALUES, new Keyword("let"));
+
     public static final Keyword LOG = add(VALUES, new Keyword("log"));
 
     public static final Keyword LOOP = add(VALUES, new Keyword("loop"));

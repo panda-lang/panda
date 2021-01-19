@@ -17,31 +17,61 @@
 package org.panda_lang.language.architecture.statement;
 
 import org.panda_lang.language.architecture.type.signature.Signature;
+import org.panda_lang.language.interpreter.parser.PandaParserException;
+import org.panda_lang.utilities.commons.function.Completable;
 
 public class PandaVariableData implements VariableData {
 
     private final String name;
-    private final Signature signature;
     private final boolean mutable;
     private final boolean nillable;
+    private final Completable<Signature> signature;
 
-    public PandaVariableData(Signature signature, String name, boolean mutable, boolean nillable) {
-        if (signature == null) {
-            throw new IllegalArgumentException("Variable type cannot be null");
-        }
-
+    public PandaVariableData(Completable<Signature> signature, String name, boolean mutable, boolean nillable) {
         if (name == null) {
             throw new IllegalArgumentException("Variable name cannot be null");
         }
 
         this.name = name;
-        this.signature = signature;
         this.mutable = mutable;
         this.nillable = nillable;
+        this.signature = signature;
+    }
+
+    public PandaVariableData(Signature signature, String name, boolean mutable, boolean nillable) {
+        this(Completable.completed(signature), name, mutable, nillable);
+
+        if (signature == null) {
+            throw new IllegalArgumentException("Variable type cannot be null");
+        }
     }
 
     public PandaVariableData(Signature signature, String name) {
-        this(signature, name, true, true);
+        this(Completable.completed(signature), name, true, true);
+    }
+
+    public PandaVariableData(String name, boolean mutable, boolean nillable) {
+        this(new Completable<>(), name, mutable, nillable);
+    }
+
+    @Override
+    public boolean awaitsSignature() {
+        return !signature.isReady();
+    }
+
+    @Override
+    public boolean interfereSignature(Signature signature) {
+        if (this.signature.isReady()) {
+            return false;
+        }
+
+        this.signature.complete(signature);
+        return true;
+    }
+
+    @Override
+    public Completable<Signature> getSignatureReference() {
+        return signature;
     }
 
     @Override
@@ -56,7 +86,9 @@ public class PandaVariableData implements VariableData {
 
     @Override
     public Signature getSignature() {
-        return signature;
+        return signature.orThrow(() -> {
+            throw new PandaParserException("Signature of " + name + " variable cannot be interfered");
+        });
     }
 
     @Override

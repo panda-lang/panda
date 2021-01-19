@@ -16,12 +16,20 @@
 
 package org.panda_lang.language.architecture.statement;
 
+import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.signature.Signed;
+import org.panda_lang.utilities.commons.function.Completable;
 
 /**
  * Represents basic data about variable
  */
 public interface VariableData extends Signed {
+
+    boolean interfereSignature(Signature signature);
+
+    boolean awaitsSignature();
+
+    Completable<Signature> getSignatureReference();
 
     /**
      * Check if variable is nillable (accepts null values)

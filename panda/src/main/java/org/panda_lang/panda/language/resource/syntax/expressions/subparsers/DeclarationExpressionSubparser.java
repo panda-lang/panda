@@ -60,9 +60,13 @@ public final class DeclarationExpressionSubparser implements ExpressionSubparser
 
             boolean mutable = sourceReader.optionalRead(() -> sourceReader.read(Keywords.MUT)).isDefined();
             boolean nillable = sourceReader.optionalRead(() -> sourceReader.read(Keywords.NIL)).isDefined();
-            Option<SignatureSource> signatureSource = sourceReader.readSignature();
+            boolean let = sourceReader.optionalRead(() -> sourceReader.read(Keywords.LET)).isDefined();
 
-            if (signatureSource.isEmpty()) {
+            Option<SignatureSource> signatureSource = let
+                    ? Option.none()
+                    : sourceReader.readSignature();
+
+            if (!let && signatureSource.isEmpty()) {
                 if (mutable || nillable) {
                     ExpressionResult.error("Missing variable signature", token.toSnippet());
                 }
@@ -78,12 +82,14 @@ public final class DeclarationExpressionSubparser implements ExpressionSubparser
                 return null;
             }
 
-            Signature signature;
+            Option<Signature> signature = Option.none();
 
-            try {
-                signature = SIGNATURE_PARSER.parse(expressionContext, signatureSource.get(), false, null);
-            } catch (PandaParserFailure failure) {
-                return ExpressionResult.error(failure.getMessage(), failure.getIndicatedSource().getSource());
+            if (signatureSource.isDefined()) {
+                try {
+                    signature = Option.of(SIGNATURE_PARSER.parse(expressionContext, signatureSource.get(), false, null));
+                } catch (PandaParserFailure failure) {
+                    return ExpressionResult.error(failure.getMessage(), failure.getIndicatedSource().getSource());
+                }
             }
 
             expressionContext.getSynchronizedSource().next(stream.getReadLength() - 1);
@@ -91,32 +97,12 @@ public final class DeclarationExpressionSubparser implements ExpressionSubparser
             Scope scope = context.getScope();
 
             VariableDataInitializer dataInitializer = new VariableDataInitializer(context, scope);
-            VariableData variableData = dataInitializer.createVariableData(signature, name.get(), mutable, nillable);
+            VariableData variableData = signature
+                    .map(value -> dataInitializer.createVariableData(value, name.get(), mutable, nillable))
+                    .orElseGet(() -> dataInitializer.createVariableData(name.get(), mutable, nillable));
 
             Variable variable = scope.createVariable(variableData);
             return ExpressionResult.of(new VariableExpression(new VariableAccessor(variable)));
-
-            /*
-            context.getSubject().getTransaction().getCommits().add(() -> context.getScope().removeVariable(variable.getName()));
-            Expression expression = context.getSubject().getTransaction().getExpression();
-
-            if (!variable.getSignature().isAssignableFrom(expression.getSignature())) {
-                throw new PandaParserFailure(context, signatureSource.get().getName(),
-                        "Cannot assign " + expression.getSignature() + " to " + variable.getSignature(),
-                        "Change variable type or ensure the expression has compatible return type"
-                );
-            }
-
-            Expression equalizedExpression = ExpressionUtils.equalize(expression, variable.getSignature()).orElseThrow(error -> {
-                throw new PandaParserFailure(context, "Incompatible signatures");
-            });
-
-            VariableAccessor accessor = new VariableAccessor(variable.initialize());
-            Assigner<Variable> assigner = accessor.toAssigner(name.get(), true, equalizedExpression);
-
-            return Option.ofCompleted(assigner);
-
-             */
         }
 
     }

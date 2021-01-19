@@ -78,7 +78,7 @@ public final class TryCatchParser extends BlockParser<TryCatch> {
 
         Scope catchBlock = new PandaBlock(parent, catchLocation);
         VariableDataInitializer dataInitializer = new VariableDataInitializer(context, catchBlock);
-        VariableData variableData = dataInitializer.createVariableData(catchWhat.get(), false, false);
+        VariableData variableData = dataInitializer.createVariableDataByDeclaration(catchWhat.get(), false, false);
         Variable variable = catchBlock.createVariable(variableData);
         SCOPE_PARSER.parse(context, catchBlock, catchBody.get());
 

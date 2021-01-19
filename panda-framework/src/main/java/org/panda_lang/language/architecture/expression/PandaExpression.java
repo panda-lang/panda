@@ -18,25 +18,26 @@ package org.panda_lang.language.architecture.expression;
 
 import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.runtime.ProcessStack;
+import org.panda_lang.utilities.commons.function.Lazy;
 
 import java.security.InvalidParameterException;
 
 public class PandaExpression implements Expression {
 
     private final ExpressionValueType type;
-    private final Signature returnType;
+    private final Lazy<Signature> returnType;
     private final ExpressionEvaluator evaluator;
     private final Object value;
 
     public PandaExpression(Signature returnType, Object value) {
-        this(ExpressionValueType.CONST, returnType, null, value);
+        this(ExpressionValueType.CONST, new Lazy<>(returnType), null, value);
     }
 
     public PandaExpression(DynamicExpression expression) {
-        this(ExpressionValueType.DYNAMIC, expression.getReturnType(), expression, null);
+        this(ExpressionValueType.DYNAMIC, new Lazy<>(expression::getReturnType), expression, null);
     }
 
-    protected PandaExpression(ExpressionValueType type, Signature returnType, ExpressionEvaluator evaluator, Object value) {
+    protected PandaExpression(ExpressionValueType type, Lazy<Signature> returnType, ExpressionEvaluator evaluator, Object value) {
         if (type == null) {
             throw new InvalidParameterException("ExpressionType cannot be null");
         }
@@ -55,7 +56,7 @@ public class PandaExpression implements Expression {
 
     @Override
     public Signature getSignature() {
-        return returnType;
+        return returnType.get();
     }
 
     @Override

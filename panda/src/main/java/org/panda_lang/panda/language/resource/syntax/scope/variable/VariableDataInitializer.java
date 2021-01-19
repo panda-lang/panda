@@ -43,7 +43,7 @@ public final class VariableDataInitializer {
         this.scope = scope;
     }
 
-    public VariableData createVariableData(Snippetable declaration, boolean mutable, boolean nillable) {
+    public VariableData createVariableDataByDeclaration(Snippetable declaration, boolean mutable, boolean nillable) {
         Snippet source = declaration.toSnippet();
         TokenInfo name = source.getLast();
 
@@ -63,6 +63,15 @@ public final class VariableDataInitializer {
     }
 
     public VariableData createVariableData(Signature signature, Snippetable name, boolean mutable, boolean nillable) {
+        // TODO: parent signature
+        VisibilityComparator.requireAccess(signature.toTyped().fetchType(), context, name);
+
+        VariableData variableData = createVariableData(name, mutable, nillable);
+        variableData.interfereSignature(signature);
+        return variableData;
+    }
+
+    public VariableData createVariableData(Snippetable name, boolean mutable, boolean nillable) {
         Snippet nameSource = name.toSnippet();
 
         if (nameSource.size() > 1) {
@@ -75,10 +84,7 @@ public final class VariableDataInitializer {
             throw new PandaParserFailure(context, name, "Variable name is already used in the scope '" + variableName + "'");
         }
 
-        // TODO: parent signature
-        VisibilityComparator.requireAccess(signature.toTyped().fetchType(), context, nameSource);
-
-        return new PandaVariableData(signature, nameSource.asSource(), mutable, nillable);
+        return new PandaVariableData(variableName, mutable, nillable);
     }
 
 }

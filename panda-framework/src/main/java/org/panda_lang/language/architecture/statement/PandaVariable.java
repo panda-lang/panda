@@ -17,13 +17,14 @@
 package org.panda_lang.language.architecture.statement;
 
 import org.panda_lang.language.architecture.type.signature.Signature;
+import org.panda_lang.utilities.commons.function.Completable;
 
 public class PandaVariable extends PandaVariableData implements Variable {
 
     protected final int pointer;
     protected boolean initialized;
 
-    public PandaVariable(int pointer, Signature signature, String name, boolean mutable, boolean nillable) {
+    public PandaVariable(int pointer, Completable<Signature> signature, String name, boolean mutable, boolean nillable) {
         super(signature, name, mutable, nillable);
 
         if (pointer < 0) {
@@ -33,8 +34,12 @@ public class PandaVariable extends PandaVariableData implements Variable {
         this.pointer = pointer;
     }
 
+    public PandaVariable(int pointer, Signature signature, String name, boolean mutable, boolean nillable) {
+        this(pointer, Completable.completed(signature), name, mutable, nillable);
+    }
+
     public PandaVariable(int pointer, VariableData data) {
-        this(pointer, data.getSignature(), data.getName(), data.isMutable(), data.isNillable());
+        this(pointer, data.getSignatureReference(), data.getName(), data.isMutable(), data.isNillable());
     }
 
     @Override
