@@ -35,7 +35,7 @@ public final class CtUtils {
     public static boolean hasCustomSuperclass(CtClass ctClass) {
         try {
             return !ctClass.getSuperclass().getName().equals(Object.class.getName());
-        } catch (NotFoundException e) {
+        } catch (NotFoundException notFoundException) {
             return false;
         }
     }
@@ -50,7 +50,7 @@ public final class CtUtils {
     public static boolean hasField(CtClass ctClass, String fieldName) {
         try {
             return ctClass.getField(fieldName) != null;
-        } catch (NotFoundException e) {
+        } catch (NotFoundException notFoundException) {
             return false;
         }
     }

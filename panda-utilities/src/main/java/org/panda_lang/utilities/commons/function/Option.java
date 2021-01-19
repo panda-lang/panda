@@ -214,12 +214,12 @@ public class Option<T> implements Iterable<T>, Serializable {
     public static <T, E extends Exception> Option<T> attempt(Class<E> exceptionType, ThrowingSupplier<T, E> supplier) {
         try {
             return of(supplier.get());
-        } catch (Exception e) {
-            if (exceptionType.isAssignableFrom(e.getClass())) {
+        } catch (Exception exception) {
+            if (exceptionType.isAssignableFrom(exception.getClass())) {
                 return Option.none();
             }
 
-            throw new RuntimeException("Unsupported exception", e);
+            throw new RuntimeException("Unsupported exception", exception);
         }
     }
 

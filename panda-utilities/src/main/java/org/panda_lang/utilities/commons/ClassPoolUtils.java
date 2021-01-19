@@ -53,8 +53,8 @@ public final class ClassPoolUtils {
     public static Class<?> toClass(CtClass clazz) {
         try {
             return clazz.toClass();
-        } catch (CannotCompileException e) {
-            throw new ClassPoolException(e.getCause());
+        } catch (CannotCompileException cannotCompileException) {
+            throw new ClassPoolException(cannotCompileException.getCause());
         }
     }
 
@@ -68,7 +68,7 @@ public final class ClassPoolUtils {
     public static CtClass require(Class<?> clazz) {
         try {
             return get(clazz);
-        } catch (NotFoundException e) {
+        } catch (NotFoundException notFoundException) {
             throw new ClassPoolException("Cannot find class " + clazz);
         }
     }

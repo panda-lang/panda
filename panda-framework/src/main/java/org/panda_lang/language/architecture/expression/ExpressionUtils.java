@@ -46,8 +46,8 @@ public final class ExpressionUtils {
     public static <T> T evaluateConstExpression(Expression expression) {
         try {
             return expression.evaluate(new PandaProcessStack(PROCESS, PandaRuntimeConstants.DEFAULT_STACK_SIZE), null);
-        } catch (Exception e) {
-            throw new PandaRuntimeException("Cannot evaluate static expression: " + expression, e);
+        } catch (Exception exception) {
+            throw new PandaRuntimeException("Cannot evaluate static expression: " + expression, exception);
         }
     }
 

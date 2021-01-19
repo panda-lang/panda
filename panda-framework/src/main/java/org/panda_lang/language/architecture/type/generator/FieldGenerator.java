@@ -63,8 +63,8 @@ final class FieldGenerator {
             public Object evaluate(ProcessStack flow, Object instance) {
                 try {
                     return field.get(instance);
-                } catch (IllegalAccessException e) {
-                    throw new PandaRuntimeException("Cannot get value of " + field, e);
+                } catch (IllegalAccessException illegalAccessException) {
+                    throw new PandaRuntimeException("Cannot get value of " + field, illegalAccessException);
                 }
             }
         });

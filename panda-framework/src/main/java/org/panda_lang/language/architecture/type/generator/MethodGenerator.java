@@ -94,17 +94,17 @@ final class MethodGenerator {
 
             try {
                 return method.invoke(instance, arguments);
-            } catch (InvocationTargetException e) {
-                Throwable throwable = e.getTargetException();
+            } catch (InvocationTargetException invocationTargetException) {
+                Throwable throwable = invocationTargetException.getTargetException();
 
                 if (throwable instanceof Exception) {
                     throw (Exception) throwable;
                 }
 
                 throw new PandaRuntimeException("Internal error", throwable);
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-                throw e;
+            } catch (IllegalArgumentException illegalArgumentException) {
+                illegalArgumentException.printStackTrace();
+                throw illegalArgumentException;
             }
         };
 

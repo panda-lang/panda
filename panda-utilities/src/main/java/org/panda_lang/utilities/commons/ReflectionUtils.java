@@ -137,8 +137,8 @@ public final class ReflectionUtils {
                 field.setAccessible(true);
                 values.add((R) field.get(instance));
             }
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException("Cannot access field", e);
+        } catch (IllegalAccessException illegalAccessException) {
+            throw new RuntimeException("Cannot access field", illegalAccessException);
         }
 
         return values;

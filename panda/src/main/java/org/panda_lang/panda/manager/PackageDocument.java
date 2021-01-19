@@ -41,19 +41,14 @@ final class PackageDocument {
 
     private List<Dependency> getDependencies(String name) {
         DependencyFactory factory = new DependencyFactory();
-        List<String> dependencies = content.getList(name);
 
-        if (dependencies == null) {
-            return Collections.emptyList();
-        }
-
-        return dependencies.stream()
+        return content.getList(name, Collections.emptyList()).stream()
                 .map(factory::createDependency)
                 .collect(Collectors.toList());
     }
 
     protected List<? extends String> getRepositories() {
-        return content.getList("repositories");
+        return content.getList("repositories", Collections.emptyList());
     }
 
     protected List<Dependency> getTestsDependencies() {

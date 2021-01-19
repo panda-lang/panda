@@ -36,7 +36,7 @@ final class ConveyanceUtils {
 
             Type type = context.getEnvironment().getTypeGenerator().generate(module, importedClass.getSimpleName(), importedClass).fetchType();
             return context.getTypeLoader().load(type);
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException classNotFoundException) {
             throw new PandaParserFailure(context, javaTypeSource, "Class " + javaTypeSource.asSource() + " does not exist");
         }
     }

@@ -48,8 +48,8 @@ public final class PandaURLSource implements Source {
     public String getContent() {
         try (InputStream inputStream = this.location.openStream()) {
             return IOUtils.convertStreamToString(inputStream).orElseThrow(ThrowingFunction.identity());
-        } catch (IOException e) {
-            throw new PandaFrameworkException(e);
+        } catch (IOException ioException) {
+            throw new PandaFrameworkException(ioException);
         }
     }
 
@@ -79,8 +79,8 @@ public final class PandaURLSource implements Source {
     public static PandaURLSource fromFile(File file) {
         try {
             return fromUrl(file.toURI().toURL());
-        } catch (MalformedURLException e) {
-            throw new PandaFrameworkException(e);
+        } catch (MalformedURLException malformedURLException) {
+            throw new PandaFrameworkException(malformedURLException);
         }
     }
 

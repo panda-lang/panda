@@ -115,7 +115,7 @@ public final class ConstructorScope extends AbstractPropertyFramedScope implemen
 
         try {
             return (Constructor<? extends TypeInstance>) type.getAssociated().get().getConstructor(parameterTypes);
-        } catch (NoSuchMethodException e) {
+        } catch (NoSuchMethodException noSuchMethodException) {
             throw new PandaFrameworkException("Associated class does not implement " + Arrays.toString(parameterTypes) + " constructor");
         }
     }

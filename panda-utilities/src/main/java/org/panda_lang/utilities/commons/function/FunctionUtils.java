@@ -37,8 +37,8 @@ public final class FunctionUtils {
         return value -> {
             try {
                 return function.apply(value);
-            } catch (Exception e) {
-                return exceptionConsumer.apply((E) e);
+            } catch (Exception exception) {
+                return exceptionConsumer.apply((E) exception);
             }
         };
     }

@@ -100,8 +100,8 @@ public class PandaType extends AbstractMetadata implements Type {
             try {
                 Object value = ExpressionUtils.evaluateConstExpression(expression);
                 field.setStaticValue(() -> value);
-            } catch (Exception e) {
-                throw new ReferenceFetchException("Cannot evaluate static value of field " + field, e);
+            } catch (Exception exception) {
+                throw new ReferenceFetchException("Cannot evaluate static value of field " + field, exception);
             }
         }
     }

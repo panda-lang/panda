@@ -175,8 +175,8 @@ public final class Repl {
 
         try {
             expression = expressionParser.parse(context, expressionSource);
-        } catch (Exception e) {
-            exceptionListener.onException(e, false);
+        } catch (Exception exception) {
+            exceptionListener.onException(exception, false);
             return ReplResult.NONE;
         }
 
@@ -193,8 +193,8 @@ public final class Repl {
             }
 
             return new ReplResult(Type.PANDA, result.getResult());
-        } catch (Exception e) {
-            exceptionListener.onException(e, true);
+        } catch (Exception exception) {
+            exceptionListener.onException(exception, true);
             return ReplResult.NONE;
         }
     }

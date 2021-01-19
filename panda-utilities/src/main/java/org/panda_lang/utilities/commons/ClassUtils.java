@@ -148,7 +148,7 @@ public final class ClassUtils {
         try {
             Class<T> clazz = (Class<T>) Class.forName(name);
             return Option.of(clazz);
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException classNotFoundException) {
             return Option.none();
         }
     }

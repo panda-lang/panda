@@ -117,8 +117,8 @@ main {
     // try to catch some exceptions
     try {
         throw new RuntimeException("Try")
-    } catch (Exception e) {
-        log e.getMessage() // gotcha
+    } catch (Exception exception) {
+        log exception.getMessage() // gotcha
     }
 
     // print constant from imported java class
