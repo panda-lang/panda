@@ -22,7 +22,7 @@ import org.panda_lang.utilities.commons.CharacterUtils;
 
 public final class NumberUtils {
 
-    public static final char[] ALLOWED_CHARACTERS = { '.', '_', 'x' };
+    public static final char[] ALLOWED_CHARACTERS = { '.', '_', 'x', '-' };
 
     public static final char[] NUMBER_EXTENSIONS = "AaBbCcDdEeFfSsIiLl".toCharArray();
 

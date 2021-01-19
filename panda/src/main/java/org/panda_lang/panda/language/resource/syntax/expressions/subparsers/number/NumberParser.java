@@ -52,10 +52,17 @@ public final class NumberParser implements Parser {
             numberType = NumberType.DOUBLE;
         }
         // Hexagonal number
-        else if (number.contains("x")) {
-            numberTypeDefinition = NumberType.INT;
+        else if (number.startsWith("0x")) {
             number = unknownNumber.substring(2);
             radix = 16;
+
+            if (number.length() < 8) {
+                numberTypeDefinition = NumberType.INT;
+            }
+            else if (number.length() < 16) {
+                numberTypeDefinition = NumberType.LONG;
+            }
+            else throw new PandaParserFailure(context, source, "Hexadecimal numbers above 15 digits are not allowed" + number);
         }
 
         if (numberTypeDefinition == null && !Character.isDigit(numberTypeDefinitionCharacter)) {

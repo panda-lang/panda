@@ -74,7 +74,7 @@ public final class NumberExpressionSubparser implements ExpressionSubparser {
             try {
                 expression = PARSER.parse(context.toContext(), content);
             } catch (NumberFormatException numberFormatException) {
-                return null;
+                return ExpressionResult.error(numberFormatException.getMessage(), content);
             }
 
             // remove previous result from stack
