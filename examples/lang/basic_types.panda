@@ -12,6 +12,7 @@ main {
     log 0.1D
     log -0.1337
     log 0xCAFEBABE
+    log 0xFFFFFFFFFFFFFF
 
     // Texts
     log 'Michael Scott said "I love inside jokes. I hope to be a part of one someday."'
