@@ -68,8 +68,8 @@ public final class LiteralExpressionSubparser implements ExpressionSubparser {
                     return ExpressionParserUtils.toExpressionResult(boolType, true);
                 case "false":
                     return ExpressionParserUtils.toExpressionResult(boolType, false);
-                case "null":
-                    return ExpressionParserUtils.toExpressionResult(null, null);
+                // case "null":
+                //    return ExpressionParserUtils.toExpressionResult(null, null);
                 case "this":
                     if (context.toContext().getSubject() instanceof TypeContext) {
                         //noinspection unchecked

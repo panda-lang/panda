@@ -25,6 +25,7 @@ import org.panda_lang.language.architecture.type.Reference;
 import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.Visibility;
 import org.panda_lang.language.architecture.type.generator.TypeGenerator;
+import org.panda_lang.language.architecture.type.member.method.PandaMethod;
 import org.panda_lang.language.architecture.type.signature.Relation;
 import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.signature.TypedSignature;
@@ -34,6 +35,8 @@ import org.panda_lang.language.resource.internal.InternalModuleInfo;
 import org.panda_lang.language.resource.internal.InternalModuleInfo.CustomInitializer;
 import org.panda_lang.utilities.commons.ClassUtils;
 import org.panda_lang.utilities.commons.function.Completable;
+
+import java.util.Collections;
 
 @InternalModuleInfo(module = "panda", pkg = "java.lang", classes = {
         "Iterable"
@@ -92,6 +95,18 @@ public final class JavaModule implements CustomInitializer {
                 primitiveFloat, floatType,
                 primitiveDouble, doubleType
         );
+
+        Type java = generate(typeGenerator, module, Java.class);
+        java.getMethods().declare(PandaMethod.builder()
+                .name("null")
+                .parameters(Collections.emptyList())
+                .customBody((property, stack, instance, arguments) -> null)
+                .visibility(Visibility.OPEN)
+                .isStatic(true)
+                .location(new PandaClassSource(Java.class).toLocation())
+                .returnType(objectType.getSignature())
+                .build());
+        typeLoader.load(java);
     }
 
     private Type primitive(TypeGenerator typeGenerator, Module module, String name, Class<?> primitiveClass) {

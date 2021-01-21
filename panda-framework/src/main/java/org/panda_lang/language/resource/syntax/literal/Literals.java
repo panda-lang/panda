@@ -32,8 +32,6 @@ public final class Literals {
 
     public static final Literal TRUE = add(VALUES, new Literal("true"));
 
-    public static final Literal NULL = add(VALUES, new Literal("null"));
-
     public static final Literal THIS = add(VALUES, new Literal("this"));
 
     private Literals() { }

@@ -13,9 +13,9 @@ main {
         messageOfTheDay = 'Cat Videos'
     }
 
-    /* Nullable variables */
+    /* Nillable variables */
 
-    nil String playingWithFire = null
+    nil String playingWithFire = Java.null()
 
     /* Lazy initialized values */
 
@@ -31,5 +31,5 @@ main {
     /* Mixed variables */
 
     late mut nil String value
-    value = null
+    value = Java.null()
 }

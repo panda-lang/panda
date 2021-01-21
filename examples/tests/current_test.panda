@@ -23,10 +23,10 @@ main {
 
     // define variable init that may be initialized later
     late String init
-    // define nullable variable
-    nil Foo req = null
+    // define nillable variable
+    nil Foo req = Java.null()
 
-    // define mutable nullable variable varFoo
+    // define mutable nillable variable varFoo
     mut nil Foo varFoo = req
     // assign a new value to the varFoo
     varFoo = new Foo().'self test'()
@@ -264,7 +264,7 @@ internal type Test {
             return this.testField
         }
         else {
-            return null
+            return Java.null()
         }
     }
 

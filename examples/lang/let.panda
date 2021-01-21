@@ -1,8 +1,19 @@
 module lang
 
 main {
+    /* Immutable */
+
     let rawValue = '#onlypanda x '
     let methodValue = 0xCAFEBABE.toString()
 
     log rawValue + methodValue
+
+    /* Mutable */
+
+    mut let mutableValue = '#onlydiorite'
+    mutableValue = '#onlypanda'
+
+    /* Nillable */
+
+    nil let nillableValue = '#'
 }
