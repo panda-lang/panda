@@ -26,6 +26,7 @@ import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.language.architecture.type.Visibility;
 import org.panda_lang.language.architecture.type.generator.TypeGenerator;
 import org.panda_lang.language.architecture.type.member.method.PandaMethod;
+import org.panda_lang.language.architecture.type.signature.GenericSignature;
 import org.panda_lang.language.architecture.type.signature.Relation;
 import org.panda_lang.language.architecture.type.signature.Signature;
 import org.panda_lang.language.architecture.type.signature.TypedSignature;
@@ -104,7 +105,7 @@ public final class JavaModule implements CustomInitializer {
                 .visibility(Visibility.OPEN)
                 .isStatic(true)
                 .location(new PandaClassSource(Java.class).toLocation())
-                .returnType(objectType.getSignature())
+                .returnType(new GenericSignature(typeLoader, null, "T", null, new Signature[0], Relation.DIRECT, PandaSnippet.empty()))
                 .build());
         typeLoader.load(java);
     }
