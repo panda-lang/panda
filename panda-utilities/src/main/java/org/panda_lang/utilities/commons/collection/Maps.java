@@ -25,6 +25,8 @@ import java.util.stream.Collectors;
 
 public final class Maps {
 
+    private Maps() {}
+
     /**
      * Update value of map
      *

@@ -5,7 +5,7 @@ import org.panda_lang.language.interpreter.parser.ContextParser;
 import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.panda.language.interpreter.parser.ScopeParser;
 import org.panda_lang.utilities.commons.ArrayUtils;
-import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.language.interpreter.parser.Component;
 
 public abstract class BlockParser<R> implements ContextParser<Object, R> {
 

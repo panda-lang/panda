@@ -22,6 +22,8 @@ import java.util.Set;
 
 public final class Sets {
 
+    private Sets() {}
+
     @SafeVarargs
     public static <T> Set<T> newHashSet(T... elements) {
         Set<T> set = new HashSet<>(elements.length);

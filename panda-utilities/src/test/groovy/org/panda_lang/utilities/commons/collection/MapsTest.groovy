@@ -21,12 +21,13 @@ import org.junit.jupiter.api.Test
 
 import static org.junit.jupiter.api.Assertions.assertEquals
 import static org.junit.jupiter.api.Assertions.assertThrows
+import static org.junit.jupiter.api.Assertions.assertTrue
 
 @CompileStatic
 final class MapsTest {
 
     @Test
-    void swapped() {
+    void 'swapped should return map with swapped key and value properties' () {
         Map<String, Integer> map = new HashMap<String, Integer>() {{
             put("a", 1)
             put("b", 2)
@@ -38,7 +39,12 @@ final class MapsTest {
     }
 
     @Test
-    void entryOf() {
+    void 'swapped should return exception when map has duplicated values' () {
+        assertThrows(IllegalStateException.class, { Maps.swapped(['key1': 'value', 'key2': 'value'], { new HashMap<String, String>() }) })
+    }
+
+    @Test
+    void 'entryOf should create mutable entry' () {
         Map.Entry<String, Integer> entry = Maps.entryOf("a", 1)
         assertEquals("a", entry.getKey())
         assertEquals(1, entry.getValue())
@@ -48,11 +54,34 @@ final class MapsTest {
     }
 
     @Test
-    void immutableEntryOf() {
+    void 'immutableEntryOf should create immutable entry'() {
         Map.Entry<String, Integer> entry = Maps.immutableEntryOf("a", 1)
         assertEquals("a", entry.getKey())
         assertEquals(1, entry.getValue())
         assertThrows(UnsupportedOperationException.class, () -> entry.setValue(2))
+    }
+
+    @Test
+    void 'put should put entry in map and return the given value'() {
+        def map = new HashMap<String, String>()
+        assertEquals 'value', Maps.put(map, 'key', 'value')
+        assertTrue map.containsKey('key')
+    }
+
+    @Test
+    void 'of should create proper map based on correct arguments' () {
+        assertEquals([
+                'key1': 'value1',
+                'key2': 'value2'
+        ], Maps.of(
+                'key1', 'value1',
+                'key2', 'value2'
+        ))
+    }
+
+    @Test
+    void 'of should throw exception for invalid amount of parameters' () {
+        assertThrows(IllegalArgumentException.class, { Maps.of('key', 'value', 'another-key') })
     }
 
 }

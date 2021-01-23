@@ -25,7 +25,7 @@ import org.panda_lang.language.interpreter.parser.SourceReader;
 import org.panda_lang.language.interpreter.parser.pool.Targets;
 import org.panda_lang.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.utilities.commons.ArrayUtils;
-import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.language.interpreter.parser.Component;
 import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
 

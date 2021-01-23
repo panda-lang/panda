@@ -57,9 +57,7 @@ public interface IStack<T> {
      *
      * @return true if and only if this stack contains no items
      */
-    default boolean isEmpty() {
-        return size() == 0;
-    }
+    boolean isEmpty();
 
     /**
      * Converts stack into the array,

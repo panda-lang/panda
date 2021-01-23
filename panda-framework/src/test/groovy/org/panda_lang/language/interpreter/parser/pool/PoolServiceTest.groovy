@@ -20,17 +20,17 @@ import groovy.transform.CompileStatic
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.panda_lang.language.interpreter.parser.Parser
-import org.panda_lang.utilities.commons.collection.Component
+import org.panda_lang.language.interpreter.parser.Component
 
 import static org.junit.jupiter.api.Assertions.*
 
 @CompileStatic
-final class PandaPoolServiceTest {
+final class PoolServiceTest {
 
-    private static final Component<Parser> TEST_COMPONENT = Component.of("test", Parser.class)
-    private static final Component<Parser> ANOTHER_TEST_COMPONENT = Component.of("another-test", Parser.class)
+    private static final Component<Parser> TEST_COMPONENT = new Component("test", Parser.class)
+    private static final Component<Parser> ANOTHER_TEST_COMPONENT = new Component("another-test", Parser.class)
 
-    private PoolService defaultPath;
+    private PoolService defaultPath
 
     @BeforeEach
     void prepareDefaultPipelinePath() {

@@ -17,7 +17,7 @@
 package org.panda_lang.language.interpreter.parser.pool;
 
 import org.panda_lang.language.interpreter.parser.ContextParser;
-import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.language.interpreter.parser.Component;
 
 import java.util.Collection;
 

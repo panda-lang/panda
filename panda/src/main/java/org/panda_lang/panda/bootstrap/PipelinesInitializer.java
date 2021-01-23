@@ -18,7 +18,7 @@ package org.panda_lang.panda.bootstrap;
 
 import org.panda_lang.language.interpreter.parser.pool.PoolService;
 import org.panda_lang.language.interpreter.parser.pool.PandaPoolService;
-import org.panda_lang.utilities.commons.collection.Component;
+import org.panda_lang.language.interpreter.parser.Component;
 
 import java.util.Collection;
 

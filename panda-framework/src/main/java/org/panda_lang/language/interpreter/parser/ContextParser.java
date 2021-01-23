@@ -17,7 +17,6 @@
 package org.panda_lang.language.interpreter.parser;
 
 import org.jetbrains.annotations.NotNull;
-import org.panda_lang.utilities.commons.collection.Component;
 import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
 

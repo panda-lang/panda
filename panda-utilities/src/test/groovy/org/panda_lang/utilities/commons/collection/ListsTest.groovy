@@ -81,6 +81,14 @@ final class ListsTest {
     }
 
     @Test
+    void splitSingletonList() {
+        def singletonList = Collections.singletonList('value')
+        def splitSingletonList = Lists.split(singletonList, 'value')
+        assertEquals 1, splitSingletonList.size()
+        assertEquals singletonList, splitSingletonList[0]
+    }
+
+    @Test
     void mutableOf() {
         List<String> list = Lists.mutableOf("a", "b")
         list.add("c")

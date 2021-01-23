@@ -27,6 +27,8 @@ import java.util.List;
 
 public final class Lists {
 
+    private Lists() {}
+
     /**
      * Add element to the given collection and get added value as result
      *

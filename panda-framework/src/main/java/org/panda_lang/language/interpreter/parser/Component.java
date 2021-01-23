@@ -14,10 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.utilities.commons.collection;
-
-import java.util.Map;
-import java.util.function.Supplier;
+package org.panda_lang.language.interpreter.parser;
 
 public class Component<R> {
 
@@ -31,6 +28,10 @@ public class Component<R> {
         this.name = name;
         this.type = type;
         this.priority = priority;
+    }
+
+    public Component(String name, Class<? super R> type) {
+        this(name, type, DEFAULT_PRIORITY);
     }
 
     public double getPriority() {
@@ -48,23 +49,6 @@ public class Component<R> {
     @Override
     public String toString() {
         return name + "::" + type.getSimpleName();
-    }
-
-    public static <R> Component<R> of(String name, Class<? super R> type) {
-        return new Component<>(name, type, DEFAULT_PRIORITY);
-    }
-
-    protected static <TYPE> TYPE ofComponents(Map<String, TYPE> components, String name, Supplier<TYPE> supplier) {
-        TYPE existingComponent = components.get(name);
-
-        if (existingComponent != null) {
-            throw new RuntimeException("Component '" + name + "' already exists (type: " + ((Component<?>) existingComponent).getType() + ")");
-        }
-
-        TYPE component = supplier.get();
-        components.put(name, component);
-
-        return component;
     }
 
 }

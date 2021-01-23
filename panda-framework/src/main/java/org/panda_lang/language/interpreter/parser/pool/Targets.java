@@ -17,10 +17,7 @@
 package org.panda_lang.language.interpreter.parser.pool;
 
 import org.panda_lang.language.architecture.type.TypeContext;
-import org.panda_lang.utilities.commons.collection.Component;
-
-import java.util.Arrays;
-import java.util.Collection;
+import org.panda_lang.language.interpreter.parser.Component;
 
 /**
  * Default pipelines used by the framework
@@ -30,30 +27,21 @@ public final class Targets {
     /**
      * All pipelines
      */
-    public static final Component<Object> ALL = Component.of("all", Object.class);
+    public static final Component<Object> ALL = new Component<>("all", Object.class);
 
     /**
      * Head pipeline
      */
-    public static final Component<Object> HEAD = Component.of("head", Object.class);
+    public static final Component<Object> HEAD = new Component<>("head", Object.class);
 
     /**
      * Class type parsers, used by type parser
      */
-    public static final Component<TypeContext> TYPE = Component.of("type", TypeContext.class);
+    public static final Component<TypeContext> TYPE = new Component<>("type", TypeContext.class);
 
     /**
      * Scope parsers
      */
-    public static final Component<Object> SCOPE = Component.of("scope", Object.class);
-
-    /**
-     * Get collection of all components
-     *
-     * @return the collection of components
-     */
-    public static Collection<Component<?>> getPipelineComponents() {
-        return Arrays.asList(ALL, HEAD, TYPE, SCOPE);
-    }
+    public static final Component<Object> SCOPE = new Component<>("scope", Object.class);
 
 }
