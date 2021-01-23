@@ -16,36 +16,14 @@
 
 package org.panda_lang.language.interpreter.logging;
 
-import org.panda_lang.utilities.commons.console.Effect;
-
-public final class SystemLogger implements Logger {
-
-    private final Channel threshold;
-    private final ErrorFormatter errorFormatter = new ErrorFormatter(this);
+public final class SystemLogger extends DefaultLogger {
 
     public SystemLogger() {
         this(Channel.INFO);
     }
 
     public SystemLogger(Channel threshold) {
-        this.threshold = threshold;
-    }
-
-    @Override
-    public void log(Channel channel, String message) {
-        if (channel.getPriority() >= threshold.getPriority()) {
-            System.out.println(Effect.paint(message));
-        }
-    }
-
-    @Override
-    public void error(String message) {
-        log(Channel.ERROR, "# " + message.replace("\n", "\n# "));
-    }
-
-    @Override
-    public void exception(Throwable throwable) {
-        errorFormatter.print(throwable);
+        super(threshold, System.out::println);
     }
 
 }

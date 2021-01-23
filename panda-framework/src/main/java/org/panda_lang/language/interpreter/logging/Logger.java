@@ -16,6 +16,8 @@
 
 package org.panda_lang.language.interpreter.logging;
 
+import java.io.PrintStream;
+
 public interface Logger {
 
     void log(Channel channel, String message);
@@ -45,5 +47,7 @@ public interface Logger {
     default void trace(String message) {
         log(Channel.TRACE, message);
     }
+
+    PrintStream toPrintStream();
 
 }

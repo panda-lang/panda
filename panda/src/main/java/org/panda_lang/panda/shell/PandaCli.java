@@ -18,6 +18,7 @@ package org.panda_lang.panda.shell;
 
 import org.panda_lang.language.architecture.Application;
 import org.panda_lang.language.interpreter.logging.Channel;
+import org.panda_lang.language.interpreter.logging.Logger;
 import org.panda_lang.language.interpreter.logging.SystemLogger;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaConstants;
@@ -63,19 +64,20 @@ final class PandaCli implements ThrowingRunnable<Exception> {
     @Override
     public void run() throws Exception {
         CommandLine commandLine = new CommandLine(this);
+        Logger logger = shell.getLogger();
 
         if (usageHelpRequested) {
-            CommandLine.usage(this, System.out);
+            CommandLine.usage(this, logger.toPrintStream());
             return;
         }
 
         if (versionInfoRequested) {
-            commandLine.printVersionHelp(System.out);
+            commandLine.printVersionHelp(logger.toPrintStream());
             return;
         }
 
         if (!repl && !simplifiedRepl && script == null) {
-            shell.getLogger().warn("Missing or unknown operation");
+            logger.warn("Missing or unknown operation");
             return;
         }
 
@@ -93,7 +95,7 @@ final class PandaCli implements ThrowingRunnable<Exception> {
         }
 
         if (script == null) {
-            shell.getLogger().error("You have to specify the script file. Use --help to find out more about the shell in general.");
+            logger.error("You have to specify the script file. Use --help to find out more about the shell in general.");
             return;
         }
 
@@ -101,7 +103,7 @@ final class PandaCli implements ThrowingRunnable<Exception> {
             PackageManager packageManager = new PackageManager(panda, script.getParentFile());
             packageManager.install(script);
             packageManager.run(panda, script).peek(value -> {
-                shell.getLogger().debug("Process exited with " + value + " object");
+                logger.debug("Process exited with " + value + " object");
             });
             return;
         }
@@ -109,7 +111,7 @@ final class PandaCli implements ThrowingRunnable<Exception> {
         panda.getLoader()
                 .load(script, script.getParentFile())
                 .flatMap(Application::launch)
-                .onError(throwable -> shell.getLogger().fatal("Cannot launch application due to failures in interpretation process"));
+                .onError(throwable -> logger.fatal("Cannot launch application due to failures in interpretation process"));
     }
 
 }
