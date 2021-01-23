@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.language.architecture.dynamic.AbstractExecutableStatement;
 import org.panda_lang.language.architecture.expression.Expression;
 import org.panda_lang.language.architecture.expression.ExpressionUtils;
+import org.panda_lang.language.architecture.type.member.constructor.ConstructorScope.ConstructorFrame;
 import org.panda_lang.language.architecture.type.member.constructor.TypeConstructor;
 import org.panda_lang.language.architecture.type.signature.AdjustedMember;
 import org.panda_lang.language.interpreter.source.Localizable;
@@ -44,7 +45,8 @@ public final class SelfConstructor extends AbstractExecutableStatement {
 
     @Override
     public @Nullable Object execute(ProcessStack stack, Object instance) throws Exception {
-        return constructor.invoke(stack, instance, ExpressionUtils.evaluate(stack, instance, arguments));
+        ConstructorFrame constructorFrame = (ConstructorFrame) instance;
+        return constructor.invoke(stack, constructorFrame.getInstance(), ExpressionUtils.evaluate(stack, instance, arguments));
     }
 
 }
