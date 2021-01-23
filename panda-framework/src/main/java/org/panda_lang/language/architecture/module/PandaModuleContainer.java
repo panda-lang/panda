@@ -21,12 +21,12 @@ import org.panda_lang.language.architecture.type.Type;
 import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.PandaStream;
-import org.panda_lang.utilities.commons.function.mutable.Counter;
-import org.panda_lang.utilities.commons.function.mutable.Mutable;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 abstract class PandaModuleContainer implements ModuleContainer {
 
@@ -62,9 +62,9 @@ abstract class PandaModuleContainer implements ModuleContainer {
         String[] names = moduleQualifier.split(":");
 
         // Kinda cancerous mutable based logic to mix recursive async computation of non-existing submodules
-        Counter index = new Counter();
-        Mutable<ModuleContainer> currentContainer = new Mutable<>(this);
-        Mutable<Module> currentModule = new Mutable<>(null);
+        AtomicInteger index = new AtomicInteger();
+        AtomicReference<ModuleContainer> currentContainer = new AtomicReference<>(this);
+        AtomicReference<Module> currentModule = new AtomicReference<>(null);
 
         return forModule(names[index.get()]).thenCompose(resultModule -> {
             Completable<Option<Module>> result = null;
@@ -74,6 +74,7 @@ abstract class PandaModuleContainer implements ModuleContainer {
             }
 
             if (resultModule.isEmpty() && compute) {
+                // TODO: index is not updated, possible bug
                 result = computeModule(currentContainer.get(), currentModule.get(), names[index.get()]);
             }
 
