@@ -193,7 +193,15 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
             </plugin>
         </plugins>
 
@@ -280,9 +288,8 @@
                     <executions>
                         <execution>
                             <id>attach-sources</id>
-                            <goals>
-                                <goal>jar</goal>
-                            </goals>
+                            <phase>deploy</phase>
+                            <goals><goal>jar-no-fork</goal></goals>
                         </execution>
                     </executions>
                 </plugin>
@@ -320,6 +327,22 @@
                     <version>2.22.2</version>
                 </plugin>
 
+                <!-- explicitly define maven-deploy-plugin after other to force exec order -->
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>3.0.0-M1</version>
+                    <executions>
+                        <execution>
+                            <id>deploy</id>
+                            <phase>deploy</phase>
+                            <goals>
+                                <goal>deploy</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
