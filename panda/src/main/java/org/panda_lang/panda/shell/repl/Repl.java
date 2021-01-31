@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Dzikoysk
+ * Copyright (c) 2021 dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,24 +16,24 @@
 
 package org.panda_lang.panda.shell.repl;
 
-import org.panda_lang.language.PandaFrameworkException;
-import org.panda_lang.language.architecture.dynamic.Frame;
-import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.architecture.statement.Statement;
-import org.panda_lang.language.architecture.statement.Variable;
-import org.panda_lang.language.interpreter.lexer.PandaLexerUtils;
-import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.language.interpreter.source.Location;
-import org.panda_lang.language.interpreter.source.PandaSource;
-import org.panda_lang.language.interpreter.token.PandaLocation;
-import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.resource.syntax.separator.Separators;
-import org.panda_lang.language.runtime.PandaProcessStack;
-import org.panda_lang.language.runtime.PandaRuntimeConstants;
-import org.panda_lang.language.runtime.Process;
-import org.panda_lang.language.runtime.ProcessStack;
-import org.panda_lang.language.runtime.Result;
+import org.panda_lang.framework.PandaFrameworkException;
+import org.panda_lang.framework.architecture.dynamic.Frame;
+import org.panda_lang.framework.architecture.expression.Expression;
+import org.panda_lang.framework.architecture.statement.Statement;
+import org.panda_lang.framework.architecture.statement.Variable;
+import org.panda_lang.framework.interpreter.lexer.PandaLexerUtils;
+import org.panda_lang.framework.interpreter.parser.Context;
+import org.panda_lang.framework.interpreter.parser.expression.ExpressionParser;
+import org.panda_lang.framework.interpreter.source.Location;
+import org.panda_lang.framework.interpreter.source.PandaSource;
+import org.panda_lang.framework.interpreter.token.PandaLocation;
+import org.panda_lang.framework.interpreter.token.Snippet;
+import org.panda_lang.framework.resource.syntax.separator.Separators;
+import org.panda_lang.framework.runtime.PandaProcessStack;
+import org.panda_lang.framework.runtime.PandaRuntimeConstants;
+import org.panda_lang.framework.runtime.Process;
+import org.panda_lang.framework.runtime.ProcessStack;
+import org.panda_lang.framework.runtime.Result;
 import org.panda_lang.panda.shell.repl.ReplResult.Type;
 import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.ThrowingFunction;

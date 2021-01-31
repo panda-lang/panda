@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Dzikoysk
+ * Copyright (c) 2021 dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.bootstrap;
 
-import org.panda_lang.language.architecture.Application;
+import org.panda_lang.framework.architecture.Application;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.utilities.commons.function.Result;
 

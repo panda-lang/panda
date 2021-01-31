@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Dzikoysk
+ * Copyright (c) 2021 dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.language.PandaFrameworkConstants;
+import org.panda_lang.framework.PandaFrameworkConstants;
 
 /**
  * Set of default constants associated with Panda

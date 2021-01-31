@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Dzikoysk
+ * Copyright (c) 2021 dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,13 +17,13 @@
 package org.panda_lang.panda.shell.repl;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.architecture.dynamic.Frame;
-import org.panda_lang.language.architecture.statement.AbstractPropertyFramedScope;
-import org.panda_lang.language.architecture.statement.Variable;
-import org.panda_lang.language.architecture.type.TypeFrame;
-import org.panda_lang.language.architecture.type.member.parameter.PropertyParameter;
-import org.panda_lang.language.interpreter.source.Location;
-import org.panda_lang.language.runtime.ProcessStack;
+import org.panda_lang.framework.architecture.dynamic.Frame;
+import org.panda_lang.framework.architecture.statement.AbstractPropertyFramedScope;
+import org.panda_lang.framework.architecture.statement.Variable;
+import org.panda_lang.framework.architecture.type.TypeFrame;
+import org.panda_lang.framework.architecture.type.member.parameter.PropertyParameter;
+import org.panda_lang.framework.interpreter.source.Location;
+import org.panda_lang.framework.runtime.ProcessStack;
 
 import java.util.ArrayList;
 import java.util.Collection;

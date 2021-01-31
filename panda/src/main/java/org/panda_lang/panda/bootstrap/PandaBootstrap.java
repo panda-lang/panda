@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Dzikoysk
+ * Copyright (c) 2021 dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,12 @@
 
 package org.panda_lang.panda.bootstrap;
 
-import org.panda_lang.language.interpreter.logging.Logger;
-import org.panda_lang.language.resource.PandaLanguage;
-import org.panda_lang.language.resource.PandaLanguage.PandaLanguageBuilder;
-import org.panda_lang.language.resource.PandaResources;
-import org.panda_lang.language.resource.PandaResources.PandaResourcesBuilder;
-import org.panda_lang.language.resource.Syntax;
+import org.panda_lang.framework.interpreter.logging.Logger;
+import org.panda_lang.framework.resource.PandaLanguage;
+import org.panda_lang.framework.resource.PandaLanguage.PandaLanguageBuilder;
+import org.panda_lang.framework.resource.PandaResources;
+import org.panda_lang.framework.resource.PandaResources.PandaResourcesBuilder;
+import org.panda_lang.framework.resource.Syntax;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.Panda.PandaBuilder;
 

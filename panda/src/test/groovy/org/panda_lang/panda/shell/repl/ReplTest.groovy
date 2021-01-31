@@ -1,7 +1,7 @@
 /*
- * Copyright (c) 2020 Dzikoysk
+ * Copyright (c) 2021 dzikoysk
  *
- * Licensed under the Apache License, Version 2.0 (the "License")
+ * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -18,16 +18,16 @@ package org.panda_lang.panda.shell.repl
 
 import groovy.transform.CompileStatic
 import org.junit.jupiter.api.Test
-import org.panda_lang.language.architecture.statement.PandaVariableData
-import org.panda_lang.language.architecture.statement.Variable
-import org.panda_lang.language.architecture.type.member.method.PandaMethod
-import org.panda_lang.language.architecture.type.member.parameter.PropertyParameterImpl
-import org.panda_lang.language.architecture.type.signature.Signature
-import org.panda_lang.language.interpreter.parser.Context
-import org.panda_lang.language.interpreter.source.PandaClassSource
+import org.panda_lang.framework.architecture.statement.PandaVariableData
+import org.panda_lang.framework.architecture.statement.Variable
+import org.panda_lang.framework.architecture.type.member.method.PandaMethod
+import org.panda_lang.framework.architecture.type.member.parameter.PropertyParameterImpl
+import org.panda_lang.framework.architecture.type.signature.Signature
+import org.panda_lang.framework.interpreter.parser.Context
+import org.panda_lang.framework.interpreter.source.PandaClassSource
 import org.panda_lang.panda.Panda
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.number.PandaNumbers
-import org.panda_lang.panda.util.PandaUtils
+import org.panda_lang.panda.language.syntax.expressions.subparsers.number.PandaNumbers
+import org.panda_lang.panda.utils.PandaUtils
 
 @CompileStatic
 final class ReplTest {

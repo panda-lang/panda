@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Dzikoysk
+ * Copyright (c) 2021 dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,13 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.language.FrameworkController;
-import org.panda_lang.language.PandaClassLoader;
-import org.panda_lang.language.PandaFramework;
-import org.panda_lang.language.interpreter.logging.Logger;
-import org.panda_lang.language.resource.Language;
-import org.panda_lang.language.resource.Resources;
-import org.panda_lang.panda.language.interpreter.PandaFileLoader;
+import org.panda_lang.framework.FrameworkController;
+import org.panda_lang.framework.PandaClassLoader;
+import org.panda_lang.framework.PandaFramework;
+import org.panda_lang.framework.interpreter.logging.Logger;
+import org.panda_lang.framework.resource.Language;
+import org.panda_lang.framework.resource.Resources;
+import org.panda_lang.panda.utils.PandaFileLoader;
 
 /**
  * The framework controller of Panda language.

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Dzikoysk
+ * Copyright (c) 2021 dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.resource.expression.subparsers;
+package org.panda_lang.panda.language.resource.expression.subparsers
 
-import groovy.transform.CompileStatic;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.panda_lang.language.interpreter.lexer.PandaLexer;
-import org.panda_lang.language.interpreter.source.PandaSource;
-import org.panda_lang.language.interpreter.source.Source;
-import org.panda_lang.language.interpreter.token.Snippet;
-import org.panda_lang.language.interpreter.token.Token;
-import org.panda_lang.language.resource.syntax.PandaSyntax;
-import org.panda_lang.language.resource.syntax.operator.Operators;
-import org.panda_lang.language.resource.syntax.separator.Separators;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.pattern.OperationPattern;
-import org.panda_lang.panda.language.resource.syntax.expressions.subparsers.operation.pattern.OperationPatternResult;
+import groovy.transform.CompileStatic
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+import org.panda_lang.framework.interpreter.lexer.PandaLexer
+import org.panda_lang.framework.interpreter.source.PandaSource
+import org.panda_lang.framework.interpreter.source.Source
+import org.panda_lang.framework.interpreter.token.Snippet
+import org.panda_lang.framework.interpreter.token.Token
+import org.panda_lang.framework.resource.syntax.PandaSyntax
+import org.panda_lang.framework.resource.syntax.operator.Operators
+import org.panda_lang.framework.resource.syntax.separator.Separators
+import org.panda_lang.panda.language.syntax.expressions.subparsers.operation.pattern.OperationPattern
+import org.panda_lang.panda.language.syntax.expressions.subparsers.operation.pattern.OperationPatternResult
 
 @CompileStatic
 final class OperationPatternTest {

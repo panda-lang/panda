@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Dzikoysk
+ * Copyright (c) 2021 dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,16 +16,16 @@
 
 package org.panda_lang.panda.shell;
 
-import org.panda_lang.language.architecture.Application;
-import org.panda_lang.language.interpreter.logging.Channel;
-import org.panda_lang.language.interpreter.logging.Logger;
-import org.panda_lang.language.interpreter.logging.SystemLogger;
+import org.panda_lang.framework.architecture.Application;
+import org.panda_lang.framework.interpreter.logging.Channel;
+import org.panda_lang.framework.interpreter.logging.Logger;
+import org.panda_lang.framework.interpreter.logging.SystemLogger;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaConstants;
 import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.manager.PackageManager;
 import org.panda_lang.panda.shell.repl.ReplConsole;
-import org.panda_lang.panda.util.PandaUtils;
+import org.panda_lang.panda.utils.PandaUtils;
 import org.panda_lang.utilities.commons.function.ThrowingRunnable;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;

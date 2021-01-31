@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Dzikoysk
+ * Copyright (c) 2021 dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,10 @@
 package org.panda_lang.panda.shell.repl;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.architecture.dynamic.Frame;
-import org.panda_lang.language.architecture.statement.StandardizedFramedScope;
-import org.panda_lang.language.architecture.type.TypeFrame;
-import org.panda_lang.language.architecture.type.member.MemberFrame;
+import org.panda_lang.framework.architecture.dynamic.Frame;
+import org.panda_lang.framework.architecture.statement.StandardizedFramedScope;
+import org.panda_lang.framework.architecture.type.TypeFrame;
+import org.panda_lang.framework.architecture.type.member.MemberFrame;
 
 import java.util.HashMap;
 import java.util.Map;

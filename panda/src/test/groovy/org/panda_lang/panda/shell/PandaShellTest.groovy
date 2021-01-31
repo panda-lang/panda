@@ -1,7 +1,7 @@
 /*
- * Copyright (c) 2020 Dzikoysk
+ * Copyright (c) 2021 dzikoysk
  *
- * Licensed under the Apache License, Version 2.0 (the "License")
+ * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.shell
 
-import groovy.transform.CompileStatic;
-import org.junit.jupiter.api.Test;
-import org.panda_lang.language.interpreter.logging.SystemLogger;
+import groovy.transform.CompileStatic
+import org.junit.jupiter.api.Test
+import org.panda_lang.framework.interpreter.logging.SystemLogger
 
 @CompileStatic
 final class PandaShellTest {

@@ -1,7 +1,7 @@
 /*
- * Copyright (c) 2020 Dzikoysk
+ * Copyright (c) 2021 dzikoysk
  *
- * Licensed under the Apache License, Version 2.0 (the "License")
+ * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -17,7 +17,7 @@
 package org.panda_lang.panda.manager
 
 import groovy.transform.CompileStatic
-import org.panda_lang.panda.util.PandaUtils 
+import org.panda_lang.panda.utils.PandaUtils
 
 @CompileStatic
 final class PandaWithJavaLibraryDependencyTest {

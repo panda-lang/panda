@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Dzikoysk
+ * Copyright (c) 2021 dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.examples.tests.performance
 
-import groovy.transform.CompileStatic;
-import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.util.PandaUtils;
+import groovy.transform.CompileStatic
+import org.junit.jupiter.api.Test
+import org.panda_lang.panda.utils.PandaUtils
 
 @CompileStatic
 final class TenThousandExpressionsTest {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Dzikoysk
+ * Copyright (c) 2021 dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.language.interpreter.logging.Logger;
-import org.panda_lang.language.interpreter.logging.SystemLogger;
-import org.panda_lang.language.resource.syntax.PandaSyntax;
+import org.panda_lang.framework.interpreter.logging.Logger;
+import org.panda_lang.framework.interpreter.logging.SystemLogger;
+import org.panda_lang.framework.resource.syntax.PandaSyntax;
 import org.panda_lang.panda.bootstrap.PandaBootstrap;
-import org.panda_lang.panda.language.resource.syntax.PandaParsers;
+import org.panda_lang.panda.language.syntax.PandaParsers;
 
 /**
  * Simplify creation of Panda instance

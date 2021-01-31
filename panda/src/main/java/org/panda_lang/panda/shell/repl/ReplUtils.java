@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Dzikoysk
+ * Copyright (c) 2021 dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.shell.repl;
 
-import org.panda_lang.language.interpreter.logging.LoggerHolder;
+import org.panda_lang.framework.interpreter.logging.LoggerHolder;
 
 import java.util.Collection;
 
@@ -25,7 +25,7 @@ public final class ReplUtils {
     private ReplUtils() { }
 
     /**
-     * Print results using {@link org.panda_lang.language.PandaFramework#getLogger()}
+     * Print results using {@link org.panda_lang.framework.PandaFramework#getLogger()}
      *
      * @param results the results to print
      */

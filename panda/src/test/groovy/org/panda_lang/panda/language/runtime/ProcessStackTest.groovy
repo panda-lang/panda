@@ -1,7 +1,7 @@
 /*
- * Copyright (c) 2020 Dzikoysk
+ * Copyright (c) 2021 dzikoysk
  *
- * Licensed under the Apache License, Version 2.0 (the "License")
+ * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -19,15 +19,15 @@ package org.panda_lang.panda.language.runtime
 import groovy.transform.CompileStatic
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.panda_lang.language.architecture.dynamic.Executable
-import org.panda_lang.language.architecture.statement.AbstractScope
-import org.panda_lang.language.architecture.statement.AbstractStatement
-import org.panda_lang.language.architecture.statement.Scope
-import org.panda_lang.language.interpreter.source.Location
-import org.panda_lang.language.interpreter.token.PandaLocation
-import org.panda_lang.language.runtime.PandaProcess
-import org.panda_lang.language.runtime.ProcessStack
-import org.panda_lang.panda.language.resource.syntax.head.MainScope
+import org.panda_lang.framework.architecture.dynamic.Executable
+import org.panda_lang.framework.architecture.statement.AbstractScope
+import org.panda_lang.framework.architecture.statement.AbstractStatement
+import org.panda_lang.framework.architecture.statement.Scope
+import org.panda_lang.framework.interpreter.source.Location
+import org.panda_lang.framework.interpreter.token.PandaLocation
+import org.panda_lang.framework.runtime.PandaProcess
+import org.panda_lang.framework.runtime.ProcessStack
+import org.panda_lang.panda.language.syntax.head.MainScope
 
 @CompileStatic
 final class ProcessStackTest {
