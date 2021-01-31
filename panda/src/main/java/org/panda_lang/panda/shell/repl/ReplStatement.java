@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Dzikoysk
+ * Copyright (c) 2021 dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.shell.repl;
 
-import org.panda_lang.language.architecture.dynamic.Controller;
-import org.panda_lang.language.architecture.expression.Expression;
-import org.panda_lang.language.interpreter.source.Location;
-import org.panda_lang.language.runtime.Status;
-import org.panda_lang.panda.language.resource.syntax.scope.StandaloneExpression;
+import org.panda_lang.framework.architecture.dynamic.Controller;
+import org.panda_lang.framework.architecture.expression.Expression;
+import org.panda_lang.framework.interpreter.source.Location;
+import org.panda_lang.framework.runtime.Status;
+import org.panda_lang.panda.language.syntax.scope.StandaloneExpression;
 
 final class ReplStatement extends StandaloneExpression implements Controller {
 

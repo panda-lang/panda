@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Dzikoysk
+ * Copyright (c) 2021 dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.bootstrap;
 
-import org.panda_lang.language.interpreter.parser.pool.PoolService;
-import org.panda_lang.language.interpreter.parser.pool.PandaPoolService;
-import org.panda_lang.language.interpreter.parser.Component;
+import org.panda_lang.framework.interpreter.parser.pool.PoolService;
+import org.panda_lang.framework.interpreter.parser.pool.PandaPoolService;
+import org.panda_lang.framework.interpreter.parser.Component;
 
 import java.util.Collection;
 
 /**
- * {@link org.panda_lang.language.interpreter.parser.pool.PoolService} initializer
+ * {@link org.panda_lang.framework.interpreter.parser.pool.PoolService} initializer
  */
 public final class PipelinesInitializer implements Initializer {
 

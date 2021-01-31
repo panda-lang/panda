@@ -15,5 +15,5 @@ main {
 
     /* Nillable */
 
-    nil let nillableValue = '#'
+    nil let nillableValue = Java.null()
 }

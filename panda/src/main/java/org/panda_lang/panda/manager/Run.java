@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Dzikoysk
+ * Copyright (c) 2021 dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.manager;
 
-import org.panda_lang.language.FrameworkController;
-import org.panda_lang.language.PandaFrameworkException;
-import org.panda_lang.language.interpreter.source.PandaURLSource;
-import org.panda_lang.panda.language.architecture.PandaEnvironment;
+import org.panda_lang.framework.FrameworkController;
+import org.panda_lang.framework.PandaFrameworkException;
+import org.panda_lang.framework.interpreter.source.PandaURLSource;
+import org.panda_lang.panda.language.PandaEnvironment;
 import org.panda_lang.utilities.commons.function.Option;
 
 import java.io.File;

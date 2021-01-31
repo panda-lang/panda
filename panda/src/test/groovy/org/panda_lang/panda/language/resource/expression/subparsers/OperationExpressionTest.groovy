@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Dzikoysk
+ * Copyright (c) 2021 dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,14 +19,14 @@ package org.panda_lang.panda.language.resource.expression.subparsers
 import groovy.transform.CompileStatic
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import org.panda_lang.language.architecture.expression.Expression
-import org.panda_lang.language.interpreter.lexer.PandaLexerUtils
-import org.panda_lang.language.interpreter.parser.expression.ExpressionParser
-import org.panda_lang.language.interpreter.parser.expression.PandaExpressionParser
-import org.panda_lang.language.interpreter.token.Snippet
-import org.panda_lang.panda.language.interpreter.parser.PandaContextUtils
-import org.panda_lang.panda.language.resource.syntax.expressions.PandaExpressions
-import org.panda_lang.panda.util.PandaUtils
+import org.panda_lang.framework.architecture.expression.Expression
+import org.panda_lang.framework.interpreter.lexer.PandaLexerUtils
+import org.panda_lang.framework.interpreter.parser.expression.ExpressionParser
+import org.panda_lang.framework.interpreter.parser.expression.PandaExpressionParser
+import org.panda_lang.framework.interpreter.token.Snippet
+import org.panda_lang.panda.language.syntax.expressions.PandaExpressions
+import org.panda_lang.panda.utils.PandaContextUtils
+import org.panda_lang.panda.utils.PandaUtils
 import org.panda_lang.utilities.commons.TimeUtils
 
 @CompileStatic

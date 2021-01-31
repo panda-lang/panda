@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Dzikoysk
+ * Copyright (c) 2021 dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,11 +18,11 @@ package org.panda_lang.panda.language.interpreter.lexer
 
 import groovy.transform.CompileStatic
 import org.junit.jupiter.api.Test
-import org.panda_lang.language.interpreter.lexer.PandaLexer
-import org.panda_lang.language.interpreter.source.PandaSource
-import org.panda_lang.language.interpreter.source.Source
-import org.panda_lang.language.interpreter.token.Snippet
-import org.panda_lang.panda.util.PandaUtils
+import org.panda_lang.framework.interpreter.lexer.PandaLexer
+import org.panda_lang.framework.interpreter.source.PandaSource
+import org.panda_lang.framework.interpreter.source.Source
+import org.panda_lang.framework.interpreter.token.Snippet
+import org.panda_lang.panda.utils.PandaUtils
 
 import static org.junit.jupiter.api.Assertions.assertEquals
 

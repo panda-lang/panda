@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Dzikoysk
+ * Copyright (c) 2021 dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,31 +17,31 @@
 package org.panda_lang.panda.shell.repl;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.language.architecture.module.PandaModule;
-import org.panda_lang.language.architecture.statement.PandaVariableData;
-import org.panda_lang.language.architecture.type.Kind;
-import org.panda_lang.language.architecture.type.PandaType;
-import org.panda_lang.language.architecture.type.Reference;
-import org.panda_lang.language.architecture.type.State;
-import org.panda_lang.language.architecture.type.Type;
-import org.panda_lang.language.architecture.type.TypeContext;
-import org.panda_lang.language.architecture.type.TypeScope;
-import org.panda_lang.language.architecture.type.Visibility;
-import org.panda_lang.language.architecture.type.generator.ClassGenerator;
-import org.panda_lang.language.architecture.type.member.constructor.PandaConstructor;
-import org.panda_lang.language.architecture.type.member.method.PandaMethod;
-import org.panda_lang.language.architecture.type.signature.Relation;
-import org.panda_lang.language.architecture.type.signature.Signature;
-import org.panda_lang.language.architecture.type.signature.TypedSignature;
-import org.panda_lang.language.interpreter.parser.Context;
-import org.panda_lang.language.interpreter.source.PandaClassSource;
-import org.panda_lang.language.interpreter.token.PandaLocation;
-import org.panda_lang.language.interpreter.token.PandaSnippet;
-import org.panda_lang.language.runtime.PandaProcess;
-import org.panda_lang.language.runtime.Process;
-import org.panda_lang.language.runtime.ProcessStack;
+import org.panda_lang.framework.architecture.module.PandaModule;
+import org.panda_lang.framework.architecture.statement.PandaVariableData;
+import org.panda_lang.framework.architecture.type.Kind;
+import org.panda_lang.framework.architecture.type.PandaType;
+import org.panda_lang.framework.architecture.type.Reference;
+import org.panda_lang.framework.architecture.type.State;
+import org.panda_lang.framework.architecture.type.Type;
+import org.panda_lang.framework.architecture.type.TypeContext;
+import org.panda_lang.framework.architecture.type.TypeScope;
+import org.panda_lang.framework.architecture.type.Visibility;
+import org.panda_lang.framework.architecture.type.generator.ClassGenerator;
+import org.panda_lang.framework.architecture.type.member.constructor.PandaConstructor;
+import org.panda_lang.framework.architecture.type.member.method.PandaMethod;
+import org.panda_lang.framework.architecture.type.signature.Relation;
+import org.panda_lang.framework.architecture.type.signature.Signature;
+import org.panda_lang.framework.architecture.type.signature.TypedSignature;
+import org.panda_lang.framework.interpreter.parser.Context;
+import org.panda_lang.framework.interpreter.source.PandaClassSource;
+import org.panda_lang.framework.interpreter.token.PandaLocation;
+import org.panda_lang.framework.interpreter.token.PandaSnippet;
+import org.panda_lang.framework.runtime.PandaProcess;
+import org.panda_lang.framework.runtime.Process;
+import org.panda_lang.framework.runtime.ProcessStack;
 import org.panda_lang.panda.PandaException;
-import org.panda_lang.panda.language.interpreter.parser.PandaContextUtils;
+import org.panda_lang.panda.utils.PandaContextUtils;
 import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.ThrowingFunction;
 
