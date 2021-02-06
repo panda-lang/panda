@@ -89,8 +89,8 @@ public final class TypeGenerator {
                         }
 
                         if (!javaType.equals(Object.class) && type.getBases().isEmpty()) {
-                            // type.addAutocast(typeLoader.requireType("panda@::Object"), (originalType, object, resultType) -> object);
-                            type.addBase(typeLoader.requireType("panda@::Object").getSignature());
+                            // type.addAutocast(typeLoader.requireType("panda/panda@::Object"), (originalType, object, resultType) -> object);
+                            type.addBase(typeLoader.requireType("panda/panda@::Object").getSignature());
                         }
 
                         if (!Modifier.isPublic(javaType.getModifiers())) {

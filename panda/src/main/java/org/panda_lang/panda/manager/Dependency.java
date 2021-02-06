@@ -23,16 +23,20 @@ import java.util.Objects;
 
 public final class Dependency {
 
+    private static final String MASTER = "master";
+
     private final String type;
     private final String owner;
     private final String name;
     private final String version;
+    private final String alias;
 
-    public Dependency(String type, String owner, String name, String version) {
+    public Dependency(String type, String owner, String name, String version, String alias) {
         this.type = type;
         this.owner = owner;
         this.name = name;
         this.version = version;
+        this.alias = alias;
     }
 
     public static Dependency createDependency(String qualifier) {
@@ -43,17 +47,28 @@ public final class Dependency {
         String owner = byOwner[0];
 
         String[] byVersion = byOwner[1].split("@");
-        String version = byVersion[1];
         String name = byVersion[0];
+        String alias = name;
+        String version = byVersion[1];
 
-        return new Dependency(type, owner, name, version);
+        if (version.contains(" as ")) {
+            String[] byAlias = version.split(" as ");
+            version = byAlias[0].trim();
+            alias = byAlias[1].trim();
+        }
+
+        return new Dependency(type, owner, name, version, alias);
     }
 
     public boolean same(Dependency to) {
-        return getOwner().equals(to.getOwner()) && getName().equals(to.getName());
+        return getAuthor().equals(to.getAuthor()) && getName().equals(to.getName());
     }
 
     public boolean hasHigherVersion(String anotherVersion) {
+        if (version.equalsIgnoreCase(MASTER) || anotherVersion.equalsIgnoreCase(MASTER)) {
+            return true;
+        }
+
         String[] thisElements = StringUtils.split(version, ".");
         String[] anotherElements = StringUtils.split(anotherVersion, ".");
         int length = Math.max(version.length(), anotherElements.length);
@@ -95,6 +110,10 @@ public final class Dependency {
         return Objects.hash(type, owner, name, version);
     }
 
+    public String getIdentifier() {
+        return getAuthor() + "/" + getName();
+    }
+
     public String getVersion() {
         return version;
     }
@@ -103,7 +122,7 @@ public final class Dependency {
         return name;
     }
 
-    public String getOwner() {
+    public String getAuthor() {
         return owner;
     }
 

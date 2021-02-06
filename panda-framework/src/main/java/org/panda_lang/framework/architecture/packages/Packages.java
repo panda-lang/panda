@@ -34,6 +34,7 @@ public final class Packages {
     }
 
     public Package registerPackage(Package pkg) {
+        packages.put(pkg.getSimpleName(), pkg);
         packages.put(pkg.getName(), pkg);
         return pkg;
     }

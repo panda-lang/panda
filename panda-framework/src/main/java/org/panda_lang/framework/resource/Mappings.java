@@ -30,18 +30,25 @@ import java.lang.annotation.RetentionPolicy;
 public @interface Mappings {
 
     /**
-     * Get the name of represented module
-     *
-     * @return the name of module
-     */
-    String module();
-
-    /**
      * Get associated with the module package
      *
      * @return the name of package
      */
     String pkg();
+
+    /**
+     * Get package author
+     *
+     * @return the name of author
+     */
+    String author();
+
+    /**
+     * Get the name of represented module
+     *
+     * @return the name of module
+     */
+    String module();
 
     /**
      * Get associated with the module package

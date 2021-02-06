@@ -39,7 +39,7 @@ public abstract class MathOperation extends NumericOperation<Number> {
 
     @Override
     public Type requiredType(TypeLoader typeLoader) {
-        return typeLoader.requireType("panda@::Number");
+        return typeLoader.requireType("panda/panda@::Number");
     }
 
 }

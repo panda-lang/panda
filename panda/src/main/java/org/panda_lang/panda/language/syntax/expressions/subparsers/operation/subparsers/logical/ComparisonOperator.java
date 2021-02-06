@@ -33,12 +33,12 @@ public abstract class ComparisonOperator extends NumericOperation<Boolean> {
 
     @Override
     public Type returnType(TypeLoader typeLoader, Type a, Type b) {
-        return typeLoader.requireType("panda@::Bool");
+        return typeLoader.requireType("panda/panda@::Bool");
     }
 
     @Override
     public Type requiredType(TypeLoader typeLoader) {
-        return typeLoader.requireType("panda@::Number");
+        return typeLoader.requireType("panda/panda@::Number");
     }
 
 }

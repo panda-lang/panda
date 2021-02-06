@@ -54,7 +54,7 @@ public final class LiteralExpressionSubparser implements ExpressionSubparser {
         private final Signature boolType;
 
         public SequenceWorker(Context<?> context) {
-            this.boolType = context.getTypeLoader().requireType("panda@::Bool").getSignature();
+            this.boolType = context.getTypeLoader().requireType("panda/panda@::Bool").getSignature();
         }
 
         @Override

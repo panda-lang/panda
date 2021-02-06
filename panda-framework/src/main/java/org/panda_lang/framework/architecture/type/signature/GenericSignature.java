@@ -84,7 +84,7 @@ public final class GenericSignature extends AbstractSignature<Pair<String, Signa
     public Type toType() {
         return getAny().map(Signature::toType)
                 .orElse(() -> getAlso().map(Signature::toType))
-                .orElseGet(() -> typeLoader.requireType("panda@::Object"));
+                .orElseGet(() -> typeLoader.requireType("panda/panda@::Object"));
     }
 
     @Override

@@ -45,7 +45,7 @@ final class GitHubInstall implements CustomInstall {
         File packageDirectory = new File(ownerDirectory, dependency.getName());
         FileUtils.delete(packageDirectory);
 
-        String address = "https://github.com/" + dependency.getOwner() + "/" + dependency.getName() + "/archive/" + dependency.getVersion() + ".zip";
+        String address = "https://github.com/" + dependency.getAuthor() + "/" + dependency.getName() + "/archive/" + dependency.getVersion() + ".zip";
         BufferedInputStream in = null;
 
         try {

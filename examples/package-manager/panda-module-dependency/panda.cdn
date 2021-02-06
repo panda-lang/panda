@@ -1,12 +1,8 @@
 name: panda-module-dependency
 version: 1.0.0
-owner: dzikoysk
-
-scripts: {
-    main: app.panda
-}
+author: dzikoysk
 
 dependencies: [
-    github:dzikoysk/panda-dependency@1.0.5
+    github:dzikoysk/panda-dependency@master
 ]
 

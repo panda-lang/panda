@@ -174,7 +174,7 @@ public final class TypeParser implements ContextParser<Object, Type> {
                         .collect(Collectors.toList());
 
                 if (bases.isEmpty()) {
-                    bases.add(context.getTypeLoader().requireType("panda@::Object").getSignature());
+                    bases.add(context.getTypeLoader().requireType("panda/panda@::Object").getSignature());
                 }
 
                 bases.forEach(base -> type.addBase(base.toTyped()));

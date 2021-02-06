@@ -24,6 +24,7 @@ import org.panda_lang.framework.architecture.packages.Packages;
 import org.panda_lang.framework.architecture.type.generator.TypeGenerator;
 import org.panda_lang.framework.resource.Mappings;
 import org.panda_lang.framework.resource.Mappings.CustomInitializer;
+import org.panda_lang.panda.PandaConstants;
 import org.panda_lang.utilities.commons.ClassUtils;
 import org.panda_lang.utilities.commons.StringUtils;
 
@@ -45,7 +46,7 @@ public final class StdLoader {
         Mappings mappingsInfo = mappings.getClass().getAnnotation(Mappings.class);
 
         Package packageInfo = packages.getPackage(mappingsInfo.pkg())
-                .orElseGet(() -> packages.registerPackage(new Package(mappingsInfo.pkg(), "", "", new File("std"))));
+                .orElseGet(() -> packages.registerPackage(new Package(mappingsInfo.pkg(), mappingsInfo.author(), PandaConstants.VERSION, new File("mappings"))));
 
         Module module = packageInfo.getModuleSource(mappingsInfo.module())
                 .orElseGet(() -> packageInfo.createModule(mappingsInfo.module()))

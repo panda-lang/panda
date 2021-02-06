@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.std.java;
 
 import org.panda_lang.framework.resource.Mappings;
 
-@Mappings(pkg = "java", module = "collections", commonPackage = "java.util", classes = {
+@Mappings(pkg = "java", author = "panda", module = "collections", commonPackage = "java.util", classes = {
         "Collection",
         "Comparator",
         "Deque",

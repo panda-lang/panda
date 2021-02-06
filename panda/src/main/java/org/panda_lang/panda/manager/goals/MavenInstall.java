@@ -46,7 +46,7 @@ final class MavenInstall implements CustomInstall {
     public List<Dependency> install(BiConsumer<InstallStatus, Dependency> resultConsumer, File ownerDirectory, File packageInfoFile) throws IOException {
         List<? extends String> repositories = document.getDocument().repositories;
 
-        String gav = dependency.getOwner().replace(".", "/")
+        String gav = dependency.getAuthor().replace(".", "/")
                 + "/" + dependency.getName()
                 + "/" + dependency.getVersion()
                 + "/" + dependency.getName() + "-" + dependency.getVersion() + ".jar";

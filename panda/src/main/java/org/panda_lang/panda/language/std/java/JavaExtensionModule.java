@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.std.java;
 import org.panda_lang.framework.architecture.packages.Package;
 import org.panda_lang.framework.resource.Mappings;
 
-@Mappings(pkg = "java", module = Package.DEFAULT_MODULE, commonPackage = "java.lang", classes = {
+@Mappings(pkg = "java",author = "panda", module = Package.DEFAULT_MODULE, commonPackage = "java.lang", classes = {
         "Class",
         "Exception",
         "Runtime",
