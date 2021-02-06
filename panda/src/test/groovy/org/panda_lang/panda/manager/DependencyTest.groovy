@@ -16,45 +16,44 @@
 
 package org.panda_lang.panda.manager
 
-import groovy.transform.CompileStatic;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import groovy.transform.CompileStatic
+import org.junit.jupiter.api.Test
+
+import static org.junit.jupiter.api.Assertions.*
 
 @CompileStatic
 final class DependencyTest {
 
-    private static final DependencyFactory FACTORY = new DependencyFactory()
-
-    private static final Dependency A = FACTORY.createDependency("github:dzikoysk/panda-dependency@1.0.0")
-    private static final Dependency B = FACTORY.createDependency("github:dzikoysk/panda-dependency@1.0.1")
-    private static final Dependency C = FACTORY.createDependency("github:dzikoysk/panda-dependency@1.0")
+    private static final Dependency A = Dependency.createDependency("github:dzikoysk/panda-dependency@1.0.0")
+    private static final Dependency B = Dependency.createDependency("github:dzikoysk/panda-dependency@1.0.1")
+    private static final Dependency C = Dependency.createDependency("github:dzikoysk/panda-dependency@1.0")
 
     @Test
     void hasHigherVersion() {
-        Assertions.assertTrue(B.hasHigherVersion(A.getVersion()))
-        Assertions.assertTrue(B.hasHigherVersion(C.getVersion()))
-        Assertions.assertFalse(A.hasHigherVersion(C.getVersion()))
+        assertTrue B.hasHigherVersion(A.getVersion())
+        assertTrue B.hasHigherVersion(C.getVersion())
+        assertFalse A.hasHigherVersion(C.getVersion())
     }
 
     @Test
     void getVersion() {
-        Assertions.assertEquals("1.0.0", A.getVersion())
-        Assertions.assertEquals("1.0", C.getVersion())
+        assertEquals "1.0.0", A.getVersion()
+        assertEquals "1.0", C.getVersion()
     }
 
     @Test
     void getName() {
-        Assertions.assertEquals("panda-dependency", A.getName())
+        assertEquals "panda-dependency", A.getName()
     }
 
     @Test
     void getScope() {
-        Assertions.assertEquals("dzikoysk", A.getOwner())
+        assertEquals "dzikoysk", A.getOwner()
     }
 
     @Test
-    void equals() {
-        Assertions.assertEquals(A, B)
+    void 'same should ignore version'() {
+        assertTrue A.same(B)
     }
 
 }

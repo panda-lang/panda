@@ -16,6 +16,8 @@
 
 package org.panda_lang.framework.interpreter.source;
 
+import org.panda_lang.framework.architecture.module.Module;
+
 import java.util.Objects;
 
 public class PandaSource implements Source {
@@ -23,19 +25,21 @@ public class PandaSource implements Source {
     private final String id;
     private final String content;
     private final boolean virtual;
+    private final Module module;
 
-    public PandaSource(PandaURLSource codeSource) {
-        this(codeSource.getLocation().getPath(), codeSource.getContent(), false);
+    public PandaSource(Module module, URLSource codeSource) {
+        this(module, codeSource.getLocation().getPath(), codeSource.getContent(), false);
     }
 
-    public PandaSource(Object id, String content) {
-        this(id, content, true);
+    public PandaSource(Module module, Object id, String content) {
+        this(module, id, content, true);
     }
 
-    public PandaSource(Object id, String content, boolean virtual) {
+    public PandaSource(Module module, Object id, String content, boolean virtual) {
         this.id = id.toString();
         this.content = content;
         this.virtual = virtual;
+        this.module = module;
     }
 
     @Override
@@ -55,6 +59,11 @@ public class PandaSource implements Source {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public Module getModule() {
+        return module;
     }
 
     @Override

@@ -1,0 +1,5 @@
+import org.panda_lang.reposilite.ReposiliteLauncher
+
+main {
+    ReposiliteLauncher.create("--version")
+}

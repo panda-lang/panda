@@ -21,21 +21,39 @@ import org.panda_lang.utilities.commons.StringUtils;
 
 import java.util.Objects;
 
-final class Dependency {
+public final class Dependency {
 
     private final String type;
     private final String owner;
     private final String name;
     private final String version;
 
-    protected Dependency(String type, String owner, String name, String version) {
+    public Dependency(String type, String owner, String name, String version) {
         this.type = type;
         this.owner = owner;
         this.name = name;
         this.version = version;
     }
 
-    protected boolean hasHigherVersion(String anotherVersion) {
+    public static Dependency createDependency(String qualifier) {
+        String[] dependencyTypeElements = StringUtils.splitFirst(qualifier, ":");
+        String type = dependencyTypeElements[0];
+
+        String[] byOwner = dependencyTypeElements[1].split("/");
+        String owner = byOwner[0];
+
+        String[] byVersion = byOwner[1].split("@");
+        String version = byVersion[1];
+        String name = byVersion[0];
+
+        return new Dependency(type, owner, name, version);
+    }
+
+    public boolean same(Dependency to) {
+        return getOwner().equals(to.getOwner()) && getName().equals(to.getName());
+    }
+
+    public boolean hasHigherVersion(String anotherVersion) {
         String[] thisElements = StringUtils.split(version, ".");
         String[] anotherElements = StringUtils.split(anotherVersion, ".");
         int length = Math.max(version.length(), anotherElements.length);
@@ -65,23 +83,27 @@ final class Dependency {
         }
 
         Dependency that = (Dependency) o;
-        return getOwner().equals(that.getOwner()) && getName().equals(that.getName());
+
+        return type.equals(that.type) &&
+                owner.equals(that.owner) &&
+                name.equals(that.name) &&
+                version.equals(that.version);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getOwner(), getName());
+        return Objects.hash(type, owner, name, version);
     }
 
-    protected String getVersion() {
+    public String getVersion() {
         return version;
     }
 
-    protected String getName() {
+    public String getName() {
         return name;
     }
 
-    protected String getOwner() {
+    public String getOwner() {
         return owner;
     }
 

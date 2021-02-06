@@ -1,0 +1,10 @@
+// require panda-dependency defined in the panda.cdn
+require 'panda-dependency'
+
+main {
+    // print panda-dependency message
+    log PandaDependency.getMessage()
+
+    // print subdependency (defined in panda-dependency/panda.cdn) message
+    log LDDependency.getMessage()
+}

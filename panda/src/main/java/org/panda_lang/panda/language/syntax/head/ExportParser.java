@@ -18,15 +18,14 @@ package org.panda_lang.panda.language.syntax.head;
 
 import org.panda_lang.framework.architecture.module.Module;
 import org.panda_lang.framework.architecture.type.Reference;
+import org.panda_lang.framework.interpreter.parser.Component;
 import org.panda_lang.framework.interpreter.parser.Context;
 import org.panda_lang.framework.interpreter.parser.ContextParser;
-import org.panda_lang.framework.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.interpreter.parser.pool.Targets;
 import org.panda_lang.framework.interpreter.token.Snippet;
 import org.panda_lang.framework.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.syntax.PandaSourceReader;
 import org.panda_lang.utilities.commons.ArrayUtils;
-import org.panda_lang.framework.interpreter.parser.Component;
 import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
 
@@ -56,10 +55,7 @@ public final class ExportParser implements ContextParser<Object, Reference> {
             return Option.none();
         }
 
-        Module module = context.getScript().getModule().orThrow(() -> {
-           throw new PandaParserFailure(context, context.getSource(), "Script does not declare module");
-        });
-
+        Module module = context.getScript().getModule();
         Reference reference = module.add(new Reference(ConveyanceUtils.fetchType(context, javaQualifier.get())));
         return Option.ofCompleted(reference);
     }

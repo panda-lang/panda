@@ -57,7 +57,7 @@ import java.util.concurrent.TimeUnit;
 public class CurrentTestBenchmark {
 
     @Benchmark
-    public Option<Object> currentTest() {
+    public Option<Object> currentTest() throws Exception {
         return PandaUtils.load("./examples/tests", "./examples/tests/current_test.panda")
                 .flatMap(Application::launch)
                 .get();

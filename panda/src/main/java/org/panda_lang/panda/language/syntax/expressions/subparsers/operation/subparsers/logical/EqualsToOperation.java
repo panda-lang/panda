@@ -34,7 +34,7 @@ public class EqualsToOperation extends RPNSimplifiedSupplier<Object, Object, Boo
 
     @Override
     public RPNOperationAction<Boolean> of(TypeLoader moduleLoader, Expression a, Expression b) {
-        Type numberType = moduleLoader.requireType("panda::Number");
+        Type numberType = moduleLoader.requireType("panda@::Number");
 
         if (numberType.isAssignableFrom(a.getKnownType()) && numberType.isAssignableFrom(b.getKnownType())) {
             int priority = NumericOperation.getHigherPriority(a.getKnownType(), b.getKnownType());
@@ -77,12 +77,12 @@ public class EqualsToOperation extends RPNSimplifiedSupplier<Object, Object, Boo
 
     @Override
     public Type returnType(TypeLoader typeLoader) {
-        return typeLoader.requireType("panda::Bool");
+        return typeLoader.requireType("panda@::Bool");
     }
 
     @Override
     public Type requiredType(TypeLoader typeLoader) {
-        return typeLoader.requireType("panda::Object");
+        return typeLoader.requireType("panda@::Object");
     }
 
 }

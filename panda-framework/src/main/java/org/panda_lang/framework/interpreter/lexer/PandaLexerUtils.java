@@ -28,7 +28,8 @@ public final class PandaLexerUtils {
     private static final PandaLexer LEXER = PandaLexer.of(new PandaSyntax()).enableSections().build();
 
     public static Snippet convert(String location, String source) {
-        return LEXER.convert(new PandaSource(location, source));
+        // TODO: module
+        return LEXER.convert(new PandaSource(null, location, source));
     }
 
     public static String toString(Snippet source) {

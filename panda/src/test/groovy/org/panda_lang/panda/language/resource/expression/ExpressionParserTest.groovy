@@ -98,7 +98,7 @@ final class ExpressionParserTest extends ExpressionParserTestBootstrap {
     }
 
     @Test
-    public void parseConstructor() {
+    void parseConstructor() {
         parse("new StringBuilder()")
         parse("new StringBuilder('a')")
         parse("new StringBuilder() true", RuntimeException.class, "Unread source: true")

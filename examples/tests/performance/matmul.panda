@@ -28,7 +28,6 @@
    MatmulPerformanceTest.benchmarkMatmulPanda  thrpt    5   5,260 ± 5,634  ops/s
 
 */
-module performance
 
 internal class Matmul {
 

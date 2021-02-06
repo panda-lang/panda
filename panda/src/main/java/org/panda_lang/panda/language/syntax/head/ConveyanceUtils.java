@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.language.syntax.head;
 
-import org.panda_lang.framework.architecture.module.Module;
 import org.panda_lang.framework.architecture.type.Type;
 import org.panda_lang.framework.interpreter.parser.Context;
 import org.panda_lang.framework.interpreter.parser.PandaParserFailure;
@@ -29,14 +28,10 @@ final class ConveyanceUtils {
     protected static Type fetchType(Context<?> context, Snippet javaTypeSource) {
         try {
             Class<?> importedClass = Class.forName(javaTypeSource.asSource(), true, context.getEnvironment().getController().getClassLoader());
-
-            Module module = context.getScript().getModule().orThrow(() -> {
-                throw new PandaParserFailure(context, javaTypeSource, "Undefined script module");
-            });
-
-            Type type = context.getEnvironment().getTypeGenerator().generate(module, importedClass.getSimpleName(), importedClass).fetchType();
+            Type type = context.getEnvironment().getTypeGenerator().generate(context.getScript().getModule(), importedClass.getSimpleName(), importedClass).fetchType();
             return context.getTypeLoader().load(type);
-        } catch (ClassNotFoundException classNotFoundException) {
+        }
+        catch (ClassNotFoundException classNotFoundException) {
             throw new PandaParserFailure(context, javaTypeSource, "Class " + javaTypeSource.asSource() + " does not exist");
         }
     }

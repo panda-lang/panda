@@ -21,7 +21,6 @@ import org.panda_lang.panda.language.syntax.head.CommentParser;
 import org.panda_lang.panda.language.syntax.head.ExportParser;
 import org.panda_lang.panda.language.syntax.head.ImportParser;
 import org.panda_lang.panda.language.syntax.head.MainParser;
-import org.panda_lang.panda.language.syntax.head.ModuleParser;
 import org.panda_lang.panda.language.syntax.head.RequireParser;
 import org.panda_lang.panda.language.syntax.scope.LateDeclarationParser;
 import org.panda_lang.panda.language.syntax.scope.LogParser;
@@ -54,7 +53,6 @@ public final class PandaParsers {
             new ImportParser(),
             new RequireParser(),
             new MainParser(),
-            new ModuleParser(),
 
             new BaseCallParser(),
             new ConstructorParser(),

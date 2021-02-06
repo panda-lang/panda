@@ -1,5 +1,3 @@
-module lang
-
 main {
     // single line comment
 

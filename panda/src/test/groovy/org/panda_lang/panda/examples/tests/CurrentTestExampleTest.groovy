@@ -40,7 +40,7 @@ final class CurrentTestExampleTest {
     @Test
     void testCurrentTest() {
         for (int iteration = 0; iteration < 1; iteration++) {
-            PandaUtils.load("../examples/tests", "../examples/tests/current_test.panda")
+            PandaUtils.load("../examples/current-test", "../examples/current-test/panda.cdn")
                     .flatMap(application -> application.launch())
                     .get()
         }

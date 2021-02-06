@@ -24,7 +24,7 @@ import org.panda_lang.framework.architecture.type.member.method.PandaMethod
 import org.panda_lang.framework.architecture.type.member.parameter.PropertyParameterImpl
 import org.panda_lang.framework.architecture.type.signature.Signature
 import org.panda_lang.framework.interpreter.parser.Context
-import org.panda_lang.framework.interpreter.source.PandaClassSource
+import org.panda_lang.framework.interpreter.source.ClassSource
 import org.panda_lang.panda.Panda
 import org.panda_lang.panda.language.syntax.expressions.subparsers.number.PandaNumbers
 import org.panda_lang.panda.utils.PandaUtils
@@ -50,7 +50,7 @@ final class ReplTest {
                             Math.sqrt(((Number) arguments[0]).doubleValue())
                         })
                         .returnType(doubleType)
-                        .location(new PandaClassSource(ReplTest.class).toLocation())
+                        .location(new ClassSource(null, ReplTest.class).toLocation())
                         .build())
                 .addVariableChangeListener({ Variable variable, previous, current ->
                     panda.getLogger().info("// variable change :: " + variable.getName() + " = " + previous + " -> " + current)

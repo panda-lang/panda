@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals
 @CompileStatic
 final class SimpleLexerTest {
 
-    private static final Source SOURCE = new PandaSource(SimpleLexerTest.class, "this.intValue()")
+    private static final Source SOURCE = new PandaSource(null, SimpleLexerTest.class, "this.intValue()")
 
     @Test
     void testKeywordsInUnknown() {

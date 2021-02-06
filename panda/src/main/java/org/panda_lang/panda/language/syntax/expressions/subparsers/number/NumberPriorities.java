@@ -33,12 +33,12 @@ public class NumberPriorities {
     public static final int DOUBLE = 60;
 
     private static final Map<String, Integer> HIERARCHY = Maps.of(
-            "panda::Byte", BYTE,
-            "panda::Short", SHORT,
-            "panda::Int", INT,
-            "panda::Long", LONG,
-            "panda::Float", FLOAT,
-            "panda::Double", DOUBLE
+            "panda@::Byte", BYTE,
+            "panda@::Short", SHORT,
+            "panda@::Int", INT,
+            "panda@::Long", LONG,
+            "panda@::Float", FLOAT,
+            "panda@::Double", DOUBLE
     );
 
     public static int getHigherPriority(Type a, Type b) {

@@ -129,10 +129,7 @@ public final class TypeParser implements ContextParser<Object, Type> {
 
         Completable<Type> futureType = new Completable<>();
         StageService stageService = context.getStageService();
-
-        Module module = context.getScript().getModule().orThrow(() -> {
-            throw new PandaParserFailure(context, signatureSource.get().getName(), "Cannot add type to module, because script does not declare any of it");
-        });
+        Module module = context.getScript().getModule();
 
         Reference reference = new Reference(
                 futureType,
@@ -177,7 +174,7 @@ public final class TypeParser implements ContextParser<Object, Type> {
                         .collect(Collectors.toList());
 
                 if (bases.isEmpty()) {
-                    bases.add(context.getTypeLoader().requireType("panda::Object").getSignature());
+                    bases.add(context.getTypeLoader().requireType("panda@::Object").getSignature());
                 }
 
                 bases.forEach(base -> type.addBase(base.toTyped()));

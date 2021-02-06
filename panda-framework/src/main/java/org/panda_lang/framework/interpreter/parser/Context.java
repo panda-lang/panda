@@ -18,7 +18,7 @@ package org.panda_lang.framework.interpreter.parser;
 
 import org.panda_lang.framework.architecture.Application;
 import org.panda_lang.framework.architecture.Environment;
-import org.panda_lang.framework.architecture.Script;
+import org.panda_lang.framework.architecture.packages.Script;
 import org.panda_lang.framework.architecture.module.Imports;
 import org.panda_lang.framework.architecture.module.TypeLoader;
 import org.panda_lang.framework.architecture.statement.Scope;

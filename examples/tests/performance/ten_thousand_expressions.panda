@@ -1,5 +1,3 @@
-module example-test
-
 import java.util.Arrays
 
 main {

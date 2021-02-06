@@ -1,11 +1,9 @@
-module examples:tests
-
 main {
     Methods methods = new Methods()
     methods.initialize()
 }
 
-class Methods {
+type Methods {
 
     shared Int count = 5
 

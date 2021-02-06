@@ -16,6 +16,7 @@
 
 package org.panda_lang.framework.interpreter.token;
 
+import org.panda_lang.framework.architecture.module.Module;
 import org.panda_lang.framework.interpreter.source.Location;
 import org.panda_lang.framework.interpreter.source.PandaSource;
 import org.panda_lang.framework.interpreter.source.Source;
@@ -56,8 +57,8 @@ public final class PandaLocation implements Location {
         return source.getId() + " [" + (line + 1) + ":" + position + "]";
     }
 
-    public static Location unknownLocation(String id) {
-        return new PandaLocation(new PandaSource(id, "", true), 0, 0);
+    public static Location unknownLocation(Module module, String id) {
+        return new PandaLocation(new PandaSource(module, id, "", true), 0, 0);
     }
 
 }

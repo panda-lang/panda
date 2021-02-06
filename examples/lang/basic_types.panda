@@ -1,5 +1,3 @@
-module lang
-
 main {
     // Numbers
     log 123

@@ -22,7 +22,7 @@ import org.panda_lang.framework.PandaFramework;
 import org.panda_lang.framework.interpreter.logging.Logger;
 import org.panda_lang.framework.resource.Language;
 import org.panda_lang.framework.resource.Resources;
-import org.panda_lang.panda.utils.PandaFileLoader;
+import org.panda_lang.utilities.commons.UnsafeUtils;
 
 /**
  * The framework controller of Panda language.
@@ -32,6 +32,10 @@ import org.panda_lang.panda.utils.PandaFileLoader;
 public final class Panda extends PandaFramework implements FrameworkController {
 
     private final PandaFileLoader loader = new PandaFileLoader(this);
+
+    static {
+        UnsafeUtils.disableIllegalAccessMessage();
+    }
 
     private Panda(PandaBuilder builder) {
         super(builder.logger, new PandaClassLoader(Panda.class.getClassLoader()), builder.language, builder.resources);

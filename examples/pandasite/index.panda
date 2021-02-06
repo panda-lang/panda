@@ -1,5 +1,3 @@
-module awesomeness
-
 shared class Panda {
     internal hello(String name) {
         log 'Hey, ' + name + '. You're finally awake ฅ^•ﻌ•^ฅ '

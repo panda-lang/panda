@@ -36,7 +36,7 @@ final class ProcessStackTest {
 
     @BeforeEach
     void prepare() {
-        this.main = new MainScope(PandaLocation.unknownLocation("process-stack-test"))
+        this.main = new MainScope(PandaLocation.unknownLocation(null, "process-stack-test"))
 
         Scope block = new ScopeStub(main)
         main.addStatement(block)

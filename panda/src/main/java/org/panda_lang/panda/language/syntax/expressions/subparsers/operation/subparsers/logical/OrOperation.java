@@ -54,7 +54,7 @@ public class OrOperation implements RPNOperationSupplier<Boolean> {
 
     @Override
     public Type requiredType(TypeLoader typeLoader) {
-        return typeLoader.requireType("panda::Bool");
+        return typeLoader.requireType("panda@::Bool");
     }
 
 }

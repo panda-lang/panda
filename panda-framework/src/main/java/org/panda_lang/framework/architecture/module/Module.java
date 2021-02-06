@@ -16,6 +16,7 @@
 
 package org.panda_lang.framework.architecture.module;
 
+import org.panda_lang.framework.architecture.packages.Package;
 import org.panda_lang.framework.architecture.type.Reference;
 import org.panda_lang.utilities.commons.function.Option;
 
@@ -24,7 +25,7 @@ import java.util.Collection;
 /**
  * Identifiable container of resources
  */
-public interface Module extends ModuleContainer {
+public interface Module {
 
     /**
      * Add reference to type to the module
@@ -43,36 +44,13 @@ public interface Module extends ModuleContainer {
     Option<Reference> get(String name);
 
     /**
-     * Check if the given module is submodule of the current module
-     *
-     * @param module the module to check
-     * @return true if module is submodule, otherwise false
-     */
-    boolean hasSubmodule(Module module);
-
-    /**
-     * Check if the module contains a reference to type with the given name
-     *
-     * @param name the name to search for
-     * @return true if module contains such a reference
-     */
-    default boolean hasType(String name) {
-        return get(name).isDefined();
-    }
-
-    /**
      * Get types that belongs to the module
      *
      * @return collection of types
      */
     Collection<? extends Reference> getReferences();
 
-    /**
-     * Get parent module
-     *
-     * @return the parent module
-     */
-    Option<? extends Module> getParent();
+    Package getPackage();
 
     /**
      * Get non prefixed name of module

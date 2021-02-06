@@ -1,5 +1,3 @@
-module lang
-
 main {
     log  -8 ==       ~7
     log   1  ==  (5 & 3)

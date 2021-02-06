@@ -17,6 +17,7 @@
 package org.panda_lang.framework.architecture;
 
 import org.panda_lang.framework.PandaFrameworkException;
+import org.panda_lang.framework.architecture.packages.Script;
 import org.panda_lang.framework.architecture.statement.Main;
 import org.panda_lang.framework.runtime.PandaProcess;
 import org.panda_lang.framework.runtime.Process;

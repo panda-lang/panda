@@ -33,6 +33,8 @@ import java.util.stream.StreamSupport;
 
 public class PandaStream<T> {
 
+    private static final PandaStream<?> EMPTY = new PandaStream<>(Stream.empty());
+
     private Stream<T> stream;
 
     private PandaStream(Stream<T> stream) {
@@ -158,6 +160,11 @@ public class PandaStream<T> {
     @SafeVarargs
     public static <T> PandaStream<T> of(T... array) {
         return of(Arrays.stream(array));
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> PandaStream<T> empty() {
+        return (PandaStream<T>) EMPTY;
     }
 
 }

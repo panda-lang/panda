@@ -16,27 +16,24 @@
 
 package org.panda_lang.panda.language.syntax.head;
 
-import org.panda_lang.framework.architecture.Environment;
+import org.panda_lang.framework.architecture.packages.Package;
+import org.panda_lang.framework.architecture.packages.Packages;
+import org.panda_lang.framework.interpreter.parser.Component;
 import org.panda_lang.framework.interpreter.parser.Context;
 import org.panda_lang.framework.interpreter.parser.ContextParser;
 import org.panda_lang.framework.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.interpreter.parser.pool.Targets;
-import org.panda_lang.framework.interpreter.source.PandaURLSource;
-import org.panda_lang.framework.interpreter.source.SourceService.Priority;
 import org.panda_lang.framework.interpreter.token.Snippet;
 import org.panda_lang.framework.interpreter.token.TokenInfo;
-import org.panda_lang.framework.interpreter.token.TokenUtils;
 import org.panda_lang.framework.resource.syntax.TokenTypes;
 import org.panda_lang.framework.resource.syntax.keyword.Keywords;
+import org.panda_lang.framework.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.syntax.PandaSourceReader;
-import org.panda_lang.panda.manager.PackageManagerUtils;
 import org.panda_lang.utilities.commons.ArrayUtils;
-import org.panda_lang.framework.interpreter.parser.Component;
 import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
 
-import java.io.File;
-import java.util.Objects;
+import java.util.Arrays;
 
 public final class RequireParser implements ContextParser<Object, Boolean> {
 
@@ -58,72 +55,29 @@ public final class RequireParser implements ContextParser<Object, Boolean> {
             return Option.none();
         }
 
-        Option<Snippet> moduleQualifier = sourceReader.optionalRead(sourceReader::readPandaQualifier);
+        TokenInfo packageName = sourceReader.read(TokenTypes.SEQUENCE).orThrow(() -> {
+            throw new PandaParserFailure(context, "Missing package name");
+        });
 
-        if (moduleQualifier.isDefined()) {
-            parseModule(context, moduleQualifier.get());
-        }
-        else {
-            Option<TokenInfo> fileQualifier = sourceReader.read(TokenTypes.SEQUENCE);
+        Packages packages = context.getEnvironment().getPackages();
 
-            if (fileQualifier.isEmpty()) {
-                throw new PandaParserFailure(context, context.getSource(), "");
-            }
+        Package requiredPackage = packages.getPackage(packageName.getValue()).orThrow(() -> {
+            throw new PandaParserFailure(context, packageName, "Cannot find package '" + packageName.getValue() + "'");
+        });
 
-            parseFile(context, Objects.requireNonNull(fileQualifier.get()));
+        Option<Snippet[]> detailed = sourceReader.optionalRead(sourceReader::readBody)
+                .map(body -> Arrays.stream(body.split(Separators.COMMA)))
+                .map(stream -> stream.toArray(Snippet[]::new));
+
+        for (Snippet qualifier : detailed.get()) {
+            requiredPackage.forModule(context.getEnvironment().getSources(), qualifier.asSource().replace("base", ""))
+                    .peek(module -> context.getImports().importModule(module))
+                    .orThrow(() -> {
+                        throw new PandaParserFailure(context, qualifier, "Cannot find module '" + qualifier.asSource() + "' in package '" + packageName.getValue() + "'");
+                    });
         }
 
         return Option.ofCompleted(true);
-    }
-
-    private void parseModule(Context<?> context, Snippet require) {
-        String moduleName = require.asSource();
-
-        context.getEnvironment().getModulePath().forModule(moduleName).then(result -> result
-                .peek(module -> context.getImports().importModule(module))
-                .orThrow(() -> {
-                    throw new PandaParserFailure(context, require,
-                            "Unknown module " + moduleName,
-                            "Make sure that the name does not have a typo and module is added to the module path");
-                }));
-    }
-
-    private void parseFile(Context<?> context, TokenInfo requiredFile) {
-        if (!TokenUtils.hasName(requiredFile, "String")) {
-            throw new PandaParserFailure(context, requiredFile, "Invalid token", "You should use string sequence to import file");
-        }
-
-        Environment environment = context.getEnvironment();
-
-        File environmentDirectory = environment.getDirectory();
-        File file = new File(environmentDirectory, requiredFile.getValue() + ".panda");
-
-        if (file.exists()) {
-            context.getEnvironment().getSources().addSource(Priority.REQUIRED, PandaURLSource.fromFile(file)).then(script -> {
-                script.getModule().then(module -> context.getImports().importModule(module));
-            });
-
-            return;
-        }
-
-        File directory = new File(environmentDirectory, requiredFile.getValue());
-
-        if (!directory.exists()) {
-            throw new PandaParserFailure(context, requiredFile, "File " + file + " does not exist", "Make sure that the path does not have a typo");
-        }
-
-        PackageManagerUtils.loadToEnvironment(environment, directory)
-            .onError(error -> {
-                throw new PandaParserFailure(context, requiredFile, "Cannot load module directory");
-            })
-            .get()
-            .thenCompose(script -> environment.getModulePath().forModule(requiredFile.getValue()))
-            .then(result -> result
-                .peek(module -> context.getImports().importModule(module))
-                .onEmpty(() -> {
-                    throw new PandaParserFailure(context, requiredFile, "Imported local package " + requiredFile.getValue() + " does not have module with the same name");
-                })
-            );
     }
 
 }

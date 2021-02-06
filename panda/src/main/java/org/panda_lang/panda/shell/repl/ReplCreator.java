@@ -17,7 +17,10 @@
 package org.panda_lang.panda.shell.repl;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.architecture.module.Module;
+import org.panda_lang.framework.architecture.module.ModuleSource;
 import org.panda_lang.framework.architecture.module.PandaModule;
+import org.panda_lang.framework.architecture.packages.Package;
 import org.panda_lang.framework.architecture.statement.PandaVariableData;
 import org.panda_lang.framework.architecture.type.Kind;
 import org.panda_lang.framework.architecture.type.PandaType;
@@ -34,7 +37,7 @@ import org.panda_lang.framework.architecture.type.signature.Relation;
 import org.panda_lang.framework.architecture.type.signature.Signature;
 import org.panda_lang.framework.architecture.type.signature.TypedSignature;
 import org.panda_lang.framework.interpreter.parser.Context;
-import org.panda_lang.framework.interpreter.source.PandaClassSource;
+import org.panda_lang.framework.interpreter.source.ClassSource;
 import org.panda_lang.framework.interpreter.token.PandaLocation;
 import org.panda_lang.framework.interpreter.token.PandaSnippet;
 import org.panda_lang.framework.runtime.PandaProcess;
@@ -45,6 +48,7 @@ import org.panda_lang.panda.utils.PandaContextUtils;
 import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.ThrowingFunction;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.function.Supplier;
 
@@ -55,6 +59,7 @@ public final class ReplCreator {
 
     protected final ReplConsole console;
     protected final Context<?> context;
+    protected final Module module;
     protected final TypeScope typeScope;
     protected final ReplScope replScope;
     protected ReplExceptionListener exceptionListener;
@@ -65,7 +70,16 @@ public final class ReplCreator {
         this.console = console;
 
         Completable<Type> futureType = new Completable<>();
-        Reference reference = new Reference(futureType, new PandaModule("repl"), "ShellType", Visibility.OPEN, Kind.TYPE, new PandaClassSource(ReplCreator.class).toLocation());
+        Context<?> context = PandaContextUtils.createStubContext(console.getFrameworkController()).toContext();
+
+        Package replPackage = new Package("repl", "repl", "1.0.0", new File("repl"));
+        context.getEnvironment().getPackages().registerPackage(replPackage);
+
+        this.module = new PandaModule(replPackage, Package.DEFAULT_MODULE);
+        replPackage.addModule(new ModuleSource(module, Collections.emptyList()));
+        replPackage.forMainModule(context.getEnvironment().getSources());
+
+        Reference reference = new Reference(futureType, module, "ShellType", Visibility.OPEN, Kind.TYPE, new ClassSource(module, ReplCreator.class).toLocation());
         Completable<Class<?>> associatedClass = new Completable<>();
 
         Type type = PandaType.builder()
@@ -81,7 +95,7 @@ public final class ReplCreator {
         ClassGenerator classGenerator = new ClassGenerator();
         classGenerator.allocate(type);
 
-        this.typeScope = new TypeScope(PandaLocation.unknownLocation("repl"), reference);
+        this.typeScope = new TypeScope(PandaLocation.unknownLocation(reference.getModule(), "repl"), reference);
 
         type.getConstructors().declare(PandaConstructor.builder()
                 .type(type)
@@ -99,7 +113,7 @@ public final class ReplCreator {
 
         this.replScope = new ReplScope(typeScope.getSourceLocation(), Collections.emptyList());
 
-        this.context = PandaContextUtils.createStubContext(console.getFrameworkController())
+        this.context = context.forkCreator()
                 .withSubject(new TypeContext(type, typeScope))
                 .withScope(replScope)
                 .toContext();

@@ -16,13 +16,16 @@
 
 package org.panda_lang.panda.manager;
 
+import net.dzikoysk.cdn.CDN;
 import org.panda_lang.framework.FrameworkController;
 import org.panda_lang.framework.interpreter.logging.Logger;
 import org.panda_lang.framework.interpreter.logging.LoggerHolder;
+import org.panda_lang.panda.manager.goals.Install;
+import org.panda_lang.panda.manager.goals.Run;
+import org.panda_lang.utilities.commons.FileUtils;
 import org.panda_lang.utilities.commons.function.Option;
 
 import java.io.File;
-import java.io.IOException;
 
 public final class PackageManager implements LoggerHolder {
 
@@ -34,21 +37,21 @@ public final class PackageManager implements LoggerHolder {
         this.workingDirectory = workingDirectory;
     }
 
-    public void install(File documentFile) throws IOException {
-        Install install = new Install(this, new PackageDocumentFile(documentFile).getContent());
+    public void install(File documentFile) throws Exception {
+        Install install = new Install(this, readPackageInfo(documentFile));
         install.run();
     }
 
-    public Option<Object> run(File documentFile) throws IOException {
-        return run(controller, documentFile);
+    public Option<Object> run(File documentFile) throws Exception {
+        return new Run().run(this, readPackageInfo(documentFile));
     }
 
-    public Option<Object> run(FrameworkController controller, File documentFile) throws IOException {
-        Run run = new Run(this, new PackageDocumentFile(documentFile).getContent());
-        return run.run(controller);
+    public PackageInfo readPackageInfo(File documentFile) throws Exception {
+        PackageDocument document = CDN.defaultInstance().parse(PackageDocument.class, FileUtils.getContentOfFile(documentFile));
+        return new PackageInfo(documentFile, document);
     }
 
-    protected File getWorkingDirectory() {
+    public File getWorkingDirectory() {
         return workingDirectory;
     }
 

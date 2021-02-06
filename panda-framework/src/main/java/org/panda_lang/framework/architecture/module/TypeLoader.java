@@ -70,6 +70,4 @@ public interface TypeLoader {
         });
     }
 
-    Option<Module> forModule(String moduleName);
-
 }

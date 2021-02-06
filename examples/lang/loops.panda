@@ -1,6 +1,4 @@
-module lang
-
-require java:collections
+require 'java' { base, collections }
 
 main {
     /* Standard loop */

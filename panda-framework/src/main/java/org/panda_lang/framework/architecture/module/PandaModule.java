@@ -16,8 +16,9 @@
 
 package org.panda_lang.framework.architecture.module;
 
-import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.architecture.packages.Package;
 import org.panda_lang.framework.architecture.type.Reference;
+import org.panda_lang.utilities.commons.collection.Maps;
 import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.ArrayList;
@@ -25,78 +26,28 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PandaModule extends PandaModuleContainer implements Module {
+public class PandaModule implements Module {
 
     protected final String name;
+    protected final Package pkg;
     protected final Map<String, Reference> types = new HashMap<>(32);
-    protected final Option<Module> parent;
 
-    public PandaModule(@Nullable Module parent, String name) {
+    public PandaModule(Package pkg, String name) {
+        this.pkg = pkg;
         this.name = name;
-        this.parent = Option.of(parent);
-    }
-
-    public PandaModule(String name) {
-        this(null, name);
-    }
-
-    @Override
-    public boolean equals(Object to) {
-        if (this == to) {
-            return true;
-        }
-
-        if (to == null || getClass() != to.getClass()) {
-            return false;
-        }
-
-        PandaModule that = (PandaModule) to;
-
-        if (!name.equals(that.name)) {
-            return false;
-        }
-
-        return parent.equals(that.parent);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + parent.hashCode();
-        return result;
     }
 
     @Override
     public Reference add(Reference reference) {
-        types.put(reference.getSimpleName(), reference);
-        return reference;
+        return Maps.put(types, reference.getSimpleName(), reference);
     }
 
-    @Override
     public long countUsedTypes() {
         return types.size();
     }
 
-    @Override
     public long countTypes() {
         return types.size();
-    }
-
-    @Override
-    public boolean hasSubmodule(Module module) {
-        Option<? extends Module> parentModule = module.getParent();
-
-        while (parentModule.isDefined()) {
-            Module parent = parentModule.get();
-
-            if (parent.equals(this)) {
-                return true;
-            }
-
-            parentModule = parent.getParent();
-        }
-
-        return false;
     }
 
     @Override
@@ -110,8 +61,8 @@ public class PandaModule extends PandaModuleContainer implements Module {
     }
 
     @Override
-    public Option<Module> getParent() {
-        return parent;
+    public Package getPackage() {
+        return pkg;
     }
 
     @Override
@@ -121,11 +72,7 @@ public class PandaModule extends PandaModuleContainer implements Module {
 
     @Override
     public String getName() {
-        return parent
-                .map(Module::getName)
-                .map(parentName -> parentName + ":")
-                .orElseGet("")
-                + getSimpleName();
+        return pkg.getName() + "@" + getSimpleName();
     }
 
     @Override

@@ -19,13 +19,11 @@ package org.panda_lang.panda.language;
 import org.panda_lang.framework.FrameworkController;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.architecture.Environment;
-import org.panda_lang.framework.architecture.module.ModulePath;
-import org.panda_lang.framework.architecture.module.PandaModulePath;
 import org.panda_lang.framework.architecture.module.PandaTypeLoader;
 import org.panda_lang.framework.architecture.module.TypeLoader;
+import org.panda_lang.framework.architecture.packages.Packages;
 import org.panda_lang.framework.architecture.type.generator.TypeGenerator;
 import org.panda_lang.framework.interpreter.logging.Logger;
-import org.panda_lang.framework.interpreter.source.PandaSourceService;
 import org.panda_lang.framework.interpreter.source.SourceService;
 import org.panda_lang.panda.language.std.StdLoader;
 import org.panda_lang.utilities.commons.function.Lazy;
@@ -37,7 +35,7 @@ public final class PandaEnvironment implements Environment {
     private final FrameworkController controller;
     private final File workingDirectory;
     private final SourceService sources;
-    private final ModulePath modulePath;
+    private final Packages packages;
     private final TypeGenerator typeGenerator;
     private final TypeLoader typeLoader;
     private final PandaInterpreter interpreter;
@@ -46,15 +44,15 @@ public final class PandaEnvironment implements Environment {
     public PandaEnvironment(FrameworkController controller, File workingDirectory) {
         this.controller = controller;
         this.workingDirectory = workingDirectory;
-        this.sources = new PandaSourceService();
-        this.modulePath = new PandaModulePath(sources);
-        this.typeLoader = new PandaTypeLoader(modulePath);
+        this.sources = new SourceService();
+        this.packages = new Packages(sources);
+        this.typeLoader = new PandaTypeLoader(packages);
         this.typeGenerator = new TypeGenerator(controller);
         this.interpreter = new PandaInterpreter(this);
 
         this.std = new Lazy<>(() -> {
             StdLoader stdLoader = new StdLoader();
-            stdLoader.load(modulePath, typeGenerator, typeLoader);
+            stdLoader.load(packages, typeGenerator, typeLoader);
         });
     }
 
@@ -77,8 +75,8 @@ public final class PandaEnvironment implements Environment {
     }
 
     @Override
-    public ModulePath getModulePath() {
-        return modulePath;
+    public Packages getPackages() {
+        return packages;
     }
 
     @Override

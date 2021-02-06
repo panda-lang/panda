@@ -28,7 +28,7 @@ final class NegateLogicalExpression implements DynamicExpression {
     private final Expression logicalExpression;
 
     public NegateLogicalExpression(Expression logicalExpression) {
-        if (!logicalExpression.getKnownType().is("panda::Bool")) {
+        if (!logicalExpression.getKnownType().is("panda@::Bool")) {
             throw new InvalidParameterException("Cannot reverse non logical value");
         }
 

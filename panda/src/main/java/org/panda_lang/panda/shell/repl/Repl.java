@@ -19,6 +19,7 @@ package org.panda_lang.panda.shell.repl;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.architecture.dynamic.Frame;
 import org.panda_lang.framework.architecture.expression.Expression;
+import org.panda_lang.framework.architecture.module.Module;
 import org.panda_lang.framework.architecture.statement.Statement;
 import org.panda_lang.framework.architecture.statement.Variable;
 import org.panda_lang.framework.interpreter.lexer.PandaLexerUtils;
@@ -51,6 +52,7 @@ public final class Repl {
 
     private final ReplConsole console;
     private Context<?> context;
+    private final Module module;
     private final ExpressionParser expressionParser;
     private final Supplier<Process> processSupplier;
     private final ThrowingFunction<ProcessStack, Object, Exception> instanceSupplier;
@@ -63,6 +65,7 @@ public final class Repl {
     Repl(ReplCreator creator) throws Exception {
         this.console = creator.console;
         this.context = creator.context;
+        this.module = creator.module;
         this.expressionParser = context.getExpressionParser();
         this.processSupplier = creator.processSupplier;
         this.instanceSupplier = creator.instanceSupplier;
@@ -181,7 +184,7 @@ public final class Repl {
         }
 
         try {
-            Location location = new PandaLocation(new PandaSource("REPL source", history.toString(), true), 0, 0);
+            Location location = new PandaLocation(new PandaSource(module, "REPL source", history.toString(), true), 0, 0);
             Statement statement = new ReplStatement(location, expression);
 
             Result<?> result = stack.callCustomFrame(instance, instance, () -> {
