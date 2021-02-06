@@ -28,7 +28,7 @@ import org.panda_lang.framework.architecture.type.Visibility;
 import org.panda_lang.framework.architecture.type.signature.Relation;
 import org.panda_lang.framework.architecture.type.signature.Signature;
 import org.panda_lang.framework.architecture.type.signature.TypedSignature;
-import org.panda_lang.framework.interpreter.source.PandaClassSource;
+import org.panda_lang.framework.interpreter.source.ClassSource;
 import org.panda_lang.framework.interpreter.token.PandaSnippet;
 import org.panda_lang.utilities.commons.ClassUtils;
 import org.panda_lang.utilities.commons.ReflectionUtils;
@@ -62,7 +62,7 @@ public final class TypeGenerator {
                 .orElse(() -> module.get(name))
                 .orElseGet(() -> {
                     Completable<Type> completableType = new Completable<>();
-                    Reference reference = new Reference(completableType, module, name, Visibility.OPEN, Kind.of(javaType), new PandaClassSource(javaType).toLocation());
+                    Reference reference = new Reference(completableType, module, name, Visibility.OPEN, Kind.of(javaType), new ClassSource(module, javaType).toLocation());
 
                     Type type = PandaType.builder()
                             .name(name)
@@ -89,8 +89,8 @@ public final class TypeGenerator {
                         }
 
                         if (!javaType.equals(Object.class) && type.getBases().isEmpty()) {
-                            // type.addAutocast(typeLoader.requireType("panda::Object"), (originalType, object, resultType) -> object);
-                            type.addBase(typeLoader.requireType("panda::Object").getSignature());
+                            // type.addAutocast(typeLoader.requireType("panda@::Object"), (originalType, object, resultType) -> object);
+                            type.addBase(typeLoader.requireType("panda@::Object").getSignature());
                         }
 
                         if (!Modifier.isPublic(javaType.getModifiers())) {

@@ -54,9 +54,9 @@ class ExpressionParserTestBootstrap {
 
     protected static Context<?> prepareData() {
         return PandaContextUtils.createStubContext(PandaUtils.defaultInstance(), context -> new HashMap<VariableData, Object>() {{
-            put(new PandaVariableData(context.getTypeLoader().requireType("panda::String").getSignature(), "variable"), null)
-            put(new PandaVariableData(context.getTypeLoader().requireType("panda::String").getSignature(), "array"), null)
-            put(new PandaVariableData(context.getTypeLoader().requireType("panda::Int").getSignature(), "i", true, false), null)
+            put(new PandaVariableData(context.getTypeLoader().requireType("panda@::String").getSignature(), "variable"), null)
+            put(new PandaVariableData(context.getTypeLoader().requireType("panda@::String").getSignature(), "array"), null)
+            put(new PandaVariableData(context.getTypeLoader().requireType("panda@::Int").getSignature(), "i", true, false), null)
         }}).toContext()
     }
 

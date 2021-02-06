@@ -44,7 +44,7 @@ public final class SequenceExpressionSubparser implements ExpressionSubparser {
         private final Type stringType;
 
         private SequenceWorker(Context<?> context) {
-            this.stringType = context.getTypeLoader().requireType("panda::String");
+            this.stringType = context.getTypeLoader().requireType("panda@::String");
         }
 
         @Override

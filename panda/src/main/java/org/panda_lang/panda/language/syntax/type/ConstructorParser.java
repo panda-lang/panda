@@ -105,7 +105,7 @@ public final class ConstructorParser implements ContextParser<TypeContext, Const
 
         context.getStageService().delegate("verify base call", Phases.VERIFY, Layer.NEXT_DEFAULT, verifyPhase -> {
             type.getSuperclass()
-                    .filterNot(superclass -> superclass.fetchType().is("panda::Object"))
+                    .filterNot(superclass -> superclass.fetchType().is("panda@::Object"))
                     .filterNot(superclass -> superclass.fetchType().getConstructors().getConstructor(Collections.emptyList()).isDefined())
                     .filterNot(superclass -> constructorScope.getBaseCall().isDefined())
                     .peek(superclass -> {

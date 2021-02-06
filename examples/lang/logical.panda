@@ -1,5 +1,3 @@
-module lang
-
 main {
     Object firstObject = new Object()
     Object secondObject = new Object()

@@ -41,7 +41,7 @@ public final class ForParser extends BlockParser<ForBlock> {
 
     @Override
     public void initialize(Context<?> context) {
-        this.defaultCondition = new PandaExpression(context.getTypeLoader().requireType("panda::Bool").getSignature(), true);
+        this.defaultCondition = new PandaExpression(context.getTypeLoader().requireType("panda@::Bool").getSignature(), true);
         super.initialize(context);
     }
 

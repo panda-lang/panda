@@ -18,15 +18,18 @@ package org.panda_lang.panda.language;
 
 import org.panda_lang.framework.architecture.Application;
 import org.panda_lang.framework.architecture.Environment;
-import org.panda_lang.framework.architecture.PandaScript;
-import org.panda_lang.framework.architecture.Script;
+import org.panda_lang.framework.architecture.PandaApplication;
 import org.panda_lang.framework.architecture.module.Imports;
+import org.panda_lang.framework.architecture.packages.Package;
+import org.panda_lang.framework.architecture.packages.PandaScript;
+import org.panda_lang.framework.architecture.packages.Script;
 import org.panda_lang.framework.interpreter.Interpreter;
 import org.panda_lang.framework.interpreter.lexer.Lexer;
 import org.panda_lang.framework.interpreter.lexer.PandaLexer;
 import org.panda_lang.framework.interpreter.parser.Context;
 import org.panda_lang.framework.interpreter.parser.ContextParser;
 import org.panda_lang.framework.interpreter.parser.PandaContextCreator;
+import org.panda_lang.framework.interpreter.parser.PandaParserException;
 import org.panda_lang.framework.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.framework.interpreter.parser.pool.ParserPool;
 import org.panda_lang.framework.interpreter.parser.pool.PoolParser;
@@ -36,20 +39,16 @@ import org.panda_lang.framework.interpreter.parser.stage.Phases;
 import org.panda_lang.framework.interpreter.parser.stage.StageService;
 import org.panda_lang.framework.interpreter.source.Source;
 import org.panda_lang.framework.interpreter.source.SourceService;
-import org.panda_lang.framework.interpreter.source.SourceService.Priority;
 import org.panda_lang.framework.interpreter.token.PandaSourceStream;
 import org.panda_lang.framework.interpreter.token.Snippet;
 import org.panda_lang.framework.interpreter.token.SourceStream;
 import org.panda_lang.framework.resource.Resources;
-import org.panda_lang.framework.architecture.PandaApplication;
 import org.panda_lang.utilities.commons.ObjectUtils;
 import org.panda_lang.utilities.commons.TimeUtils;
 import org.panda_lang.utilities.commons.collection.Pair;
 import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.Result;
-
-import java.util.Stack;
 
 public final class PandaInterpreter implements Interpreter {
 
@@ -60,7 +59,7 @@ public final class PandaInterpreter implements Interpreter {
     }
 
     @Override
-    public Result<Application, Throwable> interpret(Source source) {
+    public Result<Application, Throwable> interpret(Package packageSource) {
         long uptime = System.nanoTime();
 
         Resources resources = environment.getController().getResources();
@@ -89,28 +88,20 @@ public final class PandaInterpreter implements Interpreter {
         }
 
         SourceService sources = environment.getSources();
-        sources.addSource(Priority.STANDARD, source);
-
         ParserPool<Object> headPool = context.getPoolService().getPool(Targets.HEAD);
-        Stack<Runnable> interrupted = new Stack<>();
+
+        packageSource.forModule(sources, Package.DEFAULT_MODULE).orThrow(() -> {
+            throw new PandaParserException("Missing root module");
+        });
+
+        environment.getPackages().registerPackage(packageSource);
 
         try {
             stageManager.launch(() -> {
-                while (sources.hasRequired() || sources.hasStandard() || !interrupted.isEmpty()) {
-                    while (sources.hasRequired()) {
-                        parse(lexer, application, context, headPool, interrupted, sources.retrieveRequired());
-                    }
-
-                    if (!interrupted.isEmpty()) {
-                        interrupted.pop().run();
-                        continue;
-                    }
-
-                    if (sources.hasStandard()) {
-                        parse(lexer, application, context, headPool, interrupted, sources.retrieveStandard());
-                    }
+                while (sources.hasUnloadedSources()) {
+                    Pair<? extends Source, Completable<Script>> unloadedSource = sources.retrieve();
+                    parse(lexer, application, context, headPool, unloadedSource.getKey(), unloadedSource.getValue());
                 }
-
             });
         }
         catch (Throwable throwable) {
@@ -120,10 +111,10 @@ public final class PandaInterpreter implements Interpreter {
         }
 
         String parseTime = TimeUtils.toMilliseconds(System.nanoTime() - uptime);
-        environment.getLogger().debug("--- Interpretation of " + source.getId() + " details ");
+        environment.getLogger().debug("--- Interpretation of " + packageSource.getName() + " package details ");
         environment.getLogger().debug("• Parse time: " + parseTime);
-        environment.getLogger().debug("• Amount of types: " + environment.getModulePath().countTypes());
-        environment.getLogger().debug("• Amount of used types: " + environment.getModulePath().countUsedTypes());
+        // environment.getLogger().debug("• Amount of types: " + environment.getModulePath().countTypes());
+        // environment.getLogger().debug("• Amount of used types: " + environment.getModulePath().countUsedTypes());
         // environment.getLogger().debG, "• Amount of cached references: " + TypeGeneratorManager.getInstance().getCacheSize());
         environment.getLogger().debug("• Expression Parser Time: " + TimeUtils.toMilliseconds(PandaExpressionParser.time) + " (" + PandaExpressionParser.amount + ")");
         // environment.getLogger().debug("• Pipeline Handle Time: " + TimeUtils.toMilliseconds(environment.getController().getResources().getPipelinePath().getTotalHandleTime()));
@@ -135,21 +126,22 @@ public final class PandaInterpreter implements Interpreter {
         return Result.ok(application);
     }
 
-    private boolean parse(Lexer lexer, PandaApplication application, Context<Object> context, ParserPool<Object> headPool, Stack<Runnable> interrupted, Pair<Source, Completable<Script>> sourceEntry) {
-        Source current = sourceEntry.getKey();
-
-        PandaScript script = new PandaScript(current.getId());
+    private boolean parse(Lexer lexer, PandaApplication application, Context<Object> context, ParserPool<Object> headPool, Source source, Completable<Script> result) {
+        PandaScript script = new PandaScript(source);
         application.addScript(script);
 
-        Snippet tokenizedSource = lexer.convert(current);
+        Snippet tokenizedSource = lexer.convert(source);
         SourceStream stream = new PandaSourceStream(tokenizedSource);
 
-        Imports imports = new Imports(context.getTypeLoader());
-        imports.importModule("java");
-        imports.importModule("panda");
+        Imports imports = new Imports(context.getEnvironment().getPackages(), context.getTypeLoader());
+        imports.importModule("java", Package.DEFAULT_MODULE);
+        imports.importModule("panda", Package.DEFAULT_MODULE);
+        imports.importModule(script.getModule());
+
+        PoolParser<Object> headParser = headPool.toParser();
 
         Context<PoolParser<Object>> delegatedContext = context.forkCreator()
-                .withSubject(headPool.toParser())
+                .withSubject(headParser)
                 .withScript(script)
                 .withImports(imports)
                 .withScriptSource(tokenizedSource)
@@ -157,17 +149,10 @@ public final class PandaInterpreter implements Interpreter {
                 .withSource(tokenizedSource)
                 .toContext();
 
-        return parse(sourceEntry.getValue(), script, interrupted, delegatedContext, stream);
-    }
+        boolean status = headParser.parse(delegatedContext, stream);
+        result.complete(script);
 
-    private boolean parse(Completable<Script> result, Script script, Stack<Runnable> interrupted, Context<PoolParser<Object>> context, SourceStream stream) {
-        if (context.getSubject().parse(context, stream)) {
-            result.complete(script);
-            return true;
-        }
-
-        interrupted.push(() -> parse(result, script, interrupted, context, stream));
-        return false;
+        return status;
     }
 
     @Override

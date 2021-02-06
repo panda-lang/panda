@@ -1,5 +1,3 @@
-module lang
-
 main {
     Branching.'return'()
     log '#onlypanda' == Branching.'return with result'()

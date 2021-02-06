@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.manager;
 
-final class PackageManagerConstants {
+public final class PackageManagerConstants {
 
     public static final String MODULES = "panda_modules";
 

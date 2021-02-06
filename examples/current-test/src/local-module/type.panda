@@ -1,0 +1,7 @@
+open type LocalModuleClass {
+
+    open static hello() {
+        log 'Local Module Class'
+    }
+
+}

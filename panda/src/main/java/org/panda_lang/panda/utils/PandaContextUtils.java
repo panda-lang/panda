@@ -17,17 +17,15 @@
 package org.panda_lang.panda.utils;
 
 import org.panda_lang.framework.FrameworkController;
-import org.panda_lang.framework.architecture.PandaScript;
+import org.panda_lang.framework.architecture.PandaApplication;
 import org.panda_lang.framework.architecture.module.Imports;
-import org.panda_lang.framework.architecture.module.ModulePath;
-import org.panda_lang.framework.architecture.module.PandaModule;
-import org.panda_lang.framework.architecture.module.PandaModulePath;
-import org.panda_lang.framework.architecture.module.PandaTypeLoader;
 import org.panda_lang.framework.architecture.module.TypeLoader;
+import org.panda_lang.framework.architecture.packages.Package;
+import org.panda_lang.framework.architecture.packages.Packages;
+import org.panda_lang.framework.architecture.packages.PandaScript;
 import org.panda_lang.framework.architecture.statement.StandardizedFramedScope;
 import org.panda_lang.framework.architecture.statement.StaticScope;
 import org.panda_lang.framework.architecture.statement.VariableData;
-import org.panda_lang.framework.architecture.type.generator.TypeGenerator;
 import org.panda_lang.framework.interpreter.parser.Context;
 import org.panda_lang.framework.interpreter.parser.ContextCreator;
 import org.panda_lang.framework.interpreter.parser.PandaContextCreator;
@@ -36,11 +34,9 @@ import org.panda_lang.framework.interpreter.parser.pool.PandaPoolService;
 import org.panda_lang.framework.interpreter.parser.stage.PandaStageManager;
 import org.panda_lang.framework.interpreter.parser.stage.Phases;
 import org.panda_lang.framework.interpreter.parser.stage.StageService;
-import org.panda_lang.framework.interpreter.source.PandaSourceService;
+import org.panda_lang.framework.interpreter.source.ClassSource;
 import org.panda_lang.framework.interpreter.token.PandaLocation;
-import org.panda_lang.framework.architecture.PandaApplication;
 import org.panda_lang.panda.language.PandaEnvironment;
-import org.panda_lang.panda.language.std.StdLoader;
 import org.panda_lang.panda.language.syntax.expressions.PandaExpressions;
 import org.panda_lang.utilities.commons.function.Option;
 
@@ -61,18 +57,16 @@ public final class PandaContextUtils {
         PandaEnvironment environment = new PandaEnvironment(controller, new File("./"));
         environment.initialize();
 
-        ModulePath path = new PandaModulePath(new PandaSourceService());
-        TypeLoader loader = new PandaTypeLoader(path);
+        TypeLoader loader = environment.getTypeLoader();
+        Packages packages = environment.getPackages();
 
-        StdLoader stdLoader = new StdLoader();
-        stdLoader.load(path, new TypeGenerator(controller), loader);
+        Imports imports = new Imports(packages, loader);
+        imports.importModule("java", Package.DEFAULT_MODULE);
+        imports.importModule("panda", Package.DEFAULT_MODULE);
 
-        Imports imports = new Imports(loader);
-        imports.importModule("java");
-        imports.importModule("panda");
-
-        PandaScript script = new PandaScript("stub-script");
-        script.getModule().complete(new PandaModule("stub-module"));
+        Package stubPackage = new Package("stub-package", "stub-implementation", "0.0.0", new File("stub"));
+        packages.registerPackage(stubPackage);
+        PandaScript script = new PandaScript(new ClassSource(stubPackage.createModule("stub-module").getModule(), PandaContextUtils.class));
 
         Context<?> context = new PandaContextCreator<>(
                 Option.none(),
@@ -87,7 +81,7 @@ public final class PandaContextUtils {
         .withScript(script)
         .toContext();
 
-        StandardizedFramedScope scope = new StaticScope(PandaLocation.unknownLocation("stub-context"), variablesSupplier.apply(context));
+        StandardizedFramedScope scope = new StaticScope(PandaLocation.unknownLocation(script.getModule(), "stub-context"), variablesSupplier.apply(context));
         return context.forkCreator().withScope(scope);
     }
 

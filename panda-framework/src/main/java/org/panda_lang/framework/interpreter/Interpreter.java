@@ -18,7 +18,7 @@ package org.panda_lang.framework.interpreter;
 
 import org.panda_lang.framework.architecture.Application;
 import org.panda_lang.framework.architecture.Environment;
-import org.panda_lang.framework.interpreter.source.Source;
+import org.panda_lang.framework.architecture.packages.Package;
 import org.panda_lang.utilities.commons.function.Result;
 
 /**
@@ -31,7 +31,7 @@ public interface Interpreter {
      *
      * @return interpreted application
      */
-    Result<Application, Throwable> interpret(Source source);
+    Result<Application, Throwable> interpret(Package packageSource);
 
     /**
      * Get associated environment

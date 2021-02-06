@@ -36,7 +36,7 @@ public class MatmulPerformanceTest {
     private Application matmulApplication;
 
     @Setup
-    public void setup() {
+    public void setup() throws Exception {
         this.matmulApplication = PandaUtils.load("./tests/performance", "./tests/performance/matmul.panda").get();
     }
 

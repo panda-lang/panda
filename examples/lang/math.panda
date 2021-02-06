@@ -1,5 +1,3 @@
-module lang
-
 main {
     /* Standard operations */
     log 4 == (1 + 3)

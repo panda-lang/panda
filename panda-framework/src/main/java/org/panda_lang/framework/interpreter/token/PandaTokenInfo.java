@@ -16,9 +16,7 @@
 
 package org.panda_lang.framework.interpreter.token;
 
-import org.panda_lang.framework.interpreter.source.Source;
 import org.panda_lang.framework.interpreter.source.Location;
-import org.panda_lang.framework.interpreter.source.PandaSource;
 import org.panda_lang.utilities.commons.ObjectUtils;
 import org.panda_lang.utilities.commons.ValidationUtils;
 
@@ -68,6 +66,7 @@ public final class PandaTokenInfo implements TokenInfo {
         return token.toString();
     }
 
+    /*
     public static TokenInfo of(TokenType type, String value) {
         return of(new PandaToken(type, value));
     }
@@ -77,5 +76,6 @@ public final class PandaTokenInfo implements TokenInfo {
         Location location = new PandaLocation(source, Location.UNKNOWN_LOCATION, Location.UNKNOWN_LOCATION);
         return new PandaTokenInfo(token, location);
     }
+     */
 
 }

@@ -29,7 +29,7 @@ public abstract class ComparisonOperatorAction extends RPNSimplifiedAction<Numbe
 
     @Override
     public Signature returnType(TypeLoader typeLoader) {
-        return typeLoader.requireType("panda::Bool").getSignature();
+        return typeLoader.requireType("panda@::Bool").getSignature();
     }
 
 }

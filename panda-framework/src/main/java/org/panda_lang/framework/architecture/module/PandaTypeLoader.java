@@ -16,8 +16,9 @@
 
 package org.panda_lang.framework.architecture.module;
 
+import org.panda_lang.framework.architecture.packages.Packages;
+import org.panda_lang.framework.architecture.type.Reference;
 import org.panda_lang.framework.architecture.type.Type;
-import org.panda_lang.utilities.commons.collection.Pair;
 import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.PandaStream;
 
@@ -28,14 +29,14 @@ import java.util.Map;
 
 public final class PandaTypeLoader implements TypeLoader {
 
+    private final Packages packages;
     private final Collection<TypeLoader> parents;
     private final Map<String, Type> loadedTypes = new HashMap<>(1024);
     private final Map<Class<?>, Type> associatedClasses = new HashMap<>(1024);
-    private final ModulePath modulePath;
 
-    public PandaTypeLoader(ModulePath modulePath, TypeLoader... parents) {
+    public PandaTypeLoader(Packages packages, TypeLoader... parents) {
+        this.packages = packages;
         this.parents = Arrays.asList(parents);
-        this.modulePath = modulePath;
     }
 
     @Override
@@ -70,22 +71,15 @@ public final class PandaTypeLoader implements TypeLoader {
     }
 
     private Option<Type> forPathType(String type) {
-        return Option.of(type)
-                .map(name -> name.split("::"))
-                .filter(elements -> elements.length == 2)
-                .map(elements -> new Pair<>(modulePath.forModule(elements[0]), elements[1]))
-                .filter(typeInModule -> typeInModule.getKey().isReady())
-                .map(typeInModule -> new Pair<>(typeInModule.getKey().get(), typeInModule.getValue()))
-                .filter(typeInModule -> typeInModule.getKey().isDefined())
-                .flatMap(typeInModule -> typeInModule.getKey().get().get(typeInModule.getValue()))
-                .map(reference -> reference.getType().get());
-    }
+        String[] elements = type.split("::");
 
-    @Override
-    public Option<Module> forModule(String moduleName) {
-        return modulePath.forModule(moduleName).orThrow(() -> {
-            throw new IllegalStateException("Unloaded module " + moduleName);
-        });
+        if (elements.length != 2) {
+            throw new IllegalArgumentException("Invalid qualifier name: " + type);
+        }
+
+        return packages.forModule(elements[0])
+                .flatMap(module -> module.get(elements[1]))
+                .map(Reference::fetchType);
     }
 
 }

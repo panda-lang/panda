@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.std.java;
 
-import org.panda_lang.framework.resource.internal.InternalModuleInfo;
+import org.panda_lang.framework.resource.Mappings;
 
-@InternalModuleInfo(module = "java:collections", pkg = "java.util", classes = {
+@Mappings(pkg = "java", module = "collections", commonPackage = "java.util", classes = {
         "Collection",
         "Comparator",
         "Deque",

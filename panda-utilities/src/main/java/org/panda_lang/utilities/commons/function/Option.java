@@ -166,6 +166,10 @@ public class Option<T> implements Iterable<T>, Serializable {
         return value == null;
     }
 
+    public <R> PandaStream<R> toStream(Function<T, Stream<R>> function) {
+        return isDefined() ? PandaStream.of(function.apply(value)) : PandaStream.empty();
+    }
+
     public PandaStream<T> toStream() {
         return PandaStream.of(toJavaStream());
     }

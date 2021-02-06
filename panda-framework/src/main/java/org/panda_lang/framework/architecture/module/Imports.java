@@ -17,6 +17,7 @@
 package org.panda_lang.framework.architecture.module;
 
 import org.panda_lang.framework.PandaFrameworkException;
+import org.panda_lang.framework.architecture.packages.Packages;
 import org.panda_lang.framework.architecture.type.Reference;
 import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.PandaStream;
@@ -31,26 +32,14 @@ import java.util.stream.Collectors;
  */
 public final class Imports {
 
+    private final Packages packages;
     private final TypeLoader typeLoader;
     private final Map<String, Module> importedModules = new HashMap<>();
     private final Map<String, Reference> importedTypes = new HashMap<>();
 
-    public Imports(TypeLoader typeLoader) {
+    public Imports(Packages packages, TypeLoader typeLoader) {
+        this.packages = packages;
         this.typeLoader = typeLoader;
-    }
-
-    /**
-     * Import module using the given name
-     *
-     * @param name the name of module
-     */
-
-    public void importModule(String name) {
-        typeLoader.forModule(name)
-                .peek(module -> importedModules.put(name, module))
-                .orThrow(() -> {
-                    throw new PandaFrameworkException("Module " + name + " does not exist");
-                });
     }
 
     /**
@@ -61,6 +50,15 @@ public final class Imports {
      */
     public void importModule(Module module) {
         importedModules.putIfAbsent(module.getName(), module);
+    }
+
+    public void importModule(String packageName, String moduleName) {
+        packages.getPackage(packageName)
+                .flatMap(pkg -> pkg.forModule(packages.getSourceService(), moduleName))
+                .peek(this::importModule)
+                .orThrow(() -> {
+                    throw new IllegalArgumentException("Cannot find module '" + moduleName + "' in package " + packageName);
+                });
     }
 
     public boolean importType(Reference reference) {

@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.std;
 
-import org.panda_lang.framework.resource.internal.java.JavaModule;
+import org.panda_lang.framework.resource.mappings.java.JavaModule;
 import org.panda_lang.panda.language.std.java.JavaCollectionsModule;
 import org.panda_lang.panda.language.std.java.JavaExtensionModule;
 import org.panda_lang.panda.language.std.java.JavaUtilsModule;

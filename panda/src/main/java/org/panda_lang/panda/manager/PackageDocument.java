@@ -16,71 +16,24 @@
 
 package org.panda_lang.panda.manager;
 
-import net.dzikoysk.cdn.CDN;
-import net.dzikoysk.cdn.model.Configuration;
-import org.jetbrains.annotations.Nullable;
-
-import java.io.File;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
-final class PackageDocument {
+public class PackageDocument implements Serializable {
 
-    private final File document;
-    private final Configuration content;
+    public String name = "";
 
-    PackageDocument(File document, String source) {
-        this.document = document;
-        this.content = CDN.defaultInstance().parse(source);
-    }
+    public String version = "";
 
-    protected Dependency toDependency() {
-        return new Dependency("", getOwner(), getName(), getVersion());
-    }
+    public String author = "";
 
-    private List<Dependency> getDependencies(String name) {
-        DependencyFactory factory = new DependencyFactory();
+    public String sources = "";
 
-        return content.getList(name, Collections.emptyList()).stream()
-                .map(factory::createDependency)
-                .collect(Collectors.toList());
-    }
+    public String main = "";
 
-    protected List<? extends String> getRepositories() {
-        return content.getList("repositories", Collections.emptyList());
-    }
+    public List<String> repositories = Collections.emptyList();
 
-    protected List<Dependency> getTestsDependencies() {
-        return getDependencies("tests-dependencies");
-    }
-
-    protected List<Dependency> getDependencies() {
-        return getDependencies("dependencies");
-    }
-
-    protected @Nullable String getMainScript() {
-        return content.getString("scripts.main").get();
-    }
-
-    protected String getOwner() {
-        return content.getString("owner").get();
-    }
-
-    protected String getVersion() {
-        return content.getString("version").get();
-    }
-
-    protected String getName() {
-        return content.getString("name").get();
-    }
-
-    protected File getPandaModules() {
-        return new File(getDocument().getParent(), PackageManagerConstants.MODULES);
-    }
-
-    protected File getDocument() {
-        return document;
-    }
+    public List<String> dependencies = Collections.emptyList();
 
 }

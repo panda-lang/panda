@@ -24,6 +24,7 @@ import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaConstants;
 import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.manager.PackageManager;
+import org.panda_lang.panda.manager.PackageUtils;
 import org.panda_lang.panda.shell.repl.ReplConsole;
 import org.panda_lang.panda.utils.PandaUtils;
 import org.panda_lang.utilities.commons.function.ThrowingRunnable;
@@ -102,14 +103,12 @@ final class PandaCli implements ThrowingRunnable<Exception> {
         if (script.getName().endsWith("panda.cdn")) {
             PackageManager packageManager = new PackageManager(panda, script.getParentFile());
             packageManager.install(script);
-            packageManager.run(panda, script).peek(value -> {
-                logger.debug("Process exited with " + value + " object");
-            });
+            packageManager.run(script).peek(value -> logger.debug("Process exited with " + value + " object"));
             return;
         }
 
         panda.getLoader()
-                .load(script, script.getParentFile())
+                .load(script, PackageUtils.scriptToPackage(script))
                 .flatMap(Application::launch)
                 .onError(throwable -> logger.fatal("Cannot launch application due to failures in interpretation process"));
     }

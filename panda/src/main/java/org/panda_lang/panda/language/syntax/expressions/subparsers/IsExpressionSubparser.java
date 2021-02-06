@@ -52,7 +52,7 @@ public final class IsExpressionSubparser implements ExpressionSubparser {
         private final Type boolType;
 
         private IsWorker(Context<?> context) {
-            this.boolType = context.getTypeLoader().requireType("panda::Bool");
+            this.boolType = context.getTypeLoader().requireType("panda@::Bool");
         }
 
         @Override

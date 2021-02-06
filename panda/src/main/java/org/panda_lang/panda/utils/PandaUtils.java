@@ -22,6 +22,7 @@ import org.panda_lang.framework.interpreter.logging.LoggerHolder;
 import org.panda_lang.framework.interpreter.logging.SystemLogger;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
+import org.panda_lang.panda.manager.PackageUtils;
 import org.panda_lang.utilities.commons.TimeUtils;
 import org.panda_lang.utilities.commons.UnsafeUtils;
 import org.panda_lang.utilities.commons.function.Lazy;
@@ -39,12 +40,12 @@ public final class PandaUtils {
 
     private PandaUtils() { }
 
-    public static Result<Application, Throwable> load(String workingDirectory, String sourceFile) {
+    public static Result<Application, Throwable> load(String workingDirectory, String sourceFile) throws Exception {
         return load(new File(workingDirectory), new File(sourceFile));
     }
 
-    public static Result<Application, Throwable> load(File workingDirectory, File file) {
-        return PANDA_INSTANCE.get().getLoader().load(file, workingDirectory);
+    public static Result<Application, Throwable> load(File workingDirectory, File script) throws Exception {
+        return PANDA_INSTANCE.get().getLoader().load(workingDirectory, PackageUtils.scriptToPackage(script));
     }
 
     public static <T> @Nullable T eval(Map<String, Object> context, String expression) {

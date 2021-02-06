@@ -35,7 +35,7 @@ final class ConditionalBlock extends AbstractBlock implements ControlledScope {
     public ConditionalBlock(Scope parent, Localizable localizable, Expression condition) {
         super(parent, localizable);
 
-        if (!condition.getKnownType().is("panda::Bool")) {
+        if (!condition.getKnownType().is("panda@::Bool")) {
             throw new PandaParserException("Condition has to return boolean");
         }
 

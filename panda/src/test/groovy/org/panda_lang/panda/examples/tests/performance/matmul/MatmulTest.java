@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class MatmulTest {
 
     // @Test TODO: Arrays not implemented
-    void testMatmul() {
+    void testMatmul() throws Exception {
         for (int iteration = 0; iteration < 1; iteration++) {
             Option<Object> result = PandaUtils.load("../examples/tests/performance", "../examples/tests/performance/matmul.panda")
                     .flatMap(Application::launch)

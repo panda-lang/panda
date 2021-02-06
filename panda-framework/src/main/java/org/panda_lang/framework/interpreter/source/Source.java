@@ -16,6 +16,8 @@
 
 package org.panda_lang.framework.interpreter.source;
 
+import org.panda_lang.framework.architecture.module.Module;
+
 /**
  * Source representation
  */
@@ -34,6 +36,8 @@ public interface Source {
      * @return the content
      */
     String getContent();
+
+    Module getModule();
 
     /**
      * Get source identifier

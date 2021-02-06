@@ -33,7 +33,7 @@ import org.panda_lang.panda.language.syntax.expressions.subparsers.operation.pat
 @CompileStatic
 final class OperationPatternTest {
 
-    private static final Source SOURCE = new PandaSource(OperationPatternTest.class, "(new Integer(5).intValue() + 3) + 2");
+    private static final Source SOURCE = new PandaSource(null, OperationPatternTest.class, "(new Integer(5).intValue() + 3) + 2");
 
     private static final OperationPattern EXTRACTOR = new OperationPattern(Separators.getOpeningSeparators(), new Token[] {
             Operators.ADDITION,

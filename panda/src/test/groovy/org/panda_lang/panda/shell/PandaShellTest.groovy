@@ -17,7 +17,6 @@
 package org.panda_lang.panda.shell
 
 import groovy.transform.CompileStatic
-import org.junit.jupiter.api.Test
 import org.panda_lang.framework.interpreter.logging.SystemLogger
 
 @CompileStatic
@@ -25,7 +24,7 @@ final class PandaShellTest {
 
     private static final PandaShell SHELL = new PandaShell(() -> new SystemLogger(), System.in)
 
-    @Test
+    // @Test
     void test() throws Exception {
         SHELL.invoke("--level=info", "../examples/package_manager/panda-module-dependency/panda.cdn")
     }

@@ -16,9 +16,10 @@
 
 package org.panda_lang.panda.language.std.java;
 
-import org.panda_lang.framework.resource.internal.InternalModuleInfo;
+import org.panda_lang.framework.architecture.packages.Package;
+import org.panda_lang.framework.resource.Mappings;
 
-@InternalModuleInfo(module = "java", pkg = "java.lang", classes = {
+@Mappings(pkg = "java", module = Package.DEFAULT_MODULE, commonPackage = "java.lang", classes = {
         "Class",
         "Exception",
         "Runtime",

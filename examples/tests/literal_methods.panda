@@ -1,5 +1,3 @@
-module tests
-
 main {
     log LiteralMethod.'should return true'()
 }

@@ -37,7 +37,7 @@ public final class VisibilityComparator {
     }
 
     public static Option<String> canAccess(Metadata requested, Context<?> context) {
-        return canAccess(requested, context.getScript().getModule().get(), context.getSource().getLocation().getSource());
+        return canAccess(requested, context.getScript().getModule(), context.getSource().getLocation().getSource());
     }
 
     public static Option<String> canAccess(Metadata requested, Module currentModule, @Nullable Source currentSource) {
@@ -48,7 +48,7 @@ public final class VisibilityComparator {
         if (requested.getVisibility() == Visibility.SHARED) {
             Module requestedModule = requested.getType().getModule();
 
-            if (currentModule.equals(requestedModule) || requestedModule.hasSubmodule(currentModule)) {
+            if (currentModule.equals(requestedModule) /*|| requestedModule.hasSubmodule(currentModule) */) {
                 return Option.none();
             }
 

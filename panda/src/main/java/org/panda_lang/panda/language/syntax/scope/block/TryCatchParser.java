@@ -82,7 +82,7 @@ public final class TryCatchParser extends BlockParser<TryCatch> {
         Variable variable = catchBlock.createVariable(variableData);
         SCOPE_PARSER.parse(context, catchBlock, catchBody.get());
 
-        if (context.getTypeLoader().requireType("java::Throwable").isAssignableFrom(variableData.getKnownType())) {
+        if (context.getTypeLoader().requireType("java@::Throwable").isAssignableFrom(variableData.getKnownType())) {
             //noinspection unchecked
             tryCatch.addHandler((Class<? extends Throwable>) variable.getKnownType().getType().getAssociated().get(), variable, catchBlock);
         }

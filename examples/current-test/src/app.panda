@@ -1,0 +1,282 @@
+// import java collections from std
+require 'java' { collections }
+
+// import 'test-local-module' internal module
+require 'current-test' { local-module }
+
+// import java class
+import org.panda_lang.panda.PandaConstants
+import java.util.Arrays
+import java.lang.Thread
+
+// main statement is called when the script is launched
+main {
+    // create Test instance, then call its method and finally print content of testField
+    Test test = new Test(`'"Constructor"'`)
+    test.echo("Method echo")
+    log test.getTestField().testField
+
+    // define variable init that may be initialized later
+    late String init
+    // define nillable variable
+    nil Foo req = Java.null()
+
+    // define mutable nillable variable varFoo
+    mut nil Foo varFoo = req
+    // assign a new value to the varFoo
+    varFoo = new Foo().'self test'()
+    varFoo.anotherEcho('Another echo')
+
+    // assign string to a new variable s
+    mut String s = "Hello Panda v1"
+    // assign new value to the s variable
+    s = "Hello Panda v2"
+
+    // negative number
+    log -1
+    // hexagonal number
+    log 0x5A, 0x5F // expected: 90, 95
+    // int overflow
+    log Int.MAX_VALUE + 10_000_001
+
+    // assign integer in hex format to the i variable
+    Int i = 0x000001
+    // perform some math operations
+    Number math = (10.1 + (3 + 4.2 + i) * 2) - (2 / 1) /* expected: 24.5 */
+    // compare values and assign result to the flag variable
+    Bool flag = i == 1
+
+    // print some recent values in the console
+    log 'Hello Panda', flag, varFoo, s, test, i, math
+
+    // verify logic
+    if not flag {
+        throw new RuntimeException('Nope If')
+    }
+    else if flag {
+        log 'Yay' // expected
+    }
+    else {
+        throw new RuntimeException('Nope Else')
+    }
+
+    // assign ArrayList (class) value to List (interface) variable and add some values
+    List list = new ArrayList()
+    list.add("val1")
+    list.add("val2")
+
+    // create string builder and append previous list
+    StringBuilder builder = new StringBuilder()
+    builder.append(list)
+    builder.append(list.size())
+
+    // loop i times, expr may be wrapped into ( )
+    loop i {
+        // append some content in the
+        builder.append(" Loop x1 ")
+
+        // iterate through the list and add elements to the builder
+        foreach (String var : list) {
+            builder.append(var)
+        }
+
+        continue
+        builder.append(" Loop x3 ") // won't be called due to 'continue'
+    }
+
+    // iterate as long as flag is not equal to the false
+    while flag != false {
+        log builder.toString()
+        break // or just stop
+    }
+
+    // logical expressions
+    log "OR v AND: " + (false || false) + ", " + false || true, true && false, true && true
+    log "Compare: " + 1 > 2, 1 > 2, 1 < 2, 2 < 1
+    log "Random",  (false || false) + ", " + false || true, true && false, true && true, (false || false) + ", " + false || true, true && false, true && true
+
+    // test (in/de)crease operations
+    mut Int creaseValue = 10
+    log "Increase: " + creaseValue++, creaseValue++, ++creaseValue, ++creaseValue
+    log "Decrease: " + creaseValue--, creaseValue--, --creaseValue, --creaseValue
+
+    // increase expression as standalone statement
+    creaseValue++
+    log creaseValue
+
+    // create instance of class imported from another file
+    // should use generated default constructor
+    Required required = new Required()
+    required.hello()
+
+    // try to catch some exceptions
+    try {
+        throw new RuntimeException("Try")
+    } catch (Exception exception) {
+        log exception.getMessage() // gotcha
+    }
+
+    // print constant from imported java class
+    log PandaConstants.VERSION
+
+    // test standard fori loop
+    for (mut Int index = 3; index != 0; index /* comment in expression */ --) {
+        if index == 2 {
+            continue
+        }
+
+        log "ForI: " + index
+    }
+
+    // print variable declared by the expression :0
+    log "Assignation: " + (Object assignation = 10)
+
+    // check if variable defined in expr instanceof integer
+    if assignation is Int {
+        Int castTest = assignation as Int // and cast that value to integer
+        log "Is int value: " + castTest
+    }
+
+    // Make sure that here is no way to create instance of interface
+    // Interface int = new Interface()
+
+    // be sure that the result uses the same type
+    log 10 + Int.parseInt('5') + list.size()
+
+    // map array to iterable in foreach
+    // foreach (String var : new Array<String>(10)) { }
+
+    // make sure that we can use primitive arrays
+    // PrimitiveChar[] primitiveArray = (')#onlypanda').toCharArray()
+    // Arrays.sort(primitiveArray)
+    //log primitiveArray[0]
+    // log new String(primitiveArray)
+
+    // Use class from imported internal module
+    LocalModuleClass.hello()
+
+    // Autocast
+    Int intValue = 10
+    Long longValue = intValue
+    log longValue.getClass()
+
+    // Verify implementation of native equals
+    Entity a = new Entity("same")
+    Entity b = new Entity("same")
+    log a == b
+
+    // Test implementation of Java class
+    CustomThread thread = new CustomThread()
+    thread.start()
+
+    // Runnable runnable = { log 'x' }
+}
+
+// simple interface
+shared interface IEcho {
+
+    // require implementation of static method
+    shared static anotherEcho (String doSth) -> String
+
+    // standard method to impl
+    internal 'self test' () -> self
+
+}
+
+// simple class that extends class Test and implements interface IEcho
+shared type Foo : Test, IEcho {
+
+    constructor () {
+        base('We need to call base constructor if we extend another type with custom constructor')
+    }
+
+    // we need to mark overridden methods by the keyword
+    override static anotherEcho (String message1)  -> String {
+        log message1
+        return this
+    }
+
+    // we need to impl all methods
+    override 'self test' () -> self { }
+
+    override toString () -> String {
+        return 'Foo'
+    }
+
+}
+
+// simple entity to test equality implemented as native method
+internal type Entity {
+
+    internal String name
+
+    constructor (String name) {
+        this.name = name
+    }
+
+    // override native equals and name-based equality
+    override equals (Object obj) -> PrimitiveBool {
+        return obj is Entity && name == (obj as Entity).name
+    }
+
+}
+
+// random Test class
+internal type Test {
+
+    // open static field INDEX with assigned value
+    open static Int INDEX = 1
+
+    // shared between submodules field
+    shared Test testField
+    // internal mutable field
+    internal mut Double double = 1.5D
+    // internal immutable field
+    internal String message2
+
+    // constructor prints random message and assigns itself to testField field
+    constructor (String message2) {
+        log message2
+        this.testField = this
+        this.message2 = message2
+    }
+
+    // static field that creates instance of the current class
+    // open static Test TEST = { new Test('Static initialization of class instance') }
+
+    shared echo (Object message3) {
+        log message3
+    }
+
+    // method with string based name
+    shared 'should return true' () -> Bool {
+        return true
+    }
+
+    // get test instance
+    shared getTestField () -> Test {
+        if true {
+            return this.testField
+        }
+        else {
+            return Java.null()
+        }
+    }
+
+    override toString () -> String {
+        return 'Custom toString() in Test type #' + Int.toHexString(System.identityHashCode(this))
+    }
+
+}
+
+internal type CustomThread : Thread {
+
+    constructor () {
+        base('CustomThread')
+    }
+
+    override run () -> PrimitiveVoid {
+        log 'Called in ' + Thread.currentThread().getName()
+    }
+
+}

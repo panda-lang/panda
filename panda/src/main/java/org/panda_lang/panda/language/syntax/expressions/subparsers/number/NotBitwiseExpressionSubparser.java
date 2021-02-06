@@ -67,7 +67,7 @@ public final class NotBitwiseExpressionSubparser implements ExpressionSubparser 
 
             Expression expression = context.getParser().parse(context.toContext(), context.getSynchronizedSource(), SETTINGS);
 
-            if (!context.toContext().getTypeLoader().requireType("panda::Number").isAssignableFrom(expression.getKnownType())) {
+            if (!context.toContext().getTypeLoader().requireType("panda@::Number").isAssignableFrom(expression.getKnownType())) {
                 throw new InvalidParameterException("Cannot reverse non logical value");
             }
 

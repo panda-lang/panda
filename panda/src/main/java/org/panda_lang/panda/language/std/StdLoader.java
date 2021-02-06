@@ -18,41 +18,47 @@ package org.panda_lang.panda.language.std;
 
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.architecture.module.Module;
-import org.panda_lang.framework.architecture.module.ModulePath;
 import org.panda_lang.framework.architecture.module.TypeLoader;
+import org.panda_lang.framework.architecture.packages.Package;
+import org.panda_lang.framework.architecture.packages.Packages;
 import org.panda_lang.framework.architecture.type.generator.TypeGenerator;
-import org.panda_lang.framework.resource.internal.InternalModuleInfo;
-import org.panda_lang.framework.resource.internal.InternalModuleInfo.CustomInitializer;
+import org.panda_lang.framework.resource.Mappings;
+import org.panda_lang.framework.resource.Mappings.CustomInitializer;
 import org.panda_lang.utilities.commons.ClassUtils;
 import org.panda_lang.utilities.commons.StringUtils;
 
+import java.io.File;
+
 public final class StdLoader {
 
-    public void load(ModulePath modulePath, TypeGenerator typeGenerator, TypeLoader typeLoader) {
-        load(modulePath, typeGenerator, typeLoader, PandaModules.getMappings());
+    public void load(Packages packages, TypeGenerator typeGenerator, TypeLoader typeLoader) {
+        load(packages, typeGenerator, typeLoader, PandaModules.getMappings());
     }
 
-    public void load(ModulePath modulePath, TypeGenerator typeGenerator, TypeLoader typeLoader, Object[] mappings) {
+    public void load(Packages packages, TypeGenerator typeGenerator, TypeLoader typeLoader, Object[] mappings) {
         for (Object object : mappings) {
-            loadClass(modulePath, typeGenerator, typeLoader, object);
+            loadClass(packages, typeGenerator, typeLoader, object);
         }
     }
 
-    private void loadClass(ModulePath modulePath, TypeGenerator typeGenerator, TypeLoader typeLoader, Object mappings) {
-        InternalModuleInfo moduleInfo = mappings.getClass().getAnnotation(InternalModuleInfo.class);
+    private void loadClass(Packages packages, TypeGenerator typeGenerator, TypeLoader typeLoader, Object mappings) {
+        Mappings mappingsInfo = mappings.getClass().getAnnotation(Mappings.class);
 
-        Module module = modulePath.acquire(moduleInfo.module()).orThrow(() -> {
-            throw new IllegalStateException("Cannot acquire module " + moduleInfo.module());
-        });
+        Package packageInfo = packages.getPackage(mappingsInfo.pkg())
+                .orElseGet(() -> packages.registerPackage(new Package(mappingsInfo.pkg(), "", "", new File("std"))));
+
+        Module module = packageInfo.getModuleSource(mappingsInfo.module())
+                .orElseGet(() -> packageInfo.createModule(mappingsInfo.module()))
+                .getModule();
 
         if (mappings instanceof CustomInitializer) {
             CustomInitializer initializer = (CustomInitializer) mappings;
             initializer.initialize(module, typeGenerator, typeLoader);
         }
 
-        String packageName = moduleInfo.pkg().isEmpty() ? StringUtils.EMPTY : moduleInfo.pkg() + ".";
+        String packageName = mappingsInfo.commonPackage().isEmpty() ? StringUtils.EMPTY : mappingsInfo.commonPackage() + ".";
 
-        for (String name : moduleInfo.classes()) {
+        for (String name : mappingsInfo.classes()) {
             ClassUtils.forName(packageName + name)
                     .map(type -> typeGenerator.generate(module, name, type))
                     .peek(module::add)

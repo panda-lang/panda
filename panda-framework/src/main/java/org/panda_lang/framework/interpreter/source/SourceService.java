@@ -16,37 +16,46 @@
 
 package org.panda_lang.framework.interpreter.source;
 
-import org.panda_lang.framework.architecture.Script;
+import org.panda_lang.framework.architecture.packages.Script;
 import org.panda_lang.framework.interpreter.Interpreter;
 import org.panda_lang.utilities.commons.collection.Pair;
 import org.panda_lang.utilities.commons.function.Completable;
+
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Stack;
+import java.util.stream.Collectors;
 
 
 /**
  * Set of {@link Source} used by {@link Interpreter}
  */
-public interface SourceService {
+public class SourceService {
 
-    enum Priority {
-        REQUIRED,
-        STANDARD
-    }
+    private final Map<String, Script> loaded = new LinkedHashMap<>();
+    private final Stack<Pair<? extends Source, Completable<Script>>> sources = new Stack<>();
 
     /**
      * Add a new source to set
      *
-     * @param source the source to add
+     * @param sources sources to load
      */
-    Completable<Script> addSource(Priority priority, Source source);
+    public Collection<Pair<? extends Source, Completable<Script>>> pushSources(Collection<? extends Source> sources) {
+        return sources.stream()
+                .map(source -> new Pair<>(source, new Completable<Script>()))
+                .peek(this.sources::add)
+                .collect(Collectors.toList());
+    }
 
-    Pair<Source, Completable<Script>> retrieveRequired();
+    public Pair<? extends Source, Completable<Script>> retrieve() {
+        Pair<? extends Source, Completable<Script>> currentSource = sources.pop();
+        currentSource.getValue().then(script -> loaded.put(script.getName(), script));
+        return currentSource;
+    }
 
-    boolean hasRequired();
+    public boolean hasUnloadedSources() {
+        return !sources.isEmpty();
+    }
 
-    /**
-     * @return true if set is empty
-     */
-    boolean hasStandard();
-
-    Pair<Source, Completable<Script>> retrieveStandard();
 }

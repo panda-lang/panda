@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.interpreter.parser;
 
-import org.panda_lang.framework.architecture.Script;
+import org.panda_lang.framework.architecture.packages.Script;
 import org.panda_lang.framework.architecture.module.Imports;
 import org.panda_lang.framework.architecture.statement.Scope;
 import org.panda_lang.framework.interpreter.token.Snippet;

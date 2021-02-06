@@ -1,5 +1,3 @@
-module lang
-
 main {
     Foo defaultFoo = new Foo()
     log 'Static' == Foo.staticField

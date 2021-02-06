@@ -17,8 +17,8 @@
 package org.panda_lang.framework.architecture;
 
 import org.panda_lang.framework.FrameworkController;
-import org.panda_lang.framework.architecture.module.ModulePath;
 import org.panda_lang.framework.architecture.module.TypeLoader;
+import org.panda_lang.framework.architecture.packages.Packages;
 import org.panda_lang.framework.architecture.type.generator.TypeGenerator;
 import org.panda_lang.framework.interpreter.Interpreter;
 import org.panda_lang.framework.interpreter.logging.LoggerHolder;
@@ -39,18 +39,13 @@ public interface Environment extends LoggerHolder {
     Interpreter getInterpreter();
 
     /**
-     * Get module path of environment
-     *
-     * @return the module path
-     */
-    ModulePath getModulePath();
-
-    /**
      * Get assigned to the environment type loader
      *
      * @return the type loader
      */
     TypeLoader getTypeLoader();
+
+    Packages getPackages();
 
     /**
      * Get default type generator
