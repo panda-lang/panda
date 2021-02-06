@@ -1,6 +1,6 @@
 name: panda-with-java-library-dependency
 version: 1.0.0
-owner: dzikoysk
+author: dzikoysk
 
 scripts: {
     main: app.panda

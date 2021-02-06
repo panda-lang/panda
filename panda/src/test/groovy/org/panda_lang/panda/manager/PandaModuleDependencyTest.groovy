@@ -17,15 +17,16 @@
 package org.panda_lang.panda.manager
 
 import groovy.transform.CompileStatic
+import org.junit.jupiter.api.Test
 import org.panda_lang.panda.utils.PandaUtils
 
 @CompileStatic
 final class PandaModuleDependencyTest {
 
-    private static final File DIRECTORY = new File("../examples/package_manager/panda-module-dependency")
+    private static final File DIRECTORY = new File("../examples/package-manager/panda-module-dependency")
     private static final PackageManager MANAGER = new PackageManager(PandaUtils.defaultInstance(), DIRECTORY)
 
-    // @Test
+    @Test
     void test() throws Exception {
         PandaUtils.printJVMUptime(MANAGER)
         File document = new File(DIRECTORY, "panda.cdn")

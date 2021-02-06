@@ -75,7 +75,7 @@ public final class MethodParser implements ContextParser<TypeContext, TypeMethod
     @Override
     public void initialize(Context<?> context) {
         this.scopeParser = new ScopeParser(context.getPoolService());
-        this.voidType = context.getTypeLoader().requireType("panda@::Void");
+        this.voidType = context.getTypeLoader().requireType("panda/panda@::Void");
     }
 
     @Override
@@ -164,7 +164,7 @@ public final class MethodParser implements ContextParser<TypeContext, TypeMethod
                 return;
             }
 
-            if (!context.getTypeLoader().requireType("panda@::Void").isAssignableFrom(method.getReturnType().getKnownType()) && !methodScope.hasEffective(Returnable.class)) {
+            if (!context.getTypeLoader().requireType("panda/panda@::Void").isAssignableFrom(method.getReturnType().getKnownType()) && !methodScope.hasEffective(Returnable.class)) {
                 if (method.getReturnType().equals(type.getSignature())) {
                     methodScope.addStatement(new StandaloneExpression(context, ThisExpression.of(type.getSignature())));
                     return;

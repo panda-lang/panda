@@ -62,7 +62,12 @@ public final class ClassGenerator {
     private final Map<Type, CtClass> generatedClasses = new HashMap<>();
 
     public CtClass allocate(Type type) {
-        String javaName = type.getName().replace("::", "$").replace(":", "_") + "_" + ID.incrementAndGet();
+        String javaName = type.getName()
+                .replace("/", "$")
+                .replace("@", "$")
+                .replace("::", "$")
+                .replace(":", "_")
+                + "_" + ID.incrementAndGet();
 
         CtClass javaType = Kind.isInterface(type)
                 ? CLASS_POOL.makeInterface(javaName)

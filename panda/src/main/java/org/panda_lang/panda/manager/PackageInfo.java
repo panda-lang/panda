@@ -31,7 +31,7 @@ public final class PackageInfo {
     }
 
     public Dependency toDependency() {
-        return new Dependency("unknown", document.name, document.author, document.version);
+        return new Dependency("unknown", document.name, document.author, document.version, document.name);
     }
 
     public List<Dependency> getDependencies() {

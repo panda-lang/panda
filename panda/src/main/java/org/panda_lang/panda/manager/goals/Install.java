@@ -63,14 +63,14 @@ public final class Install implements ThrowingRunnable<Exception> {
                     continue;
                 }
 
-                String name = dependency.getName();
+                String identifier = dependency.getIdentifier();
 
-                if (dependencyMap.containsKey(name) && dependencyMap.get(name).hasHigherVersion(dependency.getVersion())) {
+                if (dependencyMap.containsKey(identifier) && dependencyMap.get(identifier).hasHigherVersion(dependency.getVersion())) {
                     continue;
                 }
 
                 install(pandaModules, dependency, dependenciesToLoad);
-                dependencyMap.put(name, dependency);
+                dependencyMap.put(identifier, dependency);
             }
 
             dependencies.clear();
@@ -87,7 +87,7 @@ public final class Install implements ThrowingRunnable<Exception> {
     }
 
     private void install(File pandaModules, Dependency dependency, Collection<Dependency> dependenciesToLoad) throws Exception {
-        File ownerDirectory = new File(pandaModules, dependency.getOwner());
+        File ownerDirectory = new File(pandaModules, dependency.getAuthor());
         ownerDirectory.mkdir();
 
         File packageDirectory = new File(ownerDirectory, dependency.getName());
@@ -115,16 +115,18 @@ public final class Install implements ThrowingRunnable<Exception> {
         dependenciesToLoad.addAll(dependencies);
     }
 
-    protected void scan(Map<String, Dependency> dependenciesMap, File ownerDirectory) {
-        File[] modules = Objects.requireNonNull(ownerDirectory.listFiles());
+    protected void scan(Map<String, Dependency> dependenciesMap, File authorDirectory) {
+        File[] packages = Objects.requireNonNull(authorDirectory.listFiles());
 
-        for (File module : modules) {
-            if (dependenciesMap.containsKey(module.getName())) {
+        for (File pkg : packages) {
+            String identifier = authorDirectory.getName() + "/" + pkg.getName();
+
+            if (dependenciesMap.containsKey(identifier)) {
                 continue;
             }
 
-            FileUtils.delete(module);
-            log(InstallStatus.REMOVED, dependenciesMap.remove(module.getName()));
+            FileUtils.delete(pkg);
+            log(InstallStatus.REMOVED, dependenciesMap.remove(identifier));
         }
     }
 

@@ -48,7 +48,7 @@ final class DependencyTest {
 
     @Test
     void getScope() {
-        assertEquals "dzikoysk", A.getOwner()
+        assertEquals "dzikoysk", A.getAuthor()
     }
 
     @Test

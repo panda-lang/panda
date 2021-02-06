@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.syntax.head;
 
+import org.panda_lang.framework.architecture.module.Imports;
 import org.panda_lang.framework.architecture.packages.Package;
 import org.panda_lang.framework.architecture.packages.Packages;
 import org.panda_lang.framework.interpreter.parser.Component;
@@ -23,7 +24,7 @@ import org.panda_lang.framework.interpreter.parser.Context;
 import org.panda_lang.framework.interpreter.parser.ContextParser;
 import org.panda_lang.framework.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.interpreter.parser.pool.Targets;
-import org.panda_lang.framework.interpreter.token.Snippet;
+import org.panda_lang.framework.interpreter.source.SourceService;
 import org.panda_lang.framework.interpreter.token.TokenInfo;
 import org.panda_lang.framework.resource.syntax.TokenTypes;
 import org.panda_lang.framework.resource.syntax.keyword.Keywords;
@@ -65,17 +66,19 @@ public final class RequireParser implements ContextParser<Object, Boolean> {
             throw new PandaParserFailure(context, packageName, "Cannot find package '" + packageName.getValue() + "'");
         });
 
-        Option<Snippet[]> detailed = sourceReader.optionalRead(sourceReader::readBody)
-                .map(body -> Arrays.stream(body.split(Separators.COMMA)))
-                .map(stream -> stream.toArray(Snippet[]::new));
+        SourceService sources = context.getEnvironment().getSources();
+        Imports imports = context.getImports();
 
-        for (Snippet qualifier : detailed.get()) {
-            requiredPackage.forModule(context.getEnvironment().getSources(), qualifier.asSource().replace("base", ""))
-                    .peek(module -> context.getImports().importModule(module))
-                    .orThrow(() -> {
-                        throw new PandaParserFailure(context, qualifier, "Cannot find module '" + qualifier.asSource() + "' in package '" + packageName.getValue() + "'");
-                    });
-        }
+        sourceReader.optionalRead(sourceReader::readBody)
+                .onEmpty(() -> imports.importModule(requiredPackage.forMainModule(sources)))
+                .toStream(body -> Arrays.stream(body.split(Separators.COMMA)))
+                .forEach(qualifier -> {
+                    requiredPackage.forModule(sources, qualifier.asSource().replace("base", ""))
+                            .peek(imports::importModule)
+                            .orThrow(() -> {
+                                throw new PandaParserFailure(context, qualifier, "Cannot find module '" + qualifier.asSource() + "' in package '" + packageName.getValue() + "'");
+                            });
+                });
 
         return Option.ofCompleted(true);
     }

@@ -1,5 +1,4 @@
 name: current-test
 version: 1.0.0
-owner: dzikoysk
-
+author: dzikoysk
 sources: src

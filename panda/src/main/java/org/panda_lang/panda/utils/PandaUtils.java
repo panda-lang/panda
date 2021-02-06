@@ -24,7 +24,6 @@ import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.manager.PackageUtils;
 import org.panda_lang.utilities.commons.TimeUtils;
-import org.panda_lang.utilities.commons.UnsafeUtils;
 import org.panda_lang.utilities.commons.function.Lazy;
 import org.panda_lang.utilities.commons.function.Result;
 
@@ -57,8 +56,6 @@ public final class PandaUtils {
      * The method should be called as fast as it is possible.
      */
     public static void printJVMUptime(LoggerHolder loggerHolder) {
-        UnsafeUtils.disableIllegalAccessMessage();
-
         loggerHolder.getLogger().debug("");
         loggerHolder.getLogger().debug("JVM launch time: " + TimeUtils.getJVMUptime() + "ms (｡•́︿•̀｡)");
         loggerHolder.getLogger().debug("");

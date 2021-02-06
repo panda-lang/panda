@@ -94,6 +94,10 @@ public class Package {
     }
 
     public String getName() {
+        return getAuthor() + "/" + getSimpleName();
+    }
+
+    public String getSimpleName() {
         return name;
     }
 

@@ -40,7 +40,7 @@ import org.panda_lang.utilities.commons.function.Completable;
 
 import java.util.Collections;
 
-@Mappings(pkg = "panda", module = Package.DEFAULT_MODULE, commonPackage= "java.lang", classes = {
+@Mappings(pkg = "panda", author = "panda", module = Package.DEFAULT_MODULE, commonPackage= "java.lang", classes = {
         "Iterable"
 })
 public final class JavaModule implements CustomInitializer {
