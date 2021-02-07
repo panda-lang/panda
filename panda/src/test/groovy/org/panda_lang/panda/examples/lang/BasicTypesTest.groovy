@@ -18,13 +18,14 @@ package org.panda_lang.panda.examples.lang
 
 import groovy.transform.CompileStatic
 import org.junit.jupiter.api.Test
+import org.panda_lang.panda.examples.PandaTestSpecification
 
 @CompileStatic
-class BasicTypesTest extends LangTestSpecification {
+class BasicTypesTest extends PandaTestSpecification {
 
     @Test
     void 'should compile and execute basic types' () {
-        launch 'basic_types.panda'
+        launch '/lang/', 'basic_types.panda'
     }
 
 }

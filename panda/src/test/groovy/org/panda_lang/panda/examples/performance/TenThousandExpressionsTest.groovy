@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.examples.lang
+package org.panda_lang.panda.examples.performance
 
 import groovy.transform.CompileStatic
 import org.junit.jupiter.api.Test
 import org.panda_lang.panda.examples.PandaTestSpecification
 
 @CompileStatic
-class LetTest extends PandaTestSpecification {
+final class TenThousandExpressionsTest extends PandaTestSpecification {
 
     @Test
-    void 'should compile and execute' () {
-        launch '/lang/', 'let.panda'
+    void 'should launch script' () {
+        launch '/performance/', 'ten_thousand_expressions.panda'
     }
 
 }

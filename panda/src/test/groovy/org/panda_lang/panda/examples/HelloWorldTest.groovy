@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.examples.lang
+package org.panda_lang.panda.examples
 
 import groovy.transform.CompileStatic
 import org.junit.jupiter.api.Test
-import org.panda_lang.panda.examples.PandaTestSpecification
 
 @CompileStatic
-class LetTest extends PandaTestSpecification {
+class HelloWorldTest extends PandaTestSpecification {
 
     @Test
-    void 'should compile and execute' () {
-        launch '/lang/', 'let.panda'
+    void 'should compile and execute main statement' () {
+        launch '/', 'hello_world.panda'
     }
 
 }

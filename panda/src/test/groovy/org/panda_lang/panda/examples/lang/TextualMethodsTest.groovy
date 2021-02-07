@@ -14,25 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.manager
+package org.panda_lang.panda.examples.lang
 
 import groovy.transform.CompileStatic
 import org.junit.jupiter.api.Test
-import org.panda_lang.panda.utils.PandaUtils
+import org.panda_lang.panda.examples.PandaTestSpecification
 
 @CompileStatic
-final class PandaModuleDependencyTest {
-
-    private static final File DIRECTORY = new File("../examples/package-manager/panda-module-dependency")
-    private static final PackageManager MANAGER = new PackageManager(PandaUtils.defaultInstance(), DIRECTORY)
+class TextualMethodsTest extends PandaTestSpecification {
 
     @Test
-    void test() throws Exception {
-        PandaUtils.printJVMUptime(MANAGER)
-        File document = new File(DIRECTORY, "panda.cdn")
-
-        MANAGER.install(document)
-        MANAGER.run(document)
+    void 'should compile and execute source with textual methods' () {
+        launch '/lang/', 'textual_methods.panda'
     }
 
 }

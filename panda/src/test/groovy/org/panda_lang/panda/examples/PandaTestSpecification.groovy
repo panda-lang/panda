@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.examples.lang
+package org.panda_lang.panda.examples
 
 import groovy.transform.CompileStatic
-import org.junit.jupiter.api.Test
-import org.panda_lang.panda.examples.PandaTestSpecification
+import org.panda_lang.panda.utils.PandaUtils
 
 @CompileStatic
-class LetTest extends PandaTestSpecification {
+class PandaTestSpecification {
 
-    @Test
-    void 'should compile and execute' () {
-        launch '/lang/', 'let.panda'
+    protected static Object launch (String directory, String script) {
+        return PandaUtils.load('../examples' + directory, '../examples' + directory + script)
+                .flatMap({ application -> application.launch() })
+                .get()
     }
 
 }

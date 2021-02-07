@@ -14,20 +14,23 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.examples.tests.performance
+package org.panda_lang.panda.examples.package_manager
 
 import groovy.transform.CompileStatic
 import org.junit.jupiter.api.Test
+import org.panda_lang.panda.manager.PackageManager
 import org.panda_lang.panda.utils.PandaUtils
 
 @CompileStatic
-final class TenThousandExpressionsTest {
+final class GithubPackagesTest {
+
+    private static final File PROJECT = new File("../examples/package-manager/github-packages/panda.cdn")
+    private static final PackageManager MANAGER = new PackageManager(PandaUtils.defaultInstance(), PROJECT.getParentFile())
 
     @Test
-    void launch() {
-        PandaUtils.load("../examples/tests/performance", "../examples/tests/performance/ten_thousand_expressions.panda")
-                .get()
-                .launch()
+    void 'should download packages from github and run app'() throws Exception {
+        MANAGER.install(PROJECT)
+        MANAGER.run(PROJECT)
     }
 
 }

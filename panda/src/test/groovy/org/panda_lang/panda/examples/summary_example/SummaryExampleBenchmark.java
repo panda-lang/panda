@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.examples.tests.performance;
+package org.panda_lang.panda.examples.summary_example;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Fork;
@@ -22,10 +22,8 @@ import org.openjdk.jmh.annotations.Measurement;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.Warmup;
 import org.openjdk.jmh.runner.RunnerException;
-import org.panda_lang.framework.architecture.Application;
+import org.panda_lang.panda.examples.PandaTestSpecification;
 import org.panda_lang.panda.utils.BenchmarkUtils;
-import org.panda_lang.panda.utils.PandaUtils;
-import org.panda_lang.utilities.commons.function.Option;
 
 import java.util.concurrent.TimeUnit;
 
@@ -33,38 +31,36 @@ import java.util.concurrent.TimeUnit;
  * Just a preview of approximate performance to check some basic behaviours
  *
  * Bootstrap :: Reflection based injector
- * CurrentTestBenchmark.currentTest  thrpt    2  0,019          ops/ms
+ * SummaryExampleBenchmark.currentTest  thrpt    2  0,019          ops/ms
  *
  * Bootstrap :: Generated method injector
- * CurrentTestBenchmark.currentTest  thrpt    2  0,025          ops/ms
+ * SummaryExampleBenchmark.currentTest  thrpt    2  0,025          ops/ms
  *
  * Cached Panda instance
- * CurrentTestBenchmark.currentTest  thrpt    2  0,027          ops/ms
+ * SummaryExampleBenchmark.currentTest  thrpt    2  0,027          ops/ms
  *
  * Java 14
- * CurrentTestBenchmark.currentTest  thrpt    2  0,033          ops/ms
+ * SummaryExampleBenchmark.currentTest  thrpt    2  0,033          ops/ms
  *
  * 0.2.0-alpha and Java 15
- * CurrentTestBenchmark.currentTest  thrpt    2  0,035          ops/ms
+ * SummaryExampleBenchmark.currentTest  thrpt    2  0,035          ops/ms
  *
  * 0.2.1-alpha and Java 15
- * CurrentTestBenchmark.currentTest  thrpt    2  0,040          ops/ms
+ * SummaryExampleBenchmark.currentTest  thrpt    2  0,040          ops/ms
  */
 @Fork(value = 1)
 @Warmup(iterations = 1)
 @Measurement(iterations = 2)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
-public class CurrentTestBenchmark {
+public class SummaryExampleBenchmark extends PandaTestSpecification {
 
     @Benchmark
-    public Option<Object> currentTest() throws Exception {
-        return PandaUtils.load("./examples/tests", "./examples/tests/current_test.panda")
-                .flatMap(Application::launch)
-                .get();
+    public Object summaryExample() {
+        return launch("/summary-example/", "panda.cdn");
     }
 
     public static void main(String[] args) throws RunnerException {
-        BenchmarkUtils.run(CurrentTestBenchmark.class);
+        BenchmarkUtils.run(SummaryExampleBenchmark.class);
     }
 
 }
