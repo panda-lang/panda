@@ -17,15 +17,15 @@
 package org.panda_lang.panda.examples.lang
 
 import groovy.transform.CompileStatic
-import org.panda_lang.panda.utils.PandaUtils
+import org.junit.jupiter.api.Test
+import org.panda_lang.panda.examples.PandaTestSpecification
 
 @CompileStatic
-class LangTestSpecification {
+class MembersTest extends PandaTestSpecification {
 
-    protected static void launch (String script) {
-        PandaUtils.load('../examples/lang', '../examples/lang/' + script)
-                .flatMap({ application -> application.launch() })
-                .get()
+    @Test
+    void 'should distinguish between members' () {
+        launch '/lang/', 'members.panda'
     }
 
 }

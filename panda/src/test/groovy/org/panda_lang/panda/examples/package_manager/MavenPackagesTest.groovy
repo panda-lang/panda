@@ -14,18 +14,22 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.examples.lang
+package org.panda_lang.panda.examples.package_manager
 
 import groovy.transform.CompileStatic
-import org.junit.jupiter.api.Test
-import org.panda_lang.panda.examples.PandaTestSpecification
+import org.panda_lang.panda.manager.PackageManager
+import org.panda_lang.panda.utils.PandaUtils
 
 @CompileStatic
-class LetTest extends PandaTestSpecification {
+final class MavenPackagesTest {
 
-    @Test
-    void 'should compile and execute' () {
-        launch '/lang/', 'let.panda'
+    private static final File PROJECT = new File("../examples/package_manager/maven-packages/panda.cdn")
+    private static final PackageManager MANAGER = new PackageManager(PandaUtils.defaultInstance(), PROJECT.getParentFile())
+
+    // @Test TODO: Add arrays
+    void test() throws Exception {
+        MANAGER.install(PROJECT)
+        MANAGER.run(PROJECT)
     }
 
 }

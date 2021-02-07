@@ -1,31 +1,34 @@
 main {
-    Foo defaultFoo = new Foo()
-    log 'Static' == Foo.staticField
-    log 'Static' == defaultFoo.staticField
-    log 'Default' == defaultFoo.field
-    log 'Default' == defaultFoo.field()
-
-    Foo foo = new Foo('Custom')
-    log 'Custom' == foo.field
-    log 'Custom' == foo.field()
+    Methods methods = new Methods()
+    methods.initialize()
 }
 
-open type Foo {
+type Methods {
 
-    open static String staticField = 'Static'
+    shared Int count = 5
 
-    internal String field
+    shared initialize() {
+        staticMethod()
+        anotherInitialize('Another initialize')
 
-    constructor (String field) {
-        this.field = field
+        Int count = count(10)
+        log count
     }
 
-    constructor () {
-        this('Default')
+    shared count(Int count) -> Int {
+        return count
     }
 
-    shared field () -> String {
-        return field
+    shared anotherInitialize(String message) {
+        log message
+    }
+
+    shared static staticMethod() {
+        anotherStaticMethod('Another static method')
+    }
+
+    shared static anotherStaticMethod(String message) {
+        log message
     }
 
 }

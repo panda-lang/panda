@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.examples.tests
+package org.panda_lang.panda.examples
 
 import groovy.transform.CompileStatic
-import org.panda_lang.panda.utils.PandaUtils
 
 @CompileStatic
-final class SwingExample {
+final class SwingExample extends PandaTestSpecification {
 
     static void main(String[] args) {
-        PandaUtils.load("", "./examples/swing.panda").get().launch()
+        launch '/', 'swing.panda'
     }
 
 }

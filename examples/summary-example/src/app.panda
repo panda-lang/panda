@@ -1,8 +1,8 @@
 // import java collections from std
 require 'java' { collections }
 
-// import 'test-local-module' internal module
-require 'current-test' { local-module }
+// import 'local-module' module
+require 'summary-example' { local-module }
 
 // import java class
 import org.panda_lang.panda.PandaConstants

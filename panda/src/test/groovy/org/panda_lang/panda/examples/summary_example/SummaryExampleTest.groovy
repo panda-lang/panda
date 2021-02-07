@@ -14,24 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.manager
+package org.panda_lang.panda.examples.summary_example
 
 import groovy.transform.CompileStatic
-import org.panda_lang.panda.utils.PandaUtils
+import org.junit.jupiter.api.Test
+import org.panda_lang.panda.examples.PandaTestSpecification
 
 @CompileStatic
-final class PandaWithJavaLibraryDependencyTest {
+final class SummaryExampleTest extends PandaTestSpecification {
 
-    private static final File DIRECTORY = new File("../examples/package_manager/panda-with-java-library-dependency")
-    private static final PackageManager MANAGER = new PackageManager(PandaUtils.defaultInstance(), DIRECTORY)
-
-    // @Test TODO: Add arrays
-    void test() throws Exception {
-        PandaUtils.printJVMUptime(MANAGER)
-        File document = new File(DIRECTORY, "panda.cdn")
-
-        MANAGER.install(document)
-        MANAGER.run(document)
+    @Test
+    void 'should launch summary example' () {
+        launch '/summary-example/', 'panda.cdn'
     }
 
 }

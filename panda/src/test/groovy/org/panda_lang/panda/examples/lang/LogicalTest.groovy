@@ -18,13 +18,14 @@ package org.panda_lang.panda.examples.lang
 
 import groovy.transform.CompileStatic
 import org.junit.jupiter.api.Test
+import org.panda_lang.panda.examples.PandaTestSpecification
 
 @CompileStatic
-class LogicalTest extends LangTestSpecification {
+class LogicalTest extends PandaTestSpecification {
 
     @Test
     void 'should compile and execute logical expressions' () {
-        launch 'logical.panda'
+        launch '/lang/', 'logical.panda'
     }
 
 }
