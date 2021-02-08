@@ -101,7 +101,7 @@ public enum State {
      * @return the state
      */
     public static State of(String state) {
-        return (state.equals(Keywords.TYPE.getValue()) || state.equals(Keywords.CLASS.getValue())) ? State.DEFAULT : State.ABSTRACT;
+        return state.equals(Keywords.TYPE.getValue()) ? State.DEFAULT : State.ABSTRACT;
     }
 
     public static void requireInstantiation(Context<?> context, Type type, Snippetable source) {

@@ -25,6 +25,7 @@ import org.panda_lang.framework.architecture.expression.ExpressionUtils;
 import org.panda_lang.framework.architecture.statement.Variable;
 import org.panda_lang.framework.interpreter.parser.Context;
 import org.panda_lang.framework.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionResult;
@@ -35,7 +36,7 @@ import org.panda_lang.framework.interpreter.token.SourceStream;
 import org.panda_lang.framework.interpreter.token.TokenInfo;
 import org.panda_lang.framework.resource.syntax.operator.Operators;
 
-public final class AssignationExpressionSubparser implements ExpressionSubparser {
+public final class AssignationPrarser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker(Context<?> context) {

@@ -17,41 +17,38 @@
 package org.panda_lang.panda.language.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.architecture.dynamic.accessor.AccessorExpression;
 import org.panda_lang.framework.architecture.expression.Expression;
 import org.panda_lang.framework.interpreter.parser.Context;
+import org.panda_lang.framework.interpreter.parser.expression.AbstractExpressionSubparserWorker;
+import org.panda_lang.framework.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionParserSettings;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionSubparser;
-import org.panda_lang.framework.interpreter.parser.expression.ExpressionSubparserType;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.interpreter.token.TokenInfo;
-import org.panda_lang.framework.resource.syntax.keyword.Keywords;
+import org.panda_lang.framework.resource.syntax.operator.CreaseType;
 import org.panda_lang.framework.resource.syntax.operator.Operators;
 
-public final class NegateExpressionSubparser implements ExpressionSubparser {
+public final class CreaseParser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker(Context<?> context) {
-        return new NegateWorker().withSubparser(this);
+        return new CreaseWorker().withSubparser(this);
     }
 
     @Override
-    public int minimalRequiredLengthOfSource() {
-        return 2;
-    }
-
-    @Override
-    public ExpressionSubparserType type() {
-        return ExpressionSubparserType.INDIVIDUAL;
+    public ExpressionCategory category() {
+        return ExpressionCategory.STANDALONE;
     }
 
     @Override
     public String name() {
-        return "negate";
+        return "crease";
     }
 
-    private static final class NegateWorker extends AbstractExpressionSubparserWorker {
+    private static final class CreaseWorker extends AbstractExpressionSubparserWorker {
 
         private static final ExpressionParserSettings SETTINGS = ExpressionParserSettings.create()
                 .mutualDisabled()
@@ -59,12 +56,36 @@ public final class NegateExpressionSubparser implements ExpressionSubparser {
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
-            if (!token.contentEquals(Keywords.NOT) && !token.contentEquals(Operators.NOT)) {
+            CreaseType type = null;
+
+            if (token.contentEquals(Operators.INCREMENT)) {
+                type = CreaseType.INCREASE;
+            }
+            else if (token.contentEquals(Operators.DECREMENT)) {
+                type = CreaseType.DECREASE;
+            }
+
+            if (type == null) {
                 return null;
             }
 
-            Expression expression = context.getParser().parse(context.toContext(), context.getSynchronizedSource(), SETTINGS);
-            return ExpressionResult.of(new NegateLogicalExpression(expression).toExpression());
+            boolean post = context.hasResults();
+
+            Expression expression = post
+                    ? context.popExpression()
+                    : context.getParser().parse(context.toContext(), context.getSynchronizedSource(), SETTINGS);
+
+            if (!(expression instanceof AccessorExpression)) {
+                return ExpressionResult.error("Expression is not associated with any variable", token);
+            }
+
+            AccessorExpression accessorExpression = (AccessorExpression) expression;
+
+            if (!accessorExpression.getAccessor().getVariable().isMutable()) {
+                return ExpressionResult.error("Cannot modify immutable variable", token);
+            }
+
+            return ExpressionResult.of(new CreaseExpression(((AccessorExpression) expression).getAccessor(), type == CreaseType.INCREASE, post).toExpression());
         }
 
     }

@@ -16,24 +16,88 @@
 
 package org.panda_lang.panda.language.syntax.expressions.subparsers.number;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.architecture.expression.Expression;
 import org.panda_lang.framework.architecture.expression.PandaExpression;
 import org.panda_lang.framework.architecture.module.TypeLoader;
 import org.panda_lang.framework.interpreter.parser.Context;
 import org.panda_lang.framework.interpreter.parser.PandaParserException;
 import org.panda_lang.framework.interpreter.parser.PandaParserFailure;
-import org.panda_lang.framework.interpreter.parser.Parser;
+import org.panda_lang.framework.interpreter.parser.expression.ExpressionContext;
+import org.panda_lang.framework.interpreter.parser.expression.ExpressionResult;
+import org.panda_lang.framework.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.framework.interpreter.parser.expression.ExpressionSubparserWorker;
+import org.panda_lang.framework.interpreter.token.PandaSnippet;
 import org.panda_lang.framework.interpreter.token.Snippet;
+import org.panda_lang.framework.interpreter.token.TokenInfo;
+import org.panda_lang.framework.resource.syntax.TokenTypes;
+import org.panda_lang.framework.resource.syntax.separator.Separators;
+import org.panda_lang.framework.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.utilities.commons.StringUtils;
 
-public final class NumberParser implements Parser {
+public final class NumberParser implements ExpressionSubparser {
+
+    @Override
+    public ExpressionSubparserWorker createWorker(Context<?> context) {
+        return new NumberWorker().withSubparser(this);
+    }
 
     @Override
     public String name() {
         return "number";
     }
 
-    public Expression parse(Context<?> context, Snippet source) {
+    private static final class NumberWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
+
+        private Snippet content;
+        private TokenInfo period;
+
+        @Override
+        public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
+            if (Separators.PERIOD.equals(token)) {
+                this.period = token;
+                return ExpressionResult.empty();
+            }
+
+            if (token.getType() != TokenTypes.UNKNOWN || !NumberUtils.isNumeric(token.getValue())) {
+                return dispose();
+            }
+
+            if (content == null) {
+                this.content = PandaSnippet.createMutable();
+            }
+
+            if (this.period != null) {
+                content.append(period);
+            }
+
+            content.append(token);
+            Expression expression;
+
+            try {
+                expression = parse(context.toContext(), content);
+            } catch (NumberFormatException numberFormatException) {
+                return ExpressionResult.error(numberFormatException.getMessage(), content);
+            }
+
+            // remove previous result from stack
+            if (period != null && context.hasResults()) {
+                context.popExpression();
+                dispose();
+            }
+
+            return ExpressionResult.of(expression);
+        }
+
+        private @Nullable ExpressionResult dispose() {
+            this.content = null;
+            this.period = null;
+            return null;
+        }
+
+    }
+
+    public static Expression parse(Context<?> context, Snippet source) {
         String unknownNumber = StringUtils.replace(source.asSource(), "_", StringUtils.EMPTY);
 
         if (unknownNumber.startsWith(".")) {

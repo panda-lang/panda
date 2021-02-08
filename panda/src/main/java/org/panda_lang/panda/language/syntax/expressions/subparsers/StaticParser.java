@@ -17,43 +17,41 @@
 package org.panda_lang.panda.language.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.architecture.type.Type;
 import org.panda_lang.framework.interpreter.parser.Context;
+import org.panda_lang.framework.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionResult;
-import org.panda_lang.framework.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.interpreter.token.TokenInfo;
-import org.panda_lang.framework.interpreter.parser.expression.ExpressionParserUtils;
-import org.panda_lang.framework.interpreter.token.TokenUtils;
+import org.panda_lang.framework.architecture.expression.StaticExpression;
+import org.panda_lang.framework.architecture.type.VisibilityComparator;
+import org.panda_lang.framework.interpreter.parser.expression.PartialResultSubparser;
+import org.panda_lang.framework.resource.syntax.TokenTypes;
 
-public final class SequenceExpressionSubparser implements ExpressionSubparser {
+public final class StaticParser implements PartialResultSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker(Context<?> context) {
-        return new SequenceWorker(context).withSubparser(this);
+        return new StaticWorker().withSubparser(this);
     }
 
     @Override
     public String name() {
-        return "sequence";
+        return "static";
     }
 
-    private static final class SequenceWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
-
-        private final Type stringType;
-
-        private SequenceWorker(Context<?> context) {
-            this.stringType = context.getTypeLoader().requireType("panda/panda@::String");
-        }
+    private static final class StaticWorker extends AbstractExpressionSubparserWorker {
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
-            if (TokenUtils.hasName(token, "String")) {
-                return ExpressionParserUtils.toExpressionResult(stringType.getSignature(), token.getValue());
+            if (token.getType() != TokenTypes.UNKNOWN || context.hasResults() || !context.getSynchronizedSource().hasNext()) {
+                return null;
             }
 
-            return null;
+            return context.toContext().getImports().forType(token.getValue())
+                    .filter(reference -> VisibilityComparator.requireAccess(reference.fetchType(), context.toContext(), token))
+                    .map(reference -> ExpressionResult.of(new StaticExpression(reference.fetchType().getSignature())))
+                    .getOrNull();
         }
 
     }

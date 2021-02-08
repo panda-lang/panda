@@ -62,10 +62,7 @@ public final class FieldParser implements ContextParser<TypeContext, TypeField> 
     @Override
     public Option<Completable<TypeField>> parse(Context<? extends TypeContext> context) {
         PandaSourceReader sourceReader = new PandaSourceReader(context.getStream());
-
-        Option<Visibility> visibility = sourceReader
-                .readVariant(Keywords.OPEN, Keywords.SHARED, Keywords.INTERNAL)
-                .map(Visibility::of);
+        Option<Visibility> visibility = sourceReader.readVisibility();
 
         if (visibility.isEmpty()) {
             return Option.none();

@@ -23,6 +23,7 @@ import org.panda_lang.framework.architecture.type.TypeContext;
 import org.panda_lang.framework.interpreter.parser.Context;
 import org.panda_lang.framework.interpreter.parser.PandaParserException;
 import org.panda_lang.framework.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionParserUtils;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionResult;
@@ -32,7 +33,7 @@ import org.panda_lang.framework.interpreter.parser.expression.ExpressionSubparse
 import org.panda_lang.framework.interpreter.token.TokenInfo;
 import org.panda_lang.framework.resource.syntax.TokenTypes;
 
-public final class LiteralExpressionSubparser implements ExpressionSubparser {
+public final class LiteralParser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker(Context<?> context) {

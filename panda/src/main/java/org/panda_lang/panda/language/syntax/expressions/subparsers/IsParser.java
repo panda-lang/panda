@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.architecture.type.signature.Signature;
 import org.panda_lang.framework.architecture.type.Type;
 import org.panda_lang.framework.interpreter.parser.Context;
+import org.panda_lang.framework.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionSubparser;
@@ -30,7 +31,7 @@ import org.panda_lang.framework.architecture.type.VisibilityComparator;
 import org.panda_lang.framework.resource.syntax.keyword.Keywords;
 import org.panda_lang.utilities.commons.function.Result;
 
-public final class IsExpressionSubparser implements ExpressionSubparser {
+public final class IsParser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker(Context<?> context) {

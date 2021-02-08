@@ -17,40 +17,44 @@
 package org.panda_lang.panda.language.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.architecture.type.Type;
 import org.panda_lang.framework.interpreter.parser.Context;
+import org.panda_lang.framework.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionResult;
+import org.panda_lang.framework.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.interpreter.token.TokenInfo;
-import org.panda_lang.framework.architecture.expression.StaticExpression;
-import org.panda_lang.framework.architecture.type.VisibilityComparator;
-import org.panda_lang.framework.interpreter.parser.expression.PartialResultSubparser;
-import org.panda_lang.framework.resource.syntax.TokenTypes;
+import org.panda_lang.framework.interpreter.parser.expression.ExpressionParserUtils;
+import org.panda_lang.framework.interpreter.token.TokenUtils;
 
-public final class StaticExpressionSubparser implements PartialResultSubparser {
+public final class SequenceParser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker(Context<?> context) {
-        return new StaticWorker().withSubparser(this);
+        return new SequenceWorker(context).withSubparser(this);
     }
 
     @Override
     public String name() {
-        return "static";
+        return "sequence";
     }
 
-    private static final class StaticWorker extends AbstractExpressionSubparserWorker {
+    private static final class SequenceWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
+
+        private final Type stringType;
+
+        private SequenceWorker(Context<?> context) {
+            this.stringType = context.getTypeLoader().requireType("panda/panda@::String");
+        }
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
-            if (token.getType() != TokenTypes.UNKNOWN || context.hasResults() || !context.getSynchronizedSource().hasNext()) {
-                return null;
+            if (TokenUtils.hasName(token, "String")) {
+                return ExpressionParserUtils.toExpressionResult(stringType.getSignature(), token.getValue());
             }
 
-            return context.toContext().getImports().forType(token.getValue())
-                    .filter(reference -> VisibilityComparator.requireAccess(reference.fetchType(), context.toContext(), token))
-                    .map(reference -> ExpressionResult.of(new StaticExpression(reference.fetchType().getSignature())))
-                    .getOrNull();
+            return null;
         }
 
     }

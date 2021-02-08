@@ -55,7 +55,6 @@ public final class MethodParser implements ContextParser<TypeContext, TypeMethod
     private static final ParameterParser PARAMETER_PARSER = new ParameterParser();
     private static final SignatureParser SIGNATURE_PARSER = new SignatureParser();
     private ScopeParser scopeParser;
-    private Type voidType;
 
     @Override
     public String name() {
@@ -75,7 +74,6 @@ public final class MethodParser implements ContextParser<TypeContext, TypeMethod
     @Override
     public void initialize(Context<?> context) {
         this.scopeParser = new ScopeParser(context.getPoolService());
-        this.voidType = context.getTypeLoader().requireType("panda/panda@::Void");
     }
 
     @Override
@@ -86,8 +84,7 @@ public final class MethodParser implements ContextParser<TypeContext, TypeMethod
 
         boolean overrides = sourceReader.optionalRead(() -> sourceReader.read(Keywords.OVERRIDE)).isDefined();
 
-        Option<Visibility> visibility = sourceReader.optionalRead(() -> sourceReader.readVariant(Keywords.OPEN, Keywords.SHARED, Keywords.INTERNAL))
-                .map(Visibility::of);
+        Option<Visibility> visibility = sourceReader.optionalRead(sourceReader::readVisibility);
 
         if (visibility.isEmpty() && !overrides) {
             return Option.none();
@@ -123,7 +120,7 @@ public final class MethodParser implements ContextParser<TypeContext, TypeMethod
 
         if (sourceReader.optionalRead(() -> sourceReader.read(Operators.ARROW)).isDefined()) {
             returnType = sourceReader.optionalRead(() -> sourceReader.read(Keywords.SELF))
-                    .map(self -> (Signature) context.getSubject().getType().getSignature())
+                    .map(self -> (Signature) type.getSignature())
                     // TODO: parent signature
                     .orElse(() -> sourceReader.readSignature().map(signatureSource -> SIGNATURE_PARSER.parse(context, signatureSource, false, type.getSignature())))
                     .orThrow(() -> {
@@ -131,7 +128,7 @@ public final class MethodParser implements ContextParser<TypeContext, TypeMethod
                     });
         }
         else {
-            returnType = voidType.getSignature();
+            returnType = type.getSignature();
         }
 
         // read body

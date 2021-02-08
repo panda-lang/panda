@@ -38,7 +38,7 @@ public final class Keywords {
 
     public static final Keyword CATCH = add(VALUES, new Keyword("catch"));
 
-    public static final Keyword CLASS = add(VALUES, new Keyword("class"));
+    public static final Keyword CLOSED = add(VALUES, new Keyword("closed"));
 
     public static final Keyword CONSTRUCTOR = add(VALUES, new Keyword("constructor"));
 

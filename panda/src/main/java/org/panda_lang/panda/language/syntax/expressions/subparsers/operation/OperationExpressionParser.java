@@ -28,13 +28,13 @@ import org.panda_lang.framework.interpreter.token.Snippetable;
 import org.panda_lang.framework.interpreter.token.TokenInfo;
 import org.panda_lang.framework.resource.syntax.TokenTypes;
 import org.panda_lang.framework.resource.syntax.operator.Operator;
-import org.panda_lang.panda.language.syntax.expressions.subparsers.AbstractExpressionSubparserWorker;
+import org.panda_lang.framework.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.language.syntax.expressions.subparsers.operation.Operation.OperationElement;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class OperationExpressionSubparser implements ExpressionSubparser {
+public final class OperationExpressionParser implements ExpressionSubparser {
 
     private static final OperationParser OPERATION_PARSER = new OperationParser();
 

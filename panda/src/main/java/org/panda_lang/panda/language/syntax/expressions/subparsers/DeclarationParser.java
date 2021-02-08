@@ -24,6 +24,7 @@ import org.panda_lang.framework.architecture.statement.VariableData;
 import org.panda_lang.framework.architecture.type.signature.Signature;
 import org.panda_lang.framework.interpreter.parser.Context;
 import org.panda_lang.framework.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionSubparser;
@@ -39,7 +40,7 @@ import org.panda_lang.panda.language.syntax.type.SignatureParser;
 import org.panda_lang.panda.language.syntax.type.SignatureSource;
 import org.panda_lang.utilities.commons.function.Option;
 
-public final class DeclarationExpressionSubparser implements ExpressionSubparser {
+public final class DeclarationParser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker(Context<?> context) {

@@ -87,14 +87,11 @@ public final class TypeParser implements ContextParser<Object, Type> {
 
         // read optional visibility
 
-        Visibility visibility = reader
-                .optionalRead(() -> reader.readVariant(Keywords.OPEN, Keywords.SHARED, Keywords.INTERNAL)
-                        .map(Visibility::of))
-                .orElseGet(Visibility.INTERNAL);
+        Visibility visibility = reader.optionalRead(reader::readVisibility).orElseGet(Visibility.INTERNAL);
 
         // read required model
 
-        Option<TokenInfo> kind = reader.readVariant(Keywords.CLASS, Keywords.TYPE, Keywords.INTERFACE);
+        Option<TokenInfo> kind = reader.readVariant(Keywords.TYPE, Keywords.INTERFACE);
         
         if (kind.isEmpty()) {
             return Option.none();

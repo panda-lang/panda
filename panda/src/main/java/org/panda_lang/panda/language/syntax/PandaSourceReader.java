@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.syntax;
 
 import org.panda_lang.framework.architecture.expression.Expression;
+import org.panda_lang.framework.architecture.type.Visibility;
 import org.panda_lang.framework.interpreter.parser.Context;
 import org.panda_lang.framework.interpreter.parser.SourceReader;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionParser;
@@ -26,6 +27,7 @@ import org.panda_lang.framework.interpreter.token.SourceStream;
 import org.panda_lang.framework.interpreter.token.TokenInfo;
 import org.panda_lang.framework.resource.syntax.TokenTypes;
 import org.panda_lang.framework.resource.syntax.auxiliary.Section;
+import org.panda_lang.framework.resource.syntax.keyword.Keywords;
 import org.panda_lang.framework.resource.syntax.operator.Operators;
 import org.panda_lang.framework.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.syntax.type.SignatureParser;
@@ -61,6 +63,10 @@ public class PandaSourceReader extends SourceReader {
                     .orElse(Collections.emptyList())
                     .map(generics -> new SignatureSource(name, generics))
                 );
+    }
+
+    public Option<Visibility> readVisibility() {
+        return readVariant(Keywords.OPEN, Keywords.SHARED, Keywords.INTERNAL, Keywords.CLOSED).map(Visibility::of);
     }
 
     public Option<Section> readGenerics() {

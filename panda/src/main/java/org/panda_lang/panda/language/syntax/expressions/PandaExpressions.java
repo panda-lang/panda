@@ -18,23 +18,23 @@ package org.panda_lang.panda.language.syntax.expressions;
 
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionSubparsers;
-import org.panda_lang.panda.language.syntax.expressions.subparsers.CastExpressionSubparser;
-import org.panda_lang.panda.language.syntax.expressions.subparsers.ConstructorExpressionSubparser;
-import org.panda_lang.panda.language.syntax.expressions.subparsers.CreaseExpressionSubparser;
-import org.panda_lang.panda.language.syntax.expressions.subparsers.DeclarationExpressionSubparser;
-import org.panda_lang.panda.language.syntax.expressions.subparsers.IsExpressionSubparser;
-import org.panda_lang.panda.language.syntax.expressions.subparsers.LiteralExpressionSubparser;
-import org.panda_lang.panda.language.syntax.expressions.subparsers.MethodExpressionSubparser;
-import org.panda_lang.panda.language.syntax.expressions.subparsers.NegateExpressionSubparser;
-import org.panda_lang.panda.language.syntax.expressions.subparsers.number.NegativeExpressionSubparser;
-import org.panda_lang.panda.language.syntax.expressions.subparsers.number.NotBitwiseExpressionSubparser;
-import org.panda_lang.panda.language.syntax.expressions.subparsers.number.NumberExpressionSubparser;
-import org.panda_lang.panda.language.syntax.expressions.subparsers.operation.OperationExpressionSubparser;
-import org.panda_lang.panda.language.syntax.expressions.subparsers.SectionExpressionSubparser;
-import org.panda_lang.panda.language.syntax.expressions.subparsers.SequenceExpressionSubparser;
-import org.panda_lang.panda.language.syntax.expressions.subparsers.StaticExpressionSubparser;
-import org.panda_lang.panda.language.syntax.expressions.subparsers.VariableExpressionSubparser;
-import org.panda_lang.panda.language.syntax.expressions.subparsers.AssignationExpressionSubparser;
+import org.panda_lang.panda.language.syntax.expressions.subparsers.CastParser;
+import org.panda_lang.panda.language.syntax.expressions.subparsers.InstanceCreationParser;
+import org.panda_lang.panda.language.syntax.expressions.subparsers.CreaseParser;
+import org.panda_lang.panda.language.syntax.expressions.subparsers.DeclarationParser;
+import org.panda_lang.panda.language.syntax.expressions.subparsers.IsParser;
+import org.panda_lang.panda.language.syntax.expressions.subparsers.LiteralParser;
+import org.panda_lang.panda.language.syntax.expressions.subparsers.MethodParser;
+import org.panda_lang.panda.language.syntax.expressions.subparsers.NegateParser;
+import org.panda_lang.panda.language.syntax.expressions.subparsers.number.NegativeParser;
+import org.panda_lang.panda.language.syntax.expressions.subparsers.number.NotBitwiseParser;
+import org.panda_lang.panda.language.syntax.expressions.subparsers.number.NumberParser;
+import org.panda_lang.panda.language.syntax.expressions.subparsers.operation.OperationExpressionParser;
+import org.panda_lang.panda.language.syntax.expressions.subparsers.SectionParser;
+import org.panda_lang.panda.language.syntax.expressions.subparsers.SequenceParser;
+import org.panda_lang.panda.language.syntax.expressions.subparsers.StaticParser;
+import org.panda_lang.panda.language.syntax.expressions.subparsers.VariableParser;
+import org.panda_lang.panda.language.syntax.expressions.subparsers.AssignationPrarser;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -43,23 +43,23 @@ public final class PandaExpressions {
 
     public static Collection<ExpressionSubparser> createSubparsers() {
         return Arrays.asList(
-                new AssignationExpressionSubparser(),
-                new CastExpressionSubparser(),
-                new ConstructorExpressionSubparser(),
-                new CreaseExpressionSubparser(),
-                new DeclarationExpressionSubparser(),
-                new IsExpressionSubparser(),
-                new LiteralExpressionSubparser(),
-                new MethodExpressionSubparser(),
-                new NegateExpressionSubparser(),
-                new NegativeExpressionSubparser(),
-                new NotBitwiseExpressionSubparser(),
-                new NumberExpressionSubparser(),
-                new OperationExpressionSubparser(),
-                new SectionExpressionSubparser(),
-                new SequenceExpressionSubparser(),
-                new StaticExpressionSubparser(),
-                new VariableExpressionSubparser()
+                new AssignationPrarser(),
+                new CastParser(),
+                new InstanceCreationParser(),
+                new CreaseParser(),
+                new DeclarationParser(),
+                new IsParser(),
+                new LiteralParser(),
+                new MethodParser(),
+                new NegateParser(),
+                new NegativeParser(),
+                new NotBitwiseParser(),
+                new NumberParser(),
+                new OperationExpressionParser(),
+                new SectionParser(),
+                new SequenceParser(),
+                new StaticParser(),
+                new VariableParser()
         );
     }
 

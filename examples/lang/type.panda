@@ -7,7 +7,7 @@ type Methods {
 
     shared Int count = 5
 
-    shared initialize() {
+    shared initialize () {
         staticMethod()
         anotherInitialize('Another initialize')
 
@@ -15,19 +15,19 @@ type Methods {
         log count
     }
 
-    shared count(Int count) -> Int {
+    shared count (Int count) -> Int {
         return count
     }
 
-    shared anotherInitialize(String message) {
+    shared anotherInitialize (String message) {
         log message
     }
 
-    shared static staticMethod() {
+    shared static staticMethod () {
         anotherStaticMethod('Another static method')
     }
 
-    shared static anotherStaticMethod(String message) {
+    shared static anotherStaticMethod (String message) {
         log message
     }
 

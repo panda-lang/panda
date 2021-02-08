@@ -23,11 +23,11 @@ import org.panda_lang.framework.runtime.ProcessStack;
 
 import java.security.InvalidParameterException;
 
-final class NegateLogicalExpression implements DynamicExpression {
+final class NegateExpression implements DynamicExpression {
 
     private final Expression logicalExpression;
 
-    public NegateLogicalExpression(Expression logicalExpression) {
+    public NegateExpression(Expression logicalExpression) {
         if (!logicalExpression.getKnownType().is("panda/panda@::Bool")) {
             throw new InvalidParameterException("Cannot reverse non logical value");
         }

@@ -1,7 +1,7 @@
-// export StringUtils class, this class will be visible in another files
+// export StringUtils class, this type will be visible in another files
 export org.panda_lang.utilities.commons.StringUtils
 
-// shared class to test visibility access
+// shared type to test visibility access
 shared type Required {
 
     // should generate default empty constructor
@@ -9,7 +9,7 @@ shared type Required {
     shared hello() {
         log "Required print"
 
-        // Imported by current_test.panda java class should not be visible
+        // Imported by current_test.panda java type should not be visible
         // Console.print(PandaConstants.VERSION)
     }
 

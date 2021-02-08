@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.syntax.expressions.subparsers;
+package org.panda_lang.panda.language.syntax.expressions.subparsers.lambda;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.interpreter.parser.Context;
@@ -27,8 +27,9 @@ import org.panda_lang.framework.interpreter.token.TokenInfo;
 import org.panda_lang.framework.resource.syntax.TokenTypes;
 import org.panda_lang.framework.resource.syntax.auxiliary.Section;
 import org.panda_lang.framework.resource.syntax.separator.Separators;
+import org.panda_lang.framework.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 
-final class LambdaExpressionSubparser implements ExpressionSubparser {
+final class LambdaParser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker(Context<?> context) {

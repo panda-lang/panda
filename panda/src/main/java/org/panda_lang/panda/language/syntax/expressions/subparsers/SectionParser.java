@@ -17,53 +17,50 @@
 package org.panda_lang.panda.language.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.architecture.expression.PandaDynamicExpression;
-import org.panda_lang.framework.architecture.type.signature.Signature;
-import org.panda_lang.framework.architecture.type.VisibilityComparator;
+import org.panda_lang.framework.architecture.expression.Expression;
 import org.panda_lang.framework.interpreter.parser.Context;
+import org.panda_lang.framework.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.interpreter.token.TokenInfo;
-import org.panda_lang.framework.resource.syntax.keyword.Keywords;
-import org.panda_lang.utilities.commons.function.Result;
+import org.panda_lang.framework.resource.syntax.TokenTypes;
+import org.panda_lang.framework.resource.syntax.auxiliary.Section;
+import org.panda_lang.framework.resource.syntax.separator.Separators;
 
-public final class CastExpressionSubparser implements ExpressionSubparser {
+public final class SectionParser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker(Context<?> context) {
-        return new CastWorker().withSubparser(this);
-    }
-
-    @Override
-    public int minimalRequiredLengthOfSource() {
-        return 2;
+        return new SectionWorker().withSubparser(this);
     }
 
     @Override
     public String name() {
-        return "cast";
+        return "section";
     }
 
-    private static final class CastWorker extends AbstractExpressionSubparserWorker {
+    private static final class SectionWorker extends AbstractExpressionSubparserWorker {
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo token) {
-            if (!token.contentEquals(Keywords.AS) || !context.hasResults()) {
+            if (token.getType() != TokenTypes.SECTION) {
                 return null;
             }
 
-            // TODO: Parent signature
-            Result<Signature, ExpressionResult> result = SubparsersUtils.readType(null, context);
+            Section section = token.toToken();
 
-            if (result.isErr()) {
-                return result.getError();
+            if (!section.getSeparator().equals(Separators.PARENTHESIS_LEFT)) {
+                return null;
             }
 
-            Signature signature = result.get();
-            VisibilityComparator.requireAccess(signature.toTyped().fetchType(), context.toContext(), token);
-            return ExpressionResult.of(new PandaDynamicExpression(signature, context.popExpression()).toExpression());
+            if (section.getContent().isEmpty()) {
+                return ExpressionResult.error("Expression expected", token);
+            }
+
+            Expression expression = context.getParser().parse(context.toContext(), section.getContent());
+            return ExpressionResult.of(expression);
         }
 
     }

@@ -14,10 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.syntax.expressions.subparsers;
-
-import org.panda_lang.framework.interpreter.parser.expression.ExpressionSubparser;
-import org.panda_lang.framework.interpreter.parser.expression.ExpressionSubparserWorker;
+package org.panda_lang.framework.interpreter.parser.expression;
 
 public abstract class AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 

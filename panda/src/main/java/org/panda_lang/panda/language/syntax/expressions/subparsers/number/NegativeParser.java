@@ -27,11 +27,11 @@ import org.panda_lang.framework.interpreter.parser.expression.ExpressionSubparse
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.interpreter.token.TokenInfo;
 import org.panda_lang.framework.resource.syntax.operator.Operators;
-import org.panda_lang.panda.language.syntax.expressions.subparsers.AbstractExpressionSubparserWorker;
+import org.panda_lang.framework.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 
 import java.security.InvalidParameterException;
 
-public final class NegativeExpressionSubparser implements ExpressionSubparser {
+public final class NegativeParser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker(Context<?> context) {

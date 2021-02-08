@@ -25,6 +25,7 @@ import org.panda_lang.framework.architecture.type.VisibilityComparator;
 import org.panda_lang.framework.architecture.type.member.field.TypeField;
 import org.panda_lang.framework.interpreter.parser.Context;
 import org.panda_lang.framework.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionSubparser;
@@ -36,7 +37,7 @@ import org.panda_lang.framework.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.syntax.expressions.subparsers.number.NumberUtils;
 import org.panda_lang.utilities.commons.function.Option;
 
-public final class VariableExpressionSubparser implements ExpressionSubparser {
+public final class VariableParser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker(Context<?> context) {

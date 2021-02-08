@@ -28,6 +28,7 @@ import org.panda_lang.framework.architecture.type.member.parameter.PropertyParam
 import org.panda_lang.framework.architecture.type.signature.AdjustedExpression;
 import org.panda_lang.framework.interpreter.parser.Context;
 import org.panda_lang.framework.interpreter.parser.PandaParserFailure;
+import org.panda_lang.framework.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionResult;
@@ -47,7 +48,7 @@ import org.panda_lang.utilities.commons.text.Joiner;
 
 import java.util.List;
 
-public final class MethodExpressionSubparser implements ExpressionSubparser {
+public final class MethodParser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker(Context<?> context) {

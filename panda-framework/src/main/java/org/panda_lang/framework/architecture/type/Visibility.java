@@ -30,9 +30,13 @@ public enum Visibility {
      */
     SHARED(1),
     /**
+     * May be accessed from the associated module and its submodules
+     */
+    INTERNAL(2),
+    /**
      * May be accessed only from the same source file or by inheritance
      */
-    INTERNAL(2);
+    CLOSED(3);
 
     private final int modifier;
 

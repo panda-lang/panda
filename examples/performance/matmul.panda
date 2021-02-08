@@ -3,7 +3,7 @@
  Matrix multiplication algorithm
 
  Algorithm for multiplying two 100x100 matrices using the standard cubic-time algorithm.
- This benchmark evaluates the performance of nested loops with a simple inner loop, which is frequent in scientific computing.
+ This benchmark evaluates the performance of nested loops with a simple internal loop, which is frequent in scientific computing.
 
  The algorithm uses the slowest elements like math on non primitive numbers, arrays accessors and initializers.
  It's useful to have a view at the overall performance of these mechanics.
@@ -29,7 +29,7 @@
 
 */
 
-internal class Matmul {
+internal type Matmul {
 
     internal matgen(Int n) -> Double[][] {
         Double[][] a = new Double[n][n]

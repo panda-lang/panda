@@ -104,7 +104,7 @@ main {
     creaseValue++
     log creaseValue
 
-    // create instance of class imported from another file
+    // create instance of type imported from another file
     // should use generated default constructor
     Required required = new Required()
     required.hello()
@@ -152,8 +152,8 @@ main {
     //log primitiveArray[0]
     // log new String(primitiveArray)
 
-    // Use class from imported internal module
-    LocalModuleClass.hello()
+    // Use type from imported internal module
+    LocalModule.hello()
 
     // Autocast
     Int intValue = 10
@@ -179,11 +179,11 @@ shared interface IEcho {
     shared static anotherEcho (String doSth) -> String
 
     // standard method to impl
-    internal 'self test' () -> self
+    internal 'self test' ()
 
 }
 
-// simple class that extends class Test and implements interface IEcho
+// simple type that extends  Test type and implements interface IEcho
 shared type Foo : Test, IEcho {
 
     constructor () {
@@ -191,13 +191,13 @@ shared type Foo : Test, IEcho {
     }
 
     // we need to mark overridden methods by the keyword
-    override static anotherEcho (String message1)  -> String {
+    override static anotherEcho (String message1) -> String {
         log message1
         return this
     }
 
     // we need to impl all methods
-    override 'self test' () -> self { }
+    override 'self test' () { }
 
     override toString () -> String {
         return 'Foo'
@@ -242,7 +242,7 @@ internal type Test {
     }
 
     // static field that creates instance of the current class
-    // open static Test TEST = { new Test('Static initialization of class instance') }
+    // open static Test TEST = { new Test('Static initialization of type instance') }
 
     shared echo (Object message3) {
         log message3
