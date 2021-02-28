@@ -76,6 +76,15 @@ public class Result<V, E>  {
         return isOk() ? value : error;
     }
 
+    @SuppressWarnings("unchecked")
+    public <T> T getAnyAs() {
+        return (T) getAny();
+    }
+
+    public <R> R merge(Function<V, R> valueMerge, Function<E, R> errorMerge) {
+        return isOk() ? valueMerge.apply(get()) : errorMerge.apply(getError());
+    }
+
     public <R> Result<R, E> map(Function<V, R> function) {
         return isOk() ? Result.ok(function.apply(value)) : Result.error(error);
     }

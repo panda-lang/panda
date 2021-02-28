@@ -36,7 +36,7 @@ final class PandaCliTest {
         invoke("--version")
     }
 
-    private void invoke(String args) throws Exception {
+    private static void invoke(String args) throws Exception {
         CommandLine.populateCommand(new PandaCli(SHELL), args).run()
     }
 

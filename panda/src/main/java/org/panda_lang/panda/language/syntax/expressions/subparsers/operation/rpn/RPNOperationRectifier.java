@@ -50,7 +50,7 @@ public final class RPNOperationRectifier {
                 throw new PandaFrameworkException("Unexpected or unsupported operator " + operator);
             }
 
-            // inversed on stack
+            // inverted on stack
             Expression b = values.pop();
             Expression a = values.pop();
             RPNOperationAction<?> action = supplier.of(typeLoader, a, b);

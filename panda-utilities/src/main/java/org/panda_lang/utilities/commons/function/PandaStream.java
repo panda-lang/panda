@@ -98,6 +98,10 @@ public class PandaStream<T> {
         return Option.ofOptional(stream.findFirst());
     }
 
+    public Option<T> last() {
+        return Option.ofOptional(stream.reduce((first, second) -> second));
+    }
+
     public Option<T> any() {
         return Option.ofOptional(stream.findAny());
     }

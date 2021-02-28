@@ -50,6 +50,8 @@ public final class PackageUtils {
         }
 
         PackageDocument packageDocument = new PackageDocument();
+        packageDocument.name = script.getName();
+
         Package pkg = new Package(packageDocument.name, packageDocument.author, packageDocument.version, script);
         PandaModule defaultModule = new PandaModule(pkg, Package.DEFAULT_MODULE);
         ModuleSource moduleSource = new ModuleSource(defaultModule, Collections.singleton(URLSource.fromFile(defaultModule, script)));
