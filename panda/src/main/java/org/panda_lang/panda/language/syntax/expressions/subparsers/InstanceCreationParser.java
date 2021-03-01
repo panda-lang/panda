@@ -145,7 +145,7 @@ public final class InstanceCreationParser implements ExpressionSubparser {
                 public Object invoke(ParametrizedMember property, ProcessStack stack, @Nullable Object instance, Object[] args) {
                     return type.getTypeScope().map(scope -> {
                         try {
-                            return scope.revive(stack, instance, typeConstructor.get(), args);
+                            return scope.revive(stack);
                         } catch (Exception exception) {
                             throw new PandaRuntimeException("Cannot create scope instance", exception);
                         }

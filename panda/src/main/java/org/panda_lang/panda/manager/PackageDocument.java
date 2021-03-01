@@ -22,11 +22,11 @@ import java.util.List;
 
 public class PackageDocument implements Serializable {
 
-    public String name = "<undefined>";
+    public String name = "unnamed";
 
-    public String version = "<undefined>";
+    public String version = "unnamed";
 
-    public String author = "<undefined>";
+    public String author = "unnamed";
 
     public String sources = "";
 

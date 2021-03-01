@@ -27,11 +27,13 @@ import org.panda_lang.framework.architecture.type.TypeContext;
 import org.panda_lang.framework.architecture.type.TypeScope;
 import org.panda_lang.framework.architecture.type.Visibility;
 import org.panda_lang.framework.architecture.type.generator.ClassGenerator;
+import org.panda_lang.framework.architecture.type.member.constructor.ConstructorScope;
 import org.panda_lang.framework.architecture.type.member.constructor.PandaConstructor;
 import org.panda_lang.framework.architecture.type.member.field.TypeField;
 import org.panda_lang.framework.architecture.type.member.method.TypeMethod;
 import org.panda_lang.framework.architecture.type.signature.Signature;
 import org.panda_lang.framework.architecture.type.signature.TypedSignature;
+import org.panda_lang.framework.interpreter.parser.Component;
 import org.panda_lang.framework.interpreter.parser.Context;
 import org.panda_lang.framework.interpreter.parser.ContextParser;
 import org.panda_lang.framework.interpreter.parser.PandaParserFailure;
@@ -51,12 +53,12 @@ import org.panda_lang.framework.resource.syntax.operator.Operators;
 import org.panda_lang.framework.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.syntax.PandaSourceReader;
 import org.panda_lang.utilities.commons.ArrayUtils;
-import org.panda_lang.framework.interpreter.parser.Component;
 import org.panda_lang.utilities.commons.function.Completable;
 import org.panda_lang.utilities.commons.function.Option;
 import org.panda_lang.utilities.commons.function.PandaStream;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -191,9 +193,12 @@ public final class TypeParser implements ContextParser<Object, Type> {
                                 );
                             });
 
+                    ConstructorScope defaultConstructorScope = new ConstructorScope(type.getLocation(), Collections.emptyList());
+
                     type.getConstructors().declare(PandaConstructor.builder()
                             .type(type)
-                            .invoker((constructor, frame, instance, args) -> scope.revive(frame, instance, constructor, args))
+                            .invoker(defaultConstructorScope)
+                            .baseCall(defaultConstructorScope::getBaseCall)
                             .location(type.getLocation())
                             .returnType(type.getSignature())
                             .build());

@@ -99,7 +99,7 @@ public final class ReplCreator {
 
         type.getConstructors().declare(PandaConstructor.builder()
                 .type(type)
-                .invoker((typeConstructor, frame, instance, arguments) -> typeScope.revive(frame, instance, typeConstructor, arguments))
+                .invoker((typeConstructor, stack, instance, arguments) -> typeScope.revive(stack))
                 .location(type.getLocation())
                 .returnType(type.getSignature())
                 .build());
@@ -127,12 +127,8 @@ public final class ReplCreator {
      */
     public Repl create() throws Exception {
         this.processSupplier = () -> new PandaProcess(context.getApplication(), replScope);
-
-        Type type = typeScope.getReference().fetchType();
-
-        this.instanceSupplier = stack -> {
-            return typeScope.revive(stack, typeScope, type.getConstructors().getConstructor(Collections.emptyList()).getOrNull(), new Object[0]);
-        };
+        // Type type = typeScope.getReference().fetchType();
+        this.instanceSupplier = typeScope::revive;
 
         return new Repl(this);
     }

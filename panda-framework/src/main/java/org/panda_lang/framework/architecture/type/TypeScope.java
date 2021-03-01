@@ -16,9 +16,7 @@
 
 package org.panda_lang.framework.architecture.type;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.architecture.statement.AbstractFramedScope;
-import org.panda_lang.framework.architecture.type.member.constructor.TypeConstructor;
 import org.panda_lang.framework.interpreter.source.Location;
 import org.panda_lang.framework.runtime.ProcessStack;
 
@@ -31,7 +29,7 @@ public final class TypeScope extends AbstractFramedScope {
         this.reference = reference;
     }
 
-    public TypeFrame revive(ProcessStack stack, @Nullable Object instance, TypeConstructor constructor, Object[] arguments) throws Exception {
+    public TypeFrame revive(ProcessStack stack) {
         return new TypeFrame(stack.getProcess(), this);
     }
 

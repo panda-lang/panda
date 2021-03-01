@@ -145,9 +145,10 @@ public final class MethodParser implements ContextParser<TypeContext, TypeMethod
                 .name(name.get())
                 .location(context)
                 .isAbstract(body.isEmpty())
+                .isOverriding(overrides)
+                .isStatic(isStatic)
                 .visibility(visibility.orElseGet(Visibility.OPEN))
                 .returnType(returnType)
-                .isStatic(isStatic)
                 .body(methodScope)
                 .build();
         type.getMethods().declare(method);
