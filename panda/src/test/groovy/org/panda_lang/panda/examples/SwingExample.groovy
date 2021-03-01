@@ -17,11 +17,13 @@
 package org.panda_lang.panda.examples
 
 import groovy.transform.CompileStatic
+import org.junit.jupiter.api.Test
 
 @CompileStatic
 final class SwingExample extends PandaTestSpecification {
 
-    static void main(String[] args) {
+    @Test
+    void 'should compile and handle swing bindings' () {
         launch '/', 'swing.panda'
     }
 

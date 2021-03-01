@@ -28,6 +28,7 @@ public final class PandaMethod extends AbstractParametrizedMember<TypeMethod> im
     private final boolean isAbstract;
     private final boolean isStatic;
     private final boolean isNative;
+    private final boolean isOverriding;
 
     protected PandaMethod(PandaMethodBuilder builder) {
         super(builder);
@@ -36,6 +37,7 @@ public final class PandaMethod extends AbstractParametrizedMember<TypeMethod> im
         this.isAbstract = builder.isAbstract;
         this.isNative = builder.isNative;
         this.isStatic = builder.isStatic;
+        this.isOverriding = builder.isOverriding;
     }
 
     @Override
@@ -59,6 +61,11 @@ public final class PandaMethod extends AbstractParametrizedMember<TypeMethod> im
     }
 
     @Override
+    public boolean isOverriding() {
+        return isOverriding;
+    }
+
+    @Override
     public String getName() {
         return getType() + "#" + getSimpleName() + "(" + ParameterUtils.toString(getParameters()) + ") → " + getReturnType();
     }
@@ -73,6 +80,7 @@ public final class PandaMethod extends AbstractParametrizedMember<TypeMethod> im
         protected boolean isAbstract;
         protected boolean isStatic;
         protected boolean isNative;
+        protected boolean isOverriding;
 
         private PandaMethodBuilder() { }
 
@@ -87,6 +95,11 @@ public final class PandaMethod extends AbstractParametrizedMember<TypeMethod> im
 
         public PandaMethodBuilder isAbstract(boolean isAbstract) {
             this.isAbstract = isAbstract;
+            return this;
+        }
+
+        public PandaMethodBuilder isOverriding(boolean isOverriding) {
+            this.isOverriding = isOverriding;
             return this;
         }
 

@@ -38,6 +38,8 @@ public interface TypeMethod extends ParametrizedMember {
      */
     boolean isNative();
 
+    boolean isOverriding();
+
     /**
      * Check if method is static
      *

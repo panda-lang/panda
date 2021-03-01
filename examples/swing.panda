@@ -7,7 +7,7 @@ main {
 
 type Window : Runnable {
 
-    override run() {
+    override run () -> PrimitiveVoid {
         JFrame frame = new JFrame('MonkaS')
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
         frame.setSize(720, 380)

@@ -64,9 +64,12 @@ public final class ClassGenerator {
     public CtClass allocate(Type type) {
         String javaName = type.getName()
                 .replace("/", "$")
+                .replace(".", "$")
                 .replace("@", "$")
                 .replace("::", "$")
-                .replace(":", "_")
+                .replace(":", "")
+                .replace("<", "")
+                .replace(">", "")
                 + "_" + ID.incrementAndGet();
 
         CtClass javaType = Kind.isInterface(type)
@@ -161,7 +164,7 @@ public final class ClassGenerator {
             Map<String, TypeMethod> methods = new HashMap<>();
 
             for (TypeMethod method : type.getMethods().getDeclaredProperties()) {
-                String generatedName = "_" + method.getSimpleName().replaceAll("[^A-Za-z0-9]", "");
+                String generatedName = (method.isOverriding() ? "" : "_") + method.getSimpleName().replaceAll("[^A-Za-z0-9_$]", "");
 
                 CtClass[] parameters = ClassPoolUtils.toCt(ParameterUtils.parametersToClasses(method.getParameters()));
                 CtMethod javaMethod = new CtMethod(getCtClass(method.getReturnType().getKnownType()), generatedName, parameters, javaType);
