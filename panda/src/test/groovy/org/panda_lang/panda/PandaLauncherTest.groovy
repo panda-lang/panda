@@ -30,8 +30,8 @@ final class PandaLauncherTest {
     private Logger logger = new DefaultLogger({ String message -> output.append(message) })
 
     @Test
-    void 'should print help if args are empty' () {
-        PandaLauncher.launch(() -> logger, System.in)
+    void 'should print help' () {
+        PandaLauncher.launch(() -> logger, System.in, '--help')
         assertTrue output.contains('Usage')
     }
 

@@ -36,7 +36,7 @@ public final class ZipUtils {
             while ((entry = zip.getNextEntry()) != null) {
                 File file = new File(target, entry.getName());
 
-                if (!file.toPath().normalize().startsWith(target.toPath())) {
+                if (!file.toPath().normalize().startsWith(target.toPath().normalize())) {
                     throw new IOException("Bad zip entry");
                 }
 

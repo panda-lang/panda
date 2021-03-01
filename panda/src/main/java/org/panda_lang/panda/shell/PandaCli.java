@@ -24,6 +24,7 @@ import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaConstants;
 import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.manager.PackageManager;
+import org.panda_lang.panda.manager.PackageManagerConstants;
 import org.panda_lang.panda.manager.PackageUtils;
 import org.panda_lang.panda.shell.repl.ReplConsole;
 import org.panda_lang.panda.utils.PandaUtils;
@@ -95,12 +96,19 @@ final class PandaCli implements ThrowingRunnable<Exception> {
             return;
         }
 
-        if (script == null) {
-            logger.error("You have to specify the script file. Use --help to find out more about the shell in general.");
+        script = script.getAbsoluteFile();
+
+        if (script.isDirectory()) {
+            script = new File(script, PackageManagerConstants.PACKAGE_INFO);
+        }
+
+        if (!script.exists()) {
+            logger.error("You have to specify existing script or package file. " + script.getAbsolutePath() + " does not exist.");
+            logger.error("Use --help to find out more about the shell in general.");
             return;
         }
 
-        if (script.getName().endsWith("panda.cdn")) {
+        if (script.getName().endsWith(PackageManagerConstants.PACKAGE_INFO)) {
             PackageManager packageManager = new PackageManager(panda, script.getParentFile());
             packageManager.install(script);
             packageManager.run(script).peek(value -> logger.debug("Process exited with " + value + " object"));

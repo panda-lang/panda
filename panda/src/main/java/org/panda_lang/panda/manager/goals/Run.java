@@ -50,11 +50,12 @@ public final class Run {
                     environment.getPackages().registerPackage(pkg);
                 } catch (Exception exception) {
                     exception.printStackTrace();
+                    return Option.none();
                 }
             }
         }
 
-        Package packageToRun = PackageUtils.directoryToPackage(packageInfo.getFile().getParentFile());
+        Package packageToRun = PackageUtils.directoryToPackage(packageInfo.getFile().getAbsoluteFile().getParentFile());
 
         return environment.getInterpreter()
                 .interpret(packageToRun)

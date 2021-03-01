@@ -19,7 +19,6 @@ package org.panda_lang.panda;
 import org.panda_lang.framework.interpreter.logging.Logger;
 import org.panda_lang.framework.interpreter.logging.SystemLogger;
 import org.panda_lang.panda.shell.PandaShell;
-import org.panda_lang.utilities.commons.ArrayUtils;
 
 import java.io.InputStream;
 import java.util.function.Supplier;
@@ -43,11 +42,6 @@ public final class PandaLauncher {
 
     public static void launch(Supplier<Logger> logger, InputStream input, String... args) throws Exception {
         PandaShell shell = new PandaShell(logger, input);
-
-        if (ArrayUtils.isEmpty(args)) {
-            args = new String[] { "--help" };
-        }
-
         shell.invoke(args);
     }
 
