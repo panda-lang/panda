@@ -29,7 +29,7 @@ public final class PandaPriorities {
     public static final int PROTOTYPE_FIELD = 2;
 
     /**
-     * Used by {@link org.panda_lang.panda.language.interpreter.parser.block.BlockParser}
+     * Used by {@link org.panda_lang.panda.language.syntax.scope.block.BlockParser}
      */
     public static final int SCOPE_BLOCK = 1;
 

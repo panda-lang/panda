@@ -48,7 +48,7 @@ import org.panda_lang.utilities.commons.text.Joiner;
 
 import java.util.List;
 
-public final class MethodParser implements ExpressionSubparser {
+public final class MethodCallParser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker(Context<?> context) {

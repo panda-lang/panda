@@ -24,7 +24,7 @@ import org.panda_lang.panda.language.syntax.expressions.subparsers.CreaseParser;
 import org.panda_lang.panda.language.syntax.expressions.subparsers.DeclarationParser;
 import org.panda_lang.panda.language.syntax.expressions.subparsers.IsParser;
 import org.panda_lang.panda.language.syntax.expressions.subparsers.LiteralParser;
-import org.panda_lang.panda.language.syntax.expressions.subparsers.MethodParser;
+import org.panda_lang.panda.language.syntax.expressions.subparsers.MethodCallParser;
 import org.panda_lang.panda.language.syntax.expressions.subparsers.NegateParser;
 import org.panda_lang.panda.language.syntax.expressions.subparsers.number.NegativeParser;
 import org.panda_lang.panda.language.syntax.expressions.subparsers.number.NotBitwiseParser;
@@ -50,7 +50,7 @@ public final class PandaExpressions {
                 new DeclarationParser(),
                 new IsParser(),
                 new LiteralParser(),
-                new MethodParser(),
+                new MethodCallParser(),
                 new NegateParser(),
                 new NegativeParser(),
                 new NotBitwiseParser(),

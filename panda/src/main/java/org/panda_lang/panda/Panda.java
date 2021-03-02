@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda;
 
-import org.fusesource.jansi.AnsiConsole;
 import org.panda_lang.framework.FrameworkController;
 import org.panda_lang.framework.PandaClassLoader;
 import org.panda_lang.framework.PandaFramework;
@@ -36,7 +35,6 @@ public final class Panda extends PandaFramework implements FrameworkController {
 
     static {
         UnsafeUtils.disableIllegalAccessMessage();
-        AnsiConsole.systemInstall();
     }
 
     private Panda(PandaBuilder builder) {

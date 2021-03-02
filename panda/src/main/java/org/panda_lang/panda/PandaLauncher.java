@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda;
 
+import org.fusesource.jansi.AnsiConsole;
 import org.panda_lang.framework.interpreter.logging.Logger;
 import org.panda_lang.framework.interpreter.logging.SystemLogger;
 import org.panda_lang.panda.shell.PandaShell;
@@ -37,6 +38,10 @@ public final class PandaLauncher {
      * @throws Exception if something happen
      */
     public static void main(String... args) throws Exception {
+        if (System.console() != null) {
+            AnsiConsole.systemInstall();
+        }
+
         launch(SystemLogger::new, System.in, args);
     }
 
