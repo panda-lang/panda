@@ -62,7 +62,7 @@ public final class ClassGenerator {
     private final Map<Type, CtClass> generatedClasses = new HashMap<>();
 
     public CtClass allocate(Type type) {
-        String javaName = type.getName()
+        String javaName = TypeInstance.class.getPackage().getName() + "." + type.getName()
                 .replace("/", "$")
                 .replace(".", "$")
                 .replace("@", "$")
@@ -205,7 +205,14 @@ public final class ClassGenerator {
     }
 
     public Class<?> complete(Type type) throws CannotCompileException {
-        return generatedClasses.get(type).toClass();
+        double version = Double.parseDouble(System.getProperty("java.specification.version"));
+
+        if (version >= 11) {
+            return generatedClasses.get(type).toClass(TypeInstance.class);
+        }
+        else {
+            return generatedClasses.get(type).toClass();
+        }
     }
 
     private CtClass getCtClass(Type type) {
