@@ -37,7 +37,7 @@ import org.panda_lang.framework.architecture.type.signature.TypedSignature;
 import org.panda_lang.framework.runtime.PandaProcessStack;
 import org.panda_lang.framework.runtime.PandaRuntimeException;
 import org.panda_lang.utilities.commons.ArrayUtils;
-import org.panda_lang.utilities.commons.ClassPoolUtils;
+import org.panda_lang.utilities.commons.javassist.ClassPoolUtils;
 import org.panda_lang.utilities.commons.StringUtils;
 import org.panda_lang.utilities.commons.javassist.CtCode;
 import org.panda_lang.utilities.commons.text.Joiner;
@@ -205,14 +205,7 @@ public final class ClassGenerator {
     }
 
     public Class<?> complete(Type type) throws CannotCompileException {
-        double version = Double.parseDouble(System.getProperty("java.specification.version"));
-
-        if (version >= 11) {
-            return generatedClasses.get(type).toClass(TypeInstance.class);
-        }
-        else {
-            return generatedClasses.get(type).toClass();
-        }
+        return ClassPoolUtils.toClass(generatedClasses.get(type), TypeInstance.class);
     }
 
     private CtClass getCtClass(Type type) {

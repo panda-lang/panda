@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.utilities.commons;
+package org.panda_lang.utilities.commons.javassist;
 
 import javassist.CannotCompileException;
 import javassist.ClassClassPath;
@@ -27,6 +27,7 @@ import java.util.Arrays;
 public final class ClassPoolUtils {
 
     private static final ClassPool CLASS_POOL = ClassPool.getDefault();
+    private static final double VERSION = Double.parseDouble(System.getProperty("java.specification.version"));
 
     static {
         CLASS_POOL.insertClassPath(new ClassClassPath(ClassPoolUtils.class));
@@ -44,23 +45,18 @@ public final class ClassPoolUtils {
         return ctClasses;
     }
 
-    /**
-     * Compile CtClass into the proper class
-     *
-     * @param clazz the CtClass to compile
-     * @return a result class
-     */
-    public static Class<?> toClass(CtClass clazz) {
-        try {
+    public static Class<?> toClass(CtClass clazz, Class<?> domainClass) throws CannotCompileException {
+        if (VERSION >= 11) {
+            return clazz.toClass(domainClass);
+        }
+        else {
             return clazz.toClass();
-        } catch (CannotCompileException cannotCompileException) {
-            throw new ClassPoolException(cannotCompileException.getCause());
         }
     }
 
     /**
      * Get CtClass using the default class pool.
-     * The method throws {@link org.panda_lang.utilities.commons.ClassPoolUtils.ClassPoolException} with a default message if class cannot be located in the pool
+     * The method throws {@link ClassPoolUtils.ClassPoolException} with a default message if class cannot be located in the pool
      *
      * @param clazz the class to get
      * @return class representation
@@ -74,7 +70,7 @@ public final class ClassPoolUtils {
     }
 
     /**
-     * Map array of classes using the {@link org.panda_lang.utilities.commons.ClassPoolUtils#require(Class)}
+     * Map array of classes using the {@link ClassPoolUtils#require(Class)}
      *
      * @param classes the array of classes to map
      * @return the array of ct classes
@@ -106,7 +102,7 @@ public final class ClassPoolUtils {
     }
 
     /**
-     * Default runtime exception thrown by {@link org.panda_lang.utilities.commons.ClassPoolUtils} utilities
+     * Default runtime exception thrown by {@link ClassPoolUtils} utilities
      */
     public static class ClassPoolException extends RuntimeException {
 

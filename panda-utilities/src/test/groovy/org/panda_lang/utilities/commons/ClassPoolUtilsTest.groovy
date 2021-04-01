@@ -20,7 +20,7 @@ import groovy.transform.CompileStatic;
 import javassist.CtClass;
 import javassist.NotFoundException;
 import org.junit.jupiter.api.Test
-
+import org.panda_lang.utilities.commons.javassist.ClassPoolUtils
 
 import static org.junit.jupiter.api.Assertions.assertEquals
 import static org.junit.jupiter.api.Assertions.assertNotNull;

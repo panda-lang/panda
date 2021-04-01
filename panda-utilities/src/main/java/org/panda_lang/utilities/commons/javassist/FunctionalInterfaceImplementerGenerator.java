@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.utilities.commons.javassist.implementer;
+package org.panda_lang.utilities.commons.javassist;
 
 import javassist.CannotCompileException;
 import javassist.CtClass;
@@ -22,21 +22,20 @@ import javassist.CtConstructor;
 import javassist.CtField;
 import javassist.CtMethod;
 import javassist.NotFoundException;
-import org.panda_lang.utilities.commons.ClassPoolUtils;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-final class FunctionalInterfaceImplementerGenerator {
+public final class FunctionalInterfaceImplementerGenerator {
 
     private final String name;
     private final Class<?> anInterface;
     private final LinkedHashMap<String, CtClass> parameters;
     private final String body;
 
-    FunctionalInterfaceImplementerGenerator(String name, Class<?> anInterface, LinkedHashMap<String, CtClass> parameters, String body) {
+    public FunctionalInterfaceImplementerGenerator(String name, Class<?> anInterface, LinkedHashMap<String, CtClass> parameters, String body) {
         this.name = name;
         this.anInterface = anInterface;
         this.parameters = parameters;
@@ -44,6 +43,10 @@ final class FunctionalInterfaceImplementerGenerator {
     }
 
     public Class<?> generate() throws NotFoundException, CannotCompileException {
+        return generate(FunctionalInterfaceImplementerGenerator.class);
+    }
+
+    public Class<?> generate(Class<?> domainClass) throws NotFoundException, CannotCompileException {
         Method functionalMethod = null;
         int count = 0;
 
@@ -81,7 +84,7 @@ final class FunctionalInterfaceImplementerGenerator {
         method.setBody("{ " + body + " }");
         ctClass.addMethod(method);
 
-        return ctClass.toClass();
+        return ClassPoolUtils.toClass(ctClass, domainClass);
     }
 
 }
