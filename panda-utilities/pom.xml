@@ -20,13 +20,12 @@
     <parent>
         <artifactId>panda-parent</artifactId>
         <groupId>org.panda-lang</groupId>
-        <version>0.4.0-alpha</version>
+        <version>0.4.1-alpha</version>
     </parent>
 
     <artifactId>panda-utilities</artifactId>
 
     <dependencies>
-        <!-- General -->
         <dependency>
             <groupId>org.javassist</groupId>
             <artifactId>javassist</artifactId>
@@ -66,13 +65,6 @@
         </dependency>
     </dependencies>
 
-    <distributionManagement>
-        <repository>
-            <id>panda-repository</id>
-            <url>https://repo.panda-lang.org/releases</url>
-        </repository>
-    </distributionManagement>
-
     <build>
         <defaultGoal>clean install</defaultGoal>
         <plugins>
@@ -98,5 +90,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

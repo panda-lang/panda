@@ -32,7 +32,7 @@ The latest indev build
 <dependency>
     <groupId>org.panda-lang</groupId>
     <artifactId>panda</artifactId>
-    <version>0.4.0-alpha</version>
+    <version>0.4.1-alpha</version>
 </dependency>
 ```
 

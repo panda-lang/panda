@@ -20,13 +20,12 @@
     <parent>
         <artifactId>panda-parent</artifactId>
         <groupId>org.panda-lang</groupId>
-        <version>0.4.0-alpha</version>
+        <version>0.4.1-alpha</version>
     </parent>
 
     <artifactId>panda-framework</artifactId>
 
     <dependencies>
-        <!-- Panda Utilities -->
         <dependency>
             <groupId>org.panda-lang</groupId>
             <artifactId>panda-utilities</artifactId>
@@ -57,13 +56,6 @@
         </dependency>
     </dependencies>
 
-    <distributionManagement>
-        <repository>
-            <id>panda-repository</id>
-            <url>https://repo.panda-lang.org/releases</url>
-        </repository>
-    </distributionManagement>
-
     <build>
         <defaultGoal>clean install</defaultGoal>
         <plugins>
@@ -82,15 +74,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifestEntries>
-                            <Specification-Title>panda-framework</Specification-Title>
-                            <Implementation-Title>panda-framework</Implementation-Title>
-                            <Implementation-Version>${panda.version}</Implementation-Version>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -98,5 +81,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

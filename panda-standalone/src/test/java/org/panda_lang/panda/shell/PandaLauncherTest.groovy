@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda
+package org.panda_lang.panda.shell
 
 import groovy.transform.CompileStatic
 import org.junit.jupiter.api.Test
 import org.panda_lang.framework.interpreter.logging.DefaultLogger
 import org.panda_lang.framework.interpreter.logging.Logger
+import org.panda_lang.panda.PandaConstants
 
 import static org.junit.jupiter.api.Assertions.assertTrue
 
