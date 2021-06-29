@@ -16,13 +16,12 @@
 
 package org.panda_lang.panda.manager;
 
-import net.dzikoysk.cdn.CDN;
+import net.dzikoysk.cdn.CdnFactory;
 import org.panda_lang.framework.FrameworkController;
 import org.panda_lang.framework.interpreter.logging.Logger;
 import org.panda_lang.framework.interpreter.logging.LoggerHolder;
 import org.panda_lang.panda.manager.goals.Install;
 import org.panda_lang.panda.manager.goals.Run;
-import org.panda_lang.utilities.commons.FileUtils;
 import org.panda_lang.utilities.commons.function.Option;
 
 import java.io.File;
@@ -47,7 +46,7 @@ public final class PackageManager implements LoggerHolder {
     }
 
     public PackageInfo readPackageInfo(File documentFile) throws Exception {
-        PackageDocument document = CDN.defaultInstance().parse(PackageDocument.class, FileUtils.getContentOfFile(documentFile));
+        PackageDocument document = CdnFactory.createStandard().load(documentFile, PackageDocument.class);
         return new PackageInfo(documentFile, document);
     }
 

@@ -20,7 +20,7 @@
    </p>
 </p>
 
-#### 🗺️ Downlaod
+#### 🗺️ Download
 Website: [panda-lang.org](https://panda-lang.org/) <br>
 Installation: [panda-lang.org/install](https://panda-lang.org/install) <br>
 Guide: [panda-lang.org/guide](https://panda-lang.org/guide)

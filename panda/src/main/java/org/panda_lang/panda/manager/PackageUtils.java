@@ -16,14 +16,13 @@
 
 package org.panda_lang.panda.manager;
 
-import net.dzikoysk.cdn.CDN;
+import net.dzikoysk.cdn.CdnFactory;
 import org.panda_lang.framework.architecture.module.Module;
 import org.panda_lang.framework.architecture.module.ModuleSource;
 import org.panda_lang.framework.architecture.module.PandaModule;
 import org.panda_lang.framework.architecture.packages.Package;
 import org.panda_lang.framework.interpreter.source.Source;
 import org.panda_lang.framework.interpreter.source.URLSource;
-import org.panda_lang.utilities.commons.FileUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -69,7 +68,7 @@ public final class PackageUtils {
             throw new IllegalStateException("Package description panda.cdn does not exist");
         }
 
-        PackageDocument packageDocument = CDN.defaultInstance().parse(PackageDocument.class, FileUtils.getContentOfFile(packageDocumentFile));
+        PackageDocument packageDocument = CdnFactory.createStandard().load(packageDocumentFile, PackageDocument.class);
         Package pkg = new Package(packageDocument.name, packageDocument.author, packageDocument.version, directory);
         File sources = new File(directory, packageDocument.sources);
 
