@@ -48,10 +48,9 @@ public final class PandaEnvironment implements Environment {
         this.typeGenerator = new TypeGenerator(controller);
         this.interpreter = new PandaInterpreter(this);
 
-        this.std = new Lazy<>(() -> {
+        this.std = Lazy.ofRunnable(() -> {
             StdLoader stdLoader = new StdLoader();
             stdLoader.load(packages, typeGenerator, typeLoader);
-            return null;
         });
     }
 
