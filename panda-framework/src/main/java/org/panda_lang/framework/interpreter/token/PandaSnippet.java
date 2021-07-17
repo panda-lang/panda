@@ -16,8 +16,8 @@
 
 package org.panda_lang.framework.interpreter.token;
 
-import org.panda_lang.utilities.commons.ObjectUtils;
-import org.panda_lang.utilities.commons.text.Joiner;
+import panda.utilities.ObjectUtils;
+import panda.utilities.text.Joiner;
 
 import java.util.ArrayList;
 import java.util.Collections;

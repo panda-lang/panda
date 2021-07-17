@@ -35,7 +35,7 @@ import org.panda_lang.framework.interpreter.source.ClassSource;
 import org.panda_lang.framework.interpreter.token.PandaSnippet;
 import org.panda_lang.framework.resource.Mappings;
 import org.panda_lang.framework.resource.Mappings.CustomInitializer;
-import org.panda_lang.utilities.commons.ClassUtils;
+import panda.utilities.ClassUtils;
 import panda.std.Completable;
 
 import java.util.Collections;

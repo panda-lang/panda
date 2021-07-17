@@ -34,7 +34,7 @@ import org.panda_lang.framework.architecture.type.member.method.Methods;
 import org.panda_lang.framework.architecture.type.member.method.PandaMethods;
 import org.panda_lang.framework.architecture.type.member.method.TypeMethod;
 import org.panda_lang.framework.architecture.type.signature.TypedSignature;
-import org.panda_lang.utilities.commons.ValidationUtils;
+import panda.utilities.ValidationUtils;
 import panda.std.Completable;
 import panda.std.Option;
 import panda.std.stream.PandaStream;

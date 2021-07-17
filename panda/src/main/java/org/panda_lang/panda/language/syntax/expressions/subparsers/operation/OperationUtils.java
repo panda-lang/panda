@@ -23,7 +23,7 @@ import org.panda_lang.framework.resource.syntax.operator.Operator;
 import org.panda_lang.framework.resource.syntax.operator.OperatorFamilies;
 import org.panda_lang.framework.resource.syntax.operator.OperatorUtils;
 import org.panda_lang.framework.resource.syntax.operator.Operators;
-import org.panda_lang.utilities.commons.ObjectUtils;
+import panda.utilities.ObjectUtils;
 
 import java.util.function.Predicate;
 

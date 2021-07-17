@@ -41,10 +41,10 @@ import org.panda_lang.framework.interpreter.token.TokenUtils;
 import org.panda_lang.framework.resource.syntax.TokenTypes;
 import org.panda_lang.framework.resource.syntax.auxiliary.Section;
 import org.panda_lang.framework.resource.syntax.separator.Separators;
-import org.panda_lang.utilities.commons.ObjectUtils;
-import org.panda_lang.utilities.commons.console.Effect;
+import panda.utilities.ObjectUtils;
+import panda.utilities.console.Effect;
 import panda.std.Option;
-import org.panda_lang.utilities.commons.text.Joiner;
+import panda.utilities.text.Joiner;
 
 import java.util.List;
 

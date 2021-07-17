@@ -23,7 +23,7 @@ import org.panda_lang.framework.interpreter.logging.SystemLogger;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.manager.PackageUtils;
-import org.panda_lang.utilities.commons.TimeUtils;
+import panda.utilities.TimeUtils;
 import panda.std.Lazy;
 import panda.std.Result;
 

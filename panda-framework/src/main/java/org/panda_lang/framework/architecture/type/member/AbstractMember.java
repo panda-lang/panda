@@ -22,7 +22,7 @@ import org.panda_lang.framework.architecture.type.member.parameter.PropertyParam
 import org.panda_lang.framework.architecture.type.signature.Signature;
 import org.panda_lang.framework.interpreter.source.Localizable;
 import org.panda_lang.framework.interpreter.source.Location;
-import org.panda_lang.utilities.commons.ObjectUtils;
+import panda.utilities.ObjectUtils;
 
 import java.util.Collections;
 import java.util.List;

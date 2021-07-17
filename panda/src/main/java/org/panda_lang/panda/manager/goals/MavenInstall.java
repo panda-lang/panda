@@ -19,7 +19,7 @@ package org.panda_lang.panda.manager.goals;
 import org.panda_lang.panda.manager.Dependency;
 import org.panda_lang.panda.manager.PackageInfo;
 import org.panda_lang.panda.manager.PackageManager;
-import org.panda_lang.utilities.commons.IOUtils;
+import panda.utilities.IOUtils;
 
 import java.io.File;
 import java.io.IOException;

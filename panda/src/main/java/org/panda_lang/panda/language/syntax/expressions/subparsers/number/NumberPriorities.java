@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.syntax.expressions.subparsers.number;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.architecture.type.Type;
 import org.panda_lang.framework.interpreter.parser.PandaParserException;
-import org.panda_lang.utilities.commons.collection.Maps;
+import panda.utilities.collection.Maps;
 
 import java.util.Map;
 

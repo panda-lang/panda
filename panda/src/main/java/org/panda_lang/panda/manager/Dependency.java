@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.manager;
 
-import org.panda_lang.utilities.commons.ArrayUtils;
-import org.panda_lang.utilities.commons.StringUtils;
+import panda.utilities.ArrayUtils;
+import panda.utilities.StringUtils;
 
 import java.util.Objects;
 

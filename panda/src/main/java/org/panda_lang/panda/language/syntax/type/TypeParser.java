@@ -52,7 +52,7 @@ import org.panda_lang.framework.resource.syntax.keyword.Keywords;
 import org.panda_lang.framework.resource.syntax.operator.Operators;
 import org.panda_lang.framework.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.syntax.PandaSourceReader;
-import org.panda_lang.utilities.commons.ArrayUtils;
+import panda.utilities.ArrayUtils;
 import panda.std.Completable;
 import panda.std.Option;
 import panda.std.stream.PandaStream;

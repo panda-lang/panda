@@ -18,7 +18,7 @@ package org.panda_lang.framework.architecture.statement;
 
 import org.panda_lang.framework.interpreter.token.Token;
 import org.panda_lang.framework.resource.syntax.TokenTypes;
-import org.panda_lang.utilities.commons.CharacterUtils;
+import panda.utilities.CharacterUtils;
 
 public final class PandaVariableUtils {
 

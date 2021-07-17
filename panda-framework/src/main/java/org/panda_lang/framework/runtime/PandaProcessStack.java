@@ -23,8 +23,8 @@ import org.panda_lang.framework.architecture.dynamic.Executable;
 import org.panda_lang.framework.architecture.dynamic.Frame;
 import org.panda_lang.framework.architecture.statement.Scope;
 import org.panda_lang.framework.architecture.statement.Statement;
-import org.panda_lang.utilities.commons.collection.FixedStack;
-import org.panda_lang.utilities.commons.collection.IStack;
+import panda.utilities.collection.FixedStack;
+import panda.utilities.collection.IStack;
 import panda.std.function.ThrowingSupplier;
 
 public final class PandaProcessStack implements ProcessStack {

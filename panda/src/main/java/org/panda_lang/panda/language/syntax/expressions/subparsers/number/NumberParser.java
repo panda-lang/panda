@@ -33,7 +33,7 @@ import org.panda_lang.framework.interpreter.token.TokenInfo;
 import org.panda_lang.framework.resource.syntax.TokenTypes;
 import org.panda_lang.framework.resource.syntax.separator.Separators;
 import org.panda_lang.framework.interpreter.parser.expression.AbstractExpressionSubparserWorker;
-import org.panda_lang.utilities.commons.StringUtils;
+import panda.utilities.StringUtils;
 
 public final class NumberParser implements ExpressionSubparser {
 

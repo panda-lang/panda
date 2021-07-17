@@ -24,8 +24,8 @@ import org.panda_lang.framework.interpreter.token.PandaSnippet;
 import org.panda_lang.framework.interpreter.token.PandaLocation;
 import org.panda_lang.framework.interpreter.token.PandaTokenInfo;
 import org.panda_lang.framework.resource.syntax.auxiliary.Indentation;
-import org.panda_lang.utilities.commons.CharacterUtils;
-import org.panda_lang.utilities.commons.StringUtils;
+import panda.utilities.CharacterUtils;
+import panda.utilities.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;

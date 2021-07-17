@@ -30,8 +30,8 @@ import org.panda_lang.framework.architecture.type.signature.Signature;
 import org.panda_lang.framework.architecture.type.signature.TypedSignature;
 import org.panda_lang.framework.interpreter.source.ClassSource;
 import org.panda_lang.framework.interpreter.token.PandaSnippet;
-import org.panda_lang.utilities.commons.ClassUtils;
-import org.panda_lang.utilities.commons.ReflectionUtils;
+import panda.utilities.ClassUtils;
+import panda.utilities.ReflectionUtils;
 import panda.std.Completable;
 import panda.std.Option;
 

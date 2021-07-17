@@ -32,7 +32,7 @@ import org.panda_lang.panda.language.syntax.PandaSourceReader;
 import org.panda_lang.panda.language.syntax.PandaPriorities;
 import org.panda_lang.panda.language.syntax.type.SignatureParser;
 import org.panda_lang.panda.language.syntax.type.SignatureSource;
-import org.panda_lang.utilities.commons.ArrayUtils;
+import panda.utilities.ArrayUtils;
 import org.panda_lang.framework.interpreter.parser.Component;
 import panda.std.Completable;
 import panda.std.Option;

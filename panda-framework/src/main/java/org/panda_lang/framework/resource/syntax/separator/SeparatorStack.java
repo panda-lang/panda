@@ -17,7 +17,7 @@
 package org.panda_lang.framework.resource.syntax.separator;
 
 import org.panda_lang.framework.interpreter.token.Token;
-import org.panda_lang.utilities.commons.ObjectUtils;
+import panda.utilities.ObjectUtils;
 
 import java.util.Stack;
 

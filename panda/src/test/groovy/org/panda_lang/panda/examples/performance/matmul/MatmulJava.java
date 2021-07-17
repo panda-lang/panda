@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.examples.performance.matmul;
 
-import org.panda_lang.utilities.commons.TimeUtils;
+import panda.utilities.TimeUtils;
 
 /**
  * Java equivalent to matmul.panda

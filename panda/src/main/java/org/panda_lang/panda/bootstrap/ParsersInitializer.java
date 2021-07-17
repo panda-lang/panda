@@ -21,7 +21,7 @@ import org.panda_lang.framework.interpreter.parser.ContextParser;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionSubparsers;
 import org.panda_lang.panda.language.syntax.expressions.PandaExpressions;
-import org.panda_lang.utilities.commons.ObjectUtils;
+import panda.utilities.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

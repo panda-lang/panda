@@ -21,7 +21,7 @@ import org.panda_lang.framework.interpreter.token.Token;
 import org.panda_lang.framework.resource.Syntax;
 import org.panda_lang.framework.interpreter.token.PandaToken;
 import org.panda_lang.framework.resource.syntax.TokenTypes;
-import org.panda_lang.utilities.commons.StringUtils;
+import panda.utilities.StringUtils;
 
 import java.util.Collection;
 

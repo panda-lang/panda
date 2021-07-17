@@ -21,7 +21,7 @@ import org.panda_lang.framework.interpreter.token.TokenInfo;
 import org.panda_lang.framework.interpreter.source.PandaSource;
 import org.panda_lang.framework.resource.syntax.PandaSyntax;
 import org.panda_lang.framework.resource.syntax.TokenTypes;
-import org.panda_lang.utilities.commons.StringUtils;
+import panda.utilities.StringUtils;
 
 public final class PandaLexerUtils {
 

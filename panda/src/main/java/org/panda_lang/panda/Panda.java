@@ -22,7 +22,7 @@ import org.panda_lang.framework.PandaFramework;
 import org.panda_lang.framework.interpreter.logging.Logger;
 import org.panda_lang.framework.resource.Language;
 import org.panda_lang.framework.resource.Resources;
-import org.panda_lang.utilities.commons.UnsafeUtils;
+import panda.utilities.UnsafeUtils;
 
 /**
  * The framework controller of Panda language.

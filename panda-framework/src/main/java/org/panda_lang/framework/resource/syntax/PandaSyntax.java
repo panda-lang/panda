@@ -28,7 +28,7 @@ import org.panda_lang.framework.resource.syntax.separator.Separator;
 import org.panda_lang.framework.resource.syntax.separator.Separators;
 import org.panda_lang.framework.resource.syntax.sequence.Sequence;
 import org.panda_lang.framework.resource.syntax.sequence.Sequences;
-import org.panda_lang.utilities.commons.collection.Lists;
+import panda.utilities.collection.Lists;
 
 import java.util.Arrays;
 import java.util.List;

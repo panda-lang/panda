@@ -30,7 +30,7 @@ import org.panda_lang.panda.language.syntax.expressions.subparsers.operation.sub
 import org.panda_lang.panda.language.syntax.expressions.subparsers.operation.subparsers.math.ModuloOperation;
 import org.panda_lang.panda.language.syntax.expressions.subparsers.operation.subparsers.math.MultiplicationOperation;
 import org.panda_lang.panda.language.syntax.expressions.subparsers.operation.subparsers.math.SubtractionOperation;
-import org.panda_lang.utilities.commons.collection.Maps;
+import panda.utilities.collection.Maps;
 
 import java.util.Map;
 

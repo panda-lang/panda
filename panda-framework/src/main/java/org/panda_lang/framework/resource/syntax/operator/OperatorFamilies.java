@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.resource.syntax.operator;
 
-import org.panda_lang.utilities.commons.StringUtils;
+import panda.utilities.StringUtils;
 
 /**
  * Families used by {@link org.panda_lang.framework.resource.syntax.operator.Operators}

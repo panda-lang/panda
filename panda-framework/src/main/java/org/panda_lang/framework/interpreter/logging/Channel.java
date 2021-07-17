@@ -21,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import static org.panda_lang.utilities.commons.collection.Lists.add;
+import static panda.utilities.collection.Lists.add;
 
 public class Channel implements Comparable<Channel> {
 

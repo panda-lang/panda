@@ -35,7 +35,7 @@ import org.panda_lang.framework.resource.syntax.keyword.Keywords;
 import org.panda_lang.framework.resource.syntax.operator.Operators;
 import org.panda_lang.panda.language.syntax.PandaSourceReader;
 import org.panda_lang.panda.language.syntax.PandaPriorities;
-import org.panda_lang.utilities.commons.ArrayUtils;
+import panda.utilities.ArrayUtils;
 import org.panda_lang.framework.interpreter.parser.Component;
 import panda.std.Completable;
 import panda.std.Option;

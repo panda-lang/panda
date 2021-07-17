@@ -22,7 +22,7 @@ import org.panda_lang.framework.architecture.type.Type;
 import org.panda_lang.framework.architecture.type.member.MemberFrameImpl;
 import org.panda_lang.framework.architecture.type.signature.Signature;
 import org.panda_lang.framework.runtime.PandaRuntimeException;
-import org.panda_lang.utilities.commons.text.Joiner;
+import panda.utilities.text.Joiner;
 import panda.std.Completable;
 
 import java.util.Arrays;

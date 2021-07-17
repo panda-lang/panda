@@ -17,7 +17,7 @@
 package org.panda_lang.framework.interpreter.token;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.utilities.commons.ArrayUtils;
+import panda.utilities.ArrayUtils;
 
 import java.util.Comparator;
 

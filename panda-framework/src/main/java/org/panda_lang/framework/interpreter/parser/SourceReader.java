@@ -29,8 +29,8 @@ import org.panda_lang.framework.interpreter.token.TokenType;
 import org.panda_lang.framework.interpreter.token.TokenUtils;
 import org.panda_lang.framework.resource.syntax.TokenTypes;
 import org.panda_lang.framework.resource.syntax.auxiliary.Section;
-import org.panda_lang.utilities.commons.collection.FixedStack;
-import org.panda_lang.utilities.commons.collection.Pair;
+import panda.std.Pair;
+import panda.utilities.collection.FixedStack;
 import panda.std.Option;
 
 import java.util.ArrayList;
@@ -104,7 +104,7 @@ public class SourceReader implements Localizable, Snippetable, Streamable {
             }
             else if (token.contentEquals(closing)) {
                 Pair<TokenInfo, List<TokenInfo>> sectionData = stack.pop();
-                Section currentSection = new Section(sectionData.getKey(), PandaSnippet.ofImmutable(sectionData.getValue()), token);
+                Section currentSection = new Section(sectionData.getFirst(), PandaSnippet.ofImmutable(sectionData.getSecond()), token);
 
                 if (stack.isEmpty()) {
                     section = currentSection;
@@ -112,7 +112,7 @@ public class SourceReader implements Localizable, Snippetable, Streamable {
                 }
             }
             else {
-                stack.peek().getValue().add(token);
+                stack.peek().getSecond().add(token);
             }
         }
 

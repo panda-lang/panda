@@ -22,7 +22,7 @@ import org.panda_lang.framework.architecture.expression.ExpressionUtils;
 import org.panda_lang.framework.interpreter.logging.Logger;
 import org.panda_lang.framework.interpreter.source.Localizable;
 import org.panda_lang.framework.runtime.ProcessStack;
-import org.panda_lang.utilities.commons.text.Joiner;
+import panda.utilities.text.Joiner;
 
 import java.util.List;
 

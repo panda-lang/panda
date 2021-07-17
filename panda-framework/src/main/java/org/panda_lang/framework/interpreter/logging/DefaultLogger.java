@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.interpreter.logging;
 
-import org.panda_lang.utilities.commons.console.Effect;
+import panda.utilities.console.Effect;
 
 import java.io.OutputStream;
 import java.io.PrintStream;

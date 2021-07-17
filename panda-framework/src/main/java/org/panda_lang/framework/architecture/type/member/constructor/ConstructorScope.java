@@ -33,9 +33,9 @@ import org.panda_lang.framework.interpreter.source.Localizable;
 import org.panda_lang.framework.runtime.ProcessStack;
 import org.panda_lang.framework.runtime.Result;
 import org.panda_lang.framework.runtime.Status;
-import org.panda_lang.utilities.commons.ArrayUtils;
-import org.panda_lang.utilities.commons.UnsafeUtils;
-import org.panda_lang.utilities.commons.collection.Lists;
+import panda.utilities.ArrayUtils;
+import panda.utilities.UnsafeUtils;
+import panda.utilities.collection.Lists;
 import panda.std.Option;
 
 import java.lang.reflect.Constructor;

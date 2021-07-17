@@ -20,7 +20,7 @@ import org.panda_lang.panda.manager.Dependency;
 import org.panda_lang.panda.manager.PackageInfo;
 import org.panda_lang.panda.manager.PackageManager;
 import org.panda_lang.panda.manager.PackageManagerConstants;
-import org.panda_lang.utilities.commons.FileUtils;
+import panda.utilities.FileUtils;
 import panda.std.function.ThrowingRunnable;
 
 import java.io.File;

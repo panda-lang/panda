@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.shell.repl;
 
-import org.panda_lang.utilities.commons.ArrayUtils;
+import panda.utilities.ArrayUtils;
 
 /**
  * Result of evaluation

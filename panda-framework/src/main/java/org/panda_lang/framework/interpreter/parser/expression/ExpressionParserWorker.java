@@ -18,7 +18,7 @@ package org.panda_lang.framework.interpreter.parser.expression;
 
 import org.panda_lang.framework.interpreter.parser.Contextual;
 import org.panda_lang.framework.interpreter.token.TokenInfo;
-import org.panda_lang.utilities.commons.collection.Maps;
+import panda.utilities.collection.Maps;
 
 import java.util.HashMap;
 import java.util.List;

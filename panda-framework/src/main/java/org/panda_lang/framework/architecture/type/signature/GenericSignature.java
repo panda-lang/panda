@@ -20,9 +20,9 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.architecture.module.TypeLoader;
 import org.panda_lang.framework.architecture.type.Type;
 import org.panda_lang.framework.interpreter.token.Snippetable;
-import org.panda_lang.utilities.commons.collection.Pair;
 import panda.std.Option;
-import org.panda_lang.utilities.commons.text.Joiner;
+import panda.std.Pair;
+import panda.utilities.text.Joiner;
 
 public final class GenericSignature extends AbstractSignature<Pair<String, Signature>> {
 
@@ -38,10 +38,10 @@ public final class GenericSignature extends AbstractSignature<Pair<String, Signa
         Option<Pair<GenericSignature, Signature>> result = context.getSignature().findGeneric(this);
 
         if (result.isPresent()) {
-            return result.get().getValue();
+            return result.get().getSecond();
         }
 
-        return new GenericSignature(typeLoader, getParent().getOrNull(), getLocalIdentifier(), getSubject().getValue(), applyGenerics(context), getRelation(), getSource());
+        return new GenericSignature(typeLoader, getParent().getOrNull(), getLocalIdentifier(), getSubject().getSecond(), applyGenerics(context), getRelation(), getSource());
     }
 
     @Override
@@ -59,24 +59,24 @@ public final class GenericSignature extends AbstractSignature<Pair<String, Signa
     }
 
     public boolean hasWildcardDescription() {
-        return getSubject().getValue() != null;
+        return getSubject().getSecond() != null;
     }
 
     public Option<Signature> getWildcardDescription() {
-        return Option.of(getSubject().getValue());
+        return Option.of(getSubject().getSecond());
     }
 
     public String getLocalIdentifier() {
-        return getSubject().getKey();
+        return getSubject().getFirst();
     }
 
     public Option<Signature> getAny() {
-        Signature signature = getSubject().getValue();
+        Signature signature = getSubject().getSecond();
         return Option.when(signature != null && Relation.ANY == signature.getRelation(), signature);
     }
 
     public Option<Signature> getAlso() {
-        Signature signature = getSubject().getValue();
+        Signature signature = getSubject().getSecond();
         return Option.when(signature != null && Relation.ALSO == signature.getRelation(), signature);
     }
 

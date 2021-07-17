@@ -28,7 +28,7 @@ import org.panda_lang.framework.resource.syntax.auxiliary.Section;
 import org.panda_lang.framework.resource.syntax.keyword.Keywords;
 import org.panda_lang.framework.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.syntax.ScopeParser;
-import org.panda_lang.utilities.commons.ArrayUtils;
+import panda.utilities.ArrayUtils;
 import org.panda_lang.framework.interpreter.parser.Component;
 import panda.std.Completable;
 import panda.std.Option;

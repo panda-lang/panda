@@ -22,7 +22,7 @@ import org.panda_lang.framework.interpreter.source.Location;
 import org.panda_lang.framework.runtime.ProcessStack;
 import org.panda_lang.framework.runtime.Status;
 import org.panda_lang.framework.architecture.dynamic.AbstractExecutableStatement;
-import org.panda_lang.utilities.commons.UnsafeUtils;
+import panda.utilities.UnsafeUtils;
 
 final class Throw extends AbstractExecutableStatement implements Returnable, Controller {
 

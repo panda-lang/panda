@@ -21,7 +21,7 @@ import org.panda_lang.framework.resource.syntax.operator.OperatorFamilies;
 import org.panda_lang.framework.resource.syntax.operator.Operators;
 import org.panda_lang.framework.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.syntax.expressions.subparsers.operation.pattern.OperationPattern;
-import org.panda_lang.utilities.commons.ArrayUtils;
+import panda.utilities.ArrayUtils;
 
 final class OperationExpressionUtils {
 

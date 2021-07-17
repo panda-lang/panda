@@ -32,8 +32,8 @@ import org.panda_lang.framework.interpreter.token.Snippet;
 import org.panda_lang.framework.interpreter.token.SourceStream;
 import org.panda_lang.framework.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.syntax.PandaSourceReader;
-import org.panda_lang.utilities.commons.collection.Pair;
 import panda.std.Option;
+import panda.std.Pair;
 import panda.std.Result;
 
 import java.util.ArrayList;
@@ -65,7 +65,7 @@ public final class SignatureParser implements Parser {
 
                     Signature signature = signatureContext
                             .flatMap(ctx -> ctx.findGeneric(name))
-                            .map(Pair::getValue)
+                            .map(Pair::getSecond)
                             .orElseGet(() -> new GenericSignature(context.getTypeLoader(), signatureContextValue, name, null, new Signature[0], Relation.DIRECT, signatureSource.getName()));
 
                     return Result.error(signature);

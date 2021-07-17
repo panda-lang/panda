@@ -19,7 +19,7 @@ package org.panda_lang.framework.architecture.statement;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.architecture.dynamic.Executable;
 import org.panda_lang.framework.interpreter.source.Localizable;
-import org.panda_lang.utilities.commons.collection.Lists;
+import panda.utilities.collection.Lists;
 import panda.std.Option;
 
 import java.util.ArrayList;

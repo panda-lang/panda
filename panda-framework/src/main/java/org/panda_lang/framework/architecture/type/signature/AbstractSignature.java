@@ -20,8 +20,8 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.architecture.type.Type;
 import org.panda_lang.framework.interpreter.token.Snippet;
 import org.panda_lang.framework.interpreter.token.Snippetable;
-import org.panda_lang.utilities.commons.collection.Pair;
 import panda.std.Option;
+import panda.std.Pair;
 
 import java.util.Arrays;
 
@@ -98,7 +98,7 @@ abstract class AbstractSignature<V> implements Signature {
             }
             else if (currentGeneric.isGeneric()) {
                 appliedGenerics[index] = contextSignature.findGeneric(currentGeneric.toGeneric())
-                        .map(Pair::getValue)
+                        .map(Pair::getSecond)
                         .orElseGet(currentGeneric);
             }
         }

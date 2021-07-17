@@ -19,7 +19,7 @@ package org.panda_lang.framework.resource.syntax.keyword;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import static org.panda_lang.utilities.commons.collection.Lists.add;
+import static panda.utilities.collection.Lists.add;
 
 /**
  * Default keywords

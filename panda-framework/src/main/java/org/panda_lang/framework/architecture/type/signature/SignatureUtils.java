@@ -127,7 +127,7 @@ final class SignatureUtils {
 
                 if (anySignature.isGeneric()) {
                     return inheritor.findGeneric(anySignature.toGeneric())
-                            .map(genericExtends -> typedToGeneric(root, genericExtends.getKey()))
+                            .map(genericExtends -> typedToGeneric(root, genericExtends.getFirst()))
                             .orElseGet(Result.error("Cannot find generic " + anySignature.toGeneric()));
                 }
 

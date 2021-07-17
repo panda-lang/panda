@@ -30,7 +30,7 @@ import org.panda_lang.panda.language.syntax.expressions.subparsers.operation.sub
 import org.panda_lang.panda.language.syntax.expressions.subparsers.operation.subparsers.bitwise.OrBitwiseOperator;
 import org.panda_lang.panda.language.syntax.expressions.subparsers.operation.subparsers.bitwise.RightShiftOperator;
 import org.panda_lang.panda.language.syntax.expressions.subparsers.operation.subparsers.bitwise.XorBitwiseOperator;
-import org.panda_lang.utilities.commons.collection.Maps;
+import panda.utilities.collection.Maps;
 
 import java.util.Map;
 

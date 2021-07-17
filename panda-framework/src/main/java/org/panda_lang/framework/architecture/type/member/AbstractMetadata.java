@@ -18,7 +18,7 @@ package org.panda_lang.framework.architecture.type.member;
 
 import org.panda_lang.framework.architecture.type.Visibility;
 import org.panda_lang.framework.interpreter.source.Location;
-import org.panda_lang.utilities.commons.ValidationUtils;
+import panda.utilities.ValidationUtils;
 
 public abstract class AbstractMetadata implements Metadata {
 

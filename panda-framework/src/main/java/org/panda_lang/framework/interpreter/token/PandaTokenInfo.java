@@ -17,8 +17,8 @@
 package org.panda_lang.framework.interpreter.token;
 
 import org.panda_lang.framework.interpreter.source.Location;
-import org.panda_lang.utilities.commons.ObjectUtils;
-import org.panda_lang.utilities.commons.ValidationUtils;
+import panda.utilities.ObjectUtils;
+import panda.utilities.ValidationUtils;
 
 import java.security.InvalidParameterException;
 import java.util.Objects;

@@ -20,7 +20,7 @@ import org.panda_lang.framework.interpreter.parser.Context;
 import org.panda_lang.framework.interpreter.parser.ContextParser;
 import org.panda_lang.framework.interpreter.parser.pool.Targets;
 import org.panda_lang.panda.language.syntax.ScopeParser;
-import org.panda_lang.utilities.commons.ArrayUtils;
+import panda.utilities.ArrayUtils;
 import org.panda_lang.framework.interpreter.parser.Component;
 
 public abstract class BlockParser<R> implements ContextParser<Object, R> {

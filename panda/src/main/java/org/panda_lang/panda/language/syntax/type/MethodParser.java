@@ -43,7 +43,7 @@ import org.panda_lang.panda.language.syntax.PandaSourceReader;
 import org.panda_lang.panda.language.syntax.ScopeParser;
 import org.panda_lang.panda.language.syntax.scope.StandaloneExpression;
 import org.panda_lang.panda.language.syntax.scope.branching.Returnable;
-import org.panda_lang.utilities.commons.ArrayUtils;
+import panda.utilities.ArrayUtils;
 import panda.std.Completable;
 import panda.std.Option;
 import panda.std.stream.PandaStream;

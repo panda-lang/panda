@@ -21,7 +21,7 @@ import org.panda_lang.framework.architecture.type.TypeContext;
 import org.panda_lang.framework.architecture.type.member.MemberFrame;
 import org.panda_lang.framework.interpreter.parser.Context;
 import org.panda_lang.framework.runtime.ProcessStack;
-import org.panda_lang.utilities.commons.ObjectUtils;
+import panda.utilities.ObjectUtils;
 
 public final class ThisExpression implements DynamicExpression {
 

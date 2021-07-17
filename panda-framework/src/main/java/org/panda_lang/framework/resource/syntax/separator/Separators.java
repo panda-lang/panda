@@ -22,7 +22,7 @@ import org.panda_lang.framework.interpreter.token.Token;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import static org.panda_lang.utilities.commons.collection.Lists.add;
+import static panda.utilities.collection.Lists.add;
 
 /**
  * Default separators

@@ -19,9 +19,9 @@ package org.panda_lang.panda.manager.goals;
 import org.panda_lang.panda.manager.Dependency;
 import org.panda_lang.panda.manager.PackageInfo;
 import org.panda_lang.panda.manager.PackageManager;
-import org.panda_lang.utilities.commons.FileUtils;
-import org.panda_lang.utilities.commons.IOUtils;
-import org.panda_lang.utilities.commons.ZipUtils;
+import panda.utilities.FileUtils;
+import panda.utilities.IOUtils;
+import panda.utilities.ZipUtils;
 
 import java.io.BufferedInputStream;
 import java.io.File;

@@ -18,7 +18,7 @@ package org.panda_lang.framework.architecture.module;
 
 import org.panda_lang.framework.architecture.packages.Package;
 import org.panda_lang.framework.architecture.type.Reference;
-import org.panda_lang.utilities.commons.collection.Maps;
+import panda.utilities.collection.Maps;
 import panda.std.Option;
 
 import java.util.ArrayList;

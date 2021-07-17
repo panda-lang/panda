@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import static org.panda_lang.utilities.commons.collection.Lists.add;
+import static panda.utilities.collection.Lists.add;
 
 /**
  * Default operators

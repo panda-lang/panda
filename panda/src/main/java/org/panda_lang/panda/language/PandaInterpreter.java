@@ -43,9 +43,9 @@ import org.panda_lang.framework.interpreter.token.PandaSourceStream;
 import org.panda_lang.framework.interpreter.token.Snippet;
 import org.panda_lang.framework.interpreter.token.SourceStream;
 import org.panda_lang.framework.resource.Resources;
-import org.panda_lang.utilities.commons.ObjectUtils;
-import org.panda_lang.utilities.commons.TimeUtils;
-import org.panda_lang.utilities.commons.collection.Pair;
+import panda.std.Pair;
+import panda.utilities.ObjectUtils;
+import panda.utilities.TimeUtils;
 import panda.std.Completable;
 import panda.std.Option;
 import panda.std.Result;
@@ -100,7 +100,7 @@ public final class PandaInterpreter implements Interpreter {
             stageManager.launch(() -> {
                 while (sources.hasUnloadedSources()) {
                     Pair<? extends Source, Completable<Script>> unloadedSource = sources.retrieve();
-                    parse(lexer, application, context, headPool, unloadedSource.getKey(), unloadedSource.getValue());
+                    parse(lexer, application, context, headPool, unloadedSource.getFirst(), unloadedSource.getSecond());
                 }
             });
         }

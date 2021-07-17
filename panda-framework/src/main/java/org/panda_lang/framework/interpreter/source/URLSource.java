@@ -18,8 +18,8 @@ package org.panda_lang.framework.interpreter.source;
 
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.architecture.module.Module;
-import org.panda_lang.utilities.commons.IOUtils;
-import org.panda_lang.utilities.commons.ValidationUtils;
+import panda.utilities.IOUtils;
+import panda.utilities.ValidationUtils;
 import panda.std.function.ThrowingFunction;
 
 import java.io.File;

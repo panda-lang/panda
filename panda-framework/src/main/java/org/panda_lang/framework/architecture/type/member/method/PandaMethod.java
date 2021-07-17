@@ -20,7 +20,7 @@ import org.panda_lang.framework.architecture.type.member.AbstractParametrizedMem
 import org.panda_lang.framework.architecture.type.member.MemberInvoker;
 import org.panda_lang.framework.architecture.type.member.parameter.ParameterUtils;
 import org.panda_lang.framework.runtime.ProcessStack;
-import org.panda_lang.utilities.commons.ObjectUtils;
+import panda.utilities.ObjectUtils;
 
 public final class PandaMethod extends AbstractParametrizedMember<TypeMethod> implements TypeMethod {
 

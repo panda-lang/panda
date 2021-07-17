@@ -23,7 +23,7 @@ import org.panda_lang.framework.interpreter.parser.expression.ExpressionParserSe
 import org.panda_lang.framework.interpreter.parser.pool.Targets;
 import org.panda_lang.framework.interpreter.token.PandaSourceStream;
 import org.panda_lang.panda.language.syntax.PandaPriorities;
-import org.panda_lang.utilities.commons.ArrayUtils;
+import panda.utilities.ArrayUtils;
 import org.panda_lang.framework.interpreter.parser.Component;
 import panda.std.Completable;
 import panda.std.Option;

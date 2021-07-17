@@ -34,7 +34,10 @@ import org.panda_lang.framework.interpreter.token.SourceStream
 import org.panda_lang.panda.language.syntax.expressions.PandaExpressions
 import org.panda_lang.panda.utils.PandaContextUtils
 import org.panda_lang.panda.utils.PandaUtils
-import org.panda_lang.utilities.commons.StringUtils
+import panda.utilities.StringUtils
+
+import static org.junit.jupiter.api.Assertions.assertEquals
+import static panda.utilities.StringUtils.EMPTY
 
 class ExpressionParserTestBootstrap {
 
@@ -49,7 +52,7 @@ class ExpressionParserTestBootstrap {
 
     @BeforeEach
     void emptyLine() {
-        System.out.println(StringUtils.EMPTY)
+        System.out.println(EMPTY)
     }
 
     protected static Context<?> prepareData() {
@@ -66,7 +69,7 @@ class ExpressionParserTestBootstrap {
 
     protected static void parse(String source, Class<? extends Throwable> clazz, String message) {
         Throwable throwable = Assertions.assertThrows(clazz, () -> parse(source))
-        Assertions.assertEquals(message, throwable.getLocalizedMessage())
+        assertEquals(message, throwable.getLocalizedMessage())
         System.out.println(source + ": " + message)
     }
 

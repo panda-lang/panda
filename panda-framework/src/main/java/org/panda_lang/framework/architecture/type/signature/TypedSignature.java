@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.architecture.type.Reference;
 import org.panda_lang.framework.architecture.type.Type;
 import org.panda_lang.framework.interpreter.token.Snippetable;
-import org.panda_lang.utilities.commons.text.Joiner;
+import panda.utilities.text.Joiner;
 
 public final class TypedSignature extends AbstractSignature<Reference> {
 

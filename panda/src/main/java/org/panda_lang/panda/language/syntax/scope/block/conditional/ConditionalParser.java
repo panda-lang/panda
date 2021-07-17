@@ -26,7 +26,7 @@ import org.panda_lang.framework.interpreter.token.Snippet;
 import org.panda_lang.framework.resource.syntax.keyword.Keyword;
 import org.panda_lang.panda.language.syntax.PandaSourceReader;
 import org.panda_lang.panda.language.syntax.ScopeParser;
-import org.panda_lang.utilities.commons.collection.Lists;
+import panda.utilities.collection.Lists;
 import panda.std.Option;
 
 final class ConditionalParser {

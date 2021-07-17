@@ -27,7 +27,9 @@ import org.panda_lang.framework.interpreter.token.Snippet
 import org.panda_lang.panda.language.syntax.expressions.PandaExpressions
 import org.panda_lang.panda.utils.PandaContextUtils
 import org.panda_lang.panda.utils.PandaUtils
-import org.panda_lang.utilities.commons.TimeUtils
+import panda.utilities.TimeUtils
+
+import static org.junit.jupiter.api.Assertions.assertEquals
 
 @CompileStatic
 final class OperationExpressionTest {
@@ -38,7 +40,7 @@ final class OperationExpressionTest {
     @Test
     void testMathOperation() throws Exception {
         Expression expression = PARSER.parse(PandaContextUtils.createStubContext(PandaUtils.defaultInstance(), (context -> new HashMap<>())), SOURCE);
-        Assertions.assertEquals((Object) 3, expression.evaluate(null, null));
+        assertEquals((Object) 3, expression.evaluate(null, null));
     }
 
     @Test

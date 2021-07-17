@@ -25,8 +25,8 @@ import org.panda_lang.framework.architecture.type.generator.TypeGenerator;
 import org.panda_lang.framework.resource.Mappings;
 import org.panda_lang.framework.resource.Mappings.CustomInitializer;
 import org.panda_lang.panda.PandaConstants;
-import org.panda_lang.utilities.commons.ClassUtils;
-import org.panda_lang.utilities.commons.StringUtils;
+import panda.utilities.ClassUtils;
+import panda.utilities.StringUtils;
 
 import java.io.File;
 

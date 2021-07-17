@@ -24,10 +24,10 @@ import org.panda_lang.framework.interpreter.source.Location;
 import org.panda_lang.framework.interpreter.token.Snippet;
 import org.panda_lang.framework.interpreter.token.Snippetable;
 import org.panda_lang.framework.runtime.PandaProcessFailure;
-import org.panda_lang.utilities.commons.StackTraceUtils;
-import org.panda_lang.utilities.commons.StringUtils;
-import org.panda_lang.utilities.commons.console.Colored;
-import org.panda_lang.utilities.commons.console.Effect;
+import panda.utilities.StackTraceUtils;
+import panda.utilities.StringUtils;
+import panda.utilities.console.Colored;
+import panda.utilities.console.Effect;
 import panda.std.Option;
 
 public final class ErrorFormatter {

@@ -25,7 +25,7 @@ import org.panda_lang.framework.architecture.module.TypeLoader;
 import org.panda_lang.framework.interpreter.parser.PandaParserException;
 import org.panda_lang.framework.resource.syntax.operator.Operator;
 import org.panda_lang.framework.runtime.ProcessStack;
-import org.panda_lang.utilities.commons.ObjectUtils;
+import panda.utilities.ObjectUtils;
 
 import java.util.Map;
 import java.util.Stack;

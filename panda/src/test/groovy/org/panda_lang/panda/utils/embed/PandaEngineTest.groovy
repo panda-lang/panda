@@ -18,8 +18,8 @@ package org.panda_lang.panda.utils.embed
 
 import groovy.transform.CompileStatic;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.panda_lang.utilities.commons.ScriptEngineUtils;
+import org.junit.jupiter.api.Test
+import panda.utilities.ScriptEngineUtils;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;

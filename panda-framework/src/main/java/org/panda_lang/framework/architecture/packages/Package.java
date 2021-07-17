@@ -20,7 +20,7 @@ import org.panda_lang.framework.architecture.module.Module;
 import org.panda_lang.framework.architecture.module.ModuleSource;
 import org.panda_lang.framework.architecture.module.PandaModule;
 import org.panda_lang.framework.interpreter.source.SourceService;
-import org.panda_lang.utilities.commons.collection.Maps;
+import panda.utilities.collection.Maps;
 import panda.std.Option;
 
 import java.io.File;

@@ -17,7 +17,7 @@
 package org.panda_lang.framework.interpreter.parser.pool;
 
 import org.panda_lang.framework.interpreter.parser.ContextParser;
-import org.panda_lang.utilities.commons.iterable.ResourcesIterable;
+import panda.utilities.iterable.ResourcesIterable;
 
 import java.util.ArrayList;
 import java.util.Collections;

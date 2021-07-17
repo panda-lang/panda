@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.interpreter.token.TokenType;
 import org.panda_lang.framework.interpreter.token.EqualableToken;
 import org.panda_lang.framework.resource.syntax.TokenTypes;
-import org.panda_lang.utilities.commons.StringUtils;
+import panda.utilities.StringUtils;
 
 public final class Operator extends EqualableToken {
 

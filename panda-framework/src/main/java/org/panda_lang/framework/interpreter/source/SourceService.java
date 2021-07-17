@@ -18,8 +18,8 @@ package org.panda_lang.framework.interpreter.source;
 
 import org.panda_lang.framework.architecture.packages.Script;
 import org.panda_lang.framework.interpreter.Interpreter;
-import org.panda_lang.utilities.commons.collection.Pair;
 import panda.std.Completable;
+import panda.std.Pair;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -50,7 +50,7 @@ public class SourceService {
 
     public Pair<? extends Source, Completable<Script>> retrieve() {
         Pair<? extends Source, Completable<Script>> currentSource = sources.pop();
-        currentSource.getValue().then(script -> loaded.put(script.getName(), script));
+        currentSource.getSecond().then(script -> loaded.put(script.getName(), script));
         return currentSource;
     }
 

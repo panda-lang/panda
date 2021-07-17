@@ -19,8 +19,8 @@ package org.panda_lang.framework.resource.syntax.auxiliary;
 import org.panda_lang.framework.interpreter.token.TokenType;
 import org.panda_lang.framework.interpreter.token.EqualableToken;
 import org.panda_lang.framework.resource.syntax.TokenTypes;
-import org.panda_lang.utilities.commons.CharacterUtils;
-import org.panda_lang.utilities.commons.StringUtils;
+import panda.utilities.CharacterUtils;
+import panda.utilities.StringUtils;
 
 /**
  * Indentation determines the amount of whitespaces at the beginning of line. The tab character is exactly equal to 4 whitespaces.

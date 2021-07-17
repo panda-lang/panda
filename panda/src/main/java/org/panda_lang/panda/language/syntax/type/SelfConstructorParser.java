@@ -28,7 +28,7 @@ import org.panda_lang.framework.interpreter.parser.pool.Targets;
 import org.panda_lang.framework.resource.syntax.literal.Literals;
 import org.panda_lang.panda.language.syntax.PandaSourceReader;
 import org.panda_lang.panda.language.syntax.expressions.subparsers.ArgumentsParser;
-import org.panda_lang.utilities.commons.ArrayUtils;
+import panda.utilities.ArrayUtils;
 import panda.std.Completable;
 import panda.std.Option;
 

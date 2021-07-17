@@ -36,11 +36,11 @@ import org.panda_lang.framework.architecture.type.member.parameter.ParameterUtil
 import org.panda_lang.framework.architecture.type.signature.TypedSignature;
 import org.panda_lang.framework.runtime.PandaProcessStack;
 import org.panda_lang.framework.runtime.PandaRuntimeException;
-import org.panda_lang.utilities.commons.ArrayUtils;
-import org.panda_lang.utilities.commons.javassist.ClassPoolUtils;
-import org.panda_lang.utilities.commons.StringUtils;
-import org.panda_lang.utilities.commons.javassist.CtCode;
-import org.panda_lang.utilities.commons.text.Joiner;
+import panda.utilities.ArrayUtils;
+import panda.utilities.javassist.ClassPoolUtils;
+import panda.utilities.StringUtils;
+import panda.utilities.javassist.CtCode;
+import panda.utilities.text.Joiner;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
