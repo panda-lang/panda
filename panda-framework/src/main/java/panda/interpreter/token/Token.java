@@ -23,7 +23,7 @@ import java.util.Objects;
 
 /**
  * The smallest piece of data used by Panda Framework.
- * Tokens represent elements of {@link org.panda_lang.framework.interpreter.resource.Syntax} with identified meaning.
+ * Tokens represent elements of {@link panda.interpreter.resource.Syntax} with identified meaning.
  */
 public interface Token {
 

@@ -46,7 +46,7 @@ public final class Result<T> {
      * Get status code
      *
      * @return the status code
-     * @see org.panda_lang.framework.interpreter.runtime.Status
+     * @see panda.interpreter.runtime.Status
      */
     public byte getStatus() {
         return status;

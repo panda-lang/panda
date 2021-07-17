@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.shell.repl;
+package panda.repl;
 
 import panda.interpreter.PandaFrameworkException;
 import panda.interpreter.architecture.dynamic.Frame;
@@ -35,7 +35,7 @@ import panda.interpreter.runtime.PandaRuntimeConstants;
 import panda.interpreter.runtime.Process;
 import panda.interpreter.runtime.ProcessStack;
 import panda.interpreter.runtime.Result;
-import org.panda_lang.panda.shell.repl.ReplResult.Type;
+import panda.repl.ReplResult.Type;
 import panda.std.Option;
 import panda.std.function.ThrowingFunction;
 

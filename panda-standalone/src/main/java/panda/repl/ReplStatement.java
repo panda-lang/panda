@@ -14,25 +14,23 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.shell
+package panda.repl;
 
-import groovy.transform.CompileStatic
-import org.junit.jupiter.api.Test
-import panda.panda_lang.framework.interpreter.logging.SystemLogger
+import panda.interpreter.architecture.dynamic.Controller;
+import panda.interpreter.architecture.expression.Expression;
+import panda.interpreter.source.Location;
+import panda.interpreter.runtime.Status;
+import panda.interpreter.syntax.scope.StandaloneExpression;
 
-@CompileStatic
-final class PandaShellTest {
+final class ReplStatement extends StandaloneExpression implements Controller {
 
-    private static final PandaShell SHELL = new PandaShell(() -> new SystemLogger(), System.in)
-
-    @Test
-    void 'should run package' () throws Exception {
-        SHELL.invoke("--level=info", "../examples/package-manager/github-packages/panda.cdn")
+    ReplStatement(Location location, Expression expression) {
+        super(location, expression);
     }
 
-    @Test
-    void 'should run single script' () throws Exception {
-        SHELL.invoke("--level=info", "../examples/hello_world.panda")
+    @Override
+    public byte getStatusCode() {
+        return Status.RETURN;
     }
 
 }

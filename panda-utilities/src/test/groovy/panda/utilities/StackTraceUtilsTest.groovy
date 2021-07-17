@@ -38,8 +38,8 @@ class StackTraceUtilsTest {
 
     @Test
     void filterString() {
-        StackTraceElement[] filtered = StackTraceUtils.filter(EXCEPTION.getStackTrace(), "org.panda_lang")
-        assertFalse ArrayUtils.findIn(filtered, element -> element.getClassName().contains("org.panda_lang")).isPresent()
+        StackTraceElement[] filtered = StackTraceUtils.filter(EXCEPTION.getStackTrace(), "panda.utilities")
+        assertFalse ArrayUtils.findIn(filtered, element -> element.getClassName().contains("panda.utilities")).isPresent()
     }
 
 }

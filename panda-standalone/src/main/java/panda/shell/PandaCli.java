@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.shell;
+package panda.shell;
 
 import panda.interpreter.architecture.Application;
 import panda.interpreter.logging.Channel;
@@ -26,7 +26,7 @@ import panda.interpreter.PandaFactory;
 import panda.manager.PackageManager;
 import panda.manager.PackageManagerConstants;
 import panda.manager.PackageUtils;
-import org.panda_lang.panda.shell.repl.ReplConsole;
+import panda.repl.ReplConsole;
 import panda.interpreter.utils.PandaUtils;
 import panda.std.function.ThrowingRunnable;
 import picocli.CommandLine;

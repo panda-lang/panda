@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.shell;
+package panda.shell;
 
 import org.fusesource.jansi.AnsiConsole;
 import panda.interpreter.logging.Logger;

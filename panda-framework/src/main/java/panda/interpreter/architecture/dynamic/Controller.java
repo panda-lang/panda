@@ -25,7 +25,7 @@ public interface Controller extends Executable {
      * Get represented status code
      *
      * @return the status code
-     * @see org.panda_lang.framework.interpreter.runtime.Status
+     * @see panda.interpreter.runtime.Status
      */
     byte getStatusCode();
 

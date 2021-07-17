@@ -62,7 +62,7 @@ public interface TypeLoader {
      *
      * @param name the name to search for
      * @return the found type
-     * @throws org.panda_lang.framework.interpreter.runtime.PandaRuntimeException if type does not exist
+     * @throws panda.interpreter.runtime.PandaRuntimeException if type does not exist
      */
     default Type requireType(String name) throws PandaRuntimeException {
         return forType(name).orThrow(() -> {

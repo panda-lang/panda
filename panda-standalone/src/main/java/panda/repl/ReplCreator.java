@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.shell.repl;
+package panda.repl;
 
 import org.jetbrains.annotations.Nullable;
 import panda.interpreter.architecture.module.Module;

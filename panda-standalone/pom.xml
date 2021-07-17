@@ -67,7 +67,7 @@
                 <configuration>
                     <archive>
                         <manifestEntries>
-                            <Main-Class>org.panda_lang.panda.shell.PandaLauncher</Main-Class>
+                            <Main-Class>panda.shell.PandaLauncher</Main-Class>
                             <Specification-Title>panda</Specification-Title>
                             <Implementation-Title>panda</Implementation-Title>
                             <Implementation-Version>${panda.version}</Implementation-Version>
@@ -80,7 +80,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.panda_lang.panda.shell.PandaLauncher</mainClass>
+                            <mainClass>panda.shell.PandaLauncher</mainClass>
                         </manifest>
                     </archive>
                     <descriptors>

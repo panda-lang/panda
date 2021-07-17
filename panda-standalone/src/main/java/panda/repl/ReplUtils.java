@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.shell.repl;
+package panda.repl;
 
 import panda.interpreter.logging.LoggerHolder;
 

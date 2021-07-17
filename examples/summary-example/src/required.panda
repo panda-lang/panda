@@ -1,5 +1,5 @@
 // export StringUtils class, this type will be visible in another files
-export org.panda_lang.utilities.commons.StringUtils
+export panda.utilities.StringUtils
 
 // shared type to test visibility access
 shared type Required {

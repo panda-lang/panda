@@ -14,24 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.shell.repl;
-
-import org.jetbrains.annotations.Nullable;
-import panda.interpreter.architecture.statement.Variable;
+package panda.repl;
 
 /**
- * Listen for changes of variable values
+ * Handle exceptions on your own
  */
 @FunctionalInterface
-public interface ReplVariableChangeListener {
+public interface ReplExceptionListener {
 
     /**
-     * Called when value of variable is changed
+     * Called when an exception occurs
      *
-     * @param variable the affected variable
-     * @param previous the previous value
-     * @param current a new value
+     * @param exception the caught exception
+     * @param runtime tells if exception occurred during at runtime (execution time), otherwise it happened during the interpretation time
      */
-    void onChange(Variable variable, @Nullable Object previous, @Nullable Object current);
+    void onException(Exception exception, boolean runtime);
 
 }

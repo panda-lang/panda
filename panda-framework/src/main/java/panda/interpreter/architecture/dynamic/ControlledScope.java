@@ -22,7 +22,7 @@ import panda.interpreter.runtime.ProcessStack;
 import panda.interpreter.runtime.Result;
 
 /**
- * Scope that takes over control on the returned by process stack {@link org.panda_lang.framework.interpreter.runtime.Result}
+ * Scope that takes over control on the returned by process stack {@link panda.interpreter.runtime.Result}
  */
 public interface ControlledScope extends Scope {
 

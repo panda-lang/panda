@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals
 @CompileStatic
 final class FileBasedLexerTest {
 
-    private static final Source SOURCE = new PandaSource(null, FileBasedLexerTest.class, "a('z').b.c('y').d('x')")
+    private static final Source SOURCE = new PandaSource(null, FileBasedLexerTest.class, "a('z').b.c('y').d('x');")
 
     @Test
     void testLexer() {

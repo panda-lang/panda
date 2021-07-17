@@ -14,30 +14,32 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.shell
+package panda.shell
 
 import groovy.transform.CompileStatic
 import org.junit.jupiter.api.Test
-import panda.panda_lang.framework.interpreter.logging.SystemLogger
-import picocli.CommandLine
+import panda.interpreter.PandaConstants
+import panda.interpreter.logging.DefaultLogger
+import panda.interpreter.logging.Logger
+
+import static org.junit.jupiter.api.Assertions.assertTrue
 
 @CompileStatic
-final class PandaCliTest {
+final class PandaLauncherTest {
 
-    private static final PandaShell SHELL = new PandaShell(() -> new SystemLogger(), System.in)
+    private StringBuilder output = new StringBuilder()
+    private Logger logger = new DefaultLogger({ String message -> output.append(message) })
 
     @Test
-    void help() throws Exception {
-        invoke("--help")
+    void 'should print help' () {
+        PandaLauncher.launch(() -> logger, System.in, '--help')
+        assertTrue output.contains('Usage')
     }
 
     @Test
-    void version() throws Exception {
-        invoke("--version")
-    }
-
-    private static void invoke(String args) throws Exception {
-        CommandLine.populateCommand(new PandaCli(SHELL), args).run()
+    void 'should parse command line parameters' () {
+        PandaLauncher.launch(() -> logger, System.in, '--version')
+        assertTrue output.contains(PandaConstants.VERSION)
     }
 
 }

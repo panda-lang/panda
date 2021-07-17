@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.shell.repl
+package panda.repl
 
 import groovy.transform.CompileStatic
 import org.junit.jupiter.api.Test
-import org.panda_lang.framework.architecture.statement.PandaVariableData
-import org.panda_lang.framework.architecture.statement.Variable
-import org.panda_lang.framework.architecture.type.member.method.PandaMethod
-import org.panda_lang.framework.architecture.type.member.parameter.PropertyParameterImpl
-import org.panda_lang.framework.architecture.type.signature.Signature
-import panda.panda_lang.framework.interpreter.parser.Context
-import panda.panda_lang.framework.interpreter.source.ClassSource
 import panda.interpreter.Panda
-import org.panda_lang.panda.language.syntax.expressions.subparsers.number.PandaNumbers
-import org.panda_lang.panda.utils.PandaUtils
+import panda.interpreter.architecture.statement.PandaVariableData
+import panda.interpreter.architecture.statement.Variable
+import panda.interpreter.architecture.type.member.method.PandaMethod
+import panda.interpreter.architecture.type.member.parameter.PropertyParameterImpl
+import panda.interpreter.architecture.type.signature.Signature
+import panda.interpreter.parser.Context
+import panda.interpreter.source.ClassSource
+import panda.interpreter.syntax.expressions.subparsers.number.PandaNumbers
+import panda.interpreter.utils.PandaUtils
 
 @CompileStatic
 final class ReplTest {
