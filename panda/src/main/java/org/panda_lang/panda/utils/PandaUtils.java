@@ -24,8 +24,8 @@ import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.manager.PackageUtils;
 import org.panda_lang.utilities.commons.TimeUtils;
-import org.panda_lang.utilities.commons.function.Lazy;
-import org.panda_lang.utilities.commons.function.Result;
+import panda.std.Lazy;
+import panda.std.Result;
 
 import java.io.File;
 import java.util.Map;

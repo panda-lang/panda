@@ -24,7 +24,7 @@ import org.panda_lang.framework.interpreter.token.SynchronizedSource;
 import org.panda_lang.framework.resource.syntax.TokenTypes;
 import org.panda_lang.framework.resource.syntax.auxiliary.Section;
 import org.panda_lang.framework.resource.syntax.separator.Separators;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 import java.util.Objects;
 

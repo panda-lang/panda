@@ -22,7 +22,7 @@ import org.panda_lang.framework.architecture.type.Type;
 import org.panda_lang.framework.interpreter.parser.Context;
 import org.panda_lang.framework.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.interpreter.token.Snippet;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 import java.util.function.Function;
 

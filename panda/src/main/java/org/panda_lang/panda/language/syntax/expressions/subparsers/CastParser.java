@@ -18,8 +18,8 @@ package org.panda_lang.panda.language.syntax.expressions.subparsers;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.architecture.expression.PandaDynamicExpression;
-import org.panda_lang.framework.architecture.type.signature.Signature;
 import org.panda_lang.framework.architecture.type.VisibilityComparator;
+import org.panda_lang.framework.architecture.type.signature.Signature;
 import org.panda_lang.framework.interpreter.parser.Context;
 import org.panda_lang.framework.interpreter.parser.expression.AbstractExpressionSubparserWorker;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionContext;
@@ -28,7 +28,7 @@ import org.panda_lang.framework.interpreter.parser.expression.ExpressionSubparse
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.framework.interpreter.token.TokenInfo;
 import org.panda_lang.framework.resource.syntax.keyword.Keywords;
-import org.panda_lang.utilities.commons.function.Result;
+import panda.std.Result;
 
 public final class CastParser implements ExpressionSubparser {
 

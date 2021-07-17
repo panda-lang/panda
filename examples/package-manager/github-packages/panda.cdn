@@ -3,6 +3,6 @@ version: 1.0.0
 author: dzikoysk
 
 dependencies: [
-    github:dzikoysk/panda-dependency@master
+    github:panda-lang/panda-dependency@master
 ]
 

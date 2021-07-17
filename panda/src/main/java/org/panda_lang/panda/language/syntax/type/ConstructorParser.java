@@ -35,8 +35,8 @@ import org.panda_lang.panda.language.syntax.PandaSourceReader;
 import org.panda_lang.panda.language.syntax.ScopeParser;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.framework.interpreter.parser.Component;
-import org.panda_lang.utilities.commons.function.Completable;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Completable;
+import panda.std.Option;
 
 import java.util.Collections;
 import java.util.List;

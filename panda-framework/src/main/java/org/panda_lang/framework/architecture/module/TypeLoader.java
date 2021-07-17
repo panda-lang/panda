@@ -18,7 +18,7 @@ package org.panda_lang.framework.architecture.module;
 
 import org.panda_lang.framework.architecture.type.Type;
 import org.panda_lang.framework.runtime.PandaRuntimeException;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 public interface TypeLoader {
 

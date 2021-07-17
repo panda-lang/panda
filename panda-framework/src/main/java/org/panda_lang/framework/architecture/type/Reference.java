@@ -18,7 +18,7 @@ package org.panda_lang.framework.architecture.type;
 
 import org.panda_lang.framework.architecture.module.Module;
 import org.panda_lang.framework.interpreter.source.Location;
-import org.panda_lang.utilities.commons.function.Completable;
+import panda.std.Completable;
 
 public class Reference {
 

@@ -38,7 +38,7 @@ import org.panda_lang.panda.language.syntax.PandaSourceReader;
 import org.panda_lang.panda.language.syntax.scope.variable.VariableDataInitializer;
 import org.panda_lang.panda.language.syntax.type.SignatureParser;
 import org.panda_lang.panda.language.syntax.type.SignatureSource;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 public final class DeclarationParser implements ExpressionSubparser {
 

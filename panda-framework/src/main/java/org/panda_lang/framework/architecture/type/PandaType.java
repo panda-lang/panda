@@ -35,9 +35,9 @@ import org.panda_lang.framework.architecture.type.member.method.PandaMethods;
 import org.panda_lang.framework.architecture.type.member.method.TypeMethod;
 import org.panda_lang.framework.architecture.type.signature.TypedSignature;
 import org.panda_lang.utilities.commons.ValidationUtils;
-import org.panda_lang.utilities.commons.function.Completable;
-import org.panda_lang.utilities.commons.function.Option;
-import org.panda_lang.utilities.commons.function.PandaStream;
+import panda.std.Completable;
+import panda.std.Option;
+import panda.std.stream.PandaStream;
 
 import java.util.ArrayList;
 import java.util.Collection;

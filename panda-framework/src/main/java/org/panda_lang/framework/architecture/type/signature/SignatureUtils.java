@@ -17,7 +17,7 @@
 package org.panda_lang.framework.architecture.type.signature;
 
 import org.panda_lang.framework.architecture.type.Type;
-import org.panda_lang.utilities.commons.function.Result;
+import panda.std.Result;
 
 final class SignatureUtils {
 

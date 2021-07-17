@@ -22,7 +22,7 @@ import org.panda_lang.panda.manager.PackageInfo;
 import org.panda_lang.panda.manager.PackageManager;
 import org.panda_lang.panda.manager.PackageManagerConstants;
 import org.panda_lang.panda.manager.PackageUtils;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 import java.io.File;
 import java.util.Objects;

@@ -20,7 +20,7 @@ import org.panda_lang.framework.architecture.dynamic.Frameable;
 import org.panda_lang.framework.architecture.expression.Expression;
 import org.panda_lang.framework.runtime.MemoryContainer;
 import org.panda_lang.framework.runtime.ProcessStack;
-import org.panda_lang.utilities.commons.function.ThrowingBiFunction;
+import panda.std.function.ThrowingBiFunction;
 
 final class FieldAccessorFunction implements ThrowingBiFunction<ProcessStack, Object, MemoryContainer, Exception> {
 

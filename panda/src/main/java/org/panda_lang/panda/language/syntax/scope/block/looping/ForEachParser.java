@@ -28,8 +28,8 @@ import org.panda_lang.framework.resource.syntax.operator.Operators;
 import org.panda_lang.panda.language.syntax.PandaSourceReader;
 import org.panda_lang.panda.language.syntax.scope.block.BlockParser;
 import org.panda_lang.panda.language.syntax.scope.variable.VariableDataInitializer;
-import org.panda_lang.utilities.commons.function.Completable;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Completable;
+import panda.std.Option;
 
 public final class ForEachParser extends BlockParser<ForEachBlock> {
 

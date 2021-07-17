@@ -22,7 +22,7 @@ import org.panda_lang.framework.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.framework.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.language.syntax.PandaSourceReader;
 import org.panda_lang.panda.language.syntax.type.SignatureParser;
-import org.panda_lang.utilities.commons.function.Result;
+import panda.std.Result;
 
 final class SubparsersUtils {
 

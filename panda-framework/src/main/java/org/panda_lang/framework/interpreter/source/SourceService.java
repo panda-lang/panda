@@ -19,7 +19,7 @@ package org.panda_lang.framework.interpreter.source;
 import org.panda_lang.framework.architecture.packages.Script;
 import org.panda_lang.framework.interpreter.Interpreter;
 import org.panda_lang.utilities.commons.collection.Pair;
-import org.panda_lang.utilities.commons.function.Completable;
+import panda.std.Completable;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;

@@ -17,8 +17,8 @@
 package org.panda_lang.framework.interpreter.parser;
 
 import org.jetbrains.annotations.NotNull;
-import org.panda_lang.utilities.commons.function.Completable;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Completable;
+import panda.std.Option;
 
 /**
  * Represents parsers supported by pipelines

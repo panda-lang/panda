@@ -21,7 +21,7 @@ import org.panda_lang.framework.interpreter.token.TokenType;
 import org.panda_lang.framework.interpreter.token.EqualableToken;
 import org.panda_lang.framework.resource.syntax.TokenTypes;
 
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 public final class Sequence extends EqualableToken {
 

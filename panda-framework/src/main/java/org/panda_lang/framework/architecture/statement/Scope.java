@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.architecture.statement;
 
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 import java.util.List;
 

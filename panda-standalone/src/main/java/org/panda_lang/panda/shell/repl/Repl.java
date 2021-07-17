@@ -36,8 +36,8 @@ import org.panda_lang.framework.runtime.Process;
 import org.panda_lang.framework.runtime.ProcessStack;
 import org.panda_lang.framework.runtime.Result;
 import org.panda_lang.panda.shell.repl.ReplResult.Type;
-import org.panda_lang.utilities.commons.function.Option;
-import org.panda_lang.utilities.commons.function.ThrowingFunction;
+import panda.std.Option;
+import panda.std.function.ThrowingFunction;
 
 import java.util.ArrayList;
 import java.util.Collection;

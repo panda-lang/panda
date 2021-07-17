@@ -23,7 +23,7 @@ import org.panda_lang.framework.interpreter.parser.Context;
 import org.panda_lang.framework.interpreter.parser.PandaParserFailure;
 import org.panda_lang.framework.interpreter.source.Source;
 import org.panda_lang.framework.interpreter.token.Snippetable;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 public final class VisibilityComparator {
 

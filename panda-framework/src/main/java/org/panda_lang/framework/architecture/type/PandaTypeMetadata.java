@@ -19,9 +19,9 @@ package org.panda_lang.framework.architecture.type;
 import org.panda_lang.framework.architecture.module.Module;
 import org.panda_lang.framework.architecture.type.signature.Signature;
 import org.panda_lang.framework.architecture.type.signature.TypedSignature;
-import org.panda_lang.framework.interpreter.source.Location;
 import org.panda_lang.framework.interpreter.source.ClassSource;
-import org.panda_lang.utilities.commons.function.Completable;
+import org.panda_lang.framework.interpreter.source.Location;
+import panda.std.Completable;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -20,8 +20,8 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.architecture.expression.Expression;
 import org.panda_lang.framework.architecture.type.member.ParametrizedMember;
 import org.panda_lang.framework.architecture.type.member.parameter.PropertyParameter;
-import org.panda_lang.utilities.commons.function.Option;
-import org.panda_lang.utilities.commons.function.Result;
+import panda.std.Option;
+import panda.std.Result;
 
 import java.util.Arrays;
 import java.util.Collection;

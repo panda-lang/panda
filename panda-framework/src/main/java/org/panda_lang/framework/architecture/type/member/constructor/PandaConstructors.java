@@ -19,7 +19,7 @@ package org.panda_lang.framework.architecture.type.member.constructor;
 import org.panda_lang.framework.architecture.type.Type;
 import org.panda_lang.framework.architecture.type.Typed;
 import org.panda_lang.framework.architecture.type.member.AbstractMembers;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 import java.util.List;
 

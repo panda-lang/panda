@@ -21,8 +21,8 @@ import org.panda_lang.framework.architecture.dynamic.ControlledScope;
 import org.panda_lang.framework.runtime.ProcessStack;
 import org.panda_lang.framework.runtime.Result;
 import org.panda_lang.framework.runtime.Status;
-import org.panda_lang.utilities.commons.function.ThrowingRunnable;
-import org.panda_lang.utilities.commons.function.ThrowingSupplier;
+import panda.std.function.ThrowingRunnable;
+import panda.std.function.ThrowingSupplier;
 
 final class ControlledIteration {
 

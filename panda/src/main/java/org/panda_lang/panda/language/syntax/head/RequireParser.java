@@ -31,8 +31,8 @@ import org.panda_lang.framework.resource.syntax.keyword.Keywords;
 import org.panda_lang.framework.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.syntax.PandaSourceReader;
 import org.panda_lang.utilities.commons.ArrayUtils;
-import org.panda_lang.utilities.commons.function.Completable;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Completable;
+import panda.std.Option;
 
 import java.util.Arrays;
 

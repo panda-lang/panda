@@ -18,8 +18,8 @@ package org.panda_lang.utilities.commons;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.utilities.commons.collection.Pair;
-import org.panda_lang.utilities.commons.function.Option;
-import org.panda_lang.utilities.commons.function.ThrowingConsumer;
+import panda.std.Option;
+import panda.std.function.ThrowingConsumer;
 
 import java.lang.reflect.Array;
 import java.util.Objects;

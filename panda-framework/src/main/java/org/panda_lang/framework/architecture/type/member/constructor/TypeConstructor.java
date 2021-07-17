@@ -17,7 +17,7 @@
 package org.panda_lang.framework.architecture.type.member.constructor;
 
 import org.panda_lang.framework.architecture.type.member.ParametrizedMember;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 /**
  * Represents constructor property

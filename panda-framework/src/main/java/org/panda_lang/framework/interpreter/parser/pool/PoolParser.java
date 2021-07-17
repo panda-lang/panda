@@ -23,8 +23,8 @@ import org.panda_lang.framework.interpreter.parser.Parser;
 import org.panda_lang.framework.interpreter.token.SourceStream;
 import org.panda_lang.framework.interpreter.token.Streamable;
 import org.panda_lang.framework.resource.syntax.separator.Separators;
-import org.panda_lang.utilities.commons.function.Completable;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Completable;
+import panda.std.Option;
 
 public final class PoolParser<T> implements Parser {
 

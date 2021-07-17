@@ -17,7 +17,7 @@
 package org.panda_lang.framework.architecture.type.member.field;
 
 import org.panda_lang.framework.architecture.type.member.Members;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 /**
  * Container for fields

@@ -19,8 +19,8 @@ package org.panda_lang.framework.architecture.type.member.constructor;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.architecture.type.member.AbstractParametrizedMember;
 import org.panda_lang.framework.architecture.type.member.parameter.ParameterUtils;
-import org.panda_lang.utilities.commons.function.Lazy;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Lazy;
+import panda.std.Option;
 
 import java.util.function.Supplier;
 

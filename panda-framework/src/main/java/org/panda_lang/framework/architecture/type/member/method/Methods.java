@@ -18,7 +18,7 @@ package org.panda_lang.framework.architecture.type.member.method;
 
 import org.panda_lang.framework.architecture.type.Typed;
 import org.panda_lang.framework.architecture.type.member.Members;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 import java.util.List;
 

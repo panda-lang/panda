@@ -18,7 +18,7 @@ package org.panda_lang.framework.architecture.statement;
 
 import org.panda_lang.framework.architecture.type.signature.Signature;
 import org.panda_lang.framework.architecture.type.signature.Signed;
-import org.panda_lang.utilities.commons.function.Completable;
+import panda.std.Completable;
 
 /**
  * Represents basic data about variable

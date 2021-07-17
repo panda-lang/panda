@@ -21,7 +21,7 @@ import org.panda_lang.panda.manager.PackageInfo;
 import org.panda_lang.panda.manager.PackageManager;
 import org.panda_lang.panda.manager.PackageManagerConstants;
 import org.panda_lang.utilities.commons.FileUtils;
-import org.panda_lang.utilities.commons.function.ThrowingRunnable;
+import panda.std.function.ThrowingRunnable;
 
 import java.io.File;
 import java.util.ArrayList;

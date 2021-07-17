@@ -19,7 +19,7 @@ package org.panda_lang.framework.interpreter;
 import org.panda_lang.framework.architecture.Application;
 import org.panda_lang.framework.architecture.Environment;
 import org.panda_lang.framework.architecture.packages.Package;
-import org.panda_lang.utilities.commons.function.Result;
+import panda.std.Result;
 
 /**
  * Translate source code into efficient intermediate representation and build an application

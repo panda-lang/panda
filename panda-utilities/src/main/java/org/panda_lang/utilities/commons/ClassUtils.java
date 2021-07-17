@@ -17,7 +17,7 @@
 package org.panda_lang.utilities.commons;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -138,7 +138,7 @@ public final class ClassUtils {
     }
 
     /**
-     * Get class using {@link java.lang.Class#forName(String)} as {@link org.panda_lang.utilities.commons.function.Option}
+     * Get class using {@link java.lang.Class#forName(String)} as {@link panda.std.Option}
      *
      * @param name the name of class
      * @return optional with class (with null instead of {@link java.lang.ClassNotFoundException})

@@ -16,7 +16,7 @@
 
 package org.panda_lang.utilities.commons;
 
-import org.panda_lang.utilities.commons.function.PandaStream;
+import panda.std.stream.PandaStream;
 
 import java.util.Arrays;
 import java.util.Stack;

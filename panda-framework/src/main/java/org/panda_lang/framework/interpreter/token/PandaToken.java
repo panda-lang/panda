@@ -18,7 +18,7 @@ package org.panda_lang.framework.interpreter.token;
 
 import org.jetbrains.annotations.Nullable;
 
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 public class PandaToken extends EqualableToken {
 

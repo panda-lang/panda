@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.architecture.dynamic.Frame;
 import org.panda_lang.framework.architecture.statement.Scope;
 import org.panda_lang.framework.architecture.statement.Statement;
-import org.panda_lang.utilities.commons.function.ThrowingSupplier;
+import panda.std.function.ThrowingSupplier;
 
 /**
  * Stack stores information about the active subroutines of a process

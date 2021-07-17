@@ -18,8 +18,8 @@ package org.panda_lang.framework.architecture;
 
 import org.panda_lang.framework.interpreter.logging.Logger;
 import org.panda_lang.framework.interpreter.logging.LoggerHolder;
-import org.panda_lang.utilities.commons.function.Option;
-import org.panda_lang.utilities.commons.function.Result;
+import panda.std.Option;
+import panda.std.Result;
 
 /**
  * Application is a group of bundled scripts

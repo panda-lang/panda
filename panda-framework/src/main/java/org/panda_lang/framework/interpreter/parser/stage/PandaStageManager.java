@@ -17,7 +17,7 @@
 package org.panda_lang.framework.interpreter.parser.stage;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;

@@ -25,7 +25,7 @@ import org.openjdk.jmh.annotations.Warmup;
 import org.panda_lang.framework.architecture.Application;
 import org.panda_lang.panda.utils.BenchmarkUtils;
 import org.panda_lang.panda.utils.PandaUtils;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 @State(Scope.Benchmark)
 @Warmup(time = 1, iterations = 1)

@@ -17,7 +17,7 @@
 package org.panda_lang.framework.architecture.statement;
 
 import org.panda_lang.framework.architecture.type.signature.Signature;
-import org.panda_lang.utilities.commons.function.Completable;
+import panda.std.Completable;
 
 public class PandaVariable extends PandaVariableData implements Variable {
 

@@ -46,9 +46,9 @@ import org.panda_lang.framework.resource.Resources;
 import org.panda_lang.utilities.commons.ObjectUtils;
 import org.panda_lang.utilities.commons.TimeUtils;
 import org.panda_lang.utilities.commons.collection.Pair;
-import org.panda_lang.utilities.commons.function.Completable;
-import org.panda_lang.utilities.commons.function.Option;
-import org.panda_lang.utilities.commons.function.Result;
+import panda.std.Completable;
+import panda.std.Option;
+import panda.std.Result;
 
 public final class PandaInterpreter implements Interpreter {
 

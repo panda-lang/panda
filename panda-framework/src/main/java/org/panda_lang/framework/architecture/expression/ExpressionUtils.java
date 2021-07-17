@@ -25,8 +25,8 @@ import org.panda_lang.framework.runtime.PandaRuntimeConstants;
 import org.panda_lang.framework.runtime.PandaRuntimeException;
 import org.panda_lang.framework.runtime.Process;
 import org.panda_lang.framework.runtime.ProcessStack;
-import org.panda_lang.utilities.commons.function.Option;
-import org.panda_lang.utilities.commons.function.Result;
+import panda.std.Option;
+import panda.std.Result;
 
 import java.util.List;
 

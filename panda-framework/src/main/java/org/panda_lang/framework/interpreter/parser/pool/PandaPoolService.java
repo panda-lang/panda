@@ -16,10 +16,10 @@
 
 package org.panda_lang.framework.interpreter.parser.pool;
 
-import org.panda_lang.framework.interpreter.parser.ContextParser;
 import org.panda_lang.framework.interpreter.parser.Component;
-import org.panda_lang.utilities.commons.function.StreamUtils;
+import org.panda_lang.framework.interpreter.parser.ContextParser;
 import org.panda_lang.utilities.commons.iterable.ResourcesIterable;
+import panda.std.stream.StreamUtils;
 
 import java.util.Collection;
 import java.util.HashMap;

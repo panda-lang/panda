@@ -18,7 +18,7 @@ package org.panda_lang.framework.architecture.expression;
 
 import org.panda_lang.framework.architecture.type.signature.Signature;
 import org.panda_lang.framework.runtime.ProcessStack;
-import org.panda_lang.utilities.commons.function.Lazy;
+import panda.std.Lazy;
 
 import java.security.InvalidParameterException;
 

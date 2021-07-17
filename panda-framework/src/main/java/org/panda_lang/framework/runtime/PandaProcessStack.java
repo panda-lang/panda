@@ -25,7 +25,7 @@ import org.panda_lang.framework.architecture.statement.Scope;
 import org.panda_lang.framework.architecture.statement.Statement;
 import org.panda_lang.utilities.commons.collection.FixedStack;
 import org.panda_lang.utilities.commons.collection.IStack;
-import org.panda_lang.utilities.commons.function.ThrowingSupplier;
+import panda.std.function.ThrowingSupplier;
 
 public final class PandaProcessStack implements ProcessStack {
 

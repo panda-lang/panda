@@ -1,5 +1,5 @@
 // require panda-dependency implementations defined in the panda.cdn
-require 'dzikoysk/panda-dependency'
+require 'panda-lang/panda-dependency'
 require 'piotrpiatyszek/panda-dependency'
 
 main {

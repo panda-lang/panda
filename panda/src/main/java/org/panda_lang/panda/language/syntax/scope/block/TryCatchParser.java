@@ -27,8 +27,8 @@ import org.panda_lang.framework.interpreter.token.Snippet;
 import org.panda_lang.framework.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.language.syntax.PandaSourceReader;
 import org.panda_lang.panda.language.syntax.scope.variable.VariableDataInitializer;
-import org.panda_lang.utilities.commons.function.Completable;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Completable;
+import panda.std.Option;
 
 public final class TryCatchParser extends BlockParser<TryCatch> {
 

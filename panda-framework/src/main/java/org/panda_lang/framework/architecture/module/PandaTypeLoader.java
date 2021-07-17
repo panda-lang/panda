@@ -19,8 +19,8 @@ package org.panda_lang.framework.architecture.module;
 import org.panda_lang.framework.architecture.packages.Packages;
 import org.panda_lang.framework.architecture.type.Reference;
 import org.panda_lang.framework.architecture.type.Type;
-import org.panda_lang.utilities.commons.function.Option;
-import org.panda_lang.utilities.commons.function.PandaStream;
+import panda.std.Option;
+import panda.std.stream.PandaStream;
 
 import java.util.Arrays;
 import java.util.Collection;

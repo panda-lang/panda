@@ -17,7 +17,7 @@
 package org.panda_lang.framework.interpreter.token;
 
 import org.panda_lang.framework.interpreter.source.Location;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 import java.util.ArrayList;
 import java.util.List;

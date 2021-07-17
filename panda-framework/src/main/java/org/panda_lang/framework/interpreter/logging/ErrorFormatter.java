@@ -28,7 +28,7 @@ import org.panda_lang.utilities.commons.StackTraceUtils;
 import org.panda_lang.utilities.commons.StringUtils;
 import org.panda_lang.utilities.commons.console.Colored;
 import org.panda_lang.utilities.commons.console.Effect;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 public final class ErrorFormatter {
 
