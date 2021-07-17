@@ -19,7 +19,7 @@ package org.panda_lang.framework.architecture.packages;
 import org.panda_lang.framework.architecture.module.Module;
 import org.panda_lang.framework.interpreter.source.SourceService;
 import org.panda_lang.utilities.commons.StringUtils;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 import java.util.HashMap;
 import java.util.Map;

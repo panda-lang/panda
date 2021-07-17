@@ -26,8 +26,8 @@ import org.panda_lang.framework.architecture.type.member.field.Fields;
 import org.panda_lang.framework.architecture.type.member.method.Methods;
 import org.panda_lang.framework.architecture.type.signature.Signed;
 import org.panda_lang.framework.architecture.type.signature.TypedSignature;
-import org.panda_lang.utilities.commons.function.Completable;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Completable;
+import panda.std.Option;
 
 import java.util.Collection;
 import java.util.Map;

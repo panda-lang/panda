@@ -43,7 +43,7 @@ import org.panda_lang.framework.resource.syntax.auxiliary.Section;
 import org.panda_lang.framework.resource.syntax.separator.Separators;
 import org.panda_lang.utilities.commons.ObjectUtils;
 import org.panda_lang.utilities.commons.console.Effect;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 import org.panda_lang.utilities.commons.text.Joiner;
 
 import java.util.List;

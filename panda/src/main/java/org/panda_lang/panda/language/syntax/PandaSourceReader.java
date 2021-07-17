@@ -32,7 +32,7 @@ import org.panda_lang.framework.resource.syntax.operator.Operators;
 import org.panda_lang.framework.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.syntax.type.SignatureParser;
 import org.panda_lang.panda.language.syntax.type.SignatureSource;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 import java.util.ArrayList;
 import java.util.Collections;

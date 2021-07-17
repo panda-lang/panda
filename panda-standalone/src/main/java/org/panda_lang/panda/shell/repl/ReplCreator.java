@@ -45,8 +45,8 @@ import org.panda_lang.framework.runtime.Process;
 import org.panda_lang.framework.runtime.ProcessStack;
 import org.panda_lang.panda.PandaException;
 import org.panda_lang.panda.utils.PandaContextUtils;
-import org.panda_lang.utilities.commons.function.Completable;
-import org.panda_lang.utilities.commons.function.ThrowingFunction;
+import panda.std.Completable;
+import panda.std.function.ThrowingFunction;
 
 import java.io.File;
 import java.util.Collections;

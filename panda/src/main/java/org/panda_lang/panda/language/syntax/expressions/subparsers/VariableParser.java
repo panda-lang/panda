@@ -35,7 +35,7 @@ import org.panda_lang.framework.interpreter.token.TokenUtils;
 import org.panda_lang.framework.resource.syntax.TokenTypes;
 import org.panda_lang.framework.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.syntax.expressions.subparsers.number.NumberUtils;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 public final class VariableParser implements ExpressionSubparser {
 

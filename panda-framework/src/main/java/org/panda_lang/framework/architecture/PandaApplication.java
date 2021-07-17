@@ -21,8 +21,8 @@ import org.panda_lang.framework.architecture.packages.Script;
 import org.panda_lang.framework.architecture.statement.Main;
 import org.panda_lang.framework.runtime.PandaProcess;
 import org.panda_lang.framework.runtime.Process;
-import org.panda_lang.utilities.commons.function.Option;
-import org.panda_lang.utilities.commons.function.Result;
+import panda.std.Option;
+import panda.std.Result;
 
 import java.util.ArrayList;
 import java.util.List;

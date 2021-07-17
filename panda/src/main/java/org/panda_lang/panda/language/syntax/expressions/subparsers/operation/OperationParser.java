@@ -27,8 +27,8 @@ import org.panda_lang.panda.language.syntax.expressions.subparsers.operation.sub
 import org.panda_lang.panda.language.syntax.expressions.subparsers.operation.subparsers.ConcatenationOperatorSubparser;
 import org.panda_lang.panda.language.syntax.expressions.subparsers.operation.subparsers.LogicalOperatorSubparser;
 import org.panda_lang.panda.language.syntax.expressions.subparsers.operation.subparsers.MathOperationSubparser;
-import org.panda_lang.utilities.commons.function.Case;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Case;
+import panda.std.Option;
 
 public final class OperationParser implements Parser {
 

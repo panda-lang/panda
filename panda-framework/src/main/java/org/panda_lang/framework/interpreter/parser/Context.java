@@ -29,7 +29,7 @@ import org.panda_lang.framework.interpreter.parser.stage.StageService;
 import org.panda_lang.framework.interpreter.source.Localizable;
 import org.panda_lang.framework.interpreter.token.Snippet;
 import org.panda_lang.framework.interpreter.token.SourceStream;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 /**
  * Component based set of data used during the interpretation process

@@ -24,7 +24,7 @@ import org.panda_lang.framework.architecture.statement.Scope;
 import org.panda_lang.framework.interpreter.source.Localizable;
 import org.panda_lang.framework.runtime.ProcessStack;
 import org.panda_lang.framework.runtime.Result;
-import org.panda_lang.utilities.commons.function.ThrowingSupplier;
+import panda.std.function.ThrowingSupplier;
 
 final class LoopBlock extends AbstractBlock implements ControlledScope {
 

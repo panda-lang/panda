@@ -19,9 +19,9 @@ package org.panda_lang.framework.architecture.dynamic.accessor;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.architecture.statement.Variable;
 import org.panda_lang.framework.runtime.MemoryContainer;
-import org.panda_lang.framework.runtime.ProcessStack;
 import org.panda_lang.framework.runtime.PandaRuntimeException;
-import org.panda_lang.utilities.commons.function.ThrowingBiFunction;
+import org.panda_lang.framework.runtime.ProcessStack;
+import panda.std.function.ThrowingBiFunction;
 
 public abstract class AbstractAccessor<T extends Variable> implements Accessor<T> {
 

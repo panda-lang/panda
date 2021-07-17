@@ -19,7 +19,7 @@ package org.panda_lang.panda;
 import org.panda_lang.framework.architecture.Application;
 import org.panda_lang.framework.architecture.packages.Package;
 import org.panda_lang.panda.language.PandaEnvironment;
-import org.panda_lang.utilities.commons.function.Result;
+import panda.std.Result;
 
 import java.io.File;
 

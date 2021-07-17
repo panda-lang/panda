@@ -18,7 +18,7 @@ package org.panda_lang.framework.architecture.module;
 
 import org.panda_lang.framework.architecture.packages.Package;
 import org.panda_lang.framework.architecture.type.Reference;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 import java.util.Collection;
 

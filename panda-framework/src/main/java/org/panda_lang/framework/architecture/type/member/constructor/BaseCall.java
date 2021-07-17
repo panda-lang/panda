@@ -25,7 +25,7 @@ import org.panda_lang.framework.architecture.type.TypeInstance;
 import org.panda_lang.framework.architecture.type.member.constructor.ConstructorScope.ConstructorFrame;
 import org.panda_lang.framework.interpreter.source.Location;
 import org.panda_lang.framework.runtime.ProcessStack;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 import java.util.List;
 

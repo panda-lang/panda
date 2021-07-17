@@ -18,8 +18,8 @@ package org.panda_lang.framework.architecture.type.member;
 
 import org.panda_lang.framework.architecture.type.Type;
 import org.panda_lang.framework.architecture.type.signature.TypedSignature;
-import org.panda_lang.utilities.commons.function.Lazy;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Lazy;
+import panda.std.Option;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -21,7 +21,7 @@ import org.panda_lang.framework.architecture.type.Type;
 import org.panda_lang.framework.interpreter.token.Snippet;
 import org.panda_lang.framework.interpreter.token.Snippetable;
 import org.panda_lang.utilities.commons.collection.Pair;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 import java.util.Arrays;
 

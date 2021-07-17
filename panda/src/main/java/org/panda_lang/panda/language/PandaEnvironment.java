@@ -26,7 +26,7 @@ import org.panda_lang.framework.architecture.type.generator.TypeGenerator;
 import org.panda_lang.framework.interpreter.logging.Logger;
 import org.panda_lang.framework.interpreter.source.SourceService;
 import org.panda_lang.panda.language.std.StdLoader;
-import org.panda_lang.utilities.commons.function.Lazy;
+import panda.std.Lazy;
 
 import java.io.File;
 
@@ -53,6 +53,7 @@ public final class PandaEnvironment implements Environment {
         this.std = new Lazy<>(() -> {
             StdLoader stdLoader = new StdLoader();
             stdLoader.load(packages, typeGenerator, typeLoader);
+            return null;
         });
     }
 

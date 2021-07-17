@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.Failure;
 import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.interpreter.source.IndicatedSource;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 public class InterpreterFailure extends PandaFrameworkException implements Failure {
 

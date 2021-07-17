@@ -45,7 +45,7 @@ import org.panda_lang.framework.runtime.PandaRuntimeException;
 import org.panda_lang.framework.runtime.ProcessStack;
 import org.panda_lang.panda.language.syntax.PandaSourceReader;
 import org.panda_lang.panda.language.syntax.type.SignatureParser;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 import java.util.List;
 

@@ -20,7 +20,7 @@ import org.panda_lang.framework.PandaFrameworkException;
 import org.panda_lang.framework.architecture.module.Module;
 import org.panda_lang.utilities.commons.IOUtils;
 import org.panda_lang.utilities.commons.ValidationUtils;
-import org.panda_lang.utilities.commons.function.ThrowingFunction;
+import panda.std.function.ThrowingFunction;
 
 import java.io.File;
 import java.io.IOException;

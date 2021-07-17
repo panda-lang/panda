@@ -28,7 +28,7 @@ import org.panda_lang.panda.manager.PackageManagerConstants;
 import org.panda_lang.panda.manager.PackageUtils;
 import org.panda_lang.panda.shell.repl.ReplConsole;
 import org.panda_lang.panda.utils.PandaUtils;
-import org.panda_lang.utilities.commons.function.ThrowingRunnable;
+import panda.std.function.ThrowingRunnable;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;

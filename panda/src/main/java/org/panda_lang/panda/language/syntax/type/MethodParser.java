@@ -26,6 +26,7 @@ import org.panda_lang.framework.architecture.type.member.method.PandaMethod;
 import org.panda_lang.framework.architecture.type.member.method.TypeMethod;
 import org.panda_lang.framework.architecture.type.member.parameter.PropertyParameter;
 import org.panda_lang.framework.architecture.type.signature.Signature;
+import org.panda_lang.framework.interpreter.parser.Component;
 import org.panda_lang.framework.interpreter.parser.Context;
 import org.panda_lang.framework.interpreter.parser.ContextParser;
 import org.panda_lang.framework.interpreter.parser.PandaParserFailure;
@@ -37,16 +38,15 @@ import org.panda_lang.framework.interpreter.token.TokenInfo;
 import org.panda_lang.framework.resource.syntax.TokenTypes;
 import org.panda_lang.framework.resource.syntax.keyword.Keywords;
 import org.panda_lang.framework.resource.syntax.operator.Operators;
+import org.panda_lang.panda.language.syntax.PandaPriorities;
 import org.panda_lang.panda.language.syntax.PandaSourceReader;
 import org.panda_lang.panda.language.syntax.ScopeParser;
-import org.panda_lang.panda.language.syntax.PandaPriorities;
 import org.panda_lang.panda.language.syntax.scope.StandaloneExpression;
 import org.panda_lang.panda.language.syntax.scope.branching.Returnable;
 import org.panda_lang.utilities.commons.ArrayUtils;
-import org.panda_lang.framework.interpreter.parser.Component;
-import org.panda_lang.utilities.commons.function.Completable;
-import org.panda_lang.utilities.commons.function.Option;
-import org.panda_lang.utilities.commons.function.PandaStream;
+import panda.std.Completable;
+import panda.std.Option;
+import panda.std.stream.PandaStream;
 
 import java.util.List;
 

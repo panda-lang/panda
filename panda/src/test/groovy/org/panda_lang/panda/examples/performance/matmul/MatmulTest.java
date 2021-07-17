@@ -18,7 +18,7 @@ package org.panda_lang.panda.examples.performance.matmul;
 
 import org.panda_lang.framework.architecture.Application;
 import org.panda_lang.panda.utils.PandaUtils;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

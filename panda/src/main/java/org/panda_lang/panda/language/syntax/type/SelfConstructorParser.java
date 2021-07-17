@@ -20,6 +20,7 @@ import org.panda_lang.framework.architecture.expression.Expression;
 import org.panda_lang.framework.architecture.type.Type;
 import org.panda_lang.framework.architecture.type.TypeContext;
 import org.panda_lang.framework.architecture.type.member.constructor.ConstructorScope;
+import org.panda_lang.framework.interpreter.parser.Component;
 import org.panda_lang.framework.interpreter.parser.Context;
 import org.panda_lang.framework.interpreter.parser.ContextParser;
 import org.panda_lang.framework.interpreter.parser.PandaParserFailure;
@@ -28,9 +29,8 @@ import org.panda_lang.framework.resource.syntax.literal.Literals;
 import org.panda_lang.panda.language.syntax.PandaSourceReader;
 import org.panda_lang.panda.language.syntax.expressions.subparsers.ArgumentsParser;
 import org.panda_lang.utilities.commons.ArrayUtils;
-import org.panda_lang.framework.interpreter.parser.Component;
-import org.panda_lang.utilities.commons.function.Completable;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Completable;
+import panda.std.Option;
 
 import java.util.List;
 

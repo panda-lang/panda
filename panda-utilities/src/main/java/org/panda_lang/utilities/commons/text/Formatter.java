@@ -18,7 +18,7 @@ package org.panda_lang.utilities.commons.text;
 
 import org.panda_lang.utilities.commons.StringUtils;
 import org.panda_lang.utilities.commons.UnsafeUtils;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

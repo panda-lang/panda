@@ -36,7 +36,7 @@ import org.panda_lang.framework.runtime.Status;
 import org.panda_lang.utilities.commons.ArrayUtils;
 import org.panda_lang.utilities.commons.UnsafeUtils;
 import org.panda_lang.utilities.commons.collection.Lists;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

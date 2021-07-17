@@ -29,7 +29,7 @@ import org.panda_lang.framework.interpreter.parser.stage.StageService;
 import org.panda_lang.framework.interpreter.source.Location;
 import org.panda_lang.framework.interpreter.token.Snippet;
 import org.panda_lang.framework.interpreter.token.SourceStream;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 // @formatter:off
 public class PandaContext<T> implements Context<T> {

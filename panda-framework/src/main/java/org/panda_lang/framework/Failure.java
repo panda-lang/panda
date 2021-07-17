@@ -18,7 +18,7 @@ package org.panda_lang.framework;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.interpreter.source.IndicatedSource;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 /**
  * Represents errors occurred in the framework

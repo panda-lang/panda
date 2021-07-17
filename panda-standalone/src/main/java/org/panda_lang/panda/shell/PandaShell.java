@@ -18,7 +18,7 @@ package org.panda_lang.panda.shell;
 
 import org.panda_lang.framework.interpreter.logging.Logger;
 import org.panda_lang.framework.interpreter.logging.LoggerHolder;
-import org.panda_lang.utilities.commons.function.Lazy;
+import panda.std.Lazy;
 import picocli.CommandLine;
 
 import java.io.InputStream;

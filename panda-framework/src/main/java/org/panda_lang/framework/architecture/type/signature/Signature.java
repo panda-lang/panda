@@ -19,7 +19,7 @@ package org.panda_lang.framework.architecture.type.signature;
 import org.panda_lang.framework.architecture.type.Typed;
 import org.panda_lang.framework.interpreter.token.Snippet;
 import org.panda_lang.utilities.commons.collection.Pair;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 public interface Signature extends Signed, Typed {
 

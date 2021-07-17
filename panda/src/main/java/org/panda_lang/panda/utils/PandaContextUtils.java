@@ -38,7 +38,7 @@ import org.panda_lang.framework.interpreter.source.ClassSource;
 import org.panda_lang.framework.interpreter.token.PandaLocation;
 import org.panda_lang.panda.language.PandaEnvironment;
 import org.panda_lang.panda.language.syntax.expressions.PandaExpressions;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 import java.io.File;
 import java.util.Collections;

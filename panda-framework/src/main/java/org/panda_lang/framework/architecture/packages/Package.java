@@ -21,7 +21,7 @@ import org.panda_lang.framework.architecture.module.ModuleSource;
 import org.panda_lang.framework.architecture.module.PandaModule;
 import org.panda_lang.framework.interpreter.source.SourceService;
 import org.panda_lang.utilities.commons.collection.Maps;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 import java.io.File;
 import java.util.ArrayList;

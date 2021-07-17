@@ -17,8 +17,8 @@
 package org.panda_lang.utilities.commons;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.utilities.commons.function.Option;
-import org.panda_lang.utilities.commons.function.PandaStream;
+import panda.std.Option;
+import panda.std.stream.PandaStream;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Executable;

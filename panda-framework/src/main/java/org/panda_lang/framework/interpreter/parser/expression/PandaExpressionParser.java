@@ -26,7 +26,7 @@ import org.panda_lang.framework.interpreter.token.SourceStream;
 import org.panda_lang.framework.interpreter.token.Streamable;
 import org.panda_lang.framework.interpreter.token.TokenInfo;
 import org.panda_lang.framework.resource.syntax.sequence.SequencesUtils;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 import java.util.Collections;
 import java.util.List;

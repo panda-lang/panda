@@ -17,7 +17,7 @@
 package org.panda_lang.utilities.commons;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.utilities.commons.function.Result;
+import panda.std.Result;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

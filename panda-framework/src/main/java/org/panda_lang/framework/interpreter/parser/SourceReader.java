@@ -31,7 +31,7 @@ import org.panda_lang.framework.resource.syntax.TokenTypes;
 import org.panda_lang.framework.resource.syntax.auxiliary.Section;
 import org.panda_lang.utilities.commons.collection.FixedStack;
 import org.panda_lang.utilities.commons.collection.Pair;
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 import java.util.ArrayList;
 import java.util.List;

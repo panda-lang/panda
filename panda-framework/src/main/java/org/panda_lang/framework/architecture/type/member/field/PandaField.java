@@ -18,10 +18,10 @@ package org.panda_lang.framework.architecture.type.member.field;
 
 import org.panda_lang.framework.architecture.expression.Expression;
 import org.panda_lang.framework.architecture.expression.ExpressionUtils;
-import org.panda_lang.framework.architecture.type.signature.Signature;
 import org.panda_lang.framework.architecture.type.member.AbstractMember;
-import org.panda_lang.utilities.commons.function.Completable;
-import org.panda_lang.utilities.commons.function.Lazy;
+import org.panda_lang.framework.architecture.type.signature.Signature;
+import panda.std.Completable;
+import panda.std.Lazy;
 
 import java.util.function.Supplier;
 

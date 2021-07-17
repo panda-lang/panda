@@ -33,8 +33,8 @@ import org.panda_lang.framework.interpreter.token.SourceStream;
 import org.panda_lang.framework.resource.syntax.separator.Separators;
 import org.panda_lang.panda.language.syntax.PandaSourceReader;
 import org.panda_lang.utilities.commons.collection.Pair;
-import org.panda_lang.utilities.commons.function.Option;
-import org.panda_lang.utilities.commons.function.Result;
+import panda.std.Option;
+import panda.std.Result;
 
 import java.util.ArrayList;
 import java.util.List;

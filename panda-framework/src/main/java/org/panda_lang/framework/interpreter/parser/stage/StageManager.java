@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.interpreter.parser.stage;
 
-import org.panda_lang.utilities.commons.function.Option;
+import panda.std.Option;
 
 /**
  * Generation is the multilayer task manager divided into cycles and phases.
