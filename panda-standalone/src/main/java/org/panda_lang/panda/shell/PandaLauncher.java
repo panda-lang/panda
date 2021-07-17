@@ -17,8 +17,8 @@
 package org.panda_lang.panda.shell;
 
 import org.fusesource.jansi.AnsiConsole;
-import org.panda_lang.framework.interpreter.logging.Logger;
-import org.panda_lang.framework.interpreter.logging.SystemLogger;
+import panda.interpreter.logging.Logger;
+import panda.interpreter.logging.SystemLogger;
 
 import java.io.InputStream;
 import java.util.function.Supplier;

@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.shell.repl;
 
-import org.panda_lang.framework.interpreter.logging.LoggerHolder;
+import panda.interpreter.logging.LoggerHolder;
 
 import java.util.Collection;
 
@@ -25,7 +25,7 @@ public final class ReplUtils {
     private ReplUtils() { }
 
     /**
-     * Print results using {@link org.panda_lang.framework.PandaFramework#getLogger()}
+     * Print results using {@link panda.interpreter.PandaFramework#getLogger()}
      *
      * @param results the results to print
      */

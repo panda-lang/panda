@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.shell.repl;
 
-import org.panda_lang.framework.architecture.dynamic.Controller;
-import org.panda_lang.framework.architecture.expression.Expression;
-import org.panda_lang.framework.interpreter.source.Location;
-import org.panda_lang.framework.runtime.Status;
-import org.panda_lang.panda.language.syntax.scope.StandaloneExpression;
+import panda.interpreter.architecture.dynamic.Controller;
+import panda.interpreter.architecture.expression.Expression;
+import panda.interpreter.source.Location;
+import panda.interpreter.runtime.Status;
+import panda.interpreter.syntax.scope.StandaloneExpression;
 
 final class ReplStatement extends StandaloneExpression implements Controller {
 

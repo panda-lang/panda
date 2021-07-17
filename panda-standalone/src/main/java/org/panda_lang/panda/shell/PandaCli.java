@@ -16,18 +16,18 @@
 
 package org.panda_lang.panda.shell;
 
-import org.panda_lang.framework.architecture.Application;
-import org.panda_lang.framework.interpreter.logging.Channel;
-import org.panda_lang.framework.interpreter.logging.Logger;
-import org.panda_lang.framework.interpreter.logging.SystemLogger;
-import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.PandaConstants;
-import org.panda_lang.panda.PandaFactory;
-import org.panda_lang.panda.manager.PackageManager;
-import org.panda_lang.panda.manager.PackageManagerConstants;
-import org.panda_lang.panda.manager.PackageUtils;
+import panda.interpreter.architecture.Application;
+import panda.interpreter.logging.Channel;
+import panda.interpreter.logging.Logger;
+import panda.interpreter.logging.SystemLogger;
+import panda.interpreter.Panda;
+import panda.interpreter.PandaConstants;
+import panda.interpreter.PandaFactory;
+import panda.manager.PackageManager;
+import panda.manager.PackageManagerConstants;
+import panda.manager.PackageUtils;
 import org.panda_lang.panda.shell.repl.ReplConsole;
-import org.panda_lang.panda.utils.PandaUtils;
+import panda.interpreter.utils.PandaUtils;
 import panda.std.function.ThrowingRunnable;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;

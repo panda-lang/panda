@@ -17,13 +17,13 @@
 package org.panda_lang.panda.shell.repl;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.architecture.dynamic.Frame;
-import org.panda_lang.framework.architecture.statement.AbstractPropertyFramedScope;
-import org.panda_lang.framework.architecture.statement.Variable;
-import org.panda_lang.framework.architecture.type.TypeFrame;
-import org.panda_lang.framework.architecture.type.member.parameter.PropertyParameter;
-import org.panda_lang.framework.interpreter.source.Location;
-import org.panda_lang.framework.runtime.ProcessStack;
+import panda.interpreter.architecture.dynamic.Frame;
+import panda.interpreter.architecture.statement.AbstractPropertyFramedScope;
+import panda.interpreter.architecture.statement.Variable;
+import panda.interpreter.architecture.type.TypeFrame;
+import panda.interpreter.architecture.type.member.parameter.PropertyParameter;
+import panda.interpreter.source.Location;
+import panda.interpreter.runtime.ProcessStack;
 
 import java.util.ArrayList;
 import java.util.Collection;

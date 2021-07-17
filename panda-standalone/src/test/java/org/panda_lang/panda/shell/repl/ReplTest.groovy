@@ -23,9 +23,9 @@ import org.panda_lang.framework.architecture.statement.Variable
 import org.panda_lang.framework.architecture.type.member.method.PandaMethod
 import org.panda_lang.framework.architecture.type.member.parameter.PropertyParameterImpl
 import org.panda_lang.framework.architecture.type.signature.Signature
-import org.panda_lang.framework.interpreter.parser.Context
-import org.panda_lang.framework.interpreter.source.ClassSource
-import org.panda_lang.panda.Panda
+import panda.panda_lang.framework.interpreter.parser.Context
+import panda.panda_lang.framework.interpreter.source.ClassSource
+import panda.interpreter.Panda
 import org.panda_lang.panda.language.syntax.expressions.subparsers.number.PandaNumbers
 import org.panda_lang.panda.utils.PandaUtils
 

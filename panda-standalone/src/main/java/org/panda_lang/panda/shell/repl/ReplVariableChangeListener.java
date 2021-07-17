@@ -17,7 +17,7 @@
 package org.panda_lang.panda.shell.repl;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.architecture.statement.Variable;
+import panda.interpreter.architecture.statement.Variable;
 
 /**
  * Listen for changes of variable values

@@ -46,4 +46,4 @@
 # limitations under the License.
 #
 
-org.panda_lang.panda.utils.embed.PandaEngineFactory
+panda.interpreter.utils.embed.PandaEngineFactory

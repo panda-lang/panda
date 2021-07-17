@@ -18,7 +18,7 @@ package org.panda_lang.panda.shell
 
 import groovy.transform.CompileStatic
 import org.junit.jupiter.api.Test
-import org.panda_lang.framework.interpreter.logging.SystemLogger
+import panda.panda_lang.framework.interpreter.logging.SystemLogger
 import picocli.CommandLine
 
 @CompileStatic

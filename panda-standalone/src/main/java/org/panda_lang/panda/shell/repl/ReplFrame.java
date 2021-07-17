@@ -17,10 +17,10 @@
 package org.panda_lang.panda.shell.repl;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.architecture.dynamic.Frame;
-import org.panda_lang.framework.architecture.statement.StandardizedFramedScope;
-import org.panda_lang.framework.architecture.type.TypeFrame;
-import org.panda_lang.framework.architecture.type.member.MemberFrame;
+import panda.interpreter.architecture.dynamic.Frame;
+import panda.interpreter.architecture.statement.StandardizedFramedScope;
+import panda.interpreter.architecture.type.TypeFrame;
+import panda.interpreter.architecture.type.member.MemberFrame;
 
 import java.util.HashMap;
 import java.util.Map;
