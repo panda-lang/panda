@@ -87,7 +87,7 @@ public final class TryCatchParser extends BlockParser<TryCatch> {
             tryCatch.addHandler((Class<? extends Throwable>) variable.getKnownType().getType().getAssociated().get(), variable, catchBlock);
         }
 
-        return Option.ofCompleted(tryCatch);
+        return Option.withCompleted(tryCatch);
     }
 
 }

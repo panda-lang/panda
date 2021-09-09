@@ -61,7 +61,7 @@ public final class StandaloneExpressionParser implements ContextParser<Object, S
         StandaloneExpression statement = new StandaloneExpression(delegatedContext, expression);
         context.getScope().addStatement(statement);
 
-        return Option.ofCompleted(statement);
+        return Option.withCompleted(statement);
     }
 
 }

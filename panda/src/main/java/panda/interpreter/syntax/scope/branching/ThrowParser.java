@@ -51,7 +51,7 @@ public final class ThrowParser implements ContextParser<Object, Throw> {
         Throw statement = new Throw(context.getSource().getLocation(), throwValue);
         context.getScope().addStatement(statement);
 
-        return Option.ofCompleted(statement);
+        return Option.withCompleted(statement);
     }
 
 }

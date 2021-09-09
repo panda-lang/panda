@@ -119,7 +119,7 @@ public final class FieldParser implements ContextParser<TypeContext, TypeField> 
             });
         }
 
-        return Option.ofCompleted(field);
+        return Option.withCompleted(field);
     }
 
 }

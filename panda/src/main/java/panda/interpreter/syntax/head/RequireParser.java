@@ -80,7 +80,7 @@ public final class RequireParser implements ContextParser<Object, Boolean> {
                             });
                 });
 
-        return Option.ofCompleted(true);
+        return Option.withCompleted(true);
     }
 
 }

@@ -86,7 +86,7 @@ public final class LateDeclarationParser implements ContextParser<Object, Variab
         VariableData variableData = new PandaVariableData(signature, name.get().getValue(), mut, nil);
         Variable variable = context.getScope().createVariable(variableData);
 
-        return Option.ofCompleted(variable);
+        return Option.withCompleted(variable);
     }
 
 }

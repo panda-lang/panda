@@ -91,7 +91,7 @@ public final class BaseCallParser implements ContextParser<TypeContext, BaseCall
         BaseCall baseCall = new BaseCall(context.toLocation(), constructor.get(), expressions);
         parent.addStatement(baseCall);
 
-        return Option.ofCompleted(baseCall);
+        return Option.withCompleted(baseCall);
     }
 
 }

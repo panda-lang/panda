@@ -204,7 +204,7 @@ public final class MethodParser implements ContextParser<TypeContext, TypeMethod
                     });
         });
 
-        return Option.ofCompleted(method);
+        return Option.withCompleted(method);
     }
 
 }
