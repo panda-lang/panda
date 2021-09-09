@@ -57,7 +57,7 @@ public final class ExportParser implements ContextParser<Object, Reference> {
 
         Module module = context.getScript().getModule();
         Reference reference = module.add(new Reference(ConveyanceUtils.fetchType(context, javaQualifier.get())));
-        return Option.ofCompleted(reference);
+        return Option.withCompleted(reference);
     }
 
 }

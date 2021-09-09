@@ -58,7 +58,7 @@ public final class LoopParser extends BlockParser<LoopBlock> {
         context.getScope().addStatement(loopBlock);
         SCOPE_PARSER.parse(context, loopBlock, sourceReader.readBody().get());
 
-        return Option.ofCompleted(loopBlock);
+        return Option.withCompleted(loopBlock);
     }
 
 }

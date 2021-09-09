@@ -99,7 +99,7 @@ public final class ForParser extends BlockParser<ForBlock> {
         context.getScope().addStatement(forBlock);
         SCOPE_PARSER.parse(delegatedContext, forBlock, sourceReader.readBody().get());
 
-        return Option.ofCompleted(forBlock);
+        return Option.withCompleted(forBlock);
     }
 
 }

@@ -51,7 +51,7 @@ public final class ReturnParser implements ContextParser<Object, Return> {
         Return statement = new Return(context.getSource().getLocation(), returnValue.getOrNull());
         context.getScope().addStatement(statement);
 
-        return Option.ofCompleted(statement);
+        return Option.withCompleted(statement);
     }
 
 }

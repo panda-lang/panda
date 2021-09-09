@@ -116,7 +116,7 @@ public final class ConstructorParser implements ContextParser<TypeContext, Const
                     });
         });
 
-        return Option.ofCompleted(constructorScope);
+        return Option.withCompleted(constructorScope);
     }
 
 }

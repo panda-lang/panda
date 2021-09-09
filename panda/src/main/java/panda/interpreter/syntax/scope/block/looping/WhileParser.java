@@ -58,7 +58,7 @@ public final class WhileParser extends BlockParser<WhileBlock> {
         context.getScope().addStatement(whileBlock);
         SCOPE_PARSER.parse(context, whileBlock, sourceReader.readBody().get());
 
-        return Option.ofCompleted(whileBlock);
+        return Option.withCompleted(whileBlock);
     }
 
 }

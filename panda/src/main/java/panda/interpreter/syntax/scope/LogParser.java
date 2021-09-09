@@ -53,7 +53,7 @@ public final class LogParser implements ContextParser<Object, LogStatement> {
         LogStatement statement = new LogStatement(context.getSource(), context.getLogger(), expressions);
         context.getScope().addStatement(statement);
 
-        return Option.ofCompleted(statement);
+        return Option.withCompleted(statement);
     }
 
 }

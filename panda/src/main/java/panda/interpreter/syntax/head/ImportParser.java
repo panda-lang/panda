@@ -57,7 +57,7 @@ public final class ImportParser implements ContextParser<Object, Reference> {
         Reference reference = new Reference(ConveyanceUtils.fetchType(context, javaQualifier.get()));
         context.getImports().importType(reference);
 
-        return Option.ofCompleted(reference);
+        return Option.withCompleted(reference);
     }
 
 }

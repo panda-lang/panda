@@ -76,7 +76,7 @@ public final class ForEachParser extends BlockParser<ForEachBlock> {
         context.getScope().addStatement(forEach);
         SCOPE_PARSER.parse(context, forEach, sourceReader.readBody().get());
 
-        return Option.ofCompleted(forEach);
+        return Option.withCompleted(forEach);
     }
 
 }
