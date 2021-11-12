@@ -25,7 +25,7 @@ import panda.interpreter.token.PandaSourceStream;
 import panda.interpreter.syntax.PandaPriorities;
 import panda.utilities.ArrayUtils;
 import panda.interpreter.parser.Component;
-import panda.std.Completable;
+import panda.std.reactive.Completable;
 import panda.std.Option;
 
 public final class StandaloneExpressionParser implements ContextParser<Object, StandaloneExpression> {

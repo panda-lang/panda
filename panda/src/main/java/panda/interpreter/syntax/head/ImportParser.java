@@ -25,7 +25,7 @@ import panda.interpreter.resource.syntax.keyword.Keywords;
 import panda.interpreter.syntax.PandaSourceReader;
 import panda.utilities.ArrayUtils;
 import panda.interpreter.parser.Component;
-import panda.std.Completable;
+import panda.std.reactive.Completable;
 import panda.std.Option;
 
 public final class ImportParser implements ContextParser<Object, Reference> {

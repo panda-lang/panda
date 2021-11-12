@@ -18,7 +18,7 @@ package panda.interpreter.architecture.type;
 
 import panda.interpreter.architecture.module.Module;
 import panda.interpreter.source.Location;
-import panda.std.Completable;
+import panda.std.reactive.Completable;
 
 public class Reference {
 

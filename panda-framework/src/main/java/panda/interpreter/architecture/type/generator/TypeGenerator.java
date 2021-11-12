@@ -30,9 +30,9 @@ import panda.interpreter.architecture.type.signature.Signature;
 import panda.interpreter.architecture.type.signature.TypedSignature;
 import panda.interpreter.source.ClassSource;
 import panda.interpreter.token.PandaSnippet;
+import panda.std.reactive.Completable;
 import panda.utilities.ClassUtils;
 import panda.utilities.ReflectionUtils;
-import panda.std.Completable;
 import panda.std.Option;
 
 import java.lang.reflect.Constructor;

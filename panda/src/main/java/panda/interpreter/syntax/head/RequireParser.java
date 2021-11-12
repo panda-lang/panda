@@ -31,7 +31,7 @@ import panda.interpreter.resource.syntax.keyword.Keywords;
 import panda.interpreter.resource.syntax.separator.Separators;
 import panda.interpreter.syntax.PandaSourceReader;
 import panda.utilities.ArrayUtils;
-import panda.std.Completable;
+import panda.std.reactive.Completable;
 import panda.std.Option;
 
 import java.util.Arrays;

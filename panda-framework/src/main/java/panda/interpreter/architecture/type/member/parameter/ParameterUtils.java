@@ -23,7 +23,7 @@ import panda.interpreter.architecture.type.member.MemberFrameImpl;
 import panda.interpreter.architecture.type.signature.Signature;
 import panda.interpreter.runtime.PandaRuntimeException;
 import panda.utilities.text.Joiner;
-import panda.std.Completable;
+import panda.std.reactive.Completable;
 
 import java.util.Arrays;
 import java.util.List;

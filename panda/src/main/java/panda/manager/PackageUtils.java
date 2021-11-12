@@ -31,6 +31,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
+import static net.dzikoysk.cdn.source.Source.of;
+
 public final class PackageUtils {
 
     private PackageUtils() {}
@@ -68,7 +70,7 @@ public final class PackageUtils {
             throw new IllegalStateException("Package description panda.cdn does not exist");
         }
 
-        PackageDocument packageDocument = CdnFactory.createStandard().load(packageDocumentFile, PackageDocument.class);
+        PackageDocument packageDocument = CdnFactory.createStandard().load(of(packageDocumentFile), PackageDocument.class);
         Package pkg = new Package(packageDocument.name, packageDocument.author, packageDocument.version, directory);
         File sources = new File(directory, packageDocument.sources);
 

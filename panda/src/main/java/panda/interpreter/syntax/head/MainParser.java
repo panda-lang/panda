@@ -30,7 +30,7 @@ import panda.interpreter.resource.syntax.separator.Separators;
 import panda.interpreter.syntax.ScopeParser;
 import panda.utilities.ArrayUtils;
 import panda.interpreter.parser.Component;
-import panda.std.Completable;
+import panda.std.reactive.Completable;
 import panda.std.Option;
 
 public final class MainParser implements ContextParser<Object, MainScope> {

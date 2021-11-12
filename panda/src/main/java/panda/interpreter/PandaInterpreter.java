@@ -45,7 +45,7 @@ import panda.interpreter.resource.Resources;
 import panda.std.Pair;
 import panda.utilities.ObjectUtils;
 import panda.utilities.TimeUtils;
-import panda.std.Completable;
+import panda.std.reactive.Completable;
 import panda.std.Option;
 import panda.std.Result;
 

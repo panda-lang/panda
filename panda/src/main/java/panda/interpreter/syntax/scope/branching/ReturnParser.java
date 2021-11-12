@@ -24,7 +24,7 @@ import panda.interpreter.parser.SourceReader;
 import panda.interpreter.parser.pool.Targets;
 import panda.interpreter.resource.syntax.keyword.Keywords;
 import panda.utilities.ArrayUtils;
-import panda.std.Completable;
+import panda.std.reactive.Completable;
 import panda.std.Option;
 
 public final class ReturnParser implements ContextParser<Object, Return> {

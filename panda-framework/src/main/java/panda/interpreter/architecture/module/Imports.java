@@ -90,7 +90,7 @@ public final class Imports {
     public Option<Reference> forModuleType(String name) {
         List<? extends Reference> references = PandaStream.of(importedModules.entrySet())
                 .mapOpt(entry -> entry.getValue().get(name))
-                .collect(Collectors.toList());
+                .toList();
 
         if (references.size() > 1) {
             throw new PandaFrameworkException("Duplicated reference names: " + references);

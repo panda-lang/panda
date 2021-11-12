@@ -53,7 +53,7 @@ import panda.interpreter.resource.syntax.operator.Operators;
 import panda.interpreter.resource.syntax.separator.Separators;
 import panda.interpreter.syntax.PandaSourceReader;
 import panda.utilities.ArrayUtils;
-import panda.std.Completable;
+import panda.std.reactive.Completable;
 import panda.std.Option;
 import panda.std.stream.PandaStream;
 
@@ -170,7 +170,7 @@ public final class TypeParser implements ContextParser<Object, Type> {
                         .map(extendedSignature -> SIGNATURE_PARSER.parse(context, extendedSignature, false, signature))
                         .throwIfNot(Signature::isTyped, unsupported -> new PandaParserFailure(context, unsupported.getSource(), "Unknown type " + unsupported.toGeneric().getLocalIdentifier()))
                         .map(Signature::toTyped)
-                        .collect(Collectors.toList());
+                        .toList();
 
                 if (bases.isEmpty()) {
                     bases.add(context.getTypeLoader().requireType("panda/panda@::Object").getSignature());

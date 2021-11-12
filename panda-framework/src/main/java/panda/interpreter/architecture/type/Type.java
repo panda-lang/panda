@@ -26,7 +26,7 @@ import panda.interpreter.architecture.type.member.field.Fields;
 import panda.interpreter.architecture.type.member.method.Methods;
 import panda.interpreter.architecture.type.signature.Signed;
 import panda.interpreter.architecture.type.signature.TypedSignature;
-import panda.std.Completable;
+import panda.std.reactive.Completable;
 import panda.std.Option;
 
 import java.util.Collection;

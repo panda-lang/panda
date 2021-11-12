@@ -26,7 +26,7 @@ import panda.interpreter.token.Snippet;
 import panda.interpreter.resource.syntax.keyword.Keywords;
 import panda.interpreter.syntax.PandaSourceReader;
 import panda.utilities.ArrayUtils;
-import panda.std.Completable;
+import panda.std.reactive.Completable;
 import panda.std.Option;
 
 public final class ExportParser implements ContextParser<Object, Reference> {

@@ -45,7 +45,7 @@ import panda.interpreter.runtime.Process;
 import panda.interpreter.runtime.ProcessStack;
 import panda.interpreter.PandaException;
 import panda.interpreter.utils.PandaContextUtils;
-import panda.std.Completable;
+import panda.std.reactive.Completable;
 import panda.std.function.ThrowingFunction;
 
 import java.io.File;

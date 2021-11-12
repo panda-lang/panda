@@ -33,7 +33,7 @@ import panda.interpreter.syntax.PandaSourceReader;
 import panda.interpreter.syntax.expressions.subparsers.ArgumentsParser;
 import panda.utilities.ArrayUtils;
 import panda.interpreter.parser.Component;
-import panda.std.Completable;
+import panda.std.reactive.Completable;
 import panda.std.Option;
 
 import java.util.List;

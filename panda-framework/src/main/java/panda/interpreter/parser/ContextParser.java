@@ -17,7 +17,7 @@
 package panda.interpreter.parser;
 
 import org.jetbrains.annotations.NotNull;
-import panda.std.Completable;
+import panda.std.reactive.Completable;
 import panda.std.Option;
 
 /**

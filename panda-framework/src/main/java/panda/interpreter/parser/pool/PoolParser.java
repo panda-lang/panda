@@ -23,7 +23,7 @@ import panda.interpreter.parser.Parser;
 import panda.interpreter.token.SourceStream;
 import panda.interpreter.token.Streamable;
 import panda.interpreter.resource.syntax.separator.Separators;
-import panda.std.Completable;
+import panda.std.reactive.Completable;
 import panda.std.Option;
 
 public final class PoolParser<T> implements Parser {

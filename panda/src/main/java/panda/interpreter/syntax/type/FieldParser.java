@@ -37,7 +37,7 @@ import panda.interpreter.syntax.PandaSourceReader;
 import panda.interpreter.syntax.PandaPriorities;
 import panda.utilities.ArrayUtils;
 import panda.interpreter.parser.Component;
-import panda.std.Completable;
+import panda.std.reactive.Completable;
 import panda.std.Option;
 
 public final class FieldParser implements ContextParser<TypeContext, TypeField> {

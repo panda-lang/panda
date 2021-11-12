@@ -17,6 +17,7 @@
 package panda.manager;
 
 import net.dzikoysk.cdn.CdnFactory;
+import net.dzikoysk.cdn.source.Source;
 import panda.interpreter.FrameworkController;
 import panda.interpreter.logging.Logger;
 import panda.interpreter.logging.LoggerHolder;
@@ -46,7 +47,7 @@ public final class PackageManager implements LoggerHolder {
     }
 
     public PackageInfo readPackageInfo(File documentFile) throws Exception {
-        PackageDocument document = CdnFactory.createStandard().load(documentFile, PackageDocument.class);
+        PackageDocument document = CdnFactory.createStandard().load(Source.of(documentFile), PackageDocument.class);
         return new PackageInfo(documentFile, document);
     }
 

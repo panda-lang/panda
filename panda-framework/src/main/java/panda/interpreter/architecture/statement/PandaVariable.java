@@ -17,7 +17,7 @@
 package panda.interpreter.architecture.statement;
 
 import panda.interpreter.architecture.type.signature.Signature;
-import panda.std.Completable;
+import panda.std.reactive.Completable;
 
 public class PandaVariable extends PandaVariableData implements Variable {
 

@@ -18,7 +18,7 @@ package panda.interpreter.source;
 
 import panda.interpreter.architecture.packages.Script;
 import panda.interpreter.Interpreter;
-import panda.std.Completable;
+import panda.std.reactive.Completable;
 import panda.std.Pair;
 
 import java.util.Collection;
@@ -26,7 +26,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Stack;
 import java.util.stream.Collectors;
-
 
 /**
  * Set of {@link Source} used by {@link Interpreter}

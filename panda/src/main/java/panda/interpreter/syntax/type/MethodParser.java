@@ -44,7 +44,7 @@ import panda.interpreter.syntax.ScopeParser;
 import panda.interpreter.syntax.scope.StandaloneExpression;
 import panda.interpreter.syntax.scope.branching.Returnable;
 import panda.utilities.ArrayUtils;
-import panda.std.Completable;
+import panda.std.reactive.Completable;
 import panda.std.Option;
 import panda.std.stream.PandaStream;
 

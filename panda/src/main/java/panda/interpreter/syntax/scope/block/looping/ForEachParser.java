@@ -28,7 +28,7 @@ import panda.interpreter.resource.syntax.operator.Operators;
 import panda.interpreter.syntax.PandaSourceReader;
 import panda.interpreter.syntax.scope.block.BlockParser;
 import panda.interpreter.syntax.scope.variable.VariableDataInitializer;
-import panda.std.Completable;
+import panda.std.reactive.Completable;
 import panda.std.Option;
 
 public final class ForEachParser extends BlockParser<ForEachBlock> {

@@ -20,7 +20,7 @@ import panda.interpreter.architecture.expression.Expression;
 import panda.interpreter.architecture.expression.ExpressionUtils;
 import panda.interpreter.architecture.type.member.AbstractMember;
 import panda.interpreter.architecture.type.signature.Signature;
-import panda.std.Completable;
+import panda.std.reactive.Completable;
 import panda.std.Lazy;
 
 import java.util.function.Supplier;

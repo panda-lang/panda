@@ -35,7 +35,7 @@ import panda.interpreter.architecture.type.member.method.PandaMethods;
 import panda.interpreter.architecture.type.member.method.TypeMethod;
 import panda.interpreter.architecture.type.signature.TypedSignature;
 import panda.utilities.ValidationUtils;
-import panda.std.Completable;
+import panda.std.reactive.Completable;
 import panda.std.Option;
 import panda.std.stream.PandaStream;
 

@@ -36,7 +36,7 @@ import panda.interpreter.token.PandaSnippet;
 import panda.interpreter.resource.Mappings;
 import panda.interpreter.resource.Mappings.CustomInitializer;
 import panda.utilities.ClassUtils;
-import panda.std.Completable;
+import panda.std.reactive.Completable;
 
 import java.util.Collections;
 

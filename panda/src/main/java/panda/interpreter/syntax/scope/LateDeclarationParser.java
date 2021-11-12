@@ -34,7 +34,7 @@ import panda.interpreter.syntax.type.SignatureParser;
 import panda.interpreter.syntax.type.SignatureSource;
 import panda.utilities.ArrayUtils;
 import panda.interpreter.parser.Component;
-import panda.std.Completable;
+import panda.std.reactive.Completable;
 import panda.std.Option;
 
 public final class LateDeclarationParser implements ContextParser<Object, Variable> {
