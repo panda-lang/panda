@@ -91,7 +91,7 @@
             <dependency>
                 <groupId>net.dzikoysk</groupId>
                 <artifactId>cdn</artifactId>
-                <version>1.11.6</version>
+                <version>1.12.3</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.panda-lang</groupId>
