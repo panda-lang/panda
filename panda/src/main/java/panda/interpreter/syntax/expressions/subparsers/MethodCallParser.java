@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import panda.interpreter.architecture.expression.Expression;
 import panda.interpreter.architecture.expression.StaticExpression;
 import panda.interpreter.architecture.expression.ThisExpression;
+import panda.interpreter.architecture.module.TypeLoader;
 import panda.interpreter.architecture.type.Type;
 import panda.interpreter.architecture.type.TypedUtils;
 import panda.interpreter.architecture.type.VisibilityComparator;
@@ -52,7 +53,7 @@ public final class MethodCallParser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker(Context<?> context) {
-        return new MethodWorker().withSubparser(this);
+        return new MethodWorker(context.getTypeLoader()).withSubparser(this);
     }
 
     @Override
@@ -73,6 +74,11 @@ public final class MethodCallParser implements ExpressionSubparser {
     private static final class MethodWorker extends AbstractExpressionSubparserWorker {
 
         private static final ArgumentsParser ARGUMENT_PARSER = new ArgumentsParser();
+        private final TypeLoader typeLoader;
+
+        private MethodWorker(TypeLoader typeLoader) {
+            this.typeLoader = typeLoader;
+        }
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext<?> context, TokenInfo nameToken) {
@@ -113,6 +119,7 @@ public final class MethodCallParser implements ExpressionSubparser {
             }
 
             Type type = instance.getSignature().toTyped().fetchType();
+            typeLoader.load(type);
 
             // check if type of instance contains required method
             if (!type.getMethods().hasPropertyLike(nameToken.getValue())) {
@@ -142,9 +149,7 @@ public final class MethodCallParser implements ExpressionSubparser {
 
                 if (!propertiesLike.isEmpty()) {
                     similar = "Similar methods:&r" + Effect.LINE_SEPARATOR;
-                    similar += Joiner.on(Effect.LINE_SEPARATOR.toString()).join(propertiesLike, method -> {
-                        return "  • &7" + method.getName() + "&r";
-                    });
+                    similar += Joiner.on(Effect.LINE_SEPARATOR.toString()).join(propertiesLike, method -> "  • &7" + method.getName() + "&r");
                 }
 
                 throw new PandaParserFailure(context.toContext(), argumentsSource,

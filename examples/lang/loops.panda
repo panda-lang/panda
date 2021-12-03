@@ -23,7 +23,7 @@ main {
 
     /* Iterator based for-each loop */
 
-    List iterable = new ArrayList() // TODO: Replace with generic based collections
+    List<String> iterable = new ArrayList()
     iterable.add('#bokkitty')
     iterable.add('#onlypanda')
 

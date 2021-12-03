@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2021 dzikoysk
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -14,15 +14,18 @@
  * limitations under the License.
  */
 
-package panda.interpreter;
+package panda.examples.lang
 
-public final class PandaFrameworkConstants {
+import groovy.transform.CompileStatic
+import org.junit.jupiter.api.Test
+import panda.examples.PandaTestSpecification
 
-    /**
-     * Current version of the Panda Framework
-     */
-    public static final String VERSION = "0.5.1-alpha";
+@CompileStatic
+class ArrayTest extends PandaTestSpecification {
 
-    private PandaFrameworkConstants() { }
+    @Test
+    void 'should compile and execute' () {
+        launch '/lang/', 'array.panda'
+    }
 
 }

@@ -47,7 +47,7 @@ public interface ParametrizedMember extends Member {
     boolean isInvokableBy(List<? extends Typed> arguments);
 
     /**
-     * Get references to types of executable's parameters
+     * Get references to type of executable's parameters
      *
      * @return array of used by parameter types
      */

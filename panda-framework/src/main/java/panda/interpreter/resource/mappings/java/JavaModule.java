@@ -48,7 +48,7 @@ public final class JavaModule implements CustomInitializer {
     @Override
     public void initialize(Module module, TypeGenerator typeGenerator, TypeLoader typeLoader) {
         Type primitiveVoid = primitive(typeGenerator, module, "Void", void.class);
-        Type voidType = associated(typeGenerator, primitiveVoid);
+        Type voidType = associated(typeLoader, typeGenerator, primitiveVoid);
         typeLoader.load(primitiveVoid, voidType);
 
         Type primitiveInt = primitive(typeGenerator, module, "Int", int.class);
@@ -60,23 +60,23 @@ public final class JavaModule implements CustomInitializer {
         Type primitiveFloat = primitive(typeGenerator, module, "Float", float.class);
         Type primitiveDouble = primitive(typeGenerator, module, "Double", double.class);
 
-        Type objectType = generate(typeGenerator, module, Object.class);
+        Type objectType = generate(typeLoader, typeGenerator, module, Object.class);
         typeLoader.load(objectType);
 
-        Type stringType = generate(typeGenerator, module, String.class);
+        Type stringType = generate(typeLoader, typeGenerator, module, String.class);
         typeLoader.load(stringType);
 
-        Type numberType = generate(typeGenerator, module, Number.class);
+        Type numberType = generate(typeLoader, typeGenerator, module, Number.class);
         typeLoader.load(numberType);
 
-        Type boolType = associated(typeGenerator, primitiveBool);
-        Type charType = associated(typeGenerator, primitiveChar);
-        Type byteType = associated(typeGenerator, primitiveByte);
-        Type shortType = associated(typeGenerator, primitiveShort);
-        Type intType = associated(typeGenerator, primitiveInt);
-        Type longType = associated(typeGenerator, primitiveLong);
-        Type floatType = associated(typeGenerator, primitiveFloat);
-        Type doubleType = associated(typeGenerator, primitiveDouble);
+        Type boolType = associated(typeLoader, typeGenerator, primitiveBool);
+        Type charType = associated(typeLoader, typeGenerator, primitiveChar);
+        Type byteType = associated(typeLoader, typeGenerator, primitiveByte);
+        Type shortType = associated(typeLoader, typeGenerator, primitiveShort);
+        Type intType = associated(typeLoader, typeGenerator, primitiveInt);
+        Type longType = associated(typeLoader, typeGenerator, primitiveLong);
+        Type floatType = associated(typeLoader, typeGenerator, primitiveFloat);
+        Type doubleType = associated(typeLoader, typeGenerator, primitiveDouble);
 
         intType.addAutocast(longType.getReference(), (Autocast<Number, Long>) (originalType, object, resultType) -> object.longValue());
         intType.addAutocast(doubleType.getReference(), (Autocast<Number, Double>) (originalType, object, resultType) -> object.doubleValue());
@@ -98,7 +98,7 @@ public final class JavaModule implements CustomInitializer {
                 primitiveDouble, doubleType
         );
 
-        Type java = generate(typeGenerator, module, Java.class);
+        Type java = generate(typeLoader, typeGenerator, module, Java.class);
         java.getMethods().declare(PandaMethod.builder()
                 .name("null")
                 .parameters(Collections.emptyList())
@@ -137,8 +137,8 @@ public final class JavaModule implements CustomInitializer {
         return type;
     }
 
-    private Type associated(TypeGenerator typeGenerator, Type primitive) {
-        Type type = generate(typeGenerator, primitive.getModule(), primitive.getSimpleName().replace("Primitive", ""), ClassUtils.getNonPrimitiveClass(primitive.getAssociated().get()));
+    private Type associated(TypeLoader typeLoader, TypeGenerator typeGenerator, Type primitive) {
+        Type type = generate(typeLoader, typeGenerator, primitive.getModule(), primitive.getSimpleName().replace("Primitive", ""), ClassUtils.getNonPrimitiveClass(primitive.getAssociated().get()));
 
         type.addAutocast(primitive.getReference(), (originalType, object, resultType) -> object);
         primitive.addAutocast(type.getReference(), (originalType, object, resultType) -> object);
@@ -146,12 +146,12 @@ public final class JavaModule implements CustomInitializer {
         return type;
     }
 
-    public static Type generate(TypeGenerator typeGenerator, Module module, Class<?> type) {
-        return generate(typeGenerator, module, type.getSimpleName(), type);
+    public static Type generate(TypeLoader typeLoader, TypeGenerator typeGenerator, Module module, Class<?> type) {
+        return generate(typeLoader, typeGenerator, module, type.getSimpleName(), type);
     }
 
-    public static Type generate(TypeGenerator typeGenerator, Module module, String name, Class<?> javaType) {
-        Reference reference= typeGenerator.generate(module, name, javaType);
+    public static Type generate(TypeLoader typeLoader, TypeGenerator typeGenerator, Module module, String name, Class<?> javaType) {
+        Reference reference= typeGenerator.generate(typeLoader, module, name, javaType);
         module.add(reference);
 
         return reference.fetchType();

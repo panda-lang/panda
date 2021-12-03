@@ -1,0 +1,10 @@
+require 'java' { collections }
+
+import java.util.Arrays
+
+main {
+    let array = 'Hello World'.split(' ')
+    array.set(1, 'Panda')
+    log array.get(0)
+    log array.toList().get(1)
+}

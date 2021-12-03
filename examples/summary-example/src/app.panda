@@ -61,7 +61,7 @@ main {
     }
 
     // assign ArrayList (class) value to List (interface) variable and add some values
-    List list = new ArrayList()
+    List<String> list = new ArrayList()
     list.add("val1")
     list.add("val2")
 

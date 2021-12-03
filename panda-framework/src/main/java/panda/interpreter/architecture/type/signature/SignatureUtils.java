@@ -28,7 +28,7 @@ final class SignatureUtils {
             return baseResult;
         }
 
-        for (int index = 0; index < root.getGenerics().length; index++) {
+        for (int index = 0; index < inheritor.getGenerics().length; index++) {
             Signature rootParameter = root.getGenerics()[index];
             Signature inheritorParameter = inheritor.getGenerics()[index];
             Result<? extends Signature, String> parameterResult = isAssignable(rootParameter, inheritorParameter);
@@ -42,10 +42,6 @@ final class SignatureUtils {
     }
 
     private static Result<? extends Signature, String> isBaseAssignable(Signature root, Signature inheritor) {
-        if (root.getSignature().getGenerics().length != inheritor.getSignature().getGenerics().length) {
-            return Result.error("Invalid amount of parameters in generic signature");
-        }
-
         if (root.isTyped()) {
             if (inheritor.isTyped()) {
                 return typedToTyped(root.toTyped(), inheritor.toTyped());
@@ -54,6 +50,10 @@ final class SignatureUtils {
             if (inheritor.isGeneric()) {
                 return typedToGeneric(root.toTyped(), inheritor.toGeneric());
             }
+        }
+
+        if (root.getSignature().getGenerics().length != inheritor.getSignature().getGenerics().length) {
+            return Result.error("Invalid amount of parameters in generic signature");
         }
 
         if (root.isGeneric()) {

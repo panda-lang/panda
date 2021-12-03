@@ -23,7 +23,11 @@ import panda.interpreter.architecture.type.member.MemberInvoker;
 import panda.interpreter.architecture.type.member.method.PandaMethod;
 import panda.interpreter.architecture.type.member.method.TypeMethod;
 import panda.interpreter.architecture.type.member.parameter.PropertyParameter;
+import panda.interpreter.architecture.type.signature.GenericSignature;
+import panda.interpreter.architecture.type.signature.Relation;
+import panda.interpreter.architecture.type.signature.Signature;
 import panda.interpreter.runtime.PandaRuntimeException;
+import panda.interpreter.token.PandaSnippet;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
@@ -50,7 +54,7 @@ final class MethodGenerator {
         this.method = method;
     }
 
-    protected TypeMethod generate(TypeLoader typeLoader) {
+    TypeMethod generate(TypeLoader typeLoader) {
         // TODO: Generate bytecode
         method.setAccessible(true);
 
@@ -110,12 +114,16 @@ final class MethodGenerator {
 
         List<? extends PropertyParameter> mappedParameters = TypeGeneratorUtils.toParameters(generator, typeLoader, type.getModule(), method.getParameters());
 
+        Signature returnType = method.getGenericReturnType() != method.getReturnType()
+                ? new GenericSignature(typeLoader, null, method.getGenericReturnType().getTypeName(), null, new Signature[0], Relation.DIRECT, PandaSnippet.empty())
+                : generator.findOrGenerate(typeLoader, type.getModule(), method.getReturnType()).getSignature();
+
         return PandaMethod.builder()
                 .name(method.getName())
                 .type(type)
                 .isNative(true)
                 .isStatic(Modifier.isStatic(method.getModifiers()))
-                .returnType(generator.findOrGenerate(typeLoader, type.getModule(), method.getReturnType()).getSignature())
+                .returnType(returnType)
                 .location(type.getLocation())
                 .customBody(methodBody)
                 .parameters(mappedParameters)

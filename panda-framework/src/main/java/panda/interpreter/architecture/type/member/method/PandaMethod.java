@@ -30,7 +30,7 @@ public final class PandaMethod extends AbstractParametrizedMember<TypeMethod> im
     private final boolean isNative;
     private final boolean isOverriding;
 
-    protected PandaMethod(PandaMethodBuilder builder) {
+    PandaMethod(PandaMethodBuilder builder) {
         super(builder);
 
         this.methodBody = builder.body;
@@ -76,11 +76,11 @@ public final class PandaMethod extends AbstractParametrizedMember<TypeMethod> im
 
     public static final class PandaMethodBuilder extends PandaParametrizedExecutableBuilder<TypeMethod, PandaMethodBuilder> {
 
-        protected MemberInvoker<TypeMethod, Object, Object> body;
-        protected boolean isAbstract;
-        protected boolean isStatic;
-        protected boolean isNative;
-        protected boolean isOverriding;
+        MemberInvoker<TypeMethod, Object, Object> body;
+        boolean isAbstract;
+        boolean isStatic;
+        boolean isNative;
+        boolean isOverriding;
 
         private PandaMethodBuilder() { }
 

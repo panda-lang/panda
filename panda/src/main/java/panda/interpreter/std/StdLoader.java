@@ -61,7 +61,7 @@ public final class StdLoader {
 
         for (String name : mappingsInfo.classes()) {
             ClassUtils.forName(packageName + name)
-                    .map(type -> typeGenerator.generate(module, name, type))
+                    .map(type -> typeGenerator.generate(typeLoader, module, name, type))
                     .peek(module::add)
                     .peek(reference -> typeLoader.load(reference.fetchType()))
                     .orThrow(() -> {

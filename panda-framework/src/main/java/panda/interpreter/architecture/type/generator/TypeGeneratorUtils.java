@@ -35,7 +35,7 @@ final class TypeGeneratorUtils {
 
         for (int index = 0; index < parameters.length; index++) {
             Parameter parameter = parameters[index];
-            Type type = typeLoader.load(typeGenerator.generate(module, parameter.getType().getSimpleName(), parameter.getType()).fetchType());
+            Type type = typeLoader.load(typeGenerator.generate(typeLoader, module, parameter.getType().getSimpleName(), parameter.getType()).fetchType());
             mappedParameters.add(new PropertyParameterImpl(index, type.getSignature(), parameter.getName(), false, false));
         }
 

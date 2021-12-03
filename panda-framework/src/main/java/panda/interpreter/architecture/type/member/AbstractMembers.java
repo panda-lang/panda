@@ -85,7 +85,8 @@ public abstract class AbstractMembers<T extends Member> implements Members<T> {
     }
 
     protected List<T> getPropertiesLike(String name, Predicate<T> filter) {
-        List<T> properties = Option.of(propertiesMap.get(name)).orElseGet(Collections::emptyList).stream()
+        List<T> properties = Option.of(propertiesMap.get(name))
+                .orElseGet(Collections::emptyList).stream()
                 .map(Lazy::get)
                 .filter(filter)
                 .collect(Collectors.toList());

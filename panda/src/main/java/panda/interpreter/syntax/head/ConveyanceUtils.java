@@ -25,10 +25,10 @@ final class ConveyanceUtils {
 
     private ConveyanceUtils() { }
 
-    protected static Type fetchType(Context<?> context, Snippet javaTypeSource) {
+    static Type fetchType(Context<?> context, Snippet javaTypeSource) {
         try {
             Class<?> importedClass = Class.forName(javaTypeSource.asSource(), true, context.getEnvironment().getController().getClassLoader());
-            Type type = context.getEnvironment().getTypeGenerator().generate(context.getScript().getModule(), importedClass.getSimpleName(), importedClass).fetchType();
+            Type type = context.getEnvironment().getTypeGenerator().generate(context.getTypeLoader(), context.getScript().getModule(), importedClass.getSimpleName(), importedClass).fetchType();
             return context.getTypeLoader().load(type);
         }
         catch (ClassNotFoundException classNotFoundException) {

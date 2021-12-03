@@ -25,10 +25,14 @@ import panda.interpreter.architecture.type.Reference;
 import panda.interpreter.architecture.type.State;
 import panda.interpreter.architecture.type.Type;
 import panda.interpreter.architecture.type.Visibility;
+import panda.interpreter.architecture.type.member.method.PandaMethod;
+import panda.interpreter.architecture.type.member.parameter.PropertyParameterImpl;
+import panda.interpreter.architecture.type.signature.GenericSignature;
 import panda.interpreter.architecture.type.signature.Relation;
 import panda.interpreter.architecture.type.signature.Signature;
 import panda.interpreter.architecture.type.signature.TypedSignature;
 import panda.interpreter.source.ClassSource;
+import panda.interpreter.source.Location;
 import panda.interpreter.token.PandaSnippet;
 import panda.std.reactive.Completable;
 import panda.utilities.ClassUtils;
@@ -39,13 +43,18 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.TypeVariable;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public final class TypeGenerator {
 
-    protected final Map<Class<?>, Type> initializedTypes = new HashMap<>();
-    protected final FrameworkController frameworkController;
+    final Map<Class<?>, Type> initializedTypes = new HashMap<>();
+    final FrameworkController frameworkController;
 
     public TypeGenerator(FrameworkController frameworkController) {
         this.frameworkController = frameworkController;
@@ -56,20 +65,34 @@ public final class TypeGenerator {
         return type;
     }
 
-    public Reference generate(Module module, String name, Class<?> javaType) {
+    public Reference generate(TypeLoader stdTypeLoader, Module module, String rawName, Class<?> javaType) {
+        if (rawName.endsWith("[]")) {
+            rawName = rawName.replace("[]", "Array");
+        }
+
+        String name = rawName;
+
         return Option.of(initializedTypes.get(javaType))
                 .map(Reference::new)
                 .orElse(() -> module.get(name))
                 .orElseGet(() -> {
                     Completable<Type> completableType = new Completable<>();
-                    Reference reference = new Reference(completableType, module, name, Visibility.OPEN, Kind.of(javaType), new ClassSource(module, javaType).toLocation());
+                    Location location = new ClassSource(module, javaType).toLocation();
+                    Reference reference = new Reference(completableType, module, name, Visibility.OPEN, Kind.of(javaType), location);
+
+                    TypeVariable<?>[] javaGenerics = javaType.getTypeParameters();
+                    Signature[] generics = new Signature[javaGenerics.length];
+
+                    for (int index = 0; index < javaGenerics.length; index++) {
+                        generics[index] = new GenericSignature(stdTypeLoader, null, javaGenerics[index].getName(), null, new Signature[0], Relation.DIRECT, PandaSnippet.empty());
+                    }
 
                     Type type = PandaType.builder()
                             .name(name)
                             .module(module)
                             .associatedType(Completable.completed(javaType))
                             .isNative(true)
-                            .signature(new TypedSignature(null, reference, new Signature[0], Relation.DIRECT, PandaSnippet.empty()))
+                            .signature(new TypedSignature(null, reference, generics, Relation.DIRECT, PandaSnippet.empty()))
                             .location(reference.getLocation())
                             .kind(reference.getKind())
                             .state(State.of(javaType))
@@ -115,6 +138,51 @@ public final class TypeGenerator {
                             MethodGenerator generator = new MethodGenerator(frameworkController, this, initializedType, method);
                             initializedType.getMethods().declare(method.getName(), () -> generator.generate(typeLoader));
                         }
+
+                        if (javaType.isArray()) {
+                            Signature componentType = typeLoader.forJavaType(javaType.getComponentType()).get().getSignature();
+                            Signature indexType = typeLoader.forJavaType(int.class).get().getSignature();
+
+                            type.getMethods().declare("set", () -> PandaMethod.builder()
+                                    .type(type)
+                                    .name("set")
+                                    .parameters(Arrays.asList(
+                                            new PropertyParameterImpl(0, indexType, "index", false, false),
+                                            new PropertyParameterImpl(1, componentType, "value", false, true)
+                                    ))
+                                    .returnType(type.getSignature())
+                                    .customBody((property, stack, instance, arguments) -> {
+                                        ((Object[]) Objects.requireNonNull(instance))[(int) arguments[0]] = arguments[1];
+                                        return instance;
+                                    })
+                                    .location(location)
+                                    .build());
+                            type.getMethods().declare("get", () -> PandaMethod.builder()
+                                    .type(type)
+                                    .name("get")
+                                    .parameters(Collections.singletonList(new PropertyParameterImpl(0, typeLoader.forJavaType(int.class).get().getSignature(), "index", false, false)))
+                                    .returnType(componentType)
+                                    .customBody((property, stack, instance, arguments) -> ((Object[]) Objects.requireNonNull(instance))[(int) arguments[0]])
+                                    .location(location)
+                                    .build());
+
+                            TypedSignature typedListSignature = new TypedSignature(
+                                    null,
+                                    typeLoader.forJavaType(List.class).get().getReference(),
+                                    new Signature[] { typeLoader.forJavaType(String.class).get().getSignature() },
+                                    Relation.DIRECT,
+                                    PandaSnippet.empty()
+                            );
+
+                            type.getMethods().declare("toList", () -> PandaMethod.builder()
+                                    .type(type)
+                                    .name("toList")
+                                    .parameters(Collections.emptyList())
+                                    .returnType(typedListSignature)
+                                    .customBody((property, stack, instance, arguments) -> Arrays.asList((Object[]) Objects.requireNonNull(instance)))
+                                    .location(location)
+                                    .build());
+                        }
                     });
 
                     completableType.complete(allocate(javaType, type));
@@ -122,7 +190,7 @@ public final class TypeGenerator {
                 });
     }
 
-    protected Type findOrGenerate(TypeLoader typeLoader, Module module, Class<?> javaType) {
+    Type findOrGenerate(TypeLoader typeLoader, Module module, Class<?> javaType) {
         if (javaType.isPrimitive()) {
             javaType = ClassUtils.getNonPrimitiveClass(javaType);
         }
@@ -139,7 +207,7 @@ public final class TypeGenerator {
             return type;
         }
 
-        return generate(module, javaType.getSimpleName(), javaType).fetchType();
+        return generate(typeLoader, module, javaType.getSimpleName(), javaType).fetchType();
     }
 
 }
