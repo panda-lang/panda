@@ -21,11 +21,11 @@ import org.junit.jupiter.api.Test
 import panda.examples.PandaTestSpecification
 
 @CompileStatic
-class LoopsTest extends PandaTestSpecification {
+class LoopTest extends PandaTestSpecification {
 
     @Test
     void 'should compile and execute source with loops' () {
-        launch '/lang/', 'loops.panda'
+        launch '/lang/', 'loop.panda'
     }
 
 }

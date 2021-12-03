@@ -28,11 +28,13 @@ import panda.interpreter.architecture.type.signature.Relation;
 import panda.interpreter.architecture.type.signature.Signature;
 import panda.interpreter.runtime.PandaRuntimeException;
 import panda.interpreter.token.PandaSnippet;
+import panda.utilities.ClassUtils;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
 import java.security.InvalidParameterException;
 import java.util.List;
 
@@ -114,9 +116,26 @@ final class MethodGenerator {
 
         List<? extends PropertyParameter> mappedParameters = TypeGeneratorUtils.toParameters(generator, typeLoader, type.getModule(), method.getParameters());
 
-        Signature returnType = method.getGenericReturnType() != method.getReturnType()
-                ? new GenericSignature(typeLoader, null, method.getGenericReturnType().getTypeName(), null, new Signature[0], Relation.DIRECT, PandaSnippet.empty())
-                : generator.findOrGenerate(typeLoader, type.getModule(), method.getReturnType()).getSignature();
+        Signature returnType = null;
+        java.lang.reflect.Type genericReturnType = method.getGenericReturnType();
+
+        if (genericReturnType instanceof ParameterizedType) {
+            ParameterizedType parameterizedReturnType = (ParameterizedType) genericReturnType;
+            Class<?> rawType = ClassUtils.forName(parameterizedReturnType.getRawType().getTypeName()).get();
+
+            java.lang.reflect.Type[] actualTypeArguments = parameterizedReturnType.getActualTypeArguments();
+            Signature[] signatures = new Signature[actualTypeArguments.length];
+
+            for (int index = 0; index < actualTypeArguments.length; index++) {
+                signatures[index] = new GenericSignature(typeLoader, null, actualTypeArguments[index].getTypeName(), null, new Signature[0], Relation.DIRECT, PandaSnippet.empty());
+            }
+
+            returnType = new GenericSignature(typeLoader, null, rawType.getSimpleName(), null, signatures, Relation.DIRECT, PandaSnippet.empty());
+        }
+
+        if (returnType == null) {
+            returnType = generator.findOrGenerate(typeLoader, type.getModule(), method.getReturnType()).getSignature();
+        }
 
         return PandaMethod.builder()
                 .name(method.getName())

@@ -20,6 +20,7 @@ import panda.interpreter.resource.Mappings;
 
 @Mappings(pkg = "java", author = "panda", module = "collections", commonPackage = "java.util", classes = {
         "Collection",
+        "Collections",
         "Comparator",
         "Deque",
         "Iterator",

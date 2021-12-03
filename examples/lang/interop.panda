@@ -1,0 +1,6 @@
+require 'java' { collections }
+
+main {
+    Collection<String> collection = Collections.emptyList()
+    foreach (String guess : Collections.emptyList()) { }
+}

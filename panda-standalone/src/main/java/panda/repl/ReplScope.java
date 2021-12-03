@@ -19,6 +19,7 @@ package panda.repl;
 import org.jetbrains.annotations.Nullable;
 import panda.interpreter.architecture.dynamic.Frame;
 import panda.interpreter.architecture.statement.AbstractPropertyFramedScope;
+import panda.interpreter.architecture.statement.Statement;
 import panda.interpreter.architecture.statement.Variable;
 import panda.interpreter.architecture.type.TypeFrame;
 import panda.interpreter.architecture.type.member.parameter.PropertyParameter;
@@ -52,15 +53,20 @@ final class ReplScope extends AbstractPropertyFramedScope {
         return frame;
     }
 
-    protected void addVariableChangeListener(ReplVariableChangeListener variableChangeListener) {
+    @Override
+    public Statement addStatement(Statement executable) {
+        return super.addStatement(executable);
+    }
+
+    void addVariableChangeListener(ReplVariableChangeListener variableChangeListener) {
         variableChangeListeners.add(variableChangeListener);
     }
 
-    protected void setDefaultValue(Variable variable, @Nullable Object defaultValue) {
+    void setDefaultValue(Variable variable, @Nullable Object defaultValue) {
         defaultValues.put(variable.getPointer(), defaultValue);
     }
 
-    protected Collection<ReplVariableChangeListener> getVariableChangeListeners() {
+    Collection<ReplVariableChangeListener> getVariableChangeListeners() {
         return variableChangeListeners;
     }
 

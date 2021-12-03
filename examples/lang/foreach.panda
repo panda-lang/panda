@@ -1,0 +1,13 @@
+require 'java' { base, collections }
+
+main {
+    /* Iterator based for-each loop */
+
+    List<String> iterable = new ArrayList()
+    iterable.add('#bokkitty')
+    iterable.add('#onlypanda')
+
+    foreach (String value : iterable) {
+        log value
+    }
+}

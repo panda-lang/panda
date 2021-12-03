@@ -58,7 +58,7 @@ public final class TypedSignature extends AbstractSignature<Reference> {
 
     @Override
     public String toString() {
-        return getSubject() + "<" + Joiner.on(", ").join(getGenerics(), generic -> generic.getRelation() + " " + generic) + ">";
+        return getSubject() + (getGenerics().length == 0 ? "" : "<" + Joiner.on(", ").join(getGenerics(), generic -> generic.getRelation() + " " + generic) + ">");
     }
 
 }

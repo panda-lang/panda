@@ -19,6 +19,10 @@ package panda.interpreter.syntax.scope.block.looping;
 import panda.interpreter.architecture.expression.Expression;
 import panda.interpreter.architecture.statement.PandaVariable;
 import panda.interpreter.architecture.statement.VariableData;
+import panda.interpreter.architecture.type.Type;
+import panda.interpreter.architecture.type.signature.Relation;
+import panda.interpreter.architecture.type.signature.Signature;
+import panda.interpreter.architecture.type.signature.TypedSignature;
 import panda.interpreter.parser.Context;
 import panda.interpreter.parser.PandaParserException;
 import panda.interpreter.parser.PandaParserFailure;
@@ -61,14 +65,18 @@ public final class ForEachParser extends BlockParser<ForEachBlock> {
         }
 
         Expression iterableExpression = context.getExpressionParser().parse(context, elements[1]);
-
-        if (!context.getTypeLoader().requireType("panda/panda@::Iterable").isAssignableFrom(iterableExpression.getKnownType())) {
-            throw new PandaParserException("ForEach requires Iterable value");
-        }
-
         ForEachBlock forEach = new ForEachBlock(context.getScope(), context, iterableExpression);
+
         VariableDataInitializer dataInitializer = new VariableDataInitializer(context, forEach);
         VariableData variableData = dataInitializer.createVariableDataByDeclaration(elements[0], true, true);
+
+        Type iterableType = context.getTypeLoader().requireType("panda/panda@::Iterable");
+        Signature expectedIterable = new TypedSignature(null, iterableType.getReference(), new Signature[] { variableData.getSignature() }, Relation.ANY, sourceReader.toSnippet());
+        Signature iterableExpressionSignature = iterableExpression.getSignature().apply(expectedIterable);
+
+        if (!expectedIterable.isAssignableFrom(iterableExpressionSignature)) {
+            throw new PandaParserException("ForEach requires Iterable expression");
+        }
 
         PandaVariable forVariable = new PandaVariable(forEach.getValuePointer(), variableData);
         forEach.addVariable(forVariable);

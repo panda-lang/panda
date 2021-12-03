@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2021 dzikoysk
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -14,27 +14,18 @@
  * limitations under the License.
  */
 
-package panda.interpreter.architecture.type.signature;
+package panda.examples.lang
 
-public enum Relation {
+import groovy.transform.CompileStatic
+import org.junit.jupiter.api.Test
+import panda.examples.PandaTestSpecification
 
-    DIRECT(false),
-    ANY(true),
-    ALSO(true);
+@CompileStatic
+class WhileTest extends PandaTestSpecification {
 
-    private final boolean wildcard;
-
-    Relation(boolean wildcard) {
-        this.wildcard = wildcard;
-    }
-
-    public boolean isWildcard() {
-        return wildcard;
-    }
-
-    @Override
-    public String toString() {
-        return name().toLowerCase();
+    @Test
+    void 'should compile and execute source' () {
+        launch '/lang/', 'while.panda'
     }
 
 }

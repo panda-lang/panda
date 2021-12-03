@@ -10,7 +10,7 @@ main {
     parametrizedType.setValue(parametrizedValue)
     // genericType.setValue(10) /* Should not compile */
 
-    /* Parametrized reassignation */
+    /* Parametrized re-assignation */
     Foo<String> sameParametrizedType = parametrizedType
     Foo<Object> lowerParametrizedType = sameParametrizedType
     Bar<String> lowerBaseType = sameParametrizedType

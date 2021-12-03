@@ -44,6 +44,7 @@ public abstract class AbstractScope extends AbstractStatement implements Scope {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Statement addStatement(Statement executable) {
         return Lists.add(statements, executable);
     }
