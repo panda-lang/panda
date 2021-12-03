@@ -23,6 +23,7 @@ import panda.interpreter.architecture.module.PandaModule;
 import panda.interpreter.architecture.packages.Package;
 import panda.interpreter.source.Source;
 import panda.interpreter.source.URLSource;
+import panda.std.function.ThrowingFunction;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -70,7 +71,10 @@ public final class PackageUtils {
             throw new IllegalStateException("Package description panda.cdn does not exist");
         }
 
-        PackageDocument packageDocument = CdnFactory.createStandard().load(of(packageDocumentFile), PackageDocument.class);
+        PackageDocument packageDocument = CdnFactory.createStandard()
+                .load(of(packageDocumentFile), PackageDocument.class)
+                .orElseThrow(ThrowingFunction.identity());
+
         Package pkg = new Package(packageDocument.name, packageDocument.author, packageDocument.version, directory);
         File sources = new File(directory, packageDocument.sources);
 

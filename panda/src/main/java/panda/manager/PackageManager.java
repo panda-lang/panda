@@ -24,6 +24,7 @@ import panda.interpreter.logging.LoggerHolder;
 import panda.manager.goals.Install;
 import panda.manager.goals.Run;
 import panda.std.Option;
+import panda.std.function.ThrowingFunction;
 
 import java.io.File;
 
@@ -47,8 +48,10 @@ public final class PackageManager implements LoggerHolder {
     }
 
     public PackageInfo readPackageInfo(File documentFile) throws Exception {
-        PackageDocument document = CdnFactory.createStandard().load(Source.of(documentFile), PackageDocument.class);
-        return new PackageInfo(documentFile, document);
+        return CdnFactory.createStandard()
+                .load(Source.of(documentFile), PackageDocument.class)
+                .map(document -> new PackageInfo(documentFile, document))
+                .orElseThrow(ThrowingFunction.identity());
     }
 
     public File getWorkingDirectory() {
