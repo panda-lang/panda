@@ -24,7 +24,6 @@ import panda.interpreter.architecture.type.signature.Relation;
 import panda.interpreter.architecture.type.signature.Signature;
 import panda.interpreter.architecture.type.signature.TypedSignature;
 import panda.interpreter.parser.Context;
-import panda.interpreter.parser.PandaParserException;
 import panda.interpreter.parser.PandaParserFailure;
 import panda.interpreter.token.Snippet;
 import panda.interpreter.resource.syntax.keyword.Keywords;
@@ -75,7 +74,10 @@ public final class ForEachParser extends BlockParser<ForEachBlock> {
         Signature iterableExpressionSignature = iterableExpression.getSignature().apply(expectedIterable);
 
         if (!expectedIterable.isAssignableFrom(iterableExpressionSignature)) {
-            throw new PandaParserException("ForEach requires Iterable expression");
+            throw new PandaParserFailure(context, forEachArguments.get(),
+                    "ForEach requires Iterable expression.",
+                    expectedIterable + " is not assignable from " + iterableExpressionSignature
+            );
         }
 
         PandaVariable forVariable = new PandaVariable(forEach.getValuePointer(), variableData);

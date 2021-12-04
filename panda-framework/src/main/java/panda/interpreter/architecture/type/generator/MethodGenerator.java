@@ -26,6 +26,7 @@ import panda.interpreter.architecture.type.member.parameter.PropertyParameter;
 import panda.interpreter.architecture.type.signature.GenericSignature;
 import panda.interpreter.architecture.type.signature.Relation;
 import panda.interpreter.architecture.type.signature.Signature;
+import panda.interpreter.architecture.type.signature.TypedSignature;
 import panda.interpreter.runtime.PandaRuntimeException;
 import panda.interpreter.token.PandaSnippet;
 import panda.utilities.ClassUtils;
@@ -130,7 +131,7 @@ final class MethodGenerator {
                 signatures[index] = new GenericSignature(typeLoader, null, actualTypeArguments[index].getTypeName(), null, new Signature[0], Relation.DIRECT, PandaSnippet.empty());
             }
 
-            returnType = new GenericSignature(typeLoader, null, rawType.getSimpleName(), null, signatures, Relation.DIRECT, PandaSnippet.empty());
+            returnType = new TypedSignature(null, typeLoader.forJavaType(rawType).get().getReference(), signatures, Relation.DIRECT, PandaSnippet.empty());
         }
 
         if (returnType == null) {

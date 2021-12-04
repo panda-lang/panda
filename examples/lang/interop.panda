@@ -2,5 +2,6 @@ require 'java' { collections }
 
 main {
     Collection<String> collection = Collections.emptyList()
+    Int size = collection.size()
     foreach (String guess : Collections.emptyList()) { }
 }

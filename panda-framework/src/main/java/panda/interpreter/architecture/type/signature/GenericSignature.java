@@ -89,7 +89,7 @@ public final class GenericSignature extends AbstractSignature<Pair<String, Signa
 
     @Override
     public String toString() {
-        return getRelation() + " : abstract " + getLocalIdentifier() + "<" + Joiner.on(", ").join(getGenerics()) + ">";
+        return getRelation() + " : abstract " + getLocalIdentifier() + (getGenerics().length == 0 ? "" : "<" + Joiner.on(", ").join(getGenerics()) + ">");
     }
 
 }
