@@ -25,9 +25,7 @@
 
     <modules>
         <module>panda-utilities</module>
-        <module>panda-framework</module>
-        <module>panda</module>
-        <module>panda-standalone</module>
+        <module>panda-next</module>
     </modules>
 
     <scm>
@@ -59,16 +57,6 @@
     <dependencyManagement>
         <dependencies>
             <!-- Panda -->
-            <dependency>
-                <groupId>org.panda-lang</groupId>
-                <artifactId>panda</artifactId>
-                <version>${panda.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.panda-lang</groupId>
-                <artifactId>panda-framework</artifactId>
-                <version>${panda.version}</version>
-            </dependency>
             <dependency>
                 <groupId>org.panda-lang</groupId>
                 <artifactId>panda-utilities</artifactId>
@@ -114,7 +102,7 @@
             <dependency>
                 <groupId>org.panda-lang</groupId>
                 <artifactId>expressible</artifactId>
-                <version>1.1.9</version>
+                <version>1.2.1</version>
             </dependency>
 
             <!-- Benchmarks -->

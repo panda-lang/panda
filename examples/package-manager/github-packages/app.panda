@@ -1,9 +1,0 @@
-// require panda-dependency implementations defined in the panda.cdn
-require 'panda-lang/panda-dependency'
-require 'piotrpiatyszek/panda-dependency'
-
-main {
-    // use implementations
-    log PandaDependency.getMessage()
-    log LDDependency.getMessage()
-}

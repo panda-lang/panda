@@ -1,3 +1,0 @@
-main {
-    log 'Hello Panda', Java.null()
-}
