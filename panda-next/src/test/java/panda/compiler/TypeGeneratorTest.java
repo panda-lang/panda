@@ -30,7 +30,7 @@ public class TypeGeneratorTest {
         var typeStatement = new TypeDeclaration("Panda");
 
         var stringType = new Signature("java/lang/String");
-        var identityFunction = new FunctionDeclaration("identity", stringType, new Body<>());
+        var identityFunction = new FunctionDeclaration(null, "identity", stringType);
         identityFunction.addParameter(new Parameter("first", stringType, null));
         identityFunction.getBody().addStatement(new ReturnDeclaration(new VariableExpression(stringType, "first")));
         typeStatement.addFunction(identityFunction);

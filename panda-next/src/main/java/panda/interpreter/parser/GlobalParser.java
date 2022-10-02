@@ -1,6 +1,6 @@
 package panda.interpreter.parser;
 
-import panda.interpreter.language.require.ImportParser;
+import panda.interpreter.language.require.RequireParser;
 import panda.interpreter.lexer.Lexer;
 import panda.interpreter.lexer.TokenStream;
 import panda.interpreter.language.type.TypeParser;
@@ -33,8 +33,8 @@ public final class GlobalParser {
 
     private InScriptDeclaration parseByKeyword(TokenStream stream, Keyword keyword) {
         return switch (keyword.getValue()) {
-            case REQUIRE -> new ImportParser().parse(stream);
-            case TYPE -> new TypeParser().parse(stream);
+            case REQUIRE -> RequireParser.parse(stream);
+            case TYPE -> TypeParser.parse(stream);
             default -> throw new IllegalStateException("Illegal keyword in root scope: " + keyword);
         };
     }

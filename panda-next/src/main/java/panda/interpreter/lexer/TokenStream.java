@@ -22,6 +22,16 @@ public class TokenStream {
         return source.get(index);
     }
 
+    @SuppressWarnings("unchecked")
+    public <T extends Token<?>> T preview(Class<T> type) {
+        return (T) preview();
+    }
+
+    public TokenStream dispose() {
+        read();
+        return this;
+    }
+
     public Token<?> read() {
         return source.get(index++);
     }

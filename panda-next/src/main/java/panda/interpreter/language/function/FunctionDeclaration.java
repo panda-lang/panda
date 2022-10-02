@@ -1,5 +1,6 @@
 package panda.interpreter.language.function;
 
+import org.jetbrains.annotations.Nullable;
 import panda.interpreter.compiler.Generator.InTypeGenerator;
 import panda.interpreter.language.type.Signature;
 import panda.interpreter.language.type.Signatures;
@@ -12,15 +13,16 @@ import java.util.List;
 
 public class FunctionDeclaration implements InTypeDeclaration {
 
+    private final @Nullable Signature owner;
     private final String name;
     private final Signature returnType;
     private final List<Parameter> parameters = new ArrayList<>();
-    private final Body<InBodyDeclaration> body;
+    private final Body<InBodyDeclaration> body = new Body<>();
 
-    public FunctionDeclaration(String name, Signature returnType, Body body) {
+    public FunctionDeclaration(@Nullable Signature owner, String name, Signature returnType) {
+        this.owner = owner;
         this.name = name;
         this.returnType = returnType;
-        this.body = body;
     }
 
     @Override

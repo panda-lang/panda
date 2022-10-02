@@ -4,7 +4,6 @@ import org.objectweb.asm.Opcodes;
 import panda.interpreter.compiler.Generator.InBodyGenerator;
 import panda.interpreter.language.expression.ExpressionDeclaration;
 import panda.interpreter.parser.Declaration.InBodyDeclaration;
-import panda.interpreter.parser.Scope;
 
 public class ReturnDeclaration implements InBodyDeclaration {
 
@@ -20,11 +19,6 @@ public class ReturnDeclaration implements InBodyDeclaration {
             expressionDeclaration.getGenerator().generate(compiledScript, methodVisitor, variables);
             methodVisitor.visitInsn(Opcodes.ARETURN);
         };
-    }
-
-    @Override
-    public Scope getScope() {
-        return null;
     }
 
 }
