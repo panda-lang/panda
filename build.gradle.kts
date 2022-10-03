@@ -20,6 +20,11 @@ subprojects {
 
     repositories {
         mavenLocal()
+
+        maven {
+            url = uri("https://maven.reposilite.com/maven-central")
+        }
+
         maven {
             url = uri("https://repo.panda-lang.org/releases")
         }
