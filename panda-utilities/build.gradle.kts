@@ -4,4 +4,7 @@ dependencies {
     implementation("org.jetbrains:annotations:23.0.0")
 }
 
-description = "panda-utilities"
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}

@@ -1,6 +1,6 @@
 rootProject.name = "panda-parent"
-include(
-        "panda-utilities",
-        "panda-next"
-)
 
+include(
+    "panda-utilities",
+    "panda-next"
+)
