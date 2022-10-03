@@ -1,6 +1,10 @@
-name: 🛠️ Gradle CI
+name: "Panda CI"
 
-on: [pull_request]
+on:
+  push:
+    branches: [ "next" ]
+  pull_request:
+    branches: [ "next" ]
 
 jobs:
   gradle:
@@ -15,11 +19,11 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: 🔒 Make gradlew executable
+      - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: 👷‍ Setup Gradle
+      - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
-      - name: 🏗️ Execute Gradle build
+      - name: Execute Gradle build
         run: ./gradlew build
