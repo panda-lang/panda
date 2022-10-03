@@ -10,6 +10,10 @@ allprojects {
     apply(plugin = "maven-publish")
     apply(plugin = "java-library")
 
+}
+
+subprojects {
+
     group = "org.panda-lang"
     version = "0.5.2-alpha"
     java.sourceCompatibility = JavaVersion.VERSION_1_8
