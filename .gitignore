@@ -14,6 +14,7 @@ buildNumber.properties
 
 ### Gradle ###
 build/
+!gradle/grails-wrapper.jar
 
 ### Intellij ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio
