@@ -1,17 +1,17 @@
 package panda.interpreter.language.function;
 
 import org.jetbrains.annotations.Nullable;
-import panda.interpreter.compiler.Generator.InTypeGenerator;
 import panda.interpreter.language.type.Signature;
 import panda.interpreter.language.type.Signatures;
 import panda.interpreter.language.body.Body;
 import panda.interpreter.language.parameter.Parameter;
+import panda.interpreter.parser.Declaration.InScriptDeclaration;
 import panda.interpreter.parser.Declaration.InTypeDeclaration;
 import panda.interpreter.parser.Scope;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FunctionDeclaration implements InTypeDeclaration {
+public class FunctionDeclaration implements InScriptDeclaration, InTypeDeclaration {
 
     private final @Nullable Signature owner;
     private final String name;
@@ -26,7 +26,7 @@ public class FunctionDeclaration implements InTypeDeclaration {
     }
 
     @Override
-    public InTypeGenerator getGenerator() {
+    public FunctionGenerator getGenerator() {
         return new FunctionGenerator(this);
     }
 
@@ -53,6 +53,10 @@ public class FunctionDeclaration implements InTypeDeclaration {
 
     public Signature getReturnType() {
         return returnType;
+    }
+
+    public @Nullable Signature getOwner() {
+        return owner;
     }
 
     public String getName() {

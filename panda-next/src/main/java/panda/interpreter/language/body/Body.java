@@ -4,7 +4,7 @@ import panda.interpreter.parser.Declaration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Body<D extends Declaration<?>> {
+public class Body<D extends Declaration> {
 
     private final List<D> declarations = new ArrayList<>();
 

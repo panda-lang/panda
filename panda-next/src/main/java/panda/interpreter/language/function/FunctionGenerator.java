@@ -3,10 +3,11 @@ package panda.interpreter.language.function;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 import panda.interpreter.compiler.CompiledScript;
+import panda.interpreter.compiler.Generator.InScriptGenerator;
 import panda.interpreter.compiler.Generator.InTypeGenerator;
 import java.util.HashMap;
 
-public class FunctionGenerator implements InTypeGenerator {
+public class FunctionGenerator implements InScriptGenerator, InTypeGenerator {
 
     private final FunctionDeclaration function;
 
@@ -15,7 +16,14 @@ public class FunctionGenerator implements InTypeGenerator {
     }
 
     @Override
+    public void generate(CompiledScript compiledScript) {
+        // function declared in script
+    }
+
+    @Override
     public void generate(CompiledScript compiledScript, ClassVisitor classWriter) {
+        // function declared in type
+
         var methodVisitor = classWriter.visitMethod(
             Opcodes.ACC_PUBLIC,
             function.getName(),

@@ -1,23 +1,25 @@
 package panda.parser;
 
 import org.junit.jupiter.api.Test;
-import panda.interpreter.parser.GlobalParser;
+import panda.interpreter.language.script.ScriptParser;
+import panda.interpreter.parser.Parser;
 import panda.interpreter.source.Source;
 
 public class TypeParserTest {
 
-    @Test
+    // @Test
     public void shouldParseType() {
-        var parser = new GlobalParser();
-
-        var ast = parser.parse(new Source(
-            "tests / TypeParserTest",
-            """
-            type Panda {(
-                const panda: Panda
-            )}
-            """
-        ));
+        var ast = Parser.parse(
+            null,
+            new Source(
+                "tests / TypeParserTest",
+                """
+                type Panda {(
+                    const panda: Panda
+                )}
+                """
+            )
+        );
 
         System.out.println(ast.getStatements());
     }

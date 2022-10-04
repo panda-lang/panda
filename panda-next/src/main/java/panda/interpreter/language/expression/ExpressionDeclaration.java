@@ -18,7 +18,7 @@ public abstract class ExpressionDeclaration implements InBodyDeclaration {
 
     @Override
     public Scope getScope() {
-        return Scope.FUNCTION;
+        return Scope.BODY;
     }
 
 }

@@ -1,40 +1,42 @@
 package panda.interpreter.parser;
 
-import panda.interpreter.compiler.Generator;
 import panda.interpreter.compiler.Generator.InBodyGenerator;
 import panda.interpreter.compiler.Generator.InScriptGenerator;
 import panda.interpreter.compiler.Generator.InTypeGenerator;
 
-public interface Declaration<GENERATOR extends Generator> {
+public interface Declaration {
 
-    interface InScriptDeclaration extends Declaration<InScriptGenerator> {
+    interface InScriptDeclaration extends Declaration {
 
         @Override
         default Scope getScope() {
             return Scope.SCRIPT;
         }
 
+        InScriptGenerator getGenerator();
     }
 
-    interface InTypeDeclaration extends Declaration<InTypeGenerator> {
+    interface InTypeDeclaration extends Declaration {
 
         @Override
         default Scope getScope() {
             return Scope.TYPE;
         }
 
+        InTypeGenerator getGenerator();
+
     }
 
-    interface InBodyDeclaration extends Declaration<InBodyGenerator> {
+    interface InBodyDeclaration extends Declaration {
 
         @Override
         default Scope getScope() {
-            return Scope.FUNCTION;
+            return Scope.BODY;
         }
 
-    }
+        InBodyGenerator getGenerator();
 
-    GENERATOR getGenerator();
+    }
 
     Scope getScope();
 
