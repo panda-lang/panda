@@ -5,7 +5,6 @@ import panda.interpreter.compiler.CompiledScript;
 import panda.interpreter.language.body.ReturnDeclaration;
 import panda.interpreter.language.expression.literal.VariableExpression;
 import panda.interpreter.language.type.TypeGenerator;
-import panda.interpreter.language.body.Body;
 import panda.interpreter.language.function.FunctionDeclaration;
 import panda.interpreter.language.parameter.Parameter;
 import panda.interpreter.language.type.Signature;
