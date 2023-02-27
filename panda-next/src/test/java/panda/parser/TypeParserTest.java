@@ -1,13 +1,12 @@
 package panda.parser;
 
 import org.junit.jupiter.api.Test;
-import panda.interpreter.language.script.ScriptParser;
 import panda.interpreter.parser.Parser;
 import panda.interpreter.source.Source;
 
 public class TypeParserTest {
 
-    // @Test
+    //@Test
     public void shouldParseType() {
         var ast = Parser.parse(
             null,

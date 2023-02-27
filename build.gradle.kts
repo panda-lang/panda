@@ -22,7 +22,7 @@ allprojects {
     }
 
     group = "org.panda-lang"
-    version = "0.5.2-alpha"
+    version = "0.5.3-alpha"
 
     publishing {
         repositories {
