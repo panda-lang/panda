@@ -1,8 +1,0 @@
-name: github-packages
-version: 1.0.0
-author: dzikoysk
-
-dependencies: [
-    github:panda-lang/panda-dependency@master
-]
-

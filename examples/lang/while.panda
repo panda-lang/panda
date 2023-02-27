@@ -1,9 +1,0 @@
-main {
-    /* While loop */
-
-    mut Bool active = true
-
-    while active {
-        log 'Active: ' + (active = false)
-    }
-}

@@ -1,7 +1,0 @@
-open type LocalModule {
-
-    open static hello () {
-        log 'Local Module'
-    }
-
-}

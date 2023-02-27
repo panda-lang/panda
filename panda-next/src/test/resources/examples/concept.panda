@@ -1,0 +1,83 @@
+/*
+ * Notes:
+ * - Extension first language
+ * - Higher priority functions (line)
+ * - Built-in JSON notation
+ */
+
+// namespace
+module examples
+
+require { list } from std.collections
+import Javalin from io.javalin
+
+// data type
+type Panda (
+    const name: String,
+    var pseudonym: String = name
+    const age: Int? = null
+)
+
+// override basic function
+override fun Panda.toString() -> String =
+    "Panda { name: ${name}; pseudonym: ($pseudonym); }"
+
+// random ext function
+fun Panda.hasPseudonym() -> Boolean =
+    this.pseudonym == null
+
+trait Animal <ANIMAL : Animal> {
+    fun name() -> String
+    fun clone() -> ANIMAL
+}
+
+// implement trait for type
+extend Panda with Animal<Panda> {
+    override fun clone() -> Panda = Panda(name = this.name)
+}
+
+// const value
+const DEFAULT_NAME = "Next-gen Panda"
+
+// main
+fun start() -> Javalin =
+    const panda = Panda(DEFAULT_NAME)
+
+    this.pseudonym = match panda.hasPseudonym():
+        false -> "OnlyPanda"
+        else -> panda.pseudonym
+(
+    const list = list "1,2,3", "4,5,6"
+        flatmap it
+            split ","
+            map it.toInt() // toInt(): Result<Int, Exception>
+        orThrow
+
+    Javalin
+        create: config ->
+            it.defaultContentType = "application/json"
+        get "/test": ctx ->
+            ctx.json(panda.toJson())
+        get "/list":
+            it.json(list)
+        get "shutdown":
+            exit(0)
+        start 8080
+
+scope options from Options {
+    this.main = start
+}
+
+scope tests from Tests {
+    const app = before { start() }
+    after { app.stop() }
+
+    scenario "should respond with panda", {
+
+    }
+}
+
+scope integration from IntegrationTests {
+
+}
+
