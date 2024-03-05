@@ -4,9 +4,7 @@
 <p align="center">
    <img src="https://github.com/panda-lang/panda/workflows/Panda%20CI/badge.svg" alt="Panda CI">
    <a href="https://travis-ci.com/panda-lang/panda"><img src="https://travis-ci.com/panda-lang/panda.svg?branch=master" alt="Build Status"></a>
-   <a href="https://ci.appveyor.com/project/panda-lang/panda/branch/master"><img src="https://ci.appveyor.com/api/projects/status/whatvc77sgtjb1ip/branch/master?svg=true" alt="AppVeyor"></a>
    <a href="https://www.codefactor.io/repository/github/panda-lang/panda"><img src="https://www.codefactor.io/repository/github/panda-lang/panda/badge" alt="CodeFactor"></a>
-   <a href="https://lgtm.com/projects/g/panda-lang/panda/context:java"><img src="https://img.shields.io/lgtm/grade/java/g/panda-lang/panda.svg?logo=lgtm&logoWidth=18" alt="LGTM"></a>
    <hr>
    
    <p align="center">
@@ -36,13 +34,13 @@ The latest indev build
 </dependency>
 ```
 
-Maven repository: [repo.panda-lang.org](https://repo.panda-lang.org/)
+Maven repository: [maven.reposilite.com](https://maven.reposilite.com/#/releases)
 
 ```xml
 <repository>
-    <id>panda-repository</id>
-    <name>Panda Repository</name>
-    <url>https://repo.panda-lang.org/</url>
+    <id>reposilite</id>
+    <name>reposilite-repository</name>
+    <url>https://maven.reposilite.com/releases</url>
 </repository>
 ```
 
