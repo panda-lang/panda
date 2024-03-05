@@ -1,11 +1,15 @@
 name: Panda CI
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        java_version: [11, 17, 21]
+        os: [windows-latest, macos-14, macos-13, ubuntu-latest] # Macos 13 is x86-64 and 14 is aarch64
 
     steps:
       - uses: actions/checkout@v1
