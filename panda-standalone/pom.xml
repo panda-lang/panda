@@ -18,7 +18,7 @@
     <parent>
         <artifactId>panda-parent</artifactId>
         <groupId>org.panda-lang</groupId>
-        <version>0.5.2-alpha</version>
+        <version>0.5.3-alpha</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
