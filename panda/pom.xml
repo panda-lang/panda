@@ -14,13 +14,14 @@
   ~ limitations under the License.
   -->
 
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <artifactId>panda-parent</artifactId>
         <groupId>org.panda-lang</groupId>
-        <version>0.5.2-alpha</version>
+        <version>0.5.3-alpha</version>
     </parent>
 
     <artifactId>panda</artifactId>
@@ -33,6 +34,10 @@
         <dependency>
             <groupId>net.dzikoysk</groupId>
             <artifactId>cdn</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
         </dependency>
 
         <!-- Benchmarks -->
