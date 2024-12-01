@@ -47,8 +47,8 @@
     <properties>
         <!-- Panda properties -->
         <panda.version>${project.version}</panda.version>
-        <panda.javaLanguageLevel>1.8</panda.javaLanguageLevel>
-        <panda.javaVersion>1.8</panda.javaVersion>
+        <panda.javaLanguageLevel>21</panda.javaLanguageLevel>
+        <panda.javaVersion>21</panda.javaVersion>
 
         <!-- Maven properties -->
         <maven.compiler.source>${panda.javaLanguageLevel}</maven.compiler.source>
@@ -133,21 +133,22 @@
 
             <!-- Tests -->
             <dependency>
-                <groupId>org.codehaus.groovy</groupId>
-                <artifactId>groovy</artifactId>
-                <version>3.0.9</version>
+                <groupId>org.apache.groovy</groupId>
+                <artifactId>groovy-all</artifactId>
+                <version>4.0.24</version>
+                <type>pom</type>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-api</artifactId>
-                <version>5.8.2</version>
+                <version>5.11.3</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
-                <version>5.8.2</version>
+                <version>5.11.3</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
@@ -155,15 +156,19 @@
 
     <repositories>
         <repository>
-            <id>panda-repository</id>
-            <url>https://repo.panda-lang.org/releases</url>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+        <repository>
+            <id>reposilite-repository</id>
+            <url>https://maven.reposilite.com/releases</url>
         </repository>
     </repositories>
 
     <distributionManagement>
         <repository>
             <id>panda-repository</id>
-            <url>https://repo.panda-lang.org/releases</url>
+            <url>https://maven.reposilite.com/releases</url>
         </repository>
     </distributionManagement>
 
@@ -188,6 +193,7 @@
             <plugin>
                 <groupId>org.codehaus.gmavenplus</groupId>
                 <artifactId>gmavenplus-plugin</artifactId>
+                <version>4.0.1</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

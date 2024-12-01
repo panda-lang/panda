@@ -23,7 +23,7 @@ import java.util.function.Function
 
 import static org.junit.jupiter.api.Assertions.*
 
-@CompileStatic
+//@CompileStatic
 final class ArrayUtilsTest {
 
     private static final String[] EMPTY_ARRAY = []
