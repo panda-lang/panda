@@ -2,9 +2,6 @@
 
 <!--suppress ALL -->
 <p align="center">
-   <img src="https://github.com/panda-lang/panda/workflows/Panda%20CI/badge.svg" alt="Panda CI">
-   <a href="https://travis-ci.com/panda-lang/panda"><img src="https://travis-ci.com/panda-lang/panda.svg?branch=master" alt="Build Status"></a>
-   <a href="https://www.codefactor.io/repository/github/panda-lang/panda"><img src="https://www.codefactor.io/repository/github/panda-lang/panda/badge" alt="CodeFactor"></a>
    <hr>
    
    <p align="center">
